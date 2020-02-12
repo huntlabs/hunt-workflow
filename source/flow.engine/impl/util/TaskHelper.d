@@ -1,0 +1,540 @@
+/* Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import flow.common.api.FlowableException;
+import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.scope.ScopeTypes;
+import flow.common.api.variable.VariableContainer;
+import flow.common.el.ExpressionManager;
+import flow.common.history.HistoryLevel;
+import flow.common.identity.Authentication;
+import flow.common.interceptor.CommandContext;
+import flow.common.logging.LoggingSessionConstants;
+import flow.engine.compatibility.Flowable5CompatibilityHandler;
+import flow.engine.delegate.TaskListener;
+import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import flow.engine.impl.persistence.CountingExecutionEntity;
+import flow.engine.impl.persistence.entity.ExecutionEntity;
+import org.flowable.identitylink.service.event.impl.FlowableIdentityLinkEventBuilder;
+import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import org.flowable.task.api.DelegationState;
+import org.flowable.task.api.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
+import org.flowable.task.api.history.HistoricTaskLogEntryType;
+import org.flowable.task.service.HistoricTaskService;
+import org.flowable.task.service.TaskService;
+import org.flowable.task.service.TaskServiceConfiguration;
+import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
+import org.flowable.task.service.impl.persistence.CountingTaskEntity;
+import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import org.flowable.variable.service.event.impl.FlowableVariableEventBuilder;
+import org.flowable.variable.service.impl.persistence.entity.VariableByteArrayRef;
+import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+/**
+ * @author Tijs Rademakers
+ * @author Joram Barrez
+ */
+class TaskHelper {
+
+    public static void completeTask(TaskEntity taskEntity, Map<string, Object> variables,
+            Map<string, Object> transientVariables, boolean localScope, CommandContext commandContext) {
+
+        // Task complete logic
+
+        if (taskEntity.getDelegationState() != null && taskEntity.getDelegationState() == DelegationState.PENDING) {
+            throw new FlowableException("A delegated task cannot be completed, but should be resolved instead.");
+        }
+
+        if (variables != null) {
+            if (localScope) {
+                taskEntity.setVariablesLocal(variables);
+
+            } else if (taskEntity.getExecutionId() != null) {
+                ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(taskEntity.getExecutionId());
+                if (execution != null) {
+                    execution.setVariables(variables);
+                }
+
+            } else {
+                taskEntity.setVariables(variables);
+            }
+        }
+
+        if (transientVariables != null) {
+            if (localScope) {
+                taskEntity.setTransientVariablesLocal(transientVariables);
+            } else {
+                taskEntity.setTransientVariables(transientVariables);
+            }
+        }
+
+        ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
+        processEngineConfiguration.getListenerNotificationHelper().executeTaskListeners(taskEntity, TaskListener.EVENTNAME_COMPLETE);
+        
+        if (processEngineConfiguration.getIdentityLinkInterceptor() != null) {
+            processEngineConfiguration.getIdentityLinkInterceptor().handleCompleteTask(taskEntity);
+        }
+
+        logUserTaskCompleted(taskEntity);
+
+        FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
+        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (variables != null) {
+                eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityWithVariablesEvent(
+                        FlowableEngineEventType.TASK_COMPLETED, taskEntity, variables, localScope));
+            } else {
+                eventDispatcher.dispatchEvent(
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_COMPLETED, taskEntity));
+            }
+        }
+        
+        if (processEngineConfiguration.isLoggingSessionEnabled() && taskEntity.getExecutionId() != null) {
+            string taskLabel = null;
+            if (StringUtils.isNotEmpty(taskEntity.getName())) {
+                taskLabel = taskEntity.getName();
+            } else {
+                taskLabel = taskEntity.getId();
+            }
+        
+            ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(taskEntity.getExecutionId());
+            if (execution != null) {
+                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_USER_TASK_COMPLETE, 
+                                "User task '" + taskLabel + "' completed", taskEntity, execution);
+            }
+        }
+
+        deleteTask(taskEntity, null, false, true, true);
+
+        // Continue process (if not a standalone task)
+        if (taskEntity.getExecutionId() != null) {
+            ExecutionEntity executionEntity = CommandContextUtil.getExecutionEntityManager(commandContext).findById(taskEntity.getExecutionId());
+            CommandContextUtil.getAgenda(commandContext).planTriggerExecutionOperation(executionEntity);
+        }
+    }
+
+    protected static void logUserTaskCompleted(TaskEntity taskEntity) {
+        TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration();
+        if (taskServiceConfiguration.isEnableHistoricTaskLogging()) {
+            BaseHistoricTaskLogEntryBuilderImpl taskLogEntryBuilder = new BaseHistoricTaskLogEntryBuilderImpl(taskEntity);
+            ObjectNode data = taskServiceConfiguration.getObjectMapper().createObjectNode();
+            taskLogEntryBuilder.timeStamp(taskServiceConfiguration.getClock().getCurrentTime());
+            taskLogEntryBuilder.userId(Authentication.getAuthenticatedUserId());
+            taskLogEntryBuilder.data(data.toString());
+            taskLogEntryBuilder.type(HistoricTaskLogEntryType.USER_TASK_COMPLETED.name());
+            taskServiceConfiguration.getInternalHistoryTaskManager().recordHistoryUserTaskLog(taskLogEntryBuilder);
+        }
+    }
+
+    public static void changeTaskAssignee(TaskEntity taskEntity, string assignee) {
+        if ((taskEntity.getAssignee() != null && !taskEntity.getAssignee().equals(assignee))
+                || (taskEntity.getAssignee() == null && assignee != null)) {
+
+            CommandContextUtil.getTaskService().changeTaskAssignee(taskEntity, assignee);
+            fireAssignmentEvents(taskEntity);
+
+            if (taskEntity.getId() != null) {
+                addAssigneeIdentityLinks(taskEntity);
+            }
+        }
+    }
+
+    public static void changeTaskOwner(TaskEntity taskEntity, string owner) {
+        if ((taskEntity.getOwner() != null && !taskEntity.getOwner().equals(owner))
+                || (taskEntity.getOwner() == null && owner != null)) {
+
+            CommandContextUtil.getTaskService().changeTaskOwner(taskEntity, owner);
+            if (taskEntity.getId() != null) {
+                addOwnerIdentityLink(taskEntity, taskEntity.getOwner());
+            }
+        }
+    }
+
+    public static void insertTask(TaskEntity taskEntity, ExecutionEntity execution, boolean fireCreateEvent, boolean addEntityLinks) {
+        // Inherit tenant id (if applicable)
+        if (execution != null && execution.getTenantId() != null) {
+            taskEntity.setTenantId(execution.getTenantId());
+        }
+
+        if (execution != null) {
+            execution.getTasks().add(taskEntity);
+            taskEntity.setExecutionId(execution.getId());
+            taskEntity.setProcessInstanceId(execution.getProcessInstanceId());
+            taskEntity.setProcessDefinitionId(execution.getProcessDefinitionId());
+        }
+
+        insertTask(taskEntity, fireCreateEvent);
+
+        if (execution != null) {
+
+            if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(execution)) {
+                CountingExecutionEntity countingExecutionEntity = (CountingExecutionEntity) execution;
+                countingExecutionEntity.setTaskCount(countingExecutionEntity.getTaskCount() + 1);
+            }
+
+            if (addEntityLinks) {
+                EntityLinkUtil.copyExistingEntityLinks(execution.getProcessInstanceId(), taskEntity.getId(), ScopeTypes.TASK);
+                EntityLinkUtil.createNewEntityLink(execution.getProcessInstanceId(), taskEntity.getId(), ScopeTypes.TASK);
+            }
+
+        }
+
+        FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
+        if (fireCreateEvent && eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (taskEntity.getAssignee() != null) {
+                eventDispatcher.dispatchEvent(
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, taskEntity));
+            }
+        }
+
+        CommandContextUtil.getActivityInstanceEntityManager().recordTaskCreated(taskEntity, execution);
+    }
+
+    public static void insertTask(TaskEntity taskEntity, boolean fireCreateEvent) {
+        if (taskEntity.getOwner() != null) {
+            addOwnerIdentityLink(taskEntity, taskEntity.getOwner());
+        }
+        if (taskEntity.getAssignee() != null) {
+            addAssigneeIdentityLinks(taskEntity);
+        }
+
+        CommandContextUtil.getTaskService().insertTask(taskEntity, fireCreateEvent);
+    }
+
+    public static void addAssigneeIdentityLinks(TaskEntity taskEntity) {
+        ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
+        if (processEngineConfiguration.getIdentityLinkInterceptor() != null) {
+            processEngineConfiguration.getIdentityLinkInterceptor().handleAddAssigneeIdentityLinkToTask(taskEntity, taskEntity.getAssignee());
+        }
+    }
+
+    public static void addOwnerIdentityLink(TaskEntity taskEntity, string owner) {
+        if (owner == null && taskEntity.getOwner() == null) {
+            return;
+        }
+        
+        ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
+        if (processEngineConfiguration.getIdentityLinkInterceptor() != null) {
+            processEngineConfiguration.getIdentityLinkInterceptor().handleAddOwnerIdentityLinkToTask(taskEntity, owner);
+        }
+    }
+    
+    /**
+     * Deletes all tasks that relate to the same execution.
+     *  
+     * @param executionEntity The {@link ExecutionEntity} to which the {@link TaskEntity} relate to.
+     * @param taskEntities Tasks to be deleted. It is assumed that all {@link TaskEntity} instances need to be related to the same execution.
+     */
+    public static void deleteTasksForExecution(ExecutionEntity executionEntity, Collection<TaskEntity> taskEntities, string deleteReason) {
+        
+        CommandContext commandContext = CommandContextUtil.getCommandContext();
+        
+        // Delete all entities related to the task entities
+        for (TaskEntity taskEntity : taskEntities) {
+            internalDeleteTask(taskEntity, deleteReason, false, false, true, true);
+        }
+        
+        // Delete the task entities itself
+        CommandContextUtil.getTaskService(commandContext).deleteTasksByExecutionId(executionEntity.getId());
+        
+    }
+
+    /**
+     * @param task
+     *            The task to be deleted.
+     * @param deleteReason
+     *            A delete reason that will be stored in the history tables.
+     * @param cascade
+     *            If true, the historical counterpart will be deleted, otherwise
+     *            it will be updated with an end time.
+     * @param fireTaskListener
+     *            If true, the delete event of the task listener will be called.
+     * @param fireEvents
+     *            If true, the event dispatcher will be used to fire an event
+     *            for the deletion.
+     */
+    public static void deleteTask(TaskEntity task, string deleteReason, boolean cascade, boolean fireTaskListener, boolean fireEvents) {
+        internalDeleteTask(task, deleteReason, cascade, true, fireTaskListener, fireEvents);
+    }
+        
+    protected static void internalDeleteTask(TaskEntity task, string deleteReason,
+            boolean cascade, boolean executeTaskDelete, boolean fireTaskListener, boolean fireEvents) {
+        
+        if (!task.isDeleted()) {
+            
+            CommandContext commandContext = CommandContextUtil.getCommandContext();
+            FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
+            fireEvents = fireEvents && eventDispatcher != null && eventDispatcher.isEnabled();
+
+            if (fireTaskListener) {
+                CommandContextUtil.getProcessEngineConfiguration(commandContext).getListenerNotificationHelper()
+                        .executeTaskListeners(task, TaskListener.EVENTNAME_DELETE);
+            }
+
+            task.setDeleted(true);
+
+            handleRelatedEntities(commandContext, task, deleteReason, cascade, fireTaskListener, fireEvents, eventDispatcher);
+            handleTaskHistory(commandContext, task, deleteReason, cascade);
+
+            if (executeTaskDelete) {
+                executeTaskDelete(task, commandContext);
+            }
+
+            if (fireEvents) {
+                fireTaskDeletedEvent(task, commandContext, eventDispatcher);
+            }
+
+        }
+    }
+
+    protected static void handleRelatedEntities(CommandContext commandContext, TaskEntity task, string deleteReason, boolean cascade,
+            boolean fireTaskListener, boolean fireEvents, FlowableEventDispatcher eventDispatcher) {
+        
+        boolean isTaskRelatedEntityCountEnabled = CountingEntityUtil.isTaskRelatedEntityCountEnabled(task);
+        
+        if (!isTaskRelatedEntityCountEnabled
+                || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getSubTaskCount() > 0)) {
+            TaskService taskService = CommandContextUtil.getTaskService(commandContext);
+            List<Task> subTasks = taskService.findTasksByParentTaskId(task.getId());
+            for (Task subTask : subTasks) {
+                internalDeleteTask((TaskEntity) subTask, deleteReason, cascade, true, fireTaskListener, fireEvents); // Sub tasks are always immediately deleted
+            }
+        }
+        
+        if (!isTaskRelatedEntityCountEnabled
+                || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getIdentityLinkCount() > 0)) {
+            
+            boolean deleteIdentityLinks = true;
+            if (fireEvents) {
+                List<IdentityLinkEntity> identityLinks = CommandContextUtil.getIdentityLinkService(commandContext).findIdentityLinksByTaskId(task.getId());
+                for (IdentityLinkEntity identityLinkEntity : identityLinks) {
+                    eventDispatcher.dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, identityLinkEntity));
+                }
+                deleteIdentityLinks = !identityLinks.isEmpty();
+            }
+            
+            if (deleteIdentityLinks) {
+                CommandContextUtil.getIdentityLinkService(commandContext).deleteIdentityLinksByTaskId(task.getId());
+            }
+            
+        }
+        
+        if (!isTaskRelatedEntityCountEnabled
+                || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getVariableCount() > 0)) {
+            
+            Map<string, VariableInstanceEntity> taskVariables = task.getVariableInstanceEntities();
+            ArrayList<VariableByteArrayRef> variableByteArrayRefs = new ArrayList<>();
+            for (VariableInstanceEntity variableInstanceEntity : taskVariables.values()) {
+                if (fireEvents) {
+                    eventDispatcher.dispatchEvent(FlowableVariableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, variableInstanceEntity));
+                }
+                if (variableInstanceEntity.getByteArrayRef() != null && variableInstanceEntity.getByteArrayRef().getId() != null) {
+                    variableByteArrayRefs.add(variableInstanceEntity.getByteArrayRef());
+                }
+            }
+            
+            for (VariableByteArrayRef variableByteArrayRef : variableByteArrayRefs) {
+                CommandContextUtil.getByteArrayEntityManager(commandContext).deleteByteArrayById(variableByteArrayRef.getId());
+            }
+            
+            if (!taskVariables.isEmpty()) {
+                CommandContextUtil.getVariableService(commandContext).deleteVariablesByTaskId(task.getId());
+            }
+        }
+    }
+
+    protected static void handleTaskHistory(CommandContext commandContext, TaskEntity task, string deleteReason, boolean cascade) {
+        if (cascade) {
+            deleteHistoricTask(task.getId());
+            deleteHistoricTaskEventLogEntries(task.getId());
+        } else {
+            ExecutionEntity execution = null;
+            if (task.getExecutionId() != null) {
+                execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(task.getExecutionId());
+            }
+            CommandContextUtil.getHistoryManager(commandContext)
+                .recordTaskEnd(task, execution, deleteReason, commandContext.getCurrentEngineConfiguration().getClock().getCurrentTime());
+        }
+    }
+
+    protected static void executeTaskDelete(TaskEntity task, CommandContext commandContext) {
+        CommandContextUtil.getTaskService(commandContext).deleteTask(task, false); // false: event will be sent out later
+   
+        if (task.getExecutionId() != null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
+            CountingExecutionEntity countingExecutionEntity = (CountingExecutionEntity) CommandContextUtil
+                    .getExecutionEntityManager(commandContext).findById(task.getExecutionId());
+            if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(countingExecutionEntity)) {
+                countingExecutionEntity.setTaskCount(countingExecutionEntity.getTaskCount() - 1);
+            }
+        }
+    }
+
+    protected static void fireTaskDeletedEvent(TaskEntity task, CommandContext commandContext, FlowableEventDispatcher eventDispatcher) {
+        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            CommandContextUtil.getEventDispatcher(commandContext).dispatchEvent(
+                FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, task));
+        }
+    }
+
+    public static void deleteTask(string taskId, string deleteReason, boolean cascade) {
+
+        CommandContext commandContext = CommandContextUtil.getCommandContext();
+        TaskEntity task = CommandContextUtil.getTaskService(commandContext).getTask(taskId);
+
+        if (task != null) {
+            if (task.getExecutionId() != null) {
+                throw new FlowableException("The task cannot be deleted because is part of a running process");
+            } else if (task.getScopeId() != null && ScopeTypes.CMMN.equals(task.getScopeType())) {
+                throw new FlowableException("The task cannot be deleted because is part of a running case");
+            }
+
+            if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext,task.getProcessDefinitionId())) {
+                Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+                compatibilityHandler.deleteTask(taskId, deleteReason, cascade);
+                return;
+            }
+
+            deleteTask(task, deleteReason, cascade, true, true);
+        } else if (cascade) {
+            deleteHistoricTask(taskId);
+            deleteHistoricTaskEventLogEntries(taskId);
+        }
+    }
+
+    public static void deleteTasksByProcessInstanceId(string processInstanceId, string deleteReason, boolean cascade) {
+        List<TaskEntity> tasks = CommandContextUtil.getTaskService().findTasksByProcessInstanceId(processInstanceId);
+
+        for (TaskEntity task : tasks) {
+            FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
+            if (eventDispatcher != null && eventDispatcher.isEnabled() && !task.isCanceled()) {
+                task.setCanceled(true);
+
+                ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(task.getExecutionId());
+                eventDispatcher
+                        .dispatchEvent(flow.engine.delegate.event.impl.FlowableEventBuilder
+                                .createActivityCancelledEvent(execution.getActivityId(), task.getName(),
+                                        task.getExecutionId(), task.getProcessInstanceId(),
+                                        task.getProcessDefinitionId(), "userTask", deleteReason));
+            }
+
+            deleteTask(task, deleteReason, cascade, true, true);
+        }
+    }
+
+    public static void deleteHistoricTaskInstancesByProcessInstanceId(string processInstanceId) {
+        if (CommandContextUtil.getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
+            HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
+            List<HistoricTaskInstanceEntity> taskInstances = historicTaskService.findHistoricTasksByProcessInstanceId(processInstanceId);
+            for (HistoricTaskInstanceEntity historicTaskInstanceEntity : taskInstances) {
+                deleteHistoricTask(historicTaskInstanceEntity.getId());
+            }
+        }
+    }
+
+    public static void deleteHistoricTask(string taskId) {
+        if (CommandContextUtil.getHistoryManager().isHistoryEnabled()) {
+            CommandContextUtil.getCommentEntityManager().deleteCommentsByTaskId(taskId);
+            CommandContextUtil.getAttachmentEntityManager().deleteAttachmentsByTaskId(taskId);
+
+            HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
+            HistoricTaskInstanceEntity historicTaskInstance = historicTaskService.getHistoricTask(taskId);
+            if (historicTaskInstance != null) {
+
+                if (historicTaskInstance.getProcessDefinitionId() != null
+                        && Flowable5Util.isFlowable5ProcessDefinitionId(CommandContextUtil.getCommandContext(), historicTaskInstance.getProcessDefinitionId())) {
+                    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+                    compatibilityHandler.deleteHistoricTask(taskId);
+                    return;
+                }
+
+                List<HistoricTaskInstanceEntity> subTasks = historicTaskService.findHistoricTasksByParentTaskId(historicTaskInstance.getId());
+                for (HistoricTaskInstance subTask : subTasks) {
+                    deleteHistoricTask(subTask.getId());
+                }
+
+                CommandContextUtil.getHistoricDetailEntityManager().deleteHistoricDetailsByTaskId(taskId);
+                CommandContextUtil.getHistoricVariableService().deleteHistoricVariableInstancesByTaskId(taskId);
+                CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricIdentityLinksByTaskId(taskId);
+
+                historicTaskService.deleteHistoricTask(historicTaskInstance);
+            }
+        }
+    }
+
+    public static void deleteHistoricTaskEventLogEntries(string taskId) {
+        TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration();
+        if (taskServiceConfiguration.isEnableHistoricTaskLogging()) {
+            CommandContextUtil.getHistoricTaskService().deleteHistoricTaskLogEntriesForTaskId(taskId);
+        }
+    }
+
+    public static boolean isFormFieldValidationEnabled(VariableContainer variableContainer,
+        ProcessEngineConfigurationImpl processEngineConfiguration, string formFieldValidationExpression) {
+        if (StringUtils.isNotEmpty(formFieldValidationExpression)) {
+            Boolean formFieldValidation = getBoolean(formFieldValidationExpression);
+            if (formFieldValidation != null) {
+                return formFieldValidation;
+            }
+
+            if (variableContainer != null) {
+                ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
+                Boolean formFieldValidationValue = getBoolean(
+                    expressionManager.createExpression(formFieldValidationExpression).getValue(variableContainer)
+                );
+                if (formFieldValidationValue == null) {
+                    throw new FlowableException("Unable to resolve formFieldValidationExpression to boolean value");
+                }
+                return formFieldValidationValue;
+            }
+            throw new FlowableException("Unable to resolve formFieldValidationExpression without variable container");
+        }
+        return true;
+    }
+
+    protected static Boolean getBoolean(Object booleanObject) {
+        if (booleanObject instanceof Boolean) {
+            return (Boolean) booleanObject;
+        }
+        if (booleanObject instanceof string) {
+            if ("true".equalsIgnoreCase((string) booleanObject)) {
+                return Boolean.TRUE;
+            }
+            if ("false".equalsIgnoreCase((string) booleanObject)) {
+                return Boolean.FALSE;
+            }
+        }
+        return null;
+    }
+
+    protected static void fireAssignmentEvents(TaskEntity taskEntity) {
+        CommandContextUtil.getProcessEngineConfiguration().getListenerNotificationHelper().executeTaskListeners(taskEntity, TaskListener.EVENTNAME_ASSIGNMENT);
+
+        FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
+        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            eventDispatcher.dispatchEvent(
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, taskEntity));
+        }
+    }
+}
