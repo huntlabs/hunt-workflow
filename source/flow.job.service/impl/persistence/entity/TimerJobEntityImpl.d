@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author Tijs Rademakers
  */
-public class TimerJobEntityImpl extends AbstractJobEntityImpl implements TimerJobEntity {
+class TimerJobEntityImpl extends AbstractJobEntityImpl implements TimerJobEntity {
 
     private static final long serialVersionUID = 1L;
 

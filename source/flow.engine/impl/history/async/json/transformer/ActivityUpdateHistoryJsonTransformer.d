@@ -38,7 +38,7 @@ class ActivityUpdateHistoryJsonTransformer extends AbstractHistoryJsonTransforme
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (StringUtils.isNotEmpty(activityInstanceId)) {
             HistoricActivityInstanceEntity historicActivityInstance = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findById(activityInstanceId);

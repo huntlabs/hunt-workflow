@@ -25,13 +25,13 @@ import org.slf4j.LoggerFactory;
  * 
  * @author martin.grofcik
  */
-public class DefaultDebuggerExecutionExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
+class DefaultDebuggerExecutionExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDebuggerExecutionExceptionHandler.class);
     private static final string HANDLER_TYPE_BREAK_POINT = "breakpoint";
 
     @Override
-    public boolean handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
+    public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
         if (HANDLER_TYPE_BREAK_POINT.equals(job.getJobHandlerType())) {
             LOGGER.debug("break point execution throws an exception which will be swallowed", exception);
             jobServiceConfiguration.getCommandExecutor().execute( 

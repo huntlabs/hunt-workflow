@@ -21,7 +21,7 @@ import java.util.Map;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-public class TablePage {
+class TablePage {
 
     protected string tableName;
 

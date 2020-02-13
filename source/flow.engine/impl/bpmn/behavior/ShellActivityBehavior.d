@@ -55,9 +55,9 @@ class ShellActivityBehavior extends AbstractBpmnActivityBehavior {
     string waitStr;
     string resultVariableStr;
     string errorCodeVariableStr;
-    Boolean waitFlag;
-    Boolean redirectErrorFlag;
-    Boolean cleanEnvBoolean;
+    bool waitFlag;
+    bool redirectErrorFlag;
+    bool cleanEnvBoolean;
     string directoryStr;
 
     private void readFields(DelegateExecution execution) {

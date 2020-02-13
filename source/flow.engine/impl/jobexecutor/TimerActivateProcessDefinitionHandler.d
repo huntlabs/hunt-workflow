@@ -38,7 +38,7 @@ class TimerActivateProcessDefinitionHandler extends TimerChangeProcessDefinition
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         
-        boolean activateProcessInstances = false;
+        bool activateProcessInstances = false;
         try {
             JsonNode configNode = processEngineConfiguration.getObjectMapper().readTree(configuration);
             activateProcessInstances = getIncludeProcessInstances(configNode);

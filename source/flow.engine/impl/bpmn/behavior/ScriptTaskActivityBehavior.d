@@ -44,7 +44,7 @@ class ScriptTaskActivityBehavior extends TaskActivityBehavior {
     protected string script;
     protected string language;
     protected string resultVariable;
-    protected boolean storeScriptVariables; // see https://activiti.atlassian.net/browse/ACT-1626
+    protected bool storeScriptVariables; // see https://activiti.atlassian.net/browse/ACT-1626
 
     public ScriptTaskActivityBehavior(string script, string language, string resultVariable) {
         this.script = script;
@@ -52,7 +52,7 @@ class ScriptTaskActivityBehavior extends TaskActivityBehavior {
         this.resultVariable = resultVariable;
     }
 
-    public ScriptTaskActivityBehavior(string scriptTaskId, string script, string language, string resultVariable, boolean storeScriptVariables) {
+    public ScriptTaskActivityBehavior(string scriptTaskId, string script, string language, string resultVariable, bool storeScriptVariables) {
         this(script, language, resultVariable);
         this.scriptTaskId = scriptTaskId;
         this.storeScriptVariables = storeScriptVariables;
@@ -73,7 +73,7 @@ class ScriptTaskActivityBehavior extends TaskActivityBehavior {
             }
         }
 
-        boolean noErrors = true;
+        bool noErrors = true;
         try {
             Object result = scriptingEngines.evaluate(script, language, execution, storeScriptVariables);
 

@@ -59,7 +59,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  *
  * <p>
  * You can declare a deployment with the {@link Deployment} annotation. The extension will make sure that this deployment gets deployed before the setUp and
- * {@link RepositoryService#deleteDeployment(string, boolean) cascade deleted} after the tearDown.
+ * {@link RepositoryService#deleteDeployment(string, bool) cascade deleted} after the tearDown.
  * The id of the deployment can be accessed by using {@link DeploymentId} in a test method.
  * </p>
  *

@@ -38,9 +38,9 @@ class TaskAssigneeChangedHistoryJsonTransformer extends AbstractNeedsTaskHistory
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityAssigneeHandled = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ASSIGNEE_HANDLED);
-        if (activityAssigneeHandled != null && Boolean.valueOf(activityAssigneeHandled)) {
+        if (activityAssigneeHandled != null && bool.valueOf(activityAssigneeHandled)) {
             return super.isApplicable(historicalData, commandContext);
             
         } else {
@@ -66,7 +66,7 @@ class TaskAssigneeChangedHistoryJsonTransformer extends AbstractNeedsTaskHistory
             
             string activityAssigneeHandled = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ASSIGNEE_HANDLED);
             
-            if (activityAssigneeHandled == null || !Boolean.valueOf(activityAssigneeHandled)) {
+            if (activityAssigneeHandled == null || !bool.valueOf(activityAssigneeHandled)) {
                 HistoricActivityInstanceEntity historicActivityInstanceEntity;
                 if (StringUtils.isEmpty(runtimeActivityInstanceId)) {
                     historicActivityInstanceEntity = findHistoricActivityInstance(commandContext, executionId, activityId);

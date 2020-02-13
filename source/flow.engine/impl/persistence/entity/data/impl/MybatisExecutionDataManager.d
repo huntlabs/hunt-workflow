@@ -101,7 +101,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
      * Fetches the execution tree related to the execution (if the process definition has been configured to do so)
      * @return True if the tree has been fetched, false otherwise or if fetching is disabled.  
      */
-    protected boolean isExecutionTreeFetched(final string executionId) {
+    protected bool isExecutionTreeFetched(final string executionId) {
         
         // The setting needs to be globally enabled
         if (!performanceSettings.isEnableEagerExecutionTreeFetching()) {
@@ -132,7 +132,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
 
     @Override
     public ExecutionEntity findSubProcessInstanceBySuperExecutionId(final string superExecutionId) {
-        boolean treeFetched = isExecutionTreeFetched(superExecutionId);
+        bool treeFetched = isExecutionTreeFetched(superExecutionId);
         return getEntity("selectSubProcessInstanceBySuperExecutionId",
                 superExecutionId,
                 subProcessInstanceBySuperExecutionIdMatcher,
@@ -230,7 +230,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
     @SuppressWarnings("unchecked")
     public List<ExecutionEntity> findExecutionsByQueryCriteria(ExecutionQueryImpl executionQuery) {
         // False -> executions should not be cached if using executionTreeFetching
-        boolean useCache = !performanceSettings.isEnableEagerExecutionTreeFetching();
+        bool useCache = !performanceSettings.isEnableEagerExecutionTreeFetching();
         if (useCache) {
             return getDbSqlSession().selectList("selectExecutionsByQueryCriteria", executionQuery, getManagedEntityClass());
         } else {
@@ -247,7 +247,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
     @SuppressWarnings("unchecked")
     public List<ProcessInstance> findProcessInstanceByQueryCriteria(ProcessInstanceQueryImpl executionQuery) {
         // False -> executions should not be cached if using executionTreeFetching
-        boolean useCache = !performanceSettings.isEnableEagerExecutionTreeFetching();
+        bool useCache = !performanceSettings.isEnableEagerExecutionTreeFetching();
         if (useCache) {
             return getDbSqlSession().selectList("selectProcessInstanceByQueryCriteria", executionQuery, getManagedEntityClass());
         } else {
@@ -330,7 +330,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
     }
 
     @Override
-    public void updateAllExecutionRelatedEntityCountFlags(boolean newValue) {
+    public void updateAllExecutionRelatedEntityCountFlags(bool newValue) {
         getDbSqlSession().update("updateExecutionRelatedEntityCountEnabled", newValue);
     }
 

@@ -25,7 +25,7 @@ import java.io.Serializable;
 /**
  * @author martin.grofcik
  */
-public class MoveSuspendedJobToExecutableJobCmd implements Command<Job>, Serializable {
+class MoveSuspendedJobToExecutableJobCmd implements Command<Job>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

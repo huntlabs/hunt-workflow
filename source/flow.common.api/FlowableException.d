@@ -17,12 +17,12 @@
  * 
  * @author Tom Baeyens
  */
-public class FlowableException extends RuntimeException {
+class FlowableException : RuntimeException {
 
     private static final long serialVersionUID = 1L;
   
-    protected boolean isLogged;
-    protected boolean reduceLogLevel;
+    protected bool isLogged;
+    protected bool reduceLogLevel;
 
     public FlowableException(string message, Throwable cause) {
         super(message, cause);
@@ -32,19 +32,19 @@ public class FlowableException extends RuntimeException {
         super(message);
     }
 
-    public boolean isLogged() {
+    public bool isLogged() {
         return isLogged;
     }
 
-    public void setLogged(boolean isLogged) {
+    public void setLogged(bool isLogged) {
         this.isLogged = isLogged;
     }
 
-    public boolean isReduceLogLevel() {
+    public bool isReduceLogLevel() {
         return reduceLogLevel;
     }
 
-    public void setReduceLogLevel(boolean reduceLogLevel) {
+    public void setReduceLogLevel(bool reduceLogLevel) {
         this.reduceLogLevel = reduceLogLevel;
     }
     

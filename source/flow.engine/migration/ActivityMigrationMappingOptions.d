@@ -23,7 +23,7 @@ interface ActivityMigrationMappingOptions<T extends ActivityMigrationMapping> {
 
     string getFromCallActivityId();
 
-    boolean isToParentProcess();
+    bool isToParentProcess();
 
     T inSubProcessOfCallActivityId(string callActivityId);
 
@@ -33,7 +33,7 @@ interface ActivityMigrationMappingOptions<T extends ActivityMigrationMapping> {
 
     Integer getCallActivityProcessDefinitionVersion();
 
-    boolean isToCallActivity();
+    bool isToCallActivity();
 
     interface SingleToActivityOptions <T extends ActivityMigrationMapping> extends ActivityMigrationMappingOptions<T> {
 

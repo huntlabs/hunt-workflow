@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.AbstractRuntimeJobEntity
  */
 interface InternalJobCompatibilityManager {
     
-    boolean isFlowable5Job(Job job);
+    bool isFlowable5Job(Job job);
 
     void executeV5Job(Job job);
     

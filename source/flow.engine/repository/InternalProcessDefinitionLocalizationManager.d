@@ -17,5 +17,5 @@
  */
 interface InternalProcessDefinitionLocalizationManager {
 
-    void localize(ProcessDefinition processDefinition, string locale, boolean withLocalizationFallback);
+    void localize(ProcessDefinition processDefinition, string locale, bool withLocalizationFallback);
 }

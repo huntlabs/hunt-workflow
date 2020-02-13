@@ -42,7 +42,7 @@ class FlowableMockSupport {
         processEngineConfiguration.getBpmnParser().setActivityBehaviorFactory(testActivityBehaviorFactory);
     }
 
-    public static boolean isMockSupportPossible(ProcessEngine processEngine) {
+    public static bool isMockSupportPossible(ProcessEngine processEngine) {
         return processEngine instanceof ProcessEngineImpl;
     }
 

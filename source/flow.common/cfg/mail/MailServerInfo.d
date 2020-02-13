@@ -33,8 +33,8 @@ module flow.common.cfg.mail.MailServerInfo;
 //    protected int mailServerPort;
 //    protected string mailServerUsername;
 //    protected string mailServerPassword;
-//    protected boolean mailServerUseSSL;
-//    protected boolean mailServerUseTLS;
+//    protected bool mailServerUseSSL;
+//    protected bool mailServerUseTLS;
 //
 //    public string getMailServerDefaultFrom() {
 //        return mailServerDefaultFrom;
@@ -84,19 +84,19 @@ module flow.common.cfg.mail.MailServerInfo;
 //        this.mailServerPassword = mailServerPassword;
 //    }
 //
-//    public boolean isMailServerUseSSL() {
+//    public bool isMailServerUseSSL() {
 //        return mailServerUseSSL;
 //    }
 //
-//    public void setMailServerUseSSL(boolean mailServerUseSSL) {
+//    public void setMailServerUseSSL(bool mailServerUseSSL) {
 //        this.mailServerUseSSL = mailServerUseSSL;
 //    }
 //
-//    public boolean isMailServerUseTLS() {
+//    public bool isMailServerUseTLS() {
 //        return mailServerUseTLS;
 //    }
 //
-//    public void setMailServerUseTLS(boolean mailServerUseTLS) {
+//    public void setMailServerUseTLS(bool mailServerUseTLS) {
 //        this.mailServerUseTLS = mailServerUseTLS;
 //    }
 //}

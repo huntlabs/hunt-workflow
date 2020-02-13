@@ -30,7 +30,7 @@ abstract class GatewayActivityBehavior extends FlowNodeActivityBehavior {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
 
-        boolean found = false;
+        bool found = false;
         ExecutionEntity parentScopeExecution = null;
         ExecutionEntity currentExecution = (ExecutionEntity) execution;
         while (!found && currentExecution != null && currentExecution.getParentId() != null) {

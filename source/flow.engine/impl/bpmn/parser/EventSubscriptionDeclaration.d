@@ -26,9 +26,9 @@ class EventSubscriptionDeclaration implements Serializable {
     protected final string eventName;
     protected final string eventType;
 
-    protected boolean async;
+    protected bool async;
     protected string activityId;
-    protected boolean isStartEvent;
+    protected bool isStartEvent;
     protected string configuration;
 
     public EventSubscriptionDeclaration(string eventName, string eventType) {
@@ -40,11 +40,11 @@ class EventSubscriptionDeclaration implements Serializable {
         return eventName;
     }
 
-    public boolean isAsync() {
+    public bool isAsync() {
         return async;
     }
 
-    public void setAsync(boolean async) {
+    public void setAsync(bool async) {
         this.async = async;
     }
 
@@ -56,11 +56,11 @@ class EventSubscriptionDeclaration implements Serializable {
         return activityId;
     }
 
-    public boolean isStartEvent() {
+    public bool isStartEvent() {
         return isStartEvent;
     }
 
-    public void setStartEvent(boolean isStartEvent) {
+    public void setStartEvent(bool isStartEvent) {
         this.isStartEvent = isStartEvent;
     }
 

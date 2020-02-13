@@ -21,7 +21,7 @@ import java.io.Serializable;
 class CompensateEventDefinition implements Serializable {
 
     protected string activityRef;
-    protected boolean waitForCompletion;
+    protected bool waitForCompletion;
 
     public string getActivityRef() {
         return activityRef;
@@ -31,11 +31,11 @@ class CompensateEventDefinition implements Serializable {
         this.activityRef = activityRef;
     }
 
-    public boolean isWaitForCompletion() {
+    public bool isWaitForCompletion() {
         return waitForCompletion;
     }
 
-    public void setWaitForCompletion(boolean waitForCompletion) {
+    public void setWaitForCompletion(bool waitForCompletion) {
         this.waitForCompletion = waitForCompletion;
     }
 

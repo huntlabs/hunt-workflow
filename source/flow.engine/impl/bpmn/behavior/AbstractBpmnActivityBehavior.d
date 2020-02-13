@@ -100,11 +100,11 @@ class AbstractBpmnActivityBehavior extends FlowNodeActivityBehavior {
         return ProcessDefinitionUtil.getProcess(processDefinitionId);
     }
 
-    protected boolean hasLoopCharacteristics() {
+    protected bool hasLoopCharacteristics() {
         return hasMultiInstanceCharacteristics();
     }
 
-    protected boolean hasMultiInstanceCharacteristics() {
+    protected bool hasMultiInstanceCharacteristics() {
         return multiInstanceActivityBehavior != null;
     }
 

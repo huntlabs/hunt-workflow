@@ -45,7 +45,7 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
     protected string scopeType;
     protected string scopeDefinitionId;
 
-    protected boolean isExclusive = DEFAULT_EXCLUSIVE;
+    protected bool isExclusive = DEFAULT_EXCLUSIVE;
 
     protected int retries;
 
@@ -139,12 +139,12 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
     }
 
     @Override
-    public boolean isExclusive() {
+    public bool isExclusive() {
         return isExclusive;
     }
 
     @Override
-    public void setExclusive(boolean isExclusive) {
+    public void setExclusive(bool isExclusive) {
         this.isExclusive = isExclusive;
     }
 

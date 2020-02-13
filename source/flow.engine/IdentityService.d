@@ -151,7 +151,7 @@ interface IdentityService {
     /**
      * Checks if the password is valid for the given user. Arguments userId and password are nullsafe.
      */
-    boolean checkPassword(string userId, string password);
+    bool checkPassword(string userId, string password);
 
     /**
      * Passes the authenticated user id for this particular thread. All service method (from any service) invocations done by the same thread will have access to this authenticatedUserId.

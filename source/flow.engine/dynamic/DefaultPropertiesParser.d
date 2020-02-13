@@ -30,7 +30,7 @@ class DefaultPropertiesParser extends BasePropertiesParser {
     }
 
     @Override
-    public boolean supports(FlowElement flowElement) {
+    public bool supports(FlowElement flowElement) {
         return false;
     }
 }

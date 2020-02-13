@@ -24,5 +24,5 @@ interface ResourceEntity extends Entity, EngineResource {
     @Override
     Object getPersistentState();
 
-    void setGenerated(boolean generated);
+    void setGenerated(bool generated);
 }

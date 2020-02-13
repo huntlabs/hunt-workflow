@@ -57,11 +57,11 @@ interface FlowableEventDispatcher {
      * @param enabled
      *            true, if event dispatching should be enabled.
      */
-    void setEnabled(boolean enabled);
+    void setEnabled(bool enabled);
 
     /**
      * @return true, if event dispatcher is enabled.
      */
-    boolean isEnabled();
+    bool isEnabled();
 
 }

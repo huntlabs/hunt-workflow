@@ -86,21 +86,21 @@ interface ExecutionEntityManager extends EntityManager<ExecutionEntity> {
 
     string updateProcessInstanceBusinessKey(ExecutionEntity executionEntity, string businessKey);
 
-    void deleteProcessInstancesByProcessDefinition(string processDefinitionId, string deleteReason, boolean cascade);
+    void deleteProcessInstancesByProcessDefinition(string processDefinitionId, string deleteReason, bool cascade);
 
-    void deleteProcessInstance(string processInstanceId, string deleteReason, boolean cascade);
+    void deleteProcessInstance(string processInstanceId, string deleteReason, bool cascade);
 
     void deleteProcessInstanceExecutionEntity(string processInstanceId, string currentFlowElementId,
-            string deleteReason, boolean cascade, boolean cancel, boolean fireEvents);
+            string deleteReason, bool cascade, bool cancel, bool fireEvents);
 
     void deleteChildExecutions(ExecutionEntity executionEntity, Collection<string> executionIdsNotToDelete,
-            Collection<string> executionIdsNotToSendCancelledEventsFor, string deleteReason, boolean cancel, FlowElement cancelActivity);
+            Collection<string> executionIdsNotToSendCancelledEventsFor, string deleteReason, bool cancel, FlowElement cancelActivity);
     
-    void deleteChildExecutions(ExecutionEntity executionEntity, string deleteReason, boolean cancel);
+    void deleteChildExecutions(ExecutionEntity executionEntity, string deleteReason, bool cancel);
 
-    void deleteExecutionAndRelatedData(ExecutionEntity executionEntity, string deleteReason, boolean deleteHistory, boolean cancel, FlowElement cancelActivity);
+    void deleteExecutionAndRelatedData(ExecutionEntity executionEntity, string deleteReason, bool deleteHistory, bool cancel, FlowElement cancelActivity);
     
-    void deleteExecutionAndRelatedData(ExecutionEntity executionEntity, string deleteReason, boolean deleteHistory);
+    void deleteExecutionAndRelatedData(ExecutionEntity executionEntity, string deleteReason, bool deleteHistory);
     
     void deleteRelatedDataForExecution(ExecutionEntity executionEntity, string deleteReason);
 

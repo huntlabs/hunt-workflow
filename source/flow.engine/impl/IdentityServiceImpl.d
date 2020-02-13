@@ -111,7 +111,7 @@ class IdentityServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigura
     }
 
     @Override
-    public boolean checkPassword(string userId, string password) {
+    public bool checkPassword(string userId, string password) {
         return getIdmIdentityService().checkPassword(userId, password);
     }
 

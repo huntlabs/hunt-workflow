@@ -17,7 +17,7 @@
  */
 interface VariableContainer {
     
-    boolean hasVariable(string variableName);
+    bool hasVariable(string variableName);
     
     Object getVariable(string variableName);
     

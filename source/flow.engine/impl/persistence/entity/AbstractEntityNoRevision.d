@@ -22,9 +22,9 @@ import flow.common.persistence.entity.Entity;
 abstract class AbstractEntityNoRevision implements Entity {
 
     protected string id;
-    protected boolean isInserted;
-    protected boolean isUpdated;
-    protected boolean isDeleted;
+    protected bool isInserted;
+    protected bool isUpdated;
+    protected bool isDeleted;
 
     @Override
     public string getId() {
@@ -37,32 +37,32 @@ abstract class AbstractEntityNoRevision implements Entity {
     }
 
     @Override
-    public boolean isInserted() {
+    public bool isInserted() {
         return isInserted;
     }
 
     @Override
-    public void setInserted(boolean isInserted) {
+    public void setInserted(bool isInserted) {
         this.isInserted = isInserted;
     }
 
     @Override
-    public boolean isUpdated() {
+    public bool isUpdated() {
         return isUpdated;
     }
 
     @Override
-    public void setUpdated(boolean isUpdated) {
+    public void setUpdated(bool isUpdated) {
         this.isUpdated = isUpdated;
     }
 
     @Override
-    public boolean isDeleted() {
+    public bool isDeleted() {
         return isDeleted;
     }
 
     @Override
-    public void setDeleted(boolean isDeleted) {
+    public void setDeleted(bool isDeleted) {
         this.isDeleted = isDeleted;
     }
 

@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Tijs Rademakers
  */
-public class TimerJobEntityManagerImpl
+class TimerJobEntityManagerImpl
     extends AbstractJobServiceEngineEntityManager<TimerJobEntity, TimerJobDataManager>
     implements TimerJobEntityManager {
 
@@ -111,7 +111,7 @@ public class TimerJobEntityManagerImpl
     }
 
     @Override
-    public boolean insertTimerJobEntity(TimerJobEntity timerJobEntity) {
+    public bool insertTimerJobEntity(TimerJobEntity timerJobEntity) {
         return doInsert(timerJobEntity, true);
     }
 
@@ -121,13 +121,13 @@ public class TimerJobEntityManagerImpl
     }
 
     @Override
-    public void insert(TimerJobEntity jobEntity, boolean fireCreateEvent) {
+    public void insert(TimerJobEntity jobEntity, bool fireCreateEvent) {
         doInsert(jobEntity, fireCreateEvent);
     }
 
-    protected boolean doInsert(TimerJobEntity jobEntity, boolean fireCreateEvent) {
+    protected bool doInsert(TimerJobEntity jobEntity, bool fireCreateEvent) {
         if (serviceConfiguration.getInternalJobManager() != null) {
-            boolean handledJob = serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
+            bool handledJob = serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
             if (!handledJob) {
                 return false;
             }
@@ -191,7 +191,7 @@ public class TimerJobEntityManagerImpl
         timerEntity.setRepeat(repeatBuilder.toString());
     }
 
-    protected boolean isValidTime(JobEntity timerEntity, Date newTimerDate, VariableScope variableScope) {
+    protected bool isValidTime(JobEntity timerEntity, Date newTimerDate, VariableScope variableScope) {
         BusinessCalendar businessCalendar = serviceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
                         serviceConfiguration.getJobManager().getBusinessCalendarName(timerEntity, variableScope));
         return businessCalendar.validateDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations(), timerEntity.getEndDate(), newTimerDate);

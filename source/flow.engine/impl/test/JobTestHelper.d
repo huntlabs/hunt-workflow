@@ -45,7 +45,7 @@ class JobTestHelper {
     }
 
     public static void waitForJobExecutorToProcessAllJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService,
-            long maxMillisToWait, long intervalMillis, boolean shutdownExecutorWhenFinished) {
+            long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
         internalWaitForJobs(processEngineConfiguration, managementService, JobTestHelper::areJobsAvailable,
             maxMillisToWait, intervalMillis, shutdownExecutorWhenFinished);
     }
@@ -57,7 +57,7 @@ class JobTestHelper {
     }
 
     public static void waitForJobExecutorToProcessAllJobsAndExecutableTimerJobs(ProcessEngineConfiguration processEngineConfiguration,
-            ManagementService managementService, long maxMillisToWait, long intervalMillis, boolean shutdownExecutorWhenFinished) {
+            ManagementService managementService, long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
         internalWaitForJobs(processEngineConfiguration, managementService, JobTestHelper::areJobsOrExecutableTimersAvailable,
             maxMillisToWait, intervalMillis, shutdownExecutorWhenFinished);
     }
@@ -68,17 +68,17 @@ class JobTestHelper {
     }
 
     public static void waitForJobExecutorToProcessAllJobsAndTimerJobs(ProcessEngineConfiguration processEngineConfiguration,
-            ManagementService managementService, long maxMillisToWait, long intervalMillis, boolean shutdownExecutorWhenFinished) {
+            ManagementService managementService, long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
         internalWaitForJobs(processEngineConfiguration, managementService, JobTestHelper::areJobsOrTimersAvailable,
             maxMillisToWait, intervalMillis, shutdownExecutorWhenFinished);
     }
 
-    public static void waitForJobExecutorOnCondition(FlowableRule activitiRule, long maxMillisToWait, long intervalMillis, Callable<Boolean> condition) {
+    public static void waitForJobExecutorOnCondition(FlowableRule activitiRule, long maxMillisToWait, long intervalMillis, Callable<bool> condition) {
         waitForJobExecutorOnCondition(activitiRule.getProcessEngine().getProcessEngineConfiguration(), maxMillisToWait, intervalMillis, condition);
     }
 
     public static void waitForJobExecutorOnCondition(ProcessEngineConfiguration processEngineConfiguration,
-            long maxMillisToWait, long intervalMillis, Callable<Boolean> condition) {
+            long maxMillisToWait, long intervalMillis, Callable<bool> condition) {
         AsyncExecutor asyncExecutor = processEngineConfiguration.getAsyncExecutor();
         asyncExecutor.start();
 
@@ -86,7 +86,7 @@ class JobTestHelper {
             Timer timer = new Timer();
             InterruptTask task = new InterruptTask(Thread.currentThread());
             timer.schedule(task, maxMillisToWait);
-            boolean conditionIsViolated = true;
+            bool conditionIsViolated = true;
             try {
                 while (conditionIsViolated) {
                     Thread.sleep(intervalMillis);
@@ -136,17 +136,17 @@ class JobTestHelper {
         }
     }
 
-    public static boolean areJobsAvailable(FlowableRule activitiRule) {
+    public static bool areJobsAvailable(FlowableRule activitiRule) {
         return areJobsAvailable(activitiRule.getManagementService());
 
     }
 
-    public static boolean areJobsAvailable(ManagementService managementService) {
+    public static bool areJobsAvailable(ManagementService managementService) {
         return !managementService.createJobQuery().list().isEmpty();
     }
 
-    public static boolean areJobsOrExecutableTimersAvailable(ManagementService managementService) {
-        boolean emptyJobs = managementService.createJobQuery().list().isEmpty();
+    public static bool areJobsOrExecutableTimersAvailable(ManagementService managementService) {
+        bool emptyJobs = managementService.createJobQuery().list().isEmpty();
         if (emptyJobs) {
             return !managementService.createTimerJobQuery().executable().list().isEmpty();
         } else {
@@ -158,8 +158,8 @@ class JobTestHelper {
      * Returns true when there are any entries for the jobs or timers (unlike {@link #areJobsOrExecutableTimersAvailable(ManagementService)},
      * which only take in account executable timers).
      */
-    public static boolean areJobsOrTimersAvailable(ManagementService managementService) {
-        boolean emptyJobs = managementService.createJobQuery().count() == 0L;
+    public static bool areJobsOrTimersAvailable(ManagementService managementService) {
+        bool emptyJobs = managementService.createJobQuery().count() == 0L;
         if (emptyJobs) {
             return !(managementService.createTimerJobQuery().count() == 0L);
         } else {
@@ -168,7 +168,7 @@ class JobTestHelper {
     }
 
     protected static void internalWaitForJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService,
-        Predicate<ManagementService> jobsAvailablePredicate, long maxMillisToWait, long intervalMillis, boolean shutdownExecutorWhenFinished) {
+        Predicate<ManagementService> jobsAvailablePredicate, long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
         AsyncExecutor asyncExecutor = processEngineConfiguration.getAsyncExecutor();
         asyncExecutor.start();
         processEngineConfiguration.setAsyncExecutorActivate(true);
@@ -177,7 +177,7 @@ class JobTestHelper {
             Timer timer = new Timer();
             InterruptTask task = new InterruptTask(Thread.currentThread());
             timer.schedule(task, maxMillisToWait);
-            boolean areJobsAvailable = true;
+            bool areJobsAvailable = true;
             try {
                 while (areJobsAvailable && !task.isTimeLimitExceeded()) {
                     Thread.sleep(intervalMillis);
@@ -207,14 +207,14 @@ class JobTestHelper {
 
     private static class InterruptTask extends TimerTask {
 
-        protected boolean timeLimitExceeded;
+        protected bool timeLimitExceeded;
         protected Thread thread;
 
         public InterruptTask(Thread thread) {
             this.thread = thread;
         }
 
-        public boolean isTimeLimitExceeded() {
+        public bool isTimeLimitExceeded() {
             return timeLimitExceeded;
         }
 

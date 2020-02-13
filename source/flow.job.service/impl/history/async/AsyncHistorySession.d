@@ -29,7 +29,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class AsyncHistorySession implements Session {
+class AsyncHistorySession implements Session {
     
     public static final string TIMESTAMP = "__timeStamp"; // Two underscores to avoid clashes with other fields
     
@@ -64,7 +64,7 @@ public class AsyncHistorySession implements Session {
         this.jobDataTypes = jobDataTypes;
     }
     
-    protected boolean isAsyncHistoryExecutorEnabled() {
+    protected bool isAsyncHistoryExecutorEnabled() {
         AsyncExecutor asyncHistoryExecutor = CommandContextUtil.getJobServiceConfiguration(commandContext).getAsyncHistoryExecutor();
         return asyncHistoryExecutor != null && asyncHistoryExecutor.isActive();
     }

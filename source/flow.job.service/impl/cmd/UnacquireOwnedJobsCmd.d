@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UnacquireOwnedJobsCmd implements Command<Void> {
+class UnacquireOwnedJobsCmd implements Command<Void> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UnacquireOwnedJobsCmd.class);
     

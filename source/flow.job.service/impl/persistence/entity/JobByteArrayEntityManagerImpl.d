@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.data.JobByteArrayDataMan
  * @author Joram Barrez
  * @author Marcus Klimstra (CGI)
  */
-public class JobByteArrayEntityManagerImpl
+class JobByteArrayEntityManagerImpl
     extends AbstractJobServiceEngineEntityManager<JobByteArrayEntity, JobByteArrayDataManager>
     implements JobByteArrayEntityManager {
 

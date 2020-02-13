@@ -31,12 +31,12 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
 
     private static final long serialVersionUID = 1L;
 
-    protected boolean interrupting;
+    protected bool interrupting;
 
     public BoundaryEventActivityBehavior() {
     }
 
-    public BoundaryEventActivityBehavior(boolean interrupting) {
+    public BoundaryEventActivityBehavior(bool interrupting) {
         this.interrupting = interrupting;
     }
 
@@ -144,11 +144,11 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
         executionEntityManager.deleteExecutionAndRelatedData(parentExecution, deleteReason, false, true, outgoingExecutionEntity.getCurrentFlowElement());
     }
 
-    public boolean isInterrupting() {
+    public bool isInterrupting() {
         return interrupting;
     }
 
-    public void setInterrupting(boolean interrupting) {
+    public void setInterrupting(bool interrupting) {
         this.interrupting = interrupting;
     }
 

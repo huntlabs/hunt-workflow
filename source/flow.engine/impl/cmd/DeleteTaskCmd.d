@@ -28,16 +28,16 @@ class DeleteTaskCmd implements Command<Void>, Serializable {
     private static final long serialVersionUID = 1L;
     protected string taskId;
     protected Collection<string> taskIds;
-    protected boolean cascade;
+    protected bool cascade;
     protected string deleteReason;
 
-    public DeleteTaskCmd(string taskId, string deleteReason, boolean cascade) {
+    public DeleteTaskCmd(string taskId, string deleteReason, bool cascade) {
         this.taskId = taskId;
         this.cascade = cascade;
         this.deleteReason = deleteReason;
     }
 
-    public DeleteTaskCmd(Collection<string> taskIds, string deleteReason, boolean cascade) {
+    public DeleteTaskCmd(Collection<string> taskIds, string deleteReason, bool cascade) {
         this.taskIds = taskIds;
         this.cascade = cascade;
         this.deleteReason = deleteReason;

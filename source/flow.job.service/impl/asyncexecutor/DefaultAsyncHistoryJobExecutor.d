@@ -12,7 +12,7 @@
  */
 
 
-public class DefaultAsyncHistoryJobExecutor extends DefaultAsyncJobExecutor {
+class DefaultAsyncHistoryJobExecutor extends DefaultAsyncJobExecutor {
     
     public DefaultAsyncHistoryJobExecutor() {
         setTimerRunnableNeeded(false);

@@ -34,7 +34,7 @@ class ValidateTaskRelatedEntityCountCfgCmd implements Command<Void> {
 
         PropertyEntityManager propertyEntityManager = CommandContextUtil.getPropertyEntityManager(commandContext);
 
-        boolean configProperty = CommandContextUtil.getProcessEngineConfiguration(commandContext).getPerformanceSettings().isEnableTaskRelationshipCounts();
+        bool configProperty = CommandContextUtil.getProcessEngineConfiguration(commandContext).getPerformanceSettings().isEnableTaskRelationshipCounts();
         PropertyEntity propertyEntity = propertyEntityManager.findById(PROPERTY_TASK_RELATED_ENTITY_COUNT);
 
         if (propertyEntity == null) {
@@ -42,12 +42,12 @@ class ValidateTaskRelatedEntityCountCfgCmd implements Command<Void> {
 
             PropertyEntity newPropertyEntity = propertyEntityManager.create();
             newPropertyEntity.setName(PROPERTY_TASK_RELATED_ENTITY_COUNT);
-            newPropertyEntity.setValue(Boolean.toString(configProperty));
+            newPropertyEntity.setValue(bool.toString(configProperty));
             propertyEntityManager.insert(newPropertyEntity);
 
         } else {
 
-            boolean propertyValue = Boolean.valueOf(propertyEntity.getValue().toLowerCase());
+            bool propertyValue = bool.valueOf(propertyEntity.getValue().toLowerCase());
             // TODO: is this required since we check the global "task count" flag each time we read/update?
             // might have a serious performance impact when thousands of tasks are present.
             if (!configProperty && propertyValue) {
@@ -60,7 +60,7 @@ class ValidateTaskRelatedEntityCountCfgCmd implements Command<Void> {
 
             // Update property
             if (configProperty != propertyValue) {
-                propertyEntity.setValue(Boolean.toString(configProperty));
+                propertyEntity.setValue(bool.toString(configProperty));
                 propertyEntityManager.update(propertyEntity);
             }
 

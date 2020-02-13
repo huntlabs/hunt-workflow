@@ -35,9 +35,9 @@ class SubmitTaskFormCmd extends NeedsActiveTaskCmd<Void> {
 
     protected string taskId;
     protected Map<string, string> properties;
-    protected boolean completeTask;
+    protected bool completeTask;
 
-    public SubmitTaskFormCmd(string taskId, Map<string, string> properties, boolean completeTask) {
+    public SubmitTaskFormCmd(string taskId, Map<string, string> properties, bool completeTask) {
         super(taskId);
         this.taskId = taskId;
         this.properties = properties;

@@ -46,14 +46,14 @@ class GetTaskDataObjectsCmd implements Command<Map<string, DataObject>>, Seriali
     protected string taskId;
     protected Collection<string> variableNames;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
 
     public GetTaskDataObjectsCmd(string taskId, Collection<string> variableNames) {
         this.taskId = taskId;
         this.variableNames = variableNames;
     }
 
-    public GetTaskDataObjectsCmd(string taskId, Collection<string> variableNames, string locale, boolean withLocalizationFallback) {
+    public GetTaskDataObjectsCmd(string taskId, Collection<string> variableNames, string locale, bool withLocalizationFallback) {
         this.taskId = taskId;
         this.variableNames = variableNames;
         this.locale = locale;

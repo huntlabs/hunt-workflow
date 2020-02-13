@@ -27,14 +27,14 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Tijs Rademakers
  */
-public class AcquireTimerJobsRunnable implements Runnable {
+class AcquireTimerJobsRunnable implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AcquireTimerJobsRunnable.class);
 
     protected final AsyncExecutor asyncExecutor;
     protected final JobManager jobManager;
 
-    protected volatile boolean isInterrupted;
+    protected volatile bool isInterrupted;
     protected final Object MONITOR = new Object();
     protected final AtomicBoolean isWaiting = new AtomicBoolean(false);
 

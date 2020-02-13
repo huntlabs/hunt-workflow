@@ -29,12 +29,12 @@ interface Execution {
     /**
      * Indicates if the execution is suspended.
      */
-    boolean isSuspended();
+    bool isSuspended();
 
     /**
      * Indicates if the execution is ended.
      */
-    boolean isEnded();
+    bool isEnded();
 
     /**
      * Returns the id of the activity where the execution currently is at. Returns null if the execution is not a 'leaf' execution (eg concurrent parent).

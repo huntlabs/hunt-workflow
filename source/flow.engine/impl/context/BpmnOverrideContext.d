@@ -41,7 +41,7 @@ class BpmnOverrideContext {
         return elementProperties;
     }
 
-    public static ObjectNode getLocalizationElementProperties(string language, string id, string processDefinitionId, boolean useFallback) {
+    public static ObjectNode getLocalizationElementProperties(string language, string id, string processDefinitionId, bool useFallback) {
         ObjectNode definitionInfoNode = getProcessDefinitionInfoNode(processDefinitionId);
         ObjectNode localizationProperties = null;
         if (definitionInfoNode != null) {

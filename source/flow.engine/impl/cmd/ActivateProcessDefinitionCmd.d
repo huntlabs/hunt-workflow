@@ -25,11 +25,11 @@ import flow.engine.runtime.ProcessInstance;
  */
 class ActivateProcessDefinitionCmd extends AbstractSetProcessDefinitionStateCmd {
 
-    public ActivateProcessDefinitionCmd(ProcessDefinitionEntity processDefinitionEntity, boolean includeProcessInstances, Date executionDate, string tenantId) {
+    public ActivateProcessDefinitionCmd(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
         super(processDefinitionEntity, includeProcessInstances, executionDate, tenantId);
     }
 
-    public ActivateProcessDefinitionCmd(string processDefinitionId, string processDefinitionKey, boolean includeProcessInstances, Date executionDate, string tenantId) {
+    public ActivateProcessDefinitionCmd(string processDefinitionId, string processDefinitionKey, bool includeProcessInstances, Date executionDate, string tenantId) {
         super(processDefinitionId, processDefinitionKey, includeProcessInstances, executionDate, tenantId);
     }
 

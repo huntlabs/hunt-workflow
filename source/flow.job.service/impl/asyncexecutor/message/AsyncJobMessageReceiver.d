@@ -37,7 +37,7 @@ import org.flowable.job.service.impl.persistence.entity.JobEntityManager;
  * 
  * @author Joram Barrez
  */
-public class AsyncJobMessageReceiver {
+class AsyncJobMessageReceiver {
 
     protected JobServiceConfiguration jobServiceConfiguration;
     protected AsyncJobMessageHandler asyncJobMessageHandler;

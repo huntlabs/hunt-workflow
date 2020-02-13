@@ -42,16 +42,16 @@ class GetTaskFormModelCmd implements Command<FormInfo>, Serializable {
     private static final long serialVersionUID = 1L;
 
     protected string taskId;
-    protected boolean ignoreVariables;
+    protected bool ignoreVariables;
 
-    public GetTaskFormModelCmd(string taskId, boolean ignoreVariables) {
+    public GetTaskFormModelCmd(string taskId, bool ignoreVariables) {
         this.taskId = taskId;
         this.ignoreVariables = ignoreVariables;
     }
 
     @Override
     public FormInfo execute(CommandContext commandContext) {
-        boolean historic = false;
+        bool historic = false;
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FormService formService = CommandContextUtil.getFormService();

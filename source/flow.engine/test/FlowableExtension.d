@@ -76,7 +76,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>
  * You can declare a deployment with the {@link Deployment} annotation. This extension will make sure that this deployment gets deployed before the setUp and
- * {@link RepositoryService#deleteDeployment(string, boolean) cascade deleted} after the tearDown.
+ * {@link RepositoryService#deleteDeployment(string, bool) cascade deleted} after the tearDown.
  * The id of the deployment can be accessed by using {@link DeploymentId} in a test method.
  * </p>
  *
@@ -153,7 +153,7 @@ class FlowableExtension implements ParameterResolver, BeforeEachCallback, AfterE
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext context) {
+    public bool supportsParameter(ParameterContext parameterContext, ExtensionContext context) {
         Class<?> parameterType = parameterContext.getParameter().getType();
         return SUPPORTED_PARAMETERS.contains(parameterType) || FlowableTestHelper.class.equals(parameterType) || FlowableMockSupport.class.equals(parameterType)
             || parameterContext.isAnnotated(DeploymentId.class);

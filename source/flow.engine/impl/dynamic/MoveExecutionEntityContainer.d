@@ -28,9 +28,9 @@ class MoveExecutionEntityContainer {
 
     protected List<ExecutionEntity> executions;
     protected List<string> moveToActivityIds;
-    protected boolean moveToParentProcess;
-    protected boolean moveToSubProcessInstance;
-    protected boolean directExecutionMigration;
+    protected bool moveToParentProcess;
+    protected bool moveToSubProcessInstance;
+    protected bool directExecutionMigration;
     protected string callActivityId;
     protected Integer callActivitySubProcessVersion;
     protected CallActivity callActivity;
@@ -56,27 +56,27 @@ class MoveExecutionEntityContainer {
         return moveToActivityIds;
     }
 
-    public boolean isMoveToParentProcess() {
+    public bool isMoveToParentProcess() {
         return moveToParentProcess;
     }
 
-    public void setMoveToParentProcess(boolean moveToParentProcess) {
+    public void setMoveToParentProcess(bool moveToParentProcess) {
         this.moveToParentProcess = moveToParentProcess;
     }
 
-    public boolean isMoveToSubProcessInstance() {
+    public bool isMoveToSubProcessInstance() {
         return moveToSubProcessInstance;
     }
 
-    public void setMoveToSubProcessInstance(boolean moveToSubProcessInstance) {
+    public void setMoveToSubProcessInstance(bool moveToSubProcessInstance) {
         this.moveToSubProcessInstance = moveToSubProcessInstance;
     }
 
-    public boolean isDirectExecutionMigration() {
+    public bool isDirectExecutionMigration() {
         return directExecutionMigration;
     }
 
-    public void setDirectExecutionMigration(boolean directMigrateUserTask) {
+    public void setDirectExecutionMigration(bool directMigrateUserTask) {
         this.directExecutionMigration = directMigrateUserTask;
     }
 

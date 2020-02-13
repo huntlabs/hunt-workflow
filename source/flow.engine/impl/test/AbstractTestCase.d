@@ -46,7 +46,7 @@ abstract class AbstractTestCase {
      * Asserts that a condition is true. If it isn't it throws
      * an AssertionFailedError with the given message.
      */
-    public static void assertTrue(string message, boolean condition) {
+    public static void assertTrue(string message, bool condition) {
         Assert.assertTrue(message, condition);
     }
 
@@ -54,7 +54,7 @@ abstract class AbstractTestCase {
      * Asserts that a condition is true. If it isn't it throws
      * an AssertionFailedError.
      */
-    public static void assertTrue(boolean condition) {
+    public static void assertTrue(bool condition) {
         Assert.assertTrue(condition);
     }
 
@@ -62,7 +62,7 @@ abstract class AbstractTestCase {
      * Asserts that a condition is false. If it isn't it throws
      * an AssertionFailedError.
      */
-    public static void assertFalse(boolean condition) {
+    public static void assertFalse(bool condition) {
         Assert.assertFalse(condition);
     }
 
@@ -70,7 +70,7 @@ abstract class AbstractTestCase {
      * Asserts that a condition is false. If it isn't it throws
      * an AssertionFailedError with the given message.
      */
-    public static void assertFalse(string message, boolean condition) {
+    public static void assertFalse(string message, bool condition) {
         Assert.assertFalse(message, condition);
     }
 
@@ -171,14 +171,14 @@ abstract class AbstractTestCase {
      * Asserts that two booleans are equal. If they are not
      * an AssertionFailedError is thrown with the given message.
      */
-    public static void assertEquals(string message, boolean expected, boolean actual) {
+    public static void assertEquals(string message, bool expected, bool actual) {
         Assert.assertEquals(message, expected, actual);
     }
 
     /**
      * Asserts that two booleans are equal.
      */
-    public static void assertEquals(boolean expected, boolean actual) {
+    public static void assertEquals(bool expected, bool actual) {
         Assert.assertEquals(expected, actual);
     }
 

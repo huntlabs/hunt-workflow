@@ -34,22 +34,22 @@ interface HistoryManager {
     /**
      * @return true, if the configured history-level is equal to OR set to a higher value than the given level.
      */
-    boolean isHistoryLevelAtLeast(HistoryLevel level);
+    bool isHistoryLevelAtLeast(HistoryLevel level);
 
     /**
      * @return true, if the configured process definition history-level is equal to OR set to a higher value than the given level.
      */
-    boolean isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId);
+    bool isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId);
 
     /**
      * @return true, if history-level is configured to level other than "none".
      */
-    boolean isHistoryEnabled();
+    bool isHistoryEnabled();
 
     /**
      * @return true, if process definition history-level is configured to level other than "none".
      */
-    boolean isHistoryEnabled(string processDefinitionId);
+    bool isHistoryEnabled(string processDefinitionId);
 
     /**
      * Record a process-instance ended. Updates the historic process instance if activity history is enabled.
@@ -98,7 +98,7 @@ interface HistoryManager {
     /**
      * Finds the {@link HistoricActivityInstanceEntity} that is active in the given execution.
      */
-    HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, boolean validateEndTimeNull);
+    HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, bool validateEndTimeNull);
 
     /**
      * Record a change of the process-definition id of a process instance, if activity history is enabled.
@@ -128,7 +128,7 @@ interface HistoryManager {
     /**
      * Record a variable has been created, if audit history is enabled.
      */
-    void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, boolean useActivityId,
+    void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, bool useActivityId,
         string activityInstanceId, Date createTime);
 
     /**
@@ -144,42 +144,42 @@ interface HistoryManager {
     /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, boolean create);
+    void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, bool create);
 
     /**
      * Creates a new comment to indicate a new user {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createUserIdentityLinkComment(TaskEntity task, string userId, string type, boolean create);
+    void createUserIdentityLinkComment(TaskEntity task, string userId, string type, bool create);
 
     /**
      * Creates a new comment to indicate a new group {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createGroupIdentityLinkComment(TaskEntity task, string groupId, string type, boolean create);
+    void createGroupIdentityLinkComment(TaskEntity task, string groupId, string type, bool create);
 
     /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, boolean create, boolean forceNullUserId);
+    void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, bool create, bool forceNullUserId);
 
     /**
      * Creates a new comment to indicate a new user {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createUserIdentityLinkComment(TaskEntity task, string userId, string type, boolean create, boolean forceNullUserId);
+    void createUserIdentityLinkComment(TaskEntity task, string userId, string type, bool create, bool forceNullUserId);
 
     /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, boolean create);
+    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create);
 
     /**
      * Creates a new comment to indicate a new {@link IdentityLink} has been created or deleted, if history is enabled.
      */
-    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, boolean create, boolean forceNullUserId);
+    void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create, bool forceNullUserId);
 
     /**
      * Creates a new comment to indicate a new attachment has been created or deleted, if history is enabled.
      */
-    void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, boolean create);
+    void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, bool create);
 
     /**
      * Report form properties submitted, if audit history is enabled.

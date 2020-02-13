@@ -74,7 +74,7 @@ class ProcessDefinitionDiagramHelper {
         return CommandContextUtil.getProcessEngineConfiguration().getResourceEntityManager().create();
     }
 
-    public boolean shouldCreateDiagram(ProcessDefinitionEntity processDefinition, DeploymentEntity deployment) {
+    public bool shouldCreateDiagram(ProcessDefinitionEntity processDefinition, DeploymentEntity deployment) {
         if (deployment.isNew()
                 && processDefinition.isGraphicalNotationDefined()
                 && CommandContextUtil.getProcessEngineConfiguration().isCreateDiagramOnDeploy()) {

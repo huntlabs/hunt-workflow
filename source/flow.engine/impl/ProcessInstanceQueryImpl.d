@@ -47,7 +47,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     protected string executionId;
     protected string businessKey;
     protected string businessKeyLike;
-    protected boolean includeChildExecutionsWithBusinessKeyQuery;
+    protected bool includeChildExecutionsWithBusinessKeyQuery;
     protected string processDefinitionId;
     protected Set<string> processDefinitionIds;
     protected string processDefinitionCategory;
@@ -61,13 +61,13 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     protected List<string> deploymentIds;
     protected string superProcessInstanceId;
     protected string subProcessInstanceId;
-    protected boolean excludeSubprocesses;
+    protected bool excludeSubprocesses;
     protected string involvedUser;
     protected Set<string> involvedGroups;
     protected SuspensionState suspensionState;
-    protected boolean includeProcessVariables;
+    protected bool includeProcessVariables;
     protected Integer processInstanceVariablesLimit;
-    protected boolean withJobException;
+    protected bool withJobException;
     protected string name;
     protected string nameLike;
     protected string nameLikeIgnoreCase;
@@ -76,15 +76,15 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     protected string referenceId;
     protected string referenceType;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
 
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
 
     protected List<ProcessInstanceQueryImpl> orQueryObjects = new ArrayList<>();
     protected ProcessInstanceQueryImpl currentOrQueryObject;
-    protected boolean inOrStatement;
+    protected bool inOrStatement;
 
     protected Date startedBefore;
     protected Date startedAfter;
@@ -93,9 +93,9 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     // Unused, see dynamic query
     protected string activityId;
     protected List<EventSubscriptionQueryValue> eventSubscriptions;
-    protected boolean onlyChildExecutions;
-    protected boolean onlyProcessInstanceExecutions;
-    protected boolean onlySubProcessExecutions;
+    protected bool onlyChildExecutions;
+    protected bool onlyProcessInstanceExecutions;
+    protected bool onlySubProcessExecutions;
     protected string rootProcessInstanceId;
 
     public ProcessInstanceQueryImpl() {
@@ -367,7 +367,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     }
 
     @Override
-    public ProcessInstanceQuery excludeSubprocesses(boolean excludeSubprocesses) {
+    public ProcessInstanceQuery excludeSubprocesses(bool excludeSubprocesses) {
         if (inOrStatement) {
             this.currentOrQueryObject.excludeSubprocesses = excludeSubprocesses;
         } else {
@@ -807,7 +807,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     // getters /////////////////////////////////////////////////////////////////
 
-    public boolean getOnlyProcessInstances() {
+    public bool getOnlyProcessInstances() {
         return true; // See dynamic query in runtime.mapping.xml
     }
 
@@ -836,7 +836,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return businessKeyLike;
     }
 
-    public boolean isIncludeChildExecutionsWithBusinessKeyQuery() {
+    public bool isIncludeChildExecutionsWithBusinessKeyQuery() {
         return includeChildExecutionsWithBusinessKeyQuery;
     }
 
@@ -884,7 +884,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return subProcessInstanceId;
     }
 
-    public boolean isExcludeSubprocesses() {
+    public bool isExcludeSubprocesses() {
         return excludeSubprocesses;
     }
 
@@ -920,7 +920,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
@@ -952,11 +952,11 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return deploymentIds;
     }
 
-    public boolean isIncludeProcessVariables() {
+    public bool isIncludeProcessVariables() {
         return includeProcessVariables;
     }
 
-    public boolean iswithException() {
+    public bool iswithException() {
         return withJobException;
     }
 
@@ -992,15 +992,15 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return null;
     }
 
-    public boolean isOnlyChildExecutions() {
+    public bool isOnlyChildExecutions() {
         return onlyChildExecutions;
     }
 
-    public boolean isOnlyProcessInstanceExecutions() {
+    public bool isOnlyProcessInstanceExecutions() {
         return onlyProcessInstanceExecutions;
     }
 
-    public boolean isOnlySubProcessExecutions() {
+    public bool isOnlySubProcessExecutions() {
         return onlySubProcessExecutions;
     }
 

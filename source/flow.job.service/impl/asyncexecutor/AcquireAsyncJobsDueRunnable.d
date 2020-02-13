@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Tijs Rademakers
  */
-public class AcquireAsyncJobsDueRunnable implements Runnable {
+class AcquireAsyncJobsDueRunnable implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AcquireAsyncJobsDueRunnable.class);
 
@@ -36,7 +36,7 @@ public class AcquireAsyncJobsDueRunnable implements Runnable {
     protected final AsyncExecutor asyncExecutor;
     protected final JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
 
-    protected volatile boolean isInterrupted;
+    protected volatile bool isInterrupted;
     protected final Object MONITOR = new Object();
     protected final AtomicBoolean isWaiting = new AtomicBoolean(false);
 
@@ -109,7 +109,7 @@ public class AcquireAsyncJobsDueRunnable implements Runnable {
     protected List<JobInfoEntity> offerJobs(AcquiredJobEntities acquiredJobs) {
         List<JobInfoEntity> rejected = new ArrayList<>();
         for (JobInfoEntity job : acquiredJobs.getJobs()) {
-            boolean jobSuccessFullyOffered = asyncExecutor.executeAsyncJob(job);
+            bool jobSuccessFullyOffered = asyncExecutor.executeAsyncJob(job);
             if (!jobSuccessFullyOffered) {
                 rejected.add(job);
             }

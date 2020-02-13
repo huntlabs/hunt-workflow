@@ -35,7 +35,7 @@ class DefaultInternalJobCompatibilityManager implements InternalJobCompatibility
     }
     
     @Override
-    public boolean isFlowable5Job(Job job) {
+    public bool isFlowable5Job(Job job) {
         if (job.getProcessDefinitionId() != null) {
             return Flowable5Util.isFlowable5ProcessDefinitionId(processEngineConfiguration, job.getProcessDefinitionId());
         } 

@@ -51,15 +51,15 @@ interface ProcessDefinitionEntity extends ProcessDefinition, Entity, HasRevision
 
     void setDiagramResourceName(string diagramResourceName);
 
-    boolean getHasStartFormKey();
+    bool getHasStartFormKey();
 
-    void setStartFormKey(boolean hasStartFormKey);
+    void setStartFormKey(bool hasStartFormKey);
 
-    void setHasStartFormKey(boolean hasStartFormKey);
+    void setHasStartFormKey(bool hasStartFormKey);
 
-    boolean isGraphicalNotationDefined();
+    bool isGraphicalNotationDefined();
 
-    void setGraphicalNotationDefined(boolean isGraphicalNotationDefined);
+    void setGraphicalNotationDefined(bool isGraphicalNotationDefined);
 
     int getSuspensionState();
 

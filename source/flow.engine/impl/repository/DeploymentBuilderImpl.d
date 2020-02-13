@@ -49,9 +49,9 @@ class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
     protected transient ResourceEntityManager resourceEntityManager;
 
     protected DeploymentEntity deployment;
-    protected boolean isBpmn20XsdValidationEnabled = true;
-    protected boolean isProcessValidationEnabled = true;
-    protected boolean isDuplicateFilterEnabled;
+    protected bool isBpmn20XsdValidationEnabled = true;
+    protected bool isProcessValidationEnabled = true;
+    protected bool isDuplicateFilterEnabled;
     protected Date processDefinitionsActivationDate;
     protected Map<string, Object> deploymentProperties = new HashMap<>();
 
@@ -213,15 +213,15 @@ class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
         return deployment;
     }
 
-    public boolean isProcessValidationEnabled() {
+    public bool isProcessValidationEnabled() {
         return isProcessValidationEnabled;
     }
 
-    public boolean isBpmn20XsdValidationEnabled() {
+    public bool isBpmn20XsdValidationEnabled() {
         return isBpmn20XsdValidationEnabled;
     }
 
-    public boolean isDuplicateFilterEnabled() {
+    public bool isDuplicateFilterEnabled() {
         return isDuplicateFilterEnabled;
     }
 

@@ -17,10 +17,10 @@
  */
 interface CountingExecutionEntity {
     
-    boolean isProcessInstanceType();
+    bool isProcessInstanceType();
     
-    boolean isCountEnabled();
-    void setCountEnabled(boolean isCountEnabled);
+    bool isCountEnabled();
+    void setCountEnabled(bool isCountEnabled);
     
     void setEventSubscriptionCount(int eventSubscriptionCount);
     int getEventSubscriptionCount();

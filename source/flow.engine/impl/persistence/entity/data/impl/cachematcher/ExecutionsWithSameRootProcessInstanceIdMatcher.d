@@ -24,7 +24,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 class ExecutionsWithSameRootProcessInstanceIdMatcher implements CachedEntityMatcher<ExecutionEntity> {
 
     @Override
-    public boolean isRetained(Collection<ExecutionEntity> databaseEntities, Collection<CachedEntity> cachedEntities, ExecutionEntity entity, Object param) {
+    public bool isRetained(Collection<ExecutionEntity> databaseEntities, Collection<CachedEntity> cachedEntities, ExecutionEntity entity, Object param) {
         ExecutionEntity executionEntity = getMatchingExecution(databaseEntities, cachedEntities, (string) param);
         return (executionEntity.getRootProcessInstanceId() != null
                 && executionEntity.getRootProcessInstanceId().equals(entity.getRootProcessInstanceId()));

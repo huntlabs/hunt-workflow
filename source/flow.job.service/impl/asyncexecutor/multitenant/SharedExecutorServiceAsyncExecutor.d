@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Joram Barrez
  */
-public class SharedExecutorServiceAsyncExecutor extends DefaultAsyncJobExecutor implements TenantAwareAsyncExecutor {
+class SharedExecutorServiceAsyncExecutor extends DefaultAsyncJobExecutor implements TenantAwareAsyncExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SharedExecutorServiceAsyncExecutor.class);
 
@@ -74,7 +74,7 @@ public class SharedExecutorServiceAsyncExecutor extends DefaultAsyncJobExecutor 
     }
 
     @Override
-    public void addTenantAsyncExecutor(string tenantId, boolean startExecutor) {
+    public void addTenantAsyncExecutor(string tenantId, bool startExecutor) {
 
         TenantAwareAcquireTimerJobsRunnable timerRunnable = new TenantAwareAcquireTimerJobsRunnable(this, tenantInfoHolder, tenantId);
         timerJobAcquisitionRunnables.put(tenantId, timerRunnable);

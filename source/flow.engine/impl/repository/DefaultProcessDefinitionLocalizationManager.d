@@ -34,7 +34,7 @@ class DefaultProcessDefinitionLocalizationManager implements InternalProcessDefi
     }
 
     @Override
-    public void localize(ProcessDefinition processDefinition, string locale, boolean withLocalizationFallback) {
+    public void localize(ProcessDefinition processDefinition, string locale, bool withLocalizationFallback) {
         ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) processDefinition;
         processDefinitionEntity.setLocalizedName(null);
         processDefinitionEntity.setLocalizedDescription(null);

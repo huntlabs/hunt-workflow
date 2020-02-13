@@ -26,7 +26,7 @@ import org.flowable.job.service.impl.persistence.entity.JobEntityManager;
 import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntityManager;
 import org.flowable.job.service.impl.persistence.entity.TimerJobEntityManager;
 
-public class CommandContextUtil {
+class CommandContextUtil {
 
     public static JobServiceConfiguration getJobServiceConfiguration() {
         return getJobServiceConfiguration(getCommandContext());

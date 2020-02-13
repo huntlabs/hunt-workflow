@@ -61,7 +61,7 @@ public enum HistoryLevel {
     /**
      * Checks if the given level is the same as, or higher in order than the level this method is executed on.
      */
-    public boolean isAtLeast(HistoryLevel level) {
+    public bool isAtLeast(HistoryLevel level) {
         // Comparing enums actually compares the location of values declared in
         // the enum
         return this.compareTo(level) >= 0;

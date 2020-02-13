@@ -62,6 +62,6 @@ interface HistoryJobProcessorContext {
      * @param phase the phase to check
      * @return {@code true} if the {@link HistoryJobProcessorContext} is in the specified phase, false otherwise.
      */
-    boolean isInPhase(Phase phase);
+    bool isInPhase(Phase phase);
 
 }

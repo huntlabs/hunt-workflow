@@ -28,9 +28,9 @@ class SetExecutionVariablesCmd extends NeedsActiveExecutionCmd<Object> {
     private static final long serialVersionUID = 1L;
 
     protected Map<string, ? extends Object> variables;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public SetExecutionVariablesCmd(string executionId, Map<string, ? extends Object> variables, boolean isLocal) {
+    public SetExecutionVariablesCmd(string executionId, Map<string, ? extends Object> variables, bool isLocal) {
         super(executionId);
         this.variables = variables;
         this.isLocal = isLocal;

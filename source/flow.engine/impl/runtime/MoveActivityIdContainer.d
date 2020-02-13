@@ -23,8 +23,8 @@ class MoveActivityIdContainer {
 
     protected List<string> activityIds;
     protected List<string> moveToActivityIds;
-    protected boolean moveToParentProcess;
-    protected boolean moveToSubProcessInstance;
+    protected bool moveToParentProcess;
+    protected bool moveToSubProcessInstance;
     protected string callActivityId;
     protected Integer callActivitySubProcessVersion;
     protected string newAssigneeId;
@@ -67,19 +67,19 @@ class MoveActivityIdContainer {
         return Optional.ofNullable(moveToActivityIds).orElse(Collections.emptyList());
     }
 
-    public boolean isMoveToParentProcess() {
+    public bool isMoveToParentProcess() {
         return moveToParentProcess;
     }
 
-    public void setMoveToParentProcess(boolean moveToParentProcess) {
+    public void setMoveToParentProcess(bool moveToParentProcess) {
         this.moveToParentProcess = moveToParentProcess;
     }
 
-    public boolean isMoveToSubProcessInstance() {
+    public bool isMoveToSubProcessInstance() {
         return moveToSubProcessInstance;
     }
 
-    public void setMoveToSubProcessInstance(boolean moveToSubProcessInstance) {
+    public void setMoveToSubProcessInstance(bool moveToSubProcessInstance) {
         this.moveToSubProcessInstance = moveToSubProcessInstance;
     }
 

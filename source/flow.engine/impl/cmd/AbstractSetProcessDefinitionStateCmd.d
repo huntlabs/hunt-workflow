@@ -49,18 +49,18 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
     protected string processDefinitionId;
     protected string processDefinitionKey;
     protected ProcessDefinitionEntity processDefinitionEntity;
-    protected boolean includeProcessInstances;
+    protected bool includeProcessInstances;
     protected Date executionDate;
     protected string tenantId;
 
-    public AbstractSetProcessDefinitionStateCmd(ProcessDefinitionEntity processDefinitionEntity, boolean includeProcessInstances, Date executionDate, string tenantId) {
+    public AbstractSetProcessDefinitionStateCmd(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
         this.processDefinitionEntity = processDefinitionEntity;
         this.includeProcessInstances = includeProcessInstances;
         this.executionDate = executionDate;
         this.tenantId = tenantId;
     }
 
-    public AbstractSetProcessDefinitionStateCmd(string processDefinitionId, string processDefinitionKey, boolean includeProcessInstances, Date executionDate, string tenantId) {
+    public AbstractSetProcessDefinitionStateCmd(string processDefinitionId, string processDefinitionKey, bool includeProcessInstances, Date executionDate, string tenantId) {
         this.processDefinitionId = processDefinitionId;
         this.processDefinitionKey = processDefinitionKey;
         this.includeProcessInstances = includeProcessInstances;
@@ -72,7 +72,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
     public Void execute(CommandContext commandContext) {
 
         List<ProcessDefinitionEntity> processDefinitions = findProcessDefinition(commandContext);
-        boolean hasV5ProcessDefinitions = false;
+        bool hasV5ProcessDefinitions = false;
         for (ProcessDefinitionEntity processDefinitionEntity : processDefinitions) {
             if (Flowable5Util.isFlowable5ProcessDefinition(processDefinitionEntity, commandContext)) {
                 hasV5ProcessDefinitions = true;

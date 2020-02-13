@@ -27,7 +27,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-public class AcquireTimerJobsCmd implements Command<AcquiredTimerJobEntities> {
+class AcquireTimerJobsCmd implements Command<AcquiredTimerJobEntities> {
 
     private final AsyncExecutor asyncExecutor;
 

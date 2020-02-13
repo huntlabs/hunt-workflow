@@ -23,7 +23,7 @@ import org.flowable.job.service.impl.asyncexecutor.ExecuteAsyncRunnable;
  * 
  * @author Joram Barrez
  */
-public class TenantAwareExecuteAsyncRunnable extends ExecuteAsyncRunnable {
+class TenantAwareExecuteAsyncRunnable extends ExecuteAsyncRunnable {
 
     protected TenantInfoHolder tenantInfoHolder;
     protected string tenantId;

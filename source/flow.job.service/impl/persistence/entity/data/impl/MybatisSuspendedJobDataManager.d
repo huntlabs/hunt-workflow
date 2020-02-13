@@ -28,12 +28,12 @@ import org.flowable.job.service.impl.persistence.entity.data.impl.cachematcher.S
 /**
  * @author Tijs Rademakers
  */
-public class MybatisSuspendedJobDataManager extends AbstractDataManager<SuspendedJobEntity> implements SuspendedJobDataManager {
+class MybatisSuspendedJobDataManager extends AbstractDataManager<SuspendedJobEntity> implements SuspendedJobDataManager {
 
     protected CachedEntityMatcher<SuspendedJobEntity> suspendedJobsByExecutionIdMatcher = new SuspendedJobsByExecutionIdMatcher();
 
     @Override
-    public Class<? extends SuspendedJobEntity> getManagedEntityClass() {
+    class<? extends SuspendedJobEntity> getManagedEntityClass() {
         return SuspendedJobEntityImpl.class;
     }
 

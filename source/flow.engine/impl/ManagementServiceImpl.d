@@ -105,7 +105,7 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public string getTableName(Class<?> entityClass, boolean includePrefix) {
+    public string getTableName(Class<?> entityClass, bool includePrefix) {
         return commandExecutor.execute(new GetTableNameCmd(entityClass, includePrefix));
     }
 

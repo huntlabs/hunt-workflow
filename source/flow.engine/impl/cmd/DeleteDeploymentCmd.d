@@ -26,9 +26,9 @@ class DeleteDeploymentCmd implements Command<Void>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string deploymentId;
-    protected boolean cascade;
+    protected bool cascade;
 
-    public DeleteDeploymentCmd(string deploymentId, boolean cascade) {
+    public DeleteDeploymentCmd(string deploymentId, bool cascade) {
         this.deploymentId = deploymentId;
         this.cascade = cascade;
     }

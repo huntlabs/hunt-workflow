@@ -39,9 +39,9 @@ class DeleteMultiInstanceExecutionCmd implements Command<Void>, Serializable {
     protected static final string NUMBER_OF_COMPLETED_INSTANCES = "nrOfCompletedInstances";
     
     protected string executionId;
-    protected boolean executionIsCompleted;
+    protected bool executionIsCompleted;
 
-    public DeleteMultiInstanceExecutionCmd(string executionId, boolean executionIsCompleted) {
+    public DeleteMultiInstanceExecutionCmd(string executionId, bool executionIsCompleted) {
         this.executionId = executionId;
         this.executionIsCompleted = executionIsCompleted;
     }

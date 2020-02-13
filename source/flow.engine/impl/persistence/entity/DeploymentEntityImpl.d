@@ -38,7 +38,7 @@ class DeploymentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements
     protected string tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
     protected Map<string, EngineResource> resources;
     protected Date deploymentTime;
-    protected boolean isNew;
+    protected bool isNew;
     protected string derivedFrom;
     protected string derivedFromRoot;
     protected string parentDeploymentId;
@@ -177,12 +177,12 @@ class DeploymentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements
     }
 
     @Override
-    public boolean isNew() {
+    public bool isNew() {
         return isNew;
     }
 
     @Override
-    public void setNew(boolean isNew) {
+    public void setNew(bool isNew) {
         this.isNew = isNew;
     }
 

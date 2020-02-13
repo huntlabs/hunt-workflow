@@ -31,7 +31,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  * @author Tom Baeyens
  * @author Falko Menge
  */
-public class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Serializable {
+class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string id;
@@ -45,21 +45,21 @@ public class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQue
     protected string subScopeId;
     protected string scopeType;
     protected string scopeDefinitionId;
-    protected boolean onlyTimers;
-    protected boolean onlyMessages;
+    protected bool onlyTimers;
+    protected bool onlyMessages;
     protected Date duedateHigherThan;
     protected Date duedateLowerThan;
     protected Date duedateHigherThanOrEqual;
     protected Date duedateLowerThanOrEqual;
-    protected boolean withException;
+    protected bool withException;
     protected string exceptionMessage;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
     
     protected string lockOwner;
-    protected boolean onlyLocked;
-    protected boolean onlyUnlocked;
+    protected bool onlyLocked;
+    protected bool onlyUnlocked;
 
     public JobQueryImpl() {
     }
@@ -356,7 +356,7 @@ public class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQue
         return CommandContextUtil.getJobServiceConfiguration().getClock().getCurrentTime();
     }
 
-    public boolean isWithException() {
+    public bool isWithException() {
         return withException;
     }
 
@@ -372,7 +372,7 @@ public class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQue
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
@@ -404,11 +404,11 @@ public class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQue
         return scopeDefinitionId;
     }
 
-    public boolean isOnlyTimers() {
+    public bool isOnlyTimers() {
         return onlyTimers;
     }
 
-    public boolean isOnlyMessages() {
+    public bool isOnlyMessages() {
         return onlyMessages;
     }
 
@@ -432,11 +432,11 @@ public class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQue
         return lockOwner;
     }
 
-    public boolean isOnlyLocked() {
+    public bool isOnlyLocked() {
         return onlyLocked;
     }
 
-    public boolean isOnlyUnlocked() {
+    public bool isOnlyUnlocked() {
         return onlyUnlocked;
     }
 

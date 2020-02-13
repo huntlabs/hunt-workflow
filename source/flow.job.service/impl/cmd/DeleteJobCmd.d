@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  */
 
-public class DeleteJobCmd implements Command<Object>, Serializable {
+class DeleteJobCmd implements Command<Object>, Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteJobCmd.class);
     private static final long serialVersionUID = 1L;

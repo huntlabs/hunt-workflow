@@ -20,7 +20,7 @@ import java.util.List;
  * 
  * @author Joram Barrez
  */
-public class TableMetaData {
+class TableMetaData {
 
     protected string tableName;
 

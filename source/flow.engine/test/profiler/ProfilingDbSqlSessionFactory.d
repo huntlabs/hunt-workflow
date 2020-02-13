@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
  */
 class ProfilingDbSqlSessionFactory extends DbSqlSessionFactory {
     
-    public ProfilingDbSqlSessionFactory(boolean usePrefixId) {
+    public ProfilingDbSqlSessionFactory(bool usePrefixId) {
         super(usePrefixId);
     }
 

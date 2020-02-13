@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Tijs Rademakers
  */
-public class LockExclusiveJobCmd implements Command<Object>, Serializable {
+class LockExclusiveJobCmd implements Command<Object>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

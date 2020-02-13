@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
 /**
  * @author Joram Barrez
  */
-public class AsyncHistoryJobZippedHandler extends AsyncHistoryJobHandler {
+class AsyncHistoryJobZippedHandler extends AsyncHistoryJobHandler {
 
     public AsyncHistoryJobZippedHandler(string jobType) {
         super(jobType);

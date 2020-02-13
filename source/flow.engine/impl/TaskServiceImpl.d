@@ -119,12 +119,12 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void deleteTask(string taskId, boolean cascade) {
+    public void deleteTask(string taskId, bool cascade) {
         commandExecutor.execute(new DeleteTaskCmd(taskId, null, cascade));
     }
 
     @Override
-    public void deleteTasks(Collection<string> taskIds, boolean cascade) {
+    public void deleteTasks(Collection<string> taskIds, bool cascade) {
         commandExecutor.execute(new DeleteTaskCmd(taskIds, null, cascade));
     }
 
@@ -219,7 +219,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void complete(string taskId, Map<string, Object> variables, boolean localScope) {
+    public void complete(string taskId, Map<string, Object> variables, bool localScope) {
         commandExecutor.execute(new CompleteTaskCmd(taskId, variables, localScope));
     }
 
@@ -237,7 +237,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
 
     @Override
     public void completeTaskWithForm(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, boolean localScope) {
+            Map<string, Object> variables, bool localScope) {
 
         commandExecutor.execute(new CompleteTaskWithFormCmd(taskId, formDefinitionId, outcome, variables, localScope));
     }
@@ -248,7 +248,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
     
     @Override
-    public FormInfo getTaskFormModel(string taskId, boolean ignoreVariables) {
+    public FormInfo getTaskFormModel(string taskId, bool ignoreVariables) {
         return commandExecutor.execute(new GetTaskFormModelCmd(taskId, ignoreVariables));
     }
 
@@ -323,7 +323,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public boolean hasVariable(string taskId, string variableName) {
+    public bool hasVariable(string taskId, string variableName) {
         return commandExecutor.execute(new HasTaskVariableCmd(taskId, variableName, false));
     }
 
@@ -343,7 +343,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public boolean hasVariableLocal(string taskId, string variableName) {
+    public bool hasVariableLocal(string taskId, string variableName) {
         return commandExecutor.execute(new HasTaskVariableCmd(taskId, variableName, true));
     }
 
@@ -549,7 +549,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string taskId, string locale, boolean withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjects(string taskId, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, null, locale, withLocalizationFallback));
     }
 
@@ -559,7 +559,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames, string locale, boolean withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, dataObjectNames, locale, withLocalizationFallback));
     }
 
@@ -569,7 +569,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public DataObject getDataObject(string taskId, string dataObjectName, string locale, boolean withLocalizationFallback) {
+    public DataObject getDataObject(string taskId, string dataObjectName, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetTaskDataObjectCmd(taskId, dataObjectName, locale, withLocalizationFallback));
     }
 

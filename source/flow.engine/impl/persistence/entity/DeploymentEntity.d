@@ -46,9 +46,9 @@ interface DeploymentEntity extends Deployment, Entity {
     void setDeploymentTime(Date deploymentTime);
 
     @Override
-    boolean isNew();
+    bool isNew();
 
-    void setNew(boolean isNew);
+    void setNew(bool isNew);
     
     void setDerivedFrom(string derivedFrom);
 

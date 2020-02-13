@@ -38,7 +38,7 @@ class FormPropertiesSubmittedHistoryJsonTransformer extends AbstractHistoryJsonT
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
         if (StringUtils.isNotEmpty(activityId)) {
             HistoricActivityInstance historicActivityInstance = findHistoricActivityInstance(commandContext,

@@ -79,7 +79,7 @@ abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
         applyFieldDeclaration(fieldDeclarations, target, true);
     }
 
-    public static void applyFieldDeclaration(List<FieldDeclaration> fieldDeclarations, Object target, boolean throwExceptionOnMissingField) {
+    public static void applyFieldDeclaration(List<FieldDeclaration> fieldDeclarations, Object target, bool throwExceptionOnMissingField) {
         if (fieldDeclarations != null) {
             for (FieldDeclaration declaration : fieldDeclarations) {
                 applyFieldDeclaration(declaration, target, throwExceptionOnMissingField);
@@ -91,7 +91,7 @@ abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
         applyFieldDeclaration(declaration, target, true);
     }
 
-    public static void applyFieldDeclaration(FieldDeclaration declaration, Object target, boolean throwExceptionOnMissingField) {
+    public static void applyFieldDeclaration(FieldDeclaration declaration, Object target, bool throwExceptionOnMissingField) {
         ReflectUtil.invokeSetterOrField(target, declaration.getName(), declaration.getValue(), throwExceptionOnMissingField);
     }
 

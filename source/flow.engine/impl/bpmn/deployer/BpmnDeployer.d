@@ -65,7 +65,7 @@ class BpmnDeployer implements EngineDeployer {
     protected BpmnDeploymentHelper bpmnDeploymentHelper;
     protected CachingAndArtifactsManager cachingAndArtifactsManager;
     protected ProcessDefinitionDiagramHelper processDefinitionDiagramHelper;
-    protected boolean usePrefixId;
+    protected bool usePrefixId;
 
     @Override
     public void deploy(EngineDeployment deployment, Map<string, Object> deploymentSettings) {
@@ -353,7 +353,7 @@ class BpmnDeployer implements EngineDeployer {
         DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
         ObjectNode infoNode = dynamicBpmnService.getProcessDefinitionInfo(processDefinitionId);
 
-        boolean localizationValuesChanged = false;
+        bool localizationValuesChanged = false;
         List<ExtensionElement> localizationElements = process.getExtensionElements().get("localization");
         if (localizationElements != null) {
             for (ExtensionElement localizationElement : localizationElements) {
@@ -385,8 +385,8 @@ class BpmnDeployer implements EngineDeployer {
             }
         }
 
-        boolean isFlowElementLocalizationChanged = localizeFlowElements(process.getFlowElements(), infoNode);
-        boolean isDataObjectLocalizationChanged = localizeDataObjectElements(process.getDataObjects(), infoNode);
+        bool isFlowElementLocalizationChanged = localizeFlowElements(process.getFlowElements(), infoNode);
+        bool isDataObjectLocalizationChanged = localizeDataObjectElements(process.getDataObjects(), infoNode);
         if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
             localizationValuesChanged = true;
         }
@@ -396,8 +396,8 @@ class BpmnDeployer implements EngineDeployer {
         }
     }
 
-    protected boolean localizeFlowElements(Collection<FlowElement> flowElements, ObjectNode infoNode) {
-        boolean localizationValuesChanged = false;
+    protected bool localizeFlowElements(Collection<FlowElement> flowElements, ObjectNode infoNode) {
+        bool localizationValuesChanged = false;
 
         if (flowElements == null)
             return localizationValuesChanged;
@@ -440,8 +440,8 @@ class BpmnDeployer implements EngineDeployer {
 
                 if (flowElement instanceof SubProcess) {
                     SubProcess subprocess = (SubProcess) flowElement;
-                    boolean isFlowElementLocalizationChanged = localizeFlowElements(subprocess.getFlowElements(), infoNode);
-                    boolean isDataObjectLocalizationChanged = localizeDataObjectElements(subprocess.getDataObjects(), infoNode);
+                    bool isFlowElementLocalizationChanged = localizeFlowElements(subprocess.getFlowElements(), infoNode);
+                    bool isDataObjectLocalizationChanged = localizeDataObjectElements(subprocess.getDataObjects(), infoNode);
                     if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
                         localizationValuesChanged = true;
                     }
@@ -452,8 +452,8 @@ class BpmnDeployer implements EngineDeployer {
         return localizationValuesChanged;
     }
 
-    protected boolean isEqualToCurrentLocalizationValue(string language, string id, string propertyName, string propertyValue, ObjectNode infoNode) {
-        boolean isEqual = false;
+    protected bool isEqualToCurrentLocalizationValue(string language, string id, string propertyName, string propertyValue, ObjectNode infoNode) {
+        bool isEqual = false;
         JsonNode localizationNode = infoNode.path("localization").path(language).path(id).path(propertyName);
         if (!localizationNode.isMissingNode() && !localizationNode.isNull() && localizationNode.asText().equals(propertyValue)) {
             isEqual = true;
@@ -461,8 +461,8 @@ class BpmnDeployer implements EngineDeployer {
         return isEqual;
     }
 
-    protected boolean localizeDataObjectElements(List<ValuedDataObject> dataObjects, ObjectNode infoNode) {
-        boolean localizationValuesChanged = false;
+    protected bool localizeDataObjectElements(List<ValuedDataObject> dataObjects, ObjectNode infoNode) {
+        bool localizationValuesChanged = false;
         CommandContext commandContext = Context.getCommandContext();
         DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
 
@@ -544,11 +544,11 @@ class BpmnDeployer implements EngineDeployer {
         this.processDefinitionDiagramHelper = processDefinitionDiagramHelper;
     }
 
-    public boolean isUsePrefixId() {
+    public bool isUsePrefixId() {
         return usePrefixId;
     }
 
-    public void setUsePrefixId(boolean usePrefixId) {
+    public void setUsePrefixId(bool usePrefixId) {
         this.usePrefixId = usePrefixId;
     }
 }

@@ -23,7 +23,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-public class ResetExpiredJobsCmd implements Command<Void> {
+class ResetExpiredJobsCmd implements Command<Void> {
 
     protected Collection<string> jobIds;
     protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;

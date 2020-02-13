@@ -12,7 +12,7 @@
  */
 
 
-public class FlowableForbiddenException extends FlowableException {
+class FlowableForbiddenException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
 

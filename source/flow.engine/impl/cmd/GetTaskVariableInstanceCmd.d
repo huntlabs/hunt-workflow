@@ -29,9 +29,9 @@ class GetTaskVariableInstanceCmd implements Command<VariableInstance>, Serializa
     private static final long serialVersionUID = 1L;
     protected string taskId;
     protected string variableName;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public GetTaskVariableInstanceCmd(string taskId, string variableName, boolean isLocal) {
+    public GetTaskVariableInstanceCmd(string taskId, string variableName, bool isLocal) {
         this.taskId = taskId;
         this.variableName = variableName;
         this.isLocal = isLocal;

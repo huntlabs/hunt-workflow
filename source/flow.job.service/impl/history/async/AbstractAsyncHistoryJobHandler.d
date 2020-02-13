@@ -28,7 +28,7 @@ public abstract class AbstractAsyncHistoryJobHandler implements HistoryJobHandle
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     
-    protected boolean isAsyncHistoryJsonGroupingEnabled;
+    protected bool isAsyncHistoryJsonGroupingEnabled;
     protected string jobType;
     
     public AbstractAsyncHistoryJobHandler(string jobType) {
@@ -79,11 +79,11 @@ public abstract class AbstractAsyncHistoryJobHandler implements HistoryJobHandle
 
     protected abstract void processHistoryJson(CommandContext commandContext, HistoryJobEntity job, JsonNode historyNode);
 
-    public boolean isAsyncHistoryJsonGroupingEnabled() {
+    public bool isAsyncHistoryJsonGroupingEnabled() {
         return isAsyncHistoryJsonGroupingEnabled;
     }
 
-    public void setAsyncHistoryJsonGroupingEnabled(boolean isAsyncHistoryJsonGroupingEnabled) {
+    public void setAsyncHistoryJsonGroupingEnabled(bool isAsyncHistoryJsonGroupingEnabled) {
         this.isAsyncHistoryJsonGroupingEnabled = isAsyncHistoryJsonGroupingEnabled;
     }
     

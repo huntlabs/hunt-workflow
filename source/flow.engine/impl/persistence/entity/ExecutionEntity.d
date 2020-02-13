@@ -98,7 +98,7 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
 
     void setParentId(string parentId);
 
-    void setEnded(boolean isEnded);
+    void setEnded(bool isEnded);
 
     string getDeleteReason();
 
@@ -108,9 +108,9 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
 
     void setSuspensionState(int suspensionState);
 
-    boolean isEventScope();
+    bool isEventScope();
 
-    void setEventScope(boolean isEventScope);
+    void setEventScope(bool isEventScope);
 
     void setName(string name);
 
@@ -140,7 +140,7 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
     
     void setCallbackType(string callbackType);
     
-    void setVariable(string variableName, Object value, ExecutionEntity sourceExecution, boolean fetchAllVariables);
+    void setVariable(string variableName, Object value, ExecutionEntity sourceExecution, bool fetchAllVariables);
 
     void setReferenceId(string referenceId);
 
@@ -148,7 +148,7 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
 
     void setPropagatedStageInstanceId(string propagatedStageInstanceId);
     
-    Object setVariableLocal(string variableName, Object value, ExecutionEntity sourceExecution, boolean fetchAllVariables);
+    Object setVariableLocal(string variableName, Object value, ExecutionEntity sourceExecution, bool fetchAllVariables);
 
     FlowElement getOriginatingCurrentFlowElement();
     

@@ -53,7 +53,7 @@ class UserTaskPropertiesParser extends BasePropertiesParser {
     }
 
     @Override
-    public boolean supports(FlowElement flowElement) {
+    public bool supports(FlowElement flowElement) {
         return flowElement instanceof UserTask;
     }
 }

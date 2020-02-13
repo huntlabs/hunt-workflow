@@ -19,7 +19,7 @@ import org.flowable.job.service.impl.asyncexecutor.ResetExpiredJobsRunnable;
 /**
  * @author Joram Barrez
  */
-public class TenantAwareResetExpiredJobsRunnable extends ResetExpiredJobsRunnable {
+class TenantAwareResetExpiredJobsRunnable extends ResetExpiredJobsRunnable {
 
     protected TenantInfoHolder tenantInfoHolder;
     protected string tenantId;

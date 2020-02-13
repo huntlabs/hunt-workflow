@@ -33,7 +33,7 @@ class ProcessInstanceDeleteHistoryJsonTransformer extends AbstractProcessInstanc
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string id = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         HistoricProcessInstanceEntityManager historicProcessInstanceEntityManager = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext);
         return historicProcessInstanceEntityManager.findById(id) != null;

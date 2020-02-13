@@ -59,11 +59,11 @@ class ContinueProcessOperation extends AbstractOperation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContinueProcessOperation.class);
 
-    protected boolean forceSynchronousOperation;
-    protected boolean inCompensation;
+    protected bool forceSynchronousOperation;
+    protected bool inCompensation;
 
     public ContinueProcessOperation(CommandContext commandContext, ExecutionEntity execution,
-            boolean forceSynchronousOperation, boolean inCompensation) {
+            bool forceSynchronousOperation, bool inCompensation) {
 
         super(commandContext, execution);
         this.forceSynchronousOperation = forceSynchronousOperation;
@@ -233,7 +233,7 @@ class ContinueProcessOperation extends AbstractOperation {
         }
     }
     
-    protected boolean hasMultiInstanceRootExecution(ExecutionEntity execution, FlowNode flowNode) {
+    protected bool hasMultiInstanceRootExecution(ExecutionEntity execution, FlowNode flowNode) {
         ExecutionEntity currentExecution = execution.getParent();
         while (currentExecution != null) {
             if (currentExecution.isMultiInstanceRoot() && flowNode.getId().equals(currentExecution.getActivityId())) {

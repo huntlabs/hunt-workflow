@@ -25,7 +25,7 @@ import org.flowable.job.service.impl.persistence.entity.data.SuspendedJobDataMan
 /**
  * @author Tijs Rademakers
  */
-public class SuspendedJobEntityManagerImpl
+class SuspendedJobEntityManagerImpl
     extends AbstractJobServiceEngineEntityManager<SuspendedJobEntity, SuspendedJobDataManager>
     implements SuspendedJobEntityManager {
 
@@ -59,7 +59,7 @@ public class SuspendedJobEntityManagerImpl
     }
 
     @Override
-    public void insert(SuspendedJobEntity jobEntity, boolean fireCreateEvent) {
+    public void insert(SuspendedJobEntity jobEntity, bool fireCreateEvent) {
         if (serviceConfiguration.getInternalJobManager() != null) {
             serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
         }

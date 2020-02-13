@@ -29,13 +29,13 @@ class LogMDC {
     public static final string LOG_MDC_BUSINESS_KEY = "mdcBusinessKey";
     public static final string LOG_MDC_TASK_ID = "mdcTaskId";
 
-    static boolean enabled;
+    static bool enabled;
 
-    public static boolean isMDCEnabled() {
+    public static bool isMDCEnabled() {
         return enabled;
     }
 
-    public static void setMDCEnabled(boolean b) {
+    public static void setMDCEnabled(bool b) {
         enabled = b;
     }
 

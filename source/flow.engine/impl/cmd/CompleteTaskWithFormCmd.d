@@ -37,7 +37,7 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
     protected string outcome;
     protected Map<string, Object> variables;
     protected Map<string, Object> transientVariables;
-    protected boolean localScope;
+    protected bool localScope;
 
     public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome, Map<string, Object> variables) {
         super(taskId);
@@ -47,7 +47,7 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
     }
 
     public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, boolean localScope) {
+            Map<string, Object> variables, bool localScope) {
 
         this(taskId, formDefinitionId, outcome, variables);
         this.localScope = localScope;
@@ -101,7 +101,7 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
         return null;
     }
 
-    protected boolean isFormFieldValidationEnabled(TaskEntity task, ProcessEngineConfigurationImpl processEngineConfiguration, string processDefinitionId,
+    protected bool isFormFieldValidationEnabled(TaskEntity task, ProcessEngineConfigurationImpl processEngineConfiguration, string processDefinitionId,
         string taskDefinitionKey) {
         if (processEngineConfiguration.isFormFieldValidationEnabled()) {
             UserTask userTask = (UserTask) ProcessDefinitionUtil.getBpmnModel(processDefinitionId).getFlowElement(taskDefinitionKey);

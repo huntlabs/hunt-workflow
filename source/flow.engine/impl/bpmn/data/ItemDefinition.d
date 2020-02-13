@@ -23,7 +23,7 @@ class ItemDefinition {
 
     protected StructureDefinition structure;
 
-    protected boolean isCollection;
+    protected bool isCollection;
 
     protected ItemKind itemKind;
 
@@ -46,11 +46,11 @@ class ItemDefinition {
         return this.structure;
     }
 
-    public boolean isCollection() {
+    public bool isCollection() {
         return isCollection;
     }
 
-    public void setCollection(boolean isCollection) {
+    public void setCollection(bool isCollection) {
         this.isCollection = isCollection;
     }
 

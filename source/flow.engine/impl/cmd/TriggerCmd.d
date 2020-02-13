@@ -33,14 +33,14 @@ class TriggerCmd extends NeedsActiveExecutionCmd<Object> {
 
     protected Map<string, Object> processVariables;
     protected Map<string, Object> transientVariables;
-    protected boolean async;
+    protected bool async;
 
     public TriggerCmd(string executionId, Map<string, Object> processVariables) {
         super(executionId);
         this.processVariables = processVariables;
     }
 
-    public TriggerCmd(string executionId, Map<string, Object> processVariables, boolean async) {
+    public TriggerCmd(string executionId, Map<string, Object> processVariables, bool async) {
         super(executionId);
         this.processVariables = processVariables;
         this.async = async;

@@ -21,7 +21,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 class SubProcessInstanceExecutionBySuperExecutionIdMatcher implements SingleCachedEntityMatcher<ExecutionEntity> {
 
     @Override
-    public boolean isRetained(ExecutionEntity executionEntity, Object parameter) {
+    public bool isRetained(ExecutionEntity executionEntity, Object parameter) {
         return executionEntity.getSuperExecutionId() != null
                 && ((string) parameter).equals(executionEntity.getSuperExecutionId());
     }

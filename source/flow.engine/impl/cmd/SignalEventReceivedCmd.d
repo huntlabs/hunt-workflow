@@ -41,7 +41,7 @@ class SignalEventReceivedCmd implements Command<Void> {
     protected final string eventName;
     protected final string executionId;
     protected final Map<string, Object> payload;
-    protected final boolean async;
+    protected final bool async;
     protected string tenantId;
 
     public SignalEventReceivedCmd(string eventName, string executionId, Map<string, Object> processVariables, string tenantId) {
@@ -57,7 +57,7 @@ class SignalEventReceivedCmd implements Command<Void> {
         this.tenantId = tenantId;
     }
 
-    public SignalEventReceivedCmd(string eventName, string executionId, boolean async, string tenantId) {
+    public SignalEventReceivedCmd(string eventName, string executionId, bool async, string tenantId) {
         this.eventName = eventName;
         this.executionId = executionId;
         this.async = async;

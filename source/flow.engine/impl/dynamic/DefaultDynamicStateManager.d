@@ -60,7 +60,7 @@ class DefaultDynamicStateManager extends AbstractDynamicStateManager implements 
     }
 
     @Override
-    protected boolean isDirectFlowElementExecutionMigration(FlowElement currentFlowElement, FlowElement newFlowElement) {
+    protected bool isDirectFlowElementExecutionMigration(FlowElement currentFlowElement, FlowElement newFlowElement) {
         return false;
     }
 

@@ -26,10 +26,10 @@ import org.flowable.job.service.impl.JobQueryImpl;
 interface JobEntityManager extends EntityManager<JobEntity>, JobInfoEntityManager<JobEntity> {
 
     /**
-     * Insert the {@link JobEntity}, similar to {@link #insert(JobEntity)}, but returns a boolean in case the insert did not go through. This could happen if the execution related to the
+     * Insert the {@link JobEntity}, similar to {@link #insert(JobEntity)}, but returns a bool in case the insert did not go through. This could happen if the execution related to the
      * {@link JobEntity} has been removed.
      */
-    boolean insertJobEntity(JobEntity jobEntity);
+    bool insertJobEntity(JobEntity jobEntity);
 
     /**
      * Executes a {@link JobQueryImpl} and returns the matching {@link JobEntity} instances.

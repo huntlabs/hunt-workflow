@@ -199,8 +199,8 @@ class ProcessDiagramLayoutFactory {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        Map<Integer, Boolean> rowIsWhite = new TreeMap<>();
-        Map<Integer, Boolean> columnIsWhite = new TreeMap<>();
+        Map<Integer, bool> rowIsWhite = new TreeMap<>();
+        Map<Integer, bool> columnIsWhite = new TreeMap<>();
 
         for (int row = 0; row < height; row++) {
             if (!rowIsWhite.containsKey(row)) {
@@ -353,7 +353,7 @@ class ProcessDiagramLayoutFactory {
         }
     }
 
-    protected boolean isExportedFromAdonis50(Document bpmnModel) {
+    protected bool isExportedFromAdonis50(Document bpmnModel) {
         return "ADONIS".equals(bpmnModel.getDocumentElement().getAttribute("exporter")) && "5.0".equals(bpmnModel.getDocumentElement().getAttribute("exporterVersion"));
     }
 

@@ -30,7 +30,7 @@ class ByteArrayRef implements Serializable {
     private string id;
     private string name;
     private ByteArrayEntity entity;
-    protected boolean deleted;
+    protected bool deleted;
 
     public ByteArrayRef() {
     }
@@ -101,7 +101,7 @@ class ByteArrayRef implements Serializable {
         }
     }
 
-    public boolean isDeleted() {
+    public bool isDeleted() {
         return deleted;
     }
     

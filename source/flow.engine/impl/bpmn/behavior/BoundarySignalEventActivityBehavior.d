@@ -43,7 +43,7 @@ class BoundarySignalEventActivityBehavior extends BoundaryEventActivityBehavior 
     protected SignalEventDefinition signalEventDefinition;
     protected Signal signal;
 
-    public BoundarySignalEventActivityBehavior(SignalEventDefinition signalEventDefinition, Signal signal, boolean interrupting) {
+    public BoundarySignalEventActivityBehavior(SignalEventDefinition signalEventDefinition, Signal signal, bool interrupting) {
         super(interrupting);
         this.signalEventDefinition = signalEventDefinition;
         this.signal = signal;

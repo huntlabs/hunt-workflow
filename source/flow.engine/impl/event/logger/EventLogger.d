@@ -193,7 +193,7 @@ class EventLogger extends AbstractFlowableEventListener {
     }
 
     @Override
-    public boolean isFailOnException() {
+    public bool isFailOnException() {
         return false;
     }
 

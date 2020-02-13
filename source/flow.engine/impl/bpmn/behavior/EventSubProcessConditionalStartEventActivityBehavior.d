@@ -44,7 +44,7 @@ class EventSubProcessConditionalStartEventActivityBehavior extends FlowNodeActiv
         
         Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
-        if (result != null && result instanceof Boolean && (Boolean) result) {
+        if (result != null && result instanceof bool && (bool) result) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart((ExecutionEntity) execution);
             super.trigger(execution, signalName, signalData);
         }

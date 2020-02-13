@@ -20,5 +20,5 @@ import flow.common.api.delegate.event.FlowableEvent;
  * @author Robert Hafner
  */
 interface FlowableMultiInstanceActivityEvent extends FlowableActivityEvent {
-    public boolean isSequential();
+    public bool isSequential();
 }

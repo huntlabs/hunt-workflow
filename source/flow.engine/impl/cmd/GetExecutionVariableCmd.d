@@ -33,9 +33,9 @@ class GetExecutionVariableCmd implements Command<Object>, Serializable {
     private static final long serialVersionUID = 1L;
     protected string executionId;
     protected string variableName;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public GetExecutionVariableCmd(string executionId, string variableName, boolean isLocal) {
+    public GetExecutionVariableCmd(string executionId, string variableName, bool isLocal) {
         this.executionId = executionId;
         this.variableName = variableName;
         this.isLocal = isLocal;

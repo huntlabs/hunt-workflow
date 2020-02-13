@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Joram Barrez
  */
-public class ResetExpiredJobsRunnable implements Runnable {
+class ResetExpiredJobsRunnable implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResetExpiredJobsRunnable.class);
 
@@ -41,7 +41,7 @@ public class ResetExpiredJobsRunnable implements Runnable {
     protected final AsyncExecutor asyncExecutor;
     protected final JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
 
-    protected volatile boolean isInterrupted;
+    protected volatile bool isInterrupted;
     protected final Object MONITOR = new Object();
     protected final AtomicBoolean isWaiting = new AtomicBoolean(false);
 
@@ -89,7 +89,7 @@ public class ResetExpiredJobsRunnable implements Runnable {
      */
     public void resetJobs() {
 
-        boolean hasExpiredJobs = true;
+        bool hasExpiredJobs = true;
         while (hasExpiredJobs) {
 
             try {

@@ -40,7 +40,7 @@ class ScopeUtil {
     /**
      * we create a separate execution for each compensation handler invocation.
      */
-    public static void throwCompensationEvent(List<CompensateEventSubscriptionEntity> eventSubscriptions, DelegateExecution execution, boolean async) {
+    public static void throwCompensationEvent(List<CompensateEventSubscriptionEntity> eventSubscriptions, DelegateExecution execution, bool async) {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
 

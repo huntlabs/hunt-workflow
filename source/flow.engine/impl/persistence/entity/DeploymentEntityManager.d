@@ -34,6 +34,6 @@ interface DeploymentEntityManager extends EntityManager<DeploymentEntity> {
 
     long findDeploymentCountByQueryCriteria(DeploymentQueryImpl deploymentQuery);
 
-    void deleteDeployment(string deploymentId, boolean cascade);
+    void deleteDeployment(string deploymentId, bool cascade);
 
 }

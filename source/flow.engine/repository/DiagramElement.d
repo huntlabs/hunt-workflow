@@ -49,8 +49,8 @@ abstract class DiagramElement implements Serializable {
         return "id=" + getId();
     }
 
-    abstract boolean isNode();
+    abstract bool isNode();
 
-    abstract boolean isEdge();
+    abstract bool isEdge();
 
 }

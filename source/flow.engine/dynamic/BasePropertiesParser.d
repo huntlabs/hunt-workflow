@@ -67,5 +67,5 @@ abstract class BasePropertiesParser implements PropertiesParser, DynamicBpmnCons
     protected abstract ObjectNode createPropertiesNode(FlowElement flowElement, ObjectNode flowElementNode, ObjectMapper objectMapper);
 
     @Override
-    abstract boolean supports(FlowElement flowElement);
+    abstract bool supports(FlowElement flowElement);
 }

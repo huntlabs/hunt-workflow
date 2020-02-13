@@ -92,13 +92,13 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     // state/type of execution //////////////////////////////////////////////////
 
-    protected boolean isActive = true;
-    protected boolean isScope = true;
-    protected boolean isConcurrent;
-    protected boolean isEnded;
-    protected boolean isEventScope;
-    protected boolean isMultiInstanceRoot;
-    protected boolean isCountEnabled;
+    protected bool isActive = true;
+    protected bool isScope = true;
+    protected bool isConcurrent;
+    protected bool isEnded;
+    protected bool isEventScope;
+    protected bool isMultiInstanceRoot;
+    protected bool isCountEnabled;
 
     // events ///////////////////////////////////////////////////////////////////
 
@@ -209,7 +209,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     protected string rootProcessInstanceId;
     protected ExecutionEntityImpl rootProcessInstance;
 
-    protected boolean forcedUpdate;
+    protected bool forcedUpdate;
 
     protected List<VariableInstanceEntity> queryVariables;
     
@@ -266,7 +266,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
         persistentState.put("rootProcessInstanceId", this.rootProcessInstanceId);
         persistentState.put("isMultiInstanceRoot", this.isMultiInstanceRoot);
         if (forcedUpdate) {
-            persistentState.put("forcedUpdate", Boolean.TRUE);
+            persistentState.put("forcedUpdate", bool.TRUE);
         }
         persistentState.put("suspensionState", this.suspensionState);
         persistentState.put("startActivityId", this.startActivityId);
@@ -451,7 +451,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     @Override
-    public boolean isProcessInstanceType() {
+    public bool isProcessInstanceType() {
         return parentId == null;
     }
 
@@ -571,12 +571,12 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     // scopes ///////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isScope() {
+    public bool isScope() {
         return isScope;
     }
 
     @Override
-    public void setScope(boolean isScope) {
+    public void setScope(bool isScope) {
         this.isScope = isScope;
     }
 
@@ -615,12 +615,12 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
     
     @Override
-    public void setVariable(string variableName, Object value, boolean fetchAllVariables) {
+    public void setVariable(string variableName, Object value, bool fetchAllVariables) {
         setVariable(variableName, value, this, fetchAllVariables);
     }
     
     @Override
-    public void setVariable(string variableName, Object value, ExecutionEntity sourceExecution, boolean fetchAllVariables) {
+    public void setVariable(string variableName, Object value, ExecutionEntity sourceExecution, bool fetchAllVariables) {
 
         if (fetchAllVariables) {
 
@@ -700,12 +700,12 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
     
     @Override
-    public Object setVariableLocal(string variableName, Object value, boolean fetchAllVariables) {
+    public Object setVariableLocal(string variableName, Object value, bool fetchAllVariables) {
         return setVariableLocal(variableName, value, this, fetchAllVariables);
     }
 
     @Override
-    public Object setVariableLocal(string variableName, Object value, ExecutionEntity sourceExecution, boolean fetchAllVariables) {
+    public Object setVariableLocal(string variableName, Object value, ExecutionEntity sourceExecution, bool fetchAllVariables) {
         if (fetchAllVariables) {
 
             // If it's in the cache, it's more recent
@@ -813,7 +813,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
     
     @Override
-    protected boolean isPropagateToHistoricVariable() {
+    protected bool isPropagateToHistoricVariable() {
         return false;
     }
 
@@ -938,22 +938,22 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     @Override
-    public boolean isConcurrent() {
+    public bool isConcurrent() {
         return isConcurrent;
     }
 
     @Override
-    public void setConcurrent(boolean isConcurrent) {
+    public void setConcurrent(bool isConcurrent) {
         this.isConcurrent = isConcurrent;
     }
 
     @Override
-    public boolean isActive() {
+    public bool isActive() {
         return isActive;
     }
 
     @Override
-    public void setActive(boolean isActive) {
+    public void setActive(bool isActive) {
         this.isActive = isActive;
     }
 
@@ -963,12 +963,12 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     @Override
-    public boolean isEnded() {
+    public bool isEnded() {
         return isEnded;
     }
 
     @Override
-    public void setEnded(boolean isEnded) {
+    public void setEnded(bool isEnded) {
         this.isEnded = isEnded;
     }
 
@@ -1003,37 +1003,37 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     @Override
-    public boolean isSuspended() {
+    public bool isSuspended() {
         return suspensionState == SuspensionState.SUSPENDED.getStateCode();
     }
 
     @Override
-    public boolean isEventScope() {
+    public bool isEventScope() {
         return isEventScope;
     }
 
     @Override
-    public void setEventScope(boolean isEventScope) {
+    public void setEventScope(bool isEventScope) {
         this.isEventScope = isEventScope;
     }
 
     @Override
-    public boolean isMultiInstanceRoot() {
+    public bool isMultiInstanceRoot() {
         return isMultiInstanceRoot;
     }
 
     @Override
-    public void setMultiInstanceRoot(boolean isMultiInstanceRoot) {
+    public void setMultiInstanceRoot(bool isMultiInstanceRoot) {
         this.isMultiInstanceRoot = isMultiInstanceRoot;
     }
 
     @Override
-    public boolean isCountEnabled() {
+    public bool isCountEnabled() {
         return isCountEnabled;
     }
 
     @Override
-    public void setCountEnabled(boolean isCountEnabled) {
+    public void setCountEnabled(bool isCountEnabled) {
         this.isCountEnabled = isCountEnabled;
     }
 

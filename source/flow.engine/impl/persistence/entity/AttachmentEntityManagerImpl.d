@@ -55,7 +55,7 @@ class AttachmentEntityManagerImpl
         checkHistoryEnabled();
         List<AttachmentEntity> attachments = findAttachmentsByTaskId(taskId);
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
-        boolean dispatchEvents = eventDispatcher != null && eventDispatcher.isEnabled();
+        bool dispatchEvents = eventDispatcher != null && eventDispatcher.isEnabled();
 
         string processInstanceId = null;
         string processDefinitionId = null;

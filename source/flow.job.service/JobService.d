@@ -68,7 +68,7 @@ interface JobService {
     
     void unacquireWithDecrementRetries(JobInfo job);
     
-    void createAsyncJob(JobEntity job, boolean isExclusive);
+    void createAsyncJob(JobEntity job, bool isExclusive);
     
     JobEntity createJob();
     

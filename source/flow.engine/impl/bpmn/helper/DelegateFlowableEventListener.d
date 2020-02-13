@@ -30,7 +30,7 @@ class DelegateFlowableEventListener extends BaseDelegateEventListener {
 
     protected string className;
     protected FlowableEventListener delegateInstance;
-    protected boolean failOnException;
+    protected bool failOnException;
 
     public DelegateFlowableEventListener(string className, Class<?> entityClass) {
         this.className = className;
@@ -45,7 +45,7 @@ class DelegateFlowableEventListener extends BaseDelegateEventListener {
     }
 
     @Override
-    public boolean isFailOnException() {
+    public bool isFailOnException() {
         if (delegateInstance != null) {
             return delegateInstance.isFailOnException();
         }

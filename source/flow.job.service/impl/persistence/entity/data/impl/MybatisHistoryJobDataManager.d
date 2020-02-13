@@ -30,7 +30,7 @@ import org.flowable.job.service.impl.persistence.entity.data.HistoryJobDataManag
 /**
  * @author Tijs Rademakers
  */
-public class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJobEntity> implements HistoryJobDataManager {
+class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJobEntity> implements HistoryJobDataManager {
 
     protected JobServiceConfiguration jobServiceConfiguration;
     
@@ -43,7 +43,7 @@ public class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJob
     }
 
     @Override
-    public Class<? extends HistoryJobEntity> getManagedEntityClass() {
+    class<? extends HistoryJobEntity> getManagedEntityClass() {
         return HistoryJobEntityImpl.class;
     }
 

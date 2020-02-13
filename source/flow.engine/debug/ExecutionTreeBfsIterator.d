@@ -23,7 +23,7 @@ import java.util.LinkedList;
 class ExecutionTreeBfsIterator implements Iterator<ExecutionTreeNode> {
 
     protected ExecutionTreeNode rootNode;
-    protected boolean reverseOrder;
+    protected bool reverseOrder;
 
     protected LinkedList<ExecutionTreeNode> flattenedList;
     protected Iterator<ExecutionTreeNode> flattenedListIterator;
@@ -32,7 +32,7 @@ class ExecutionTreeBfsIterator implements Iterator<ExecutionTreeNode> {
         this(executionTree, false);
     }
 
-    public ExecutionTreeBfsIterator(ExecutionTreeNode rootNode, boolean reverseOrder) {
+    public ExecutionTreeBfsIterator(ExecutionTreeNode rootNode, bool reverseOrder) {
         this.rootNode = rootNode;
         this.reverseOrder = reverseOrder;
     }
@@ -60,7 +60,7 @@ class ExecutionTreeBfsIterator implements Iterator<ExecutionTreeNode> {
     }
 
     @Override
-    public boolean hasNext() {
+    public bool hasNext() {
         if (flattenedList == null) {
             flattenTree();
         }

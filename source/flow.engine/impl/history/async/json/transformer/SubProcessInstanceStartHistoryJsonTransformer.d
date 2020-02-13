@@ -39,7 +39,7 @@ class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonT
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
         HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext, 
                 getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID), activityId);

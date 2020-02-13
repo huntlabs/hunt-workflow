@@ -65,7 +65,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  * @author Tijs Rademakers
  */
-public class JobServiceConfiguration extends AbstractServiceConfiguration {
+class JobServiceConfiguration extends AbstractServiceConfiguration {
 
     public static final string JOB_EXECUTION_SCOPE_ALL = "all";
     public static final string JOB_EXECUTION_SCOPE_CMMN = "cmmn";
@@ -126,9 +126,9 @@ public class JobServiceConfiguration extends AbstractServiceConfiguration {
     protected string jobTypeAsyncHistory;
     protected string jobTypeAsyncHistoryZipped;
     
-    protected boolean asyncHistoryJsonGzipCompressionEnabled;
-    protected boolean asyncHistoryJsonGroupingEnabled;
-    protected boolean asyncHistoryExecutorMessageQueueMode;
+    protected bool asyncHistoryJsonGzipCompressionEnabled;
+    protected bool asyncHistoryJsonGroupingEnabled;
+    protected bool asyncHistoryExecutorMessageQueueMode;
     protected int asyncHistoryJsonGroupingThreshold = 10;
     
     public JobServiceConfiguration(string engineName) {
@@ -145,7 +145,7 @@ public class JobServiceConfiguration extends AbstractServiceConfiguration {
     }
 
     @Override
-    public boolean isHistoryLevelAtLeast(HistoryLevel level) {
+    public bool isHistoryLevelAtLeast(HistoryLevel level) {
         if (logger.isDebugEnabled()) {
             logger.debug("Current history level: {}, level required: {}", historyLevel, level);
         }
@@ -154,7 +154,7 @@ public class JobServiceConfiguration extends AbstractServiceConfiguration {
     }
 
     @Override
-    public boolean isHistoryEnabled() {
+    public bool isHistoryEnabled() {
         if (logger.isDebugEnabled()) {
             logger.debug("Current history level: {}", historyLevel);
         }
@@ -615,27 +615,27 @@ public class JobServiceConfiguration extends AbstractServiceConfiguration {
         this.jobTypeAsyncHistoryZipped = jobTypeAsyncHistoryZipped;
     }
 
-    public boolean isAsyncHistoryJsonGzipCompressionEnabled() {
+    public bool isAsyncHistoryJsonGzipCompressionEnabled() {
         return asyncHistoryJsonGzipCompressionEnabled;
     }
 
-    public void setAsyncHistoryJsonGzipCompressionEnabled(boolean asyncHistoryJsonGzipCompressionEnabled) {
+    public void setAsyncHistoryJsonGzipCompressionEnabled(bool asyncHistoryJsonGzipCompressionEnabled) {
         this.asyncHistoryJsonGzipCompressionEnabled = asyncHistoryJsonGzipCompressionEnabled;
     }
 
-    public boolean isAsyncHistoryJsonGroupingEnabled() {
+    public bool isAsyncHistoryJsonGroupingEnabled() {
         return asyncHistoryJsonGroupingEnabled;
     }
 
-    public void setAsyncHistoryJsonGroupingEnabled(boolean asyncHistoryJsonGroupingEnabled) {
+    public void setAsyncHistoryJsonGroupingEnabled(bool asyncHistoryJsonGroupingEnabled) {
         this.asyncHistoryJsonGroupingEnabled = asyncHistoryJsonGroupingEnabled;
     }
 
-    public boolean isAsyncHistoryExecutorMessageQueueMode() {
+    public bool isAsyncHistoryExecutorMessageQueueMode() {
         return asyncHistoryExecutorMessageQueueMode;
     }
 
-    public void setAsyncHistoryExecutorMessageQueueMode(boolean asyncHistoryExecutorMessageQueueMode) {
+    public void setAsyncHistoryExecutorMessageQueueMode(bool asyncHistoryExecutorMessageQueueMode) {
         this.asyncHistoryExecutorMessageQueueMode = asyncHistoryExecutorMessageQueueMode;
     }
 

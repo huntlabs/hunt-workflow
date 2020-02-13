@@ -29,5 +29,5 @@ interface FlowableEntityWithVariablesEvent extends FlowableEntityEvent {
     @SuppressWarnings("rawtypes")
     Map getVariables();
 
-    boolean isLocalScope();
+    bool isLocalScope();
 }

@@ -30,7 +30,7 @@ interface TableDataManager {
 
     TablePage getTablePage(TablePageQueryImpl tablePageQuery, int firstResult, int maxResults);
 
-    string getTableName(Class<?> entityClass, boolean withPrefix);
+    string getTableName(Class<?> entityClass, bool withPrefix);
 
     TableMetaData getTableMetaData(string tableName);
 

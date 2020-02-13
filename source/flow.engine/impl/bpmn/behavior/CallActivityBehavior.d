@@ -75,7 +75,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
 
     protected CallActivity callActivity;
     protected string calledElementType;
-    protected Boolean fallbackToDefaultTenant;
+    protected bool fallbackToDefaultTenant;
     protected List<MapExceptionEntry> mapExceptions;
 
     public CallActivityBehavior(CallActivity callActivity) {
@@ -310,7 +310,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
             .findDeployedProcessDefinitionById(getCalledElementValue(execution, processEngineConfiguration));
     }
 
-    protected ProcessDefinition getProcessDefinitionByKey(DelegateExecution execution, boolean isSameDeployment, ProcessEngineConfigurationImpl processEngineConfiguration) {
+    protected ProcessDefinition getProcessDefinitionByKey(DelegateExecution execution, bool isSameDeployment, ProcessEngineConfigurationImpl processEngineConfiguration) {
         string processDefinitionKey = getCalledElementValue(execution, processEngineConfiguration);
         string tenantId = execution.getTenantId();
 

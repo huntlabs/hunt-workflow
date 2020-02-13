@@ -21,7 +21,7 @@ import java.util.Map;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public class JobEntityImpl extends AbstractJobEntityImpl implements JobEntity {
+class JobEntityImpl extends AbstractJobEntityImpl implements JobEntity {
 
     private static final long serialVersionUID = 1L;
 

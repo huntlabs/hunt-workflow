@@ -40,7 +40,7 @@ class BusinessRuleTaskActivityBehavior extends TaskActivityBehavior implements B
 
     protected Set<Expression> variablesInputExpressions = new HashSet<>();
     protected Set<Expression> rulesExpressions = new HashSet<>();
-    protected boolean exclude;
+    protected bool exclude;
     protected string resultVariable;
 
     public BusinessRuleTaskActivityBehavior() {
@@ -96,7 +96,7 @@ class BusinessRuleTaskActivityBehavior extends TaskActivityBehavior implements B
     }
 
     @Override
-    public void setExclude(boolean exclude) {
+    public void setExclude(bool exclude) {
         this.exclude = exclude;
     }
 

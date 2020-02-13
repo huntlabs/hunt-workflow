@@ -30,9 +30,9 @@ class GetExecutionVariableInstanceCmd implements Command<VariableInstance>, Seri
     private static final long serialVersionUID = 1L;
     protected string executionId;
     protected string variableName;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public GetExecutionVariableInstanceCmd(string executionId, string variableName, boolean isLocal) {
+    public GetExecutionVariableInstanceCmd(string executionId, string variableName, bool isLocal) {
         this.executionId = executionId;
         this.variableName = variableName;
         this.isLocal = isLocal;

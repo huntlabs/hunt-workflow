@@ -35,7 +35,7 @@ import org.flowable.job.service.impl.persistence.entity.data.impl.cachematcher.T
  * @author Vasile Dirla
  * @author Joram Barrez
  */
-public class MybatisTimerJobDataManager extends AbstractDataManager<TimerJobEntity> implements TimerJobDataManager {
+class MybatisTimerJobDataManager extends AbstractDataManager<TimerJobEntity> implements TimerJobDataManager {
 
     protected JobServiceConfiguration jobServiceConfiguration;
     
@@ -48,7 +48,7 @@ public class MybatisTimerJobDataManager extends AbstractDataManager<TimerJobEnti
     }
     
     @Override
-    public Class<? extends TimerJobEntity> getManagedEntityClass() {
+    class<? extends TimerJobEntity> getManagedEntityClass() {
         return TimerJobEntityImpl.class;
     }
 

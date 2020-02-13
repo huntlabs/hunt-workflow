@@ -50,7 +50,7 @@ class ServiceTaskExpressionActivityBehavior extends TaskActivityBehavior {
     protected Expression skipExpression;
     protected string resultVariable;
     protected List<MapExceptionEntry> mapExceptions;
-    protected boolean useLocalScopeForResultVariable;
+    protected bool useLocalScopeForResultVariable;
 
     public ServiceTaskExpressionActivityBehavior(ServiceTask serviceTask, Expression expression, Expression skipExpression) {
 
@@ -71,7 +71,7 @@ class ServiceTaskExpressionActivityBehavior extends TaskActivityBehavior {
             if (skipExpression != null) {
                 skipExpressionText = skipExpression.getExpressionText();
             }
-            boolean isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
+            bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
             if (!isSkipExpressionEnabled || !SkipExpressionUtil.shouldSkipFlowElement(skipExpressionText, serviceTaskId, execution, commandContext)) {
 
                 if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {

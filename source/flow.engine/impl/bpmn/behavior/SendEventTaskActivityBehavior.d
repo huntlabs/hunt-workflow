@@ -75,7 +75,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
         }
         ExecutionEntity executionEntity = (ExecutionEntity) execution;
 
-        boolean sendSynchronously = sendEventServiceTask.isSendSynchronously();
+        bool sendSynchronously = sendEventServiceTask.isSendSynchronously();
         if (!sendSynchronously) {
             JobService jobService = CommandContextUtil.getJobService();
 

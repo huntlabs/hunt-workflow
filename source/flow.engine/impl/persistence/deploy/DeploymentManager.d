@@ -141,7 +141,7 @@ class DeploymentManager {
         Object appResourceObject = appResourceCache.get(deploymentId);
 
         if (appResourceObject == null) {
-            boolean appResourcePresent = false;
+            bool appResourcePresent = false;
             List<string> deploymentResourceNames = getDeploymentEntityManager().getDeploymentResourceNames(deploymentId);
             for (string deploymentResourceName : deploymentResourceNames) {
                 if (deploymentResourceName.endsWith(".app")) {
@@ -177,7 +177,7 @@ class DeploymentManager {
         return (AppModel) appResourceObject;
     }
 
-    public void removeDeployment(string deploymentId, boolean cascade) {
+    public void removeDeployment(string deploymentId, bool cascade) {
 
         DeploymentEntity deployment = deploymentEntityManager.findById(deploymentId);
         if (deployment == null) {

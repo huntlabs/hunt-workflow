@@ -49,10 +49,10 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractHistoryManager.class.getName());
 
     protected HistoryLevel historyLevel;
-    protected boolean enableProcessDefinitionHistoryLevel;
-    protected boolean usePrefixId;
+    protected bool enableProcessDefinitionHistoryLevel;
+    protected bool usePrefixId;
 
-    public AbstractHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, boolean usePrefixId) {
+    public AbstractHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, bool usePrefixId) {
         super(processEngineConfiguration);
         this.historyLevel = historyLevel;
         this.enableProcessDefinitionHistoryLevel = processEngineConfiguration.isEnableProcessDefinitionHistoryLevel();
@@ -60,12 +60,12 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     }
     
     @Override
-    public boolean isHistoryLevelAtLeast(HistoryLevel level) {
+    public bool isHistoryLevelAtLeast(HistoryLevel level) {
         return isHistoryLevelAtLeast(level, null);
     }
 
     @Override
-    public boolean isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId) {
+    public bool isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId) {
         if (enableProcessDefinitionHistoryLevel && processDefinitionId != null) {
             HistoryLevel processDefinitionLevel = getProcessDefinitionHistoryLevel(processDefinitionId);
             if (processDefinitionLevel != null) {
@@ -91,7 +91,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     }
 
     @Override
-    public boolean isHistoryEnabled() {
+    public bool isHistoryEnabled() {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Current history level: {}", historyLevel);
         }
@@ -99,7 +99,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     }
     
     @Override
-    public boolean isHistoryEnabled(string processDefinitionId) {
+    public bool isHistoryEnabled(string processDefinitionId) {
         if (enableProcessDefinitionHistoryLevel && processDefinitionId != null) {
             HistoryLevel processDefinitionLevel = getProcessDefinitionHistoryLevel(processDefinitionId);
             if (processDefinitionLevel != null) {
@@ -123,32 +123,32 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     }
 
     @Override
-    public void createIdentityLinkComment(TaskEntity taskEntity, string userId, string groupId, string type, boolean create) {
+    public void createIdentityLinkComment(TaskEntity taskEntity, string userId, string groupId, string type, bool create) {
         createIdentityLinkComment(taskEntity, userId, groupId, type, create, false);
     }
 
     @Override
-    public void createUserIdentityLinkComment(TaskEntity taskEntity, string userId, string type, boolean create) {
+    public void createUserIdentityLinkComment(TaskEntity taskEntity, string userId, string type, bool create) {
         createIdentityLinkComment(taskEntity, userId, null, type, create, false);
     }
 
     @Override
-    public void createGroupIdentityLinkComment(TaskEntity taskEntity, string groupId, string type, boolean create) {
+    public void createGroupIdentityLinkComment(TaskEntity taskEntity, string groupId, string type, bool create) {
         createIdentityLinkComment(taskEntity, null, groupId, type, create, false);
     }
 
     @Override
-    public void createUserIdentityLinkComment(TaskEntity taskEntity, string userId, string type, boolean create, boolean forceNullUserId) {
+    public void createUserIdentityLinkComment(TaskEntity taskEntity, string userId, string type, bool create, bool forceNullUserId) {
         createIdentityLinkComment(taskEntity, userId, null, type, create, forceNullUserId);
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see flow.engine.impl.history.HistoryManagerInterface# createIdentityLinkComment(java.lang.string, java.lang.string, java.lang.string, java.lang.string, boolean, boolean)
+     * @see flow.engine.impl.history.HistoryManagerInterface# createIdentityLinkComment(java.lang.string, java.lang.string, java.lang.string, java.lang.string, bool, bool)
      */
     @Override
-    public void createIdentityLinkComment(TaskEntity taskEntity, string userId, string groupId, string type, boolean create, boolean forceNullUserId) {
+    public void createIdentityLinkComment(TaskEntity taskEntity, string userId, string groupId, string type, bool create, bool forceNullUserId) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, taskEntity.getProcessDefinitionId())) {
             string authenticatedUserId = Authentication.getAuthenticatedUserId();
             CommentEntity comment = getCommentEntityManager().create();
@@ -177,12 +177,12 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     }
 
     @Override
-    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, boolean create) {
+    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create) {
         createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, type, create, false);
     }
 
     @Override
-    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, boolean create, boolean forceNullUserId) {
+    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create, bool forceNullUserId) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processInstance.getProcessDefinitionId())) {
             string authenticatedUserId = Authentication.getAuthenticatedUserId();
             CommentEntity comment = getCommentEntityManager().create();
@@ -212,10 +212,10 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     /*
      * (non-Javadoc)
      * 
-     * @see flow.engine.impl.history.HistoryManagerInterface# createAttachmentComment(java.lang.string, java.lang.string, java.lang.string, boolean)
+     * @see flow.engine.impl.history.HistoryManagerInterface# createAttachmentComment(java.lang.string, java.lang.string, java.lang.string, bool)
      */
     @Override
-    public void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, boolean create) {
+    public void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, bool create) {
         string processDefinitionId = null;
         if (processInstance != null) {
             processDefinitionId = processInstance.getProcessDefinitionId();
@@ -263,7 +263,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
     }
 
-    protected HistoricActivityInstanceEntity getHistoricActivityInstanceFromCache(string executionId, string activityId, boolean endTimeMustBeNull) {
+    protected HistoricActivityInstanceEntity getHistoricActivityInstanceFromCache(string executionId, string activityId, bool endTimeMustBeNull) {
         List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = getEntityCache().findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
             if (activityId != null
@@ -279,7 +279,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     }
 
     @Override
-    public HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, boolean endTimeMustBeNull) {
+    public HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, bool endTimeMustBeNull) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, execution.getProcessDefinitionId())) {
             string activityId = getActivityIdForExecution(execution);
             return activityId != null ? findHistoricActivityInstance(execution, activityId, endTimeMustBeNull) : null;
@@ -299,7 +299,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
         return activityId;
     }
 
-    protected HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, string activityId, boolean endTimeMustBeNull) {
+    protected HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, string activityId, bool endTimeMustBeNull) {
 
         // No use looking for the HistoricActivityInstance when no activityId is provided.
         if (activityId == null) {

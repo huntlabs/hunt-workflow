@@ -59,7 +59,7 @@ class ErrorEventDefinition implements Serializable {
         this.precedence = precedence;
     }
 
-    public boolean catches(string errorCode) {
+    public bool catches(string errorCode) {
         return errorCode == null || this.errorCode == null || this.errorCode.equals(errorCode);
     }
 

@@ -34,12 +34,12 @@ class FormData implements Map<string, Object> {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public bool containsKey(Object key) {
         return false;
     }
 
     @Override
-    public boolean containsValue(Object value) {
+    public bool containsValue(Object value) {
         return false;
     }
 
@@ -54,7 +54,7 @@ class FormData implements Map<string, Object> {
     }
 
     @Override
-    public boolean isEmpty() {
+    public bool isEmpty() {
         return false;
     }
 

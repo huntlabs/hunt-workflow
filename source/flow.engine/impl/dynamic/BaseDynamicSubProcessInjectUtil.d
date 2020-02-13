@@ -69,7 +69,7 @@ class BaseDynamicSubProcessInjectUtil {
     
     protected static void processSubProcessFlowElements(CommandContext commandContext, string prefix, Process process, BpmnModel bpmnModel,
                     SubProcess subProcess, BpmnModel subProcessBpmnModel, ProcessDefinition originalProcessDefinition, 
-                    DeploymentEntity newDeploymentEntity, Map<string, FlowElement> generatedIds, boolean includeDiInfo) {
+                    DeploymentEntity newDeploymentEntity, Map<string, FlowElement> generatedIds, bool includeDiInfo) {
         
         Collection<FlowElement> flowElementsOfSubProcess = subProcess.getFlowElementMap().values(); 
         for (FlowElement flowElement : flowElementsOfSubProcess) {
@@ -104,13 +104,13 @@ class BaseDynamicSubProcessInjectUtil {
     }
     
     protected static void generateIdForDuplicateFlowElement(string prefix, org.flowable.bpmn.model.Process process, BpmnModel bpmnModel,
-                    BpmnModel subProcessBpmnModel, FlowElement duplicateFlowElement, Map<string, FlowElement> generatedIds, boolean includeDiInfo) {
+                    BpmnModel subProcessBpmnModel, FlowElement duplicateFlowElement, Map<string, FlowElement> generatedIds, bool includeDiInfo) {
         
         string originalFlowElementId = duplicateFlowElement.getId();
         if (process.getFlowElement(originalFlowElementId, true) != null) {
             string newFlowElementId = prefix + "-" + originalFlowElementId;
             int counter = 0;
-            boolean maxLengthReached = false;
+            bool maxLengthReached = false;
             while (!maxLengthReached && process.getFlowElement(newFlowElementId, true) != null) {
                 newFlowElementId = prefix + counter++ + "-" + originalFlowElementId;
                 if (newFlowElementId.length() > 255) {

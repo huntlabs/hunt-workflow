@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Tijs Rademakers
  */
-public class MoveJobToDeadLetterJobCmd implements Command<DeadLetterJobEntity>, Serializable {
+class MoveJobToDeadLetterJobCmd implements Command<DeadLetterJobEntity>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

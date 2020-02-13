@@ -42,14 +42,14 @@ class GetTaskDataObjectCmd implements Command<DataObject>, Serializable {
     protected string taskId;
     protected string variableName;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
 
     public GetTaskDataObjectCmd(string taskId, string variableName) {
         this.taskId = taskId;
         this.variableName = variableName;
     }
 
-    public GetTaskDataObjectCmd(string taskId, string variableName, string locale, boolean withLocalizationFallback) {
+    public GetTaskDataObjectCmd(string taskId, string variableName, string locale, bool withLocalizationFallback) {
         this.taskId = taskId;
         this.variableName = variableName;
         this.locale = locale;

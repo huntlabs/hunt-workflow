@@ -31,7 +31,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  * 
  * @author Tom Baeyens
  */
-public class CancelJobsCmd implements Command<Void>, Serializable {
+class CancelJobsCmd implements Command<Void>, Serializable {
 
     private static final long serialVersionUID = 1L;
     List<string> jobIds;

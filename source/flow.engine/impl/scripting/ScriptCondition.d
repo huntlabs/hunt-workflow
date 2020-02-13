@@ -32,17 +32,17 @@ class ScriptCondition implements Condition {
     }
 
     @Override
-    public boolean evaluate(string sequenceFlowId, DelegateExecution execution) {
+    public bool evaluate(string sequenceFlowId, DelegateExecution execution) {
         ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
 
         Object result = scriptingEngines.evaluate(expression, language, execution);
         if (result == null) {
             throw new FlowableException("condition script returns null: " + expression);
         }
-        if (!(result instanceof Boolean)) {
-            throw new FlowableException("condition script returns non-Boolean: " + result + " (" + result.getClass().getName() + ")");
+        if (!(result instanceof bool)) {
+            throw new FlowableException("condition script returns non-bool: " + result + " (" + result.getClass().getName() + ")");
         }
-        return (Boolean) result;
+        return (bool) result;
     }
 
 }

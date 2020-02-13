@@ -41,7 +41,7 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public boolean isHistoryLevelAtLeast(HistoryLevel level) {
+    public bool isHistoryLevelAtLeast(HistoryLevel level) {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryLevelAtLeast(level)) {
                 return true;
@@ -52,7 +52,7 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public boolean isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId) {
+    public bool isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId) {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryLevelAtLeast(level, processDefinitionId)) {
                 return true;
@@ -63,7 +63,7 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public boolean isHistoryEnabled() {
+    public bool isHistoryEnabled() {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryEnabled()) {
                 return true;
@@ -74,7 +74,7 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public boolean isHistoryEnabled(string processDefinitionId) {
+    public bool isHistoryEnabled(string processDefinitionId) {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryEnabled(processDefinitionId)) {
                 return true;
@@ -141,7 +141,7 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, boolean validateEndTimeNull) {
+    public HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, bool validateEndTimeNull) {
         for (HistoryManager historyManager : historyManagers) {
             HistoricActivityInstanceEntity historicActivityInstance = historyManager.findHistoricActivityInstance(execution, validateEndTimeNull);
             if (historicActivityInstance != null) {
@@ -188,7 +188,7 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, boolean useActivityId,
+    public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, bool useActivityId,
         string activityInstanceId, Date createTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordHistoricDetailVariableCreate(variable, sourceActivityExecution, useActivityId, activityInstanceId, createTime);
@@ -210,57 +210,57 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, boolean create) {
+    public void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createIdentityLinkComment(task, userId, groupId, type, create);
         }
     }
 
     @Override
-    public void createUserIdentityLinkComment(TaskEntity task, string userId, string type, boolean create) {
+    public void createUserIdentityLinkComment(TaskEntity task, string userId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createUserIdentityLinkComment(task, userId, type, create);
         }
     }
 
     @Override
-    public void createGroupIdentityLinkComment(TaskEntity task, string groupId, string type, boolean create) {
+    public void createGroupIdentityLinkComment(TaskEntity task, string groupId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createGroupIdentityLinkComment(task, groupId, type, create);
         }
     }
 
     @Override
-    public void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, boolean create, boolean forceNullUserId) {
+    public void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, bool create, bool forceNullUserId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createIdentityLinkComment(task, userId, groupId, type, create, forceNullUserId);
         }
     }
 
     @Override
-    public void createUserIdentityLinkComment(TaskEntity task, string userId, string type, boolean create, boolean forceNullUserId) {
+    public void createUserIdentityLinkComment(TaskEntity task, string userId, string type, bool create, bool forceNullUserId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createUserIdentityLinkComment(task, userId, type, create, forceNullUserId);
         }
     }
 
     @Override
-    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, boolean create) {
+    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, type, create);
         }
     }
 
     @Override
-    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, boolean create,
-        boolean forceNullUserId) {
+    public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create,
+        bool forceNullUserId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, type, create, forceNullUserId);
         }
     }
 
     @Override
-    public void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, boolean create) {
+    public void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createAttachmentComment(task, processInstance, attachmentName, create);
         }

@@ -65,14 +65,14 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     protected Expression skipExpression;
     protected List<MapExceptionEntry> mapExceptions;
     protected CustomPropertiesResolver customPropertiesResolverInstance;
-    protected boolean triggerable;
+    protected bool triggerable;
 
     public ClassDelegate(string className, List<FieldDeclaration> fieldDeclarations, Expression skipExpression) {
         super(className, fieldDeclarations);
         this.skipExpression = skipExpression;
     }
 
-    public ClassDelegate(string id, string className, List<FieldDeclaration> fieldDeclarations, boolean triggerable, Expression skipExpression,
+    public ClassDelegate(string id, string className, List<FieldDeclaration> fieldDeclarations, bool triggerable, Expression skipExpression,
                          List<MapExceptionEntry> mapExceptions) {
         this(className, fieldDeclarations, skipExpression);
         this.triggerable = triggerable;

@@ -21,7 +21,7 @@ import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
 /**
  * @author Tijs Rademakers
  */
-public class AcquiredTimerJobEntities {
+class AcquiredTimerJobEntities {
 
     protected Map<string, TimerJobEntity> acquiredJobs = new HashMap<>();
 
@@ -33,7 +33,7 @@ public class AcquiredTimerJobEntities {
         return acquiredJobs.values();
     }
 
-    public boolean contains(string jobId) {
+    public bool contains(string jobId) {
         return acquiredJobs.containsKey(jobId);
     }
 

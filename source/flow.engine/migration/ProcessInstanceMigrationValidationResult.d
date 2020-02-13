@@ -32,11 +32,11 @@ class ProcessInstanceMigrationValidationResult {
         return this;
     }
 
-    public boolean hasErrors() {
+    public bool hasErrors() {
         return !validationMessages.isEmpty();
     }
 
-    public boolean isMigrationValid() {
+    public bool isMigrationValid() {
         return validationMessages.isEmpty();
     }
 

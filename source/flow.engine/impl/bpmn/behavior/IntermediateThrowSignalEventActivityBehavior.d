@@ -46,7 +46,7 @@ class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityB
     protected final SignalEventDefinition signalEventDefinition;
     protected string signalEventName;
     protected string signalExpression;
-    protected boolean processInstanceScope;
+    protected bool processInstanceScope;
 
     public IntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent, SignalEventDefinition signalEventDefinition, Signal signal) {
         if (signal != null) {

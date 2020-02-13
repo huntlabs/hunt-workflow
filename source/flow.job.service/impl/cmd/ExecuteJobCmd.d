@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-public class ExecuteJobCmd implements Command<Object>, Serializable {
+class ExecuteJobCmd implements Command<Object>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

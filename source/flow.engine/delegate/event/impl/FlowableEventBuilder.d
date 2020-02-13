@@ -100,7 +100,7 @@ class FlowableEventBuilder {
      */
     @SuppressWarnings("rawtypes")
     public static FlowableProcessStartedEvent createProcessStartedEvent(final Object entity,
-            final Map variables, final boolean localScope) {
+            final Map variables, final bool localScope) {
         final FlowableProcessStartedEventImpl newEvent = new FlowableProcessStartedEventImpl(entity, variables, localScope);
 
         // In case an execution-context is active, populate the event fields related to the execution
@@ -119,7 +119,7 @@ class FlowableEventBuilder {
      *         {@link Object} if possible.
      */
     @SuppressWarnings("rawtypes")
-    public static FlowableEntityWithVariablesEvent createEntityWithVariablesEvent(FlowableEngineEventType type, Object entity, Map variables, boolean localScope) {
+    public static FlowableEntityWithVariablesEvent createEntityWithVariablesEvent(FlowableEngineEventType type, Object entity, Map variables, bool localScope) {
         FlowableEntityWithVariablesEventImpl newEvent = new FlowableEntityWithVariablesEventImpl(entity, variables, localScope, type);
 
         // In case an execution-context is active, populate the event fields

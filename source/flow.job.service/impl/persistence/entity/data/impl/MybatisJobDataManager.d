@@ -33,7 +33,7 @@ import org.flowable.job.service.impl.persistence.entity.data.impl.cachematcher.J
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public class MybatisJobDataManager extends AbstractDataManager<JobEntity> implements JobDataManager {
+class MybatisJobDataManager extends AbstractDataManager<JobEntity> implements JobDataManager {
     
     protected JobServiceConfiguration jobServiceConfiguration;
 
@@ -48,7 +48,7 @@ public class MybatisJobDataManager extends AbstractDataManager<JobEntity> implem
     }
 
     @Override
-    public Class<? extends JobEntity> getManagedEntityClass() {
+    class<? extends JobEntity> getManagedEntityClass() {
         return JobEntityImpl.class;
     }
 

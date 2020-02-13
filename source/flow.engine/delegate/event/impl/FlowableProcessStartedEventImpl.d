@@ -29,7 +29,7 @@ class FlowableProcessStartedEventImpl extends FlowableEntityWithVariablesEventIm
 
     protected final string nestedProcessDefinitionId;
 
-    public FlowableProcessStartedEventImpl(final Object entity, final Map variables, final boolean localScope) {
+    public FlowableProcessStartedEventImpl(final Object entity, final Map variables, final bool localScope) {
         super(entity, variables, localScope, FlowableEngineEventType.PROCESS_STARTED);
         if (entity instanceof ExecutionEntity) {
             ExecutionEntity executionEntity = (ExecutionEntity) entity;

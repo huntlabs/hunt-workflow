@@ -31,9 +31,9 @@ class GetTaskVariableInstancesCmd implements Command<Map<string, VariableInstanc
     private static final long serialVersionUID = 1L;
     protected string taskId;
     protected Collection<string> variableNames;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public GetTaskVariableInstancesCmd(string taskId, Collection<string> variableNames, boolean isLocal) {
+    public GetTaskVariableInstancesCmd(string taskId, Collection<string> variableNames, bool isLocal) {
         this.taskId = taskId;
         this.variableNames = variableNames;
         this.isLocal = isLocal;

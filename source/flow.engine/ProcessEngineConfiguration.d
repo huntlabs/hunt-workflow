@@ -85,15 +85,15 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     protected string processEngineName = ProcessEngines.NAME_DEFAULT;
     protected int idBlockSize = 2500;
     protected string history = HistoryLevel.AUDIT.getKey();
-    protected boolean asyncExecutorActivate;
-    protected boolean asyncHistoryExecutorActivate;
+    protected bool asyncExecutorActivate;
+    protected bool asyncHistoryExecutorActivate;
 
     protected string mailServerHost = "localhost";
     protected string mailServerUsername; // by default no name and password are provided, which
     protected string mailServerPassword; // means no authentication for mail server
     protected int mailServerPort = 25;
-    protected boolean useSSL;
-    protected boolean useTLS;
+    protected bool useSSL;
+    protected bool useTLS;
     protected string mailServerDefaultFrom = "flowable@localhost";
     protected string mailServerForceTo;
     protected string mailSessionJndi;
@@ -104,12 +104,12 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     protected HttpClientConfig httpClientConfig = new HttpClientConfig();
 
     protected HistoryLevel historyLevel;
-    protected boolean enableProcessDefinitionHistoryLevel;
+    protected bool enableProcessDefinitionHistoryLevel;
 
     protected string jpaPersistenceUnitName;
     protected Object jpaEntityManagerFactory;
-    protected boolean jpaHandleTransaction;
-    protected boolean jpaCloseEntityManager;
+    protected bool jpaHandleTransaction;
+    protected bool jpaCloseEntityManager;
 
     protected AsyncExecutor asyncExecutor;
     protected AsyncExecutor asyncHistoryExecutor;
@@ -128,12 +128,12 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
      */
     protected ProcessDiagramGenerator processDiagramGenerator;
 
-    protected boolean isCreateDiagramOnDeploy = true;
+    protected bool isCreateDiagramOnDeploy = true;
     
     /**
      *  include the sequence flow name in case there's no Label DI, 
      */
-    protected boolean drawSequenceFlowNameWithNoLabelDI = false;
+    protected bool drawSequenceFlowNameWithNoLabelDI = false;
     
     protected string defaultCamelContext = "camelContext";
 
@@ -141,10 +141,10 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     protected string labelFontName = "Arial";
     protected string annotationFontName = "Arial";
 
-    protected boolean enableProcessDefinitionInfoCache;
+    protected bool enableProcessDefinitionInfoCache;
 
     // History Cleanup
-    protected boolean enableHistoryCleaning = false;
+    protected bool enableHistoryCleaning = false;
     protected string historyCleaningTimeCycleConfig = "0 0 1 * * ?";
     protected int cleanInstancesEndedAfterNumberOfDays = 365;
     protected HistoryCleaningManager historyCleaningManager;
@@ -285,20 +285,20 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public boolean getMailServerUseSSL() {
+    public bool getMailServerUseSSL() {
         return useSSL;
     }
 
-    public ProcessEngineConfiguration setMailServerUseSSL(boolean useSSL) {
+    public ProcessEngineConfiguration setMailServerUseSSL(bool useSSL) {
         this.useSSL = useSSL;
         return this;
     }
 
-    public boolean getMailServerUseTLS() {
+    public bool getMailServerUseTLS() {
         return useTLS;
     }
 
-    public ProcessEngineConfiguration setMailServerUseTLS(boolean useTLS) {
+    public ProcessEngineConfiguration setMailServerUseTLS(bool useTLS) {
         this.useTLS = useTLS;
         return this;
     }
@@ -398,7 +398,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     }
 
     @Override
-    public ProcessEngineConfiguration setTransactionsExternallyManaged(boolean transactionsExternallyManaged) {
+    public ProcessEngineConfiguration setTransactionsExternallyManaged(bool transactionsExternallyManaged) {
         this.transactionsExternallyManaged = transactionsExternallyManaged;
         return this;
     }
@@ -412,11 +412,11 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public boolean isEnableProcessDefinitionHistoryLevel() {
+    public bool isEnableProcessDefinitionHistoryLevel() {
         return enableProcessDefinitionHistoryLevel;
     }
 
-    public ProcessEngineConfiguration setEnableProcessDefinitionHistoryLevel(boolean enableProcessDefinitionHistoryLevel) {
+    public ProcessEngineConfiguration setEnableProcessDefinitionHistoryLevel(bool enableProcessDefinitionHistoryLevel) {
         this.enableProcessDefinitionHistoryLevel = enableProcessDefinitionHistoryLevel;
         return this;
     }
@@ -446,7 +446,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     }
 
     @Override
-    public ProcessEngineConfiguration setJdbcPingEnabled(boolean jdbcPingEnabled) {
+    public ProcessEngineConfiguration setJdbcPingEnabled(bool jdbcPingEnabled) {
         this.jdbcPingEnabled = jdbcPingEnabled;
         return this;
     }
@@ -469,20 +469,20 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public boolean isAsyncExecutorActivate() {
+    public bool isAsyncExecutorActivate() {
         return asyncExecutorActivate;
     }
 
-    public ProcessEngineConfiguration setAsyncExecutorActivate(boolean asyncExecutorActivate) {
+    public ProcessEngineConfiguration setAsyncExecutorActivate(bool asyncExecutorActivate) {
         this.asyncExecutorActivate = asyncExecutorActivate;
         return this;
     }
     
-    public boolean isAsyncHistoryExecutorActivate() {
+    public bool isAsyncHistoryExecutorActivate() {
         return asyncHistoryExecutorActivate;
     }
 
-    public ProcessEngineConfiguration setAsyncHistoryExecutorActivate(boolean asyncHistoryExecutorActivate) {
+    public ProcessEngineConfiguration setAsyncHistoryExecutorActivate(bool asyncHistoryExecutorActivate) {
         this.asyncHistoryExecutorActivate = asyncHistoryExecutorActivate;
         return this;
     }
@@ -494,7 +494,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     }
 
     @Override
-    public ProcessEngineConfiguration setUseClassForNameClassLoading(boolean useClassForNameClassLoading) {
+    public ProcessEngineConfiguration setUseClassForNameClassLoading(bool useClassForNameClassLoading) {
         this.useClassForNameClassLoading = useClassForNameClassLoading;
         return this;
     }
@@ -508,20 +508,20 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public boolean isJpaHandleTransaction() {
+    public bool isJpaHandleTransaction() {
         return jpaHandleTransaction;
     }
 
-    public ProcessEngineConfiguration setJpaHandleTransaction(boolean jpaHandleTransaction) {
+    public ProcessEngineConfiguration setJpaHandleTransaction(bool jpaHandleTransaction) {
         this.jpaHandleTransaction = jpaHandleTransaction;
         return this;
     }
 
-    public boolean isJpaCloseEntityManager() {
+    public bool isJpaCloseEntityManager() {
         return jpaCloseEntityManager;
     }
 
-    public ProcessEngineConfiguration setJpaCloseEntityManager(boolean jpaCloseEntityManager) {
+    public ProcessEngineConfiguration setJpaCloseEntityManager(bool jpaCloseEntityManager) {
         this.jpaCloseEntityManager = jpaCloseEntityManager;
         return this;
     }
@@ -550,20 +550,20 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public boolean isCreateDiagramOnDeploy() {
+    public bool isCreateDiagramOnDeploy() {
         return isCreateDiagramOnDeploy;
     }
 
-    public ProcessEngineConfiguration setCreateDiagramOnDeploy(boolean createDiagramOnDeploy) {
+    public ProcessEngineConfiguration setCreateDiagramOnDeploy(bool createDiagramOnDeploy) {
         this.isCreateDiagramOnDeploy = createDiagramOnDeploy;
         return this;
     }
     
-    public boolean isDrawSequenceFlowNameWithNoLabelDI() {
+    public bool isDrawSequenceFlowNameWithNoLabelDI() {
         return drawSequenceFlowNameWithNoLabelDI;
     }
     
-    public ProcessEngineConfiguration setDrawSequenceFlowNameWithNoLabelDI(boolean drawSequenceFlowNameWithNoLabelDI) {
+    public ProcessEngineConfiguration setDrawSequenceFlowNameWithNoLabelDI(bool drawSequenceFlowNameWithNoLabelDI) {
         this.drawSequenceFlowNameWithNoLabelDI = drawSequenceFlowNameWithNoLabelDI;
         return this;
     }
@@ -647,7 +647,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     }
 
     @Override
-    public ProcessEngineConfiguration setTablePrefixIsSchema(boolean tablePrefixIsSchema) {
+    public ProcessEngineConfiguration setTablePrefixIsSchema(bool tablePrefixIsSchema) {
         this.tablePrefixIsSchema = tablePrefixIsSchema;
         return this;
     }
@@ -736,11 +736,11 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public boolean isEnableProcessDefinitionInfoCache() {
+    public bool isEnableProcessDefinitionInfoCache() {
         return enableProcessDefinitionInfoCache;
     }
 
-    public ProcessEngineConfiguration setEnableProcessDefinitionInfoCache(boolean enableProcessDefinitionInfoCache) {
+    public ProcessEngineConfiguration setEnableProcessDefinitionInfoCache(bool enableProcessDefinitionInfoCache) {
         this.enableProcessDefinitionInfoCache = enableProcessDefinitionInfoCache;
         return this;
     }
@@ -754,11 +754,11 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     }
 
 
-    public boolean isEnableHistoryCleaning() {
+    public bool isEnableHistoryCleaning() {
         return enableHistoryCleaning;
     }
 
-    public ProcessEngineConfiguration setEnableHistoryCleaning(boolean enableHistoryCleaning) {
+    public ProcessEngineConfiguration setEnableHistoryCleaning(bool enableHistoryCleaning) {
         this.enableHistoryCleaning = enableHistoryCleaning;
         return this;
     }

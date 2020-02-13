@@ -17,7 +17,7 @@
  *
  * @author Tijs Rademakers
  */
-public class SuspendedJobEntityImpl extends AbstractJobEntityImpl implements SuspendedJobEntity {
+class SuspendedJobEntityImpl extends AbstractJobEntityImpl implements SuspendedJobEntity {
 
     private static final long serialVersionUID = 1L;
 

@@ -27,7 +27,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  * @author Frederik Heremans
  * @author Joram Barrez
  */
-public class GetJobExceptionStacktraceCmd implements Command<string>, Serializable {
+class GetJobExceptionStacktraceCmd implements Command<string>, Serializable {
 
     private static final long serialVersionUID = 1L;
     private string jobId;

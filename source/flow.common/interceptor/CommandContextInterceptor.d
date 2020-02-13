@@ -56,7 +56,7 @@ module flow.common.interceptor.CommandContextInterceptor;
 //    public <T> T execute(CommandConfig config, Command<T> command) {
 //        CommandContext commandContext = Context.getCommandContext();
 //
-//        boolean contextReused = false;
+//        bool contextReused = false;
 //        AbstractEngineConfiguration previousEngineConfiguration = null;
 //
 //        // We need to check the exception, because the transaction can be in a

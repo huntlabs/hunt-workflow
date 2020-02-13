@@ -23,7 +23,7 @@ import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 class HistoricActivityInstanceMatcher extends CachedEntityMatcherAdapter<HistoricActivityInstanceEntity> {
 
     @Override
-    public boolean isRetained(HistoricActivityInstanceEntity entity, Object parameter) {
+    public bool isRetained(HistoricActivityInstanceEntity entity, Object parameter) {
         Map<string, string> paramMap = (Map<string, string>) parameter;
         string executionId = paramMap.get("executionId");
         string activityId = paramMap.get("activityId");

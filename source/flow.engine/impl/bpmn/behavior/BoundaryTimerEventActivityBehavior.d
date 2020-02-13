@@ -32,7 +32,7 @@ class BoundaryTimerEventActivityBehavior extends BoundaryEventActivityBehavior {
 
     protected TimerEventDefinition timerEventDefinition;
 
-    public BoundaryTimerEventActivityBehavior(TimerEventDefinition timerEventDefinition, boolean interrupting) {
+    public BoundaryTimerEventActivityBehavior(TimerEventDefinition timerEventDefinition, bool interrupting) {
         super(interrupting);
         this.timerEventDefinition = timerEventDefinition;
     }

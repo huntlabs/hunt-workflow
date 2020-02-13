@@ -71,7 +71,7 @@ class PluggableFlowableExtension extends InternalFlowableExtension {
         return processEngine;
     }
 
-    protected void swapCommandInvoker(ProcessEngine processEngine, boolean debug) {
+    protected void swapCommandInvoker(ProcessEngine processEngine, bool debug) {
         CommandExecutor commandExecutor = processEngine.getProcessEngineConfiguration().getCommandExecutor();
         if (commandExecutor instanceof CommandExecutorImpl) {
             CommandExecutorImpl commandExecutorImpl = (CommandExecutorImpl) commandExecutor;
@@ -81,7 +81,7 @@ class PluggableFlowableExtension extends InternalFlowableExtension {
 
             while (commandInterceptor != null) {
 
-                boolean matches = debug ? (commandInterceptor instanceof CommandInvoker) : (commandInterceptor instanceof LoggingExecutionTreeCommandInvoker);
+                bool matches = debug ? (commandInterceptor instanceof CommandInvoker) : (commandInterceptor instanceof LoggingExecutionTreeCommandInvoker);
                 if (matches) {
 
                     CommandInterceptor commandInvoker = debug ? new LoggingExecutionTreeCommandInvoker() : new CommandInvoker();

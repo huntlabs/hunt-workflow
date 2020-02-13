@@ -24,14 +24,14 @@ import java.nio.charset.StandardCharsets;
  *
  * @author Marcus Klimstra (CGI)
  */
-public class JobByteArrayRef implements Serializable {
+class JobByteArrayRef implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private string id;
     private string name;
     private JobByteArrayEntity entity;
-    protected boolean deleted;
+    protected bool deleted;
 
     public JobByteArrayRef() {
     }
@@ -130,7 +130,7 @@ public class JobByteArrayRef implements Serializable {
         }
     }
 
-    public boolean isDeleted() {
+    public bool isDeleted() {
         return deleted;
     }
 

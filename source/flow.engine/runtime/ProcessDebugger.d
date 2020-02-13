@@ -25,6 +25,6 @@ interface ProcessDebugger {
      * @return true in the case when breakpoint was reached in the execution, false in the case when not
      * @throws RuntimeException in the case when it was not possible to decide
      */
-    boolean isBreakpoint(Execution execution);
+    bool isBreakpoint(Execution execution);
 
 }

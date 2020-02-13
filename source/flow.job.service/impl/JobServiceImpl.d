@@ -37,7 +37,7 @@ import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntityManage
 /**
  * @author Tijs Rademakers
  */
-public class JobServiceImpl extends ServiceImpl implements JobService {
+class JobServiceImpl extends ServiceImpl implements JobService {
 
     public JobServiceImpl(JobServiceConfiguration jobServiceConfiguration) {
         super(jobServiceConfiguration);
@@ -145,7 +145,7 @@ public class JobServiceImpl extends ServiceImpl implements JobService {
     }
     
     @Override
-    public void createAsyncJob(JobEntity job, boolean isExclusive) {
+    public void createAsyncJob(JobEntity job, bool isExclusive) {
         getJobManager().createAsyncJob(job, isExclusive);
     }
 

@@ -32,9 +32,9 @@ class GetExecutionVariableInstancesCmd implements Command<Map<string, VariableIn
     private static final long serialVersionUID = 1L;
     protected string executionId;
     protected Collection<string> variableNames;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public GetExecutionVariableInstancesCmd(string executionId, Collection<string> variableNames, boolean isLocal) {
+    public GetExecutionVariableInstancesCmd(string executionId, Collection<string> variableNames, bool isLocal) {
         this.executionId = executionId;
         this.variableNames = variableNames;
         this.isLocal = isLocal;

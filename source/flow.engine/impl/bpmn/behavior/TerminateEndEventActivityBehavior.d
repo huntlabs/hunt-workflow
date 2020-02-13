@@ -49,8 +49,8 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
 
     private static final long serialVersionUID = 1L;
 
-    protected boolean terminateAll;
-    protected boolean terminateMultiInstance;
+    protected bool terminateAll;
+    protected bool terminateMultiInstance;
 
     public TerminateEndEventActivityBehavior() {
 
@@ -235,7 +235,7 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
 
                 // This event should only be fired if terminate end event is part of the process definition for the process instance execution,
                 // otherwise a regular cancel event of the process instance will be fired (see above).
-                boolean fireEvent = true;
+                bool fireEvent = true;
                 if (!terminateAll) {
                     Process processForExecution = ProcessDefinitionUtil.getProcess(execution.getProcessDefinitionId());
                     Process processForTerminateEndEvent = getProcessForTerminateEndEvent(terminateEndEvent);
@@ -266,19 +266,19 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
         return DeleteReason.TERMINATE_END_EVENT + " (" + activityId + ")";
     }
 
-    public boolean isTerminateAll() {
+    public bool isTerminateAll() {
         return terminateAll;
     }
 
-    public void setTerminateAll(boolean terminateAll) {
+    public void setTerminateAll(bool terminateAll) {
         this.terminateAll = terminateAll;
     }
 
-    public boolean isTerminateMultiInstance() {
+    public bool isTerminateMultiInstance() {
         return terminateMultiInstance;
     }
 
-    public void setTerminateMultiInstance(boolean terminateMultiInstance) {
+    public void setTerminateMultiInstance(bool terminateMultiInstance) {
         this.terminateMultiInstance = terminateMultiInstance;
     }
 

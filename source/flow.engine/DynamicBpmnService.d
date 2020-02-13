@@ -100,13 +100,13 @@ interface DynamicBpmnService {
 
     void changeUserTaskOwner(string id, string owner, ObjectNode infoNode);
 
-    ObjectNode changeUserTaskCandidateUser(string id, string candidateUser, boolean overwriteOtherChangedEntries);
+    ObjectNode changeUserTaskCandidateUser(string id, string candidateUser, bool overwriteOtherChangedEntries);
 
-    void changeUserTaskCandidateUser(string id, string candidateUser, boolean overwriteOtherChangedEntries, ObjectNode infoNode);
+    void changeUserTaskCandidateUser(string id, string candidateUser, bool overwriteOtherChangedEntries, ObjectNode infoNode);
 
-    ObjectNode changeUserTaskCandidateGroup(string id, string candidateGroup, boolean overwriteOtherChangedEntries);
+    ObjectNode changeUserTaskCandidateGroup(string id, string candidateGroup, bool overwriteOtherChangedEntries);
 
-    void changeUserTaskCandidateGroup(string id, string candidateGroup, boolean overwriteOtherChangedEntries, ObjectNode infoNode);
+    void changeUserTaskCandidateGroup(string id, string candidateGroup, bool overwriteOtherChangedEntries, ObjectNode infoNode);
 
     /**
      * Creates a new processDefinitionInfo with {@link DynamicBpmnConstants#USER_TASK_CANDIDATE_USERS} for the given BPMN element.

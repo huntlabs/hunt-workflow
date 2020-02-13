@@ -28,9 +28,9 @@ class RemoveTaskVariablesCmd extends NeedsActiveTaskCmd<Void> {
     private static final long serialVersionUID = 1L;
 
     private final Collection<string> variableNames;
-    private final boolean isLocal;
+    private final bool isLocal;
 
-    public RemoveTaskVariablesCmd(string taskId, Collection<string> variableNames, boolean isLocal) {
+    public RemoveTaskVariablesCmd(string taskId, Collection<string> variableNames, bool isLocal) {
         super(taskId);
         this.variableNames = variableNames;
         this.isLocal = isLocal;

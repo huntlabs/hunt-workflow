@@ -76,7 +76,7 @@ class ProcessInstanceHelper {
 
     public ProcessInstance createProcessInstance(ProcessDefinition processDefinition, string businessKey, string processInstanceName,
                     string overrideDefinitionTenantId, string predefinedProcessInstanceId, Map<string, Object> variables, Map<string, Object> transientVariables,
-                    string callbackId, string callbackType, string referenceId, string referenceType, string stageInstanceId, boolean startProcessInstance) {
+                    string callbackId, string callbackType, string referenceId, string referenceType, string stageInstanceId, bool startProcessInstance) {
 
         CommandContext commandContext = Context.getCommandContext();
         if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
@@ -151,7 +151,7 @@ class ProcessInstanceHelper {
     
     public ProcessInstance createAndStartProcessInstanceWithInitialFlowElement(ProcessDefinition processDefinition,
             string businessKey, string processInstanceName, FlowElement initialFlowElement, Process process, Map<string, Object> variables,
-            Map<string, Object> transientVariables, boolean startProcessInstance) {
+            Map<string, Object> transientVariables, bool startProcessInstance) {
         
         return createAndStartProcessInstanceWithInitialFlowElement(processDefinition, businessKey, processInstanceName, null, null, initialFlowElement, 
                         process, variables, transientVariables, null, null, null, null, null, startProcessInstance);
@@ -163,7 +163,7 @@ class ProcessInstanceHelper {
             FlowElement initialFlowElement, Process process,
             Map<string, Object> variables, Map<string, Object> transientVariables,
             string callbackId, string callbackType, string referenceId, string referenceType,
-            string stageInstanceId, boolean startProcessInstance) {
+            string stageInstanceId, bool startProcessInstance) {
 
         CommandContext commandContext = Context.getCommandContext();
 
@@ -206,7 +206,7 @@ class ProcessInstanceHelper {
         }
 
         FlowableEventDispatcher eventDispatcher = processEngineConfiguration.getEventDispatcher();
-        boolean eventDispatcherEnabled = eventDispatcher != null && eventDispatcher.isEnabled();
+        bool eventDispatcherEnabled = eventDispatcher != null && eventDispatcher.isEnabled();
         if (eventDispatcherEnabled) {
             eventDispatcher.dispatchEvent(
                     FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_CREATED, processInstance));

@@ -19,7 +19,7 @@ import org.flowable.common.engine.api.FlowableObjectNotFoundException;
  * 
  * @author Prabhat Tripathi
  */
-public class JobNotFoundException extends FlowableObjectNotFoundException {
+class JobNotFoundException extends FlowableObjectNotFoundException {
 
     private static final long serialVersionUID = 1L;
 

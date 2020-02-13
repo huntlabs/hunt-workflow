@@ -19,7 +19,7 @@
  * 
  * @author Tom Baeyens
  */
-public class FlowableWrongDbException extends FlowableException {
+class FlowableWrongDbException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
 

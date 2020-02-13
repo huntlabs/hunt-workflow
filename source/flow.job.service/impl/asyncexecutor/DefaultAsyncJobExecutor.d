@@ -33,24 +33,24 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
+class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAsyncJobExecutor.class);
 
     /**
      * If true (default), the thread for acquiring async jobs will be started.
      */
-    protected boolean isAsyncJobAcquisitionEnabled = true;
+    protected bool isAsyncJobAcquisitionEnabled = true;
 
     /**
      * If true (default), the thread for acquiring timer jobs will be started.
      */
-    protected boolean isTimerJobAcquisitionEnabled = true;
+    protected bool isTimerJobAcquisitionEnabled = true;
 
     /**
      * If true (default), the thread for acquiring expired jobs will be started.
      */
-    protected boolean isResetExpiredJobEnabled = true;
+    protected bool isResetExpiredJobEnabled = true;
 
     /**
      * Thread responsible for async job acquisition.
@@ -91,13 +91,13 @@ public class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
     protected int queueSize = 100;
 
     /** Whether or not core threads can time out (which is needed to scale down the threads) */
-    protected boolean allowCoreThreadTimeout = true;
+    protected bool allowCoreThreadTimeout = true;
 
     /**
      * Whether to unlock jobs that are owned by this executor (have the same
      * lockOwner) at startup
      */
-    protected boolean unlockOwnedJobs;
+    protected bool unlockOwnedJobs;
 
     /** The queue used for job execution work */
     protected BlockingQueue<Runnable> threadPoolQueue;
@@ -114,7 +114,7 @@ public class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
     protected string threadPoolNamingPattern = "flowable-async-job-executor-thread-%d";
 
     @Override
-    protected boolean executeAsyncJob(final JobInfo job, Runnable runnable) {
+    protected bool executeAsyncJob(final JobInfo job, Runnable runnable) {
         try {
             executorService.execute(runnable);
             return true;
@@ -277,27 +277,27 @@ public class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
         }
     }
 
-    public boolean isAsyncJobAcquisitionEnabled() {
+    public bool isAsyncJobAcquisitionEnabled() {
         return isAsyncJobAcquisitionEnabled;
     }
 
-    public void setAsyncJobAcquisitionEnabled(boolean isAsyncJobAcquisitionEnabled) {
+    public void setAsyncJobAcquisitionEnabled(bool isAsyncJobAcquisitionEnabled) {
         this.isAsyncJobAcquisitionEnabled = isAsyncJobAcquisitionEnabled;
     }
 
-    public boolean isTimerJobAcquisitionEnabled() {
+    public bool isTimerJobAcquisitionEnabled() {
         return isTimerJobAcquisitionEnabled;
     }
 
-    public void setTimerJobAcquisitionEnabled(boolean isTimerJobAcquisitionEnabled) {
+    public void setTimerJobAcquisitionEnabled(bool isTimerJobAcquisitionEnabled) {
         this.isTimerJobAcquisitionEnabled = isTimerJobAcquisitionEnabled;
     }
 
-    public boolean isResetExpiredJobEnabled() {
+    public bool isResetExpiredJobEnabled() {
         return isResetExpiredJobEnabled;
     }
 
-    public void setResetExpiredJobEnabled(boolean isResetExpiredJobEnabled) {
+    public void setResetExpiredJobEnabled(bool isResetExpiredJobEnabled) {
         this.isResetExpiredJobEnabled = isResetExpiredJobEnabled;
     }
 
@@ -329,11 +329,11 @@ public class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
         return queueSize;
     }
 
-    public boolean isAllowCoreThreadTimeout() {
+    public bool isAllowCoreThreadTimeout() {
         return allowCoreThreadTimeout;
     }
 
-    public void setAllowCoreThreadTimeout(boolean allowCoreThreadTimeout) {
+    public void setAllowCoreThreadTimeout(bool allowCoreThreadTimeout) {
         this.allowCoreThreadTimeout = allowCoreThreadTimeout;
     }
 
@@ -383,11 +383,11 @@ public class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
         this.secondsToWaitOnShutdown = secondsToWaitOnShutdown;
     }
 
-    public boolean isUnlockOwnedJobs() {
+    public bool isUnlockOwnedJobs() {
         return unlockOwnedJobs;
     }
 
-    public void setUnlockOwnedJobs(boolean unlockOwnedJobs) {
+    public void setUnlockOwnedJobs(bool unlockOwnedJobs) {
         this.unlockOwnedJobs = unlockOwnedJobs;
     }
 

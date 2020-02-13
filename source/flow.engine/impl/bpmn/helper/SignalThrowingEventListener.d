@@ -35,7 +35,7 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEven
 class SignalThrowingEventListener extends BaseDelegateEventListener {
 
     protected string signalName;
-    protected boolean processInstanceScope = true;
+    protected bool processInstanceScope = true;
 
     @Override
     public void onEvent(FlowableEvent event) {
@@ -73,12 +73,12 @@ class SignalThrowingEventListener extends BaseDelegateEventListener {
         this.signalName = signalName;
     }
 
-    public void setProcessInstanceScope(boolean processInstanceScope) {
+    public void setProcessInstanceScope(bool processInstanceScope) {
         this.processInstanceScope = processInstanceScope;
     }
 
     @Override
-    public boolean isFailOnException() {
+    public bool isFailOnException() {
         return true;
     }
 }

@@ -42,7 +42,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class AsyncHistoryManager extends AbstractAsyncHistoryManager {
 
-    public AsyncHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, boolean usePrefixId) {
+    public AsyncHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, bool usePrefixId) {
         super(processEngineConfiguration, historyLevel, usePrefixId);
     }
 
@@ -310,7 +310,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     }
 
     @Override
-    public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, boolean useActivityId,
+    public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, bool useActivityId,
         string activityInstanceId, Date createTime) {
 
         string processDefinitionId = getProcessDefinitionId(variable, sourceActivityExecution);
@@ -519,7 +519,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
 
     /* Helper methods */
 
-    protected ObjectNode getActivityStart(string executionId, string activityId, boolean removeFromAsyncHistorySession) {
+    protected ObjectNode getActivityStart(string executionId, string activityId, bool removeFromAsyncHistorySession) {
         Map<JobServiceConfiguration, AsyncHistorySessionData> sessionData = getAsyncHistorySession().getSessionData();
         if (sessionData != null) {
             AsyncHistorySessionData asyncHistorySessionData = sessionData.get(getJobServiceConfiguration());
@@ -544,7 +544,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
         return null;
     }
 
-    protected ObjectNode getActivityStart(string runtimeActivityInstanceId, boolean removeFromAsyncHistorySession) {
+    protected ObjectNode getActivityStart(string runtimeActivityInstanceId, bool removeFromAsyncHistorySession) {
         Map<JobServiceConfiguration, AsyncHistorySessionData> sessionData = getAsyncHistorySession().getSessionData();
         if (sessionData != null) {
             AsyncHistorySessionData asyncHistorySessionData = sessionData.get(getJobServiceConfiguration());

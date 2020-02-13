@@ -50,7 +50,7 @@ class IntermediateCatchConditionalEventActivityBehavior extends IntermediateCatc
         Expression expression = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
         
-        if (result != null && result instanceof Boolean && (Boolean) result) {
+        if (result != null && result instanceof bool && (bool) result) {
             ExecutionEntity executionEntity = (ExecutionEntity) execution;
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
             if (eventDispatcher != null && eventDispatcher.isEnabled()) {

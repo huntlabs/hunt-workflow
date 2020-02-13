@@ -23,7 +23,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 class InactiveExecutionsByProcInstMatcher extends CachedEntityMatcherAdapter<ExecutionEntity> {
 
     @Override
-    public boolean isRetained(ExecutionEntity executionEntity, Object parameter) {
+    public bool isRetained(ExecutionEntity executionEntity, Object parameter) {
         Map<string, Object> paramMap = (Map<string, Object>) parameter;
         string processInstanceId = (string) paramMap.get("processInstanceId");
 

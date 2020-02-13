@@ -24,7 +24,7 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
 /**
  * @author Tijs Rademakers
  */
-class IsProcessDefinitionSuspendedCmd implements Command<Boolean>, Serializable {
+class IsProcessDefinitionSuspendedCmd implements Command<bool>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
@@ -34,7 +34,7 @@ class IsProcessDefinitionSuspendedCmd implements Command<Boolean>, Serializable 
     }
 
     @Override
-    public Boolean execute(CommandContext commandContext) {
+    public bool execute(CommandContext commandContext) {
         // Backwards compatibility
         if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processDefinitionId)) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();

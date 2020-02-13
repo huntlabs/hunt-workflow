@@ -46,7 +46,7 @@ class MockElResolver extends ELResolver {
     }
 
     @Override
-    public boolean isReadOnly(ELContext context, Object base, Object property) {
+    public bool isReadOnly(ELContext context, Object base, Object property) {
         return false;
     }
 

@@ -21,7 +21,7 @@ import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
 /**
  * @author Tijs Rademakers
  */
-public class AcquiredHistoryJobEntities {
+class AcquiredHistoryJobEntities {
 
     protected Map<string, HistoryJobEntity> acquiredJobs = new HashMap<>();
 
@@ -33,7 +33,7 @@ public class AcquiredHistoryJobEntities {
         return acquiredJobs.values();
     }
 
-    public boolean contains(string jobId) {
+    public bool contains(string jobId) {
         return acquiredJobs.containsKey(jobId);
     }
 

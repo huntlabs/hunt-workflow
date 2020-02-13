@@ -28,14 +28,14 @@ class CompleteTaskCmd extends NeedsActiveTaskCmd<Void> {
     private static final long serialVersionUID = 1L;
     protected Map<string, Object> variables;
     protected Map<string, Object> transientVariables;
-    protected boolean localScope;
+    protected bool localScope;
 
     public CompleteTaskCmd(string taskId, Map<string, Object> variables) {
         super(taskId);
         this.variables = variables;
     }
 
-    public CompleteTaskCmd(string taskId, Map<string, Object> variables, boolean localScope) {
+    public CompleteTaskCmd(string taskId, Map<string, Object> variables, bool localScope) {
         this(taskId, variables);
         this.localScope = localScope;
     }

@@ -17,7 +17,7 @@ import flow.common.db.ServiceSqlScriptBasedDbSchemaManager;
 /**
  * @author Joram Barrez 
  */
-public class JobDbSchemaManager extends ServiceSqlScriptBasedDbSchemaManager {
+class JobDbSchemaManager extends ServiceSqlScriptBasedDbSchemaManager {
     
     private static final string JOB_TABLE = "ACT_RU_JOB";
     private static final string JOB_VERSION_PROPERTY = "job.schema.version";

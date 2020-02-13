@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 class ConditionUtil {
 
-    public static boolean hasTrueCondition(SequenceFlow sequenceFlow, DelegateExecution execution) {
+    public static bool hasTrueCondition(SequenceFlow sequenceFlow, DelegateExecution execution) {
         string conditionExpression = null;
         if (CommandContextUtil.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
             ObjectNode elementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(sequenceFlow.getId(), execution.getProcessDefinitionId());

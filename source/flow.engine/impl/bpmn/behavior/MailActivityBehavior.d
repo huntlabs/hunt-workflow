@@ -78,7 +78,7 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
     @Override
     public void execute(DelegateExecution execution) {
         FlowElement flowElement = execution.getCurrentFlowElement();
-        boolean isSkipExpressionEnabled = false;
+        bool isSkipExpressionEnabled = false;
         string skipExpressionText = null;
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         if (flowElement != null && flowElement instanceof ServiceTask) {
@@ -88,7 +88,7 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
         }
         
         if (!isSkipExpressionEnabled || !SkipExpressionUtil.shouldSkipFlowElement(skipExpressionText, flowElement.getId(), execution, commandContext)) {
-            boolean doIgnoreException = Boolean.parseBoolean(getStringFromField(ignoreException, execution));
+            bool doIgnoreException = bool.parseBoolean(getStringFromField(ignoreException, execution));
             string exceptionVariable = getStringFromField(exceptionVariableName, execution);
             Email email = null;
             try {
@@ -143,11 +143,11 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
         }
     }
 
-    private boolean attachmentsExist(List<File> files, List<DataSource> dataSources) {
+    private bool attachmentsExist(List<File> files, List<DataSource> dataSources) {
         return !((files == null || files.isEmpty()) && (dataSources == null || dataSources.isEmpty()));
     }
 
-    protected Email createEmail(string text, string html, boolean attachmentsExist) {
+    protected Email createEmail(string text, string html, bool attachmentsExist) {
         if (html != null) {
             return createHtmlEmail(text, html);
         } else if (text != null) {
@@ -306,7 +306,7 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
     protected void setMailServerProperties(Email email, string tenantId) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
 
-        boolean isMailServerSet = false;
+        bool isMailServerSet = false;
         if (tenantId != null && tenantId.length() > 0) {
             if (processEngineConfiguration.getMailSessionJndi(tenantId) != null) {
                 setEmailSession(email, processEngineConfiguration.getMailSessionJndi(tenantId));
@@ -463,7 +463,7 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
         }
     }
 
-    protected boolean fileExists(File file) {
+    protected bool fileExists(File file) {
         return file != null && file.exists() && file.isFile() && file.canRead();
     }
 
@@ -472,7 +472,7 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
         return CommandContextUtil.getProcessEngineConfiguration().getExpressionManager().createExpression(variable);
     }
 
-    protected void handleException(DelegateExecution execution, string msg, Exception e, boolean doIgnoreException, string exceptionVariable) {
+    protected void handleException(DelegateExecution execution, string msg, Exception e, bool doIgnoreException, string exceptionVariable) {
         if (doIgnoreException) {
             LOGGER.info("Ignoring email send error: {}", msg, e);
             if (exceptionVariable != null && exceptionVariable.length() > 0) {

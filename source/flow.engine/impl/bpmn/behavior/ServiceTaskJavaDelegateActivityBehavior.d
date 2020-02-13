@@ -36,12 +36,12 @@ class ServiceTaskJavaDelegateActivityBehavior extends TaskActivityBehavior imple
 
     protected JavaDelegate javaDelegate;
     protected Expression skipExpression;
-    protected boolean triggerable;
+    protected bool triggerable;
 
     protected ServiceTaskJavaDelegateActivityBehavior() {
     }
 
-    public ServiceTaskJavaDelegateActivityBehavior(JavaDelegate javaDelegate, boolean triggerable, Expression skipExpression) {
+    public ServiceTaskJavaDelegateActivityBehavior(JavaDelegate javaDelegate, bool triggerable, Expression skipExpression) {
         this.javaDelegate = javaDelegate;
         this.triggerable = triggerable;
         this.skipExpression = skipExpression;
@@ -87,7 +87,7 @@ class ServiceTaskJavaDelegateActivityBehavior extends TaskActivityBehavior imple
         if (skipExpression != null) {
             skipExpressionText = skipExpression.getExpressionText();
         }
-        boolean isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, 
+        bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText,
                         execution.getCurrentActivityId(), execution, commandContext);
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);

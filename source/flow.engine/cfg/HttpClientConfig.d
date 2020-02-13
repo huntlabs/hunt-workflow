@@ -33,9 +33,9 @@ class HttpClientConfig {
     protected int connectionRequestTimeout = 5000;
     protected int requestRetryLimit = 3;
     // https settings
-    protected boolean disableCertVerify;
+    protected bool disableCertVerify;
 
-    protected boolean useSystemProperties = false;
+    protected bool useSystemProperties = false;
 
     public int getConnectTimeout() {
         return connectTimeout;
@@ -69,19 +69,19 @@ class HttpClientConfig {
         this.requestRetryLimit = requestRetryLimit;
     }
 
-    public boolean isDisableCertVerify() {
+    public bool isDisableCertVerify() {
         return disableCertVerify;
     }
 
-    public void setDisableCertVerify(boolean disableCertVerify) {
+    public void setDisableCertVerify(bool disableCertVerify) {
         this.disableCertVerify = disableCertVerify;
     }
 
-    public void setUseSystemProperties(boolean useSystemProperties) {
+    public void setUseSystemProperties(bool useSystemProperties) {
         this.useSystemProperties = useSystemProperties;
     }
 
-    public boolean isUseSystemProperties() {
+    public bool isUseSystemProperties() {
         return useSystemProperties;
     }
 

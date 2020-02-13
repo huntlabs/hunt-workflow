@@ -59,8 +59,8 @@ interface Model {
     string getTenantId();
 
     /** whether this model has editor source */
-    boolean hasEditorSource();
+    bool hasEditorSource();
 
     /** whether this model has editor source extra */
-    boolean hasEditorSourceExtra();
+    bool hasEditorSourceExtra();
 }

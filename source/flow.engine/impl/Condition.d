@@ -22,5 +22,5 @@ import flow.engine.delegate.DelegateExecution;
  */
 interface Condition extends Serializable {
 
-    boolean evaluate(string sequenceFlowId, DelegateExecution execution);
+    bool evaluate(string sequenceFlowId, DelegateExecution execution);
 }

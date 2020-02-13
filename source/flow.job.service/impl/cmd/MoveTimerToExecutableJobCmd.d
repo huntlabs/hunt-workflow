@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Tijs Rademakers
  */
-public class MoveTimerToExecutableJobCmd implements Command<JobEntity>, Serializable {
+class MoveTimerToExecutableJobCmd implements Command<JobEntity>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

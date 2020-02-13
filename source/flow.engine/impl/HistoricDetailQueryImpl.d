@@ -41,7 +41,7 @@ class HistoricDetailQueryImpl extends AbstractQuery<HistoricDetailQuery, Histori
     protected string activityId;
     protected string activityInstanceId;
     protected string type;
-    protected boolean excludeTaskRelated;
+    protected bool excludeTaskRelated;
 
     public HistoricDetailQueryImpl() {
     }
@@ -209,7 +209,7 @@ class HistoricDetailQueryImpl extends AbstractQuery<HistoricDetailQuery, Histori
         return type;
     }
 
-    public boolean getExcludeTaskRelated() {
+    public bool getExcludeTaskRelated() {
         return excludeTaskRelated;
     }
 

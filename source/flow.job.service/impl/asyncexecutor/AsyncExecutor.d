@@ -35,7 +35,7 @@ interface AsyncExecutor {
      * Offers the provided {@link JobInfo} to this {@link AsyncExecutor} instance to execute. If the offering does not work for some reason, false will be returned (For example when the job queue is
      * full in the {@link DefaultAsyncJobExecutor}).
      */
-    boolean executeAsyncJob(JobInfo job);
+    bool executeAsyncJob(JobInfo job);
 
     int getRemainingCapacity();
 
@@ -45,11 +45,11 @@ interface AsyncExecutor {
 
     JobServiceConfiguration getJobServiceConfiguration();
 
-    boolean isAutoActivate();
+    bool isAutoActivate();
 
-    void setAutoActivate(boolean isAutoActivate);
+    void setAutoActivate(bool isAutoActivate);
 
-    boolean isActive();
+    bool isActive();
 
     string getLockOwner();
 

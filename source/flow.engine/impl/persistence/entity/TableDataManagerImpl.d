@@ -238,7 +238,7 @@ class TableDataManagerImpl extends AbstractManager implements TableDataManager {
     }
 
     @Override
-    public string getTableName(Class<?> entityClass, boolean withPrefix) {
+    public string getTableName(Class<?> entityClass, bool withPrefix) {
         string databaseTablePrefix = getDbSqlSession().getDbSqlSessionFactory().getDatabaseTablePrefix();
         string tableName = null;
 
@@ -282,7 +282,7 @@ class TableDataManagerImpl extends AbstractManager implements TableDataManager {
 
             ResultSet resultSet = metaData.getColumns(catalog, schema, tableName, null);
             while (resultSet.next()) {
-                boolean wrongSchema = false;
+                bool wrongSchema = false;
                 if (schema != null && schema.length() > 0) {
                     for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
                         string columnName = resultSet.getMetaData().getColumnName(i + 1);

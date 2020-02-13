@@ -48,7 +48,7 @@ class ExecutionTreeStringBuilder {
         return strb.toString();
     }
 
-    protected void internalToString(ExecutionEntity execution, StringBuilder strb, string prefix, boolean isTail) {
+    protected void internalToString(ExecutionEntity execution, StringBuilder strb, string prefix, bool isTail) {
         strb.append(prefix)
                 .append(isTail ? "└── " : "├── ")
                 .append(execution.getId()).append(" : ")

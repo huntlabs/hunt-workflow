@@ -33,7 +33,7 @@ class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBeha
     protected ConditionalEventDefinition conditionalEventDefinition;
     protected string conditionExpression;
 
-    public BoundaryConditionalEventActivityBehavior(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, boolean interrupting) {
+    public BoundaryConditionalEventActivityBehavior(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, bool interrupting) {
         super(interrupting);
         this.conditionalEventDefinition = conditionalEventDefinition;
         this.conditionExpression = conditionExpression;
@@ -58,7 +58,7 @@ class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBeha
 
         Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
-        if (result != null && result instanceof Boolean && (Boolean) result) {
+        if (result != null && result instanceof bool && (bool) result) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(executionEntity);
             
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();

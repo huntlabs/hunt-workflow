@@ -38,13 +38,13 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
     protected string nameLike;
     protected string key;
     protected Integer version;
-    protected boolean latest;
+    protected bool latest;
     protected string deploymentId;
-    protected boolean notDeployed;
-    protected boolean deployed;
+    protected bool notDeployed;
+    protected bool deployed;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
 
     public ModelQueryImpl() {
     }
@@ -277,7 +277,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return key;
     }
 
-    public boolean isLatest() {
+    public bool isLatest() {
         return latest;
     }
 
@@ -285,11 +285,11 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return deploymentId;
     }
 
-    public boolean isNotDeployed() {
+    public bool isNotDeployed() {
         return notDeployed;
     }
 
-    public boolean isDeployed() {
+    public bool isDeployed() {
         return deployed;
     }
 
@@ -301,7 +301,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 

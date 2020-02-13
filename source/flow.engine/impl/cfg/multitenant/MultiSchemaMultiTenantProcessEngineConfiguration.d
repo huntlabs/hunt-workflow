@@ -60,7 +60,7 @@ import org.flowable.job.service.impl.asyncexecutor.multitenant.TenantAwareAsyncE
 class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
 
     protected TenantInfoHolder tenantInfoHolder;
-    protected boolean booted;
+    protected bool booted;
 
     public MultiSchemaMultiTenantProcessEngineConfiguration(TenantInfoHolder tenantInfoHolder) {
 
@@ -120,7 +120,7 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
         this.databaseSchemaUpdate = null;
 
         // Also, we shouldn't start the async executor until *after* the schema's have been created
-        boolean originalIsAutoActivateAsyncExecutor = this.asyncExecutorActivate;
+        bool originalIsAutoActivateAsyncExecutor = this.asyncExecutorActivate;
         this.asyncExecutorActivate = false;
 
         ProcessEngine processEngine = super.buildProcessEngine();

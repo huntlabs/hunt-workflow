@@ -29,7 +29,7 @@ import org.flowable.variable.service.impl.el.NoExecutionVariableScope;
 class DelegateExpressionFlowableEventListener extends BaseDelegateEventListener {
 
     protected Expression expression;
-    protected boolean failOnException;
+    protected bool failOnException;
 
     public DelegateExpressionFlowableEventListener(Expression expression, Class<?> entityClass) {
         this.expression = expression;
@@ -59,7 +59,7 @@ class DelegateExpressionFlowableEventListener extends BaseDelegateEventListener 
     }
 
     @Override
-    public boolean isFailOnException() {
+    public bool isFailOnException() {
         return failOnException;
     }
 

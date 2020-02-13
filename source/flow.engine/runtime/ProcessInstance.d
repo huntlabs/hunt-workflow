@@ -61,7 +61,7 @@ interface ProcessInstance extends Execution {
      * returns true if the process instance is suspended
      */
     @Override
-    boolean isSuspended();
+    bool isSuspended();
 
     /**
      * Returns the process variables if requested in the process instance query

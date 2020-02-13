@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-public class HistoryJobEntityManagerImpl
+class HistoryJobEntityManagerImpl
     extends JobInfoEntityManagerImpl<HistoryJobEntity, HistoryJobDataManager>
     implements HistoryJobEntityManager {
 

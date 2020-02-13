@@ -30,13 +30,13 @@ interface FlowableEventListener {
     /**
      * @return whether or not the current operation should fail when this listeners execution throws an exception.
      */
-    boolean isFailOnException();
+    bool isFailOnException();
     
     /**
      * @return Returns whether this event listener fires immediately when the event occurs or 
      *         on a transaction lifecycle event (before/after commit or rollback).
      */
-    boolean isFireOnTransactionLifecycleEvent();
+    bool isFireOnTransactionLifecycleEvent();
     
     /**
      * @return if non-null, indicates the point in the lifecycle of the current transaction when the event should be fired.

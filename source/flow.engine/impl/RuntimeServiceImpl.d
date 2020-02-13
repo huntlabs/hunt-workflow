@@ -272,7 +272,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public boolean hasVariable(string executionId, string variableName) {
+    public bool hasVariable(string executionId, string variableName) {
         return commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, false));
     }
 
@@ -292,7 +292,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public boolean hasVariableLocal(string executionId, string variableName) {
+    public bool hasVariableLocal(string executionId, string variableName) {
         return commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, true));
     }
 
@@ -356,7 +356,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string executionId, string locale, boolean withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjects(string executionId, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, false, locale, withLocalizationFallback));
     }
 
@@ -366,7 +366,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId, string locale, boolean withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjectsLocal(string executionId, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, true, locale, withLocalizationFallback));
     }
 
@@ -376,7 +376,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string executionId, Collection<string> dataObjectNames, string locale, boolean withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjects(string executionId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false, locale, withLocalizationFallback));
     }
 
@@ -386,7 +386,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection<string> dataObjectNames, string locale, boolean withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, true, locale, withLocalizationFallback));
     }
 
@@ -396,7 +396,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public DataObject getDataObject(string executionId, string dataObjectName, string locale, boolean withLocalizationFallback) {
+    public DataObject getDataObject(string executionId, string dataObjectName, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, false, locale, withLocalizationFallback));
     }
 
@@ -406,7 +406,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public DataObject getDataObjectLocal(string executionId, string dataObjectName, string locale, boolean withLocalizationFallback) {
+    public DataObject getDataObjectLocal(string executionId, string dataObjectName, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, true, locale, withLocalizationFallback));
     }
 
@@ -723,7 +723,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public void deleteMultiInstanceExecution(string executionId, boolean executionIsCompleted) {
+    public void deleteMultiInstanceExecution(string executionId, bool executionIsCompleted) {
         commandExecutor.execute(new DeleteMultiInstanceExecutionCmd(executionId, executionIsCompleted));
     }
 

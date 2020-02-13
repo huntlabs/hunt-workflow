@@ -33,7 +33,7 @@ class BoundaryEscalationEventActivityBehavior extends BoundaryEventActivityBehav
     protected EscalationEventDefinition escalationEventDefinition;
     protected Escalation escalation;
 
-    public BoundaryEscalationEventActivityBehavior(EscalationEventDefinition escalationEventDefinition, Escalation escalation, boolean interrupting) {
+    public BoundaryEscalationEventActivityBehavior(EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting) {
         super(interrupting);
         this.escalationEventDefinition = escalationEventDefinition;
         this.escalation = escalation;

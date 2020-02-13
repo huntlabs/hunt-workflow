@@ -80,7 +80,7 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
         string oldAssigneeId = task.getAssignee();
         string oldOwnerId = task.getOwner();
         
-        boolean assignedToNoOne = false;
+        bool assignedToNoOne = false;
         if (IdentityLinkType.ASSIGNEE.equals(identityType)) {
             
             if (oldAssigneeId == null && identityId == null) {
@@ -117,7 +117,7 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
 
         }
 
-        boolean forceNullUserId = false;
+        bool forceNullUserId = false;
         if (assignedToNoOne) {
             // ACT-1317: Special handling when assignee is set to NULL, a
             // CommentEntity notifying of assignee-delete should be created

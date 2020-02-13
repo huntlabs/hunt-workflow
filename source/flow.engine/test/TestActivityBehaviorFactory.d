@@ -128,7 +128,7 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
      */
     protected ActivityBehaviorFactory wrappedActivityBehaviorFactory;
 
-    protected boolean allServiceTasksNoOp;
+    protected bool allServiceTasksNoOp;
     protected Map<string, string> mockedClassDelegatesMapping = new HashMap<>();
     protected Map<string, string> mockedClassTaskIdDelegatesMapping = new HashMap<>();
     protected Set<string> noOpServiceTaskIds = new HashSet<>();
@@ -462,7 +462,7 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     }
 
     @Override
-    public BoundaryEventActivityBehavior createBoundaryEventActivityBehavior(BoundaryEvent boundaryEvent, boolean interrupting) {
+    public BoundaryEventActivityBehavior createBoundaryEventActivityBehavior(BoundaryEvent boundaryEvent, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryEventActivityBehavior(boundaryEvent, interrupting);
     }
 
@@ -473,39 +473,39 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     
     @Override
     public BoundaryConditionalEventActivityBehavior createBoundaryConditionalEventActivityBehavior(BoundaryEvent boundaryEvent,
-            ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, boolean interrupting) {
+            ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, bool interrupting) {
 
         return wrappedActivityBehaviorFactory.createBoundaryConditionalEventActivityBehavior(boundaryEvent, 
                         conditionalEventDefinition, conditionExpression, interrupting);
     }
 
     @Override
-    public BoundaryTimerEventActivityBehavior createBoundaryTimerEventActivityBehavior(BoundaryEvent boundaryEvent, TimerEventDefinition timerEventDefinition, boolean interrupting) {
+    public BoundaryTimerEventActivityBehavior createBoundaryTimerEventActivityBehavior(BoundaryEvent boundaryEvent, TimerEventDefinition timerEventDefinition, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryTimerEventActivityBehavior(boundaryEvent, timerEventDefinition, interrupting);
     }
 
     @Override
-    public BoundarySignalEventActivityBehavior createBoundarySignalEventActivityBehavior(BoundaryEvent boundaryEvent, SignalEventDefinition signalEventDefinition, Signal signal, boolean interrupting) {
+    public BoundarySignalEventActivityBehavior createBoundarySignalEventActivityBehavior(BoundaryEvent boundaryEvent, SignalEventDefinition signalEventDefinition, Signal signal, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundarySignalEventActivityBehavior(boundaryEvent, signalEventDefinition, signal, interrupting);
     }
 
     @Override
-    public BoundaryMessageEventActivityBehavior createBoundaryMessageEventActivityBehavior(BoundaryEvent boundaryEvent, MessageEventDefinition messageEventDefinition, boolean interrupting) {
+    public BoundaryMessageEventActivityBehavior createBoundaryMessageEventActivityBehavior(BoundaryEvent boundaryEvent, MessageEventDefinition messageEventDefinition, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryMessageEventActivityBehavior(boundaryEvent, messageEventDefinition, interrupting);
     }
     
     @Override
-    public BoundaryEscalationEventActivityBehavior createBoundaryEscalationEventActivityBehavior(BoundaryEvent boundaryEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation, boolean interrupting) {
+    public BoundaryEscalationEventActivityBehavior createBoundaryEscalationEventActivityBehavior(BoundaryEvent boundaryEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryEscalationEventActivityBehavior(boundaryEvent, escalationEventDefinition, escalation, interrupting);
     }
 
     @Override
-    public BoundaryCompensateEventActivityBehavior createBoundaryCompensateEventActivityBehavior(BoundaryEvent boundaryEvent, CompensateEventDefinition compensateEventDefinition, boolean interrupting) {
+    public BoundaryCompensateEventActivityBehavior createBoundaryCompensateEventActivityBehavior(BoundaryEvent boundaryEvent, CompensateEventDefinition compensateEventDefinition, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryCompensateEventActivityBehavior(boundaryEvent, compensateEventDefinition, interrupting);
     }
     
     @Override
-    public BoundaryEventRegistryEventActivityBehavior createBoundaryEventRegistryEventActivityBehavior(BoundaryEvent boundaryEvent, string eventDefinitionKey, boolean interrupting) {
+    public BoundaryEventRegistryEventActivityBehavior createBoundaryEventRegistryEventActivityBehavior(BoundaryEvent boundaryEvent, string eventDefinitionKey, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryEventRegistryEventActivityBehavior(boundaryEvent, eventDefinitionKey, interrupting);
     }
 

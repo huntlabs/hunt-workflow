@@ -28,7 +28,7 @@ import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEnt
  */
 class CountingEntityUtil {
 
-    public static void handleDeleteVariableInstanceEntityCount(VariableInstanceEntity variableInstance, boolean fireDeleteEvent) {
+    public static void handleDeleteVariableInstanceEntityCount(VariableInstanceEntity variableInstance, bool fireDeleteEvent) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         if (variableInstance.getTaskId() != null && isTaskRelatedEntityCountEnabledGlobally()) {
             CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskService().getTask(variableInstance.getTaskId());
@@ -89,25 +89,25 @@ class CountingEntityUtil {
     
     /* Execution related entity count methods */
 
-    public static boolean isExecutionRelatedEntityCountEnabledGlobally() {
+    public static bool isExecutionRelatedEntityCountEnabledGlobally() {
         return CommandContextUtil.getProcessEngineConfiguration().getPerformanceSettings().isEnableExecutionRelationshipCounts();
     }
 
     /**
      * Check if the Task Relationship Count performance improvement is enabled.
      */
-    public static boolean isTaskRelatedEntityCountEnabledGlobally() {
+    public static bool isTaskRelatedEntityCountEnabledGlobally() {
         return CommandContextUtil.getProcessEngineConfiguration().getPerformanceSettings().isEnableTaskRelationshipCounts();
     }
 
-    public static boolean isExecutionRelatedEntityCountEnabled(ExecutionEntity executionEntity) {
+    public static bool isExecutionRelatedEntityCountEnabled(ExecutionEntity executionEntity) {
         if (executionEntity.isProcessInstanceType() || executionEntity instanceof CountingExecutionEntity) {
             return isExecutionRelatedEntityCountEnabled((CountingExecutionEntity) executionEntity);
         }
         return false;
     }
 
-    public static boolean isTaskRelatedEntityCountEnabled(TaskEntity taskEntity) {
+    public static bool isTaskRelatedEntityCountEnabled(TaskEntity taskEntity) {
         if (taskEntity instanceof CountingTaskEntity) {
             return isTaskRelatedEntityCountEnabled((CountingTaskEntity) taskEntity);
         }
@@ -129,14 +129,14 @@ class CountingEntityUtil {
      * 
      * From this table it is clear that only when both are true, the result should be true, which is the regular AND rule for booleans.
      */
-    public static boolean isExecutionRelatedEntityCountEnabled(CountingExecutionEntity executionEntity) {
+    public static bool isExecutionRelatedEntityCountEnabled(CountingExecutionEntity executionEntity) {
         return !executionEntity.isProcessInstanceType() && isExecutionRelatedEntityCountEnabledGlobally() && executionEntity.isCountEnabled();
     }
 
     /**
      * Similar functionality with <b>ExecutionRelatedEntityCount</b>, but on the TaskEntity level.
      */
-    public static boolean isTaskRelatedEntityCountEnabled(CountingTaskEntity taskEntity) {
+    public static bool isTaskRelatedEntityCountEnabled(CountingTaskEntity taskEntity) {
         return isTaskRelatedEntityCountEnabledGlobally() && taskEntity.isCountEnabled();
     }
     

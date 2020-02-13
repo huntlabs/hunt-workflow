@@ -28,7 +28,7 @@ import flow.common.api.delegate.event.FlowableEventListener;
  */
 class BaseEntityEventListener extends AbstractFlowableEventListener {
 
-    protected boolean failOnException;
+    protected bool failOnException;
     protected Class<?> entityClass;
 
     /**
@@ -44,11 +44,11 @@ class BaseEntityEventListener extends AbstractFlowableEventListener {
      * @param failOnException
      *            return value for {@link #isFailOnException()}.
      */
-    public BaseEntityEventListener(boolean failOnException) {
+    public BaseEntityEventListener(bool failOnException) {
         this(failOnException, null);
     }
 
-    public BaseEntityEventListener(boolean failOnException, Class<?> entityClass) {
+    public BaseEntityEventListener(bool failOnException, Class<?> entityClass) {
         this.failOnException = failOnException;
         this.entityClass = entityClass;
     }
@@ -73,15 +73,15 @@ class BaseEntityEventListener extends AbstractFlowableEventListener {
     }
 
     @Override
-    public boolean isFailOnException() {
+    public bool isFailOnException() {
         return failOnException;
     }
 
     /**
      * @return true, if the event is an {@link FlowableEntityEvent} and (if needed) the entityClass set in this instance, is assignable from the entity class in the event.
      */
-    protected boolean isValidEvent(FlowableEvent event) {
-        boolean valid = false;
+    protected bool isValidEvent(FlowableEvent event) {
+        bool valid = false;
         if (event instanceof FlowableEntityEvent) {
             if (entityClass == null) {
                 valid = true;

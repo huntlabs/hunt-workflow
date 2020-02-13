@@ -88,7 +88,7 @@ class HistoricDetailEntityManagerImpl
     }
 
     @Override
-    public void delete(HistoricDetailEntity entity, boolean fireDeleteEvent) {
+    public void delete(HistoricDetailEntity entity, bool fireDeleteEvent) {
         super.delete(entity, fireDeleteEvent);
 
         if (entity instanceof HistoricDetailVariableInstanceUpdateEntity) {

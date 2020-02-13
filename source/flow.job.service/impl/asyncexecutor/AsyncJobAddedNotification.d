@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-public class AsyncJobAddedNotification implements CommandContextCloseListener {
+class AsyncJobAddedNotification implements CommandContextCloseListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AsyncJobAddedNotification.class);
 

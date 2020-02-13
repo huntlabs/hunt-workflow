@@ -36,7 +36,7 @@ class ProcessDefinitionUtil {
         return getProcessDefinition(processDefinitionId, false);
     }
 
-    public static ProcessDefinition getProcessDefinition(string processDefinitionId, boolean checkCacheOnly) {
+    public static ProcessDefinition getProcessDefinition(string processDefinitionId, bool checkCacheOnly) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         if (checkCacheOnly) {
             ProcessDefinitionCacheEntry cacheEntry = processEngineConfiguration.getProcessDefinitionCache().get(processDefinitionId);
@@ -88,7 +88,7 @@ class ProcessDefinitionUtil {
         return null;
     }
 
-    public static boolean isProcessDefinitionSuspended(string processDefinitionId) {
+    public static bool isProcessDefinitionSuspended(string processDefinitionId) {
         ProcessDefinitionEntity processDefinition = getProcessDefinitionFromDatabase(processDefinitionId);
         return processDefinition.isSuspended();
     }

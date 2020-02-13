@@ -27,7 +27,7 @@ import org.flowable.job.service.impl.persistence.entity.TimerJobEntityManager;
 /**
  * @author Tijs Rademakers
  */
-public class TimerJobServiceImpl extends ServiceImpl implements TimerJobService {
+class TimerJobServiceImpl extends ServiceImpl implements TimerJobService {
 
     public TimerJobServiceImpl(JobServiceConfiguration jobServiceConfiguration) {
         super(jobServiceConfiguration);

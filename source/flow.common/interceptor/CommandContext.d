@@ -44,7 +44,7 @@ class CommandContext {
     protected Throwable exception;
     protected List<CommandContextCloseListener> closeListeners;
     protected Map<string, Object> attributes; // General-purpose storing of anything during the lifetime of a command context
-    protected boolean reused;
+    protected bool reused;
     protected LinkedList<Object> resultStack = new LinkedList<>(); // needs to be a stack, as JavaDelegates can do api calls again
 
     public CommandContext(Command<?> command) {
@@ -299,11 +299,11 @@ class CommandContext {
         return exception;
     }
 
-    public boolean isReused() {
+    public bool isReused() {
         return reused;
     }
 
-    public void setReused(boolean reused) {
+    public void setReused(bool reused) {
         this.reused = reused;
     }
     

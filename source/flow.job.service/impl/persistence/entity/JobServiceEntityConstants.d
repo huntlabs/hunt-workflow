@@ -12,7 +12,7 @@
  */
 
 
-public class JobServiceEntityConstants {
+class JobServiceEntityConstants {
 
     public static final string JOB_SERVICE_ID_PREFIX = "JOB-";
 }

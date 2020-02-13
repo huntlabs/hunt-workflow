@@ -21,7 +21,7 @@ import flow.engine.runtime.ProcessInstance;
  */
 interface InternalProcessLocalizationManager {
 
-    void localize(ProcessInstance processInstance, string locale, boolean withLocalizationFallback);
+    void localize(ProcessInstance processInstance, string locale, bool withLocalizationFallback);
 
-    void localize(HistoricProcessInstance historicProcessInstance, string locale, boolean withLocalizationFallback);
+    void localize(HistoricProcessInstance historicProcessInstance, string locale, bool withLocalizationFallback);
 }

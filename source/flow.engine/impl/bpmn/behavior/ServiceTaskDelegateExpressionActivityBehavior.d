@@ -55,10 +55,10 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
     protected Expression skipExpression;
     protected List<FieldDeclaration> fieldDeclarations;
     protected List<MapExceptionEntry> mapExceptions;
-    protected boolean triggerable;
+    protected bool triggerable;
 
     public ServiceTaskDelegateExpressionActivityBehavior(string serviceTaskId, Expression expression, Expression skipExpression,
-            List<FieldDeclaration> fieldDeclarations, List<MapExceptionEntry> mapExceptions, boolean triggerable) {
+            List<FieldDeclaration> fieldDeclarations, List<MapExceptionEntry> mapExceptions, bool triggerable) {
         this.serviceTaskId = serviceTaskId;
         this.expression = expression;
         this.skipExpression = skipExpression;
@@ -85,7 +85,7 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
             if (skipExpression != null) {
                 skipExpressionText = skipExpression.getExpressionText();
             }
-            boolean isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
+            bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
             if (!isSkipExpressionEnabled || !SkipExpressionUtil.shouldSkipFlowElement(skipExpressionText, serviceTaskId, execution, commandContext)) {
 
                 if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {

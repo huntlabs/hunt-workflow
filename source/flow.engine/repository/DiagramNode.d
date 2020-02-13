@@ -81,12 +81,12 @@ class DiagramNode extends DiagramElement {
     }
 
     @Override
-    public boolean isNode() {
+    public bool isNode() {
         return true;
     }
 
     @Override
-    public boolean isEdge() {
+    public bool isEdge() {
         return false;
     }
 

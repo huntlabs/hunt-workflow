@@ -24,13 +24,13 @@ class GetTableNameCmd implements Command<string>, Serializable {
     private static final long serialVersionUID = 1L;
 
     protected Class<?> entityClass;
-    protected boolean withPrefix = true;
+    protected bool withPrefix = true;
 
     public GetTableNameCmd(Class<?> entityClass) {
         this.entityClass = entityClass;
     }
 
-    public GetTableNameCmd(Class<?> entityClass, boolean withPrefix) {
+    public GetTableNameCmd(Class<?> entityClass, bool withPrefix) {
         this.entityClass = entityClass;
         this.withPrefix = withPrefix;
     }

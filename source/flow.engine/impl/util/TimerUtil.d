@@ -58,7 +58,7 @@ class TimerUtil {
      * 
      * Takes in an optional execution, if missing the {@link NoExecutionVariableScope} will be used (eg Timer start event)
      */
-    public static TimerJobEntity createTimerEntityForTimerEventDefinition(TimerEventDefinition timerEventDefinition, boolean isInterruptingTimer,
+    public static TimerJobEntity createTimerEntityForTimerEventDefinition(TimerEventDefinition timerEventDefinition, bool isInterruptingTimer,
             ExecutionEntity executionEntity, string jobHandlerType, string jobHandlerConfig) {
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
@@ -157,7 +157,7 @@ class TimerUtil {
 
         if (StringUtils.isNotEmpty(timerEventDefinition.getTimeCycle())) {
             // See ACT-1427: A boundary timer with a cancelActivity='true', doesn't need to repeat itself
-            boolean repeat = !isInterruptingTimer;
+            bool repeat = !isInterruptingTimer;
 
             // ACT-1951: intermediate catching timer events shouldn't repeat according to spec
             if (executionEntity != null) {
@@ -195,7 +195,7 @@ class TimerUtil {
         if (timerJob != null) {
             BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(timerJob.getProcessDefinitionId());
             Event eventElement = (Event) bpmnModel.getFlowElement(TimerEventHandler.getActivityIdFromConfiguration(timerJob.getJobHandlerConfiguration()));
-            boolean isInterruptingTimer = false;
+            bool isInterruptingTimer = false;
             if (eventElement instanceof BoundaryEvent) {
                 isInterruptingTimer = ((BoundaryEvent) eventElement).isCancelActivity();
             }

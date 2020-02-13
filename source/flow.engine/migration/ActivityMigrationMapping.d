@@ -31,11 +31,11 @@ abstract class ActivityMigrationMapping {
 
     abstract List<string> getToActivityIds();
 
-    public boolean isToParentProcess() {
+    public bool isToParentProcess() {
         return this.fromCallActivityId != null;
     }
 
-    public boolean isToCallActivity() {
+    public bool isToCallActivity() {
         return this.toCallActivityId != null;
     }
 

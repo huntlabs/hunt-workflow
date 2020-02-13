@@ -89,7 +89,7 @@ class ByteArrayEntityImpl extends AbstractBpmnEngineEntity implements ByteArrayE
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public bool equals(Object obj) {
             if (obj instanceof PersistentState) {
                 PersistentState other = (PersistentState) obj;
                 return StringUtils.equals(this.name, other.name) && Arrays.equals(this.bytes, other.bytes);

@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class SkipExpressionUtil {
 
-    public static boolean isSkipExpressionEnabled(string skipExpression, string activityId, DelegateExecution execution, CommandContext commandContext) {
+    public static bool isSkipExpressionEnabled(string skipExpression, string activityId, DelegateExecution execution, CommandContext commandContext) {
         if (skipExpression == null) {
             ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
             
@@ -45,7 +45,7 @@ class SkipExpressionUtil {
         return checkSkipExpressionVariable(activityId, execution, commandContext);
     }
 
-    protected static boolean checkSkipExpressionVariable(string activityId, DelegateExecution execution, CommandContext commandContext) {
+    protected static bool checkSkipExpressionVariable(string activityId, DelegateExecution execution, CommandContext commandContext) {
         if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {
             ObjectNode globalProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(
                             DynamicBpmnConstants.GLOBAL_PROCESS_DEFINITION_PROPERTIES, execution.getProcessDefinitionId());
@@ -57,8 +57,8 @@ class SkipExpressionUtil {
         string skipExpressionEnabledVariable = "_ACTIVITI_SKIP_EXPRESSION_ENABLED";
         Object isSkipExpressionEnabled = execution.getVariable(skipExpressionEnabledVariable);
 
-        if (isSkipExpressionEnabled instanceof Boolean) {
-            return ((Boolean) isSkipExpressionEnabled).booleanValue();
+        if (isSkipExpressionEnabled instanceof bool) {
+            return ((bool) isSkipExpressionEnabled).booleanValue();
         }
 
         skipExpressionEnabledVariable = "_FLOWABLE_SKIP_EXPRESSION_ENABLED";
@@ -67,30 +67,30 @@ class SkipExpressionUtil {
         if (isSkipExpressionEnabled == null) {
             return false;
 
-        } else if (isSkipExpressionEnabled instanceof Boolean) {
-            return ((Boolean) isSkipExpressionEnabled).booleanValue();
+        } else if (isSkipExpressionEnabled instanceof bool) {
+            return ((bool) isSkipExpressionEnabled).booleanValue();
 
         } else {
-            throw new FlowableIllegalArgumentException("Skip expression variable does not resolve to a boolean. " + isSkipExpressionEnabled);
+            throw new FlowableIllegalArgumentException("Skip expression variable does not resolve to a bool. " + isSkipExpressionEnabled);
         }
     }
 
-    public static boolean shouldSkipFlowElement(string skipExpressionString, string activityId, DelegateExecution execution, CommandContext commandContext) {
+    public static bool shouldSkipFlowElement(string skipExpressionString, string activityId, DelegateExecution execution, CommandContext commandContext) {
         ExpressionManager expressionManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager();
         Expression skipExpression = expressionManager.createExpression(resolveActiveSkipExpression(skipExpressionString, activityId, 
                         execution.getProcessDefinitionId(), commandContext));
         
         Object value = skipExpression.getValue(execution);
 
-        if (value instanceof Boolean) {
-            return ((Boolean) value).booleanValue();
+        if (value instanceof bool) {
+            return ((bool) value).booleanValue();
 
         } else {
-            throw new FlowableIllegalArgumentException("Skip expression does not resolve to a boolean: " + skipExpression.getExpressionText());
+            throw new FlowableIllegalArgumentException("Skip expression does not resolve to a bool: " + skipExpression.getExpressionText());
         }
     }
     
-    protected static boolean isEnableSkipExpression(ObjectNode globalProperties) {
+    protected static bool isEnableSkipExpression(ObjectNode globalProperties) {
         if (globalProperties != null) {
             JsonNode overrideValueNode = globalProperties.get(DynamicBpmnConstants.ENABLE_SKIP_EXPRESSION);
             if (overrideValueNode != null && !overrideValueNode.isNull() && "true".equalsIgnoreCase(overrideValueNode.asText())) {

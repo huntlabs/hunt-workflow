@@ -19,7 +19,7 @@ import java.util.TimeZone;
 
 import com.fasterxml.jackson.databind.util.ISO8601Utils;
 
-public class AsyncHistoryDateUtil {
+class AsyncHistoryDateUtil {
 
     protected static TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
 

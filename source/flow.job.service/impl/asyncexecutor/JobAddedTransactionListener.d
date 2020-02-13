@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-public class JobAddedTransactionListener implements TransactionListener {
+class JobAddedTransactionListener implements TransactionListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JobAddedTransactionListener.class);
 

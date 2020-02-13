@@ -27,7 +27,7 @@ import org.flowable.job.service.impl.persistence.entity.JobByteArrayRef;
  * 
  * @author Marcus Klimstra (CGI)
  */
-public class JobByteArrayRefTypeHandler extends TypeReference<JobByteArrayRef> implements TypeHandler<JobByteArrayRef> {
+class JobByteArrayRefTypeHandler extends TypeReference<JobByteArrayRef> implements TypeHandler<JobByteArrayRef> {
 
     @Override
     public void setParameter(PreparedStatement ps, int i, JobByteArrayRef parameter, JdbcType jdbcType) throws SQLException {

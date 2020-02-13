@@ -69,7 +69,7 @@ class ExecutionGraphUtil {
     /**
      * Verifies if the element with the given source identifier can reach the element with the target identifier through following sequence flow.
      */
-    public static boolean isReachable(string processDefinitionId, string sourceElementId, string targetElementId) {
+    public static bool isReachable(string processDefinitionId, string sourceElementId, string targetElementId) {
 
         // Fetch source and target elements
         Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
@@ -101,7 +101,7 @@ class ExecutionGraphUtil {
         return isReachable(process, sourceElement, targetElement, visitedElements);
     }
 
-    public static boolean isReachable(Process process, FlowNode sourceElement, FlowNode targetElement, Set<string> visitedElements) {
+    public static bool isReachable(Process process, FlowNode sourceElement, FlowNode targetElement, Set<string> visitedElements) {
         
         // Special case: start events in an event subprocess might exist as an execution and are most likely be able to reach the target
         // when the target is in the event subprocess, but should be ignored as they are not 'real' runtime executions (but rather waiting for a trigger)
@@ -136,7 +136,7 @@ class ExecutionGraphUtil {
                 string targetRef = sequenceFlow.getTargetRef();
                 FlowNode sequenceFlowTarget = (FlowNode) process.getFlowElement(targetRef, true);
                 if (sequenceFlowTarget != null && !visitedElements.contains(sequenceFlowTarget.getId())) {
-                    boolean reachable = isReachable(process, sequenceFlowTarget, targetElement, visitedElements);
+                    bool reachable = isReachable(process, sequenceFlowTarget, targetElement, visitedElements);
 
                     if (reachable) {
                         return true;
@@ -148,7 +148,7 @@ class ExecutionGraphUtil {
         return false;
     }
 
-    protected static boolean isInEventSubprocess(FlowNode flowNode) {
+    protected static bool isInEventSubprocess(FlowNode flowNode) {
         FlowElementsContainer flowElementsContainer = flowNode.getParentContainer();
         while (flowElementsContainer != null) {
             if (flowElementsContainer instanceof EventSubProcess) {

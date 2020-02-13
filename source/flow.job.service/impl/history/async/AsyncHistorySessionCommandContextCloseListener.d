@@ -38,7 +38,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  * 
  * @author Joram Barrez
  */
-public class AsyncHistorySessionCommandContextCloseListener implements CommandContextCloseListener {
+class AsyncHistorySessionCommandContextCloseListener implements CommandContextCloseListener {
     
     protected AsyncHistorySession asyncHistorySession;
     protected AsyncHistoryListener asyncHistoryListener;

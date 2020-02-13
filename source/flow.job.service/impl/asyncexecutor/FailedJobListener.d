@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @author Saeid Mirzaei
  * @author Joram Barrez
  */
-public class FailedJobListener implements CommandContextCloseListener {
+class FailedJobListener implements CommandContextCloseListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FailedJobListener.class);
 

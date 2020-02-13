@@ -20,7 +20,7 @@ import org.flowable.job.api.HistoryJob;
 import org.flowable.job.service.impl.HistoryJobQueryImpl;
 import org.flowable.job.service.impl.util.CommandContextUtil;
 
-public class UnacquireOwnedHistoryJobsCmd implements Command<Void> {
+class UnacquireOwnedHistoryJobsCmd implements Command<Void> {
 
     private final string lockOwner;
     private final string tenantId;

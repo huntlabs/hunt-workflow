@@ -40,12 +40,12 @@ class ProcessInstanceHistoryLogQueryImpl implements ProcessInstanceHistoryLogQue
     protected CommandExecutor commandExecutor;
 
     protected string processInstanceId;
-    protected boolean includeTasks;
-    protected boolean includeActivities;
-    protected boolean includeVariables;
-    protected boolean includeComments;
-    protected boolean includeVariableUpdates;
-    protected boolean includeFormProperties;
+    protected bool includeTasks;
+    protected bool includeActivities;
+    protected bool includeVariables;
+    protected bool includeComments;
+    protected bool includeVariableUpdates;
+    protected bool includeFormProperties;
 
     public ProcessInstanceHistoryLogQueryImpl(CommandExecutor commandExecutor, string processInstanceId) {
         this.commandExecutor = commandExecutor;

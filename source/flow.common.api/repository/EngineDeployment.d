@@ -42,7 +42,7 @@ interface EngineDeployment {
     
     string getEngineVersion();
     
-    boolean isNew();
+    bool isNew();
 
     Map<string, EngineResource> getResources();
 }

@@ -25,13 +25,13 @@ abstract class TimerChangeProcessDefinitionSuspensionStateJobHandler implements 
 
     private static final string JOB_HANDLER_CFG_INCLUDE_PROCESS_INSTANCES = "includeProcessInstances";
 
-    public static string createJobHandlerConfiguration(boolean includeProcessInstances) {
+    public static string createJobHandlerConfiguration(bool includeProcessInstances) {
         ObjectNode jsonNode = CommandContextUtil.getProcessEngineConfiguration().getObjectMapper().createObjectNode();
         jsonNode.put(JOB_HANDLER_CFG_INCLUDE_PROCESS_INSTANCES, includeProcessInstances);
         return jsonNode.toString();
     }
 
-    public static boolean getIncludeProcessInstances(JsonNode configNode) {
+    public static bool getIncludeProcessInstances(JsonNode configNode) {
         if (configNode.has(JOB_HANDLER_CFG_INCLUDE_PROCESS_INSTANCES)) {
             return configNode.get(JOB_HANDLER_CFG_INCLUDE_PROCESS_INSTANCES).asBoolean();
         }

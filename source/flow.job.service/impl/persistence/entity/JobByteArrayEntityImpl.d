@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Marcus Klimstra (CGI)
  * @author Joram Barrez
  */
-public class JobByteArrayEntityImpl extends AbstractJobServiceEntity implements JobByteArrayEntity, Serializable {
+class JobByteArrayEntityImpl extends AbstractJobServiceEntity implements JobByteArrayEntity, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -89,7 +89,7 @@ public class JobByteArrayEntityImpl extends AbstractJobServiceEntity implements 
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public bool equals(Object obj) {
             if (obj instanceof PersistentState) {
                 PersistentState other = (PersistentState) obj;
                 return StringUtils.equals(this.name, other.name) && Arrays.equals(this.bytes, other.bytes);

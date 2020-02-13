@@ -30,20 +30,20 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  * @author Tom Baeyens
  * @author Falko Menge
  */
-public class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> implements HistoryJobQuery, Serializable {
+class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> implements HistoryJobQuery, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string id;
     protected string handlerType;
-    protected boolean withException;
+    protected bool withException;
     protected string exceptionMessage;
     protected string scopeType;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
     protected string lockOwner;
-    protected boolean onlyLocked;
-    protected boolean onlyUnlocked;
+    protected bool onlyLocked;
+    protected bool onlyUnlocked;
 
     public HistoryJobQueryImpl() {
     }
@@ -194,7 +194,7 @@ public class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJ
         return CommandContextUtil.getJobServiceConfiguration().getClock().getCurrentTime();
     }
 
-    public boolean isWithException() {
+    public bool isWithException() {
         return withException;
     }
 
@@ -214,7 +214,7 @@ public class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJ
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
@@ -230,11 +230,11 @@ public class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJ
         return lockOwner;
     }
 
-    public boolean isOnlyLocked() {
+    public bool isOnlyLocked() {
         return onlyLocked;
     }
 
-    public boolean isOnlyUnlocked() {
+    public bool isOnlyUnlocked() {
         return onlyUnlocked;
     }
 

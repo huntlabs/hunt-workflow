@@ -42,7 +42,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
     protected string keyLike;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
     protected string engineVersion;
     protected string derivedFrom;
     protected string parentDeploymentId;
@@ -50,7 +50,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
     protected List<string> parentDeploymentIds;
     protected string processDefinitionKey;
     protected string processDefinitionKeyLike;
-    protected boolean latest;
+    protected bool latest;
 
     public DeploymentQueryImpl() {
     }
@@ -297,7 +297,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 

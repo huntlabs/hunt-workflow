@@ -88,7 +88,7 @@ class ExecutionTreeNode implements Iterable<ExecutionTreeNode> {
         return strb.toString();
     }
 
-    protected void internalToString(StringBuilder strb, string prefix, boolean isTail) {
+    protected void internalToString(StringBuilder strb, string prefix, bool isTail) {
         strb.append(prefix).append(isTail ? "└── " : "├── ").append(getExecutionEntity().getId()).append(" : ")
                 .append(getCurrentFlowElementId()).append(", parent id ")
                 .append(getExecutionEntity().getParentId())

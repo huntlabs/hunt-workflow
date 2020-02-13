@@ -715,7 +715,7 @@ interface RuntimeService {
     /**
      * Check whether or not this execution has variable set with the given name, Searching for the variable is done in all scopes that are visible to the given execution (including parent scopes).
      */
-    boolean hasVariable(string executionId, string variableName);
+    bool hasVariable(string executionId, string variableName);
 
     /**
      * The variable value for an execution. Returns the value when the variable is set for the execution (and not searching parent scopes). Returns null when no variable value is found with the given
@@ -746,7 +746,7 @@ interface RuntimeService {
     /**
      * Check whether or not this execution has a local variable set with the given name.
      */
-    boolean hasVariableLocal(string executionId, string variableName);
+    bool hasVariableLocal(string executionId, string variableName);
 
     /**
      * Update or create a variable for an execution.
@@ -871,7 +871,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjects(string executionId, string locale, boolean withLocalizationFallback);
+    Map<string, DataObject> getDataObjects(string executionId, string locale, bool withLocalizationFallback);
 
     /**
      * All DataObject values that are defined in the execution scope, without taking outer scopes into account. If you have many local DataObjects and you only need a few, consider using
@@ -899,7 +899,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjectsLocal(string executionId, string locale, boolean withLocalizationFallback);
+    Map<string, DataObject> getDataObjectsLocal(string executionId, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObjects for all given dataObjectNames, takes all dataObjects into account which are visible from the given execution scope (including parent scopes).
@@ -929,7 +929,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjects(string executionId, Collection<string> dataObjectNames, string locale, boolean withLocalizationFallback);
+    Map<string, DataObject> getDataObjects(string executionId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObjects for the given dataObjectNames only taking the given execution scope into account, not looking in outer scopes.
@@ -959,7 +959,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjectsLocal(string executionId, Collection<string> dataObjectNames, string locale, boolean withLocalizationFallback);
+    Map<string, DataObject> getDataObjectsLocal(string executionId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObject. Searching for the DataObject is done in all scopes that are visible to the given execution (including parent scopes). Returns null when no DataObject value is found with the
@@ -991,7 +991,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    DataObject getDataObject(string executionId, string dataObjectName, string locale, boolean withLocalizationFallback);
+    DataObject getDataObject(string executionId, string dataObjectName, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObject for an execution. Returns the DataObject when it is set for the execution (and not searching parent scopes). Returns null when no DataObject is found with the given name.
@@ -1021,7 +1021,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    DataObject getDataObjectLocal(string executionId, string dataObjectName, string locale, boolean withLocalizationFallback);
+    DataObject getDataObjectLocal(string executionId, string dataObjectName, string locale, bool withLocalizationFallback);
 
     // Queries ////////////////////////////////////////////////////////
 
@@ -1366,7 +1366,7 @@ interface RuntimeService {
      * @param executionIsCompleted
      *     defines if the deleted execution should be marked as completed on the parent multi-instance execution
      */
-    void deleteMultiInstanceExecution(string executionId, boolean executionIsCompleted);
+    void deleteMultiInstanceExecution(string executionId, bool executionIsCompleted);
 
     /**
      * The all events related to the given Process Instance.

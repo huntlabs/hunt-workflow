@@ -36,7 +36,7 @@ class DefaultTaskLocalizationManager implements InternalTaskLocalizationManager 
     }
     
     @Override
-    public void localize(Task task, string locale, boolean withLocalizationFallback) {
+    public void localize(Task task, string locale, bool withLocalizationFallback) {
         task.setLocalizedName(null);
         task.setLocalizedDescription(null);
 
@@ -60,7 +60,7 @@ class DefaultTaskLocalizationManager implements InternalTaskLocalizationManager 
     }
 
     @Override
-    public void localize(HistoricTaskInstance task, string locale, boolean withLocalizationFallback) {
+    public void localize(HistoricTaskInstance task, string locale, bool withLocalizationFallback) {
         HistoricTaskInstanceEntity taskEntity = (HistoricTaskInstanceEntity) task;
         taskEntity.setLocalizedName(null);
         taskEntity.setLocalizedDescription(null);

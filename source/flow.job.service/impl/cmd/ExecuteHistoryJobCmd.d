@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Joram Barrez
  */
-public class ExecuteHistoryJobCmd implements Command<Void> {
+class ExecuteHistoryJobCmd implements Command<Void> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteHistoryJobCmd.class);
 

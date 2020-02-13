@@ -25,7 +25,7 @@ import org.flowable.job.service.impl.persistence.entity.data.DeadLetterJobDataMa
 /**
  * @author Tijs Rademakers
  */
-public class DeadLetterJobEntityManagerImpl
+class DeadLetterJobEntityManagerImpl
     extends AbstractJobServiceEngineEntityManager<DeadLetterJobEntity, DeadLetterJobDataManager>
     implements DeadLetterJobEntityManager {
 
@@ -59,7 +59,7 @@ public class DeadLetterJobEntityManagerImpl
     }
 
     @Override
-    public void insert(DeadLetterJobEntity jobEntity, boolean fireCreateEvent) {
+    public void insert(DeadLetterJobEntity jobEntity, bool fireCreateEvent) {
         if (getServiceConfiguration().getInternalJobManager() != null) {
             getServiceConfiguration().getInternalJobManager().handleJobInsert(jobEntity);
         }

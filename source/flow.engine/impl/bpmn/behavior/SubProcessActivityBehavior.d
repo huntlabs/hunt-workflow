@@ -40,7 +40,7 @@ class SubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
 
     private static final long serialVersionUID = 1L;
   
-    protected boolean isOnlyNoneStartEventAllowed;
+    protected bool isOnlyNoneStartEventAllowed;
   
     public SubProcessActivityBehavior() {
         this.isOnlyNoneStartEventAllowed = true;

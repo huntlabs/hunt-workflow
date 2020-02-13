@@ -34,8 +34,8 @@ abstract class BaseDelegateEventListener extends AbstractFlowableEventListener {
         this.entityClass = entityClass;
     }
     
-    protected boolean isValidEvent(FlowableEvent event) {
-        boolean valid = false;
+    protected bool isValidEvent(FlowableEvent event) {
+        bool valid = false;
         if (entityClass != null) {
             if (event instanceof FlowableEntityEvent) {
                 Object entity = ((FlowableEntityEvent) event).getEntity();

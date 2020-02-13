@@ -24,9 +24,9 @@ class FormPropertyImpl implements FormProperty {
     protected string id;
     protected string name;
     protected FormType type;
-    protected boolean isRequired;
-    protected boolean isReadable;
-    protected boolean isWritable;
+    protected bool isRequired;
+    protected bool isReadable;
+    protected bool isWritable;
 
     protected string value;
 
@@ -60,12 +60,12 @@ class FormPropertyImpl implements FormProperty {
     }
 
     @Override
-    public boolean isRequired() {
+    public bool isRequired() {
         return isRequired;
     }
 
     @Override
-    public boolean isReadable() {
+    public bool isReadable() {
         return isReadable;
     }
 
@@ -74,7 +74,7 @@ class FormPropertyImpl implements FormProperty {
     }
 
     @Override
-    public boolean isWritable() {
+    public bool isWritable() {
         return isWritable;
     }
 }

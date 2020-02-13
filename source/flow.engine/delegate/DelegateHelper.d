@@ -89,7 +89,7 @@ class DelegateHelper {
     /**
      * Returns whether or not the provided execution is being use for executing an {@link ExecutionListener}.
      */
-    public static boolean isExecutingExecutionListener(DelegateExecution execution) {
+    public static bool isExecutingExecutionListener(DelegateExecution execution) {
         return execution.getCurrentFlowableListener() != null;
     }
 

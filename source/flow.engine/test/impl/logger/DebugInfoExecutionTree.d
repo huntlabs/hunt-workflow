@@ -51,7 +51,7 @@ class DebugInfoExecutionTree {
             logger.info("");
         }
 
-        protected void print(Logger logger, string prefix, boolean isTail) {
+        protected void print(Logger logger, string prefix, bool isTail) {
             logger.info("{}{}{}", prefix, isTail ? "└── " : "├── ", getCurrentFlowElementInfo());
             for (int i = 0; i < childNodes.size() - 1; i++) {
                 childNodes.get(i).print(logger, prefix + (isTail ? "    " : "│   "), false);

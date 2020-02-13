@@ -109,7 +109,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public void deleteDeployment(string deploymentId, boolean cascade) {
+    public void deleteDeployment(string deploymentId, bool cascade) {
         commandExecutor.execute(new DeleteDeploymentCmd(deploymentId, cascade));
     }
 
@@ -180,7 +180,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public Boolean isFlowable5ProcessDefinition(string processDefinitionId) {
+    public bool isFlowable5ProcessDefinition(string processDefinitionId) {
         return commandExecutor.execute(new IsFlowable5ProcessDefinitionCmd(processDefinitionId));
     }
 
@@ -194,7 +194,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public boolean isProcessDefinitionSuspended(string processDefinitionId) {
+    public bool isProcessDefinitionSuspended(string processDefinitionId) {
         return commandExecutor.execute(new IsProcessDefinitionSuspendedCmd(processDefinitionId));
     }
 
@@ -204,7 +204,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public void suspendProcessDefinitionById(string processDefinitionId, boolean suspendProcessInstances, Date suspensionDate) {
+    public void suspendProcessDefinitionById(string processDefinitionId, bool suspendProcessInstances, Date suspensionDate) {
         commandExecutor.execute(new SuspendProcessDefinitionCmd(processDefinitionId, null, suspendProcessInstances, suspensionDate, null));
     }
 
@@ -214,7 +214,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public void suspendProcessDefinitionByKey(string processDefinitionKey, boolean suspendProcessInstances, Date suspensionDate) {
+    public void suspendProcessDefinitionByKey(string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate) {
         commandExecutor.execute(new SuspendProcessDefinitionCmd(null, processDefinitionKey, suspendProcessInstances, suspensionDate, null));
     }
 
@@ -224,7 +224,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public void suspendProcessDefinitionByKey(string processDefinitionKey, boolean suspendProcessInstances, Date suspensionDate, string tenantId) {
+    public void suspendProcessDefinitionByKey(string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate, string tenantId) {
         commandExecutor.execute(new SuspendProcessDefinitionCmd(null, processDefinitionKey, suspendProcessInstances, suspensionDate, tenantId));
     }
 
@@ -234,7 +234,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public void activateProcessDefinitionById(string processDefinitionId, boolean activateProcessInstances, Date activationDate) {
+    public void activateProcessDefinitionById(string processDefinitionId, bool activateProcessInstances, Date activationDate) {
         commandExecutor.execute(new ActivateProcessDefinitionCmd(processDefinitionId, null, activateProcessInstances, activationDate, null));
     }
 
@@ -244,7 +244,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public void activateProcessDefinitionByKey(string processDefinitionKey, boolean activateProcessInstances, Date activationDate) {
+    public void activateProcessDefinitionByKey(string processDefinitionKey, bool activateProcessInstances, Date activationDate) {
         commandExecutor.execute(new ActivateProcessDefinitionCmd(null, processDefinitionKey, activateProcessInstances, activationDate, null));
     }
 
@@ -254,7 +254,7 @@ class RepositoryServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     }
 
     @Override
-    public void activateProcessDefinitionByKey(string processDefinitionKey, boolean activateProcessInstances, Date activationDate, string tenantId) {
+    public void activateProcessDefinitionByKey(string processDefinitionKey, bool activateProcessInstances, Date activationDate, string tenantId) {
         commandExecutor.execute(new ActivateProcessDefinitionCmd(null, processDefinitionKey, activateProcessInstances, activationDate, tenantId));
     }
 

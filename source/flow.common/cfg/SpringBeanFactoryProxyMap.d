@@ -49,7 +49,7 @@ module flow.common.cfg.SpringBeanFactoryProxyMap;
 //    }
 //
 //    @Override
-//    public boolean containsKey(Object key) {
+//    public bool containsKey(Object key) {
 //        if ((key == null) || !string.class.isAssignableFrom(key.getClass())) {
 //            return false;
 //        }
@@ -70,7 +70,7 @@ module flow.common.cfg.SpringBeanFactoryProxyMap;
 //    }
 //
 //    @Override
-//    public boolean containsValue(Object value) {
+//    public bool containsValue(Object value) {
 //        throw new FlowableException("can't search values in configuration beans");
 //    }
 //
@@ -80,7 +80,7 @@ module flow.common.cfg.SpringBeanFactoryProxyMap;
 //    }
 //
 //    @Override
-//    public boolean isEmpty() {
+//    public bool isEmpty() {
 //        throw new FlowableException("unsupported operation on configuration beans");
 //    }
 //

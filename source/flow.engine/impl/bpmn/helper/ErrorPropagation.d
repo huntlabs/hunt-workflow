@@ -304,7 +304,7 @@ class ErrorPropagation {
         return eventMap;
     }
 
-    public static boolean mapException(Exception e, ExecutionEntity execution, List<MapExceptionEntry> exceptionMap) {
+    public static bool mapException(Exception e, ExecutionEntity execution, List<MapExceptionEntry> exceptionMap) {
         string errorCode = findMatchingExceptionMapping(e, exceptionMap);
         if (errorCode != null) {
             propagateError(errorCode, execution);

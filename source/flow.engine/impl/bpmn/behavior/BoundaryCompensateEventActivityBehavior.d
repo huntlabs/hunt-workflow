@@ -40,7 +40,7 @@ class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehav
 
     protected CompensateEventDefinition compensateEventDefinition;
 
-    public BoundaryCompensateEventActivityBehavior(CompensateEventDefinition compensateEventDefinition, boolean interrupting) {
+    public BoundaryCompensateEventActivityBehavior(CompensateEventDefinition compensateEventDefinition, bool interrupting) {
         super(interrupting);
         this.compensateEventDefinition = compensateEventDefinition;
     }

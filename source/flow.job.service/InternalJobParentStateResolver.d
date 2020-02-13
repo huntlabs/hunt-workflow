@@ -19,5 +19,5 @@ import org.flowable.job.api.Job;
  */
 interface InternalJobParentStateResolver {
     
-    boolean isSuspended(Job job);
+    bool isSuspended(Job job);
 }

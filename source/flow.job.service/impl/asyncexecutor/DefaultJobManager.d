@@ -60,7 +60,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class DefaultJobManager implements JobManager {
+class DefaultJobManager implements JobManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultJobManager.class);
 
@@ -76,7 +76,7 @@ public class DefaultJobManager implements JobManager {
     }
 
     @Override
-    public void createAsyncJob(JobEntity jobEntity, boolean exclusive) {
+    public void createAsyncJob(JobEntity jobEntity, bool exclusive) {
         // When the async executor is activated, the job is directly passed on to the async executor thread
         if (isAsyncExecutorActive()) {
             internalCreateLockedAsyncJob(jobEntity, exclusive);
@@ -129,7 +129,7 @@ public class DefaultJobManager implements JobManager {
         }
 
         JobEntity executableJob = createExecutableJobFromOtherJob(timerJob);
-        boolean insertSuccessful = jobServiceConfiguration.getJobEntityManager().insertJobEntity(executableJob);
+        bool insertSuccessful = jobServiceConfiguration.getJobEntityManager().insertJobEntity(executableJob);
         if (insertSuccessful) {
             jobServiceConfiguration.getTimerJobEntityManager().delete(timerJob);
             triggerExecutorIfNeeded(executableJob);
@@ -141,7 +141,7 @@ public class DefaultJobManager implements JobManager {
     @Override
     public TimerJobEntity moveJobToTimerJob(AbstractRuntimeJobEntity job) {
         TimerJobEntity timerJob = createTimerJobFromOtherJob(job);
-        boolean insertSuccessful = jobServiceConfiguration.getTimerJobEntityManager().insertTimerJobEntity(timerJob);
+        bool insertSuccessful = jobServiceConfiguration.getTimerJobEntityManager().insertTimerJobEntity(timerJob);
         if (insertSuccessful) {
             if (job instanceof JobEntity) {
                 jobServiceConfiguration.getJobEntityManager().delete((JobEntity) job);
@@ -208,7 +208,7 @@ public class DefaultJobManager implements JobManager {
 
         JobEntity executableJob = createExecutableJobFromOtherJob(deadLetterJobEntity);
         executableJob.setRetries(retries);
-        boolean insertSuccessful = jobServiceConfiguration.getJobEntityManager().insertJobEntity(executableJob);
+        bool insertSuccessful = jobServiceConfiguration.getJobEntityManager().insertJobEntity(executableJob);
         if (insertSuccessful) {
             jobServiceConfiguration.getDeadLetterJobEntityManager().delete(deadLetterJobEntity);
             triggerExecutorIfNeeded(executableJob);
@@ -440,7 +440,7 @@ public class DefaultJobManager implements JobManager {
         }
     }
 
-    protected boolean isValidTime(JobEntity timerEntity, Date newTimerDate, VariableScope variableScope) {
+    protected bool isValidTime(JobEntity timerEntity, Date newTimerDate, VariableScope variableScope) {
         BusinessCalendar businessCalendar = jobServiceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
                 getBusinessCalendarName(timerEntity, variableScope));
         return businessCalendar.validateDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations(), timerEntity.getEndDate(), newTimerDate);
@@ -528,11 +528,11 @@ public class DefaultJobManager implements JobManager {
         }
     }
     
-    protected void internalCreateAsyncJob(JobEntity jobEntity, boolean exclusive) {
+    protected void internalCreateAsyncJob(JobEntity jobEntity, bool exclusive) {
         fillDefaultAsyncJobInfo(jobEntity, exclusive);
     }
 
-    protected void internalCreateLockedAsyncJob(JobEntity jobEntity, boolean exclusive) {
+    protected void internalCreateLockedAsyncJob(JobEntity jobEntity, bool exclusive) {
         fillDefaultAsyncJobInfo(jobEntity, exclusive);
         setLockTimeAndOwner(getAsyncExecutor(), jobEntity);
     }
@@ -545,7 +545,7 @@ public class DefaultJobManager implements JobManager {
         jobInfoEntity.setLockOwner(asyncExecutor.getLockOwner());
     }
 
-    protected void fillDefaultAsyncJobInfo(JobEntity jobEntity, boolean exclusive) {
+    protected void fillDefaultAsyncJobInfo(JobEntity jobEntity, bool exclusive) {
         jobEntity.setJobType(JobEntity.JOB_TYPE_MESSAGE);
         jobEntity.setRevision(1);
         jobEntity.setRetries(jobServiceConfiguration.getAsyncExecutorNumberOfRetries());
@@ -655,15 +655,15 @@ public class DefaultJobManager implements JobManager {
         this.jobServiceConfiguration = jobServiceConfiguration;
     }
 
-    protected boolean isAsyncExecutorActive() {
+    protected bool isAsyncExecutorActive() {
         return isExecutorActive(jobServiceConfiguration.getAsyncExecutor());
     }
     
-    protected boolean isAsyncHistoryExecutorActive() {
+    protected bool isAsyncHistoryExecutorActive() {
         return isExecutorActive(jobServiceConfiguration.getAsyncHistoryExecutor());
     }
     
-    protected boolean isExecutorActive(AsyncExecutor asyncExecutor) {
+    protected bool isExecutorActive(AsyncExecutor asyncExecutor) {
         return asyncExecutor != null && asyncExecutor.isActive();
     }
 

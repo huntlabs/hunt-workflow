@@ -17,7 +17,7 @@
  * 
  * @author Tijs Rademakers
  */
-public class FlowableTaskAlreadyClaimedException extends FlowableException {
+class FlowableTaskAlreadyClaimedException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
 

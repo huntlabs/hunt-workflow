@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.JobEntity;
 
 class EventSubscriptionUtil {
 
-    public static void eventReceived(EventSubscriptionEntity eventSubscriptionEntity, Object payload, boolean processASync) {
+    public static void eventReceived(EventSubscriptionEntity eventSubscriptionEntity, Object payload, bool processASync) {
         if (processASync) {
             scheduleEventAsync(eventSubscriptionEntity, payload);
         } else {

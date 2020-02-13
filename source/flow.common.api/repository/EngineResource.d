@@ -26,6 +26,6 @@ interface EngineResource {
 
     void setDeploymentId(string deploymentId);
     
-    boolean isGenerated();
+    bool isGenerated();
     
 }

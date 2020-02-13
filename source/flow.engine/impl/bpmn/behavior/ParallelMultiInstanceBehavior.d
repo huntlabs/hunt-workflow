@@ -104,7 +104,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
     @Override
     public void leave(DelegateExecution execution) {
 
-        boolean zeroNrOfInstances = false;
+        bool zeroNrOfInstances = false;
         if (resolveNrOfInstances(execution) == 0) {
             // Empty collection, just leave.
             zeroNrOfInstances = true;
@@ -137,7 +137,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
             executionEntity.inactivate();
             lockFirstParentScope(executionEntity);
 
-            boolean isCompletionConditionSatisfied = completionConditionSatisfied(execution.getParent());
+            bool isCompletionConditionSatisfied = completionConditionSatisfied(execution.getParent());
             if (nrOfCompletedInstances >= nrOfInstances || isCompletionConditionSatisfied) {
 
                 ExecutionEntity leavingExecution = null;
@@ -181,7 +181,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
     }
 
     protected Activity verifyCompensation(DelegateExecution execution, ExecutionEntity executionToUse, Activity activity) {
-        boolean hasCompensation = false;
+        bool hasCompensation = false;
         if (activity instanceof Transaction) {
             hasCompensation = true;
         } else if (activity instanceof SubProcess) {
@@ -245,7 +245,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
 
-        boolean found = false;
+        bool found = false;
         ExecutionEntity parentScopeExecution = null;
         ExecutionEntity currentExecution = (ExecutionEntity) execution;
         while (!found && currentExecution != null && currentExecution.getParentId() != null) {

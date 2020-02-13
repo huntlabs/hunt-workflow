@@ -35,12 +35,12 @@ class DiagramEdge extends DiagramElement {
     }
 
     @Override
-    public boolean isNode() {
+    public bool isNode() {
         return false;
     }
 
     @Override
-    public boolean isEdge() {
+    public bool isEdge() {
         return true;
     }
 

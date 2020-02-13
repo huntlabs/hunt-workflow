@@ -26,7 +26,7 @@ import org.flowable.job.api.Job;
  *
  * @author Frederik Heremans
  */
-public class FlowableJobEventBuilder {
+class FlowableJobEventBuilder {
 
     /**
      * @param type

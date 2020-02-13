@@ -244,7 +244,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
         JobTestHelper.waitForJobExecutorToProcessAllJobs(processEngineConfiguration, managementService, maxMillisToWait, intervalMillis);
     }
 
-    public void waitForJobExecutorOnCondition(long maxMillisToWait, long intervalMillis, Callable<Boolean> condition) {
+    public void waitForJobExecutorOnCondition(long maxMillisToWait, long intervalMillis, Callable<bool> condition) {
         JobTestHelper.waitForJobExecutorOnCondition(processEngineConfiguration, maxMillisToWait, intervalMillis, condition);
     }
 
@@ -387,7 +387,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     //
     
     protected void deleteDeployments() {
-        boolean isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
+        bool isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
         HistoryManager asyncHistoryManager = null;
         if (isAsyncHistoryEnabled) {
             processEngineConfiguration.setAsyncHistoryEnabled(false);
@@ -407,7 +407,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     }
     
     protected void deleteDeployment(string deploymentId) {
-        boolean isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
+        bool isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
         HistoryManager asyncHistoryManager = null;
         if (isAsyncHistoryEnabled) {
             processEngineConfiguration.setAsyncHistoryEnabled(false);

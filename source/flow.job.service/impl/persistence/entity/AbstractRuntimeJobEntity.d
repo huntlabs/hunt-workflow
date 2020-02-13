@@ -51,7 +51,7 @@ interface AbstractRuntimeJobEntity extends Job, AbstractJobEntity {
 
     void setDuedate(Date duedate);
 
-    void setExclusive(boolean isExclusive);
+    void setExclusive(bool isExclusive);
 
     string getRepeat();
 

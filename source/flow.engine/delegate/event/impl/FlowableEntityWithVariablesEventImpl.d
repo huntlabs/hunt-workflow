@@ -27,9 +27,9 @@ import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
 class FlowableEntityWithVariablesEventImpl extends FlowableEntityEventImpl implements FlowableEntityWithVariablesEvent {
 
     protected Map variables;
-    protected boolean localScope;
+    protected bool localScope;
 
-    public FlowableEntityWithVariablesEventImpl(Object entity, Map variables, boolean localScope, FlowableEngineEventType type) {
+    public FlowableEntityWithVariablesEventImpl(Object entity, Map variables, bool localScope, FlowableEngineEventType type) {
         super(entity, type);
 
         this.variables = variables;
@@ -42,7 +42,7 @@ class FlowableEntityWithVariablesEventImpl extends FlowableEntityEventImpl imple
     }
 
     @Override
-    public boolean isLocalScope() {
+    public bool isLocalScope() {
         return localScope;
     }
 }

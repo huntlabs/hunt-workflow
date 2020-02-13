@@ -23,7 +23,7 @@ import org.flowable.job.service.impl.persistence.entity.JobInfoEntityManager;
 /**
  * @author Joram Barrez
  */
-public class FindExpiredJobsCmd implements Command<List<? extends JobInfoEntity>> {
+class FindExpiredJobsCmd implements Command<List<? extends JobInfoEntity>> {
 
     protected int pageSize;
     protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;

@@ -37,7 +37,7 @@ class ActivityStartHistoryJsonTransformer extends AbstractHistoryJsonTransformer
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return true;
     }
 

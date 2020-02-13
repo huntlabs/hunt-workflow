@@ -26,7 +26,7 @@ interface TenantAwareAsyncExecutor extends AsyncExecutor {
 
     Set<string> getTenantIds();
 
-    void addTenantAsyncExecutor(string tenantId, boolean startExecutor);
+    void addTenantAsyncExecutor(string tenantId, bool startExecutor);
 
     AsyncExecutor getTenantAsyncExecutor(string tenantId);
     

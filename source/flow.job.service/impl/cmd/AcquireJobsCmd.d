@@ -28,7 +28,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-public class AcquireJobsCmd implements Command<AcquiredJobEntities> {
+class AcquireJobsCmd implements Command<AcquiredJobEntities> {
 
     private final AsyncExecutor asyncExecutor;
     private final int remainingCapacity;

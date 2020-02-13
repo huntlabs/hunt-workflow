@@ -13,7 +13,7 @@
 
 
 /**
- * Transforms a {@link string} to a {@link Boolean}
+ * Transforms a {@link string} to a {@link bool}
  * 
  * @author Esteban Robles Luna
  */
@@ -21,6 +21,6 @@ class StringToBoolean extends AbstractTransformer {
 
     @Override
     protected Object primTransform(Object anObject) throws Exception {
-        return Boolean.valueOf((string) anObject);
+        return bool.valueOf((string) anObject);
     }
 }

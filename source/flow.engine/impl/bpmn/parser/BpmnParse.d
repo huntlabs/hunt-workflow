@@ -77,8 +77,8 @@ class BpmnParse implements BpmnXMLConstants {
 
     protected string name;
 
-    protected boolean validateSchema = true;
-    protected boolean validateProcess = true;
+    protected bool validateSchema = true;
+    protected bool validateProcess = true;
 
     protected StreamSource streamSource;
     protected string sourceSystemId;
@@ -137,7 +137,7 @@ class BpmnParse implements BpmnXMLConstants {
             ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
             BpmnXMLConverter converter = new BpmnXMLConverter();
 
-            boolean enableSafeBpmnXml = false;
+            bool enableSafeBpmnXml = false;
             string encoding = null;
             if (processEngineConfiguration != null) {
                 enableSafeBpmnXml = processEngineConfiguration.isEnableSafeBpmnXml();
@@ -418,19 +418,19 @@ class BpmnParse implements BpmnXMLConstants {
      * ------------------- GETTERS AND SETTERS -------------------
      */
 
-    public boolean isValidateSchema() {
+    public bool isValidateSchema() {
         return validateSchema;
     }
 
-    public void setValidateSchema(boolean validateSchema) {
+    public void setValidateSchema(bool validateSchema) {
         this.validateSchema = validateSchema;
     }
 
-    public boolean isValidateProcess() {
+    public bool isValidateProcess() {
         return validateProcess;
     }
 
-    public void setValidateProcess(boolean validateProcess) {
+    public void setValidateProcess(bool validateProcess) {
         this.validateProcess = validateProcess;
     }
 

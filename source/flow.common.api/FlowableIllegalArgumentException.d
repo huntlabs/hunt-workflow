@@ -19,7 +19,7 @@
  * 
  * @author Frederik Heremans
  */
-public class FlowableIllegalArgumentException extends FlowableException {
+class FlowableIllegalArgumentException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
 

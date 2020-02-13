@@ -196,7 +196,7 @@ class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager im
                         Set<string> childSubProcessExecutionActivityIds = subProcessChildExecutions.stream().map(Execution::getActivityId).collect(Collectors.toSet());
                         Set<string> mappedSubProcessActivityIds = subProcessActivityMappingsByCallActivityIdAndFromActivityId.get(executionActivityId).keySet();
                         childSubProcessExecutionActivityIds.removeAll(mappedSubProcessActivityIds);
-                        boolean childrenFullyMapped = childSubProcessExecutionActivityIds.isEmpty();
+                        bool childrenFullyMapped = childSubProcessExecutionActivityIds.isEmpty();
 
                         if (!childrenFullyMapped) {
                             FlowElement newModelFlowElement = newModel.getFlowElement(executionActivityId);
@@ -470,7 +470,7 @@ class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager im
     }
 
     @Override
-    protected boolean isDirectFlowElementExecutionMigration(FlowElement currentFlowElement, FlowElement newFlowElement) {
+    protected bool isDirectFlowElementExecutionMigration(FlowElement currentFlowElement, FlowElement newFlowElement) {
         //Activities inside or that are MultiInstance cannot be migrated directly, as it is better to trigger the MultiInstanceBehavior using the agenda, directMigration skips the agenda
         return (currentFlowElement instanceof UserTask && newFlowElement instanceof UserTask ||
             currentFlowElement instanceof ReceiveTask && newFlowElement instanceof ReceiveTask) &&
@@ -543,7 +543,7 @@ class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager im
         Set<string> mappedFromActivities = mainProcessActivityMappingByFromActivityId.keySet();
 
         //Partition the executions by Explicitly mapped or not
-        Map<Boolean, List<string>> partitionedExecutionActivityIds = filteredExecutionsByActivityId.keySet()
+        Map<bool, List<string>> partitionedExecutionActivityIds = filteredExecutionsByActivityId.keySet()
             .stream()
             .collect(Collectors.partitioningBy(mappedFromActivities::contains));
         List<string> executionActivityIdsToAutoMap = partitionedExecutionActivityIds.get(false);
@@ -559,7 +559,7 @@ class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager im
 
             if (currentModelFlowElement instanceof CallActivity) {
                 //Check that all or none of the call activity child activities executions are explicitly mapped
-                boolean runningChildrenNotFullyMapped = false;
+                bool runningChildrenNotFullyMapped = false;
                 if (subProcessActivityMappingsByCallActivityIdAndFromActivityId.containsKey(executionActivityId)) {
                     Set<string> mappedSubProcessActivityIds = subProcessActivityMappingsByCallActivityIdAndFromActivityId.get(executionActivityId).keySet();
                     List<ExecutionEntity> callActivityExecutions = filteredExecutionsByActivityId.get(executionActivityId).stream().filter(ExecutionEntity::isActive).collect(Collectors.toList());
@@ -720,7 +720,7 @@ class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager im
         return changeActivityStateBuilders;
     }
 
-    protected boolean isSameTenant(string tenantId1, string tenantId2) {
+    protected bool isSameTenant(string tenantId1, string tenantId2) {
 
         if (tenantId1 != null && tenantId2 != null) {
             return tenantId1.equals(tenantId2);
@@ -749,7 +749,7 @@ class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager im
         }
     }
 
-    protected boolean isActivityIdInProcessDefinitionModel(string activityId, BpmnModel bpmnModel) {
+    protected bool isActivityIdInProcessDefinitionModel(string activityId, BpmnModel bpmnModel) {
         return bpmnModel.getFlowElement(activityId) != null;
     }
 
@@ -762,18 +762,18 @@ class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager im
     }
 
     @Override
-    protected boolean isSubProcessAncestorOfAnyExecution(string subProcessId, List<ExecutionEntity> currentExecutions) {
+    protected bool isSubProcessAncestorOfAnyExecution(string subProcessId, List<ExecutionEntity> currentExecutions) {
         //recreates all subProcesses
         return false;
     }
 
     @Override
-    protected boolean isSubProcessContainerOfAnyFlowElement(string subProcessId, Collection<MoveExecutionEntityContainer.FlowElementMoveEntry> moveToFlowElements) {
+    protected bool isSubProcessContainerOfAnyFlowElement(string subProcessId, Collection<MoveExecutionEntityContainer.FlowElementMoveEntry> moveToFlowElements) {
         //recreates all subProcesses
         return false;
     }
 
-    protected boolean referToSameCalledElement(CallActivity callActivity1, CallActivity callActivity2) {
+    protected bool referToSameCalledElement(CallActivity callActivity1, CallActivity callActivity2) {
         string calledElement1 = callActivity1.getCalledElement();
         string calledElement2 = callActivity2.getCalledElement();
 

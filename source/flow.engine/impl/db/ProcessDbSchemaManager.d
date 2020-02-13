@@ -207,12 +207,12 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
         PropertyEntity dbVersionProperty = null;
         string dbVersion = null;
         string feedback = null;
-        boolean isUpgradeNeeded = false;
+        bool isUpgradeNeeded = false;
         int matchingVersionIndex = -1;
         int version6120Index = FlowableVersions.getFlowableVersionIndexForDbVersion(FlowableVersions.LAST_V6_VERSION_BEFORE_SERVICES);
 
         DbSqlSession dbSqlSession = CommandContextUtil.getDbSqlSession();
-        boolean isEngineTablePresent = isEngineTablePresent();
+        bool isEngineTablePresent = isEngineTablePresent();
         if (isEngineTablePresent) {
 
             dbVersionProperty = dbSqlSession.selectById(PropertyEntityImpl.class, "schema.version");
@@ -222,7 +222,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
             isUpgradeNeeded = (matchingVersionIndex != (FlowableVersions.FLOWABLE_VERSIONS.size() - 1));
         }
         
-        boolean isHistoryTablePresent = isHistoryTablePresent();
+        bool isHistoryTablePresent = isHistoryTablePresent();
         if (isUpgradeNeeded && matchingVersionIndex < version6120Index) {
             dbSchemaUpgradeUntil6120("engine", matchingVersionIndex);
             
@@ -304,11 +304,11 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
 
     }
 
-    public boolean isEngineTablePresent() {
+    public bool isEngineTablePresent() {
         return isTablePresent("ACT_RU_EXECUTION");
     }
 
-    public boolean isHistoryTablePresent() {
+    public bool isHistoryTablePresent() {
         return isTablePresent("ACT_HI_PROCINST");
     }
 
@@ -328,7 +328,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
         }
     }
 
-    protected boolean isMissingTablesException(Exception e) {
+    protected bool isMissingTablesException(Exception e) {
         string exceptionMessage = e.getMessage();
         if (e.getMessage() != null) {
             // Matches message returned from H2

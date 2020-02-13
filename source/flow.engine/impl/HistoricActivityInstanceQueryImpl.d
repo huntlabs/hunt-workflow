@@ -45,9 +45,9 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
     protected string assignee;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
-    protected boolean finished;
-    protected boolean unfinished;
+    protected bool withoutTenantId;
+    protected bool finished;
+    protected bool unfinished;
     protected string deleteReason;
     protected string deleteReasonLike;
     protected Date startedBefore;
@@ -209,7 +209,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         return this;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
@@ -337,11 +337,11 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         return assignee;
     }
 
-    public boolean isFinished() {
+    public bool isFinished() {
         return finished;
     }
 
-    public boolean isUnfinished() {
+    public bool isUnfinished() {
         return unfinished;
     }
 

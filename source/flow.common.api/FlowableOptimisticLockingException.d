@@ -18,7 +18,7 @@
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-public class FlowableOptimisticLockingException extends FlowableException {
+class FlowableOptimisticLockingException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
 

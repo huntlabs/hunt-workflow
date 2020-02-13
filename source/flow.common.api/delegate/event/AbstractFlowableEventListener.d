@@ -20,7 +20,7 @@ public abstract class AbstractFlowableEventListener implements FlowableEventList
     protected string onTransaction;
     
     @Override
-    public boolean isFireOnTransactionLifecycleEvent() {
+    public bool isFireOnTransactionLifecycleEvent() {
         return onTransaction != null;
     }
 

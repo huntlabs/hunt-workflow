@@ -67,7 +67,7 @@ interface ExecutionDataManager extends DataManager<ExecutionEntity> {
 
     void updateProcessInstanceLockTime(string processInstanceId, Date lockDate, Date expirationTime);
 
-    void updateAllExecutionRelatedEntityCountFlags(boolean newValue);
+    void updateAllExecutionRelatedEntityCountFlags(bool newValue);
 
     void clearProcessInstanceLockTime(string processInstanceId);
 

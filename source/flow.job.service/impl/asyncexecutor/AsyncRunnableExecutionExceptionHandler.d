@@ -17,6 +17,6 @@ import org.flowable.job.service.JobServiceConfiguration;
 
 interface AsyncRunnableExecutionExceptionHandler {
   
-  boolean handleException(JobServiceConfiguration jobServiceConfiguration, JobInfo job, Throwable exception);
+  bool handleException(JobServiceConfiguration jobServiceConfiguration, JobInfo job, Throwable exception);
 
 }

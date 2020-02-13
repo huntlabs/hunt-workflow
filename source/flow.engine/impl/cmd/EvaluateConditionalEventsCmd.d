@@ -29,7 +29,7 @@ class EvaluateConditionalEventsCmd extends NeedsActiveExecutionCmd<Object> {
 
     protected Map<string, Object> processVariables;
     protected Map<string, Object> transientVariables;
-    protected boolean async;
+    protected bool async;
 
     public EvaluateConditionalEventsCmd(string processInstanceId, Map<string, Object> processVariables) {
         super(processInstanceId);

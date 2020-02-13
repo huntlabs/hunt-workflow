@@ -72,7 +72,7 @@ class ErrorThrowingEventListener extends BaseDelegateEventListener {
     }
 
     @Override
-    public boolean isFailOnException() {
+    public bool isFailOnException() {
         return true;
     }
 }

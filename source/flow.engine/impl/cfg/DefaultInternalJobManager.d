@@ -66,7 +66,7 @@ class DefaultInternalJobManager implements InternalJobManager {
     }
 
     @Override
-    public boolean handleJobInsert(Job job) {
+    public bool handleJobInsert(Job job) {
         // add link to execution
         if (job.getExecutionId() != null) {
             ExecutionEntity execution = getExecutionEntityManager().findById(job.getExecutionId());

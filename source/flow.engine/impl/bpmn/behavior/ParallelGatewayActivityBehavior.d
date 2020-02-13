@@ -130,14 +130,14 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
         return cleanedExecutions;
     }
 
-    protected boolean isChildOfMultiInstanceExecution(DelegateExecution executionEntity, DelegateExecution multiInstanceExecution) {
-        boolean isChild = false;
+    protected bool isChildOfMultiInstanceExecution(DelegateExecution executionEntity, DelegateExecution multiInstanceExecution) {
+        bool isChild = false;
         DelegateExecution parentExecution = executionEntity.getParent();
         if (parentExecution != null) {
             if (parentExecution.getId().equals(multiInstanceExecution.getId())) {
                 isChild = true;
             } else {
-                boolean isNestedChild = isChildOfMultiInstanceExecution(parentExecution, multiInstanceExecution);
+                bool isNestedChild = isChildOfMultiInstanceExecution(parentExecution, multiInstanceExecution);
                 if (isNestedChild) {
                     isChild = true;
                 }
@@ -147,13 +147,13 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
         return isChild;
     }
 
-    protected boolean hasMultiInstanceParent(FlowNode flowNode) {
-        boolean hasMultiInstanceParent = false;
+    protected bool hasMultiInstanceParent(FlowNode flowNode) {
+        bool hasMultiInstanceParent = false;
         if (flowNode.getSubProcess() != null) {
             if (flowNode.getSubProcess().getLoopCharacteristics() != null) {
                 hasMultiInstanceParent = true;
             } else {
-                boolean hasNestedMultiInstanceParent = hasMultiInstanceParent(flowNode.getSubProcess());
+                bool hasNestedMultiInstanceParent = hasMultiInstanceParent(flowNode.getSubProcess());
                 if (hasNestedMultiInstanceParent) {
                     hasMultiInstanceParent = true;
                 }

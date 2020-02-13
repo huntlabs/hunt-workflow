@@ -18,7 +18,7 @@
  * 
  * @author Frederik Heremans
  */
-public class FlowableObjectNotFoundException extends FlowableException {
+class FlowableObjectNotFoundException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class FlowableObjectNotFoundException extends FlowableException {
     /**
      * The class of the object that was not found. Contains the interface-class of the object that was not found.
      */
-    public Class<?> getObjectClass() {
+    class<?> getObjectClass() {
         return objectClass;
     }
 }

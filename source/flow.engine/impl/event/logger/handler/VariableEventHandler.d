@@ -42,7 +42,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VariableEventHandler.class);
 
-    public static final string TYPE_BOOLEAN = "boolean";
+    public static final string TYPE_BOOLEAN = "bool";
     public static final string TYPE_STRING = "string";
     public static final string TYPE_SHORT = "short";
     public static final string TYPE_INTEGER = "integer";
@@ -63,7 +63,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
         VariableType variableType = variableEvent.getVariableType();
         if (variableType instanceof BooleanType) {
 
-            putInMapIfNotNull(data, Fields.VALUE_BOOLEAN, (Boolean) variableEvent.getVariableValue());
+            putInMapIfNotNull(data, Fields.VALUE_BOOLEAN, (bool) variableEvent.getVariableValue());
             putInMapIfNotNull(data, Fields.VALUE, variableEvent.getVariableValue());
             putInMapIfNotNull(data, Fields.VARIABLE_TYPE, TYPE_BOOLEAN);
 

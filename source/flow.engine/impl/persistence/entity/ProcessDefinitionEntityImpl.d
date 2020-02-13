@@ -44,11 +44,11 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
     protected string tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
     protected Integer historyLevel;
     protected string diagramResourceName;
-    protected boolean isGraphicalNotationDefined;
+    protected bool isGraphicalNotationDefined;
     protected Map<string, Object> variables;
-    protected boolean hasStartFormKey;
+    protected bool hasStartFormKey;
     protected int suspensionState = SuspensionState.ACTIVE.getStateCode();
-    protected boolean isIdentityLinksInitialized;
+    protected bool isIdentityLinksInitialized;
     protected List<IdentityLinkEntity> definitionIdentityLinkEntities = new ArrayList<>();
     protected IOSpecification ioSpecification;
     protected string derivedFrom;
@@ -212,37 +212,37 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
     }
 
     @Override
-    public boolean hasStartFormKey() {
+    public bool hasStartFormKey() {
         return hasStartFormKey;
     }
 
     @Override
-    public boolean getHasStartFormKey() {
+    public bool getHasStartFormKey() {
         return hasStartFormKey;
     }
 
     @Override
-    public void setStartFormKey(boolean hasStartFormKey) {
+    public void setStartFormKey(bool hasStartFormKey) {
         this.hasStartFormKey = hasStartFormKey;
     }
 
     @Override
-    public void setHasStartFormKey(boolean hasStartFormKey) {
+    public void setHasStartFormKey(bool hasStartFormKey) {
         this.hasStartFormKey = hasStartFormKey;
     }
 
     @Override
-    public boolean isGraphicalNotationDefined() {
+    public bool isGraphicalNotationDefined() {
         return isGraphicalNotationDefined;
     }
 
     @Override
-    public boolean hasGraphicalNotation() {
+    public bool hasGraphicalNotation() {
         return isGraphicalNotationDefined;
     }
 
     @Override
-    public void setGraphicalNotationDefined(boolean isGraphicalNotationDefined) {
+    public void setGraphicalNotationDefined(bool isGraphicalNotationDefined) {
         this.isGraphicalNotationDefined = isGraphicalNotationDefined;
     }
 
@@ -257,7 +257,7 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
     }
 
     @Override
-    public boolean isSuspended() {
+    public bool isSuspended() {
         return suspensionState == SuspensionState.SUSPENDED.getStateCode();
     }
     

@@ -60,7 +60,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 class TaskHelper {
 
     public static void completeTask(TaskEntity taskEntity, Map<string, Object> variables,
-            Map<string, Object> transientVariables, boolean localScope, CommandContext commandContext) {
+            Map<string, Object> transientVariables, bool localScope, CommandContext commandContext) {
 
         // Task complete logic
 
@@ -172,7 +172,7 @@ class TaskHelper {
         }
     }
 
-    public static void insertTask(TaskEntity taskEntity, ExecutionEntity execution, boolean fireCreateEvent, boolean addEntityLinks) {
+    public static void insertTask(TaskEntity taskEntity, ExecutionEntity execution, bool fireCreateEvent, bool addEntityLinks) {
         // Inherit tenant id (if applicable)
         if (execution != null && execution.getTenantId() != null) {
             taskEntity.setTenantId(execution.getTenantId());
@@ -212,7 +212,7 @@ class TaskHelper {
         CommandContextUtil.getActivityInstanceEntityManager().recordTaskCreated(taskEntity, execution);
     }
 
-    public static void insertTask(TaskEntity taskEntity, boolean fireCreateEvent) {
+    public static void insertTask(TaskEntity taskEntity, bool fireCreateEvent) {
         if (taskEntity.getOwner() != null) {
             addOwnerIdentityLink(taskEntity, taskEntity.getOwner());
         }
@@ -275,12 +275,12 @@ class TaskHelper {
      *            If true, the event dispatcher will be used to fire an event
      *            for the deletion.
      */
-    public static void deleteTask(TaskEntity task, string deleteReason, boolean cascade, boolean fireTaskListener, boolean fireEvents) {
+    public static void deleteTask(TaskEntity task, string deleteReason, bool cascade, bool fireTaskListener, bool fireEvents) {
         internalDeleteTask(task, deleteReason, cascade, true, fireTaskListener, fireEvents);
     }
         
     protected static void internalDeleteTask(TaskEntity task, string deleteReason,
-            boolean cascade, boolean executeTaskDelete, boolean fireTaskListener, boolean fireEvents) {
+            bool cascade, bool executeTaskDelete, bool fireTaskListener, bool fireEvents) {
         
         if (!task.isDeleted()) {
             
@@ -309,10 +309,10 @@ class TaskHelper {
         }
     }
 
-    protected static void handleRelatedEntities(CommandContext commandContext, TaskEntity task, string deleteReason, boolean cascade,
-            boolean fireTaskListener, boolean fireEvents, FlowableEventDispatcher eventDispatcher) {
+    protected static void handleRelatedEntities(CommandContext commandContext, TaskEntity task, string deleteReason, bool cascade,
+            bool fireTaskListener, bool fireEvents, FlowableEventDispatcher eventDispatcher) {
         
-        boolean isTaskRelatedEntityCountEnabled = CountingEntityUtil.isTaskRelatedEntityCountEnabled(task);
+        bool isTaskRelatedEntityCountEnabled = CountingEntityUtil.isTaskRelatedEntityCountEnabled(task);
         
         if (!isTaskRelatedEntityCountEnabled
                 || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getSubTaskCount() > 0)) {
@@ -326,7 +326,7 @@ class TaskHelper {
         if (!isTaskRelatedEntityCountEnabled
                 || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getIdentityLinkCount() > 0)) {
             
-            boolean deleteIdentityLinks = true;
+            bool deleteIdentityLinks = true;
             if (fireEvents) {
                 List<IdentityLinkEntity> identityLinks = CommandContextUtil.getIdentityLinkService(commandContext).findIdentityLinksByTaskId(task.getId());
                 for (IdentityLinkEntity identityLinkEntity : identityLinks) {
@@ -365,7 +365,7 @@ class TaskHelper {
         }
     }
 
-    protected static void handleTaskHistory(CommandContext commandContext, TaskEntity task, string deleteReason, boolean cascade) {
+    protected static void handleTaskHistory(CommandContext commandContext, TaskEntity task, string deleteReason, bool cascade) {
         if (cascade) {
             deleteHistoricTask(task.getId());
             deleteHistoricTaskEventLogEntries(task.getId());
@@ -398,7 +398,7 @@ class TaskHelper {
         }
     }
 
-    public static void deleteTask(string taskId, string deleteReason, boolean cascade) {
+    public static void deleteTask(string taskId, string deleteReason, bool cascade) {
 
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         TaskEntity task = CommandContextUtil.getTaskService(commandContext).getTask(taskId);
@@ -423,7 +423,7 @@ class TaskHelper {
         }
     }
 
-    public static void deleteTasksByProcessInstanceId(string processInstanceId, string deleteReason, boolean cascade) {
+    public static void deleteTasksByProcessInstanceId(string processInstanceId, string deleteReason, bool cascade) {
         List<TaskEntity> tasks = CommandContextUtil.getTaskService().findTasksByProcessInstanceId(processInstanceId);
 
         for (TaskEntity task : tasks) {
@@ -490,21 +490,21 @@ class TaskHelper {
         }
     }
 
-    public static boolean isFormFieldValidationEnabled(VariableContainer variableContainer,
+    public static bool isFormFieldValidationEnabled(VariableContainer variableContainer,
         ProcessEngineConfigurationImpl processEngineConfiguration, string formFieldValidationExpression) {
         if (StringUtils.isNotEmpty(formFieldValidationExpression)) {
-            Boolean formFieldValidation = getBoolean(formFieldValidationExpression);
+            bool formFieldValidation = getBoolean(formFieldValidationExpression);
             if (formFieldValidation != null) {
                 return formFieldValidation;
             }
 
             if (variableContainer != null) {
                 ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
-                Boolean formFieldValidationValue = getBoolean(
+                bool formFieldValidationValue = getBoolean(
                     expressionManager.createExpression(formFieldValidationExpression).getValue(variableContainer)
                 );
                 if (formFieldValidationValue == null) {
-                    throw new FlowableException("Unable to resolve formFieldValidationExpression to boolean value");
+                    throw new FlowableException("Unable to resolve formFieldValidationExpression to bool value");
                 }
                 return formFieldValidationValue;
             }
@@ -513,16 +513,16 @@ class TaskHelper {
         return true;
     }
 
-    protected static Boolean getBoolean(Object booleanObject) {
-        if (booleanObject instanceof Boolean) {
-            return (Boolean) booleanObject;
+    protected static bool getBoolean(Object booleanObject) {
+        if (booleanObject instanceof bool) {
+            return (bool) booleanObject;
         }
         if (booleanObject instanceof string) {
             if ("true".equalsIgnoreCase((string) booleanObject)) {
-                return Boolean.TRUE;
+                return bool.TRUE;
             }
             if ("false".equalsIgnoreCase((string) booleanObject)) {
-                return Boolean.FALSE;
+                return bool.FALSE;
             }
         }
         return null;

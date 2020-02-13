@@ -59,15 +59,15 @@ interface Flowable5CompatibilityHandler {
 
     ProcessDefinitionCacheEntry resolveProcessDefinition(ProcessDefinition processDefinition);
 
-    boolean isProcessDefinitionSuspended(string processDefinitionId);
+    bool isProcessDefinitionSuspended(string processDefinitionId);
 
     void addCandidateStarter(string processDefinitionId, string userId, string groupId);
 
     void deleteCandidateStarter(string processDefinitionId, string userId, string groupId);
 
-    void suspendProcessDefinition(string processDefinitionId, string processDefinitionKey, boolean suspendProcessInstances, Date suspensionDate, string tenantId);
+    void suspendProcessDefinition(string processDefinitionId, string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate, string tenantId);
 
-    void activateProcessDefinition(string processDefinitionId, string processDefinitionKey, boolean activateProcessInstances, Date activationDate, string tenantId);
+    void activateProcessDefinition(string processDefinitionId, string processDefinitionKey, bool activateProcessInstances, Date activationDate, string tenantId);
 
     void setProcessDefinitionCategory(string processDefinitionId, string category);
 
@@ -77,7 +77,7 @@ interface Flowable5CompatibilityHandler {
 
     void changeDeploymentTenantId(string deploymentId, string newTenantId);
 
-    void deleteDeployment(string deploymentId, boolean cascade);
+    void deleteDeployment(string deploymentId, bool cascade);
 
     ProcessInstance startProcessInstance(string processDefinitionKey, string processDefinitionId, Map<string, Object> variables, Map<string, Object> transientVariables,
             string businessKey, string tenantId, string processInstanceName);
@@ -88,17 +88,17 @@ interface Flowable5CompatibilityHandler {
     
     void setProcessInstanceName(string processInstanceId, string processInstanceName);
 
-    Object getExecutionVariable(string executionId, string variableName, boolean isLocal);
+    Object getExecutionVariable(string executionId, string variableName, bool isLocal);
 
-    VariableInstance getExecutionVariableInstance(string executionId, string variableName, boolean isLocal);
+    VariableInstance getExecutionVariableInstance(string executionId, string variableName, bool isLocal);
 
-    Map<string, Object> getExecutionVariables(string executionId, Collection<string> variableNames, boolean isLocal);
+    Map<string, Object> getExecutionVariables(string executionId, Collection<string> variableNames, bool isLocal);
 
-    Map<string, VariableInstance> getExecutionVariableInstances(string executionId, Collection<string> variableNames, boolean isLocal);
+    Map<string, VariableInstance> getExecutionVariableInstances(string executionId, Collection<string> variableNames, bool isLocal);
 
-    void setExecutionVariables(string executionId, Map<string, ? extends Object> variables, boolean isLocal);
+    void setExecutionVariables(string executionId, Map<string, ? extends Object> variables, bool isLocal);
 
-    void removeExecutionVariables(string executionId, Collection<string> variableNames, boolean isLocal);
+    void removeExecutionVariables(string executionId, Collection<string> variableNames, bool isLocal);
 
     void updateBusinessKey(string processInstanceId, string businessKey);
 
@@ -114,21 +114,21 @@ interface Flowable5CompatibilityHandler {
 
     void deleteHistoricProcessInstance(string processInstanceId);
 
-    void completeTask(TaskEntity taskEntity, Map<string, Object> variables, boolean localScope);
+    void completeTask(TaskEntity taskEntity, Map<string, Object> variables, bool localScope);
 
     void completeTask(TaskEntity taskEntity, Map<string, Object> variables, Map<string, Object> transientVariables);
 
     void claimTask(string taskId, string userId);
 
-    void setTaskVariables(string taskId, Map<string, ? extends Object> variables, boolean isLocal);
+    void setTaskVariables(string taskId, Map<string, ? extends Object> variables, bool isLocal);
 
-    void removeTaskVariables(string taskId, Collection<string> variableNames, boolean isLocal);
+    void removeTaskVariables(string taskId, Collection<string> variableNames, bool isLocal);
 
     void setTaskDueDate(string taskId, Date dueDate);
 
     void setTaskPriority(string taskId, int priority);
 
-    void deleteTask(string taskId, string deleteReason, boolean cascade);
+    void deleteTask(string taskId, string deleteReason, bool cascade);
 
     void deleteHistoricTask(string taskId);
 
@@ -142,7 +142,7 @@ interface Flowable5CompatibilityHandler {
     
     TaskFormData getTaskFormData(string taskId);
 
-    void submitTaskFormData(string taskId, Map<string, string> properties, boolean completeTask);
+    void submitTaskFormData(string taskId, Map<string, string> properties, bool completeTask);
 
     void saveTask(TaskEntity task);
 
@@ -162,11 +162,11 @@ interface Flowable5CompatibilityHandler {
 
     void trigger(string executionId, Map<string, Object> processVariables, Map<string, Object> transientVariables);
 
-    void messageEventReceived(string messageName, string executionId, Map<string, Object> processVariables, boolean async);
+    void messageEventReceived(string messageName, string executionId, Map<string, Object> processVariables, bool async);
 
-    void signalEventReceived(string signalName, string executionId, Map<string, Object> processVariables, boolean async, string tenantId);
+    void signalEventReceived(string signalName, string executionId, Map<string, Object> processVariables, bool async, string tenantId);
 
-    void signalEventReceived(SignalEventSubscriptionEntity signalEventSubscriptionEntity, Object payload, boolean async);
+    void signalEventReceived(SignalEventSubscriptionEntity signalEventSubscriptionEntity, Object payload, bool async);
 
     void executeJob(Job job);
 
@@ -180,7 +180,7 @@ interface Flowable5CompatibilityHandler {
 
     void propagateError(BpmnError bpmnError, DelegateExecution execution);
 
-    boolean mapException(Exception camelException, DelegateExecution execution, List<MapExceptionEntry> mapExceptions);
+    bool mapException(Exception camelException, DelegateExecution execution, List<MapExceptionEntry> mapExceptions);
 
     Map<string, Object> getVariables(ProcessInstance processInstance);
 

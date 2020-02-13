@@ -29,7 +29,7 @@ interface CaseInstanceService {
     string generateNewCaseInstanceId();
 
     string startCaseInstanceByKey(string caseDefinitionKey, string predefinedCaseInstanceId, string caseInstanceName, string businessKey,
-                    string executionId, string tenantId, boolean fallbackToDefaultTenant, Map<string, Object> inParametersMap);
+                    string executionId, string tenantId, bool fallbackToDefaultTenant, Map<string, Object> inParametersMap);
     
     void handleSignalEvent(EventSubscriptionEntity eventSubscription);
 

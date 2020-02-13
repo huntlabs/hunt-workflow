@@ -555,7 +555,7 @@ class CommandContextUtil {
         return null;
     }
 
-    public static boolean hasInvolvedExecutions(CommandContext commandContext) {
+    public static bool hasInvolvedExecutions(CommandContext commandContext) {
         return getInvolvedExecutions(commandContext) != null;
     }
 

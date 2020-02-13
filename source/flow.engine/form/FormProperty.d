@@ -11,18 +11,27 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.form.FormProperty; 
+ 
+ 
+ 
 
 
 import java.io.Serializable;
 
-import flow.engine.FormService;
+import flow.engine.form.FormType;
 
 /**
  * Represents a single property on a form.
  * 
  * @author Tom Baeyens
  */
-interface FormProperty extends Serializable {
+interface FormProperty : Serializable {
 
     /**
      * The key used to submit the property in {@link FormService#submitStartFormData(string, java.util.Map)} or {@link FormService#submitTaskFormData(string, java.util.Map)}
@@ -41,11 +50,11 @@ interface FormProperty extends Serializable {
     /**
      * Is this property read to be displayed in the form and made accessible with the methods {@link FormService#getStartFormData(string)} and {@link FormService#getTaskFormData(string)}.
      */
-    boolean isReadable();
+    bool isReadable();
 
     /** Is this property expected when a user submits the form? */
-    boolean isWritable();
+    bool isWritable();
 
     /** Is this property a required input field */
-    boolean isRequired();
+    bool isRequired();
 }

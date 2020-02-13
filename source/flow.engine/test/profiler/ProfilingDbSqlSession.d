@@ -73,7 +73,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
     }
 
     @Override
-    public <T extends Entity> T selectById(Class<T> entityClass, string id, boolean useCache) {
+    public <T extends Entity> T selectById(Class<T> entityClass, string id, bool useCache) {
         if (getCurrentCommandExecution() != null) {
             getCurrentCommandExecution().addDbSelect("selectById " + entityClass.getName());
         }
@@ -83,7 +83,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
     // SELECT LIST
 
     @Override
-    public List selectListWithRawParameter(string statement, Object parameter, boolean useCache) {
+    public List selectListWithRawParameter(string statement, Object parameter, bool useCache) {
         if (getCurrentCommandExecution() != null) {
             getCurrentCommandExecution().addDbSelect(statement);
         }

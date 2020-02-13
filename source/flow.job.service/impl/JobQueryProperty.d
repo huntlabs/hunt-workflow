@@ -24,7 +24,7 @@ import org.flowable.job.api.JobQuery;
  * 
  * @author Joram Barrez
  */
-public class JobQueryProperty implements QueryProperty {
+class JobQueryProperty implements QueryProperty {
 
     private static final long serialVersionUID = 1L;
 

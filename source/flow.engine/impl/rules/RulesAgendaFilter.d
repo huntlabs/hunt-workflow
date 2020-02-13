@@ -25,13 +25,13 @@ import org.kie.api.runtime.rule.Match;
 class RulesAgendaFilter implements AgendaFilter {
 
     protected List<string> suffixList = new ArrayList<>();
-    protected boolean accept;
+    protected bool accept;
 
     public RulesAgendaFilter() {
     }
 
     @Override
-    public boolean accept(Match match) {
+    public bool accept(Match match) {
         string ruleName = match.getRule().getName();
         for (string suffix : suffixList) {
             if (ruleName.endsWith(suffix)) {
@@ -45,7 +45,7 @@ class RulesAgendaFilter implements AgendaFilter {
         this.suffixList.add(suffix);
     }
 
-    public void setAccept(boolean accept) {
+    public void setAccept(bool accept) {
         this.accept = accept;
     }
 }

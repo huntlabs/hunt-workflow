@@ -69,7 +69,7 @@ interface RepositoryService {
      * @param deploymentId
      *            id of the deployment, cannot be null.
      */
-    void deleteDeployment(string deploymentId, boolean cascade);
+    void deleteDeployment(string deploymentId, bool cascade);
 
     /**
      * Sets the category of the deployment. Deployments can be queried by category: see {@link DeploymentQuery#deploymentCategory(string)}.
@@ -218,7 +218,7 @@ interface RepositoryService {
      * @throws FlowableException
      *             if the process definition is already in state suspended.
      */
-    void suspendProcessDefinitionById(string processDefinitionId, boolean suspendProcessInstances, Date suspensionDate);
+    void suspendProcessDefinitionById(string processDefinitionId, bool suspendProcessInstances, Date suspensionDate);
 
     /**
      * Suspends the <strong>all</strong> process definitions with the given key (= id in the bpmn20.xml file).
@@ -248,7 +248,7 @@ interface RepositoryService {
      * @throws FlowableException
      *             if the process definition is already in state suspended.
      */
-    void suspendProcessDefinitionByKey(string processDefinitionKey, boolean suspendProcessInstances, Date suspensionDate);
+    void suspendProcessDefinitionByKey(string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate);
 
     /**
      * Similar to {@link #suspendProcessDefinitionByKey(string)}, but only applicable for the given tenant identifier.
@@ -256,9 +256,9 @@ interface RepositoryService {
     void suspendProcessDefinitionByKey(string processDefinitionKey, string tenantId);
 
     /**
-     * Similar to {@link #suspendProcessDefinitionByKey(string, boolean, Date)}, but only applicable for the given tenant identifier.
+     * Similar to {@link #suspendProcessDefinitionByKey(string, bool, Date)}, but only applicable for the given tenant identifier.
      */
-    void suspendProcessDefinitionByKey(string processDefinitionKey, boolean suspendProcessInstances, Date suspensionDate, string tenantId);
+    void suspendProcessDefinitionByKey(string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate, string tenantId);
 
     /**
      * Activates the process definition with the given id.
@@ -279,7 +279,7 @@ interface RepositoryService {
      * @throws FlowableException
      *             if the process definition is already in state active.
      */
-    void activateProcessDefinitionById(string processDefinitionId, boolean activateProcessInstances, Date activationDate);
+    void activateProcessDefinitionById(string processDefinitionId, bool activateProcessInstances, Date activationDate);
 
     /**
      * Activates the process definition with the given key (=id in the bpmn20.xml file).
@@ -302,7 +302,7 @@ interface RepositoryService {
      * @throws FlowableException
      *             if the process definition is already in state active.
      */
-    void activateProcessDefinitionByKey(string processDefinitionKey, boolean activateProcessInstances, Date activationDate);
+    void activateProcessDefinitionByKey(string processDefinitionKey, bool activateProcessInstances, Date activationDate);
 
     /**
      * Similar to {@link #activateProcessDefinitionByKey(string)}, but only applicable for the given tenant identifier.
@@ -310,9 +310,9 @@ interface RepositoryService {
     void activateProcessDefinitionByKey(string processDefinitionKey, string tenantId);
 
     /**
-     * Similar to {@link #activateProcessDefinitionByKey(string, boolean, Date)} , but only applicable for the given tenant identifier.
+     * Similar to {@link #activateProcessDefinitionByKey(string, bool, Date)} , but only applicable for the given tenant identifier.
      */
-    void activateProcessDefinitionByKey(string processDefinitionKey, boolean activateProcessInstances, Date activationDate, string tenantId);
+    void activateProcessDefinitionByKey(string processDefinitionKey, bool activateProcessInstances, Date activationDate, string tenantId);
 
     /**
      * Sets the category of the process definition. Process definitions can be queried by category: see {@link ProcessDefinitionQuery#processDefinitionCategory(string)}.
@@ -351,12 +351,12 @@ interface RepositoryService {
     /**
      * Checks if the process definition should be executed by the V5 engine.
      */
-    Boolean isFlowable5ProcessDefinition(string processDefinitionId);
+    bool isFlowable5ProcessDefinition(string processDefinitionId);
 
     /**
      * Checks if the process definition is suspended.
      */
-    boolean isProcessDefinitionSuspended(string processDefinitionId);
+    bool isProcessDefinitionSuspended(string processDefinitionId);
 
     /**
      * Returns the {@link BpmnModel} corresponding with the process definition with the provided process definition id. The {@link BpmnModel} is a pojo versions of the BPMN 2.0 xml and can be used to

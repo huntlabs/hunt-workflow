@@ -346,7 +346,7 @@ public enum FlowableEngineEventType implements FlowableEventType {
         if (string != null && !string.isEmpty()) {
             string[] split = StringUtils.split(string, ",");
             for (string typeName : split) {
-                boolean found = false;
+                bool found = false;
                 for (FlowableEngineEventType type : values()) {
                     if (typeName.equals(type.name())) {
                         result.add(type);

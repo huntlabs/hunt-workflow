@@ -106,7 +106,7 @@ interface TaskService {
      * @throws FlowableException
      *             when an error occurs while deleting the task or in case the task is part of a running process.
      */
-    void deleteTask(string taskId, boolean cascade);
+    void deleteTask(string taskId, bool cascade);
 
     /**
      * Deletes all tasks of the given collection.
@@ -120,7 +120,7 @@ interface TaskService {
      * @throws FlowableException
      *             when an error occurs while deleting the tasks or in case one of the tasks is part of a running process.
      */
-    void deleteTasks(Collection<string> taskIds, boolean cascade);
+    void deleteTasks(Collection<string> taskIds, bool cascade);
 
     /**
      * Deletes the given task, not deleting historic information that is related to this task..
@@ -256,7 +256,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task exists with the given id.
      */
-    void complete(string taskId, Map<string, Object> variables, boolean localScope);
+    void complete(string taskId, Map<string, Object> variables, bool localScope);
 
     /**
      * Called when the task is successfully executed, and the task form has been submitted.
@@ -310,7 +310,7 @@ interface TaskService {
      *             when no task exists with the given id.
      */
     void completeTaskWithForm(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, boolean localScope);
+            Map<string, Object> variables, bool localScope);
 
     /**
      * Gets a Form model instance of the task form of a specific task
@@ -332,7 +332,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when the task or form definition doesn't exist.
      */
-    FormInfo getTaskFormModel(string taskId, boolean ignoreVariables);
+    FormInfo getTaskFormModel(string taskId, bool ignoreVariables);
 
     /**
      * Changes the assignee of the given task to the given userId. No check is done whether the user is known by the identity component.
@@ -550,7 +550,7 @@ interface TaskService {
     /**
      * checks whether or not the task has a variable defined with the given name, in the task scope and if available also the execution scopes.
      */
-    boolean hasVariable(string taskId, string variableName);
+    bool hasVariable(string taskId, string variableName);
 
     /**
      * checks whether or not the task has a variable defined with the given name.
@@ -578,7 +578,7 @@ interface TaskService {
     /**
      * checks whether or not the task has a variable defined with the given name, local task scope only.
      */
-    boolean hasVariableLocal(string taskId, string variableName);
+    bool hasVariableLocal(string taskId, string variableName);
 
     /**
      * get all variables and search in the task scope and if available also the execution scopes. If you have many variables and you only need a few, consider using
@@ -696,7 +696,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given task.
      */
-    Map<string, DataObject> getDataObjects(string taskId, string locale, boolean withLocalizationFallback);
+    Map<string, DataObject> getDataObjects(string taskId, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObjects for all given dataObjectNames, takes all dataObjects into account which are visible from the given task scope (including parent scopes).
@@ -726,7 +726,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given task.
      */
-    Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames, string locale, boolean withLocalizationFallback);
+    Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObject. Searching for the DataObject is done in all scopes that are visible to the given task (including parent scopes). Returns null when no DataObject value is found with the given
@@ -758,7 +758,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given taskId.
      */
-    DataObject getDataObject(string taskId, string dataObjectName, string locale, boolean withLocalizationFallback);
+    DataObject getDataObject(string taskId, string dataObjectName, string locale, bool withLocalizationFallback);
 
     /** Add a comment to a task and/or process instance. */
     Comment addComment(string taskId, string processInstanceId, string message);

@@ -24,7 +24,7 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Tom Baeyens
  */
-class IsFlowable5ProcessDefinitionCmd implements Command<Boolean>, Serializable {
+class IsFlowable5ProcessDefinitionCmd implements Command<bool>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
@@ -34,7 +34,7 @@ class IsFlowable5ProcessDefinitionCmd implements Command<Boolean>, Serializable 
     }
 
     @Override
-    public Boolean execute(CommandContext commandContext) {
+    public bool execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext)
                 .getDeploymentManager()
                 .findDeployedProcessDefinitionById(processDefinitionId);

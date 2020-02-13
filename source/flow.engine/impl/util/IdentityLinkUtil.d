@@ -84,7 +84,7 @@ class IdentityLinkUtil {
         }
     }
 
-    public static void handleTaskIdentityLinkDeletions(TaskEntity taskEntity, List<IdentityLinkEntity> identityLinks, boolean cascadeHistory, boolean updateTaskCounts) {
+    public static void handleTaskIdentityLinkDeletions(TaskEntity taskEntity, List<IdentityLinkEntity> identityLinks, bool cascadeHistory, bool updateTaskCounts) {
         for (IdentityLinkEntity identityLinkEntity : identityLinks) {
             if (cascadeHistory) {
                 CommandContextUtil.getHistoryManager().recordIdentityLinkDeleted(identityLinkEntity);

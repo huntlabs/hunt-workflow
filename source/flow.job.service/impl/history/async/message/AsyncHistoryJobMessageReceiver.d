@@ -35,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  * @author Joram Barrez
  */
-public class AsyncHistoryJobMessageReceiver {
+class AsyncHistoryJobMessageReceiver {
 
     protected CommandExecutor commandExecutor;
     protected AsyncHistoryJobMessageHandler asyncHistoryJobMessageHandler;

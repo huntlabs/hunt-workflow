@@ -33,18 +33,18 @@ class Flowable5Util {
 
     public static final string V5_ENGINE_TAG = "v5";
     
-    public static boolean isJobHandledByV5Engine(JobInfo jobInfo) {
+    public static bool isJobHandledByV5Engine(JobInfo jobInfo) {
         if (!(jobInfo instanceof Job)) { // v5 only knew one type of jobs
             return false;
         }
         
         final Job job = (Job) jobInfo;
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
-        boolean isFlowable5ProcessDefinition = Flowable5Util.isFlowable5ProcessDefinitionId(processEngineConfiguration, job.getProcessDefinitionId());
+        bool isFlowable5ProcessDefinition = Flowable5Util.isFlowable5ProcessDefinitionId(processEngineConfiguration, job.getProcessDefinitionId());
         if (isFlowable5ProcessDefinition) {
-            return processEngineConfiguration.getCommandExecutor().execute(new Command<Boolean>() {
+            return processEngineConfiguration.getCommandExecutor().execute(new Command<bool>() {
                 @Override
-                public Boolean execute(CommandContext commandContext) {
+                public bool execute(CommandContext commandContext) {
                     CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler().executeJobWithLockAndRetry(job);
                     return true;
                 }
@@ -53,7 +53,7 @@ class Flowable5Util {
         return false;
     }
 
-    public static boolean isFlowable5ProcessDefinitionId(CommandContext commandContext, final string processDefinitionId) {
+    public static bool isFlowable5ProcessDefinitionId(CommandContext commandContext, final string processDefinitionId) {
 
         if (processDefinitionId == null) {
             return false;
@@ -74,7 +74,7 @@ class Flowable5Util {
     /**
      * Use this method when running outside a {@link CommandContext}. It will check the cache first and only start a new {@link CommandContext} when no result is found in the cache.
      */
-    public static boolean isFlowable5ProcessDefinitionId(final ProcessEngineConfigurationImpl processEngineConfiguration, final string processDefinitionId) {
+    public static bool isFlowable5ProcessDefinitionId(final ProcessEngineConfigurationImpl processEngineConfiguration, final string processDefinitionId) {
 
         if (processDefinitionId == null) {
             return false;
@@ -86,10 +86,10 @@ class Flowable5Util {
             return isFlowable5ProcessDefinition(processDefinition, processEngineConfiguration);
 
         } else {
-            return processEngineConfiguration.getCommandExecutor().execute(new Command<Boolean>() {
+            return processEngineConfiguration.getCommandExecutor().execute(new Command<bool>() {
 
                 @Override
-                public Boolean execute(CommandContext commandContext) {
+                public bool execute(CommandContext commandContext) {
                     return isFlowable5ProcessDefinitionId(commandContext, processDefinitionId);
                 }
 
@@ -98,11 +98,11 @@ class Flowable5Util {
         }
     }
 
-    public static boolean isFlowable5Deployment(Deployment deployment, CommandContext commandContext) {
+    public static bool isFlowable5Deployment(Deployment deployment, CommandContext commandContext) {
         return isFlowable5Deployment(deployment, CommandContextUtil.getProcessEngineConfiguration(commandContext));
     }
 
-    public static boolean isFlowable5Deployment(Deployment deployment, ProcessEngineConfigurationImpl processEngineConfiguration) {
+    public static bool isFlowable5Deployment(Deployment deployment, ProcessEngineConfigurationImpl processEngineConfiguration) {
         if (isV5Entity(deployment.getEngineVersion(), deployment.getId(), "deployment", processEngineConfiguration)) {
             return true;
         }
@@ -110,11 +110,11 @@ class Flowable5Util {
         return false;
     }
 
-    public static boolean isFlowable5ProcessDefinition(ProcessDefinition processDefinition, CommandContext commandContext) {
+    public static bool isFlowable5ProcessDefinition(ProcessDefinition processDefinition, CommandContext commandContext) {
         return isFlowable5ProcessDefinition(processDefinition, CommandContextUtil.getProcessEngineConfiguration(commandContext));
     }
 
-    public static boolean isFlowable5ProcessDefinition(ProcessDefinition processDefinition, ProcessEngineConfigurationImpl processEngineConfiguration) {
+    public static bool isFlowable5ProcessDefinition(ProcessDefinition processDefinition, ProcessEngineConfigurationImpl processEngineConfiguration) {
         if (isV5Entity(processDefinition.getEngineVersion(), processDefinition.getId(), "process definition", processEngineConfiguration)) {
             return true;
         }
@@ -122,7 +122,7 @@ class Flowable5Util {
         return false;
     }
 
-    public static boolean isV5Entity(string tag, string id, string entityType, ProcessEngineConfigurationImpl processEngineConfiguration) {
+    public static bool isV5Entity(string tag, string id, string entityType, ProcessEngineConfigurationImpl processEngineConfiguration) {
         if (isVersion5Tag(tag)) {
             if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() == null) {
                 throw new FlowableException(entityType + " with id " + id + " has a v5 tag and flowable 5 compatibility is not enabled");
@@ -138,7 +138,7 @@ class Flowable5Util {
         }
     }
 
-    public static boolean isVersion5Tag(string tag) {
+    public static bool isVersion5Tag(string tag) {
         return V5_ENGINE_TAG.equals(tag) || "activiti-5".equals(tag);
     }
 

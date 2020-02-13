@@ -57,7 +57,7 @@ class ProcessInstanceChangeState {
         return this;
     }
 
-    public boolean isMigrateToProcessDefinition() {
+    public bool isMigrateToProcessDefinition() {
         return getProcessDefinitionToMigrateTo().isPresent();
     }
 

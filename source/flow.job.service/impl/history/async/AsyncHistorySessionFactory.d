@@ -19,13 +19,13 @@ import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.Session;
 import flow.common.interceptor.SessionFactory;
 
-public class AsyncHistorySessionFactory implements SessionFactory {
+class AsyncHistorySessionFactory implements SessionFactory {
 
     protected AsyncHistoryListener asyncHistoryListener;
     protected List<string> registeredJobDataTypes = new ArrayList<>();
 
     @Override
-    public Class<?> getSessionType() {
+    class<?> getSessionType() {
         return AsyncHistorySession.class;
     }
 

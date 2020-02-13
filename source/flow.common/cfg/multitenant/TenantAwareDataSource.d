@@ -99,7 +99,7 @@ module flow.common.cfg.multitenant.TenantAwareDataSource;
 //    }
 //
 //    @Override
-//    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+//    public bool isWrapperFor(Class<?> iface) throws SQLException {
 //        return iface.isInstance(this);
 //    }
 //

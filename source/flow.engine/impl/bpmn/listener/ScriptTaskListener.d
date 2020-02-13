@@ -33,7 +33,7 @@ class ScriptTaskListener implements TaskListener {
 
     protected Expression resultVariable;
 
-    protected boolean autoStoreVariables;
+    protected bool autoStoreVariables;
 
     @Override
     public void notify(DelegateTask delegateTask) {
@@ -69,7 +69,7 @@ class ScriptTaskListener implements TaskListener {
         this.resultVariable = resultVariable;
     }
 
-    public void setAutoStoreVariables(boolean autoStoreVariables) {
+    public void setAutoStoreVariables(bool autoStoreVariables) {
         this.autoStoreVariables = autoStoreVariables;
     }
 

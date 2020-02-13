@@ -193,7 +193,7 @@ class BpmnLoggingSessionUtil {
         }
     }
     
-    public static void addTaskIdentityLinkData(string type, string message, boolean isUser, List<IdentityLinkEntity> identityLinkEntities,
+    public static void addTaskIdentityLinkData(string type, string message, bool isUser, List<IdentityLinkEntity> identityLinkEntities,
                     TaskEntity task, DelegateExecution execution) {
         
         ObjectNode loggingNode = fillBasicTaskLoggingData(message, task, execution);

@@ -26,7 +26,7 @@ class ResourceEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements R
     protected string name;
     protected byte[] bytes;
     protected string deploymentId;
-    protected boolean generated;
+    protected bool generated;
 
     public ResourceEntityImpl() {
 
@@ -68,7 +68,7 @@ class ResourceEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements R
     }
 
     @Override
-    public void setGenerated(boolean generated) {
+    public void setGenerated(bool generated) {
         this.generated = generated;
     }
 
@@ -76,7 +76,7 @@ class ResourceEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements R
      * Indicated whether or not the resource has been generated while deploying rather than being actual part of the deployment.
      */
     @Override
-    public boolean isGenerated() {
+    public bool isGenerated() {
         return generated;
     }
 

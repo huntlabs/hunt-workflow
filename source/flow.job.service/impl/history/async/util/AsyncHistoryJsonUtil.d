@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * @author Joram Barrez
  */
-public class AsyncHistoryJsonUtil {
+class AsyncHistoryJsonUtil {
     
     public static void putIfNotNull(Map<string, string> map, string key, string value) {
         if (value != null) {
@@ -83,13 +83,13 @@ public class AsyncHistoryJsonUtil {
         }
     }
     
-    public static void putIfNotNull(Map<string, string> map, string key, Boolean value) {
+    public static void putIfNotNull(Map<string, string> map, string key, bool value) {
         if (value != null) {
-            map.put(key, Boolean.toString(value));
+            map.put(key, bool.toString(value));
         }
     }
 
-    public static void putIfNotNull(ObjectNode map, string key, Boolean value) {
+    public static void putIfNotNull(ObjectNode map, string key, bool value) {
         if (value != null) {
             map.put(key, value);
         }
@@ -140,15 +140,15 @@ public class AsyncHistoryJsonUtil {
         return null;
     }
     
-    public static Boolean getBooleanFromJson(ObjectNode objectNode, string fieldName, Boolean defaultValue) {
-        Boolean value = getBooleanFromJson(objectNode, fieldName);
+    public static bool getBooleanFromJson(ObjectNode objectNode, string fieldName, bool defaultValue) {
+        bool value = getBooleanFromJson(objectNode, fieldName);
         return value != null ? value : defaultValue;
     }
     
-    public static Boolean getBooleanFromJson(ObjectNode objectNode, string fieldName) {
+    public static bool getBooleanFromJson(ObjectNode objectNode, string fieldName) {
         string s = getStringFromJson(objectNode, fieldName);
         if (StringUtils.isNotEmpty(s)) {
-            return Boolean.valueOf(s);
+            return bool.valueOf(s);
         }
         return null;
     }

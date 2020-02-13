@@ -56,7 +56,7 @@ abstract class ProcessEngines {
 
     public static final string NAME_DEFAULT = "default";
 
-    protected static boolean isInitialized;
+    protected static bool isInitialized;
     protected static Map<string, ProcessEngine> processEngines = new HashMap<>();
     protected static Map<string, EngineInfo> processEngineInfosByName = new HashMap<>();
     protected static Map<string, EngineInfo> processEngineInfosByResourceUrl = new HashMap<>();
@@ -260,11 +260,11 @@ abstract class ProcessEngines {
         }
     }
 
-    public static boolean isInitialized() {
+    public static bool isInitialized() {
         return isInitialized;
     }
 
-    public static void setInitialized(boolean isInitialized) {
+    public static void setInitialized(bool isInitialized) {
         ProcessEngines.isInitialized = isInitialized;
     }
 }

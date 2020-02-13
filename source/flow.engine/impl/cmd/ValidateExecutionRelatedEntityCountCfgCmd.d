@@ -54,7 +54,7 @@ class ValidateExecutionRelatedEntityCountCfgCmd implements Command<Void> {
 
         PropertyEntityManager propertyEntityManager = CommandContextUtil.getPropertyEntityManager(commandContext);
 
-        boolean configProperty = CommandContextUtil.getProcessEngineConfiguration(commandContext).getPerformanceSettings().isEnableExecutionRelationshipCounts();
+        bool configProperty = CommandContextUtil.getProcessEngineConfiguration(commandContext).getPerformanceSettings().isEnableExecutionRelationshipCounts();
         PropertyEntity propertyEntity = propertyEntityManager.findById(PROPERTY_EXECUTION_RELATED_ENTITY_COUNT);
 
         if (propertyEntity == null) {
@@ -63,12 +63,12 @@ class ValidateExecutionRelatedEntityCountCfgCmd implements Command<Void> {
 
             PropertyEntity newPropertyEntity = propertyEntityManager.create();
             newPropertyEntity.setName(PROPERTY_EXECUTION_RELATED_ENTITY_COUNT);
-            newPropertyEntity.setValue(Boolean.toString(configProperty));
+            newPropertyEntity.setValue(bool.toString(configProperty));
             propertyEntityManager.insert(newPropertyEntity);
 
         } else {
 
-            boolean propertyValue = Boolean.valueOf(propertyEntity.getValue().toLowerCase());
+            bool propertyValue = bool.valueOf(propertyEntity.getValue().toLowerCase());
             if (!configProperty && propertyValue) {
                 if (LOGGER.isInfoEnabled()) {
                     LOGGER.info("Configuration change: execution related entity counting feature was enabled before, but now disabled. "
@@ -79,7 +79,7 @@ class ValidateExecutionRelatedEntityCountCfgCmd implements Command<Void> {
 
             // Update property
             if (configProperty != propertyValue) {
-                propertyEntity.setValue(Boolean.toString(configProperty));
+                propertyEntity.setValue(bool.toString(configProperty));
                 propertyEntityManager.update(propertyEntity);
             }
 

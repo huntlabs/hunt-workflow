@@ -112,7 +112,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
     protected void doFinally(ExtensionContext context, TestInstance.Lifecycle lifecycleForClean) {
         ProcessEngine processEngine = getProcessEngine(context);
         ProcessEngineConfigurationImpl processEngineConfiguration = (ProcessEngineConfigurationImpl) processEngine.getProcessEngineConfiguration();
-        boolean isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
+        bool isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
 
         if (isAsyncHistoryEnabled) {
             ManagementService managementService = processEngine.getManagementService();
@@ -230,7 +230,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext context) {
+    public bool supportsParameter(ParameterContext parameterContext, ExtensionContext context) {
         Class<?> parameterType = parameterContext.getParameter().getType();
         return ProcessEngine.class.equals(parameterType) || parameterContext.isAnnotated(DeploymentId.class);
     }

@@ -123,7 +123,7 @@ class DynamicUserTaskBuilder {
     
     protected string nextId(string prefix, Map<string, FlowElement> flowElementMap) {
         string nextId = null;
-        boolean nextIdNotFound = true;
+        bool nextIdNotFound = true;
         while (nextIdNotFound) {
             if (!flowElementMap.containsKey(prefix + counter)) {
                 nextId = prefix + counter;

@@ -32,8 +32,8 @@ class DebugContinueProcessOperation extends ContinueProcessOperation {
     protected ProcessDebugger debugger;
 
     public DebugContinueProcessOperation(ProcessDebugger debugger, CommandContext commandContext,
-                                         ExecutionEntity execution, boolean forceSynchronousOperation,
-                                         boolean inCompensation) {
+                                         ExecutionEntity execution, bool forceSynchronousOperation,
+                                         bool inCompensation) {
         super(commandContext, execution, forceSynchronousOperation, inCompensation);
         this.debugger = debugger;
     }

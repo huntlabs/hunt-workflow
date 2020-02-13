@@ -36,13 +36,13 @@ import org.flowable.job.service.impl.persistence.entity.JobEntity;
  */
 class TriggerExecutionOperation extends AbstractOperation {
     
-    protected boolean triggerAsync;
+    protected bool triggerAsync;
 
     public TriggerExecutionOperation(CommandContext commandContext, ExecutionEntity execution) {
         super(commandContext, execution);
     }
 
-    public TriggerExecutionOperation(CommandContext commandContext, ExecutionEntity execution, boolean triggerAsync) {
+    public TriggerExecutionOperation(CommandContext commandContext, ExecutionEntity execution, bool triggerAsync) {
         super(commandContext, execution);
         this.triggerAsync = triggerAsync;
     }

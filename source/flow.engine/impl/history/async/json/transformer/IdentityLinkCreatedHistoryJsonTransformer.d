@@ -34,7 +34,7 @@ class IdentityLinkCreatedHistoryJsonTransformer extends AbstractHistoryJsonTrans
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return true;
     }
 

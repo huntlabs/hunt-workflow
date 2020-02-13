@@ -24,7 +24,7 @@ import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class AsyncHistoryJobHandler extends AbstractAsyncHistoryJobHandler {
+class AsyncHistoryJobHandler extends AbstractAsyncHistoryJobHandler {
 
     protected Map<string, List<HistoryJsonTransformer>> historyJsonTransformers = new HashMap<>();
     protected HistoryJsonTransformer defaultHistoryJsonTransformer;

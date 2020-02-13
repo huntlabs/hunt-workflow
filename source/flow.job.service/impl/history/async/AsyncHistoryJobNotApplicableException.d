@@ -14,7 +14,7 @@
 
 import flow.common.api.FlowableException;
 
-public class AsyncHistoryJobNotApplicableException extends FlowableException {
+class AsyncHistoryJobNotApplicableException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
 

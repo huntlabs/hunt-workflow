@@ -29,12 +29,12 @@ import org.slf4j.LoggerFactory;
 /**
  * @author martin.grofcik
  */
-public class DefaultAsyncRunnableExecutionExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
+class DefaultAsyncRunnableExecutionExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAsyncRunnableExecutionExceptionHandler.class);
 
     @Override
-    public boolean handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
+    public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
         jobServiceConfiguration.getCommandExecutor().execute(new Command<Void>() {
 
             @Override

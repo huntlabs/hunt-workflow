@@ -26,7 +26,7 @@ class PerformanceSettings {
      * This enables the setting globally. However, it must also be enabled on a process definition itself.
      * If false, the setting on the process definition is ignored.
      */
-    protected boolean enableEagerExecutionTreeFetching = false;
+    protected bool enableEagerExecutionTreeFetching = false;
 
     /**
      * Keeps a count on each execution that holds how many variables, jobs, tasks, event subscriptions, etc. the execution has.
@@ -38,74 +38,74 @@ class PerformanceSettings {
      *
      * This property can only be enabled or disabled globally currently.
      */
-    protected boolean enableExecutionRelationshipCounts = true;
+    protected bool enableExecutionRelationshipCounts = true;
 
     /**
      * Similar to <code>enableExecutionRelationshipCounts</code>, but on the task level. Keeps count of how many variables ad identity links the task has.
      */
-    protected boolean enableTaskRelationshipCounts = true;
+    protected bool enableTaskRelationshipCounts = true;
 
     /**
      * If false, no check will be done on boot.
      */
-    protected boolean validateExecutionRelationshipCountConfigOnBoot = true;
+    protected bool validateExecutionRelationshipCountConfigOnBoot = true;
 
     /**
      * If false, no check will be done on boot.
      */
-    protected boolean validateTaskRelationshipCountConfigOnBoot = true;
+    protected bool validateTaskRelationshipCountConfigOnBoot = true;
 
     /**
      * Experimental setting: in certain places in the engine (execution/process instance/historic process instance/ tasks/data objects) localization is supported. When this setting is false,
      * localization is completely disabled, which gives a small performance gain.
      */
-    protected boolean enableLocalization = true;
+    protected bool enableLocalization = true;
 
-    public boolean isEnableEagerExecutionTreeFetching() {
+    public bool isEnableEagerExecutionTreeFetching() {
         return enableEagerExecutionTreeFetching;
     }
 
-    public void setEnableEagerExecutionTreeFetching(boolean enableEagerExecutionTreeFetching) {
+    public void setEnableEagerExecutionTreeFetching(bool enableEagerExecutionTreeFetching) {
         this.enableEagerExecutionTreeFetching = enableEagerExecutionTreeFetching;
     }
 
-    public boolean isEnableExecutionRelationshipCounts() {
+    public bool isEnableExecutionRelationshipCounts() {
         return enableExecutionRelationshipCounts;
     }
 
-    public void setEnableExecutionRelationshipCounts(boolean enableExecutionRelationshipCounts) {
+    public void setEnableExecutionRelationshipCounts(bool enableExecutionRelationshipCounts) {
         this.enableExecutionRelationshipCounts = enableExecutionRelationshipCounts;
     }
 
-    public boolean isEnableTaskRelationshipCounts() {
+    public bool isEnableTaskRelationshipCounts() {
         return enableTaskRelationshipCounts;
     }
 
-    public void setEnableTaskRelationshipCounts(boolean enableTaskRelationshipCounts) {
+    public void setEnableTaskRelationshipCounts(bool enableTaskRelationshipCounts) {
         this.enableTaskRelationshipCounts = enableTaskRelationshipCounts;
     }
 
-    public boolean isValidateExecutionRelationshipCountConfigOnBoot() {
+    public bool isValidateExecutionRelationshipCountConfigOnBoot() {
         return validateExecutionRelationshipCountConfigOnBoot;
     }
 
-    public void setValidateExecutionRelationshipCountConfigOnBoot(boolean validateExecutionRelationshipCountConfigOnBoot) {
+    public void setValidateExecutionRelationshipCountConfigOnBoot(bool validateExecutionRelationshipCountConfigOnBoot) {
         this.validateExecutionRelationshipCountConfigOnBoot = validateExecutionRelationshipCountConfigOnBoot;
     }
 
-    public boolean isValidateTaskRelationshipCountConfigOnBoot() {
+    public bool isValidateTaskRelationshipCountConfigOnBoot() {
         return validateTaskRelationshipCountConfigOnBoot;
     }
 
-    public void setValidateTaskRelationshipCountConfigOnBoot(boolean validateTaskRelationshipCountConfigOnBoot) {
+    public void setValidateTaskRelationshipCountConfigOnBoot(bool validateTaskRelationshipCountConfigOnBoot) {
         this.validateTaskRelationshipCountConfigOnBoot = validateTaskRelationshipCountConfigOnBoot;
     }
 
-    public boolean isEnableLocalization() {
+    public bool isEnableLocalization() {
         return enableLocalization;
     }
 
-    public void setEnableLocalization(boolean enableLocalization) {
+    public void setEnableLocalization(bool enableLocalization) {
         this.enableLocalization = enableLocalization;
     }
 

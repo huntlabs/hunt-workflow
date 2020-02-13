@@ -39,7 +39,7 @@ class MessageEventReceivedCmd extends NeedsActiveExecutionCmd<Void> {
 
     protected final Map<string, Object> payload;
     protected final string messageName;
-    protected final boolean async;
+    protected final bool async;
 
     public MessageEventReceivedCmd(string messageName, string executionId, Map<string, Object> processVariables) {
         super(executionId);
@@ -54,7 +54,7 @@ class MessageEventReceivedCmd extends NeedsActiveExecutionCmd<Void> {
         this.async = false;
     }
 
-    public MessageEventReceivedCmd(string messageName, string executionId, boolean async) {
+    public MessageEventReceivedCmd(string messageName, string executionId, bool async) {
         super(executionId);
         this.messageName = messageName;
         this.payload = null;

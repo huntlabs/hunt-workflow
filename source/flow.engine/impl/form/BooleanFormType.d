@@ -25,7 +25,7 @@ class BooleanFormType extends AbstractFormType {
 
     @Override
     public string getName() {
-        return "boolean";
+        return "bool";
     }
 
     public string getMimeType() {
@@ -37,7 +37,7 @@ class BooleanFormType extends AbstractFormType {
         if (propertyValue == null || "".equals(propertyValue)) {
             return null;
         }
-        return Boolean.valueOf(propertyValue);
+        return bool.valueOf(propertyValue);
     }
 
     @Override
@@ -47,9 +47,9 @@ class BooleanFormType extends AbstractFormType {
             return null;
         }
 
-        if (Boolean.class.isAssignableFrom(modelValue.getClass()) || boolean.class.isAssignableFrom(modelValue.getClass())) {
+        if (bool.class.isAssignableFrom(modelValue.getClass()) || bool.class.isAssignableFrom(modelValue.getClass())) {
             return modelValue.toString();
         }
-        throw new FlowableIllegalArgumentException("Model value is not of type boolean, but of type " + modelValue.getClass().getName());
+        throw new FlowableIllegalArgumentException("Model value is not of type bool, but of type " + modelValue.getClass().getName());
     }
 }

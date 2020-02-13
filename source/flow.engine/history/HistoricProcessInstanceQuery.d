@@ -317,7 +317,7 @@ interface HistoricProcessInstanceQuery extends Query<HistoricProcessInstanceQuer
     /**
      * Exclude sub processes from the query result;
      */
-    HistoricProcessInstanceQuery excludeSubprocesses(boolean excludeSubprocesses);
+    HistoricProcessInstanceQuery excludeSubprocesses(bool excludeSubprocesses);
 
     /**
      * Include process variables in the process query result

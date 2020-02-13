@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 abstract class AbstractNeedsUnfinishedHistoricActivityHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return historicActivityInstanceExistsForData(historicalData, commandContext);
     }
 

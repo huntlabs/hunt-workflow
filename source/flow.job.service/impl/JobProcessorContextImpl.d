@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.AbstractJobEntity;
  * @author Guy Brand
  * @see JobProcessor
  */
-public class JobProcessorContextImpl implements JobProcessorContext {
+class JobProcessorContextImpl implements JobProcessorContext {
 
     protected final Phase phase;
     protected final AbstractJobEntity jobEntity;
@@ -43,7 +43,7 @@ public class JobProcessorContextImpl implements JobProcessorContext {
     }
 
     @Override
-    public boolean isInPhase(Phase phase) {
+    public bool isInPhase(Phase phase) {
         return this.phase.equals(phase);
     }
 

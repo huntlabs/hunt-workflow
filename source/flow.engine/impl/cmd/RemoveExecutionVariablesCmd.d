@@ -28,9 +28,9 @@ class RemoveExecutionVariablesCmd extends NeedsActiveExecutionCmd<Void> {
     private static final long serialVersionUID = 1L;
 
     private Collection<string> variableNames;
-    private boolean isLocal;
+    private bool isLocal;
 
-    public RemoveExecutionVariablesCmd(string executionId, Collection<string> variableNames, boolean isLocal) {
+    public RemoveExecutionVariablesCmd(string executionId, Collection<string> variableNames, bool isLocal) {
         super(executionId);
         this.variableNames = variableNames;
         this.isLocal = isLocal;

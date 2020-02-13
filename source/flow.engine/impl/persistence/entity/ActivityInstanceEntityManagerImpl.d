@@ -43,7 +43,7 @@ class ActivityInstanceEntityManagerImpl
     protected static final string NO_ACTIVITY_ID_PREFIX = "_flow_";
     protected static final string NO_ACTIVITY_ID_SEPARATOR = "__";
 
-    protected final boolean usePrefixId;
+    protected final bool usePrefixId;
 
     public ActivityInstanceEntityManagerImpl(ProcessEngineConfigurationImpl processEngineConfiguration, ActivityInstanceDataManager activityInstanceDataManager) {
         super(processEngineConfiguration, activityInstanceDataManager);
@@ -326,7 +326,7 @@ class ActivityInstanceEntityManagerImpl
         return activityInstanceEntity;
     }
 
-    protected ActivityInstanceEntity getActivityInstanceFromCache(string executionId, string activityId, boolean endTimeMustBeNull) {
+    protected ActivityInstanceEntity getActivityInstanceFromCache(string executionId, string activityId, bool endTimeMustBeNull) {
         List<ActivityInstanceEntity> cachedActivityInstances = getEntityCache().findInCache(ActivityInstanceEntity.class);
         for (ActivityInstanceEntity cachedActivityInstance : cachedActivityInstances) {
             if (activityId != null

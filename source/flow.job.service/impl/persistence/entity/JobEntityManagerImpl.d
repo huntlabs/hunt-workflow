@@ -28,7 +28,7 @@ import org.flowable.job.service.impl.persistence.entity.data.JobDataManager;
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-public class JobEntityManagerImpl
+class JobEntityManagerImpl
     extends JobInfoEntityManagerImpl<JobEntity, JobDataManager>
     implements JobEntityManager {
 
@@ -37,18 +37,18 @@ public class JobEntityManagerImpl
     }
 
     @Override
-    public boolean insertJobEntity(JobEntity timerJobEntity) {
+    public bool insertJobEntity(JobEntity timerJobEntity) {
         return doInsert(timerJobEntity, true);
     }
 
     @Override
-    public void insert(JobEntity jobEntity, boolean fireCreateEvent) {
+    public void insert(JobEntity jobEntity, bool fireCreateEvent) {
         doInsert(jobEntity, fireCreateEvent);
     }
 
-    protected boolean doInsert(JobEntity jobEntity, boolean fireCreateEvent) {
+    protected bool doInsert(JobEntity jobEntity, bool fireCreateEvent) {
         if (serviceConfiguration.getInternalJobManager() != null) {
-            boolean handledJob = serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
+            bool handledJob = serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
             if (!handledJob) {
                 return false;
             }
@@ -84,7 +84,7 @@ public class JobEntityManagerImpl
     }
 
     @Override
-    public void delete(JobEntity entity, boolean fireDeleteEvent) {
+    public void delete(JobEntity entity, bool fireDeleteEvent) {
         if (serviceConfiguration.getInternalJobManager() != null) {
             serviceConfiguration.getInternalJobManager().handleJobDelete(entity);
         }

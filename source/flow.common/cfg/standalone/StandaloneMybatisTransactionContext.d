@@ -94,7 +94,7 @@ module flow.common.cfg.standalone.StandaloneMybatisTransactionContext;
 //     *            committed and executing logic in the same context could lead to strange behaviour (for example doing a {@link SqlSession#update(string)} would actually roll back the update (as the
 //     *            MyBatis context is already committed and the internal flags have not been correctly set).
 //     */
-//    protected void fireTransactionEvent(TransactionState transactionState, boolean executeInNewContext) {
+//    protected void fireTransactionEvent(TransactionState transactionState, bool executeInNewContext) {
 //        if (stateTransactionListeners == null) {
 //            return;
 //        }

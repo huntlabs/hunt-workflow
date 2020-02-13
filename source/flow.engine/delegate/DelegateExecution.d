@@ -126,32 +126,32 @@ interface DelegateExecution extends VariableScope {
     /**
      * makes this execution active or inactive.
      */
-    void setActive(boolean isActive);
+    void setActive(bool isActive);
 
     /**
      * returns whether this execution is currently active.
      */
-    boolean isActive();
+    bool isActive();
 
     /**
      * returns whether this execution has ended or not.
      */
-    boolean isEnded();
+    bool isEnded();
 
     /**
      * changes the concurrent indicator on this execution.
      */
-    void setConcurrent(boolean isConcurrent);
+    void setConcurrent(bool isConcurrent);
 
     /**
      * returns whether this execution is concurrent or not.
      */
-    boolean isConcurrent();
+    bool isConcurrent();
 
     /**
      * returns whether this execution is a process instance or not.
      */
-    boolean isProcessInstanceType();
+    bool isProcessInstanceType();
 
     /**
      * Inactivates this execution. This is useful for example in a join: the execution still exists, but it is not longer active.
@@ -161,23 +161,23 @@ interface DelegateExecution extends VariableScope {
     /**
      * Returns whether this execution is a scope.
      */
-    boolean isScope();
+    bool isScope();
 
     /**
      * Changes whether this execution is a scope or not.
      */
-    void setScope(boolean isScope);
+    void setScope(bool isScope);
 
     /**
      * Returns whether this execution is the root of a multi instance execution.
      */
-    boolean isMultiInstanceRoot();
+    bool isMultiInstanceRoot();
 
     /**
      * Changes whether this execution is a multi instance root or not.
      * 
      * @param isMultiInstanceRoot
      */
-    void setMultiInstanceRoot(boolean isMultiInstanceRoot);
+    void setMultiInstanceRoot(bool isMultiInstanceRoot);
 
 }

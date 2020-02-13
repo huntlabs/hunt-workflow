@@ -20,7 +20,7 @@ import org.flowable.task.api.Task;
  * 
  * @author Tom Baeyens
  */
-interface TaskFormData extends FormData {
+interface TaskFormData : FormData {
 
     /** The task for which this form is used to complete it. */
     Task getTask();

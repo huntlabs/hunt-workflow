@@ -225,7 +225,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
         leave(execution);
     }
     
-    public boolean completionConditionSatisfied(DelegateExecution execution) {
+    public bool completionConditionSatisfied(DelegateExecution execution) {
         if (completionCondition != null) {
             
             ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
@@ -243,11 +243,11 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
             
             Object value = expressionManager.createExpression(activeCompletionCondition).getValue(execution);
             
-            if (!(value instanceof Boolean)) {
-                throw new FlowableIllegalArgumentException("completionCondition '" + activeCompletionCondition + "' does not evaluate to a boolean value");
+            if (!(value instanceof bool)) {
+                throw new FlowableIllegalArgumentException("completionCondition '" + activeCompletionCondition + "' does not evaluate to a bool value");
             }
 
-            Boolean booleanValue = (Boolean) value;
+            bool booleanValue = (bool) value;
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Completion condition of multi-instance satisfied: {}", booleanValue);
             }
@@ -375,11 +375,11 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
         return collection;
     }
 
-    protected boolean usesCollection() {
+    protected bool usesCollection() {
         return collectionExpression != null || collectionVariable != null || collectionString != null;
     }
 
-    protected boolean isExtraScopeNeeded(FlowNode flowNode) {
+    protected bool isExtraScopeNeeded(FlowNode flowNode) {
         return flowNode.getSubProcess() != null;
     }
 

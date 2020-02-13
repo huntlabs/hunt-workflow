@@ -46,11 +46,11 @@ class HistoricDetailVariableUpdateHistoryJsonTransformer extends AbstractHistory
     }
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
         
         // Variables for a mi root execution (like nrOfInstances, nrOfCompletedInstance, etc.) are stored without a reference to the historical activity.
-        Boolean isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
+        bool isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
         
         if (!isMiRootExecution && StringUtils.isNotEmpty(activityId)) {
             HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext, 
@@ -72,7 +72,7 @@ class HistoricDetailVariableUpdateHistoryJsonTransformer extends AbstractHistory
         historicDetailEntity.setRevision(getIntegerFromJson(historicalData, HistoryJsonConstants.REVISION));
         historicDetailEntity.setName(getStringFromJson(historicalData, HistoryJsonConstants.NAME));
         
-        Boolean isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
+        bool isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
         if (!isMiRootExecution) {
             string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
             if (StringUtils.isNotEmpty(runtimeActivityInstanceId)) {

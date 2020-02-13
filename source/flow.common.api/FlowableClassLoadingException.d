@@ -18,7 +18,7 @@
  * 
  * @author Frederik Heremans
  */
-public class FlowableClassLoadingException extends FlowableException {
+class FlowableClassLoadingException extends FlowableException {
 
     private static final long serialVersionUID = 1L;
     protected string className;

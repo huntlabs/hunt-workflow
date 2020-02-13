@@ -18,10 +18,10 @@ import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
 /**
  * @author Joram Barrez
  */
-public class SuspendedJobsByExecutionIdMatcher extends CachedEntityMatcherAdapter<SuspendedJobEntity> {
+class SuspendedJobsByExecutionIdMatcher extends CachedEntityMatcherAdapter<SuspendedJobEntity> {
 
     @Override
-    public boolean isRetained(SuspendedJobEntity jobEntity, Object param) {
+    public bool isRetained(SuspendedJobEntity jobEntity, Object param) {
         return jobEntity.getExecutionId() != null && jobEntity.getExecutionId().equals(param);
     }
 

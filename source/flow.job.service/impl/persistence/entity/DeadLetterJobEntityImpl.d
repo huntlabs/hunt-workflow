@@ -17,7 +17,7 @@
  *
  * @author Tijs Rademakers
  */
-public class DeadLetterJobEntityImpl extends AbstractJobEntityImpl implements DeadLetterJobEntity {
+class DeadLetterJobEntityImpl extends AbstractJobEntityImpl implements DeadLetterJobEntity {
 
     private static final long serialVersionUID = 1L;
 

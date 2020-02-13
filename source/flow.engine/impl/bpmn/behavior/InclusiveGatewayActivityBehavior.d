@@ -66,7 +66,7 @@ class InclusiveGatewayActivityBehavior extends GatewayActivityBehavior implement
 
         Collection<ExecutionEntity> allExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(execution.getProcessInstanceId());
         Iterator<ExecutionEntity> executionIterator = allExecutions.iterator();
-        boolean oneExecutionCanReachGatewayInstance = false;
+        bool oneExecutionCanReachGatewayInstance = false;
         while (!oneExecutionCanReachGatewayInstance && executionIterator.hasNext()) {
             ExecutionEntity executionEntity = executionIterator.next();
             if (!executionEntity.getActivityId().equals(execution.getCurrentActivityId())) {

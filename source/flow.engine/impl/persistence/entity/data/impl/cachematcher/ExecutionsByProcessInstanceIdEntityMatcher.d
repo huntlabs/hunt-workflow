@@ -21,7 +21,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 class ExecutionsByProcessInstanceIdEntityMatcher extends CachedEntityMatcherAdapter<ExecutionEntity> {
 
     @Override
-    public boolean isRetained(ExecutionEntity entity, Object parameter) {
+    public bool isRetained(ExecutionEntity entity, Object parameter) {
         // parameter = process instance execution id
         return entity.getProcessInstanceId() != null
                 && entity.getProcessInstanceId().equals((string) parameter)

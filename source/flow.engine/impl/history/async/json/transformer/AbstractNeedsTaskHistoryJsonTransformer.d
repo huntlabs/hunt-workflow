@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 abstract class AbstractNeedsTaskHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string taskId = getStringFromJson(historicalData, HistoryJsonConstants.ID);
         return CommandContextUtil.getHistoricTaskService().getHistoricTask(taskId) != null;
     }

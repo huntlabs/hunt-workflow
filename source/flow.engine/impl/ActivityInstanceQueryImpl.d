@@ -39,9 +39,9 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
     protected string assignee;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
-    protected boolean finished;
-    protected boolean unfinished;
+    protected bool withoutTenantId;
+    protected bool finished;
+    protected bool unfinished;
     protected string deleteReason;
     protected string deleteReasonLike;
 
@@ -166,7 +166,7 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
         return this;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
@@ -276,11 +276,11 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
         return assignee;
     }
 
-    public boolean isFinished() {
+    public bool isFinished() {
         return finished;
     }
 
-    public boolean isUnfinished() {
+    public bool isUnfinished() {
         return unfinished;
     }
 

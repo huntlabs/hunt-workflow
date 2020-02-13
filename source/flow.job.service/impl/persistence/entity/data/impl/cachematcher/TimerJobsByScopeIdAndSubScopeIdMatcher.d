@@ -20,10 +20,10 @@ import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
 /**
  * @author Joram Barrez
  */
-public class TimerJobsByScopeIdAndSubScopeIdMatcher extends CachedEntityMatcherAdapter<TimerJobEntity> {
+class TimerJobsByScopeIdAndSubScopeIdMatcher extends CachedEntityMatcherAdapter<TimerJobEntity> {
 
     @Override
-    public boolean isRetained(TimerJobEntity timerJobEntity, Object param) {
+    public bool isRetained(TimerJobEntity timerJobEntity, Object param) {
         Map<string, string> paramMap = (Map<string, string>) param;
         string scopeId = paramMap.get("scopeId");
         string subScopeId = paramMap.get("subScopeId");

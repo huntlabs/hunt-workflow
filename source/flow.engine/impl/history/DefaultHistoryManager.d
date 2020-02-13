@@ -62,7 +62,7 @@ class DefaultHistoryManager extends AbstractHistoryManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHistoryManager.class.getName());
 
-    public DefaultHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, boolean usePrefixId) {
+    public DefaultHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, bool usePrefixId) {
         super(processEngineConfiguration, historyLevel, usePrefixId);
     }
 
@@ -270,7 +270,7 @@ class DefaultHistoryManager extends AbstractHistoryManager {
 
     @Override
     public void recordTaskInfoChange(TaskEntity taskEntity, string activityInstanceId, Date changeTime) {
-        boolean assigneeChanged = false;
+        bool assigneeChanged = false;
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, taskEntity.getProcessDefinitionId())) {
             HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
             HistoricTaskInstanceEntity originalHistoricTaskInstanceEntity = historicTaskService.getHistoricTask(taskEntity.getId());
@@ -320,7 +320,7 @@ class DefaultHistoryManager extends AbstractHistoryManager {
     }
 
     @Override
-    public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, boolean useActivityId,
+    public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, bool useActivityId,
         string activityInstanceId, Date createTime) {
         string processDefinitionId = getProcessDefinitionId(variable, sourceActivityExecution);
 

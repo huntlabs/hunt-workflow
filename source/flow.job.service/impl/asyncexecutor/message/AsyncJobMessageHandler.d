@@ -30,6 +30,6 @@ interface AsyncJobMessageHandler {
      * Returning true will delete the job.
      * Returning false will unacquire the job and decrement the retries.
      */
-    public abstract boolean handleJob(JobEntity job);
+    public abstract bool handleJob(JobEntity job);
     
 }

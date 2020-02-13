@@ -30,7 +30,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> implements DeadLetterJobQuery, Serializable {
+class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> implements DeadLetterJobQuery, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string id;
@@ -44,18 +44,18 @@ public class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Jo
     protected string subScopeId;
     protected string scopeType;
     protected string scopeDefinitionId;
-    protected boolean executable;
-    protected boolean onlyTimers;
-    protected boolean onlyMessages;
+    protected bool executable;
+    protected bool onlyTimers;
+    protected bool onlyMessages;
     protected Date duedateHigherThan;
     protected Date duedateLowerThan;
     protected Date duedateHigherThanOrEqual;
     protected Date duedateLowerThanOrEqual;
-    protected boolean withException;
+    protected bool withException;
     protected string exceptionMessage;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
 
     public DeadLetterJobQueryImpl() {
     }
@@ -336,7 +336,7 @@ public class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Jo
         return handlerType;
     }
 
-    public boolean getExecutable() {
+    public bool getExecutable() {
         return executable;
     }
 
@@ -344,7 +344,7 @@ public class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Jo
         return CommandContextUtil.getJobServiceConfiguration().getClock().getCurrentTime();
     }
 
-    public boolean isWithException() {
+    public bool isWithException() {
         return withException;
     }
 
@@ -360,7 +360,7 @@ public class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Jo
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
@@ -392,11 +392,11 @@ public class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Jo
         return scopeDefinitionId;
     }
 
-    public boolean isOnlyTimers() {
+    public bool isOnlyTimers() {
         return onlyTimers;
     }
 
-    public boolean isOnlyMessages() {
+    public bool isOnlyMessages() {
         return onlyMessages;
     }
 

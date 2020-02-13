@@ -26,7 +26,7 @@ interface HistoryJsonTransformer {
 
     List<string> getTypes();
 
-    boolean isApplicable(ObjectNode historicalData, CommandContext commandContext);
+    bool isApplicable(ObjectNode historicalData, CommandContext commandContext);
 
     void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext);
 

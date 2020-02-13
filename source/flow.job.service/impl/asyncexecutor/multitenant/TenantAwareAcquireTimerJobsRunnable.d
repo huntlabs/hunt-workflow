@@ -21,7 +21,7 @@ import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
  * 
  * @author Joram Barrez
  */
-public class TenantAwareAcquireTimerJobsRunnable extends AcquireTimerJobsRunnable {
+class TenantAwareAcquireTimerJobsRunnable extends AcquireTimerJobsRunnable {
 
     protected TenantInfoHolder tenantInfoHolder;
     protected string tenantId;

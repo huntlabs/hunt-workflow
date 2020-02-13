@@ -28,12 +28,12 @@ import org.flowable.job.service.impl.persistence.entity.data.impl.cachematcher.D
 /**
  * @author Tijs Rademakers
  */
-public class MybatisDeadLetterJobDataManager extends AbstractDataManager<DeadLetterJobEntity> implements DeadLetterJobDataManager {
+class MybatisDeadLetterJobDataManager extends AbstractDataManager<DeadLetterJobEntity> implements DeadLetterJobDataManager {
 
     protected CachedEntityMatcher<DeadLetterJobEntity> deadLetterByExecutionIdMatcher = new DeadLetterJobsByExecutionIdMatcher();
 
     @Override
-    public Class<? extends DeadLetterJobEntity> getManagedEntityClass() {
+    class<? extends DeadLetterJobEntity> getManagedEntityClass() {
         return DeadLetterJobEntityImpl.class;
     }
 

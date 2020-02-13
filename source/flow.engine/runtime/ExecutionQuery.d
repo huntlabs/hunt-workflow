@@ -60,14 +60,14 @@ interface ExecutionQuery extends Query<ExecutionQuery, Execution> {
      * Only executions with the given business key.
      * 
      * Note that only process instances have a business key and as such, child executions will NOT be returned. If you want to return child executions of the process instance with the given business
-     * key too, use the {@link #processInstanceBusinessKey(string, boolean)} method with a boolean value of <i>true</i> instead.
+     * key too, use the {@link #processInstanceBusinessKey(string, bool)} method with a bool value of <i>true</i> instead.
      */
     ExecutionQuery processInstanceBusinessKey(string processInstanceBusinessKey);
 
     /**
      * Only executions with the given business key. Similar to {@link #processInstanceBusinessKey(string)}, but allows to choose whether child executions are returned or not.
      */
-    ExecutionQuery processInstanceBusinessKey(string processInstanceBusinessKey, boolean includeChildExecutions);
+    ExecutionQuery processInstanceBusinessKey(string processInstanceBusinessKey, bool includeChildExecutions);
 
     /** Only select executions with the given id. **/
     ExecutionQuery executionId(string executionId);

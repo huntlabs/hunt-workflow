@@ -23,5 +23,5 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 interface PropertiesParser {
     ObjectNode parseElement(FlowElement flowElement, ObjectNode flowElementNode, ObjectMapper mapper);
 
-    boolean supports(FlowElement flowElement);
+    bool supports(FlowElement flowElement);
 }

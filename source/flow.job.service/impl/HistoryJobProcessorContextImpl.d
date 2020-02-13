@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
  * @author Guy Brand
  * @see HistoryJobProcessor
  */
-public class HistoryJobProcessorContextImpl implements HistoryJobProcessorContext {
+class HistoryJobProcessorContextImpl implements HistoryJobProcessorContext {
 
     protected final Phase phase;
     protected final HistoryJobEntity historyJobEntity;
@@ -43,7 +43,7 @@ public class HistoryJobProcessorContextImpl implements HistoryJobProcessorContex
     }
 
     @Override
-    public boolean isInPhase(Phase phase) {
+    public bool isInPhase(Phase phase) {
         return this.phase.equals(phase);
     }
 

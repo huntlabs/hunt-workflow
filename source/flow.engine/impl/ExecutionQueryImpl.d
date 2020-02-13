@@ -54,18 +54,18 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     protected string activityId;
     protected string executionId;
     protected string parentId;
-    protected boolean onlyChildExecutions;
-    protected boolean onlySubProcessExecutions;
-    protected boolean onlyProcessInstanceExecutions;
+    protected bool onlyChildExecutions;
+    protected bool onlySubProcessExecutions;
+    protected bool onlyProcessInstanceExecutions;
     protected string processInstanceId;
     protected string rootProcessInstanceId;
     protected List<EventSubscriptionQueryValue> eventSubscriptions;
 
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
 
     protected Date startedBefore;
     protected Date startedAfter;
@@ -74,12 +74,12 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     // Not used by end-users, but needed for dynamic ibatis query
     protected string superProcessInstanceId;
     protected string subProcessInstanceId;
-    protected boolean excludeSubprocesses;
+    protected bool excludeSubprocesses;
     protected SuspensionState suspensionState;
     protected string businessKey;
     protected string businessKeyLike;
-    protected boolean includeChildExecutionsWithBusinessKeyQuery;
-    protected boolean isActive;
+    protected bool includeChildExecutionsWithBusinessKeyQuery;
+    protected bool isActive;
     protected string involvedUser;
     protected Set<string> involvedGroups;
     protected Set<string> processDefinitionKeys;
@@ -100,7 +100,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     
     protected List<ExecutionQueryImpl> orQueryObjects = new ArrayList<>();
     protected ExecutionQueryImpl currentOrQueryObject;
-    protected boolean inOrStatement;
+    protected bool inOrStatement;
 
     public ExecutionQueryImpl() {
     }
@@ -113,7 +113,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         super(commandExecutor);
     }
 
-    public boolean isProcessInstancesOnly() {
+    public bool isProcessInstancesOnly() {
         return false; // see dynamic query
     }
 
@@ -235,7 +235,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     }
 
     @Override
-    public ExecutionQuery processInstanceBusinessKey(string processInstanceBusinessKey, boolean includeChildExecutions) {
+    public ExecutionQuery processInstanceBusinessKey(string processInstanceBusinessKey, bool includeChildExecutions) {
         if (!includeChildExecutions) {
             return processInstanceBusinessKey(processInstanceBusinessKey);
         } else {
@@ -901,7 +901,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     // getters ////////////////////////////////////////////////////
 
-    public boolean getOnlyProcessInstances() {
+    public bool getOnlyProcessInstances() {
         return false;
     }
 
@@ -970,7 +970,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return subProcessInstanceId;
     }
 
-    public boolean isExcludeSubprocesses() {
+    public bool isExcludeSubprocesses() {
         return excludeSubprocesses;
     }
 
@@ -986,7 +986,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return eventSubscriptions;
     }
 
-    public boolean isIncludeChildExecutionsWithBusinessKeyQuery() {
+    public bool isIncludeChildExecutionsWithBusinessKeyQuery() {
         return includeChildExecutionsWithBusinessKeyQuery;
     }
 
@@ -994,7 +994,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         this.eventSubscriptions = eventSubscriptions;
     }
 
-    public boolean isActive() {
+    public bool isActive() {
         return isActive;
     }
 
@@ -1026,15 +1026,15 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return parentId;
     }
 
-    public boolean isOnlyChildExecutions() {
+    public bool isOnlyChildExecutions() {
         return onlyChildExecutions;
     }
 
-    public boolean isOnlySubProcessExecutions() {
+    public bool isOnlySubProcessExecutions() {
         return onlySubProcessExecutions;
     }
 
-    public boolean isOnlyProcessInstanceExecutions() {
+    public bool isOnlyProcessInstanceExecutions() {
         return onlyProcessInstanceExecutions;
     }
 
@@ -1046,7 +1046,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 

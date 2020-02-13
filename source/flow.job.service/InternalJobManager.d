@@ -25,7 +25,7 @@ interface InternalJobManager {
 
     VariableScope resolveVariableScope(Job job);
     
-    boolean handleJobInsert(Job job);
+    bool handleJobInsert(Job job);
     
     void handleJobDelete(Job job);
     

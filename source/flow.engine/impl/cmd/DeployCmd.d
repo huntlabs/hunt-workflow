@@ -56,7 +56,7 @@ class DeployCmd<T> implements Command<Deployment>, Serializable {
         // Backwards compatibility with v5
         if (deploymentBuilder.getDeploymentProperties() != null
                 && deploymentBuilder.getDeploymentProperties().containsKey(DeploymentProperties.DEPLOY_AS_FLOWABLE5_PROCESS_DEFINITION)
-                && deploymentBuilder.getDeploymentProperties().get(DeploymentProperties.DEPLOY_AS_FLOWABLE5_PROCESS_DEFINITION).equals(Boolean.TRUE)) {
+                && deploymentBuilder.getDeploymentProperties().get(DeploymentProperties.DEPLOY_AS_FLOWABLE5_PROCESS_DEFINITION).equals(bool.TRUE)) {
 
             ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
             if (processEngineConfiguration.isFlowable5CompatibilityEnabled() && processEngineConfiguration.getFlowable5CompatibilityHandler() != null) {
@@ -146,7 +146,7 @@ class DeployCmd<T> implements Command<Deployment>, Serializable {
         return flowable5CompatibilityHandler.deploy(deploymentBuilder);
     }
 
-    protected boolean deploymentsDiffer(DeploymentEntity deployment, DeploymentEntity saved) {
+    protected bool deploymentsDiffer(DeploymentEntity deployment, DeploymentEntity saved) {
 
         if (deployment.getResources() == null || saved.getResources() == null) {
             return true;

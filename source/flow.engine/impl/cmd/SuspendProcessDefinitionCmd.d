@@ -25,11 +25,11 @@ import flow.engine.runtime.ProcessInstance;
  */
 class SuspendProcessDefinitionCmd extends AbstractSetProcessDefinitionStateCmd {
 
-    public SuspendProcessDefinitionCmd(ProcessDefinitionEntity processDefinitionEntity, boolean includeProcessInstances, Date executionDate, string tenantId) {
+    public SuspendProcessDefinitionCmd(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
         super(processDefinitionEntity, includeProcessInstances, executionDate, tenantId);
     }
 
-    public SuspendProcessDefinitionCmd(string processDefinitionId, string processDefinitionKey, boolean suspendProcessInstances, Date suspensionDate, string tenantId) {
+    public SuspendProcessDefinitionCmd(string processDefinitionId, string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate, string tenantId) {
         super(processDefinitionId, processDefinitionKey, suspendProcessInstances, suspensionDate, tenantId);
     }
 

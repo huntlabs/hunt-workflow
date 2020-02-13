@@ -25,7 +25,7 @@ class StartSubProcessInstanceBeforeContext extends AbstractStartProcessInstanceB
 
     protected ExecutionEntity callActivityExecution;
     protected List<IOParameter> inParameters;
-    protected boolean inheritVariables;
+    protected bool inheritVariables;
     
     public StartSubProcessInstanceBeforeContext() {
         
@@ -33,7 +33,7 @@ class StartSubProcessInstanceBeforeContext extends AbstractStartProcessInstanceB
     
     public StartSubProcessInstanceBeforeContext(string businessKey, string processInstanceName, Map<string, Object> variables,
                     ExecutionEntity callActivityExecution, List<IOParameter> inParameters,
-                    boolean inheritVariables, string initialActivityId, FlowElement initialFlowElement,
+                    bool inheritVariables, string initialActivityId, FlowElement initialFlowElement,
                     Process process, ProcessDefinition processDefinition) {
         
         super(businessKey, processInstanceName, variables, initialActivityId, initialFlowElement, process, processDefinition);
@@ -59,11 +59,11 @@ class StartSubProcessInstanceBeforeContext extends AbstractStartProcessInstanceB
         this.inParameters = inParameters;
     }
 
-    public boolean isInheritVariables() {
+    public bool isInheritVariables() {
         return inheritVariables;
     }
 
-    public void setInheritVariables(boolean inheritVariables) {
+    public void setInheritVariables(bool inheritVariables) {
         this.inheritVariables = inheritVariables;
     }
 }

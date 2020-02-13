@@ -79,12 +79,12 @@ class ParsedDeploymentBuilder {
 
             // Schema validation if needed
             if (deploymentSettings.containsKey(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED)) {
-                bpmnParse.setValidateSchema((Boolean) deploymentSettings.get(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED));
+                bpmnParse.setValidateSchema((bool) deploymentSettings.get(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED));
             }
 
             // Process validation if needed
             if (deploymentSettings.containsKey(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED)) {
-                bpmnParse.setValidateProcess((Boolean) deploymentSettings.get(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED));
+                bpmnParse.setValidateProcess((bool) deploymentSettings.get(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED));
             }
 
         } else {
@@ -102,7 +102,7 @@ class ParsedDeploymentBuilder {
         return bpmnParse;
     }
 
-    protected boolean isBpmnResource(string resourceName) {
+    protected bool isBpmnResource(string resourceName) {
         for (string suffix : ResourceNameUtil.BPMN_RESOURCE_SUFFIXES) {
             if (resourceName.endsWith(suffix)) {
                 return true;

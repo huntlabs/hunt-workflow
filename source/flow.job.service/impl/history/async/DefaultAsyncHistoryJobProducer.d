@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
+class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
 
     @Override
     public List<HistoryJobEntity> historyDataGenerated(JobServiceConfiguration jobServiceConfiguration, List<ObjectNode> historyObjectNodes) {
@@ -78,7 +78,7 @@ public class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
         return currentJobEntity;
     }
 
-    protected void addJsonToJob(CommandContext commandContext, JobServiceConfiguration jobServiceConfiguration, HistoryJobEntity jobEntity, JsonNode rootObjectNode, boolean applyCompression) {
+    protected void addJsonToJob(CommandContext commandContext, JobServiceConfiguration jobServiceConfiguration, HistoryJobEntity jobEntity, JsonNode rootObjectNode, bool applyCompression) {
         try {
             byte[] bytes = jobServiceConfiguration.getObjectMapper().writeValueAsBytes(rootObjectNode);
             if (applyCompression) {
@@ -101,7 +101,7 @@ public class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
         }
     }
 
-    protected string getJobType(JobServiceConfiguration jobServiceConfiguration, boolean groupingEnabled) {
+    protected string getJobType(JobServiceConfiguration jobServiceConfiguration, bool groupingEnabled) {
         if (groupingEnabled) {
             return jobServiceConfiguration.isAsyncHistoryJsonGzipCompressionEnabled() ?
                 jobServiceConfiguration.getJobTypeAsyncHistoryZipped() : jobServiceConfiguration.getJobTypeAsyncHistory();

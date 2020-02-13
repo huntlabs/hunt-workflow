@@ -56,13 +56,13 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
     protected string businessKeyLike;
     protected string deploymentId;
     protected List<string> deploymentIds;
-    protected boolean finished;
-    protected boolean unfinished;
-    protected boolean deleted;
-    protected boolean notDeleted;
+    protected bool finished;
+    protected bool unfinished;
+    protected bool deleted;
+    protected bool notDeleted;
     protected string startedBy;
     protected string superProcessInstanceId;
-    protected boolean excludeSubprocesses;
+    protected bool excludeSubprocesses;
     protected List<string> processDefinitionKeyIn;
     protected List<string> processKeyNotIn;
     protected Date startedBefore;
@@ -76,12 +76,12 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
     protected Set<string> processInstanceIds;
     protected string involvedUser;
     protected Set<string> involvedGroups;
-    protected boolean includeProcessVariables;
+    protected bool includeProcessVariables;
     protected Integer processInstanceVariablesLimit;
-    protected boolean withJobException;
+    protected bool withJobException;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
     protected string name;
     protected string nameLike;
     protected string nameLikeIgnoreCase;
@@ -90,10 +90,10 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
     protected string referenceId;
     protected string referenceType;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
     protected List<HistoricProcessInstanceQueryImpl> orQueryObjects = new ArrayList<>();
     protected HistoricProcessInstanceQueryImpl currentOrQueryObject;
-    protected boolean inOrStatement;
+    protected bool inOrStatement;
 
     public HistoricProcessInstanceQueryImpl() {
     }
@@ -346,7 +346,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
     }
 
     @Override
-    public HistoricProcessInstanceQuery excludeSubprocesses(boolean excludeSubprocesses) {
+    public HistoricProcessInstanceQuery excludeSubprocesses(bool excludeSubprocesses) {
         if (inOrStatement) {
             this.currentOrQueryObject.excludeSubprocesses = excludeSubprocesses;
         } else {
@@ -838,7 +838,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
         return businessKeyLike;
     }
 
-    public boolean isOpen() {
+    public bool isOpen() {
         return unfinished;
     }
 
@@ -891,7 +891,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
         return superProcessInstanceId;
     }
 
-    public boolean isExcludeSubprocesses() {
+    public bool isExcludeSubprocesses() {
         return excludeSubprocesses;
     }
 
@@ -943,27 +943,27 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
         return deploymentIds;
     }
 
-    public boolean isFinished() {
+    public bool isFinished() {
         return finished;
     }
 
-    public boolean isUnfinished() {
+    public bool isUnfinished() {
         return unfinished;
     }
 
-    public boolean isDeleted() {
+    public bool isDeleted() {
         return deleted;
     }
 
-    public boolean isNotDeleted() {
+    public bool isNotDeleted() {
         return notDeleted;
     }
 
-    public boolean isIncludeProcessVariables() {
+    public bool isIncludeProcessVariables() {
         return includeProcessVariables;
     }
 
-    public boolean isWithException() {
+    public bool isWithException() {
         return withJobException;
     }
 
@@ -975,7 +975,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 

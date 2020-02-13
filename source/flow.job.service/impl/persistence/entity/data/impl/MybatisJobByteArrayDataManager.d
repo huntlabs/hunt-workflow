@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.data.JobByteArrayDataMan
 /**
  * @author Joram Barrez
  */
-public class MybatisJobByteArrayDataManager extends AbstractDataManager<JobByteArrayEntity> implements JobByteArrayDataManager {
+class MybatisJobByteArrayDataManager extends AbstractDataManager<JobByteArrayEntity> implements JobByteArrayDataManager {
 
     @Override
     public JobByteArrayEntity create() {
@@ -30,7 +30,7 @@ public class MybatisJobByteArrayDataManager extends AbstractDataManager<JobByteA
     }
 
     @Override
-    public Class<? extends JobByteArrayEntity> getManagedEntityClass() {
+    class<? extends JobByteArrayEntity> getManagedEntityClass() {
         return JobByteArrayEntityImpl.class;
     }
 

@@ -126,7 +126,7 @@ interface ProcessInstanceQuery extends Query<ProcessInstanceQuery, ProcessInstan
     /**
      * Exclude sub processes from the query result;
      */
-    ProcessInstanceQuery excludeSubprocesses(boolean excludeSubprocesses);
+    ProcessInstanceQuery excludeSubprocesses(bool excludeSubprocesses);
 
     /**
      * Select the process instances with which the user with the given id is involved.

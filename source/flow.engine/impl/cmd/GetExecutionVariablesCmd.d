@@ -35,9 +35,9 @@ class GetExecutionVariablesCmd implements Command<Map<string, Object>>, Serializ
     private static final long serialVersionUID = 1L;
     protected string executionId;
     protected Collection<string> variableNames;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public GetExecutionVariablesCmd(string executionId, Collection<string> variableNames, boolean isLocal) {
+    public GetExecutionVariablesCmd(string executionId, Collection<string> variableNames, bool isLocal) {
         this.executionId = executionId;
         this.variableNames = variableNames;
         this.isLocal = isLocal;

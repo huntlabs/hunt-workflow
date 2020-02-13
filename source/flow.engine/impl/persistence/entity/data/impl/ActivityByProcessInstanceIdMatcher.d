@@ -25,7 +25,7 @@ import flow.engine.impl.persistence.entity.ActivityInstanceEntity;
 class ActivityByProcessInstanceIdMatcher implements CachedEntityMatcher<ActivityInstanceEntity> {
 
     @Override
-    public boolean isRetained(Collection<ActivityInstanceEntity> databaseEntities, Collection<CachedEntity> cachedEntities, 
+    public bool isRetained(Collection<ActivityInstanceEntity> databaseEntities, Collection<CachedEntity> cachedEntities,
                     ActivityInstanceEntity entity, Object param) {
         
         string processInstanceId = (string) param;

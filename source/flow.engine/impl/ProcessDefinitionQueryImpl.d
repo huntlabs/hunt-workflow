@@ -55,18 +55,18 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     protected Integer versionGte;
     protected Integer versionLt;
     protected Integer versionLte;
-    protected boolean latest;
+    protected bool latest;
     protected SuspensionState suspensionState;
     protected string authorizationUserId;
     protected Collection<string> authorizationGroups;
-    protected boolean authorizationGroupsSet;
+    protected bool authorizationGroupsSet;
     protected string procDefId;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
+    protected bool withoutTenantId;
     protected string engineVersion;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
 
     protected string eventSubscriptionName;
     protected string eventSubscriptionType;
@@ -466,7 +466,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
         return versionLte;
     }
 
-    public boolean isLatest() {
+    public bool isLatest() {
         return latest;
     }
 
@@ -506,7 +506,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
@@ -530,7 +530,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
         return eventSubscriptionType;
     }
 
-    public boolean isIncludeAuthorization() {
+    public bool isIncludeAuthorization() {
         return authorizationUserId != null || (authorizationGroups != null && !authorizationGroups.isEmpty());
     }
 }

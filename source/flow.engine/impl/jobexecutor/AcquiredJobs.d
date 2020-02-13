@@ -35,7 +35,7 @@ class AcquiredJobs {
         acquiredJobs.addAll(jobIds);
     }
 
-    public boolean contains(string jobId) {
+    public bool contains(string jobId) {
         return acquiredJobs.contains(jobId);
     }
 

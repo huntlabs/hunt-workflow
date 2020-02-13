@@ -55,7 +55,7 @@ module flow.common.interceptor.JtaRetryInterceptor;
 //        }
 //    }
 //
-//    protected boolean calledInsideTransaction() {
+//    protected bool calledInsideTransaction() {
 //        try {
 //            return transactionManager.getStatus() != Status.STATUS_NO_TRANSACTION;
 //        } catch (SystemException e) {

@@ -22,18 +22,18 @@ import org.flowable.job.api.JobInfo;
 import org.flowable.job.service.JobServiceConfiguration;
 import org.flowable.job.service.impl.util.CommandContextUtil;
 
-public class UnacquireAsyncHistoryJobExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
+class UnacquireAsyncHistoryJobExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
     
     @Override
-    public boolean handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
+    public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
         if (job != null && getAsyncHistoryJobHandlerTypes(jobServiceConfiguration).contains(job.getJobHandlerType())) {
-            return jobServiceConfiguration.getCommandExecutor().execute(new Command<Boolean>() {
+            return jobServiceConfiguration.getCommandExecutor().execute(new Command<bool>() {
                 @Override
-                public Boolean execute(CommandContext commandContext) {
+                public bool execute(CommandContext commandContext) {
                     CommandConfig commandConfig = jobServiceConfiguration.getCommandExecutor().getDefaultConfig().transactionRequiresNew();
-                    return jobServiceConfiguration.getCommandExecutor().execute(commandConfig, new Command<Boolean>() {
+                    return jobServiceConfiguration.getCommandExecutor().execute(commandConfig, new Command<bool>() {
                         @Override
-                        public Boolean execute(CommandContext commandContext2) {
+                        public bool execute(CommandContext commandContext2) {
                             CommandContextUtil.getJobManager(commandContext2).unacquireWithDecrementRetries(job);
                             return true;
                         }

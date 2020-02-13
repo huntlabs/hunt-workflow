@@ -44,7 +44,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
     protected Map<string, Object> transientVariables;
     protected Map<string, Object> startFormVariables;
     protected string outcome;
-    protected boolean fallbackToDefaultTenant;
+    protected bool fallbackToDefaultTenant;
 
     public ProcessInstanceBuilderImpl(RuntimeServiceImpl runtimeService) {
         this.runtimeService = runtimeService;
@@ -277,7 +277,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
         return outcome;
     }
 
-    public boolean isFallbackToDefaultTenant() {
+    public bool isFallbackToDefaultTenant() {
         return fallbackToDefaultTenant;
     }
 

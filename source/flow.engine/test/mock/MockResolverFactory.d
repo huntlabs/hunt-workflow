@@ -60,7 +60,7 @@ class MockResolverFactory implements ResolverFactory {
             }
 
             @Override
-            public boolean containsKey(Object key) {
+            public bool containsKey(Object key) {
                 return Mocks.get(key) != null;
             }
         };

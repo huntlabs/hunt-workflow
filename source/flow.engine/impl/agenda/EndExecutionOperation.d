@@ -61,13 +61,13 @@ class EndExecutionOperation extends AbstractOperation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EndExecutionOperation.class);
 
-    protected boolean forceSynchronous;
+    protected bool forceSynchronous;
     
     public EndExecutionOperation(CommandContext commandContext, ExecutionEntity execution) {
         super(commandContext, execution);
     }
     
-    public EndExecutionOperation(CommandContext commandContext, ExecutionEntity execution, boolean forceSynchronous) {
+    public EndExecutionOperation(CommandContext commandContext, ExecutionEntity execution, bool forceSynchronous) {
         this(commandContext, execution);
         this.forceSynchronous = forceSynchronous;
     }
@@ -143,7 +143,7 @@ class EndExecutionOperation extends AbstractOperation {
         }
     }
     
-    protected boolean isAsyncCompleteCallActivity(ExecutionEntity superExecution) {
+    protected bool isAsyncCompleteCallActivity(ExecutionEntity superExecution) {
         if (superExecution != null) {
             FlowNode superExecutionFlowNode = (FlowNode) superExecution.getCurrentFlowElement();
             if (superExecutionFlowNode instanceof CallActivity) {
@@ -208,7 +208,7 @@ class EndExecutionOperation extends AbstractOperation {
         if (subProcess instanceof EventSubProcess) {
             EventSubProcess eventSubProcess = (EventSubProcess) subProcess;
 
-            boolean hasNonInterruptingStartEvent = false;
+            bool hasNonInterruptingStartEvent = false;
             for (FlowElement eventSubElement : eventSubProcess.getFlowElements()) {
                 if (eventSubElement instanceof StartEvent) {
                     StartEvent subStartEvent = (StartEvent) eventSubElement;
@@ -255,7 +255,7 @@ class EndExecutionOperation extends AbstractOperation {
         // the current scope had ended and the event subprocess start event should stop listening to any trigger.
         if (!eventScopeExecutions.isEmpty()) {
             List<? extends ExecutionEntity> childExecutions = parentExecution.getExecutions();
-            boolean activeSiblings = false;
+            bool activeSiblings = false;
             for (ExecutionEntity childExecutionEntity : childExecutions) {
                 if (!isInEventSubProcess(childExecutionEntity) && childExecutionEntity.isActive() && !childExecutionEntity.isEnded()) {
                     activeSiblings = true;
@@ -314,7 +314,7 @@ class EndExecutionOperation extends AbstractOperation {
         executionToContinue.setCurrentFlowElement(subProcess);
         executionToContinue.setActive(false);
 
-        boolean hasCompensation = false;
+        bool hasCompensation = false;
         if (subProcess instanceof Transaction) {
             hasCompensation = true;
         } else {
@@ -388,7 +388,7 @@ class EndExecutionOperation extends AbstractOperation {
 
     protected void handleMultiInstanceSubProcess(ExecutionEntityManager executionEntityManager, ExecutionEntity parentExecution) {
         List<ExecutionEntity> activeChildExecutions = getActiveChildExecutionsForExecution(executionEntityManager, parentExecution.getId());
-        boolean containsOtherChildExecutions = false;
+        bool containsOtherChildExecutions = false;
         for (ExecutionEntity activeExecution : activeChildExecutions) {
             if (!activeExecution.getId().equals(execution.getId())) {
                 containsOtherChildExecutions = true;
@@ -409,7 +409,7 @@ class EndExecutionOperation extends AbstractOperation {
         }
     }
 
-    protected boolean isEndEventInMultiInstanceSubprocess(ExecutionEntity executionEntity) {
+    protected bool isEndEventInMultiInstanceSubprocess(ExecutionEntity executionEntity) {
         if (executionEntity.getCurrentFlowElement() instanceof EndEvent) {
             SubProcess subProcess = ((EndEvent) execution.getCurrentFlowElement()).getSubProcess();
             return !executionEntity.getParent().isProcessInstanceType()
@@ -470,7 +470,7 @@ class EndExecutionOperation extends AbstractOperation {
         return eventScopeExecutions;
     }
 
-    protected boolean allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
+    protected bool allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
         for (ExecutionEntity childExecutionEntity : parentExecutionEntity.getExecutions()) {
             if (executionEntityToIgnore == null || !executionEntityToIgnore.getId().equals(childExecutionEntity.getId())) {
                 if (!childExecutionEntity.isEnded()) {
@@ -486,7 +486,7 @@ class EndExecutionOperation extends AbstractOperation {
         return true;
     }
     
-    protected boolean isInEventSubProcess(ExecutionEntity executionEntity) {
+    protected bool isInEventSubProcess(ExecutionEntity executionEntity) {
         ExecutionEntity currentExecutionEntity = executionEntity;
         while (currentExecutionEntity != null) {
             if (currentExecutionEntity.getCurrentFlowElement() instanceof EventSubProcess) {

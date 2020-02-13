@@ -89,12 +89,12 @@ class EvaluateConditionalEventsOperation extends AbstractOperation {
                             CommandContext commandContext = CommandContextUtil.getCommandContext();
                             ConditionalEventDefinition conditionalEventDefinition = (ConditionalEventDefinition) startEvent.getEventDefinitions().get(0);
                             
-                            boolean conditionIsTrue = false;
+                            bool conditionIsTrue = false;
                             string conditionExpression = conditionalEventDefinition.getConditionExpression();
                             if (StringUtils.isNotEmpty(conditionExpression)) {
                                 Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
                                 Object result = expression.getValue(parentExecution);
-                                if (result != null && result instanceof Boolean && (Boolean) result) {
+                                if (result != null && result instanceof bool && (bool) result) {
                                     conditionIsTrue = true;
                                 }
                             

@@ -460,10 +460,10 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected ProcessMigrationService processInstanceMigrationService = new ProcessMigrationServiceImpl(this);
 
     // IDM ENGINE /////////////////////////////////////////////////////
-    protected boolean disableIdmEngine;
+    protected bool disableIdmEngine;
     
     // EVENT REGISTRY /////////////////////////////////////////////////////
-    protected boolean disableEventRegistry;
+    protected bool disableEventRegistry;
 
     // DATA MANAGERS /////////////////////////////////////////////////////////////
 
@@ -508,9 +508,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     protected HistoryManager historyManager;
 
-    protected boolean isAsyncHistoryEnabled;
-    protected boolean isAsyncHistoryJsonGzipCompressionEnabled;
-    protected boolean isAsyncHistoryJsonGroupingEnabled;
+    protected bool isAsyncHistoryEnabled;
+    protected bool isAsyncHistoryJsonGzipCompressionEnabled;
+    protected bool isAsyncHistoryJsonGroupingEnabled;
     protected int asyncHistoryJsonGroupingThreshold = 10;
     protected AsyncHistoryListener asyncHistoryListener;
 
@@ -536,7 +536,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected JobServiceConfiguration jobServiceConfiguration;
     protected BatchServiceConfiguration batchServiceConfiguration;
 
-    protected boolean enableEntityLinks;
+    protected bool enableEntityLinks;
 
     // DEPLOYERS //////////////////////////////////////////////////////////////////
 
@@ -570,7 +570,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected List<JobHandler> customJobHandlers;
     protected Map<string, JobHandler> jobHandlers;
     protected List<AsyncRunnableExecutionExceptionHandler> customAsyncRunnableExecutionExceptionHandlers;
-    protected boolean addDefaultExceptionHandler = true;
+    protected bool addDefaultExceptionHandler = true;
 
     protected Map<string, HistoryJobHandler> historyJobHandlers;
     protected List<HistoryJobHandler> customHistoryJobHandlers;
@@ -637,7 +637,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      *
      * This property is only applicable when using the threadpool-based async executor.
      */
-    protected boolean asyncExecutorAllowCoreThreadTimeout = true;
+    protected bool asyncExecutorAllowCoreThreadTimeout = true;
 
     /**
      * The number of timer jobs that are acquired during one query (before a job is executed, an acquirement thread fetches jobs from the database and puts them on the queue).
@@ -740,19 +740,19 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * This can be used to boot up engine instances that still execute jobs originating from this instance itself,
      * but don't fetch new jobs themselves.
      */
-    protected boolean isAsyncExecutorAsyncJobAcquisitionEnabled = true;
-    protected boolean isAsyncExecutorTimerJobAcquisitionEnabled = true;
-    protected boolean isAsyncExecutorResetExpiredJobsEnabled = true;
+    protected bool isAsyncExecutorAsyncJobAcquisitionEnabled = true;
+    protected bool isAsyncExecutorTimerJobAcquisitionEnabled = true;
+    protected bool isAsyncExecutorResetExpiredJobsEnabled = true;
 
     /**
      * Experimental!
      * <p>
      * Set this to true when using the message queue based job executor.
      */
-    protected boolean asyncExecutorMessageQueueMode;
+    protected bool asyncExecutorMessageQueueMode;
 
     // More info: see similar async executor properties.
-    protected boolean asyncHistoryExecutorMessageQueueMode;
+    protected bool asyncHistoryExecutorMessageQueueMode;
     protected int asyncHistoryExecutorNumberOfRetries = 10;
     protected int asyncHistoryExecutorCorePoolSize = 8;
     protected int asyncHistoryExecutorMaxPoolSize = 8;
@@ -766,9 +766,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected int asyncHistoryExecutorAsyncJobLockTimeInMillis = 5 * 60 * 1000;
     protected int asyncHistoryExecutorResetExpiredJobsInterval = 60 * 1000;
     protected int asyncHistoryExecutorResetExpiredJobsPageSize = 3;
-    protected boolean isAsyncHistoryExecutorAsyncJobAcquisitionEnabled = true;
-    protected boolean isAsyncHistoryExecutorTimerJobAcquisitionEnabled = true;
-    protected boolean isAsyncHistoryExecutorResetExpiredJobsEnabled = true;
+    protected bool isAsyncHistoryExecutorAsyncJobAcquisitionEnabled = true;
+    protected bool isAsyncHistoryExecutorTimerJobAcquisitionEnabled = true;
+    protected bool isAsyncHistoryExecutorResetExpiredJobsEnabled = true;
 
     protected string jobExecutionScope;
     protected string historyJobExecutionScope;
@@ -839,14 +839,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * <p>
      * By default true for backwards compatibility.
      */
-    protected boolean serializableVariableTypeTrackDeserializedObjects = true;
+    protected bool serializableVariableTypeTrackDeserializedObjects = true;
 
     protected ExpressionManager expressionManager;
     protected List<string> customScriptingEngineClasses;
     protected ScriptingEngines scriptingEngines;
     protected List<ResolverFactory> resolverFactories;
 
-    protected boolean isExpressionCacheEnabled = true;
+    protected bool isExpressionCacheEnabled = true;
     protected int expressionCacheSize = 4096;
     protected int expressionTextLengthCacheLimit = -1; // negative value to have no max length
 
@@ -877,7 +877,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected FailedJobCommandFactory failedJobCommandFactory;
 
     protected FormFieldHandler formFieldHandler;
-    protected boolean isFormFieldValidationEnabled;
+    protected bool isFormFieldValidationEnabled;
     
     protected EventRegistryEventConsumer eventRegistryEventConsumer;
 
@@ -887,7 +887,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * Unfortunately, this feature is not available on some platforms (JDK 6, JBoss), hence the reason why it is disabled by default. If your platform allows the use of StaxSource during XML parsing,
      * do enable it.
      */
-    protected boolean enableSafeBpmnXml;
+    protected bool enableSafeBpmnXml;
 
     /**
      * The following settings will determine the amount of entities loaded at once when the engine needs to load multiple entities (eg. when suspending a process definition with all its process
@@ -899,8 +899,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected int batchSizeTasks = 25;
 
     // Event logging to database
-    protected boolean enableDatabaseEventLogging;
-    protected boolean enableHistoricTaskLogging;
+    protected bool enableDatabaseEventLogging;
+    protected bool enableHistoricTaskLogging;
 
     /**
      * Using field injection together with a delegate expression for a service task / execution listener / task listener is not thread-sade , see user guide section 'Field Injection' for more
@@ -919,7 +919,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     /**
      * Enabled a very verbose debug output of the execution tree whilst executing operations. Most useful for core engine developers or people fiddling around with the execution tree.
      */
-    protected boolean enableVerboseExecutionTreeLogging;
+    protected bool enableVerboseExecutionTreeLogging;
 
     protected PerformanceSettings performanceSettings = new PerformanceSettings();
 
@@ -934,13 +934,13 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected SchemaManager jobSchemaManager;
     protected SchemaManager batchSchemaManager;
 
-    protected boolean handleProcessEngineExecutorsAfterEngineCreate = true;
+    protected bool handleProcessEngineExecutorsAfterEngineCreate = true;
 
     // Backwards compatibility //////////////////////////////////////////////////////////////
 
-    protected boolean flowable5CompatibilityEnabled; // Default flowable 5 backwards compatibility is disabled!
-    protected boolean validateFlowable5EntitiesEnabled = true; // When disabled no checks are performed for existing flowable 5 entities in the db
-    protected boolean redeployFlowable5ProcessDefinitions;
+    protected bool flowable5CompatibilityEnabled; // Default flowable 5 backwards compatibility is disabled!
+    protected bool validateFlowable5EntitiesEnabled = true; // When disabled no checks are performed for existing flowable 5 entities in the db
+    protected bool redeployFlowable5ProcessDefinitions;
     protected Flowable5CompatibilityHandlerFactory flowable5CompatibilityHandlerFactory;
     protected Flowable5CompatibilityHandler flowable5CompatibilityHandler;
 
@@ -2831,20 +2831,20 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isDisableIdmEngine() {
+    public bool isDisableIdmEngine() {
         return disableIdmEngine;
     }
 
-    public ProcessEngineConfigurationImpl setDisableIdmEngine(boolean disableIdmEngine) {
+    public ProcessEngineConfigurationImpl setDisableIdmEngine(bool disableIdmEngine) {
         this.disableIdmEngine = disableIdmEngine;
         return this;
     }
     
-    public boolean isDisableEventRegistry() {
+    public bool isDisableEventRegistry() {
         return disableEventRegistry;
     }
 
-    public ProcessEngineConfigurationImpl setDisableEventRegistry(boolean disableEventRegistry) {
+    public ProcessEngineConfigurationImpl setDisableEventRegistry(bool disableEventRegistry) {
         this.disableEventRegistry = disableEventRegistry;
         return this;
     }
@@ -3111,11 +3111,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isSerializableVariableTypeTrackDeserializedObjects() {
+    public bool isSerializableVariableTypeTrackDeserializedObjects() {
         return serializableVariableTypeTrackDeserializedObjects;
     }
 
-    public void setSerializableVariableTypeTrackDeserializedObjects(boolean serializableVariableTypeTrackDeserializedObjects) {
+    public void setSerializableVariableTypeTrackDeserializedObjects(bool serializableVariableTypeTrackDeserializedObjects) {
         this.serializableVariableTypeTrackDeserializedObjects = serializableVariableTypeTrackDeserializedObjects;
     }
 
@@ -3130,11 +3130,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isExpressionCacheEnabled() {
+    public bool isExpressionCacheEnabled() {
         return isExpressionCacheEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setExpressionCacheEnabled(boolean isExpressionCacheEnabled) {
+    public ProcessEngineConfigurationImpl setExpressionCacheEnabled(bool isExpressionCacheEnabled) {
         this.isExpressionCacheEnabled = isExpressionCacheEnabled;
         return this;
     }
@@ -3634,11 +3634,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isEnableSafeBpmnXml() {
+    public bool isEnableSafeBpmnXml() {
         return enableSafeBpmnXml;
     }
 
-    public ProcessEngineConfigurationImpl setEnableSafeBpmnXml(boolean enableSafeBpmnXml) {
+    public ProcessEngineConfigurationImpl setEnableSafeBpmnXml(bool enableSafeBpmnXml) {
         this.enableSafeBpmnXml = enableSafeBpmnXml;
         return this;
     }
@@ -3650,7 +3650,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     @Override
-    public ProcessEngineConfigurationImpl setEnableEventDispatcher(boolean enableEventDispatcher) {
+    public ProcessEngineConfigurationImpl setEnableEventDispatcher(bool enableEventDispatcher) {
         this.enableEventDispatcher = enableEventDispatcher;
         return this;
     }
@@ -3685,11 +3685,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isFormFieldValidationEnabled() {
+    public bool isFormFieldValidationEnabled() {
         return this.isFormFieldValidationEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setFormFieldValidationEnabled(boolean flag) {
+    public ProcessEngineConfigurationImpl setFormFieldValidationEnabled(bool flag) {
         this.isFormFieldValidationEnabled = flag;
         return this;
     }
@@ -3748,50 +3748,50 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isEnableDatabaseEventLogging() {
+    public bool isEnableDatabaseEventLogging() {
         return enableDatabaseEventLogging;
     }
 
-    public ProcessEngineConfigurationImpl setEnableDatabaseEventLogging(boolean enableDatabaseEventLogging) {
+    public ProcessEngineConfigurationImpl setEnableDatabaseEventLogging(bool enableDatabaseEventLogging) {
         this.enableDatabaseEventLogging = enableDatabaseEventLogging;
         return this;
     }
 
-    public boolean isEnableHistoricTaskLogging() {
+    public bool isEnableHistoricTaskLogging() {
         return enableHistoricTaskLogging;
     }
 
-    public ProcessEngineConfigurationImpl setEnableHistoricTaskLogging(boolean enableHistoricTaskLogging) {
+    public ProcessEngineConfigurationImpl setEnableHistoricTaskLogging(bool enableHistoricTaskLogging) {
         this.enableHistoricTaskLogging = enableHistoricTaskLogging;
         return this;
     }
 
     @Override
-    public ProcessEngineConfigurationImpl setUsingRelationalDatabase(boolean usingRelationalDatabase) {
+    public ProcessEngineConfigurationImpl setUsingRelationalDatabase(bool usingRelationalDatabase) {
         this.usingRelationalDatabase = usingRelationalDatabase;
         return this;
     }
 
-    public boolean isEnableVerboseExecutionTreeLogging() {
+    public bool isEnableVerboseExecutionTreeLogging() {
         return enableVerboseExecutionTreeLogging;
     }
 
-    public ProcessEngineConfigurationImpl setEnableVerboseExecutionTreeLogging(boolean enableVerboseExecutionTreeLogging) {
+    public ProcessEngineConfigurationImpl setEnableVerboseExecutionTreeLogging(bool enableVerboseExecutionTreeLogging) {
         this.enableVerboseExecutionTreeLogging = enableVerboseExecutionTreeLogging;
         return this;
     }
 
-    public ProcessEngineConfigurationImpl setEnableEagerExecutionTreeFetching(boolean enableEagerExecutionTreeFetching) {
+    public ProcessEngineConfigurationImpl setEnableEagerExecutionTreeFetching(bool enableEagerExecutionTreeFetching) {
         this.performanceSettings.setEnableEagerExecutionTreeFetching(enableEagerExecutionTreeFetching);
         return this;
     }
 
-    public ProcessEngineConfigurationImpl setEnableExecutionRelationshipCounts(boolean enableExecutionRelationshipCounts) {
+    public ProcessEngineConfigurationImpl setEnableExecutionRelationshipCounts(bool enableExecutionRelationshipCounts) {
         this.performanceSettings.setEnableExecutionRelationshipCounts(enableExecutionRelationshipCounts);
         return this;
     }
 
-    public ProcessEngineConfigurationImpl setEnableTaskRelationshipCounts(boolean enableTaskRelationshipCounts) {
+    public ProcessEngineConfigurationImpl setEnableTaskRelationshipCounts(bool enableTaskRelationshipCounts) {
         this.performanceSettings.setEnableTaskRelationshipCounts(enableTaskRelationshipCounts);
         return this;
     }
@@ -3804,7 +3804,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.performanceSettings = performanceSettings;
     }
 
-    public ProcessEngineConfigurationImpl setEnableLocalization(boolean enableLocalization) {
+    public ProcessEngineConfigurationImpl setEnableLocalization(bool enableLocalization) {
         this.performanceSettings.setEnableLocalization(enableLocalization);
         return this;
     }
@@ -4101,11 +4101,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isAddDefaultExceptionHandler() {
+    public bool isAddDefaultExceptionHandler() {
         return addDefaultExceptionHandler;
     }
 
-    public ProcessEngineConfigurationImpl setAddDefaultExceptionHandler(boolean addDefaultExceptionHandler) {
+    public ProcessEngineConfigurationImpl setAddDefaultExceptionHandler(bool addDefaultExceptionHandler) {
         this.addDefaultExceptionHandler = addDefaultExceptionHandler;
         return this;
     }
@@ -4119,29 +4119,29 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isAsyncHistoryEnabled() {
+    public bool isAsyncHistoryEnabled() {
         return isAsyncHistoryEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryEnabled(boolean isAsyncHistoryEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryEnabled(bool isAsyncHistoryEnabled) {
         this.isAsyncHistoryEnabled = isAsyncHistoryEnabled;
         return this;
     }
 
-    public boolean isAsyncHistoryJsonGzipCompressionEnabled() {
+    public bool isAsyncHistoryJsonGzipCompressionEnabled() {
         return isAsyncHistoryJsonGzipCompressionEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryJsonGzipCompressionEnabled(boolean isAsyncHistoryJsonGzipCompressionEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryJsonGzipCompressionEnabled(bool isAsyncHistoryJsonGzipCompressionEnabled) {
         this.isAsyncHistoryJsonGzipCompressionEnabled = isAsyncHistoryJsonGzipCompressionEnabled;
         return this;
     }
 
-    public boolean isAsyncHistoryJsonGroupingEnabled() {
+    public bool isAsyncHistoryJsonGroupingEnabled() {
         return isAsyncHistoryJsonGroupingEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryJsonGroupingEnabled(boolean isAsyncHistoryJsonGroupingEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryJsonGroupingEnabled(bool isAsyncHistoryJsonGroupingEnabled) {
         this.isAsyncHistoryJsonGroupingEnabled = isAsyncHistoryJsonGroupingEnabled;
         return this;
     }
@@ -4339,48 +4339,48 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isEnableEntityLinks() {
+    public bool isEnableEntityLinks() {
         return enableEntityLinks;
     }
 
-    public ProcessEngineConfigurationImpl setEnableEntityLinks(boolean enableEntityLinks) {
+    public ProcessEngineConfigurationImpl setEnableEntityLinks(bool enableEntityLinks) {
         this.enableEntityLinks = enableEntityLinks;
         return this;
     }
 
-    public boolean isHandleProcessEngineExecutorsAfterEngineCreate() {
+    public bool isHandleProcessEngineExecutorsAfterEngineCreate() {
         return handleProcessEngineExecutorsAfterEngineCreate;
     }
 
-    public void setHandleProcessEngineExecutorsAfterEngineCreate(boolean handleProcessEngineExecutorsAfterEngineCreate) {
+    public void setHandleProcessEngineExecutorsAfterEngineCreate(bool handleProcessEngineExecutorsAfterEngineCreate) {
         this.handleProcessEngineExecutorsAfterEngineCreate = handleProcessEngineExecutorsAfterEngineCreate;
     }
 
     // Flowable 5
 
-    public boolean isFlowable5CompatibilityEnabled() {
+    public bool isFlowable5CompatibilityEnabled() {
         return flowable5CompatibilityEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setFlowable5CompatibilityEnabled(boolean flowable5CompatibilityEnabled) {
+    public ProcessEngineConfigurationImpl setFlowable5CompatibilityEnabled(bool flowable5CompatibilityEnabled) {
         this.flowable5CompatibilityEnabled = flowable5CompatibilityEnabled;
         return this;
     }
 
-    public boolean isValidateFlowable5EntitiesEnabled() {
+    public bool isValidateFlowable5EntitiesEnabled() {
         return validateFlowable5EntitiesEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setValidateFlowable5EntitiesEnabled(boolean validateFlowable5EntitiesEnabled) {
+    public ProcessEngineConfigurationImpl setValidateFlowable5EntitiesEnabled(bool validateFlowable5EntitiesEnabled) {
         this.validateFlowable5EntitiesEnabled = validateFlowable5EntitiesEnabled;
         return this;
     }
 
-    public boolean isRedeployFlowable5ProcessDefinitions() {
+    public bool isRedeployFlowable5ProcessDefinitions() {
         return redeployFlowable5ProcessDefinitions;
     }
 
-    public ProcessEngineConfigurationImpl setRedeployFlowable5ProcessDefinitions(boolean redeployFlowable5ProcessDefinitions) {
+    public ProcessEngineConfigurationImpl setRedeployFlowable5ProcessDefinitions(bool redeployFlowable5ProcessDefinitions) {
         this.redeployFlowable5ProcessDefinitions = redeployFlowable5ProcessDefinitions;
         return this;
     }
@@ -4476,7 +4476,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     @Override
-    public ProcessEngineConfigurationImpl setAsyncExecutorActivate(boolean asyncExecutorActivate) {
+    public ProcessEngineConfigurationImpl setAsyncExecutorActivate(bool asyncExecutorActivate) {
         this.asyncExecutorActivate = asyncExecutorActivate;
         return this;
     }
@@ -4553,11 +4553,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isAsyncExecutorAllowCoreThreadTimeout() {
+    public bool isAsyncExecutorAllowCoreThreadTimeout() {
         return asyncExecutorAllowCoreThreadTimeout;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncExecutorAllowCoreThreadTimeout(boolean asyncExecutorAllowCoreThreadTimeout) {
+    public ProcessEngineConfigurationImpl setAsyncExecutorAllowCoreThreadTimeout(bool asyncExecutorAllowCoreThreadTimeout) {
         this.asyncExecutorAllowCoreThreadTimeout = asyncExecutorAllowCoreThreadTimeout;
         return this;
     }
@@ -4670,20 +4670,20 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isAsyncExecutorIsMessageQueueMode() {
+    public bool isAsyncExecutorIsMessageQueueMode() {
         return asyncExecutorMessageQueueMode;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncExecutorMessageQueueMode(boolean asyncExecutorMessageQueueMode) {
+    public ProcessEngineConfigurationImpl setAsyncExecutorMessageQueueMode(bool asyncExecutorMessageQueueMode) {
         this.asyncExecutorMessageQueueMode = asyncExecutorMessageQueueMode;
         return this;
     }
 
-    public boolean isAsyncHistoryExecutorIsMessageQueueMode() {
+    public bool isAsyncHistoryExecutorIsMessageQueueMode() {
         return asyncHistoryExecutorMessageQueueMode;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorMessageQueueMode(boolean asyncHistoryExecutorMessageQueueMode) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorMessageQueueMode(bool asyncHistoryExecutorMessageQueueMode) {
         this.asyncHistoryExecutorMessageQueueMode = asyncHistoryExecutorMessageQueueMode;
         return this;
     }
@@ -4814,64 +4814,64 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public boolean isAsyncExecutorMessageQueueMode() {
+    public bool isAsyncExecutorMessageQueueMode() {
         return asyncExecutorMessageQueueMode;
     }
 
-    public boolean isAsyncHistoryExecutorMessageQueueMode() {
+    public bool isAsyncHistoryExecutorMessageQueueMode() {
         return asyncHistoryExecutorMessageQueueMode;
     }
 
-    public boolean isAsyncExecutorAsyncJobAcquisitionEnabled() {
+    public bool isAsyncExecutorAsyncJobAcquisitionEnabled() {
         return isAsyncExecutorAsyncJobAcquisitionEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncExecutorAsyncJobAcquisitionEnabled(boolean isAsyncExecutorAsyncJobAcquisitionEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncExecutorAsyncJobAcquisitionEnabled(bool isAsyncExecutorAsyncJobAcquisitionEnabled) {
         this.isAsyncExecutorAsyncJobAcquisitionEnabled = isAsyncExecutorAsyncJobAcquisitionEnabled;
         return this;
     }
 
-    public boolean isAsyncExecutorTimerJobAcquisitionEnabled() {
+    public bool isAsyncExecutorTimerJobAcquisitionEnabled() {
         return isAsyncExecutorTimerJobAcquisitionEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncExecutorTimerJobAcquisitionEnabled(boolean isAsyncExecutorTimerJobAcquisitionEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncExecutorTimerJobAcquisitionEnabled(bool isAsyncExecutorTimerJobAcquisitionEnabled) {
         this.isAsyncExecutorTimerJobAcquisitionEnabled = isAsyncExecutorTimerJobAcquisitionEnabled;
         return this;
     }
 
-    public boolean isAsyncExecutorResetExpiredJobsEnabled() {
+    public bool isAsyncExecutorResetExpiredJobsEnabled() {
         return isAsyncExecutorResetExpiredJobsEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncExecutorResetExpiredJobsEnabled(boolean isAsyncExecutorResetExpiredJobsEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncExecutorResetExpiredJobsEnabled(bool isAsyncExecutorResetExpiredJobsEnabled) {
         this.isAsyncExecutorResetExpiredJobsEnabled = isAsyncExecutorResetExpiredJobsEnabled;
         return this;
     }
 
-    public boolean isAsyncHistoryExecutorAsyncJobAcquisitionEnabled() {
+    public bool isAsyncHistoryExecutorAsyncJobAcquisitionEnabled() {
         return isAsyncHistoryExecutorAsyncJobAcquisitionEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorAsyncJobAcquisitionEnabled(boolean isAsyncHistoryExecutorAsyncJobAcquisitionEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorAsyncJobAcquisitionEnabled(bool isAsyncHistoryExecutorAsyncJobAcquisitionEnabled) {
         this.isAsyncHistoryExecutorAsyncJobAcquisitionEnabled = isAsyncHistoryExecutorAsyncJobAcquisitionEnabled;
         return this;
     }
 
-    public boolean isAsyncHistoryExecutorTimerJobAcquisitionEnabled() {
+    public bool isAsyncHistoryExecutorTimerJobAcquisitionEnabled() {
         return isAsyncHistoryExecutorTimerJobAcquisitionEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorTimerJobAcquisitionEnabled(boolean isAsyncHistoryExecutorTimerJobAcquisitionEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorTimerJobAcquisitionEnabled(bool isAsyncHistoryExecutorTimerJobAcquisitionEnabled) {
         this.isAsyncHistoryExecutorTimerJobAcquisitionEnabled = isAsyncHistoryExecutorTimerJobAcquisitionEnabled;
         return this;
     }
 
-    public boolean isAsyncHistoryExecutorResetExpiredJobsEnabled() {
+    public bool isAsyncHistoryExecutorResetExpiredJobsEnabled() {
         return isAsyncHistoryExecutorResetExpiredJobsEnabled;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorResetExpiredJobsEnabled(boolean isAsyncHistoryExecutorResetExpiredJobsEnabled) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorResetExpiredJobsEnabled(bool isAsyncHistoryExecutorResetExpiredJobsEnabled) {
         this.isAsyncHistoryExecutorResetExpiredJobsEnabled = isAsyncHistoryExecutorResetExpiredJobsEnabled;
         return this;
     }

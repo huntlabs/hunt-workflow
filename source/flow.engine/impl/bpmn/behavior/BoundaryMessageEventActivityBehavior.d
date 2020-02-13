@@ -40,7 +40,7 @@ class BoundaryMessageEventActivityBehavior extends BoundaryEventActivityBehavior
 
     protected MessageEventDefinition messageEventDefinition;
 
-    public BoundaryMessageEventActivityBehavior(MessageEventDefinition messageEventDefinition, boolean interrupting) {
+    public BoundaryMessageEventActivityBehavior(MessageEventDefinition messageEventDefinition, bool interrupting) {
         super(interrupting);
         this.messageEventDefinition = messageEventDefinition;
     }

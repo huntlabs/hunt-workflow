@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Dimitris Mandalidis
  */
-public class ManagedAsyncJobExecutor extends DefaultAsyncJobExecutor {
+class ManagedAsyncJobExecutor extends DefaultAsyncJobExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManagedAsyncJobExecutor.class);
 

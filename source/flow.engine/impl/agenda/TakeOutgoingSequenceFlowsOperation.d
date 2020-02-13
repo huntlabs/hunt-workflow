@@ -57,9 +57,9 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TakeOutgoingSequenceFlowsOperation.class);
 
-    protected boolean evaluateConditions;
+    protected bool evaluateConditions;
 
-    public TakeOutgoingSequenceFlowsOperation(CommandContext commandContext, ExecutionEntity executionEntity, boolean evaluateConditions) {
+    public TakeOutgoingSequenceFlowsOperation(CommandContext commandContext, ExecutionEntity executionEntity, bool evaluateConditions) {
         super(commandContext, executionEntity);
         this.evaluateConditions = evaluateConditions;
     }
@@ -226,7 +226,7 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
     }
 
     protected void handleAdhocSubProcess(FlowNode flowNode) {
-        boolean completeAdhocSubProcess = false;
+        bool completeAdhocSubProcess = false;
         AdhocSubProcess adhocSubProcess = (AdhocSubProcess) flowNode.getParentContainer();
         if (adhocSubProcess.getCompletionCondition() != null) {
             Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(adhocSubProcess.getCompletionCondition());
@@ -243,7 +243,7 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
         }
 
         if (completeAdhocSubProcess) {
-            boolean endAdhocSubProcess = true;
+            bool endAdhocSubProcess = true;
             if (!adhocSubProcess.isCancelRemainingInstances()) {
                 List<ExecutionEntity> childExecutions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByParentExecutionId(execution.getParentId());
                 for (ExecutionEntity executionEntity : childExecutions) {
@@ -355,7 +355,7 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
         return null;
     }
 
-    protected boolean allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
+    protected bool allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
         for (ExecutionEntity childExecutionEntity : parentExecutionEntity.getExecutions()) {
             if (executionEntityToIgnore == null || !executionEntityToIgnore.getId().equals(childExecutionEntity.getId())) {
                 if (!childExecutionEntity.isEnded()) {

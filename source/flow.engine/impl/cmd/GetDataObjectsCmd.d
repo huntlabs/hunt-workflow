@@ -45,17 +45,17 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
     private static final long serialVersionUID = 1L;
     protected string executionId;
     protected Collection<string> dataObjectNames;
-    protected boolean isLocal;
+    protected bool isLocal;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
 
-    public GetDataObjectsCmd(string executionId, Collection<string> dataObjectNames, boolean isLocal) {
+    public GetDataObjectsCmd(string executionId, Collection<string> dataObjectNames, bool isLocal) {
         this.executionId = executionId;
         this.dataObjectNames = dataObjectNames;
         this.isLocal = isLocal;
     }
 
-    public GetDataObjectsCmd(string executionId, Collection<string> dataObjectNames, boolean isLocal, string locale, boolean withLocalizationFallback) {
+    public GetDataObjectsCmd(string executionId, Collection<string> dataObjectNames, bool isLocal, string locale, bool withLocalizationFallback) {
         this.executionId = executionId;
         this.dataObjectNames = dataObjectNames;
         this.isLocal = isLocal;

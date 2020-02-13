@@ -66,7 +66,7 @@ class VariableScopeResolver implements Resolver {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public bool containsKey(Object key) {
         return variableScopeKey.equals(key) || KEYS.contains(key) || variableScope.hasVariable((string) key);
     }
 

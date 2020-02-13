@@ -38,7 +38,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
         }
     }
 
-    public boolean historicActivityInstanceExistsForData(ObjectNode historicalData, CommandContext commandContext) {
+    public bool historicActivityInstanceExistsForData(ObjectNode historicalData, CommandContext commandContext) {
         string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (runtimeActivityInstanceId != null) {
             return CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findById(runtimeActivityInstanceId) != null;
@@ -57,7 +57,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
         return false;
     }
     
-    public boolean historicActivityInstanceExistsForDataIncludingFinished(ObjectNode historicalData, CommandContext commandContext) {
+    public bool historicActivityInstanceExistsForDataIncludingFinished(ObjectNode historicalData, CommandContext commandContext) {
         string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (StringUtils.isNotEmpty(runtimeActivityInstanceId)) {
             HistoricActivityInstanceEntity historicActivityInstanceEntity = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findById(runtimeActivityInstanceId);

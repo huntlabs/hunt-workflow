@@ -29,7 +29,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
 /**
  * @author Falko Menge
  */
-public class SetJobRetriesCmd implements Command<Void>, Serializable {
+class SetJobRetriesCmd implements Command<Void>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

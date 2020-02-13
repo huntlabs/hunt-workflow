@@ -59,11 +59,11 @@ module flow.common.interceptor.JtaTransactionInterceptor;
 //            return next.execute(config, command);
 //        }
 //
-//        boolean requiresNew = config.getTransactionPropagation() == TransactionPropagation.REQUIRES_NEW;
+//        bool requiresNew = config.getTransactionPropagation() == TransactionPropagation.REQUIRES_NEW;
 //        Transaction oldTx = null;
 //        try {
-//            boolean existing = isExisting();
-//            boolean isNew = !existing || requiresNew;
+//            bool existing = isExisting();
+//            bool isNew = !existing || requiresNew;
 //            if (existing && requiresNew) {
 //                oldTx = doSuspend();
 //            }
@@ -102,7 +102,7 @@ module flow.common.interceptor.JtaTransactionInterceptor;
 //        }
 //    }
 //
-//    private boolean isExisting() {
+//    private bool isExisting() {
 //        try {
 //            return transactionManager.getStatus() != Status.STATUS_NO_TRANSACTION;
 //        } catch (SystemException e) {
@@ -150,7 +150,7 @@ module flow.common.interceptor.JtaTransactionInterceptor;
 //        }
 //    }
 //
-//    private void doRollback(boolean isNew, Throwable originalException) {
+//    private void doRollback(bool isNew, Throwable originalException) {
 //        Throwable rollbackEx = null;
 //        try {
 //            if (isNew) {

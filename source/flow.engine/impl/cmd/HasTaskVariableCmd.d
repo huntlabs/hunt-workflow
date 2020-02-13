@@ -26,21 +26,21 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Frederik Heremans
  */
-class HasTaskVariableCmd implements Command<Boolean>, Serializable {
+class HasTaskVariableCmd implements Command<bool>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
     protected string variableName;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public HasTaskVariableCmd(string taskId, string variableName, boolean isLocal) {
+    public HasTaskVariableCmd(string taskId, string variableName, bool isLocal) {
         this.taskId = taskId;
         this.variableName = variableName;
         this.isLocal = isLocal;
     }
 
     @Override
-    public Boolean execute(CommandContext commandContext) {
+    public bool execute(CommandContext commandContext) {
         if (taskId == null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
@@ -53,7 +53,7 @@ class HasTaskVariableCmd implements Command<Boolean>, Serializable {
         if (task == null) {
             throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
         }
-        boolean hasVariable = false;
+        bool hasVariable = false;
 
         if (isLocal) {
             hasVariable = task.hasVariableLocal(variableName);

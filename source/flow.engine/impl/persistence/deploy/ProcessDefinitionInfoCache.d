@@ -61,8 +61,8 @@ class ProcessDefinitionInfoCache implements DeploymentCache<ProcessDefinitionInf
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected boolean removeEldestEntry(Map.Entry<string, ProcessDefinitionInfoCacheObject> eldest) {
-                boolean removeEldest = size() > limit;
+            protected bool removeEldestEntry(Map.Entry<string, ProcessDefinitionInfoCacheObject> eldest) {
+                bool removeEldest = size() > limit;
                 if (removeEldest) {
                     LOGGER.trace("Cache limit is reached, {} will be evicted", eldest.getKey());
                 }
@@ -93,7 +93,7 @@ class ProcessDefinitionInfoCache implements DeploymentCache<ProcessDefinitionInf
     }
 
     @Override
-    public boolean contains(string id) {
+    public bool contains(string id) {
         return cache.containsKey(id);
     }
 

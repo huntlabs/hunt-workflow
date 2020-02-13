@@ -135,7 +135,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
                     Expression expression = expressionManager.createExpression(throwErrorString);
                     Object expressionValue = expression.getValue(execution);
                     
-                    if (expressionValue instanceof Boolean && ((Boolean) expressionValue)) {
+                    if (expressionValue instanceof bool && ((bool) expressionValue)) {
                         throw new FlowableException("DMN decision table with key " + finaldecisionTableKeyValue + " did not hit any rules for the provided input.");
                     }
                 }
@@ -158,7 +158,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
         FieldExtension fallbackfieldExtension = DelegateHelper.getFlowElementField(execution, EXPRESSION_DECISION_TABLE_FALLBACK_TO_DEFAULT_TENANT);
         if (fallbackfieldExtension != null && ((fallbackfieldExtension.getStringValue() != null && fallbackfieldExtension.getStringValue().length() != 0))) {
             string fallbackToDefaultTenant = fallbackfieldExtension.getStringValue();
-            if (StringUtils.isNotEmpty(fallbackToDefaultTenant) && Boolean.parseBoolean(fallbackToDefaultTenant)) {
+            if (StringUtils.isNotEmpty(fallbackToDefaultTenant) && bool.parseBoolean(fallbackToDefaultTenant)) {
                 executeDecisionBuilder.fallbackToDefaultTenant();
             }
         }

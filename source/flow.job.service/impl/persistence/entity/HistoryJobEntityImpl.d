@@ -27,7 +27,7 @@ import org.flowable.job.service.JobServiceConfiguration;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJobEntity, Serializable {
+class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJobEntity, Serializable {
 
     private static final long serialVersionUID = 1L;
 

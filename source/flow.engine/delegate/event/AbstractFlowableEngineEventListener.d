@@ -193,7 +193,7 @@ abstract class AbstractFlowableEngineEventListener extends AbstractFlowableEvent
     }
 
     @Override
-    public boolean isFailOnException() {
+    public bool isFailOnException() {
         return true;
     }
 

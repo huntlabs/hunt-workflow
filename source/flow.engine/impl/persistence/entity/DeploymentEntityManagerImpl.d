@@ -71,7 +71,7 @@ class DeploymentEntityManagerImpl
     }
 
     @Override
-    public void deleteDeployment(string deploymentId, boolean cascade) {
+    public void deleteDeployment(string deploymentId, bool cascade) {
         List<ProcessDefinition> processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
 
         updateRelatedModels(deploymentId);

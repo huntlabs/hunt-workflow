@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public class ExecuteAsyncRunnable implements Runnable {
+class ExecuteAsyncRunnable implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteAsyncRunnable.class);
 
@@ -107,8 +107,8 @@ public class ExecuteAsyncRunnable implements Runnable {
 
         if (job instanceof AbstractRuntimeJobEntity) {
 
-            boolean lockingNeeded = ((AbstractRuntimeJobEntity) job).isExclusive();
-            boolean executeJob = true;
+            bool lockingNeeded = ((AbstractRuntimeJobEntity) job).isExclusive();
+            bool executeJob = true;
             if (lockingNeeded) {
                 executeJob = lockJob();
             }
@@ -123,7 +123,7 @@ public class ExecuteAsyncRunnable implements Runnable {
 
     }
 
-    protected void executeJob(final boolean unlock) {
+    protected void executeJob(final bool unlock) {
         try {
             jobServiceConfiguration.getCommandExecutor().execute(new Command<Void>() {
                 @Override
@@ -184,7 +184,7 @@ public class ExecuteAsyncRunnable implements Runnable {
         }
     }
 
-    protected boolean lockJob() {
+    protected bool lockJob() {
         Job job = (Job) this.job; // This method is only called for a regular Job
         try {
             jobServiceConfiguration.getCommandExecutor().execute(new LockExclusiveJobCmd(job));

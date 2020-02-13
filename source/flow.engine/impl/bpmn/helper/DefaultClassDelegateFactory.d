@@ -21,7 +21,7 @@ import flow.engine.impl.bpmn.parser.FieldDeclaration;
 class DefaultClassDelegateFactory implements ClassDelegateFactory {
     @Override
     public ClassDelegate create(string id, string className, List<FieldDeclaration> fieldDeclarations,
-            boolean triggerable, Expression skipExpression, List<MapExceptionEntry> mapExceptions) {
+            bool triggerable, Expression skipExpression, List<MapExceptionEntry> mapExceptions) {
         return new ClassDelegate(id, className, fieldDeclarations, triggerable, skipExpression, mapExceptions);
     }
 

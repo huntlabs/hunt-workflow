@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 abstract class AbstractNeedsProcessInstanceHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
 
     @Override
-    public boolean isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         HistoricProcessInstanceEntityManager historicProcessInstanceEntityManager = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext);
         return historicProcessInstanceEntityManager.findById(processInstanceId) != null;

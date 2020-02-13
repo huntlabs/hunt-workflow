@@ -37,7 +37,7 @@ class DefaultProcessLocalizationManager implements InternalProcessLocalizationMa
     }
 
     @Override
-    public void localize(ProcessInstance processInstance, string locale, boolean withLocalizationFallback) {
+    public void localize(ProcessInstance processInstance, string locale, bool withLocalizationFallback) {
         ExecutionEntity processInstanceExecution = (ExecutionEntity) processInstance;
         processInstanceExecution.setLocalizedName(null);
         processInstanceExecution.setLocalizedDescription(null);
@@ -62,7 +62,7 @@ class DefaultProcessLocalizationManager implements InternalProcessLocalizationMa
     }
 
     @Override
-    public void localize(HistoricProcessInstance historicProcessInstance, string locale, boolean withLocalizationFallback) {
+    public void localize(HistoricProcessInstance historicProcessInstance, string locale, bool withLocalizationFallback) {
         HistoricProcessInstanceEntity processInstanceEntity = (HistoricProcessInstanceEntity) historicProcessInstance;
         processInstanceEntity.setLocalizedName(null);
         processInstanceEntity.setLocalizedDescription(null);

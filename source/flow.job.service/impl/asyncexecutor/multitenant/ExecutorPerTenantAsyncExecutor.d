@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Joram Barrez
  */
-public class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor {
+class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecutorPerTenantAsyncExecutor.class);
 
@@ -42,8 +42,8 @@ public class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor 
     protected Map<string, AsyncExecutor> tenantExecutors = new HashMap<>();
 
     protected JobServiceConfiguration jobServiceConfiguration;
-    protected boolean active;
-    protected boolean autoActivate;
+    protected bool active;
+    protected bool autoActivate;
 
     public ExecutorPerTenantAsyncExecutor(TenantInfoHolder tenantInfoHolder) {
         this(tenantInfoHolder, null);
@@ -60,7 +60,7 @@ public class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor 
     }
 
     @Override
-    public void addTenantAsyncExecutor(string tenantId, boolean startExecutor) {
+    public void addTenantAsyncExecutor(string tenantId, bool startExecutor) {
         AsyncExecutor tenantExecutor = null;
 
         if (tenantAwareAyncExecutorFactory == null) {
@@ -102,7 +102,7 @@ public class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor 
     }
 
     @Override
-    public boolean executeAsyncJob(JobInfo job) {
+    public bool executeAsyncJob(JobInfo job) {
         return determineAsyncExecutor().executeAsyncJob(job);
     }
 
@@ -130,17 +130,17 @@ public class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor 
     }
 
     @Override
-    public boolean isAutoActivate() {
+    public bool isAutoActivate() {
         return autoActivate;
     }
 
     @Override
-    public void setAutoActivate(boolean isAutoActivate) {
+    public void setAutoActivate(bool isAutoActivate) {
         autoActivate = isAutoActivate;
     }
 
     @Override
-    public boolean isActive() {
+    public bool isActive() {
         return active;
     }
 

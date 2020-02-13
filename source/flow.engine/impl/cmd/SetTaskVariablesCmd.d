@@ -29,9 +29,9 @@ class SetTaskVariablesCmd extends NeedsActiveTaskCmd<Object> {
     private static final long serialVersionUID = 1L;
 
     protected Map<string, ? extends Object> variables;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public SetTaskVariablesCmd(string taskId, Map<string, ? extends Object> variables, boolean isLocal) {
+    public SetTaskVariablesCmd(string taskId, Map<string, ? extends Object> variables, bool isLocal) {
         super(taskId);
         this.taskId = taskId;
         this.variables = variables;

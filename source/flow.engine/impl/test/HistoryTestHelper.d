@@ -30,11 +30,11 @@ import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
 
 class HistoryTestHelper {
     
-    public static boolean isHistoryLevelAtLeast(HistoryLevel historyLevel, ProcessEngineConfigurationImpl processEngineConfiguration) {
+    public static bool isHistoryLevelAtLeast(HistoryLevel historyLevel, ProcessEngineConfigurationImpl processEngineConfiguration) {
         return isHistoryLevelAtLeast(historyLevel, processEngineConfiguration, 10000);
     }
     
-    public static boolean isHistoryLevelAtLeast(HistoryLevel historyLevel, ProcessEngineConfigurationImpl processEngineConfiguration, long time) {
+    public static bool isHistoryLevelAtLeast(HistoryLevel historyLevel, ProcessEngineConfigurationImpl processEngineConfiguration, long time) {
         if (processEngineConfiguration.getHistoryLevel().isAtLeast(historyLevel)) {
             
             // When using async history, we need to process all the historic jobs first before the history can be checked
@@ -58,7 +58,7 @@ class HistoryTestHelper {
     }
 
     public static void waitForJobExecutorToProcessAllHistoryJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService, 
-            long maxMillisToWait, long intervalMillis, boolean shutdownExecutorWhenFinished) {
+            long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
 
         ProcessEngineConfigurationImpl processEngineConfigurationImpl = (ProcessEngineConfigurationImpl) processEngineConfiguration;
         if (processEngineConfigurationImpl.isAsyncHistoryEnabled()) {
@@ -72,7 +72,7 @@ class HistoryTestHelper {
                 Timer timer = new Timer();
                 InterruptTask task = new InterruptTask(Thread.currentThread());
                 timer.schedule(task, maxMillisToWait);
-                boolean areJobsAvailable = true;
+                bool areJobsAvailable = true;
                 try {
                     while (areJobsAvailable && !task.isTimeLimitExceeded()) {
                         Thread.sleep(intervalMillis);
@@ -100,16 +100,16 @@ class HistoryTestHelper {
         }
     }
 
-    public static boolean areHistoryJobsAvailable(FlowableRule activitiRule) {
+    public static bool areHistoryJobsAvailable(FlowableRule activitiRule) {
         return areHistoryJobsAvailable(activitiRule.getManagementService());
 
     }
 
-    public static boolean areHistoryJobsAvailable(ManagementService managementService) {
+    public static bool areHistoryJobsAvailable(ManagementService managementService) {
         return !managementService.createHistoryJobQuery().list().isEmpty();
     }
     
-    public static boolean isHistoricTaskLoggingEnabled(ProcessEngineConfiguration configuration) {
+    public static bool isHistoricTaskLoggingEnabled(ProcessEngineConfiguration configuration) {
         ProcessEngineConfigurationImpl processEngineConfiguration = (ProcessEngineConfigurationImpl) configuration;
         if (processEngineConfiguration.isEnableHistoricTaskLogging()) {
 
@@ -126,14 +126,14 @@ class HistoryTestHelper {
 
     private static class InterruptTask extends TimerTask {
 
-        protected boolean timeLimitExceeded;
+        protected bool timeLimitExceeded;
         protected Thread thread;
 
         public InterruptTask(Thread thread) {
             this.thread = thread;
         }
 
-        public boolean isTimeLimitExceeded() {
+        public bool isTimeLimitExceeded() {
             return timeLimitExceeded;
         }
 

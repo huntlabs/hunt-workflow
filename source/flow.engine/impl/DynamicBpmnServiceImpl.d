@@ -255,14 +255,14 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     }
 
     @Override
-    public ObjectNode changeUserTaskCandidateUser(string id, string candidateUser, boolean overwriteOtherChangedEntries) {
+    public ObjectNode changeUserTaskCandidateUser(string id, string candidateUser, bool overwriteOtherChangedEntries) {
         ObjectNode infoNode = configuration.getObjectMapper().createObjectNode();
         changeUserTaskCandidateUser(id, candidateUser, overwriteOtherChangedEntries, infoNode);
         return infoNode;
     }
 
     @Override
-    public void changeUserTaskCandidateUser(string id, string candidateUser, boolean overwriteOtherChangedEntries, ObjectNode infoNode) {
+    public void changeUserTaskCandidateUser(string id, string candidateUser, bool overwriteOtherChangedEntries, ObjectNode infoNode) {
         ArrayNode valuesNode = null;
         if (overwriteOtherChangedEntries) {
             valuesNode = configuration.getObjectMapper().createArrayNode();
@@ -281,14 +281,14 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     }
 
     @Override
-    public ObjectNode changeUserTaskCandidateGroup(string id, string candidateGroup, boolean overwriteOtherChangedEntries) {
+    public ObjectNode changeUserTaskCandidateGroup(string id, string candidateGroup, bool overwriteOtherChangedEntries) {
         ObjectNode infoNode = configuration.getObjectMapper().createObjectNode();
         changeUserTaskCandidateGroup(id, candidateGroup, overwriteOtherChangedEntries, infoNode);
         return infoNode;
     }
 
     @Override
-    public void changeUserTaskCandidateGroup(string id, string candidateGroup, boolean overwriteOtherChangedEntries, ObjectNode infoNode) {
+    public void changeUserTaskCandidateGroup(string id, string candidateGroup, bool overwriteOtherChangedEntries, ObjectNode infoNode) {
         ArrayNode valuesNode = null;
         if (overwriteOtherChangedEntries) {
             valuesNode = configuration.getObjectMapper().createArrayNode();
@@ -433,8 +433,8 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
         return propertiesNode;
     }
 
-    protected boolean doesElementPropertyExist(string id, string propertyName, ObjectNode infoNode) {
-        boolean exists = false;
+    protected bool doesElementPropertyExist(string id, string propertyName, ObjectNode infoNode) {
+        bool exists = false;
         if (infoNode.get(BPMN_NODE) != null && infoNode.get(BPMN_NODE).get(id) != null && infoNode.get(BPMN_NODE).get(id).get(propertyName) != null) {
             JsonNode propNode = infoNode.get(BPMN_NODE).get(id).get(propertyName);
             if (!propNode.isNull()) {

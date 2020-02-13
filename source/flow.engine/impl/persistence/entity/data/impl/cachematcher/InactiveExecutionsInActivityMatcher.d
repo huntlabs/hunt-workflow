@@ -23,7 +23,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 class InactiveExecutionsInActivityMatcher extends CachedEntityMatcherAdapter<ExecutionEntity> {
 
     @Override
-    public boolean isRetained(ExecutionEntity entity, Object parameter) {
+    public bool isRetained(ExecutionEntity entity, Object parameter) {
         Map<string, Object> paramMap = (Map<string, Object>) parameter;
         string activityId = (string) paramMap.get("activityId");
         return !entity.isActive() && entity.getActivityId() != null && entity.getActivityId().equals(activityId);

@@ -41,17 +41,17 @@ class GetDataObjectCmd implements Command<DataObject>, Serializable {
     private static final long serialVersionUID = 1L;
     protected string executionId;
     protected string dataObjectName;
-    protected boolean isLocal;
+    protected bool isLocal;
     protected string locale;
-    protected boolean withLocalizationFallback;
+    protected bool withLocalizationFallback;
 
-    public GetDataObjectCmd(string executionId, string dataObjectName, boolean isLocal) {
+    public GetDataObjectCmd(string executionId, string dataObjectName, bool isLocal) {
         this.executionId = executionId;
         this.dataObjectName = dataObjectName;
         this.isLocal = isLocal;
     }
 
-    public GetDataObjectCmd(string executionId, string dataObjectName, boolean isLocal, string locale, boolean withLocalizationFallback) {
+    public GetDataObjectCmd(string executionId, string dataObjectName, bool isLocal, string locale, bool withLocalizationFallback) {
         this.executionId = executionId;
         this.dataObjectName = dataObjectName;
         this.isLocal = isLocal;

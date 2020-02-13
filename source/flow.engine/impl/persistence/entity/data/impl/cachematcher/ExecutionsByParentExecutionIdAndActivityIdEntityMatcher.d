@@ -24,7 +24,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 class ExecutionsByParentExecutionIdAndActivityIdEntityMatcher extends CachedEntityMatcherAdapter<ExecutionEntity> {
 
     @Override
-    public boolean isRetained(ExecutionEntity executionEntity, Object parameter) {
+    public bool isRetained(ExecutionEntity executionEntity, Object parameter) {
         Map<string, Object> paramMap = (Map<string, Object>) parameter;
         string parentExecutionId = (string) paramMap.get("parentExecutionId");
         Collection<string> activityIds = (Collection<string>) paramMap.get("activityIds");

@@ -21,7 +21,7 @@ import flow.common.interceptor.CommandContext;
 /**
  * @author Joram Barrez
  */
-public class AsyncHistoryCommittedTransactionListener implements TransactionListener {
+class AsyncHistoryCommittedTransactionListener implements TransactionListener {
     
     protected List<Runnable> runnables = new ArrayList<>();
 

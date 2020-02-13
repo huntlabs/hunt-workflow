@@ -25,21 +25,21 @@ import flow.engine.runtime.Execution;
 /**
  * @author Frederik Heremans
  */
-class HasExecutionVariableCmd implements Command<Boolean>, Serializable {
+class HasExecutionVariableCmd implements Command<bool>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
     protected string variableName;
-    protected boolean isLocal;
+    protected bool isLocal;
 
-    public HasExecutionVariableCmd(string executionId, string variableName, boolean isLocal) {
+    public HasExecutionVariableCmd(string executionId, string variableName, bool isLocal) {
         this.executionId = executionId;
         this.variableName = variableName;
         this.isLocal = isLocal;
     }
 
     @Override
-    public Boolean execute(CommandContext commandContext) {
+    public bool execute(CommandContext commandContext) {
         if (executionId == null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
@@ -53,7 +53,7 @@ class HasExecutionVariableCmd implements Command<Boolean>, Serializable {
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 
-        boolean hasVariable = false;
+        bool hasVariable = false;
 
         if (isLocal) {
             hasVariable = execution.hasVariableLocal(variableName);

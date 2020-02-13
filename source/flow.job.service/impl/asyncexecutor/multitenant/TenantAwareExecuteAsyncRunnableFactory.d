@@ -24,7 +24,7 @@ import org.flowable.job.service.impl.persistence.entity.JobEntity;
  * 
  * @author Joram Barrez
  */
-public class TenantAwareExecuteAsyncRunnableFactory implements ExecuteAsyncRunnableFactory {
+class TenantAwareExecuteAsyncRunnableFactory implements ExecuteAsyncRunnableFactory {
 
     protected TenantInfoHolder tenantInfoHolder;
     protected string tenantId;

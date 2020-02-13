@@ -35,7 +35,7 @@ public abstract class AbstractAsyncExecutor implements AsyncExecutor {
 
     private string tenantId;
     
-    protected boolean timerRunnableNeeded = true; // default true for backwards compatibility (History Async executor came later)
+    protected bool timerRunnableNeeded = true; // default true for backwards compatibility (History Async executor came later)
     protected AcquireTimerJobsRunnable timerJobRunnable;
     protected string acquireRunnableThreadName;
     protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
@@ -47,9 +47,9 @@ public abstract class AbstractAsyncExecutor implements AsyncExecutor {
     
     protected AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler;
 
-    protected boolean isAutoActivate;
-    protected boolean isActive;
-    protected boolean isMessageQueueMode;
+    protected bool isAutoActivate;
+    protected bool isActive;
+    protected bool isMessageQueueMode;
 
     protected int maxTimerJobsPerAcquisition = 1;
     protected int maxAsyncJobsDuePerAcquisition = 1;
@@ -72,7 +72,7 @@ public abstract class AbstractAsyncExecutor implements AsyncExecutor {
     protected JobServiceConfiguration jobServiceConfiguration;
 
     @Override
-    public boolean executeAsyncJob(final JobInfo job) {
+    public bool executeAsyncJob(final JobInfo job) {
         if (isMessageQueueMode) {
             // When running with a message queue based job executor,
             // the job is not executed here.
@@ -90,7 +90,7 @@ public abstract class AbstractAsyncExecutor implements AsyncExecutor {
         return true;
     }
 
-    protected abstract boolean executeAsyncJob(final JobInfo job, Runnable runnable);
+    protected abstract bool executeAsyncJob(final JobInfo job, Runnable runnable);
 
     protected void unlockOwnedJobs() {
         jobServiceConfiguration.getCommandExecutor().execute(new UnacquireOwnedJobsCmd(lockOwner, tenantId));
@@ -202,25 +202,25 @@ public abstract class AbstractAsyncExecutor implements AsyncExecutor {
     }
 
     @Override
-    public boolean isAutoActivate() {
+    public bool isAutoActivate() {
         return isAutoActivate;
     }
 
     @Override
-    public void setAutoActivate(boolean isAutoActivate) {
+    public void setAutoActivate(bool isAutoActivate) {
         this.isAutoActivate = isAutoActivate;
     }
 
     @Override
-    public boolean isActive() {
+    public bool isActive() {
         return isActive;
     }
 
-    public boolean isMessageQueueMode() {
+    public bool isMessageQueueMode() {
         return isMessageQueueMode;
     }
 
-    public void setMessageQueueMode(boolean isMessageQueueMode) {
+    public void setMessageQueueMode(bool isMessageQueueMode) {
         this.isMessageQueueMode = isMessageQueueMode;
     }
 
@@ -311,7 +311,7 @@ public abstract class AbstractAsyncExecutor implements AsyncExecutor {
         this.asyncJobsDueRunnable = asyncJobsDueRunnable;
     }
 
-    public void setTimerRunnableNeeded(boolean timerRunnableNeeded) {
+    public void setTimerRunnableNeeded(bool timerRunnableNeeded) {
         this.timerRunnableNeeded = timerRunnableNeeded;
     }
 

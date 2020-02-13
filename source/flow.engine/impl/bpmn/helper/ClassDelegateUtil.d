@@ -72,7 +72,7 @@ class ClassDelegateUtil {
         }
     }
 
-    public static boolean fieldTypeCompatible(FieldDeclaration declaration, Field field) {
+    public static bool fieldTypeCompatible(FieldDeclaration declaration, Field field) {
         if (declaration.getValue() != null) {
             return field.getType().isAssignableFrom(declaration.getValue().getClass());
         } else {

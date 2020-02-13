@@ -33,9 +33,9 @@ class FormPropertyHandler implements Serializable {
     protected string id;
     protected string name;
     protected AbstractFormType type;
-    protected boolean isReadable;
-    protected boolean isWritable;
-    protected boolean isRequired;
+    protected bool isReadable;
+    protected bool isWritable;
+    protected bool isRequired;
     protected string variableName;
     protected Expression variableExpression;
     protected Expression defaultExpression;
@@ -83,7 +83,7 @@ class FormPropertyHandler implements Serializable {
         if (isRequired && !properties.containsKey(id) && defaultExpression == null) {
             throw new FlowableException("form property '" + id + "' is required");
         }
-        boolean propertyExists = false;
+        bool propertyExists = false;
         Object modelValue = null;
         if (properties.containsKey(id)) {
             propertyExists = true;
@@ -141,19 +141,19 @@ class FormPropertyHandler implements Serializable {
         this.type = type;
     }
 
-    public boolean isReadable() {
+    public bool isReadable() {
         return isReadable;
     }
 
-    public void setReadable(boolean isReadable) {
+    public void setReadable(bool isReadable) {
         this.isReadable = isReadable;
     }
 
-    public boolean isRequired() {
+    public bool isRequired() {
         return isRequired;
     }
 
-    public void setRequired(boolean isRequired) {
+    public void setRequired(bool isRequired) {
         this.isRequired = isRequired;
     }
 
@@ -181,11 +181,11 @@ class FormPropertyHandler implements Serializable {
         this.defaultExpression = defaultExpression;
     }
 
-    public boolean isWritable() {
+    public bool isWritable() {
         return isWritable;
     }
 
-    public void setWritable(boolean isWritable) {
+    public void setWritable(bool isWritable) {
         this.isWritable = isWritable;
     }
 }

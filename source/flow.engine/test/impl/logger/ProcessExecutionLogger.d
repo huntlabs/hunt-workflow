@@ -44,7 +44,7 @@ class ProcessExecutionLogger {
         addDebugInfo(debugInfo, false);
     }
 
-    public synchronized void addDebugInfo(AbstractDebugInfo debugInfo, boolean generateExecutionTreeRepresentation) {
+    public synchronized void addDebugInfo(AbstractDebugInfo debugInfo, bool generateExecutionTreeRepresentation) {
 
         // Store debug info
         string threadName = Thread.currentThread().getName();
@@ -116,7 +116,7 @@ class ProcessExecutionLogger {
         logDebugInfo(false);
     }
 
-    public void logDebugInfo(boolean clearAfterLogging) {
+    public void logDebugInfo(bool clearAfterLogging) {
 
         LOGGER.info("--------------------------------");
         LOGGER.info("CommandInvoker debug information");

@@ -46,7 +46,7 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
 
     protected string eventDefinitionKey;
 
-    public BoundaryEventRegistryEventActivityBehavior(string eventDefinitionKey, boolean interrupting) {
+    public BoundaryEventRegistryEventActivityBehavior(string eventDefinitionKey, bool interrupting) {
         super(interrupting);
         this.eventDefinitionKey = eventDefinitionKey;
     }

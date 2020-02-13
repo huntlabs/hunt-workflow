@@ -21,7 +21,7 @@ interface BusinessRuleTaskDelegate extends ActivityBehavior {
 
     void addRuleIdExpression(Expression inputId);
 
-    void setExclude(boolean exclude);
+    void setExclude(bool exclude);
 
     void setResultVariable(string resultVariableName);
 }

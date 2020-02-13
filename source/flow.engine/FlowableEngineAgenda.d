@@ -29,7 +29,7 @@ interface FlowableEngineAgenda extends Agenda {
 
     void planContinueMultiInstanceOperation(ExecutionEntity execution, ExecutionEntity multiInstanceRootExecution, int loopCounter);
 
-    void planTakeOutgoingSequenceFlowsOperation(ExecutionEntity execution, boolean evaluateConditions);
+    void planTakeOutgoingSequenceFlowsOperation(ExecutionEntity execution, bool evaluateConditions);
 
     void planEndExecutionOperation(ExecutionEntity execution);
     

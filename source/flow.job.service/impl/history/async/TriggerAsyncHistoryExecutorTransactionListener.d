@@ -24,7 +24,7 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  * 
  * @author Joram Barrez
  */
-public class TriggerAsyncHistoryExecutorTransactionListener implements TransactionListener {
+class TriggerAsyncHistoryExecutorTransactionListener implements TransactionListener {
     
     protected HistoryJobEntity historyJobEntity;
     

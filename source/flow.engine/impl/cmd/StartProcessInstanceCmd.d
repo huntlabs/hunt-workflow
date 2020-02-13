@@ -68,7 +68,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
     protected string stageInstanceId;
     protected Map<string, Object> startFormVariables;
     protected string outcome;
-    protected boolean fallbackToDefaultTenant;
+    protected bool fallbackToDefaultTenant;
     protected ProcessInstanceHelper processInstanceHelper;
 
     public StartProcessInstanceCmd(string processDefinitionKey, string processDefinitionId, string businessKey, Map<string, Object> variables) {
@@ -175,7 +175,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
         return processInstance;
     }
 
-    protected boolean isFormFieldValidationEnabled(ProcessEngineConfigurationImpl processEngineConfiguration, StartEvent startEvent) {
+    protected bool isFormFieldValidationEnabled(ProcessEngineConfigurationImpl processEngineConfiguration, StartEvent startEvent) {
         if (processEngineConfiguration.isFormFieldValidationEnabled()) {
             return TaskHelper.isFormFieldValidationEnabled(NoExecutionVariableScope.getSharedInstance() // process instance does not exist yet
                 , processEngineConfiguration, startEvent.getValidateFormFields());
@@ -189,7 +189,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
             callbackId, callbackType, referenceId, referenceType, stageInstanceId, true);
     }
 
-    protected boolean hasStartFormData() {
+    protected bool hasStartFormData() {
         return startFormVariables != null || outcome != null;
     }
 

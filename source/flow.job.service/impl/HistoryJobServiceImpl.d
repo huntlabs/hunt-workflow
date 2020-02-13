@@ -22,7 +22,7 @@ import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
 /**
  * @author Tijs Rademakers
  */
-public class HistoryJobServiceImpl extends ServiceImpl implements HistoryJobService {
+class HistoryJobServiceImpl extends ServiceImpl implements HistoryJobService {
 
     public HistoryJobServiceImpl(JobServiceConfiguration jobServiceConfiguration) {
         super(jobServiceConfiguration);

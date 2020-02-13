@@ -65,15 +65,15 @@ interface ProcessDefinition {
     /**
      * Does this process definition has a {@link FormService#getStartFormData(string) start form key}.
      */
-    boolean hasStartFormKey();
+    bool hasStartFormKey();
 
     /**
      * Does this process definition has a graphical notation defined (such that a diagram can be generated)?
      */
-    boolean hasGraphicalNotation();
+    bool hasGraphicalNotation();
 
     /** Returns true if the process definition is in suspended state. */
-    boolean isSuspended();
+    bool isSuspended();
 
     /** The tenant identifier of this process definition */
     string getTenantId();
