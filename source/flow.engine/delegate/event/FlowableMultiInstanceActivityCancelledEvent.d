@@ -12,14 +12,24 @@
  */
 
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.FlowableMultiInstanceActivityCancelledEvent;
+ 
+ 
+ 
 
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.engine.delegate.event.FlowableMultiInstanceActivityEvent;
+import flow.engine.delegate.event.FlowableActivityCancelledEvent;
 
 /**
  * An {@link FlowableEvent} related to cancel event being sent to an activity.
  *
  * @author Robert Hafner
  */
-interface FlowableMultiInstanceActivityCancelledEvent extends FlowableMultiInstanceActivityEvent, FlowableActivityCancelledEvent {
+interface FlowableMultiInstanceActivityCancelledEvent : FlowableMultiInstanceActivityEvent, FlowableActivityCancelledEvent {
 
 }

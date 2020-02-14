@@ -10,6 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableMessageEventImpl;
+ 
+ 
+ 
 
 
 import flow.common.api.delegate.event.FlowableEngineEventType;
@@ -21,12 +30,11 @@ import flow.engine.delegate.event.FlowableSignalEvent;
  * 
  * @author Frederik Heremans
  */
-class FlowableMessageEventImpl extends FlowableActivityEventImpl implements FlowableMessageEvent {
+class FlowableMessageEventImpl : FlowableActivityEventImpl , FlowableMessageEvent {
 
     protected string messageName;
     protected Object messageData;
-
-    public FlowableMessageEventImpl(FlowableEngineEventType type) {
+    this(FlowableEngineEventType type) {
         super(type);
     }
 

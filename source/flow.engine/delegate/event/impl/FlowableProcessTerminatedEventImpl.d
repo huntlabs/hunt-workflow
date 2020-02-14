@@ -11,6 +11,16 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableProcessTerminatedEventImpl;
+ 
+ 
+ 
+
 
 import flow.common.api.FlowableException;
 import flow.common.api.delegate.event.FlowableEngineEventType;
@@ -22,11 +32,11 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
  *
  * @author martin.grofcik
  */
-class FlowableProcessTerminatedEventImpl extends FlowableEntityEventImpl implements FlowableProcessTerminatedEvent {
+class FlowableProcessTerminatedEventImpl : FlowableEntityEventImpl , FlowableProcessTerminatedEvent {
 
     protected Object cause;
 
-    public FlowableProcessTerminatedEventImpl(ExecutionEntity execution, Object cause) {
+    this(ExecutionEntity execution, Object cause) {
         super(execution, FlowableEngineEventType.PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT);
         if (!execution.isProcessInstanceType()) {
             throw new FlowableException("Execution '"+ execution +"' is not a processInstance");

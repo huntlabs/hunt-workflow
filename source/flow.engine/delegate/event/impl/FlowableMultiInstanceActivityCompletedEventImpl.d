@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableMultiInstanceActivityCompletedEventImpl;
+ 
+ 
+ 
 
 import flow.common.api.delegate.event.FlowableEngineEventType;
 import flow.engine.delegate.event.FlowableMultiInstanceActivityCompletedEvent;
@@ -20,13 +29,13 @@ import flow.engine.delegate.event.FlowableMultiInstanceActivityCompletedEvent;
  *
  * @author Robert Hafner
  */
-class FlowableMultiInstanceActivityCompletedEventImpl extends FlowableMultiInstanceActivityEventImpl implements
+class FlowableMultiInstanceActivityCompletedEventImpl : FlowableMultiInstanceActivityEventImpl ,
         FlowableMultiInstanceActivityCompletedEvent {
     protected int numberOfInstances;
     protected int numberOfActiveInstances;
     protected int numberOfCompletedInstances;
 
-    public FlowableMultiInstanceActivityCompletedEventImpl(FlowableEngineEventType type) {
+    this(FlowableEngineEventType type) {
         super(type);
     }
 

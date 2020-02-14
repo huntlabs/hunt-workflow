@@ -11,6 +11,16 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.FlowableProcessEngineEvent;
+ 
+ 
+ 
+
 
 import flow.common.api.delegate.event.FlowableEngineEvent;
 import flow.common.api.delegate.event.FlowableEvent;
@@ -22,7 +32,7 @@ import flow.engine.delegate.DelegateExecution;
  * 
  * @author Joram Barrez
  */
-interface FlowableProcessEngineEvent extends FlowableEngineEvent {
+interface FlowableProcessEngineEvent : FlowableEngineEvent {
     
     /**
      * Return the execution this event is associated with. Returns null, if the event was not related to an active execution.

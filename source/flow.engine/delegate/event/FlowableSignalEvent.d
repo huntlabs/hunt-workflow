@@ -11,15 +11,25 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.FlowableSignalEvent;
+ 
+ 
+ 
 
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.engine.delegate.event.FlowableActivityEvent;
+
 
 /**
  * An {@link FlowableEvent} related to a signal being sent to an activity.
  * 
  * @author Frederik Heremans
  */
-interface FlowableSignalEvent extends FlowableActivityEvent {
+interface FlowableSignalEvent : FlowableActivityEvent {
 
     /**
      * @return the name of the signal. Returns null, if no specific signal name has been specified when signaling.

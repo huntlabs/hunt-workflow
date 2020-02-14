@@ -11,15 +11,25 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.FlowableProcessStartedEvent;
+ 
+ 
+ 
+
 
 import flow.common.api.delegate.event.FlowableEvent;
-
+import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
 /**
  * An {@link FlowableEvent} related to start event being sent when a process instance is started.
  *
  * @author Christophe DENEUX - Linagora
  */
-interface FlowableProcessStartedEvent extends FlowableEntityWithVariablesEvent {
+interface FlowableProcessStartedEvent : FlowableEntityWithVariablesEvent {
 
     /**
      * @return the id of the process instance of the nested process that starts the current process instance, or null if the current process instance is not started into a nested process.

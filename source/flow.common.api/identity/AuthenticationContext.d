@@ -10,39 +10,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.common.api.identity.AuthenticationContext;
+ 
+ 
+ 
 
 
-import java.security.Principal;
-
-/**
- * Flowable Authentication context that can be implemented in different ways to hold and store the current authentication information.
- *
- * @author Filip Hrisafov
- */
-interface AuthenticationContext {
-
-    /**
-     * The user id of the authenticated principal.
-     *
-     * @return the id of the authenticated user
-     */
-    string getAuthenticatedUserId();
-
-    /**
-     * Obtains the currently authenticated principal, or an authentication request token.
-     *
-     * @return the <code>Principal</code> or <code>null</code> if no principal
-     * information is available
-     */
-    Principal getPrincipal();
-
-    /**
-     * Changes the currently authenticated principal, or removes the authentication
-     * information.
-     *
-     * @param principal the new <code>Authentication</code> token, or
-     * <code>null</code> if no further principal information should be stored
-     */
-    void setPrincipal(Principal principal);
-
-}
+//import java.security.Principal;
+//
+///**
+// * Flowable Authentication context that can be implemented in different ways to hold and store the current authentication information.
+// *
+// * @author Filip Hrisafov
+// */
+//interface AuthenticationContext {
+//
+//    /**
+//     * The user id of the authenticated principal.
+//     *
+//     * @return the id of the authenticated user
+//     */
+//    string getAuthenticatedUserId();
+//
+//    /**
+//     * Obtains the currently authenticated principal, or an authentication request token.
+//     *
+//     * @return the <code>Principal</code> or <code>null</code> if no principal
+//     * information is available
+//     */
+//    Principal getPrincipal();
+//
+//    /**
+//     * Changes the currently authenticated principal, or removes the authentication
+//     * information.
+//     *
+//     * @param principal the new <code>Authentication</code> token, or
+//     * <code>null</code> if no further principal information should be stored
+//     */
+//    void setPrincipal(Principal principal);
+//
+//}

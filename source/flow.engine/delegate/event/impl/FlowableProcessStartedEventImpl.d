@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableProcessStartedEventImpl;
+ 
+ 
+ 
 
 import java.util.Map;
 
@@ -23,13 +32,12 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
  *
  * @author martin.grofcik
  */
-class FlowableProcessStartedEventImpl extends FlowableEntityWithVariablesEventImpl implements FlowableProcessStartedEvent {
+class FlowableProcessStartedEventImpl : FlowableEntityWithVariablesEventImpl , FlowableProcessStartedEvent {
 
     protected final string nestedProcessInstanceId;
 
     protected final string nestedProcessDefinitionId;
-
-    public FlowableProcessStartedEventImpl(final Object entity, final Map variables, final bool localScope) {
+    this( Object entity,  Map variables,  bool localScope) {
         super(entity, variables, localScope, FlowableEngineEventType.PROCESS_STARTED);
         if (entity instanceof ExecutionEntity) {
             ExecutionEntity executionEntity = (ExecutionEntity) entity;

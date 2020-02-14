@@ -11,16 +11,23 @@
  * limitations under the License.
  */
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.compatibility.DefaultFlowable5CompatibilityHandlerFactory;
+ 
+ 
+ 
+import flow.engine.compatibility.Flowable5CompatibilityHandlerFactory;
+import flow.engine.compatibility.Flowable5CompatibilityHandler;
 
 /**
  * @author Joram Barrez
  */
-class DefaultFlowable5CompatibilityHandlerFactory implements Flowable5CompatibilityHandlerFactory {
+class DefaultFlowable5CompatibilityHandlerFactory : Flowable5CompatibilityHandlerFactory {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFlowable5CompatibilityHandlerFactory.class);
 
     protected string compatibilityHandlerClassName;
 

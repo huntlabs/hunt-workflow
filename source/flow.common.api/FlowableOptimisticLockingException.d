@@ -11,6 +11,16 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.common.api.FlowableOptimisticLockingException;
+ 
+ 
+ 
+import flow.common.api.FlowableException;
 
 /**
  * Exception that is thrown when an optimistic locking occurs in the datastore caused by concurrent access of the same data entry.
@@ -18,11 +28,11 @@
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class FlowableOptimisticLockingException extends FlowableException {
+class FlowableOptimisticLockingException : FlowableException {
 
     private static final long serialVersionUID = 1L;
 
-    public FlowableOptimisticLockingException(string message) {
+    this(string message) {
         super(message);
     }
 

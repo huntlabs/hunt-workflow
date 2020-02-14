@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.DelegateExecution;
+ 
+ 
+ 
 
 
 import java.util.List;
@@ -25,7 +34,7 @@ import org.flowable.variable.api.delegate.VariableScope;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface DelegateExecution extends VariableScope {
+interface DelegateExecution : VariableScope {
 
     /**
      * Unique id of this path of execution that can be used as a handle to provide external signals back into the engine after wait states.

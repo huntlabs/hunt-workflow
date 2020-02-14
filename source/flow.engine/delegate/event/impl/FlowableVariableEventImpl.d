@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableVariableEventImpl;
+ 
+ 
+ 
 
 import flow.common.api.delegate.event.FlowableEngineEventType;
 import org.flowable.variable.api.event.FlowableVariableEvent;
@@ -21,7 +30,7 @@ import org.flowable.variable.api.types.VariableType;
  *
  * @author Frederik Heremans
  */
-class FlowableVariableEventImpl extends FlowableProcessEventImpl implements FlowableVariableEvent {
+class FlowableVariableEventImpl : FlowableProcessEventImpl , FlowableVariableEvent {
 
     protected string variableName;
     protected Object variableValue;
@@ -30,7 +39,7 @@ class FlowableVariableEventImpl extends FlowableProcessEventImpl implements Flow
     protected string scopeId;
     protected string scopeType;
 
-    public FlowableVariableEventImpl(FlowableEngineEventType type) {
+    this(FlowableEngineEventType type) {
         super(type);
     }
 

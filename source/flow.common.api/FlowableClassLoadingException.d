@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.common.api.FlowableClassLoadingException;
+ 
+import flow.common.api.FlowableException;
+ 
 
 
 /**
@@ -18,12 +27,12 @@
  * 
  * @author Frederik Heremans
  */
-class FlowableClassLoadingException extends FlowableException {
+class FlowableClassLoadingException : FlowableException {
 
     private static final long serialVersionUID = 1L;
     protected string className;
 
-    public FlowableClassLoadingException(string className, Throwable cause) {
+    this(string className, Throwable cause) {
         super(getExceptionMessageMessage(className, cause), cause);
         this.className = className;
     }

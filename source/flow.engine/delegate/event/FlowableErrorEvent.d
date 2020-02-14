@@ -11,15 +11,28 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.FlowableErrorEvent; 
+ 
+ 
+ 
+
 
 import flow.common.api.delegate.event.FlowableEvent;
+import flow.engine.delegate.event.FlowableActivityEvent;
+
+ 
 
 /**
  * An {@link FlowableEvent} related to an error being sent to an activity.
  * 
  * @author Frederik Heremans
  */
-interface FlowableErrorEvent extends FlowableActivityEvent {
+interface FlowableErrorEvent : FlowableActivityEvent {
 
     /**
      * @return the error-code of the error. Returns null, if no specific error-code has been specified when the error was thrown.

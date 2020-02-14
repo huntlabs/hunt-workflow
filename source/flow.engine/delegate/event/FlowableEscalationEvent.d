@@ -11,13 +11,23 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegata.event.FlowableEscalationEvent;
+ 
+ 
+ 
+
 
 import flow.common.api.delegate.event.FlowableEvent;
 
 /**
  * An {@link FlowableEvent} related to an escalation being sent to an activity.
  */
-interface FlowableEscalationEvent extends FlowableActivityEvent {
+interface FlowableEscalationEvent : FlowableActivityEvent {
 
     /**
      * @return the code of the escalation. Returns null, if no specific escalation code has been specified.

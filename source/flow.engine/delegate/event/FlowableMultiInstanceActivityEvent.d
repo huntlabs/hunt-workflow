@@ -11,14 +11,23 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.FlowableMultiInstanceActivityEvent;
+ 
+ 
+ 
 
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.engine.delegate.event.FlowableActivityEvent;
 
 /**
  * A {@link FlowableEvent} related to a multi-instance activity within an execution.
  *
  * @author Robert Hafner
  */
-interface FlowableMultiInstanceActivityEvent extends FlowableActivityEvent {
+interface FlowableMultiInstanceActivityEvent : FlowableActivityEvent {
     public bool isSequential();
 }

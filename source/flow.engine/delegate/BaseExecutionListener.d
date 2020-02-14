@@ -10,6 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.BaseExecutionListener;
+ 
+ 
+ 
 
 
 import java.io.Serializable;
@@ -19,7 +28,7 @@ import java.io.Serializable;
  * 
  * @author Yvo Swillens
  */
-interface BaseExecutionListener extends Serializable {
+interface BaseExecutionListener : Serializable {
 
     string EVENTNAME_START = "start";
     string EVENTNAME_END = "end";

@@ -10,13 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.common.api.FlowableForbiddenException;
+ 
+import flow.common.api.FlowableException;
+ 
 
 
-class FlowableForbiddenException extends FlowableException {
+class FlowableForbiddenException : FlowableException {
 
     private static final long serialVersionUID = 1L;
 
-    public FlowableForbiddenException(string message) {
+    this(string message) {
         super(message);
     }
 }

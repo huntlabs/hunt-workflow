@@ -11,16 +11,24 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.FlowableSequenceFlowTakenEvent;
+ 
+ 
+ 
 
 import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEvent;
 
 /**
  * An {@link FlowableEvent} that indicates a certain sequence flow has been taken.
  * 
  * @author Frederik Heremans
  */
-interface FlowableSequenceFlowTakenEvent extends FlowableEngineEvent {
+interface FlowableSequenceFlowTakenEvent : FlowableEngineEvent {
 
     string getId();
 

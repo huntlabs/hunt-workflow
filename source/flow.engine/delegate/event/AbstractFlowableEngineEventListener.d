@@ -11,6 +11,15 @@
  * limitations under the License.
  *
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.AbstractFlowableEngineEventListener;
+ 
+ 
+ 
 
 
 import java.util.Set;
@@ -28,21 +37,21 @@ import org.flowable.variable.api.event.FlowableVariableEvent;
 /**
  *  @author Robert Hafner
  */
-abstract class AbstractFlowableEngineEventListener extends AbstractFlowableEventListener {
+abstract class AbstractFlowableEngineEventListener : AbstractFlowableEventListener {
 
     protected Set<FlowableEngineEventType> types;
 
-    public AbstractFlowableEngineEventListener() {}
+    this() {}
 
-    public AbstractFlowableEngineEventListener(Set<FlowableEngineEventType> types) {
+    this(Set<FlowableEngineEventType> types) {
         this.types = types;
     }
 
     @Override
     public void onEvent(FlowableEvent flowableEvent) {
         if(flowableEvent instanceof FlowableEngineEvent) {
-            FlowableEngineEvent flowableEngineEvent = (FlowableEngineEvent) flowableEvent;
-            FlowableEngineEventType engineEventType = (FlowableEngineEventType) flowableEvent.getType();
+            FlowableEngineEvent flowableEngineEvent = cast(FlowableEngineEvent) flowableEvent;
+            FlowableEngineEventType engineEventType = cast(FlowableEngineEventType) flowableEvent.getType();
 
             if(types == null || types.contains(engineEventType)) {
                 switch (engineEventType) {

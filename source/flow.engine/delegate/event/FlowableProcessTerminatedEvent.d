@@ -12,6 +12,16 @@
  */
 
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.FlowableProcessTerminatedEvent;
+ 
+ 
+ 
+
 import flow.common.api.delegate.event.FlowableEntityEvent;
 
 /**
@@ -19,7 +29,7 @@ import flow.common.api.delegate.event.FlowableEntityEvent;
  *
  * @author martin.grofcik
  */
-interface FlowableProcessTerminatedEvent extends FlowableEntityEvent {
+interface FlowableProcessTerminatedEvent : FlowableEntityEvent {
     /**
      * @return the cause of the cancel event. Returns null, if no specific cause has been specified.
      */

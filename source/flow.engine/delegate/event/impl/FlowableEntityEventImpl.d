@@ -11,6 +11,16 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableEntityEventImpl;
+ 
+ 
+ 
+
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.delegate.event.FlowableEngineEntityEvent;
@@ -22,11 +32,11 @@ import flow.common.api.delegate.event.FlowableEvent;
  * 
  * @author Frederik Heremans
  */
-class FlowableEntityEventImpl extends FlowableProcessEventImpl implements FlowableEngineEntityEvent {
+class FlowableEntityEventImpl : FlowableProcessEventImpl , FlowableEngineEntityEvent {
 
     protected Object entity;
 
-    public FlowableEntityEventImpl(Object entity, FlowableEngineEventType type) {
+    this(Object entity, FlowableEngineEventType type) {
         super(type);
         if (entity == null) {
             throw new FlowableIllegalArgumentException("Entity cannot be null.");

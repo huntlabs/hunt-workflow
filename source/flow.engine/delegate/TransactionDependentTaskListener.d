@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.TransactionDependentTaskListener;
+ 
+ 
+ 
 
 
 import java.util.Map;
@@ -23,7 +32,7 @@ import org.flowable.task.service.delegate.BaseTaskListener;
  *
  * @author Yvo Swillens
  */
-interface TransactionDependentTaskListener extends BaseTaskListener {
+interface TransactionDependentTaskListener : BaseTaskListener {
 
     string ON_TRANSACTION_COMMITTING = "before-commit";
     string ON_TRANSACTION_COMMITTED = "committed";

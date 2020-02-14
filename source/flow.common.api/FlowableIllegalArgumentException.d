@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.common.api.FlowableIllegalArgumentException;
+ 
+ 
+import flow.common.api.FlowableException;
 
 
 /**
@@ -19,15 +28,15 @@
  * 
  * @author Frederik Heremans
  */
-class FlowableIllegalArgumentException extends FlowableException {
+class FlowableIllegalArgumentException : FlowableException {
 
     private static final long serialVersionUID = 1L;
 
-    public FlowableIllegalArgumentException(string message) {
+    this(string message) {
         super(message);
     }
 
-    public FlowableIllegalArgumentException(string message, Throwable cause) {
+    this(string message, Throwable cause) {
         super(message, cause);
     }
 }

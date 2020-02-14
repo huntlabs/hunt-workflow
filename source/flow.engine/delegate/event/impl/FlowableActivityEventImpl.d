@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableActivityEventImpl;
+ 
+ 
+ 
 
 import flow.common.api.delegate.event.FlowableEngineEventType;
 import flow.engine.delegate.event.FlowableActivityEvent;
@@ -21,14 +30,14 @@ import flow.engine.delegate.event.FlowableActivityEvent;
  * @author Frederik Heremans
  * @author Joram Barrez
  */
-class FlowableActivityEventImpl extends FlowableProcessEventImpl implements FlowableActivityEvent {
+class FlowableActivityEventImpl : FlowableProcessEventImpl , FlowableActivityEvent {
 
     protected string activityId;
     protected string activityName;
     protected string activityType;
     protected string behaviorClass;
 
-    public FlowableActivityEventImpl(FlowableEngineEventType type) {
+    this(FlowableEngineEventType type) {
         super(type);
     }
 

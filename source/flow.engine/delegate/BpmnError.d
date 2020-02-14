@@ -11,6 +11,15 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.event.BpmnError;
+ 
+ 
+ 
 
 
 import flow.common.api.FlowableException;
@@ -27,18 +36,18 @@ import flow.engine.impl.bpmn.parser.Error;
  * 
  * @author Tijs Rademakers
  */
-class BpmnError extends FlowableException {
+class BpmnError : FlowableException {
 
     private static final long serialVersionUID = 1L;
 
     private string errorCode;
 
-    public BpmnError(string errorCode) {
+    this(string errorCode) {
         super("");
         setErrorCode(errorCode);
     }
 
-    public BpmnError(string errorCode, string message) {
+    this(string errorCode, string message) {
         super(message);
         setErrorCode(errorCode);
     }

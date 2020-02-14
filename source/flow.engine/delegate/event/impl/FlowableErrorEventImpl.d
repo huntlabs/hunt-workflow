@@ -10,6 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableErrorEventImpl;
+ 
+ 
+ 
 
 
 import flow.common.api.delegate.event.FlowableEngineEventType;
@@ -20,12 +29,12 @@ import flow.engine.delegate.event.FlowableErrorEvent;
  * 
  * @author Frederik Heremans
  */
-class FlowableErrorEventImpl extends FlowableActivityEventImpl implements FlowableErrorEvent {
+class FlowableErrorEventImpl : FlowableActivityEventImpl , FlowableErrorEvent {
 
     protected string errorId;
     protected string errorCode;
 
-    public FlowableErrorEventImpl(FlowableEngineEventType type) {
+    this(FlowableEngineEventType type) {
         super(type);
     }
 

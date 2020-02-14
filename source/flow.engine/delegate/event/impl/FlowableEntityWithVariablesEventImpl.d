@@ -10,6 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.delegate.event.impl.FlowableEntityWithVariablesEventImpl;
+ 
+ 
+ 
 
 
 import java.util.Map;
@@ -23,13 +32,12 @@ import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
  * 
  * @author Tijs Rademakers
  */
-@SuppressWarnings("rawtypes")
-class FlowableEntityWithVariablesEventImpl extends FlowableEntityEventImpl implements FlowableEntityWithVariablesEvent {
+class FlowableEntityWithVariablesEventImpl : FlowableEntityEventImpl , FlowableEntityWithVariablesEvent {
 
     protected Map variables;
     protected bool localScope;
 
-    public FlowableEntityWithVariablesEventImpl(Object entity, Map variables, bool localScope, FlowableEngineEventType type) {
+    this(Object entity, Map variables, bool localScope, FlowableEngineEventType type) {
         super(entity, type);
 
         this.variables = variables;

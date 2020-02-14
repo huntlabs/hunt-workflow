@@ -11,13 +11,22 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.common.api.FlowableTaskAlreadyClaimedException;
+ 
+import flow.common.api.FlowableException;
+ 
 
 /**
  * This exception is thrown when you try to claim a task that is already claimed by someone else.
  * 
  * @author Tijs Rademakers
  */
-class FlowableTaskAlreadyClaimedException extends FlowableException {
+class FlowableTaskAlreadyClaimedException : FlowableException {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +36,7 @@ class FlowableTaskAlreadyClaimedException extends FlowableException {
     /** the assignee of the task that is already claimed */
     private string taskAssignee;
 
-    public FlowableTaskAlreadyClaimedException(string taskId, string taskAssignee) {
+    this(string taskId, string taskAssignee) {
         super("Task '" + taskId + "' is already claimed by someone else.");
         this.taskId = taskId;
         this.taskAssignee = taskAssignee;

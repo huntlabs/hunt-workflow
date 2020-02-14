@@ -11,33 +11,42 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.common.api.delegate.FlowableFunctionDelegate;
+ 
+ 
+ 
 
 
-import java.lang.reflect.Method;
-
-/**
- * Interface for pluggable functions that can be used in the EL expressions
- * 
- * @author Tijs Rademakers
- * @author Joram Barrez
- */
-interface FlowableFunctionDelegate {
-
-    /**
-     * The prefix of the method when used in an expression, like the first part of ${prefix:method()}.
-     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
-     */
-    string prefix();
-
-    /**
-     * The name of the method when used in an expression, like the second part of ${prefix:method()}.
-     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
-     */
-    string localName();
-
-    /**
-     * Returns the method that is invoked by JUEL.
-     */
-    Method functionMethod();
-    
-}
+//import java.lang.reflect.Method;
+//
+///**
+// * Interface for pluggable functions that can be used in the EL expressions
+// *
+// * @author Tijs Rademakers
+// * @author Joram Barrez
+// */
+//interface FlowableFunctionDelegate {
+//
+//    /**
+//     * The prefix of the method when used in an expression, like the first part of ${prefix:method()}.
+//     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
+//     */
+//    string prefix();
+//
+//    /**
+//     * The name of the method when used in an expression, like the second part of ${prefix:method()}.
+//     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
+//     */
+//    string localName();
+//
+//    /**
+//     * Returns the method that is invoked by JUEL.
+//     */
+//    Method functionMethod();
+//
+//}
