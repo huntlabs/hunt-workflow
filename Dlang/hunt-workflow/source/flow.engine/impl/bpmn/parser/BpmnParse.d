@@ -1,0 +1,524 @@
+/* Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.flowable.bpmn.constants.BpmnXMLConstants;
+import org.flowable.bpmn.converter.BpmnXMLConverter;
+import org.flowable.bpmn.exceptions.XMLException;
+import org.flowable.bpmn.model.BoundaryEvent;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.bpmn.model.Event;
+import org.flowable.bpmn.model.FlowElement;
+import org.flowable.bpmn.model.FlowNode;
+import org.flowable.bpmn.model.GraphicInfo;
+import org.flowable.bpmn.model.Process;
+import org.flowable.bpmn.model.SequenceFlow;
+import org.flowable.bpmn.model.SubProcess;
+import flow.common.api.FlowableException;
+import flow.common.api.FlowableIllegalArgumentException;
+import flow.common.api.repository.EngineDeployment;
+import flow.common.event.FlowableEventSupport;
+import flow.common.util.io.InputStreamSource;
+import flow.common.util.io.StreamSource;
+import flow.common.util.io.StringStreamSource;
+import flow.common.util.io.UrlStreamSource;
+import flow.engine.impl.bpmn.parser.factory.ActivityBehaviorFactory;
+import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
+import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
+import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.util.io.ResourceStreamSource;
+import org.flowable.validation.ProcessValidator;
+import org.flowable.validation.ValidationError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Specific parsing of one BPMN 2.0 XML file, created by the {@link BpmnParser}.
+ * 
+ * @author Tijs Rademakers
+ * @author Joram Barrez
+ */
+class BpmnParse implements BpmnXMLConstants {
+
+    protected static final Logger LOGGER = LoggerFactory.getLogger(BpmnParse.class);
+
+    public static final string PROPERTYNAME_INITIAL = "initial";
+    public static final string PROPERTYNAME_INITIATOR_VARIABLE_NAME = "initiatorVariableName";
+    public static final string PROPERTYNAME_CONDITION = "condition";
+    public static final string PROPERTYNAME_CONDITION_TEXT = "conditionText";
+    public static final string PROPERTYNAME_TIMER_DECLARATION = "timerDeclarations";
+    public static final string PROPERTYNAME_ISEXPANDED = "isExpanded";
+    public static final string PROPERTYNAME_START_TIMER = "timerStart";
+    public static final string PROPERTYNAME_COMPENSATION_HANDLER_ID = "compensationHandler";
+    public static final string PROPERTYNAME_IS_FOR_COMPENSATION = "isForCompensation";
+    public static final string PROPERTYNAME_ERROR_EVENT_DEFINITIONS = "errorEventDefinitions";
+    public static final string PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION = "eventDefinitions";
+
+    protected string name;
+
+    protected bool validateSchema = true;
+    protected bool validateProcess = true;
+
+    protected StreamSource streamSource;
+    protected string sourceSystemId;
+
+    protected BpmnModel bpmnModel;
+
+    protected string targetNamespace;
+
+    /** The deployment to which the parsed process definitions will be added. */
+    protected EngineDeployment deployment;
+
+    /** The end result of the parsing: a list of process definition. */
+    protected List<ProcessDefinitionEntity> processDefinitions = new ArrayList<>();
+
+    /** A map for storing sequence flow based on their id during parsing. */
+    protected Map<string, SequenceFlow> sequenceFlows;
+
+    protected BpmnParseHandlers bpmnParserHandlers;
+
+    protected ProcessDefinitionEntity currentProcessDefinition;
+
+    protected Process currentProcess;
+
+    protected FlowElement currentFlowElement;
+
+    protected LinkedList<SubProcess> currentSubprocessStack = new LinkedList<>();
+
+    /**
+     * Mapping containing values stored during the first phase of parsing since other elements can reference these messages.
+     * 
+     * All the map's elements are defined outside the process definition(s), which means that this map doesn't need to be re-initialized for each new process definition.
+     */
+    protected Map<string, string> prefixs = new HashMap<>();
+
+    // Factories
+    protected ActivityBehaviorFactory activityBehaviorFactory;
+    protected ListenerFactory listenerFactory;
+
+    /**
+     * Constructor to be called by the {@link BpmnParser}.
+     */
+    public BpmnParse(BpmnParser parser) {
+        this.activityBehaviorFactory = parser.getActivityBehaviorFactory();
+        this.listenerFactory = parser.getListenerFactory();
+        this.bpmnParserHandlers = parser.getBpmnParserHandlers();
+    }
+
+    public BpmnParse deployment(EngineDeployment deployment) {
+        this.deployment = deployment;
+        return this;
+    }
+
+    public BpmnParse execute() {
+        try {
+
+            ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
+            BpmnXMLConverter converter = new BpmnXMLConverter();
+
+            bool enableSafeBpmnXml = false;
+            string encoding = null;
+            if (processEngineConfiguration != null) {
+                enableSafeBpmnXml = processEngineConfiguration.isEnableSafeBpmnXml();
+                encoding = processEngineConfiguration.getXmlEncoding();
+            }
+
+            if (encoding != null) {
+                bpmnModel = converter.convertToBpmnModel(streamSource, validateSchema, enableSafeBpmnXml, encoding);
+            } else {
+                bpmnModel = converter.convertToBpmnModel(streamSource, validateSchema, enableSafeBpmnXml);
+            }
+
+            // XSD validation goes first, then process/semantic validation
+            if (validateProcess) {
+                ProcessValidator processValidator = processEngineConfiguration.getProcessValidator();
+                if (processValidator == null) {
+                    LOGGER.warn("Process should be validated, but no process validator is configured on the process engine configuration!");
+                } else {
+                    List<ValidationError> validationErrors = processValidator.validate(bpmnModel);
+                    if (validationErrors != null && !validationErrors.isEmpty()) {
+
+                        StringBuilder warningBuilder = new StringBuilder();
+                        StringBuilder errorBuilder = new StringBuilder();
+
+                        for (ValidationError error : validationErrors) {
+                            if (error.isWarning()) {
+                                warningBuilder.append(error);
+                                warningBuilder.append("\n");
+                            } else {
+                                errorBuilder.append(error);
+                                errorBuilder.append("\n");
+                            }
+                        }
+
+                        // Throw exception if there is any error
+                        if (errorBuilder.length() > 0) {
+                            throw new FlowableException("Errors while parsing:\n" + errorBuilder);
+                        }
+
+                        // Write out warnings (if any)
+                        if (warningBuilder.length() > 0) {
+                            LOGGER.warn("Following warnings encountered during process validation: {}", warningBuilder);
+                        }
+
+                    }
+                }
+            }
+
+            bpmnModel.setSourceSystemId(sourceSystemId);
+            bpmnModel.setEventSupport(new FlowableEventSupport());
+
+            // Validation successful (or no validation)
+
+            // Attach logic to the processes (eg. map ActivityBehaviors to bpmn model elements)
+            applyParseHandlers();
+
+            // Finally, process the diagram interchange info
+            processDI();
+
+        } catch (Exception e) {
+            if (e instanceof FlowableException) {
+                throw (FlowableException) e;
+            } else if (e instanceof XMLException) {
+                throw (XMLException) e;
+            } else {
+                throw new FlowableException("Error parsing XML", e);
+            }
+        }
+
+        return this;
+    }
+
+    public BpmnParse name(string name) {
+        this.name = name;
+        return this;
+    }
+
+    public BpmnParse sourceInputStream(InputStream inputStream) {
+        if (name == null) {
+            name("inputStream");
+        }
+        setStreamSource(new InputStreamSource(inputStream));
+        return this;
+    }
+
+    public BpmnParse sourceResource(string resource) {
+        return sourceResource(resource, null);
+    }
+
+    public BpmnParse sourceUrl(URL url) {
+        if (name == null) {
+            name(url.toString());
+        }
+        setStreamSource(new UrlStreamSource(url));
+        return this;
+    }
+
+    public BpmnParse sourceUrl(string url) {
+        try {
+            return sourceUrl(new URL(url));
+        } catch (MalformedURLException e) {
+            throw new FlowableIllegalArgumentException("malformed url: " + url, e);
+        }
+    }
+
+    public BpmnParse sourceResource(string resource, ClassLoader classLoader) {
+        if (name == null) {
+            name(resource);
+        }
+        setStreamSource(new ResourceStreamSource(resource, classLoader));
+        return this;
+    }
+
+    public BpmnParse sourceString(string string) {
+        if (name == null) {
+            name("string");
+        }
+        setStreamSource(new StringStreamSource(string));
+        return this;
+    }
+
+    protected void setStreamSource(StreamSource streamSource) {
+        if (this.streamSource != null) {
+            throw new FlowableIllegalArgumentException("invalid: multiple sources " + this.streamSource + " and " + streamSource);
+        }
+        this.streamSource = streamSource;
+    }
+
+    public BpmnParse setSourceSystemId(string sourceSystemId) {
+        this.sourceSystemId = sourceSystemId;
+        return this;
+    }
+
+    /**
+     * Parses the 'definitions' root element
+     */
+    protected void applyParseHandlers() {
+        sequenceFlows = new HashMap<>();
+        for (Process process : bpmnModel.getProcesses()) {
+            currentProcess = process;
+            if (process.isExecutable()) {
+                bpmnParserHandlers.parseElement(this, process);
+            }
+        }
+    }
+
+    public void processFlowElements(Collection<FlowElement> flowElements) {
+
+        // Parsing the elements is done in a strict order of types,
+        // as otherwise certain information might not be available when parsing
+        // a certain type.
+
+        // Using lists as we want to keep the order in which they are defined
+        List<SequenceFlow> sequenceFlowToParse = new ArrayList<>();
+        List<BoundaryEvent> boundaryEventsToParse = new ArrayList<>();
+
+        // Flow elements that depend on other elements are parse after the first run-through
+        List<FlowElement> defferedFlowElementsToParse = new ArrayList<>();
+
+        // Activities are parsed first
+        for (FlowElement flowElement : flowElements) {
+
+            // Sequence flow are also flow elements, but are only parsed once every activity is found
+            if (flowElement instanceof SequenceFlow) {
+                sequenceFlowToParse.add((SequenceFlow) flowElement);
+            } else if (flowElement instanceof BoundaryEvent) {
+                boundaryEventsToParse.add((BoundaryEvent) flowElement);
+            } else if (flowElement instanceof Event) {
+                defferedFlowElementsToParse.add(flowElement);
+            } else {
+                bpmnParserHandlers.parseElement(this, flowElement);
+            }
+
+        }
+
+        // Deferred elements
+        for (FlowElement flowElement : defferedFlowElementsToParse) {
+            bpmnParserHandlers.parseElement(this, flowElement);
+        }
+
+        // Boundary events are parsed after all the regular activities are parsed
+        for (BoundaryEvent boundaryEvent : boundaryEventsToParse) {
+            bpmnParserHandlers.parseElement(this, boundaryEvent);
+        }
+
+        // sequence flows
+        for (SequenceFlow sequenceFlow : sequenceFlowToParse) {
+            bpmnParserHandlers.parseElement(this, sequenceFlow);
+        }
+
+    }
+
+    // Diagram interchange
+    // /////////////////////////////////////////////////////////////////
+
+    public void processDI() {
+
+        if (processDefinitions.isEmpty()) {
+            return;
+        }
+
+        if (!bpmnModel.getLocationMap().isEmpty()) {
+
+            // Verify if all referenced elements exist
+            for (string bpmnReference : bpmnModel.getLocationMap().keySet()) {
+                if (bpmnModel.getFlowElement(bpmnReference) == null) {
+                    // ACT-1625: don't warn when artifacts are referenced from DI
+                    if (bpmnModel.getArtifact(bpmnReference) == null) {
+                        // Check if it's a Pool or Lane, then DI is ok
+                        if (bpmnModel.getPool(bpmnReference) == null && bpmnModel.getLane(bpmnReference) == null) {
+                            LOGGER.warn("Invalid reference in diagram interchange definition: could not find {}", bpmnReference);
+                        }
+                    }
+                } else if (!(bpmnModel.getFlowElement(bpmnReference) instanceof FlowNode)) {
+                    LOGGER.warn("Invalid reference in diagram interchange definition: {} does not reference a flow node", bpmnReference);
+                }
+            }
+
+            for (string bpmnReference : bpmnModel.getFlowLocationMap().keySet()) {
+                if (bpmnModel.getFlowElement(bpmnReference) == null) {
+                    // ACT-1625: don't warn when artifacts are referenced from DI
+                    if (bpmnModel.getArtifact(bpmnReference) == null) {
+                        LOGGER.warn("Invalid reference in diagram interchange definition: could not find {}", bpmnReference);
+                    }
+                } else if (!(bpmnModel.getFlowElement(bpmnReference) instanceof SequenceFlow)) {
+                    LOGGER.warn("Invalid reference in diagram interchange definition: {} does not reference a sequence flow", bpmnReference);
+                }
+            }
+
+            for (Process process : bpmnModel.getProcesses()) {
+                if (!process.isExecutable()) {
+                    continue;
+                }
+
+                // Parse diagram interchange information
+                ProcessDefinitionEntity processDefinition = getProcessDefinition(process.getId());
+                if (processDefinition != null) {
+                    processDefinition.setGraphicalNotationDefined(true);
+
+                    for (string edgeId : bpmnModel.getFlowLocationMap().keySet()) {
+                        if (bpmnModel.getFlowElement(edgeId) != null) {
+                            createBPMNEdge(edgeId, bpmnModel.getFlowLocationGraphicInfo(edgeId));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void createBPMNEdge(string key, List<GraphicInfo> graphicList) {
+        FlowElement flowElement = bpmnModel.getFlowElement(key);
+        if (flowElement instanceof SequenceFlow) {
+            SequenceFlow sequenceFlow = (SequenceFlow) flowElement;
+            List<Integer> waypoints = new ArrayList<>();
+            for (GraphicInfo waypointInfo : graphicList) {
+                waypoints.add((int) waypointInfo.getX());
+                waypoints.add((int) waypointInfo.getY());
+            }
+            sequenceFlow.setWaypoints(waypoints);
+
+        } else if (bpmnModel.getArtifact(key) != null) {
+            // it's an association, so nothing to do
+        } else {
+            LOGGER.warn("Invalid reference in 'bpmnElement' attribute, sequenceFlow {} not found", key);
+        }
+    }
+
+    public ProcessDefinitionEntity getProcessDefinition(string processDefinitionKey) {
+        for (ProcessDefinitionEntity processDefinition : processDefinitions) {
+            if (processDefinition.getKey().equals(processDefinitionKey)) {
+                return processDefinition;
+            }
+        }
+        return null;
+    }
+
+    /*
+     * ------------------- GETTERS AND SETTERS -------------------
+     */
+
+    public bool isValidateSchema() {
+        return validateSchema;
+    }
+
+    public void setValidateSchema(bool validateSchema) {
+        this.validateSchema = validateSchema;
+    }
+
+    public bool isValidateProcess() {
+        return validateProcess;
+    }
+
+    public void setValidateProcess(bool validateProcess) {
+        this.validateProcess = validateProcess;
+    }
+
+    public List<ProcessDefinitionEntity> getProcessDefinitions() {
+        return processDefinitions;
+    }
+
+    public string getTargetNamespace() {
+        return targetNamespace;
+    }
+
+    public BpmnParseHandlers getBpmnParserHandlers() {
+        return bpmnParserHandlers;
+    }
+
+    public void setBpmnParserHandlers(BpmnParseHandlers bpmnParserHandlers) {
+        this.bpmnParserHandlers = bpmnParserHandlers;
+    }
+
+    public EngineDeployment getDeployment() {
+        return deployment;
+    }
+
+    public void setDeployment(EngineDeployment deployment) {
+        this.deployment = deployment;
+    }
+
+    public BpmnModel getBpmnModel() {
+        return bpmnModel;
+    }
+
+    public void setBpmnModel(BpmnModel bpmnModel) {
+        this.bpmnModel = bpmnModel;
+    }
+
+    public ActivityBehaviorFactory getActivityBehaviorFactory() {
+        return activityBehaviorFactory;
+    }
+
+    public void setActivityBehaviorFactory(ActivityBehaviorFactory activityBehaviorFactory) {
+        this.activityBehaviorFactory = activityBehaviorFactory;
+    }
+
+    public ListenerFactory getListenerFactory() {
+        return listenerFactory;
+    }
+
+    public void setListenerFactory(ListenerFactory listenerFactory) {
+        this.listenerFactory = listenerFactory;
+    }
+
+    public Map<string, SequenceFlow> getSequenceFlows() {
+        return sequenceFlows;
+    }
+
+    public ProcessDefinitionEntity getCurrentProcessDefinition() {
+        return currentProcessDefinition;
+    }
+
+    public void setCurrentProcessDefinition(ProcessDefinitionEntity currentProcessDefinition) {
+        this.currentProcessDefinition = currentProcessDefinition;
+    }
+
+    public FlowElement getCurrentFlowElement() {
+        return currentFlowElement;
+    }
+
+    public void setCurrentFlowElement(FlowElement currentFlowElement) {
+        this.currentFlowElement = currentFlowElement;
+    }
+
+    public Process getCurrentProcess() {
+        return currentProcess;
+    }
+
+    public void setCurrentProcess(Process currentProcess) {
+        this.currentProcess = currentProcess;
+    }
+
+    public void setCurrentSubProcess(SubProcess subProcess) {
+        currentSubprocessStack.push(subProcess);
+    }
+
+    public SubProcess getCurrentSubProcess() {
+        return currentSubprocessStack.peek();
+    }
+
+    public void removeCurrentSubProcess() {
+        currentSubprocessStack.pop();
+    }
+}
