@@ -1,0 +1,2 @@
+12:58:50.815955700 [system] D:\MyDrivers\D\dmd2\windows\bin\dub.exe init -n --format json --type minimal
+12:58:50.879784100 [stderr] The target directory already contains a 'source/' directory. Aborting.
