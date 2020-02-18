@@ -139,12 +139,12 @@ class BpmnParse implements BpmnXMLConstants {
 
             bool enableSafeBpmnXml = false;
             string encoding = null;
-            if (processEngineConfiguration != null) {
+            if (processEngineConfiguration !is null) {
                 enableSafeBpmnXml = processEngineConfiguration.isEnableSafeBpmnXml();
                 encoding = processEngineConfiguration.getXmlEncoding();
             }
 
-            if (encoding != null) {
+            if (encoding !is null) {
                 bpmnModel = converter.convertToBpmnModel(streamSource, validateSchema, enableSafeBpmnXml, encoding);
             } else {
                 bpmnModel = converter.convertToBpmnModel(streamSource, validateSchema, enableSafeBpmnXml);
@@ -153,11 +153,11 @@ class BpmnParse implements BpmnXMLConstants {
             // XSD validation goes first, then process/semantic validation
             if (validateProcess) {
                 ProcessValidator processValidator = processEngineConfiguration.getProcessValidator();
-                if (processValidator == null) {
+                if (processValidator is null) {
                     LOGGER.warn("Process should be validated, but no process validator is configured on the process engine configuration!");
                 } else {
                     List<ValidationError> validationErrors = processValidator.validate(bpmnModel);
-                    if (validationErrors != null && !validationErrors.isEmpty()) {
+                    if (validationErrors !is null && !validationErrors.isEmpty()) {
 
                         StringBuilder warningBuilder = new StringBuilder();
                         StringBuilder errorBuilder = new StringBuilder();
@@ -216,7 +216,7 @@ class BpmnParse implements BpmnXMLConstants {
     }
 
     public BpmnParse sourceInputStream(InputStream inputStream) {
-        if (name == null) {
+        if (name is null) {
             name("inputStream");
         }
         setStreamSource(new InputStreamSource(inputStream));
@@ -228,7 +228,7 @@ class BpmnParse implements BpmnXMLConstants {
     }
 
     public BpmnParse sourceUrl(URL url) {
-        if (name == null) {
+        if (name is null) {
             name(url.toString());
         }
         setStreamSource(new UrlStreamSource(url));
@@ -244,7 +244,7 @@ class BpmnParse implements BpmnXMLConstants {
     }
 
     public BpmnParse sourceResource(string resource, ClassLoader classLoader) {
-        if (name == null) {
+        if (name is null) {
             name(resource);
         }
         setStreamSource(new ResourceStreamSource(resource, classLoader));
@@ -252,7 +252,7 @@ class BpmnParse implements BpmnXMLConstants {
     }
 
     public BpmnParse sourceString(string string) {
-        if (name == null) {
+        if (name is null) {
             name("string");
         }
         setStreamSource(new StringStreamSource(string));
@@ -260,7 +260,7 @@ class BpmnParse implements BpmnXMLConstants {
     }
 
     protected void setStreamSource(StreamSource streamSource) {
-        if (this.streamSource != null) {
+        if (this.streamSource !is null) {
             throw new FlowableIllegalArgumentException("invalid: multiple sources " + this.streamSource + " and " + streamSource);
         }
         this.streamSource = streamSource;
@@ -343,11 +343,11 @@ class BpmnParse implements BpmnXMLConstants {
 
             // Verify if all referenced elements exist
             for (string bpmnReference : bpmnModel.getLocationMap().keySet()) {
-                if (bpmnModel.getFlowElement(bpmnReference) == null) {
+                if (bpmnModel.getFlowElement(bpmnReference) is null) {
                     // ACT-1625: don't warn when artifacts are referenced from DI
-                    if (bpmnModel.getArtifact(bpmnReference) == null) {
+                    if (bpmnModel.getArtifact(bpmnReference) is null) {
                         // Check if it's a Pool or Lane, then DI is ok
-                        if (bpmnModel.getPool(bpmnReference) == null && bpmnModel.getLane(bpmnReference) == null) {
+                        if (bpmnModel.getPool(bpmnReference) is null && bpmnModel.getLane(bpmnReference) is null) {
                             LOGGER.warn("Invalid reference in diagram interchange definition: could not find {}", bpmnReference);
                         }
                     }
@@ -357,9 +357,9 @@ class BpmnParse implements BpmnXMLConstants {
             }
 
             for (string bpmnReference : bpmnModel.getFlowLocationMap().keySet()) {
-                if (bpmnModel.getFlowElement(bpmnReference) == null) {
+                if (bpmnModel.getFlowElement(bpmnReference) is null) {
                     // ACT-1625: don't warn when artifacts are referenced from DI
-                    if (bpmnModel.getArtifact(bpmnReference) == null) {
+                    if (bpmnModel.getArtifact(bpmnReference) is null) {
                         LOGGER.warn("Invalid reference in diagram interchange definition: could not find {}", bpmnReference);
                     }
                 } else if (!(bpmnModel.getFlowElement(bpmnReference) instanceof SequenceFlow)) {
@@ -374,11 +374,11 @@ class BpmnParse implements BpmnXMLConstants {
 
                 // Parse diagram interchange information
                 ProcessDefinitionEntity processDefinition = getProcessDefinition(process.getId());
-                if (processDefinition != null) {
+                if (processDefinition !is null) {
                     processDefinition.setGraphicalNotationDefined(true);
 
                     for (string edgeId : bpmnModel.getFlowLocationMap().keySet()) {
-                        if (bpmnModel.getFlowElement(edgeId) != null) {
+                        if (bpmnModel.getFlowElement(edgeId) !is null) {
                             createBPMNEdge(edgeId, bpmnModel.getFlowLocationGraphicInfo(edgeId));
                         }
                     }
@@ -398,7 +398,7 @@ class BpmnParse implements BpmnXMLConstants {
             }
             sequenceFlow.setWaypoints(waypoints);
 
-        } else if (bpmnModel.getArtifact(key) != null) {
+        } else if (bpmnModel.getArtifact(key) !is null) {
             // it's an association, so nothing to do
         } else {
             LOGGER.warn("Invalid reference in 'bpmnElement' attribute, sequenceFlow {} not found", key);

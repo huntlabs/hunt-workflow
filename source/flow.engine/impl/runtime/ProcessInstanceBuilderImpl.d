@@ -130,10 +130,10 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
 
     @Override
     public ProcessInstanceBuilder variables(Map<string, Object> variables) {
-        if (this.variables == null) {
+        if (this.variables is null) {
             this.variables = new HashMap<>();
         }
-        if (variables != null) {
+        if (variables !is null) {
             this.variables.putAll(variables);
         }
         return this;
@@ -141,7 +141,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
 
     @Override
     public ProcessInstanceBuilder variable(string variableName, Object value) {
-        if (this.variables == null) {
+        if (this.variables is null) {
             this.variables = new HashMap<>();
         }
         this.variables.put(variableName, value);
@@ -150,10 +150,10 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
 
     @Override
     public ProcessInstanceBuilder transientVariables(Map<string, Object> transientVariables) {
-        if (this.transientVariables == null) {
+        if (this.transientVariables is null) {
             this.transientVariables = new HashMap<>();
         }
-        if (transientVariables != null) {
+        if (transientVariables !is null) {
             this.transientVariables.putAll(transientVariables);
         }
         return this;
@@ -161,7 +161,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
 
     @Override
     public ProcessInstanceBuilder transientVariable(string variableName, Object value) {
-        if (this.transientVariables == null) {
+        if (this.transientVariables is null) {
             this.transientVariables = new HashMap<>();
         }
         this.transientVariables.put(variableName, value);
@@ -170,10 +170,10 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
 
     @Override
     public ProcessInstanceBuilder startFormVariables(Map<string, Object> startFormVariables) {
-        if (this.startFormVariables == null) {
+        if (this.startFormVariables is null) {
             this.startFormVariables = new HashMap<>();
         }
-        if (startFormVariables != null) {
+        if (startFormVariables !is null) {
             this.startFormVariables.putAll(startFormVariables);
         }
         return this;
@@ -181,7 +181,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
 
     @Override
     public ProcessInstanceBuilder startFormVariable(string variableName, Object value) {
-        if (this.startFormVariables == null) {
+        if (this.startFormVariables is null) {
             this.startFormVariables = new HashMap<>();
         }
         this.startFormVariables.put(variableName, value);

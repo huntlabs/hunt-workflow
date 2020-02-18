@@ -20,7 +20,7 @@ import java.util.List;
  * 
  * @author Frederik Heremans
  */
-public interface HasExecutionListeners {
+interface HasExecutionListeners {
 
     List<FlowableListener> getExecutionListeners();
 

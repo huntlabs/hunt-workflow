@@ -21,7 +21,7 @@ module flow.engine.delegate.event.FlowableCancelledEvent;
  
  
 
-import flow.common.api.delegate.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEngineEvent;
 /**
  * @author martin.grofcik
  */

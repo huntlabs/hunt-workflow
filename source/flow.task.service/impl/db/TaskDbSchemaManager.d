@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.common.engine.impl.db.ServiceSqlScriptBasedDbSchemaManager;
+import flow.common.db.ServiceSqlScriptBasedDbSchemaManager;
 
 /**
  * @author Joram Barrez

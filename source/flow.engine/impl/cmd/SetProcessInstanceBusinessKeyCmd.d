@@ -38,10 +38,10 @@ class SetProcessInstanceBusinessKeyCmd implements Command<Void>, Serializable {
     private final string businessKey;
 
     public SetProcessInstanceBusinessKeyCmd(string processInstanceId, string businessKey) {
-        if (processInstanceId == null || processInstanceId.length() < 1) {
+        if (processInstanceId is null || processInstanceId.length() < 1) {
             throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" + processInstanceId + "' has been provided.");
         }
-        if (businessKey == null) {
+        if (businessKey is null) {
             throw new FlowableIllegalArgumentException("The business key is mandatory, but 'null' has been provided.");
         }
 
@@ -53,7 +53,7 @@ class SetProcessInstanceBusinessKeyCmd implements Command<Void>, Serializable {
     public Void execute(CommandContext commandContext) {
         ExecutionEntityManager executionManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity processInstance = executionManager.findById(processInstanceId);
-        if (processInstance == null) {
+        if (processInstance is null) {
             throw new FlowableObjectNotFoundException("No process instance found for id = '" + processInstanceId + "'.", ProcessInstance.class);
         } else if (!processInstance.isProcessInstanceType()) {
             throw new FlowableIllegalArgumentException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' " + "points to a child execution of process instance " + "'"

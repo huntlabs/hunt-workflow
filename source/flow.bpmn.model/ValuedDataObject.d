@@ -30,7 +30,7 @@ public abstract class ValuedDataObject extends DataObject {
 
     public void setValues(ValuedDataObject otherElement) {
         super.setValues(otherElement);
-        if (otherElement.getValue() != null) {
+        if (otherElement.getValue() !is null) {
             setValue(otherElement.getValue());
         }
     }
@@ -43,18 +43,18 @@ public abstract class ValuedDataObject extends DataObject {
     @Override
     public int hashCode() {
         int result = 0;
-        result = 31 * result + (itemSubjectRef.getStructureRef() != null ? itemSubjectRef.getStructureRef().hashCode() : 0);
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (itemSubjectRef.getStructureRef() !is null ? itemSubjectRef.getStructureRef().hashCode() : 0);
+        result = 31 * result + (id !is null ? id.hashCode() : 0);
+        result = 31 * result + (name !is null ? name.hashCode() : 0);
+        result = 31 * result + (value !is null ? value.hashCode() : 0);
         return result;
     }
     
     @Override
-    public boolean equals(Object o) {
+    public bool equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o is null || getClass() != o.getClass())
             return false;
 
         ValuedDataObject otherObject = (ValuedDataObject) o;

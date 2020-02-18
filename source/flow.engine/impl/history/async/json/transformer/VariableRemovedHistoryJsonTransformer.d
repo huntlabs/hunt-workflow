@@ -35,7 +35,7 @@ class VariableRemovedHistoryJsonTransformer extends AbstractHistoryJsonTransform
 
     @Override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
-        return CommandContextUtil.getHistoricVariableService().getHistoricVariableInstance(getStringFromJson(historicalData, HistoryJsonConstants.ID)) != null;
+        return CommandContextUtil.getHistoricVariableService().getHistoricVariableInstance(getStringFromJson(historicalData, HistoryJsonConstants.ID)) !is null;
     }
 
     @Override
@@ -43,7 +43,7 @@ class VariableRemovedHistoryJsonTransformer extends AbstractHistoryJsonTransform
         HistoricVariableService historicVariableService = CommandContextUtil.getHistoricVariableService();
         HistoricVariableInstanceEntity historicVariable = historicVariableService.getHistoricVariableInstance(getStringFromJson(historicalData, HistoryJsonConstants.ID));
         
-        if (historicVariable != null) {
+        if (historicVariable !is null) {
             historicVariableService.deleteHistoricVariableInstance(historicVariable);
         }
     }

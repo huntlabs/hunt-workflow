@@ -44,7 +44,7 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
 
     @Override
     protected void executeParse(BpmnParse bpmnParse, StartEvent element) {
-        if (element.getSubProcess() != null && element.getSubProcess() instanceof EventSubProcess) {
+        if (element.getSubProcess() !is null && element.getSubProcess() instanceof EventSubProcess) {
             if (CollectionUtil.isNotEmpty(element.getEventDefinitions())) {
                 EventDefinition eventDefinition = element.getEventDefinitions().get(0);
                 if (eventDefinition instanceof MessageEventDefinition) {
@@ -75,7 +75,7 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
                 
             } else {
                 List<ExtensionElement> eventTypeElements = element.getExtensionElements().get("eventType");
-                if (eventTypeElements != null && !eventTypeElements.isEmpty()) {
+                if (eventTypeElements !is null && !eventTypeElements.isEmpty()) {
                     string eventType = eventTypeElements.get(0).getElementText();
                     if (StringUtils.isNotEmpty(eventType)) {
                         element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessEventRegistryStartEventActivityBehavior(element, eventType));
@@ -93,8 +93,8 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
             }
         }
 
-        if (element.getSubProcess() == null && (CollectionUtil.isEmpty(element.getEventDefinitions()) ||
-                bpmnParse.getCurrentProcess().getInitialFlowElement() == null)) {
+        if (element.getSubProcess() is null && (CollectionUtil.isEmpty(element.getEventDefinitions()) ||
+                bpmnParse.getCurrentProcess().getInitialFlowElement() is null)) {
             
             bpmnParse.getCurrentProcess().setInitialFlowElement(element);
         }

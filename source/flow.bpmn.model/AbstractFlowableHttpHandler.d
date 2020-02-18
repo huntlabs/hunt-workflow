@@ -69,7 +69,7 @@ public abstract class AbstractFlowableHttpHandler extends BaseElement {
         setImplementationType(otherHandler.getImplementationType());
 
         fieldExtensions = new ArrayList<>();
-        if (otherHandler.getFieldExtensions() != null && !otherHandler.getFieldExtensions().isEmpty()) {
+        if (otherHandler.getFieldExtensions() !is null && !otherHandler.getFieldExtensions().isEmpty()) {
             for (FieldExtension extension : otherHandler.getFieldExtensions()) {
                 fieldExtensions.add(extension.clone());
             }

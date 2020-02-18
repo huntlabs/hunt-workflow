@@ -15,7 +15,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import flow.common.api.delegate.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
@@ -39,7 +39,7 @@ class TaskCompletedEventHandler extends AbstractTaskEventHandler {
 
         if (event instanceof FlowableEntityWithVariablesEvent) {
             FlowableEntityWithVariablesEvent activitiEntityWithVariablesEvent = (FlowableEntityWithVariablesEvent) event;
-            if (activitiEntityWithVariablesEvent.getVariables() != null && !activitiEntityWithVariablesEvent.getVariables().isEmpty()) {
+            if (activitiEntityWithVariablesEvent.getVariables() !is null && !activitiEntityWithVariablesEvent.getVariables().isEmpty()) {
                 Map<string, Object> variableMap = new HashMap<>();
                 for (Object variableName : activitiEntityWithVariablesEvent.getVariables().keySet()) {
                     putInMapIfNotNull(variableMap, (string) variableName, activitiEntityWithVariablesEvent.getVariables().get(variableName));

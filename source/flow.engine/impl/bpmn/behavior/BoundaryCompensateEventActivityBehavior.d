@@ -51,7 +51,7 @@ class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehav
         BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
 
         Process process = ProcessDefinitionUtil.getProcess(execution.getProcessDefinitionId());
-        if (process == null) {
+        if (process is null) {
             throw new FlowableException("Process model (id = " + execution.getId() + ") could not be found");
         }
 
@@ -70,18 +70,18 @@ class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehav
             }
         }
         
-        if (sourceActivity == null) {
+        if (sourceActivity is null) {
             throw new FlowableException("Parent activity for boundary compensation event could not be found");
         }
 
-        if (compensationActivity == null) {
+        if (compensationActivity is null) {
             throw new FlowableException("Compensation activity could not be found (or it is missing 'isForCompensation=\"true\"'");
         }
 
         // find SubProcess or Process instance execution
         ExecutionEntity scopeExecution = null;
         ExecutionEntity parentExecution = executionEntity.getParent();
-        while (scopeExecution == null && parentExecution != null) {
+        while (scopeExecution is null && parentExecution !is null) {
             if (parentExecution.getCurrentFlowElement() instanceof SubProcess) {
                 scopeExecution = parentExecution;
 
@@ -92,7 +92,7 @@ class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehav
             }
         }
 
-        if (scopeExecution == null) {
+        if (scopeExecution is null) {
             throw new FlowableException("Could not find a scope execution for compensation boundary event " + boundaryEvent.getId());
         }
 

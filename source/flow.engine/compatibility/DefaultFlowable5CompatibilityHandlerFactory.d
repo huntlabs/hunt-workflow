@@ -34,7 +34,7 @@ class DefaultFlowable5CompatibilityHandlerFactory : Flowable5CompatibilityHandle
     @Override
     public Flowable5CompatibilityHandler createFlowable5CompatibilityHandler() {
 
-        if (compatibilityHandlerClassName == null) {
+        if (compatibilityHandlerClassName is null) {
             compatibilityHandlerClassName = "org.flowable.compatibility.DefaultFlowable5CompatibilityHandler";
         }
 

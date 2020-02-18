@@ -118,7 +118,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
 
     @Override
     public HistoricProcessInstanceQuery processInstanceIds(Set<string> processInstanceIds) {
-        if (processInstanceIds == null) {
+        if (processInstanceIds is null) {
             throw new FlowableIllegalArgumentException("Set of process instance ids is null");
         }
         if (processInstanceIds.isEmpty()) {
@@ -367,7 +367,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
 
     @Override
     public HistoricProcessInstanceQuery involvedGroups(Set<string> involvedGroups) {
-        if (involvedGroups == null) {
+        if (involvedGroups is null) {
             throw new FlowableIllegalArgumentException("involvedGroups are null");
         }
         if (involvedGroups.isEmpty()) {
@@ -405,7 +405,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
 
     @Override
     public HistoricProcessInstanceQuery processInstanceTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("process instance tenant id is null");
         }
         if (inOrStatement) {
@@ -418,7 +418,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
 
     @Override
     public HistoricProcessInstanceQuery processInstanceTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("process instance tenant id is null");
         }
         if (inOrStatement) {
@@ -711,7 +711,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
 
     public string getMssqlOrDB2OrderBy() {
         string specialOrderBy = super.getOrderByColumns();
-        if (specialOrderBy != null && specialOrderBy.length() > 0) {
+        if (specialOrderBy !is null && specialOrderBy.length() > 0) {
             specialOrderBy = specialOrderBy.replace("RES.", "TEMPRES_");
             specialOrderBy = specialOrderBy.replace("VAR.", "TEMPVAR_");
         }
@@ -723,7 +723,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
         ensureVariablesInitialized();
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor() != null) {
+        if (processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor().beforeHistoricProcessInstanceQueryExecute(this);
         }
         
@@ -736,14 +736,14 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
         List<HistoricProcessInstance> results = null;
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor() != null) {
+        if (processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor().beforeHistoricProcessInstanceQueryExecute(this);
         }
         
         if (includeProcessVariables) {
             results = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findHistoricProcessInstancesAndVariablesByQueryCriteria(this);
 
-            if (processInstanceId != null) {
+            if (processInstanceId !is null) {
                 addCachedVariableForQueryById(commandContext, results);
             }
 
@@ -751,13 +751,13 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
             results = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findHistoricProcessInstancesByQueryCriteria(this);
         }
 
-        if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessLocalizationManager() != null) {
+        if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessLocalizationManager() !is null) {
             for (HistoricProcessInstance processInstance : results) {
                 processEngineConfiguration.getInternalProcessLocalizationManager().localize(processInstance, locale, withLocalizationFallback);
             }
         }
         
-        if (processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor() != null) {
+        if (processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getHistoricProcessInstanceQueryInterceptor().afterHistoricProcessInstanceQueryExecute(this, results);
         }
 
@@ -811,7 +811,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
 
     @Override
     public void delete() {
-        if (commandExecutor != null) {
+        if (commandExecutor !is null) {
             commandExecutor.execute(new DeleteHistoricProcessInstancesCmd(this));
         } else {
             new DeleteHistoricProcessInstancesCmd(this).execute(Context.getCommandContext());
@@ -820,7 +820,7 @@ class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<Histori
 
     @Override
     public void deleteWithRelatedData() {
-        if (commandExecutor != null) {
+        if (commandExecutor !is null) {
             CommandConfig config = new CommandConfig().transactionRequiresNew();
             commandExecutor.execute(config, new DeleteHistoricProcessInstancesCmd(this));
             commandExecutor.execute(config, new DeleteTaskAndActivityDataOfRemovedHistoricProcessInstancesCmd());

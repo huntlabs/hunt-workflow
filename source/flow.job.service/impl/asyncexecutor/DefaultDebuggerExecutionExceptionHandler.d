@@ -38,7 +38,7 @@ class DefaultDebuggerExecutionExceptionHandler implements AsyncRunnableExecution
                     commandContext -> {
                         JobEntity jobEntity = jobServiceConfiguration.getJobService().findJobById(job.getId());
                         SuspendedJobEntity suspendedJobEntity = jobServiceConfiguration.getJobService().moveJobToSuspendedJob(jobEntity);
-                        if (exception != null) {
+                        if (exception !is null) {
                             LOGGER.info("Debugger exception ", exception);
                             suspendedJobEntity.setExceptionMessage(exception.getMessage());
                             suspendedJobEntity.setExceptionStacktrace(ExceptionUtils.getStackTrace(exception));

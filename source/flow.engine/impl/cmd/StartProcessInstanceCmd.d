@@ -137,21 +137,21 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
                 if (StringUtils.isNotEmpty(startEvent.getFormKey())) {
                     FormRepositoryService formRepositoryService = CommandContextUtil.getFormRepositoryService(commandContext);
 
-                    if (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+                    if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
                         formInfo = formRepositoryService.getFormModelByKey(startEvent.getFormKey());
                     } else {
                         formInfo = formRepositoryService.getFormModelByKey(startEvent.getFormKey(), tenantId, processEngineConfiguration.isFallbackToDefaultTenant());
                     }
 
-                    if (formInfo != null) {
+                    if (formInfo !is null) {
                         if (isFormFieldValidationEnabled(processEngineConfiguration, startEvent)) {
                             formService.validateFormFields(formInfo, startFormVariables);
                         }
                         // The processVariables are the variables that should be used when starting the process
                         // the actual variables should instead be used when saving the form instances
                         processVariables = formService.getVariablesFromFormSubmission(formInfo, startFormVariables, outcome);
-                        if (processVariables != null) {
-                            if (variables == null) {
+                        if (processVariables !is null) {
+                            if (variables is null) {
                                 variables = new HashMap<>();
                             }
                             variables.putAll(processVariables);
@@ -164,7 +164,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
 
         ProcessInstance processInstance = startProcessInstance(processDefinition);
 
-        if (formInfo != null) {
+        if (formInfo !is null) {
             FormService formService = CommandContextUtil.getFormService(commandContext);
             formService.createFormInstance(startFormVariables, formInfo, null, processInstance.getId(),
                             processInstance.getProcessDefinitionId(), processInstance.getTenantId(), outcome);
@@ -190,7 +190,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
     }
 
     protected bool hasStartFormData() {
-        return startFormVariables != null || outcome != null;
+        return startFormVariables !is null || outcome !is null;
     }
 
     protected ProcessDefinition getProcessDefinition(ProcessEngineConfigurationImpl processEngineConfiguration) {
@@ -198,27 +198,27 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
 
         // Find the process definition
         ProcessDefinition processDefinition = null;
-        if (processDefinitionId != null) {
+        if (processDefinitionId !is null) {
             processDefinition = processDefinitionEntityManager.findById(processDefinitionId);
-            if (processDefinition == null) {
+            if (processDefinition is null) {
                 throw new FlowableObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'", ProcessDefinition.class);
             }
 
-        } else if (processDefinitionKey != null && (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId))) {
+        } else if (processDefinitionKey !is null && (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId))) {
 
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
-            if (processDefinition == null) {
+            if (processDefinition is null) {
                 throw new FlowableObjectNotFoundException("No process definition found for key '" + processDefinitionKey + "'", ProcessDefinition.class);
             }
 
-        } else if (processDefinitionKey != null && tenantId != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+        } else if (processDefinitionKey !is null && tenantId !is null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
-            if (processDefinition == null) {
+            if (processDefinition is null) {
                 if (fallbackToDefaultTenant || processEngineConfiguration.isFallbackToDefaultTenant()) {
                     string defaultTenant = processEngineConfiguration.getDefaultTenantProvider().getDefaultTenant(tenantId, ScopeTypes.BPMN, processDefinitionKey);
                     if (StringUtils.isNotEmpty(defaultTenant)) {
                         processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, defaultTenant);
-                        if (processDefinition != null) {
+                        if (processDefinition !is null) {
                             overrideDefinitionTenantId = tenantId;
                         }
                         
@@ -226,7 +226,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
                         processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
                     }
                     
-                    if (processDefinition == null) {
+                    if (processDefinition is null) {
                         throw new FlowableObjectNotFoundException("No process definition found for key '" + processDefinitionKey +
                             "'. Fallback to default tenant was also applied.", ProcessDefinition.class);
                     }
@@ -245,7 +245,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
     protected Map<string, Object> processDataObjects(Collection<ValuedDataObject> dataObjects) {
         Map<string, Object> variablesMap = new HashMap<>();
         // convert data objects to process variables
-        if (dataObjects != null) {
+        if (dataObjects !is null) {
             for (ValuedDataObject dataObject : dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }

@@ -16,8 +16,8 @@ import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import org.flowable.job.api.Job;
@@ -54,14 +54,14 @@ class DeleteDeadLetterJobCmd implements Command<Object>, Serializable {
 
     protected void sendCancelEvent(DeadLetterJobEntity jobToDelete) {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getJobServiceConfiguration().getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
                 .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, jobToDelete));
         }
     }
 
     protected DeadLetterJobEntity getJobToDelete(CommandContext commandContext) {
-        if (timerJobId == null) {
+        if (timerJobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
         if (LOGGER.isDebugEnabled()) {
@@ -69,7 +69,7 @@ class DeleteDeadLetterJobCmd implements Command<Object>, Serializable {
         }
 
         DeadLetterJobEntity job = CommandContextUtil.getDeadLetterJobEntityManager(commandContext).findById(timerJobId);
-        if (job == null) {
+        if (job is null) {
             throw new FlowableObjectNotFoundException("No dead letter job found with id '" + timerJobId + "'", Job.class);
         }
 

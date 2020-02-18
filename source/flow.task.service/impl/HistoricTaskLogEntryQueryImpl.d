@@ -15,10 +15,10 @@
 import java.util.Date;
 import java.util.List;
 
-import org.flowable.common.engine.api.scope.ScopeTypes;
-import org.flowable.common.engine.impl.query.AbstractQuery;
-import org.flowable.common.engine.impl.interceptor.CommandContext;
-import org.flowable.common.engine.impl.interceptor.CommandExecutor;
+import flow.common.api.scope.ScopeTypes;
+import flow.common.query.AbstractQuery;
+import flow.common.interceptor.CommandContext;
+import flow.common.interceptor.CommandExecutor;
 import org.flowable.task.api.history.HistoricTaskLogEntry;
 import org.flowable.task.api.history.HistoricTaskLogEntryQuery;
 import org.flowable.task.service.impl.util.CommandContextUtil;

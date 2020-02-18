@@ -57,7 +57,7 @@ class Association extends Artifact {
         setSourceRef(otherElement.getSourceRef());
         setTargetRef(otherElement.getTargetRef());
 
-        if (otherElement.getAssociationDirection() != null) {
+        if (otherElement.getAssociationDirection() !is null) {
             setAssociationDirection(otherElement.getAssociationDirection());
         }
     }

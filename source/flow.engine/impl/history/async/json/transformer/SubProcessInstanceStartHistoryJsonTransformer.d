@@ -18,7 +18,7 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import java.util.Collections;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.history.HistoricActivityInstance;
@@ -44,7 +44,7 @@ class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonT
         HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext, 
                 getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID), activityId);
             
-        if (activityInstance == null) {
+        if (activityInstance is null) {
             return false;
         }
         
@@ -58,7 +58,7 @@ class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonT
         string id = getStringFromJson(historicalData, HistoryJsonConstants.ID);
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         HistoricProcessInstanceEntity historicProcessInstance = historicProcessInstanceEntityManager.findById(id);
-        if (historicProcessInstance == null) {
+        if (historicProcessInstance is null) {
             HistoricProcessInstanceEntity subProcessInstance = historicProcessInstanceEntityManager.create();
 
             subProcessInstance.setId(id);
@@ -68,7 +68,7 @@ class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonT
             subProcessInstance.setProcessDefinitionKey(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_KEY));
             subProcessInstance.setProcessDefinitionName(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_NAME));
             string versionString = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_VERSION);
-            subProcessInstance.setProcessDefinitionVersion(versionString != null ? Integer.valueOf(versionString) : 0);
+            subProcessInstance.setProcessDefinitionVersion(versionString !is null ? Integer.valueOf(versionString) : 0);
             subProcessInstance.setDeploymentId(getStringFromJson(historicalData, HistoryJsonConstants.DEPLOYMENT_ID));
             subProcessInstance.setStartTime(getDateFromJson(historicalData, HistoryJsonConstants.START_TIME));
             subProcessInstance.setStartUserId(getStringFromJson(historicalData, HistoryJsonConstants.START_USER_ID));
@@ -91,7 +91,7 @@ class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonT
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
 
         HistoricActivityInstanceEntity activityInstance = findHistoricActivityInstance(commandContext, executionId, activityId);
-        if (activityInstance != null) {
+        if (activityInstance !is null) {
             activityInstance.setCalledProcessInstanceId(processInstanceId);
         }
     }

@@ -70,7 +70,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
                             execution.getTenantId());
         }
 
-        if (eventDefinition == null) {
+        if (eventDefinition is null) {
             throw new FlowableException("No event definition found for event key " + sendEventServiceTask.getEventType());
         }
         ExecutionEntity executionEntity = (ExecutionEntity) execution;
@@ -88,7 +88,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
             job.setJobHandlerType(AsyncSendEventJobHandler.TYPE);
 
             // Inherit tenant id (if applicable)
-            if (execution.getTenantId() != null) {
+            if (execution.getTenantId() !is null) {
                 job.setTenantId(execution.getTenantId());
             }
 

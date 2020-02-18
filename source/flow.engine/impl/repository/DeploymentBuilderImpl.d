@@ -63,7 +63,7 @@ class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
 
     @Override
     public DeploymentBuilder addInputStream(string resourceName, InputStream inputStream) {
-        if (inputStream == null) {
+        if (inputStream is null) {
             throw new FlowableIllegalArgumentException("inputStream for resource '" + resourceName + "' is null");
         }
         byte[] bytes = IoUtil.readInputStream(inputStream, resourceName);
@@ -77,7 +77,7 @@ class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
     @Override
     public DeploymentBuilder addClasspathResource(string resource) {
         InputStream inputStream = ReflectUtil.getResourceAsStream(resource);
-        if (inputStream == null) {
+        if (inputStream is null) {
             throw new FlowableIllegalArgumentException("resource '" + resource + "' not found");
         }
         return addInputStream(resource, inputStream);
@@ -85,7 +85,7 @@ class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
 
     @Override
     public DeploymentBuilder addString(string resourceName, string text) {
-        if (text == null) {
+        if (text is null) {
             throw new FlowableIllegalArgumentException("text is null");
         }
         ResourceEntity resource = resourceEntityManager.create();
@@ -101,7 +101,7 @@ class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
 
     @Override
     public DeploymentBuilder addBytes(string resourceName, byte[] bytes) {
-        if (bytes == null) {
+        if (bytes is null) {
             throw new FlowableIllegalArgumentException("bytes is null");
         }
         ResourceEntity resource = resourceEntityManager.create();
@@ -116,7 +116,7 @@ class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
     public DeploymentBuilder addZipInputStream(ZipInputStream zipInputStream) {
         try {
             ZipEntry entry = zipInputStream.getNextEntry();
-            while (entry != null) {
+            while (entry !is null) {
                 if (!entry.isDirectory()) {
                     string entryName = entry.getName();
                     byte[] bytes = IoUtil.readInputStream(zipInputStream, entryName);

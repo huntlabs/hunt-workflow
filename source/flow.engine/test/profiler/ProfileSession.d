@@ -78,7 +78,7 @@ class ProfileSession {
     public void setEndTime(Date endTimeStamp) {
         this.endTime = endTimeStamp;
 
-        if (startTime != null) {
+        if (startTime !is null) {
             this.totalTime = this.endTime.getTime() - this.startTime.getTime();
         }
     }

@@ -70,17 +70,17 @@
 //    public string toString() {
 //        StringBuilder strb = new StringBuilder();
 //        strb.append(getExecutionEntity().getId());
-//        if (getExecutionEntity().getActivityId() != null) {
+//        if (getExecutionEntity().getActivityId() !is null) {
 //            strb.append(" : ").append(getExecutionEntity().getActivityId());
 //        }
-//        if (getExecutionEntity().getParentId() != null) {
+//        if (getExecutionEntity().getParentId() !is null) {
 //            strb.append(", parent id ").append(getExecutionEntity().getParentId());
 //        }
 //        if (getExecutionEntity().isProcessInstanceType()) {
 //            strb.append(" (process instance)");
 //        }
 //        strb.append(System.lineSeparator());
-//        if (children != null) {
+//        if (children !is null) {
 //            for (ExecutionTreeNode childNode : children) {
 //                childNode.internalToString(strb, "", true);
 //            }
@@ -97,7 +97,7 @@
 //                .append(getExecutionEntity().isMultiInstanceRoot() ? " (multi instance root)" : "")
 //                .append(getExecutionEntity().isEnded() ? " (ended)" : "")
 //                .append(System.lineSeparator());
-//        if (children != null) {
+//        if (children !is null) {
 //            for (int i = 0; i < children.size() - 1; i++) {
 //                children.get(i).internalToString(strb, prefix + (isTail ? "    " : "│   "), false);
 //            }
@@ -112,7 +112,7 @@
 //        if (flowElement instanceof SequenceFlow) {
 //            SequenceFlow sequenceFlow = (SequenceFlow) flowElement;
 //            return sequenceFlow.getSourceRef() + " -> " + sequenceFlow.getTargetRef();
-//        } else if (flowElement != null) {
+//        } else if (flowElement !is null) {
 //            return flowElement.getId() + " (" + flowElement.getClass().getSimpleName();
 //        } else {
 //            return "";

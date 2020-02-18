@@ -15,7 +15,7 @@
 
 import java.util.Date;
 
-import org.flowable.common.engine.api.history.HistoricData;
+import flow.common.api.history.HistoricData;
 
 /**
  * A single process variable containing the last value when its process instance has finished.
@@ -24,7 +24,7 @@ import org.flowable.common.engine.api.history.HistoricData;
  * @author ruecker
  * @author Joram Barrez
  */
-public interface HistoricVariableInstance extends HistoricData {
+interface HistoricVariableInstance extends HistoricData {
 
     /** The unique DB id */
     string getId();

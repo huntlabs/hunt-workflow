@@ -49,14 +49,14 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
         // find cancel boundary event:
         ExecutionEntity parentScopeExecution = null;
         ExecutionEntity currentlyExaminedExecution = executionEntityManager.findById(executionEntity.getParentId());
-        while (currentlyExaminedExecution != null && parentScopeExecution == null) {
+        while (currentlyExaminedExecution !is null && parentScopeExecution is null) {
             if (currentlyExaminedExecution.getCurrentFlowElement() instanceof SubProcess) {
                 parentScopeExecution = currentlyExaminedExecution;
                 SubProcess subProcess = (SubProcess) currentlyExaminedExecution.getCurrentFlowElement();
-                if (subProcess.getLoopCharacteristics() != null) {
+                if (subProcess.getLoopCharacteristics() !is null) {
                     ExecutionEntity miExecution = parentScopeExecution.getParent();
                     FlowElement miElement = miExecution.getCurrentFlowElement();
-                    if (miElement != null && miElement.getId().equals(subProcess.getId())) {
+                    if (miElement !is null && miElement.getId().equals(subProcess.getId())) {
                         parentScopeExecution = miExecution;
                     }
                 }
@@ -66,7 +66,7 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
             }
         }
 
-        if (parentScopeExecution == null) {
+        if (parentScopeExecution is null) {
             throw new FlowableException("No sub process execution found for cancel end event " + executionEntity.getCurrentActivityId());
         }
 
@@ -83,13 +83,13 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
             }
         }
 
-        if (cancelBoundaryEvent == null) {
+        if (cancelBoundaryEvent is null) {
             throw new FlowableException("Could not find cancel boundary event for cancel end event " + executionEntity.getCurrentActivityId());
         }
 
         ExecutionEntity newParentScopeExecution = null;
         currentlyExaminedExecution = executionEntityManager.findById(parentScopeExecution.getParentId());
-        while (currentlyExaminedExecution != null && newParentScopeExecution == null) {
+        while (currentlyExaminedExecution !is null && newParentScopeExecution is null) {
             if (currentlyExaminedExecution.isScope()) {
                 newParentScopeExecution = currentlyExaminedExecution;
             } else {
@@ -97,13 +97,13 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
             }
         }
 
-        if (newParentScopeExecution == null) {
+        if (newParentScopeExecution is null) {
             throw new FlowableException("Programmatic error: no parent scope execution found for boundary event " + cancelBoundaryEvent.getId());
         }
 
         ScopeUtil.createCopyOfSubProcessExecutionForCompensation(parentScopeExecution);
 
-        if (subProcess.getLoopCharacteristics() != null) {
+        if (subProcess.getLoopCharacteristics() !is null) {
             List<? extends ExecutionEntity> multiInstanceExecutions = parentScopeExecution.getExecutions();
             List<ExecutionEntity> executionsToDelete = new ArrayList<>();
             for (ExecutionEntity multiInstanceExecution : multiInstanceExecutions) {

@@ -47,7 +47,7 @@ class TaskPropertyChangedHistoryJsonTransformer extends AbstractNeedsTaskHistory
             HistoricTaskInstanceEntity historicTaskInstance = CommandContextUtil.getHistoricTaskService().getHistoricTask(taskId);
 
             Date lastUpdateTime = getDateFromJson(historicalData, HistoryJsonConstants.TIMESTAMP);
-            if (historicTaskInstance.getLastUpdateTime() == null || !historicTaskInstance.getLastUpdateTime().after(lastUpdateTime)) {
+            if (historicTaskInstance.getLastUpdateTime() is null || !historicTaskInstance.getLastUpdateTime().after(lastUpdateTime)) {
                 historicTaskInstance.setName(getStringFromJson(historicalData, HistoryJsonConstants.NAME));
                 historicTaskInstance.setDescription(getStringFromJson(historicalData, HistoryJsonConstants.DESCRIPTION));
                 historicTaskInstance.setAssignee(getStringFromJson(historicalData, HistoryJsonConstants.ASSIGNEE));

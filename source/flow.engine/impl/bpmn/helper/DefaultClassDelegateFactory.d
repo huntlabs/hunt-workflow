@@ -15,7 +15,7 @@
 import java.util.List;
 
 import org.flowable.bpmn.model.MapExceptionEntry;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 
 class DefaultClassDelegateFactory implements ClassDelegateFactory {

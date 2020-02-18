@@ -53,7 +53,7 @@ class FlowableVersion {
         return mainVersion;
     }
 
-    public boolean matches(string version) {
+    public bool matches(string version) {
         if (version.equals(mainVersion)) {
             return true;
         } else if (!alternativeVersionStrings.isEmpty()) {
@@ -66,25 +66,25 @@ class FlowableVersion {
     @Override
     public int hashCode() {
         int result = 0;
-        result = 31 * result + (mainVersion != null ? mainVersion.hashCode() : 0);
-        result = 31 * result + (alternativeVersionStrings != null ? alternativeVersionStrings.hashCode() : 0);
+        result = 31 * result + (mainVersion !is null ? mainVersion.hashCode() : 0);
+        result = 31 * result + (alternativeVersionStrings !is null ? alternativeVersionStrings.hashCode() : 0);
         return result;
     }
     
     @Override
-    public boolean equals(Object obj) {
+    public bool equals(Object obj) {
         if (!(obj instanceof FlowableVersion)) {
             return false;
         }
         FlowableVersion other = (FlowableVersion) obj;
-        boolean mainVersionEqual = mainVersion.equals(other.mainVersion);
+        bool mainVersionEqual = mainVersion.equals(other.mainVersion);
         if (!mainVersionEqual) {
             return false;
         } else {
-            if (alternativeVersionStrings != null) {
+            if (alternativeVersionStrings !is null) {
                 return alternativeVersionStrings.equals(other.alternativeVersionStrings);
             } else {
-                return other.alternativeVersionStrings == null;
+                return other.alternativeVersionStrings is null;
             }
         }
     }

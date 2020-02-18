@@ -16,22 +16,20 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.event.FlowableEvent;
+module flow.common.api.deleg.event.FlowableExceptionEvent;
  
  
  
 
 /**
- * Describes an event that occurred in the Flowable Engine which is dispatched to external listeners, if any.
+ * Indicates the {@link FlowableEvent} also contains information about a {@link Throwable} that occurred, triggering the event.
  * 
- * @author Frederik Heremans
- * 
+ * @author Frederik heremans
  */
-interface FlowableEvent {
+interface FlowableExceptionEvent {
 
     /**
-     * @return type of event.
+     * @return the throwable that caused this event to be dispatched.
      */
-    FlowableEventType getType();
-
+    Throwable getCause();
 }

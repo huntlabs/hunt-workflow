@@ -26,7 +26,7 @@ class ExecutionsWithSameRootProcessInstanceIdMatcher implements CachedEntityMatc
     @Override
     public bool isRetained(Collection<ExecutionEntity> databaseEntities, Collection<CachedEntity> cachedEntities, ExecutionEntity entity, Object param) {
         ExecutionEntity executionEntity = getMatchingExecution(databaseEntities, cachedEntities, (string) param);
-        return (executionEntity.getRootProcessInstanceId() != null
+        return (executionEntity.getRootProcessInstanceId() !is null
                 && executionEntity.getRootProcessInstanceId().equals(entity.getRootProcessInstanceId()));
     }
 
@@ -35,7 +35,7 @@ class ExecutionsWithSameRootProcessInstanceIdMatcher implements CachedEntityMatc
         // Doing some preprocessing here: we need to find the execution that matches the provided execution id,
         // as we need to match the root process instance id later on.
 
-        if (cachedEntities != null) {
+        if (cachedEntities !is null) {
             for (CachedEntity cachedEntity : cachedEntities) {
                 ExecutionEntity executionEntity = (ExecutionEntity) cachedEntity.getEntity();
                 if (executionId.equals(executionEntity.getId())) {
@@ -44,7 +44,7 @@ class ExecutionsWithSameRootProcessInstanceIdMatcher implements CachedEntityMatc
             }
         }
 
-        if (databaseEntities != null) {
+        if (databaseEntities !is null) {
             for (ExecutionEntity databaseExecutionEntity : databaseEntities) {
                 if (executionId.equals(databaseExecutionEntity.getId())) {
                     return databaseExecutionEntity;

@@ -80,7 +80,7 @@ class IOSpecification {
     }
 
     public string getFirstDataOutputName() {
-        if (this.dataOutputs != null && !this.dataOutputs.isEmpty()) {
+        if (this.dataOutputs !is null && !this.dataOutputs.isEmpty()) {
             return this.dataOutputs.get(0).getName();
         } else {
             return null;

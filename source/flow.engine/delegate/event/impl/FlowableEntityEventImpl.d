@@ -23,9 +23,9 @@ module flow.engine.delegate.event.impl.FlowableEntityEventImpl;
 
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEntityEvent;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEngineEntityEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEvent;
 
 /**
  * Base class for all {@link FlowableEvent} implementations, related to entities.
@@ -38,7 +38,7 @@ class FlowableEntityEventImpl : FlowableProcessEventImpl , FlowableEngineEntityE
 
     this(Object entity, FlowableEngineEventType type) {
         super(type);
-        if (entity == null) {
+        if (entity is null) {
             throw new FlowableIllegalArgumentException("Entity cannot be null.");
         }
         this.entity = entity;

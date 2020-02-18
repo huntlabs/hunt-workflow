@@ -40,7 +40,7 @@ class GetJobExceptionStacktraceCmd implements Command<string>, Serializable {
 
     @Override
     public string execute(CommandContext commandContext) {
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
 
@@ -60,7 +60,7 @@ class GetJobExceptionStacktraceCmd implements Command<string>, Serializable {
             break;
         }
 
-        if (job == null) {
+        if (job is null) {
             throw new FlowableObjectNotFoundException("No job found with id " + jobId, Job.class);
         }
 

@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.db.AbstractDataManager;
+import flow.common.db.AbstractDataManager;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
@@ -78,7 +78,7 @@ class MybatisHistoricTaskInstanceDataManager extends AbstractDataManager<Histori
         int maxResults = historicTaskInstanceQuery.getMaxResults();
 
         // setting max results, limit to 20000 results for performance reasons
-        if (historicTaskInstanceQuery.getTaskVariablesLimit() != null) {
+        if (historicTaskInstanceQuery.getTaskVariablesLimit() !is null) {
             historicTaskInstanceQuery.setMaxResults(historicTaskInstanceQuery.getTaskVariablesLimit());
         } else {
             historicTaskInstanceQuery.setMaxResults(CommandContextUtil.getTaskServiceConfiguration().getHistoricTaskQueryLimit());
@@ -88,7 +88,7 @@ class MybatisHistoricTaskInstanceDataManager extends AbstractDataManager<Histori
         List<HistoricTaskInstance> instanceList = getDbSqlSession().selectListWithRawParameterNoCacheLoadAndStore(
                         "selectHistoricTaskInstancesWithRelatedEntitiesByQueryCriteria", historicTaskInstanceQuery, getManagedEntityClass());
 
-        if (instanceList != null && !instanceList.isEmpty()) {
+        if (instanceList !is null && !instanceList.isEmpty()) {
             if (firstResult > 0) {
                 if (firstResult <= instanceList.size()) {
                     int toIndex = firstResult + Math.min(maxResults, instanceList.size() - firstResult);

@@ -55,9 +55,9 @@ class SubProcess extends Activity implements FlowElementsContainer {
 
     @Override
     public void addFlowElementToMap(FlowElement element) {
-        if (element != null && StringUtils.isNotEmpty(element.getId())) {
+        if (element !is null && StringUtils.isNotEmpty(element.getId())) {
             flowElementMap.put(element.getId(), element);
-            if (getParentContainer() != null) {
+            if (getParentContainer() !is null) {
                 getParentContainer().addFlowElementToMap(element);
             }
         }
@@ -66,10 +66,10 @@ class SubProcess extends Activity implements FlowElementsContainer {
     @Override
     public void removeFlowElement(string elementId) {
         FlowElement element = getFlowElement(elementId);
-        if (element != null) {
+        if (element !is null) {
             flowElementList.remove(element);
             flowElementMap.remove(elementId);
-            if (element.getParentContainer() != null) {
+            if (element.getParentContainer() !is null) {
                 element.getParentContainer().removeFlowElementFromMap(elementId);
             }
         }
@@ -91,7 +91,7 @@ class SubProcess extends Activity implements FlowElementsContainer {
         this.flowElementMap = flowElementMap;
     }
 
-    public boolean containsFlowElementId(string id) {
+    public bool containsFlowElementId(string id) {
         return flowElementMap.containsKey(id);
     }
 
@@ -134,7 +134,7 @@ class SubProcess extends Activity implements FlowElementsContainer {
     @Override
     public void removeArtifact(string artifactId) {
         Artifact artifact = getArtifact(artifactId);
-        if (artifact != null) {
+        if (artifact !is null) {
             artifactList.remove(artifact);
         }
     }
@@ -155,7 +155,7 @@ class SubProcess extends Activity implements FlowElementsContainer {
          * Determine the differences between the 2 elements' data object
          */
         for (ValuedDataObject thisObject : getDataObjects()) {
-            boolean exists = false;
+            bool exists = false;
             for (ValuedDataObject otherObject : otherElement.getDataObjects()) {
                 if (thisObject.getId().equals(otherObject.getId())) {
                     exists = true;
@@ -169,7 +169,7 @@ class SubProcess extends Activity implements FlowElementsContainer {
         }
 
         dataObjects = new ArrayList<>();
-        if (otherElement.getDataObjects() != null && !otherElement.getDataObjects().isEmpty()) {
+        if (otherElement.getDataObjects() !is null && !otherElement.getDataObjects().isEmpty()) {
             for (ValuedDataObject dataObject : otherElement.getDataObjects()) {
                 ValuedDataObject clone = dataObject.clone();
                 dataObjects.add(clone);

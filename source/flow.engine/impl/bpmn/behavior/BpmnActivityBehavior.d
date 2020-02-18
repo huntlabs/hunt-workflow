@@ -17,8 +17,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
@@ -52,10 +52,10 @@ class BpmnActivityBehavior implements Serializable {
      * @param activityExecution
      */
     protected void dispatchJobCanceledEvents(ExecutionEntity activityExecution) {
-        if (activityExecution != null) {
+        if (activityExecution !is null) {
             List<JobEntity> jobs = activityExecution.getJobs();
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 for (JobEntity job : jobs) {
                     eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
                 }

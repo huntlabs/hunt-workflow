@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.common.engine.api.delegate.event.FlowableEventType;
+import flow.common.api.deleg.event.FlowableEventType;
 
 /**
  * @author martin.grofcik

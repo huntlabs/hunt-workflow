@@ -56,7 +56,7 @@ class IntermediateThrowEventParseHandler extends AbstractActivityBpmnParseHandle
             CompensateEventDefinition compensateEventDefinition = (CompensateEventDefinition) eventDefinition;
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowCompensationEventActivityBehavior(intermediateEvent, compensateEventDefinition));
 
-        } else if (eventDefinition == null) {
+        } else if (eventDefinition is null) {
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowNoneEventActivityBehavior(intermediateEvent));
         } else {
             LOGGER.warn("Unsupported intermediate throw event type for throw event {}", intermediateEvent.getId());

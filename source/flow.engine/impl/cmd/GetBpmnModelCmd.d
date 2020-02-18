@@ -35,7 +35,7 @@ class GetBpmnModelCmd implements Command<BpmnModel>, Serializable {
 
     @Override
     public BpmnModel execute(CommandContext commandContext) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("processDefinitionId is null");
         }
 

@@ -20,14 +20,14 @@ class MapExceptionEntry {
 
     protected string errorCode;
     protected string className;
-    protected boolean andChildren;
+    protected bool andChildren;
     protected string rootCause;
 
     public MapExceptionEntry(){
         
     }
 
-    public MapExceptionEntry(string errorCode, string className, boolean andChildren, string rootCause) {
+    public MapExceptionEntry(string errorCode, string className, bool andChildren, string rootCause) {
         this.errorCode = errorCode;
         this.className = className;
         this.andChildren = andChildren;
@@ -50,11 +50,11 @@ class MapExceptionEntry {
         this.className = className;
     }
 
-    public boolean isAndChildren() {
+    public bool isAndChildren() {
         return andChildren;
     }
 
-    public void setAndChildren(boolean andChildren) {
+    public void setAndChildren(bool andChildren) {
         this.andChildren = andChildren;
     }
 

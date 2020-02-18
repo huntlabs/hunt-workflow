@@ -32,7 +32,7 @@ class DeleteHistoricActivityInstancesCmd implements Command<Object>, Serializabl
 
     @Override
     public Object execute(CommandContext commandContext) {
-        if (historicActivityInstanceQuery == null) {
+        if (historicActivityInstanceQuery is null) {
             throw new FlowableIllegalArgumentException("query is null");
         }
         

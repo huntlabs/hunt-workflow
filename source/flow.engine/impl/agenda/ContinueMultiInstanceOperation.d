@@ -15,8 +15,8 @@
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.FlowNode;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.common.util.CollectionUtil;
 import flow.engine.delegate.BpmnError;
@@ -87,10 +87,10 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FlowableEventDispatcher eventDispatcher = null;
-        if (processEngineConfiguration != null) {
+        if (processEngineConfiguration !is null) {
             eventDispatcher = processEngineConfiguration.getEventDispatcher();
         }
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             processEngineConfiguration.getEventDispatcher().dispatchEvent(
                     FlowableEventBuilder.createActivityEvent(FlowableEngineEventType.ACTIVITY_STARTED, flowNode.getId(), flowNode.getName(), execution.getId(),
                             execution.getProcessInstanceId(), execution.getProcessDefinitionId(), flowNode));
@@ -121,7 +121,7 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
         job.setJobHandlerType(AsyncContinuationJobHandler.TYPE);
 
         // Inherit tenant id (if applicable)
-        if (execution.getTenantId() != null) {
+        if (execution.getTenantId() !is null) {
             job.setTenantId(execution.getTenantId());
         }
         

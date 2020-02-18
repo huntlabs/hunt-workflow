@@ -77,14 +77,14 @@ class ChangeDeploymentTenantIdCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (deploymentId == null) {
+        if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");
         }
 
         // Update all entities
 
         DeploymentEntity deployment = CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId);
-        if (deployment == null) {
+        if (deployment is null) {
             throw new FlowableObjectNotFoundException("Could not find deployment with id " + deploymentId, Deployment.class);
         }
 

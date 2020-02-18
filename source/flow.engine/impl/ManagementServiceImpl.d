@@ -334,7 +334,7 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
 
     @Override
     public <T> T executeCommand(Command<T> command) {
-        if (command == null) {
+        if (command is null) {
             throw new FlowableIllegalArgumentException("The command is null");
         }
         return commandExecutor.execute(command);
@@ -342,10 +342,10 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
 
     @Override
     public <T> T executeCommand(CommandConfig config, Command<T> command) {
-        if (config == null) {
+        if (config is null) {
             throw new FlowableIllegalArgumentException("The config is null");
         }
-        if (command == null) {
+        if (command is null) {
             throw new FlowableIllegalArgumentException("The command is null");
         }
         return commandExecutor.execute(config, command);

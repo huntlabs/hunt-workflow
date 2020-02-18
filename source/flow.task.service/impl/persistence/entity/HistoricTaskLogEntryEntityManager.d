@@ -15,7 +15,7 @@
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.persistence.entity.EntityManager;
+import flow.common.persistence.entity.EntityManager;
 import org.flowable.task.api.history.HistoricTaskLogEntry;
 import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
 import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
@@ -23,7 +23,7 @@ import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
 /**
  * @author martin.grofcik
  */
-public interface HistoricTaskLogEntryEntityManager extends EntityManager<HistoricTaskLogEntryEntity> {
+interface HistoricTaskLogEntryEntityManager extends EntityManager<HistoricTaskLogEntryEntity> {
 
     void deleteHistoricTaskLogEntry(long logNr);
 

@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.common.engine.impl.interceptor.CommandExecutor;
+import flow.common.interceptor.CommandExecutor;
 import org.flowable.identitylink.api.IdentityLinkInfo;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskBuilder;

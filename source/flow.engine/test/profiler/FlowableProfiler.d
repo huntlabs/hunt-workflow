@@ -57,7 +57,7 @@ class FlowableProfiler implements EngineConfigurator {
     }
 
     public void reset() {
-        if (currentProfileSession != null) {
+        if (currentProfileSession !is null) {
             stopCurrentProfileSession();
         }
         this.currentProfileSession = null;

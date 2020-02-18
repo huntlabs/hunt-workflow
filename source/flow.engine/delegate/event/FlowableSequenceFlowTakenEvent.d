@@ -21,7 +21,7 @@ module flow.engine.delegate.FlowableSequenceFlowTakenEvent;
  
  
 
-import flow.common.api.delegate.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEngineEvent;
 
 /**
  * An {@link FlowableEvent} that indicates a certain sequence flow has been taken.

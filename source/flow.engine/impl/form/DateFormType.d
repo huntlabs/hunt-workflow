@@ -63,7 +63,7 @@ class DateFormType extends AbstractFormType {
 
     @Override
     public string convertModelValueToFormValue(Object modelValue) {
-        if (modelValue == null) {
+        if (modelValue is null) {
             return null;
         }
         return dateFormat.format(modelValue);

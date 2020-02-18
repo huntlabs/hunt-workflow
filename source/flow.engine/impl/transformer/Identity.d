@@ -22,7 +22,7 @@ class Identity extends AbstractTransformer {
     private static Identity instance = new Identity();
 
     public static synchronized Identity getInstance() {
-        if (instance == null) {
+        if (instance is null) {
             instance = new Identity();
         }
         return instance;

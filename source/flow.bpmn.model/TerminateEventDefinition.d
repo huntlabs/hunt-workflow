@@ -23,7 +23,7 @@ class TerminateEventDefinition extends EventDefinition {
      * 
      * By default false (BPMN spec compliant): the parent scope is terminated (subprocess: embedded or call activity)
      */
-    protected boolean terminateAll;
+    protected bool terminateAll;
 
     /**
      * When true (and used within a multi instance), this event will terminate all multi instance instances of the embedded subprocess/call activity this event is used in.
@@ -33,7 +33,7 @@ class TerminateEventDefinition extends EventDefinition {
      * 
      * Note: if terminate all is set to true, this will have precedence over this.
      */
-    protected boolean terminateMultiInstance;
+    protected bool terminateMultiInstance;
 
     @Override
     public TerminateEventDefinition clone() {
@@ -48,19 +48,19 @@ class TerminateEventDefinition extends EventDefinition {
         this.terminateMultiInstance = otherDefinition.isTerminateMultiInstance();
     }
 
-    public boolean isTerminateAll() {
+    public bool isTerminateAll() {
         return terminateAll;
     }
 
-    public void setTerminateAll(boolean terminateAll) {
+    public void setTerminateAll(bool terminateAll) {
         this.terminateAll = terminateAll;
     }
 
-    public boolean isTerminateMultiInstance() {
+    public bool isTerminateMultiInstance() {
         return terminateMultiInstance;
     }
 
-    public void setTerminateMultiInstance(boolean terminateMultiInstance) {
+    public void setTerminateMultiInstance(bool terminateMultiInstance) {
         this.terminateMultiInstance = terminateMultiInstance;
     }
 

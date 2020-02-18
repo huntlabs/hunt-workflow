@@ -69,14 +69,14 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
         this.startActivityId = processInstance.getStartActivityId();
         this.startTime = processInstance.getStartTime();
         this.startUserId = processInstance.getStartUserId();
-        this.superProcessInstanceId = processInstance.getSuperExecution() != null ? processInstance.getSuperExecution().getProcessInstanceId() : null;
+        this.superProcessInstanceId = processInstance.getSuperExecution() !is null ? processInstance.getSuperExecution().getProcessInstanceId() : null;
         this.callbackId = processInstance.getCallbackId();
         this.callbackType = processInstance.getCallbackType();
         this.referenceId = processInstance.getReferenceId();
         this.referenceType = processInstance.getReferenceType();
 
         // Inherit tenant id (if applicable)
-        if (processInstance.getTenantId() != null) {
+        if (processInstance.getTenantId() !is null) {
             this.tenantId = processInstance.getTenantId();
         }
     }
@@ -168,7 +168,7 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
 
     @Override
     public string getName() {
-        if (localizedName != null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length() > 0) {
             return localizedName;
         } else {
             return name;
@@ -191,7 +191,7 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
 
     @Override
     public string getDescription() {
-        if (localizedDescription != null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length() > 0) {
             return localizedDescription;
         } else {
             return description;
@@ -295,9 +295,9 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
     @Override
     public Map<string, Object> getProcessVariables() {
         Map<string, Object> variables = new HashMap<>();
-        if (queryVariables != null) {
+        if (queryVariables !is null) {
             for (HistoricVariableInstanceEntity variableInstance : queryVariables) {
-                if (variableInstance.getId() != null && variableInstance.getTaskId() == null) {
+                if (variableInstance.getId() !is null && variableInstance.getTaskId() is null) {
                     variables.put(variableInstance.getName(), variableInstance.getValue());
                 }
             }
@@ -307,7 +307,7 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
 
     @Override
     public List<HistoricVariableInstanceEntity> getQueryVariables() {
-        if (queryVariables == null && Context.getCommandContext() != null) {
+        if (queryVariables is null && Context.getCommandContext() !is null) {
             queryVariables = new HistoricVariableInitializingList();
         }
         return queryVariables;

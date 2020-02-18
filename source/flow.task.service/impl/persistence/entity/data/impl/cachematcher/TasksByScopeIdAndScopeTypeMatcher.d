@@ -14,7 +14,7 @@
 
 import java.util.Map;
 
-import org.flowable.common.engine.impl.persistence.cache.CachedEntityMatcherAdapter;
+import flow.common.persistence.cache.CachedEntityMatcherAdapter;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**
@@ -24,11 +24,11 @@ class TasksByScopeIdAndScopeTypeMatcher extends CachedEntityMatcherAdapter<TaskE
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean isRetained(TaskEntity taskEntity, Object parameter) {
+    public bool isRetained(TaskEntity taskEntity, Object parameter) {
         string scopeId = ((Map<string, string>) parameter).get("scopeId");
         string scopeType = ((Map<string, string>) parameter).get("scopeType");
-        return taskEntity.getScopeId() != null && taskEntity.getScopeId().equals(scopeId)
-                && taskEntity.getScopeType() != null && taskEntity.getScopeType().equals(scopeType);
+        return taskEntity.getScopeId() !is null && taskEntity.getScopeId().equals(scopeId)
+                && taskEntity.getScopeType() !is null && taskEntity.getScopeType().equals(scopeType);
     }
 
 }

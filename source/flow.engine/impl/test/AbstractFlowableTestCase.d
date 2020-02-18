@@ -131,10 +131,10 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                 List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
                         .processInstanceId(processInstanceId).list();
                 
-                if (historicTaskInstances != null && historicTaskInstances.size() > 0) {
+                if (historicTaskInstances !is null && historicTaskInstances.size() > 0) {
                     for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
                         assertEquals(processInstanceId, historicTaskInstance.getProcessInstanceId());
-                        if (historicTaskInstance.getClaimTime() != null) {
+                        if (historicTaskInstance.getClaimTime() !is null) {
                             assertNotNull("Historic task " + historicTaskInstance.getTaskDefinitionKey() + " has no work time", historicTaskInstance.getWorkTimeInMillis());
                         }
                         assertNotNull("Historic task " + historicTaskInstance.getTaskDefinitionKey() + " has no id", historicTaskInstance.getId());
@@ -151,7 +151,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                 // activities
                 List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
                         .processInstanceId(processInstanceId).list();
-                if (historicActivityInstances != null && historicActivityInstances.size() > 0) {
+                if (historicActivityInstances !is null && historicActivityInstances.size() > 0) {
                     for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
                         assertEquals(processInstanceId, historicActivityInstance.getProcessInstanceId());
                         assertNotNull("Historic activity instance " + historicActivityInstance.getId() + " / " + historicActivityInstance.getActivityId() + " has no activity id", historicActivityInstance.getActivityId());
@@ -161,7 +161,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                         assertNotNull("Historic activity instance " + historicActivityInstance.getId() + " / " + historicActivityInstance.getActivityId() + " has no execution id", historicActivityInstance.getExecutionId());
                         assertNotNull("Historic activity instance " + historicActivityInstance.getId() + " / " + historicActivityInstance.getActivityId() + " has no start time", historicActivityInstance.getStartTime());
                         assertNotNull("Historic activity instance " + historicActivityInstance.getId() + " / " + historicActivityInstance.getActivityId() + " has no end time", historicActivityInstance.getEndTime());
-                        if (historicProcessInstance.getEndTime() == null) {
+                        if (historicProcessInstance.getEndTime() is null) {
                             assertActivityInstancesAreSame(historicActivityInstance,
                                 processEngine.getRuntimeService().createActivityInstanceQuery().activityInstanceId(historicActivityInstance.getId()).singleResult()
                             );
@@ -180,7 +180,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     public void assertProcessEnded(final string processInstanceId, long timeout) {
         ProcessInstance processInstance = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 
-        if (processInstance != null) {
+        if (processInstance !is null) {
             throw new AssertionError("Expected finished process instance '" + processInstanceId + "' but it was still in the db");
         }
 
@@ -197,7 +197,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
             // tasks
             List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
                     .processInstanceId(processInstanceId).list();
-            if (historicTaskInstances != null && historicTaskInstances.size() > 0) {
+            if (historicTaskInstances !is null && historicTaskInstances.size() > 0) {
                 for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
                     assertEquals(processInstanceId, historicTaskInstance.getProcessInstanceId());
                     assertNotNull("Historic task " + historicTaskInstance.getTaskDefinitionKey() + " has no start time", historicTaskInstance.getStartTime());
@@ -208,7 +208,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
             // activities
             List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
                     .processInstanceId(processInstanceId).list();
-            if (historicActivityInstances != null && historicActivityInstances.size() > 0) {
+            if (historicActivityInstances !is null && historicActivityInstances.size() > 0) {
                 for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
                     assertEquals(processInstanceId, historicActivityInstance.getProcessInstanceId());
                     assertNotNull(historicActivityInstance.getId() + " Historic activity instance '" + historicActivityInstance.getActivityId() +"' has no start time", historicActivityInstance.getStartTime());
@@ -432,7 +432,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                 assertTrue(historicTaskInstances.size() > 0);
                 for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
                     assertNotNull(historicTaskInstance.getEndTime());
-                    if (expectedDeleteReason == null) {
+                    if (expectedDeleteReason is null) {
                         assertNull(historicTaskInstance.getDeleteReason());
                     } else {
                         assertTrue(historicTaskInstance.getDeleteReason().startsWith(expectedDeleteReason));
@@ -450,7 +450,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                 assertTrue("Could not find historic activities", historicActivityInstances.size() > 0);
                 for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
                     assertNotNull(historicActivityInstance.getEndTime());
-                    if (expectedDeleteReason == null) {
+                    if (expectedDeleteReason is null) {
                         assertNull(historicActivityInstance.getDeleteReason());
                     } else {
                         assertTrue(historicActivityInstance.getDeleteReason().startsWith(expectedDeleteReason));

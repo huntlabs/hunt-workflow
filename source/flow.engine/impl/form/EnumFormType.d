@@ -52,7 +52,7 @@ class EnumFormType extends AbstractFormType {
 
     @Override
     public string convertModelValueToFormValue(Object modelValue) {
-        if (modelValue != null) {
+        if (modelValue !is null) {
             if (!(modelValue instanceof string)) {
                 throw new FlowableIllegalArgumentException("Model value should be a string");
             }
@@ -62,8 +62,8 @@ class EnumFormType extends AbstractFormType {
     }
 
     protected void validateValue(string value) {
-        if (value != null) {
-            if (values != null && !values.containsKey(value)) {
+        if (value !is null) {
+            if (values !is null && !values.containsKey(value)) {
                 throw new FlowableIllegalArgumentException("Invalid value for enum form property: " + value);
             }
         }

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
 import flow.engine.form.AbstractFormType;
 import flow.engine.form.FormProperty;

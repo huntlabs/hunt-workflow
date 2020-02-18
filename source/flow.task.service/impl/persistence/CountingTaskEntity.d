@@ -12,10 +12,10 @@
  */
 
 
-public interface CountingTaskEntity {
+interface CountingTaskEntity {
 
-    boolean isCountEnabled();
-    void setCountEnabled(boolean isCountEnabled);
+    bool isCountEnabled();
+    void setCountEnabled(bool isCountEnabled);
 
     void setVariableCount(int variableCount);
     int getVariableCount();

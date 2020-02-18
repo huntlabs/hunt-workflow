@@ -40,7 +40,7 @@ class TimerManager {
     protected void removeObsoleteTimers(ProcessDefinitionEntity processDefinition) {
         List<TimerJobEntity> jobsToDelete = null;
 
-        if (processDefinition.getTenantId() != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
+        if (processDefinition.getTenantId() !is null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
             jobsToDelete = CommandContextUtil.getTimerJobService().findJobsByTypeAndProcessDefinitionKeyAndTenantId(
                     TimerStartEventJobHandler.TYPE, processDefinition.getKey(), processDefinition.getTenantId());
         } else {
@@ -48,7 +48,7 @@ class TimerManager {
                     .findJobsByTypeAndProcessDefinitionKeyNoTenantId(TimerStartEventJobHandler.TYPE, processDefinition.getKey());
         }
 
-        if (jobsToDelete != null) {
+        if (jobsToDelete !is null) {
             for (TimerJobEntity job : jobsToDelete) {
                 new CancelJobsCmd(job.getId()).execute(Context.getCommandContext());
             }
@@ -76,10 +76,10 @@ class TimerManager {
                             TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE,
                                     TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
 
-                            if (timerJob != null) {
+                            if (timerJob !is null) {
                                 timerJob.setProcessDefinitionId(processDefinition.getId());
 
-                                if (processDefinition.getTenantId() != null) {
+                                if (processDefinition.getTenantId() !is null) {
                                     timerJob.setTenantId(processDefinition.getTenantId());
                                 }
                                 timers.add(timerJob);

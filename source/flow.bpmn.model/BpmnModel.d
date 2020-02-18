@@ -59,7 +59,7 @@ class BpmnModel {
 
     public string getDefinitionsAttributeValue(string namespace, string name) {
         List<ExtensionAttribute> attributes = getDefinitionsAttributes().get(name);
-        if (attributes != null && !attributes.isEmpty()) {
+        if (attributes !is null && !attributes.isEmpty()) {
             for (ExtensionAttribute attribute : attributes) {
                 if (namespace.equals(attribute.getNamespace()))
                     return attribute.getValue();
@@ -69,7 +69,7 @@ class BpmnModel {
     }
 
     public void addDefinitionsAttribute(ExtensionAttribute attribute) {
-        if (attribute != null && StringUtils.isNotEmpty(attribute.getName())) {
+        if (attribute !is null && StringUtils.isNotEmpty(attribute.getName())) {
             List<ExtensionAttribute> attributeList = null;
             if (!this.definitionsAttributes.containsKey(attribute.getName())) {
                 attributeList = new ArrayList<>();
@@ -93,11 +93,11 @@ class BpmnModel {
 
     public Process getProcess(string poolRef) {
         for (Process process : processes) {
-            boolean foundPool = false;
+            bool foundPool = false;
             for (Pool pool : pools) {
                 if (StringUtils.isNotEmpty(pool.getProcessRef()) && pool.getProcessRef().equalsIgnoreCase(process.getId())) {
 
-                    if (poolRef != null) {
+                    if (poolRef !is null) {
                         if (pool.getId().equalsIgnoreCase(poolRef)) {
                             foundPool = true;
                         }
@@ -107,9 +107,9 @@ class BpmnModel {
                 }
             }
 
-            if (poolRef == null && !foundPool) {
+            if (poolRef is null && !foundPool) {
                 return process;
-            } else if (poolRef != null && foundPool) {
+            } else if (poolRef !is null && foundPool) {
                 return process;
             }
         }
@@ -157,7 +157,7 @@ class BpmnModel {
                         break;
                     }
                 }
-                if (foundLane != null) {
+                if (foundLane !is null) {
                     break;
                 }
             }
@@ -169,20 +169,20 @@ class BpmnModel {
         FlowElement foundFlowElement = null;
         for (Process process : processes) {
             foundFlowElement = process.getFlowElement(id);
-            if (foundFlowElement != null) {
+            if (foundFlowElement !is null) {
                 break;
             }
         }
 
-        if (foundFlowElement == null) {
+        if (foundFlowElement is null) {
             for (Process process : processes) {
                 for (FlowElement flowElement : process.findFlowElementsOfType(SubProcess.class)) {
                     foundFlowElement = getFlowElementInSubProcess(id, (SubProcess) flowElement);
-                    if (foundFlowElement != null) {
+                    if (foundFlowElement !is null) {
                         break;
                     }
                 }
-                if (foundFlowElement != null) {
+                if (foundFlowElement !is null) {
                     break;
                 }
             }
@@ -193,11 +193,11 @@ class BpmnModel {
 
     protected FlowElement getFlowElementInSubProcess(string id, SubProcess subProcess) {
         FlowElement foundFlowElement = subProcess.getFlowElement(id);
-        if (foundFlowElement == null) {
+        if (foundFlowElement is null) {
             for (FlowElement flowElement : subProcess.getFlowElements()) {
                 if (flowElement instanceof SubProcess) {
                     foundFlowElement = getFlowElementInSubProcess(id, (SubProcess) flowElement);
-                    if (foundFlowElement != null) {
+                    if (foundFlowElement !is null) {
                         break;
                     }
                 }
@@ -210,20 +210,20 @@ class BpmnModel {
         Artifact foundArtifact = null;
         for (Process process : processes) {
             foundArtifact = process.getArtifact(id);
-            if (foundArtifact != null) {
+            if (foundArtifact !is null) {
                 break;
             }
         }
 
-        if (foundArtifact == null) {
+        if (foundArtifact is null) {
             for (Process process : processes) {
                 for (FlowElement flowElement : process.findFlowElementsOfType(SubProcess.class)) {
                     foundArtifact = getArtifactInSubProcess(id, (SubProcess) flowElement);
-                    if (foundArtifact != null) {
+                    if (foundArtifact !is null) {
                         break;
                     }
                 }
-                if (foundArtifact != null) {
+                if (foundArtifact !is null) {
                     break;
                 }
             }
@@ -234,11 +234,11 @@ class BpmnModel {
 
     protected Artifact getArtifactInSubProcess(string id, SubProcess subProcess) {
         Artifact foundArtifact = subProcess.getArtifact(id);
-        if (foundArtifact == null) {
+        if (foundArtifact is null) {
             for (FlowElement flowElement : subProcess.getFlowElements()) {
                 if (flowElement instanceof SubProcess) {
                     foundArtifact = getArtifactInSubProcess(id, (SubProcess) flowElement);
-                    if (foundArtifact != null) {
+                    if (foundArtifact !is null) {
                         break;
                     }
                 }
@@ -300,20 +300,20 @@ class BpmnModel {
     }
 
     public void setResources(Collection<Resource> resourceList) {
-        if (resourceList != null) {
+        if (resourceList !is null) {
             resources.clear();
             resources.addAll(resourceList);
         }
     }
 
     public void addResource(Resource resource) {
-        if (resource != null) {
+        if (resource !is null) {
             resources.add(resource);
         }
     }
 
-    public boolean containsResourceId(string resourceId) {
-        return getResource(resourceId) != null;
+    public bool containsResourceId(string resourceId) {
+        return getResource(resourceId) !is null;
     }
 
     public Resource getResource(string id) {
@@ -330,20 +330,20 @@ class BpmnModel {
     }
 
     public void setSignals(Collection<Signal> signalList) {
-        if (signalList != null) {
+        if (signalList !is null) {
             signals.clear();
             signals.addAll(signalList);
         }
     }
 
     public void addSignal(Signal signal) {
-        if (signal != null) {
+        if (signal !is null) {
             signals.add(signal);
         }
     }
 
-    public boolean containsSignalId(string signalId) {
-        return getSignal(signalId) != null;
+    public bool containsSignalId(string signalId) {
+        return getSignal(signalId) !is null;
     }
 
     public Signal getSignal(string id) {
@@ -368,7 +368,7 @@ class BpmnModel {
     }
 
     public void addMessageFlow(MessageFlow messageFlow) {
-        if (messageFlow != null && StringUtils.isNotEmpty(messageFlow.getId())) {
+        if (messageFlow !is null && StringUtils.isNotEmpty(messageFlow.getId())) {
             messageFlowMap.put(messageFlow.getId(), messageFlow);
         }
     }
@@ -377,7 +377,7 @@ class BpmnModel {
         return messageFlowMap.get(id);
     }
 
-    public boolean containsMessageFlowId(string messageFlowId) {
+    public bool containsMessageFlowId(string messageFlowId) {
         return messageFlowMap.containsKey(messageFlowId);
     }
 
@@ -386,7 +386,7 @@ class BpmnModel {
     }
 
     public void setMessages(Collection<Message> messageList) {
-        if (messageList != null) {
+        if (messageList !is null) {
             messageMap.clear();
             for (Message message : messageList) {
                 addMessage(message);
@@ -395,14 +395,14 @@ class BpmnModel {
     }
 
     public void addMessage(Message message) {
-        if (message != null && StringUtils.isNotEmpty(message.getId())) {
+        if (message !is null && StringUtils.isNotEmpty(message.getId())) {
             messageMap.put(message.getId(), message);
         }
     }
 
     public Message getMessage(string id) {
         Message result = messageMap.get(id);
-        if (result == null) {
+        if (result is null) {
             int indexOfNS = id.indexOf(':');
             if (indexOfNS > 0) {
                 string idNamespace = id.substring(0, indexOfNS);
@@ -415,7 +415,7 @@ class BpmnModel {
         return result;
     }
 
-    public boolean containsMessageId(string messageId) {
+    public bool containsMessageId(string messageId) {
         return messageMap.containsKey(messageId);
     }
 
@@ -433,7 +433,7 @@ class BpmnModel {
         }
     }
 
-    public boolean containsErrorRef(string errorRef) {
+    public bool containsErrorRef(string errorRef) {
         return errorMap.containsKey(errorRef);
     }
     
@@ -457,7 +457,7 @@ class BpmnModel {
         }
     }
 
-    public boolean containsEscalationRef(string escalationRef) {
+    public bool containsEscalationRef(string escalationRef) {
         return escalationMap.containsKey(escalationRef);
     }
     
@@ -479,7 +479,7 @@ class BpmnModel {
         }
     }
 
-    public boolean containsItemDefinitionId(string id) {
+    public bool containsItemDefinitionId(string id) {
         return itemDefinitionMap.containsKey(id);
     }
 
@@ -505,7 +505,7 @@ class BpmnModel {
         }
     }
 
-    public boolean containsDataStore(string id) {
+    public bool containsDataStore(string id) {
         return dataStoreMap.containsKey(id);
     }
 
@@ -545,7 +545,7 @@ class BpmnModel {
         namespaceMap.put(prefix, uri);
     }
 
-    public boolean containsNamespacePrefix(string prefix) {
+    public bool containsNamespacePrefix(string prefix) {
         return namespaceMap.containsKey(prefix);
     }
 

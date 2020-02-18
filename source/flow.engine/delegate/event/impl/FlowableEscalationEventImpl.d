@@ -21,7 +21,7 @@ module flow.engine.delegate.event.impl.FlowableEscalationEventImpl;
  
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.delegate.event.FlowableEscalationEvent;
 
 /**

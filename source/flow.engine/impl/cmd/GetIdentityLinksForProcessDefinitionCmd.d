@@ -40,7 +40,7 @@ class GetIdentityLinksForProcessDefinitionCmd implements Command<List<IdentityLi
     public List<IdentityLink> execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Cannot find process definition with id " + processDefinitionId, ProcessDefinition.class);
         }
 

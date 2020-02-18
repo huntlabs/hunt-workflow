@@ -12,11 +12,11 @@
  */
 
 
-import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
-import org.flowable.common.engine.api.delegate.event.FlowableEntityEvent;
-import org.flowable.common.engine.impl.persistence.entity.AbstractServiceEngineEntityManager;
-import org.flowable.common.engine.impl.persistence.entity.Entity;
-import org.flowable.common.engine.impl.persistence.entity.data.DataManager;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.persistence.entity.AbstractServiceEngineEntityManager;
+import flow.common.persistence.entity.Entity;
+import flow.common.persistence.entity.data.DataManager;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.event.impl.FlowableTaskEventBuilder;
 

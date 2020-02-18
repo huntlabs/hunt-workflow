@@ -22,7 +22,7 @@ import flow.engine.delegate.event.FlowableActivityEvent;
 import flow.engine.delegate.event.FlowableCancelledEvent;
 
 /**
- * An {@link flow.common.api.delegate.event.FlowableEvent} related to cancel event being sent to an activity.
+ * An {@link flow.common.api.deleg.event.FlowableEvent} related to cancel event being sent to an activity.
  * 
  * @author martin.grofcik
  */

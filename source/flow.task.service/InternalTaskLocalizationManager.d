@@ -19,10 +19,10 @@ import org.flowable.task.api.history.HistoricTaskInstance;
 /**
  * @author Tijs Rademakers
  */
-public interface InternalTaskLocalizationManager {
+interface InternalTaskLocalizationManager {
     
-    void localize(Task task, string locale, boolean withLocalizationFallback);
+    void localize(Task task, string locale, bool withLocalizationFallback);
 
-    void localize(HistoricTaskInstance task, string locale, boolean withLocalizationFallback);
+    void localize(HistoricTaskInstance task, string locale, bool withLocalizationFallback);
     
 }

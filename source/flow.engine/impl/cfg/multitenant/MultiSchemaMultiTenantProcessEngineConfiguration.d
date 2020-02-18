@@ -98,7 +98,7 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
     @Override
     public void initAsyncExecutor() {
 
-        if (asyncExecutor == null) {
+        if (asyncExecutor is null) {
             asyncExecutor = new ExecutorPerTenantAsyncExecutor(tenantInfoHolder);
         }
 
@@ -135,7 +135,7 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
         }
 
         // Start async executor
-        if (asyncExecutor != null && originalIsAutoActivateAsyncExecutor) {
+        if (asyncExecutor !is null && originalIsAutoActivateAsyncExecutor) {
             asyncExecutor.start();
         }
 

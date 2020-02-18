@@ -117,7 +117,7 @@ class HistoricDetailQueryImpl extends AbstractQuery<HistoricDetailQuery, Histori
         List<HistoricDetail> historicDetails = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(this);
 
         HistoricDetailVariableInstanceUpdateEntity varUpdate = null;
-        if (historicDetails != null) {
+        if (historicDetails !is null) {
             for (HistoricDetail historicDetail : historicDetails) {
                 if (historicDetail instanceof HistoricDetailVariableInstanceUpdateEntity) {
                     varUpdate = (HistoricDetailVariableInstanceUpdateEntity) historicDetail;

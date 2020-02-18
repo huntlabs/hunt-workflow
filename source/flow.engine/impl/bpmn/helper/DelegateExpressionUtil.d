@@ -12,7 +12,7 @@
  */
 
 
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.api.variable.VariableContainer;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.cfg.DelegateExpressionFieldInjectionMode;
@@ -37,7 +37,7 @@ class DelegateExpressionUtil {
         // execution can change: eg. delegateExpression='${mySpringBeanFactory.randomSpringBean()}'
         Object delegate = expression.getValue(variableScope);
 
-        if (fieldDeclarations != null && fieldDeclarations.size() > 0) {
+        if (fieldDeclarations !is null && fieldDeclarations.size() > 0) {
 
             DelegateExpressionFieldInjectionMode injectionMode = CommandContextUtil.getProcessEngineConfiguration().getDelegateExpressionFieldInjectionMode();
             if (injectionMode == DelegateExpressionFieldInjectionMode.COMPATIBILITY) {

@@ -20,7 +20,7 @@ module flow.engine.ProcessEngineConfiguration;
 //import java.util.Map;
 //
 //import javax.sql.DataSource;
-
+import hunt.collection.Map;
 import flow.common.api.engine.EngineLifecycleListener;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.cfg.BeansConfigurationHelper;
@@ -32,7 +32,8 @@ import flow.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 //import org.flowable.image.ProcessDiagramGenerator;
 import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
 import org.flowable.task.service.TaskPostProcessor;
-
+import flow.engine.ProcessEngines;
+import flow.engine.ProcessEngine;
 /**
  * Configuration information from which a process engine can be build.
  * 
@@ -84,7 +85,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
 
     protected string processEngineName = ProcessEngines.NAME_DEFAULT;
     protected int idBlockSize = 2500;
-    protected string history = HistoryLevel.AUDIT.getKey();
+    protected string history ;
     protected bool asyncExecutorActivate;
     protected bool asyncHistoryExecutorActivate;
 
@@ -97,11 +98,11 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     protected string mailServerDefaultFrom = "flowable@localhost";
     protected string mailServerForceTo;
     protected string mailSessionJndi;
-    protected Map<string, MailServerInfo> mailServers = new HashMap<>();
-    protected Map<string, string> mailSessionsJndi = new HashMap<>();
+    //protected Map<string, MailServerInfo> mailServers = new HashMap<>();
+    //protected Map<string, string> mailSessionsJndi = new HashMap<>();
 
     // Set Http Client config defaults
-    protected HttpClientConfig httpClientConfig = new HttpClientConfig();
+    protected HttpClientConfig httpClientConfig;// = new HttpClientConfig();
 
     protected HistoryLevel historyLevel;
     protected bool enableProcessDefinitionHistoryLevel;
@@ -154,7 +155,9 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     protected TaskPostProcessor taskPostProcessor = null;
 
     /** use one of the static createXxxx methods instead */
-    protected ProcessEngineConfiguration() {
+    this() {
+        this.history =  HistoryLevel.AUDIT.getKey();
+        this.httpClientConfig =  new HttpClientConfig();
     }
 
     abstract ProcessEngine buildProcessEngine();
@@ -583,7 +586,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     @Deprecated
     public ProcessEngineConfiguration setProcessEngineLifecycleListener(ProcessEngineLifecycleListener processEngineLifecycleListener) {
         // Backwards compatibility (when there was only one typed engine listener)
-        if (engineLifecycleListeners == null || engineLifecycleListeners.isEmpty()) {
+        if (engineLifecycleListeners is null || engineLifecycleListeners.isEmpty()) {
             List<EngineLifecycleListener> engineLifecycleListeners = new ArrayList<>(1);
             engineLifecycleListeners.add(processEngineLifecycleListener);
             super.setEngineLifecycleListeners(engineLifecycleListeners);
@@ -616,7 +619,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     @Deprecated
     public ProcessEngineLifecycleListener getProcessEngineLifecycleListener() {
         // Backwards compatibility (when there was only one typed engine listener)
-        if (engineLifecycleListeners != null && !engineLifecycleListeners.isEmpty()) {
+        if (engineLifecycleListeners !is null && !engineLifecycleListeners.isEmpty()) {
             return (ProcessEngineLifecycleListener) engineLifecycleListeners.get(0);
         }
         return null;

@@ -55,26 +55,26 @@ class GetTaskFormModelCmd implements Command<FormInfo>, Serializable {
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FormService formService = CommandContextUtil.getFormService();
-        if (formService == null) {
+        if (formService is null) {
             throw new FlowableIllegalArgumentException("Form engine is not initialized");
         }
 
         TaskInfo task = CommandContextUtil.getTaskService(commandContext).getTask(taskId);
         Date endTime = null;
-        if (task == null) {
+        if (task is null) {
             historic = true;
             task = CommandContextUtil.getHistoricTaskService(commandContext).getHistoricTask(taskId);
-            if (task != null) {
+            if (task !is null) {
                 endTime = ((HistoricTaskInstance) task).getEndTime();
             }
         }
 
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("Task not found with id " + taskId);
         }
 
         Map<string, Object> variables = new HashMap<>();
-        if (!ignoreVariables && task.getProcessInstanceId() != null) {
+        if (!ignoreVariables && task.getProcessInstanceId() !is null) {
 
             if (!historic) {
                 processEngineConfiguration.getTaskService()
@@ -116,7 +116,7 @@ class GetTaskFormModelCmd implements Command<FormInfo>, Serializable {
             formInfo = formRepositoryService.getFormModelByKeyAndParentDeploymentId(task.getFormKey(), parentDeploymentId,
                     task.getTenantId(), processEngineConfiguration.isFallbackToDefaultTenant());
 
-        } else if (endTime != null) {
+        } else if (endTime !is null) {
             formInfo = formService.getFormInstanceModelByKeyAndParentDeploymentId(task.getFormKey(), parentDeploymentId,
                     taskId, task.getProcessInstanceId(), variables, task.getTenantId(), processEngineConfiguration.isFallbackToDefaultTenant());
 
@@ -126,7 +126,7 @@ class GetTaskFormModelCmd implements Command<FormInfo>, Serializable {
         }
 
         // If form does not exists, we don't want to leak out this info to just anyone
-        if (formInfo == null) {
+        if (formInfo is null) {
             throw new FlowableObjectNotFoundException("Form model for task " + task.getTaskDefinitionKey() + " cannot be found for form key " + task.getFormKey());
         }
 

@@ -47,7 +47,7 @@ module flow.common.interceptor.TransactionContextInterceptor;
 //        CommandContext commandContext = Context.getCommandContext();
 //        // Storing it in a variable, to reference later (it can change during command execution)
 //        bool openTransaction = !config.getTransactionPropagation().equals(TransactionPropagation.NOT_SUPPORTED)
-//                && transactionContextFactory != null && !commandContext.isReused();
+//                && transactionContextFactory !is null && !commandContext.isReused();
 //        bool isContextSet = false;
 //
 //        try {

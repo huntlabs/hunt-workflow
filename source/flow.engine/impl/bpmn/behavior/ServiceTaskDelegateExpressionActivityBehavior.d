@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.MapExceptionEntry;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.interceptor.CommandContext;
 import flow.engine.DynamicBpmnConstants;
 import flow.engine.delegate.BpmnError;
@@ -82,7 +82,7 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
         try {
             CommandContext commandContext = CommandContextUtil.getCommandContext();
             string skipExpressionText = null;
-            if (skipExpression != null) {
+            if (skipExpression !is null) {
                 skipExpressionText = skipExpression.getExpressionText();
             }
             bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
@@ -90,7 +90,7 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
 
                 if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {
                     ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
-                    if (taskElementProperties != null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_DELEGATE_EXPRESSION)) {
+                    if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_DELEGATE_EXPRESSION)) {
                         string overrideExpression = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_DELEGATE_EXPRESSION).asText();
                         if (StringUtils.isNotEmpty(overrideExpression) && !overrideExpression.equals(expression.getExpressionText())) {
                             expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(overrideExpression);
@@ -124,7 +124,7 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
 
             Throwable cause = exc;
             BpmnError error = null;
-            while (cause != null) {
+            while (cause !is null) {
                 if (cause instanceof BpmnError) {
                     error = (BpmnError) cause;
                     break;
@@ -137,7 +137,7 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
                 cause = cause.getCause();
             }
 
-            if (error != null) {
+            if (error !is null) {
                 ErrorPropagation.propagateError(error, execution);
             } else if (exc instanceof FlowableException) {
                 throw exc;

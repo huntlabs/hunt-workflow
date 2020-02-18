@@ -26,8 +26,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
-import org.flowable.common.engine.api.FlowableIllegalArgumentException;
-import org.flowable.common.engine.api.query.Query;
+import flow.common.api.FlowableIllegalArgumentException;
+import flow.common.api.query.Query;
 import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 

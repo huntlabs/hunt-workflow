@@ -33,7 +33,7 @@ class ProcessVariableScopeELResolver extends VariableContainerELResolver  {
 
     @Override
     public Object getValue(ELContext context, Object base, Object property) {
-        if (base == null) {
+        if (base is null) {
             if ((EXECUTION_KEY.equals(property) && variableContainer instanceof ExecutionEntity) || (TASK_KEY.equals(property) && variableContainer instanceof TaskEntity)) {
                 context.setPropertyResolved(true);
                 return variableContainer;
@@ -42,7 +42,7 @@ class ProcessVariableScopeELResolver extends VariableContainerELResolver  {
                 context.setPropertyResolved(true);
                 string executionId = ((TaskEntity) variableContainer).getExecutionId();
                 ExecutionEntity executionEntity = null;
-                if (executionId != null) {
+                if (executionId !is null) {
                     executionEntity = CommandContextUtil.getExecutionEntityManager().findById(executionId);
                 }
                 return executionEntity;

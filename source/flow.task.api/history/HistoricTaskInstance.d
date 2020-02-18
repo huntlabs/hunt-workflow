@@ -15,7 +15,7 @@
 
 import java.util.Date;
 
-import org.flowable.common.engine.api.history.HistoricData;
+import flow.common.api.history.HistoricData;
 import org.flowable.task.api.TaskInfo;
 
 /**

@@ -47,13 +47,13 @@ class GetExecutionVariablesCmd implements Command<Map<string, Object>>, Serializ
     public Map<string, Object> execute(CommandContext commandContext) {
 
         // Verify existence of execution
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
 
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 
@@ -62,7 +62,7 @@ class GetExecutionVariablesCmd implements Command<Map<string, Object>>, Serializ
             return compatibilityHandler.getExecutionVariables(executionId, variableNames, isLocal);
         }
 
-        if (variableNames == null || variableNames.isEmpty()) {
+        if (variableNames is null || variableNames.isEmpty()) {
 
             // Fetch all
 

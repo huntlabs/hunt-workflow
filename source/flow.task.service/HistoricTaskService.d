@@ -15,7 +15,7 @@
 import java.util.Date;
 import java.util.List;
 
-import org.flowable.common.engine.impl.interceptor.CommandExecutor;
+import flow.common.interceptor.CommandExecutor;
 import org.flowable.task.api.TaskInfo;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
@@ -31,7 +31,7 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-public interface HistoricTaskService {
+interface HistoricTaskService {
 
     HistoricTaskInstanceEntity getHistoricTask(string id);
     
@@ -45,9 +45,9 @@ public interface HistoricTaskService {
     
     HistoricTaskInstanceEntity createHistoricTask(TaskEntity taskEntity);
     
-    void updateHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, boolean fireUpdateEvent);
+    void updateHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireUpdateEvent);
     
-    void insertHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, boolean fireCreateEvent);
+    void insertHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireCreateEvent);
     
     void deleteHistoricTask(HistoricTaskInstanceEntity HistoricTaskInstance);
     

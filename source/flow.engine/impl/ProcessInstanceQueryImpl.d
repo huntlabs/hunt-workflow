@@ -111,7 +111,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQueryImpl processInstanceId(string processInstanceId) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Process instance id is null");
         }
         if (inOrStatement) {
@@ -124,7 +124,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processInstanceIds(Set<string> processInstanceIds) {
-        if (processInstanceIds == null) {
+        if (processInstanceIds is null) {
             throw new FlowableIllegalArgumentException("Set of process instance ids is null");
         }
         if (processInstanceIds.isEmpty()) {
@@ -141,7 +141,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processInstanceBusinessKey(string businessKey) {
-        if (businessKey == null) {
+        if (businessKey is null) {
             throw new FlowableIllegalArgumentException("Business key is null");
         }
         if (inOrStatement) {
@@ -154,7 +154,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processInstanceBusinessKey(string businessKey, string processDefinitionKey) {
-        if (businessKey == null) {
+        if (businessKey is null) {
             throw new FlowableIllegalArgumentException("Business key is null");
         }
         if (inOrStatement) {
@@ -178,7 +178,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processInstanceTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("process instance tenant id is null");
         }
         if (inOrStatement) {
@@ -191,7 +191,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processInstanceTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("process instance tenant id is null");
         }
         if (inOrStatement) {
@@ -214,7 +214,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processDefinitionCategory(string processDefinitionCategory) {
-        if (processDefinitionCategory == null) {
+        if (processDefinitionCategory is null) {
             throw new FlowableIllegalArgumentException("Process definition category is null");
         }
 
@@ -228,7 +228,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processDefinitionName(string processDefinitionName) {
-        if (processDefinitionName == null) {
+        if (processDefinitionName is null) {
             throw new FlowableIllegalArgumentException("Process definition name is null");
         }
 
@@ -242,7 +242,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processDefinitionVersion(Integer processDefinitionVersion) {
-        if (processDefinitionVersion == null) {
+        if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition version is null");
         }
 
@@ -256,7 +256,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQueryImpl processDefinitionId(string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Process definition id is null");
         }
 
@@ -270,7 +270,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processDefinitionIds(Set<string> processDefinitionIds) {
-        if (processDefinitionIds == null) {
+        if (processDefinitionIds is null) {
             throw new FlowableIllegalArgumentException("Set of process definition ids is null");
         }
         if (processDefinitionIds.isEmpty()) {
@@ -287,7 +287,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQueryImpl processDefinitionKey(string processDefinitionKey) {
-        if (processDefinitionKey == null) {
+        if (processDefinitionKey is null) {
             throw new FlowableIllegalArgumentException("Process definition key is null");
         }
 
@@ -301,7 +301,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery processDefinitionKeys(Set<string> processDefinitionKeys) {
-        if (processDefinitionKeys == null) {
+        if (processDefinitionKeys is null) {
             throw new FlowableIllegalArgumentException("Set of process definition keys is null");
         }
         if (processDefinitionKeys.isEmpty()) {
@@ -378,7 +378,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery involvedUser(string involvedUser) {
-        if (involvedUser == null) {
+        if (involvedUser is null) {
             throw new FlowableIllegalArgumentException("Involved user is null");
         }
 
@@ -392,7 +392,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     @Override
     public ProcessInstanceQuery involvedGroups(Set<string> involvedGroups) {
-        if (involvedGroups == null) {
+        if (involvedGroups is null) {
             throw new FlowableIllegalArgumentException("Involved groups are null");
         }
         if (involvedGroups.isEmpty()) {
@@ -745,7 +745,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     public string getMssqlOrDB2OrderBy() {
         string specialOrderBy = super.getOrderByColumns();
-        if (specialOrderBy != null && specialOrderBy.length() > 0) {
+        if (specialOrderBy !is null && specialOrderBy.length() > 0) {
             specialOrderBy = specialOrderBy.replace("RES.", "TEMPRES_");
             specialOrderBy = specialOrderBy.replace("ProcessDefinitionKey", "TEMPP_KEY_");
             specialOrderBy = specialOrderBy.replace("ProcessDefinitionId", "TEMPP_ID_");
@@ -760,7 +760,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         ensureVariablesInitialized();
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (processEngineConfiguration.getProcessInstanceQueryInterceptor() != null) {
+        if (processEngineConfiguration.getProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getProcessInstanceQueryInterceptor().beforeProcessInstanceQueryExecute(this);
         }
         
@@ -773,7 +773,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         List<ProcessInstance> processInstances = null;
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (processEngineConfiguration.getProcessInstanceQueryInterceptor() != null) {
+        if (processEngineConfiguration.getProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getProcessInstanceQueryInterceptor().beforeProcessInstanceQueryExecute(this);
         }
         
@@ -783,13 +783,13 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
             processInstances = CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceByQueryCriteria(this);
         }
 
-        if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessLocalizationManager() != null) {
+        if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessLocalizationManager() !is null) {
             for (ProcessInstance processInstance : processInstances) {
                 processEngineConfiguration.getInternalProcessLocalizationManager().localize(processInstance, locale, withLocalizationFallback);
             }
         }
         
-        if (processEngineConfiguration.getProcessInstanceQueryInterceptor() != null) {
+        if (processEngineConfiguration.getProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getProcessInstanceQueryInterceptor().afterProcessInstanceQueryExecute(this, processInstances);
         }
 

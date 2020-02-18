@@ -49,7 +49,7 @@ class BpmnParseHandlers {
     public void addHandler(BpmnParseHandler bpmnParseHandler) {
         for (Class<? extends BaseElement> type : bpmnParseHandler.getHandledTypes()) {
             List<BpmnParseHandler> handlers = parseHandlers.get(type);
-            if (handlers == null) {
+            if (handlers is null) {
                 handlers = new ArrayList<>();
                 parseHandlers.put(type, handlers);
             }
@@ -72,7 +72,7 @@ class BpmnParseHandlers {
         // Execute parse handlers
         List<BpmnParseHandler> handlers = parseHandlers.get(element.getClass());
 
-        if (handlers == null) {
+        if (handlers is null) {
             LOGGER.warn("Could not find matching parse handler for + {} this is likely a bug.", element.getId());
         } else {
             for (BpmnParseHandler handler : handlers) {

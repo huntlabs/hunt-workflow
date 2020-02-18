@@ -37,7 +37,7 @@ class GetDeploymentProcessDiagramCmd implements Command<InputStream>, Serializab
     protected string processDefinitionId;
 
     public GetDeploymentProcessDiagramCmd(string processDefinitionId) {
-        if (processDefinitionId == null || processDefinitionId.length() < 1) {
+        if (processDefinitionId is null || processDefinitionId.length() < 1) {
             throw new FlowableIllegalArgumentException("The process definition id is mandatory, but '" + processDefinitionId + "' has been provided.");
         }
         this.processDefinitionId = processDefinitionId;
@@ -48,7 +48,7 @@ class GetDeploymentProcessDiagramCmd implements Command<InputStream>, Serializab
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
         string deploymentId = processDefinition.getDeploymentId();
         string resourceName = processDefinition.getDiagramResourceName();
-        if (resourceName == null) {
+        if (resourceName is null) {
             LOGGER.info("Resource name is null! No process diagram stream exists.");
             return null;
         } else {

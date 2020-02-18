@@ -48,7 +48,7 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
      */
     public void leaveIntermediateCatchEvent(DelegateExecution execution) {
         EventGateway eventGateway = getPrecedingEventBasedGateway(execution);
-        if (eventGateway != null) {
+        if (eventGateway !is null) {
             deleteOtherEventsRelatedToEventBasedGateway(execution, eventGateway);
         }
 
@@ -70,7 +70,7 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
             List<SequenceFlow> incomingSequenceFlow = intermediateCatchEvent.getIncomingFlows();
 
             // If behind an event based gateway, there is only one incoming sequence flow that originates from said gateway
-            if (incomingSequenceFlow != null && incomingSequenceFlow.size() == 1) {
+            if (incomingSequenceFlow !is null && incomingSequenceFlow.size() == 1) {
                 SequenceFlow sequenceFlow = incomingSequenceFlow.get(0);
                 FlowElement sourceFlowElement = sequenceFlow.getSourceFlowElement();
                 if (sourceFlowElement instanceof EventGateway) {
@@ -94,7 +94,7 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
         List<SequenceFlow> outgoingSequenceFlows = eventGateway.getOutgoingFlows();
         Set<string> eventActivityIds = new HashSet<>(outgoingSequenceFlows.size() - 1); // -1, the event being triggered does not need to be deleted
         for (SequenceFlow outgoingSequenceFlow : outgoingSequenceFlows) {
-            if (outgoingSequenceFlow.getTargetFlowElement() != null
+            if (outgoingSequenceFlow.getTargetFlowElement() !is null
                     && !outgoingSequenceFlow.getTargetFlowElement().getId().equals(execution.getCurrentActivityId())) {
                 eventActivityIds.add(outgoingSequenceFlow.getTargetFlowElement().getId());
             }

@@ -66,7 +66,7 @@ class AsyncHistorySession implements Session {
     
     protected bool isAsyncHistoryExecutorEnabled() {
         AsyncExecutor asyncHistoryExecutor = CommandContextUtil.getJobServiceConfiguration(commandContext).getAsyncHistoryExecutor();
-        return asyncHistoryExecutor != null && asyncHistoryExecutor.isActive();
+        return asyncHistoryExecutor !is null && asyncHistoryExecutor.isActive();
     }
 
     protected void initCommandContextCloseListener() {
@@ -95,18 +95,18 @@ class AsyncHistorySession implements Session {
     public void addHistoricData(JobServiceConfiguration jobServiceConfiguration, string type, ObjectNode data, string tenantId) {
         data.put(TIMESTAMP, AsyncHistoryDateUtil.formatDate(jobServiceConfiguration.getClock().getCurrentTime()));
         
-        if (sessionData == null) {
+        if (sessionData is null) {
             sessionData = new HashMap<>();
             commandContext.addCloseListener(commandContextCloseListener);
         }
         
         AsyncHistorySessionData asyncHistorySessionData = sessionData.get(jobServiceConfiguration);
-        if (asyncHistorySessionData == null) {
+        if (asyncHistorySessionData is null) {
             asyncHistorySessionData = new AsyncHistorySessionData();
             sessionData.put(jobServiceConfiguration, asyncHistorySessionData); 
         }
         
-        if (tenantId != null) {
+        if (tenantId !is null) {
             this.tenantId = tenantId;
         }
         

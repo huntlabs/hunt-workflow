@@ -68,7 +68,7 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
     }
 
     private void putByteArrayRefIdToMap(string key, JobByteArrayRef jobByteArrayRef, Map<string, Object> map) {
-        if(jobByteArrayRef != null) {
+        if(jobByteArrayRef !is null) {
             map.put(key, jobByteArrayRef.getId());
         }
     }
@@ -113,7 +113,7 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
 
     @Override
     public void setCustomValues(string customValues) {
-        if (customValuesByteArrayRef == null) {
+        if (customValuesByteArrayRef is null) {
             customValuesByteArrayRef = new JobByteArrayRef();
         }
         customValuesByteArrayRef.setValue("jobCustomValues", customValues);
@@ -146,7 +146,7 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
 
     @Override
     public void setAdvancedJobHandlerConfiguration(string jobHandlerConfiguration) {
-        if (advancedJobHandlerConfigurationByteArrayRef == null) {
+        if (advancedJobHandlerConfigurationByteArrayRef is null) {
             advancedJobHandlerConfigurationByteArrayRef = new JobByteArrayRef();
         }
         advancedJobHandlerConfigurationByteArrayRef.setValue("cfg", jobHandlerConfiguration);
@@ -154,7 +154,7 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
 
     @Override
     public void setAdvancedJobHandlerConfigurationBytes(byte[] bytes) {
-        if (advancedJobHandlerConfigurationByteArrayRef == null) {
+        if (advancedJobHandlerConfigurationByteArrayRef is null) {
             advancedJobHandlerConfigurationByteArrayRef = new JobByteArrayRef();
         }
         advancedJobHandlerConfigurationByteArrayRef.setValue("cfg", bytes);
@@ -177,7 +177,7 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
 
     @Override
     public void setExceptionStacktrace(string exception) {
-        if (exceptionByteArrayRef == null) {
+        if (exceptionByteArrayRef is null) {
             exceptionByteArrayRef = new JobByteArrayRef();
         }
         exceptionByteArrayRef.setValue("stacktrace", exception);
@@ -244,7 +244,7 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
     }
 
     private string getJobByteArrayRefAsString(JobByteArrayRef jobByteArrayRef) {
-        if (jobByteArrayRef == null) {
+        if (jobByteArrayRef is null) {
             return null;
         }
         return jobByteArrayRef.asString();

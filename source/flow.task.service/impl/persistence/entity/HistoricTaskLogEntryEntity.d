@@ -14,13 +14,13 @@
 
 import java.util.Date;
 
-import org.flowable.common.engine.impl.persistence.entity.Entity;
+import flow.common.persistence.entity.Entity;
 import org.flowable.task.api.history.HistoricTaskLogEntry;
 
 /**
  * @author martin.grofcik
  */
-public interface HistoricTaskLogEntryEntity extends HistoricTaskLogEntry, Entity {
+interface HistoricTaskLogEntryEntity extends HistoricTaskLogEntry, Entity {
 
     void setLogNumber(long logNumber);
 

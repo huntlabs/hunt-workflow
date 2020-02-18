@@ -16,7 +16,7 @@ class DataSpec extends BaseElement {
 
     protected string name;
     protected string itemSubjectRef;
-    protected boolean isCollection;
+    protected bool isCollection;
 
     public string getName() {
         return name;
@@ -34,11 +34,11 @@ class DataSpec extends BaseElement {
         this.itemSubjectRef = itemSubjectRef;
     }
 
-    public boolean isCollection() {
+    public bool isCollection() {
         return isCollection;
     }
 
-    public void setCollection(boolean isCollection) {
+    public void setCollection(bool isCollection) {
         this.isCollection = isCollection;
     }
 

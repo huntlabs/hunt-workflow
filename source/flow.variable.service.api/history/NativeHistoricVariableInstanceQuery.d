@@ -12,13 +12,13 @@
  */
 
 
-import org.flowable.common.engine.api.query.NativeQuery;
+import flow.common.api.query.NativeQuery;
 
 /**
  * Allows querying of {@link org.flowable.engine.HistoricVariableInstance.HistoricVariableInstance}s via native (SQL) queries
  * 
  * @author Henry Yan(http://www.kafeitu.me)
  */
-public interface NativeHistoricVariableInstanceQuery extends NativeQuery<NativeHistoricVariableInstanceQuery, HistoricVariableInstance> {
+interface NativeHistoricVariableInstanceQuery extends NativeQuery<NativeHistoricVariableInstanceQuery, HistoricVariableInstance> {
 
 }

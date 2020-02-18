@@ -26,7 +26,7 @@ class ProcessInstanceMigrationValidationResult {
     }
 
     public ProcessInstanceMigrationValidationResult addValidationResult(ProcessInstanceMigrationValidationResult result) {
-        if (result != null) {
+        if (result !is null) {
             validationMessages.addAll(result.validationMessages);
         }
         return this;

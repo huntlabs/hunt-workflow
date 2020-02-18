@@ -28,13 +28,13 @@ class DefaultTaskFormHandler extends DefaultFormHandler implements TaskFormHandl
         TaskFormDataImpl taskFormData = new TaskFormDataImpl();
         
         ExecutionEntity executionEntity = null;
-        if (task.getExecutionId() != null) {
+        if (task.getExecutionId() !is null) {
             executionEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getExecutionId());
         }
         
-        if (formKey != null) {
+        if (formKey !is null) {
             Object formValue = formKey.getValue(executionEntity);
-            if (formValue != null) {
+            if (formValue !is null) {
                 taskFormData.setFormKey(formValue.toString());
             }
         }

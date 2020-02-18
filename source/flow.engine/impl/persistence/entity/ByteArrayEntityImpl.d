@@ -73,7 +73,7 @@ class ByteArrayEntityImpl extends AbstractBpmnEngineEntity implements ByteArrayE
 
     @Override
     public string toString() {
-        return "ByteArrayEntity[id=" + id + ", name=" + name + ", size=" + (bytes != null ? bytes.length : 0) + "]";
+        return "ByteArrayEntity[id=" + id + ", name=" + name + ", size=" + (bytes !is null ? bytes.length : 0) + "]";
     }
 
     // Wrapper for a byte array, needed to do byte array comparisons

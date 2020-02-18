@@ -41,14 +41,14 @@ class FindActiveActivityIdsCmd implements Command<List<string>>, Serializable {
 
     @Override
     public List<string> execute(CommandContext commandContext) {
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity execution = executionEntityManager.findById(executionId);
 
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 
@@ -62,7 +62,7 @@ class FindActiveActivityIdsCmd implements Command<List<string>>, Serializable {
     }
 
     protected void collectActiveActivityIds(ExecutionEntity executionEntity, List<string> activeActivityIds) {
-        if (executionEntity.isActive() && executionEntity.getActivityId() != null) {
+        if (executionEntity.isActive() && executionEntity.getActivityId() !is null) {
             activeActivityIds.add(executionEntity.getActivityId());
         }
 

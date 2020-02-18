@@ -19,7 +19,7 @@ class SignalEventDefinition extends EventDefinition {
 
     protected string signalRef;
     protected string signalExpression;
-    protected boolean async;
+    protected bool async;
 
     public string getSignalRef() {
         return signalRef;
@@ -37,11 +37,11 @@ class SignalEventDefinition extends EventDefinition {
         this.signalExpression = signalExpression;
     }
 
-    public boolean isAsync() {
+    public bool isAsync() {
         return async;
     }
 
-    public void setAsync(boolean async) {
+    public void setAsync(bool async) {
         this.async = async;
     }
 

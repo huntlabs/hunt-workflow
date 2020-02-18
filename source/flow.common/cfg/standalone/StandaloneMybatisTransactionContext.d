@@ -60,11 +60,11 @@ module flow.common.cfg.standalone.StandaloneMybatisTransactionContext;
 //
 //    @Override
 //    public void addTransactionListener(TransactionState transactionState, TransactionListener transactionListener) {
-//        if (stateTransactionListeners == null) {
+//        if (stateTransactionListeners is null) {
 //            stateTransactionListeners = new HashMap<>();
 //        }
 //        List<TransactionListener> transactionListeners = stateTransactionListeners.get(transactionState);
-//        if (transactionListeners == null) {
+//        if (transactionListeners is null) {
 //            transactionListeners = new ArrayList<>();
 //            stateTransactionListeners.put(transactionState, transactionListeners);
 //        }
@@ -95,11 +95,11 @@ module flow.common.cfg.standalone.StandaloneMybatisTransactionContext;
 //     *            MyBatis context is already committed and the internal flags have not been correctly set).
 //     */
 //    protected void fireTransactionEvent(TransactionState transactionState, bool executeInNewContext) {
-//        if (stateTransactionListeners == null) {
+//        if (stateTransactionListeners is null) {
 //            return;
 //        }
 //        final List<TransactionListener> transactionListeners = stateTransactionListeners.get(transactionState);
-//        if (transactionListeners == null) {
+//        if (transactionListeners is null) {
 //            return;
 //        }
 //

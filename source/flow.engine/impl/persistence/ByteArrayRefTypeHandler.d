@@ -35,7 +35,7 @@ class ByteArrayRefTypeHandler extends TypeReference<ByteArrayRef> implements Typ
     }
 
     private string getValueToSet(ByteArrayRef parameter) {
-        if (parameter == null) {
+        if (parameter is null) {
             // Note that this should not happen: ByteArrayRefs should always be initialized.
             return null;
         }

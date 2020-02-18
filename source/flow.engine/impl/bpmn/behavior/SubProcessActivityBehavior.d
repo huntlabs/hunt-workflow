@@ -52,7 +52,7 @@ class SubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
 
         FlowElement startElement = getStartElement(subProcess);
 
-        if (startElement == null) {
+        if (startElement is null) {
             throw new FlowableException("No initial activity found for subprocess " + subProcess.getId());
         }
 
@@ -63,7 +63,7 @@ class SubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
 
         // initialize the template-defined data objects as variables
         Map<string, Object> dataObjectVars = processDataObjects(subProcess.getDataObjects());
-        if (dataObjectVars != null) {
+        if (dataObjectVars !is null) {
             executionEntity.setVariablesLocal(dataObjectVars);
         }
         
@@ -109,7 +109,7 @@ class SubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
     protected Map<string, Object> processDataObjects(Collection<ValuedDataObject> dataObjects) {
         Map<string, Object> variablesMap = new HashMap<>();
         // convert data objects to process variables
-        if (dataObjects != null) {
+        if (dataObjects !is null) {
             for (ValuedDataObject dataObject : dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }

@@ -16,9 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import org.flowable.common.engine.impl.identity.Authentication;
-import org.flowable.common.engine.impl.interceptor.CommandExecutor;
-import org.flowable.common.engine.impl.service.CommonServiceImpl;
+import flow.common.identity.Authentication;
+import flow.common.interceptor.CommandExecutor;
+import flow.common.service.CommonServiceImpl;
 import org.flowable.identitylink.api.IdentityLinkType;
 import org.flowable.identitylink.service.HistoricIdentityLinkService;
 import org.flowable.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
@@ -77,12 +77,12 @@ class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration
     }
     
     @Override
-    public void updateHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, boolean fireUpdateEvent) {
+    public void updateHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireUpdateEvent) {
         getHistoricTaskInstanceEntityManager().update(historicTaskInstanceEntity, fireUpdateEvent);
     }
 
     @Override
-    public void insertHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, boolean fireCreateEvent) {
+    public void insertHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireCreateEvent) {
         getHistoricTaskInstanceEntityManager().insert(historicTaskInstanceEntity, fireCreateEvent);
     }
 
@@ -102,7 +102,7 @@ class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration
     @Override
     public HistoricTaskInstanceEntity recordTaskEnd(TaskEntity task, string deleteReason, Date endTime) {
         HistoricTaskInstanceEntity historicTaskInstanceEntity = getHistoricTaskInstanceEntityManager().findById(task.getId());
-        if (historicTaskInstanceEntity != null) {
+        if (historicTaskInstanceEntity !is null) {
             historicTaskInstanceEntity.markEnded(deleteReason, endTime);
         }
         return historicTaskInstanceEntity;
@@ -111,7 +111,7 @@ class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration
     @Override
     public HistoricTaskInstanceEntity recordTaskInfoChange(TaskEntity taskEntity, Date changeTime) {
         HistoricTaskInstanceEntity historicTaskInstance = getHistoricTaskInstanceEntityManager().findById(taskEntity.getId());
-        if (historicTaskInstance != null) {
+        if (historicTaskInstance !is null) {
             historicTaskInstance.setName(taskEntity.getName());
             historicTaskInstance.setDescription(taskEntity.getDescription());
             historicTaskInstance.setDueDate(taskEntity.getDueDate());

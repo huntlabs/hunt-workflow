@@ -39,19 +39,19 @@ class SetProcessInstanceNameCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
         }
 
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
         
-        if (execution == null) {
+        if (execution is null) {
             
             if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isFlowable5CompatibilityEnabled()) {
                 Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                if (compatibilityHandler != null) {
+                if (compatibilityHandler !is null) {
                     ProcessInstance processInstance = compatibilityHandler.getProcessInstance(processInstanceId);
-                    if (processInstance != null) {
+                    if (processInstance !is null) {
                         compatibilityHandler.setProcessInstanceName(processInstance.getId(), name);
                         return null;
                     }

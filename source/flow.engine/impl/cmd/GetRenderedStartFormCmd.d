@@ -45,7 +45,7 @@ class GetRenderedStartFormCmd implements Command<Object>, Serializable {
     public Object execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Process Definition '" + processDefinitionId + "' not found", ProcessDefinition.class);
         }
 
@@ -55,13 +55,13 @@ class GetRenderedStartFormCmd implements Command<Object>, Serializable {
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         StartFormHandler startFormHandler = formHandlerHelper.getStartFormHandler(commandContext, processDefinition);
-        if (startFormHandler == null) {
+        if (startFormHandler is null) {
             return null;
         }
 
         FormEngine formEngine = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormEngines().get(formEngineName);
 
-        if (formEngine == null) {
+        if (formEngine is null) {
             throw new FlowableException("No formEngine '" + formEngineName + "' defined process engine configuration");
         }
 

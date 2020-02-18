@@ -23,7 +23,7 @@ import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.FlowNode;
 import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.SubProcess;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.interceptor.CommandContext;
 import flow.engine.debug.ExecutionTreeUtil;
 import flow.engine.impl.delegate.ActivityBehavior;
@@ -58,7 +58,7 @@ class EvaluateConditionalEventsOperation extends AbstractOperation {
         for (ExecutionEntity childExecutionEntity : allExecutions) {
             string activityId = childExecutionEntity.getCurrentActivityId();
             FlowElement currentFlowElement = process.getFlowElement(activityId, true);
-            if (currentFlowElement != null && currentFlowElement instanceof Event) {
+            if (currentFlowElement !is null && currentFlowElement instanceof Event) {
                 Event event = (Event) currentFlowElement;
                 if (!event.getEventDefinitions().isEmpty() && event.getEventDefinitions().get(0) instanceof ConditionalEventDefinition) {
                 
@@ -68,7 +68,7 @@ class EvaluateConditionalEventsOperation extends AbstractOperation {
                     }
                 }
             
-            } else if (currentFlowElement != null && currentFlowElement instanceof SubProcess) {
+            } else if (currentFlowElement !is null && currentFlowElement instanceof SubProcess) {
                 SubProcess subProcess = (SubProcess) currentFlowElement;
                 List<EventSubProcess> childEventSubProcesses = subProcess.findAllSubFlowElementInFlowMapOfType(EventSubProcess.class);
                 evaluateEventSubProcesses(childEventSubProcesses, childExecutionEntity);
@@ -77,13 +77,13 @@ class EvaluateConditionalEventsOperation extends AbstractOperation {
     }
     
     protected void evaluateEventSubProcesses(List<EventSubProcess> eventSubProcesses, ExecutionEntity parentExecution) {
-        if (eventSubProcesses != null) {
+        if (eventSubProcesses !is null) {
             for (EventSubProcess eventSubProcess : eventSubProcesses) {
                 List<StartEvent> startEvents = eventSubProcess.findAllSubFlowElementInFlowMapOfType(StartEvent.class);
-                if (startEvents != null) {
+                if (startEvents !is null) {
                     for (StartEvent startEvent : startEvents) {
                         
-                        if (startEvent.getEventDefinitions() != null && !startEvent.getEventDefinitions().isEmpty() && 
+                        if (startEvent.getEventDefinitions() !is null && !startEvent.getEventDefinitions().isEmpty() &&
                                         startEvent.getEventDefinitions().get(0) instanceof ConditionalEventDefinition) {
                             
                             CommandContext commandContext = CommandContextUtil.getCommandContext();
@@ -94,7 +94,7 @@ class EvaluateConditionalEventsOperation extends AbstractOperation {
                             if (StringUtils.isNotEmpty(conditionExpression)) {
                                 Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
                                 Object result = expression.getValue(parentExecution);
-                                if (result != null && result instanceof bool && (bool) result) {
+                                if (result !is null && result instanceof bool && (bool) result) {
                                     conditionIsTrue = true;
                                 }
                             

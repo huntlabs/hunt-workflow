@@ -62,7 +62,7 @@ class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd imp
                 initialStartEvent = startEvent;
                 break;
                 
-            } else if (initialStartEvent == null) {
+            } else if (initialStartEvent is null) {
                 initialStartEvent = startEvent;
             }
         }
@@ -72,7 +72,7 @@ class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd imp
         process.addFlowElement(parallelGateway);
 
         UserTask userTask = new UserTask();
-        if (dynamicUserTaskBuilder.getId() != null) {
+        if (dynamicUserTaskBuilder.getId() !is null) {
             userTask.setId(dynamicUserTaskBuilder.getId());
         } else {
             userTask.setId(dynamicUserTaskBuilder.nextTaskId(process.getFlowElementMap()));
@@ -103,7 +103,7 @@ class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd imp
         process.addFlowElement(flowFromStart);
         
         GraphicInfo elementGraphicInfo = bpmnModel.getGraphicInfo(initialStartEvent.getId());
-        if (elementGraphicInfo != null) {
+        if (elementGraphicInfo !is null) {
             double yDiff = 0;
             double xDiff = 80;
             if (elementGraphicInfo.getY() < 173) {

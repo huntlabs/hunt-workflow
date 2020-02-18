@@ -83,7 +83,7 @@ class ProcessDefinitionInfoCache implements DeploymentCache<ProcessDefinitionInf
             }
         };
 
-        if (Context.getCommandContext() != null) {
+        if (Context.getCommandContext() !is null) {
             infoCacheObject = retrieveProcessDefinitionInfoCacheObject(processDefinitionId, Context.getCommandContext());
         } else {
             infoCacheObject = commandExecutor.execute(cacheCommand);
@@ -136,9 +136,9 @@ class ProcessDefinitionInfoCache implements DeploymentCache<ProcessDefinitionInf
         }
 
         ProcessDefinitionInfoEntity infoEntity = infoEntityManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinitionId);
-        if (infoEntity != null && infoEntity.getRevision() != cacheObject.getRevision()) {
+        if (infoEntity !is null && infoEntity.getRevision() != cacheObject.getRevision()) {
             cacheObject.setRevision(infoEntity.getRevision());
-            if (infoEntity.getInfoJsonId() != null) {
+            if (infoEntity.getInfoJsonId() !is null) {
                 byte[] infoBytes = infoEntityManager.findInfoJsonById(infoEntity.getInfoJsonId());
                 try {
                     ObjectNode infoNode = (ObjectNode) objectMapper.readTree(infoBytes);
@@ -147,7 +147,7 @@ class ProcessDefinitionInfoCache implements DeploymentCache<ProcessDefinitionInf
                     throw new FlowableException("Error reading json info node for process definition " + processDefinitionId, e);
                 }
             }
-        } else if (infoEntity == null) {
+        } else if (infoEntity is null) {
             cacheObject.setRevision(0);
             cacheObject.setInfoNode(objectMapper.createObjectNode());
         }

@@ -187,12 +187,12 @@ class TableDataManagerImpl extends AbstractManager implements TableDataManager {
             }
 
             string catalog = null;
-            if (getProcessEngineConfiguration().getDatabaseCatalog() != null && getProcessEngineConfiguration().getDatabaseCatalog().length() > 0) {
+            if (getProcessEngineConfiguration().getDatabaseCatalog() !is null && getProcessEngineConfiguration().getDatabaseCatalog().length() > 0) {
                 catalog = getProcessEngineConfiguration().getDatabaseCatalog();
             }
 
             string schema = null;
-            if (getProcessEngineConfiguration().getDatabaseSchema() != null && getProcessEngineConfiguration().getDatabaseSchema().length() > 0) {
+            if (getProcessEngineConfiguration().getDatabaseSchema() !is null && getProcessEngineConfiguration().getDatabaseSchema().length() > 0) {
                 if ("oracle".equals(getDbSqlSession().getDbSqlSessionFactory().getDatabaseType())) {
                     schema = getProcessEngineConfiguration().getDatabaseSchema().toUpperCase();
                 } else {
@@ -267,12 +267,12 @@ class TableDataManagerImpl extends AbstractManager implements TableDataManager {
             }
 
             string catalog = null;
-            if (getProcessEngineConfiguration().getDatabaseCatalog() != null && getProcessEngineConfiguration().getDatabaseCatalog().length() > 0) {
+            if (getProcessEngineConfiguration().getDatabaseCatalog() !is null && getProcessEngineConfiguration().getDatabaseCatalog().length() > 0) {
                 catalog = getProcessEngineConfiguration().getDatabaseCatalog();
             }
 
             string schema = null;
-            if (getProcessEngineConfiguration().getDatabaseSchema() != null && getProcessEngineConfiguration().getDatabaseSchema().length() > 0) {
+            if (getProcessEngineConfiguration().getDatabaseSchema() !is null && getProcessEngineConfiguration().getDatabaseSchema().length() > 0) {
                 if ("oracle".equals(getDbSqlSession().getDbSqlSessionFactory().getDatabaseType())) {
                     schema = getProcessEngineConfiguration().getDatabaseSchema().toUpperCase();
                 } else {
@@ -283,7 +283,7 @@ class TableDataManagerImpl extends AbstractManager implements TableDataManager {
             ResultSet resultSet = metaData.getColumns(catalog, schema, tableName, null);
             while (resultSet.next()) {
                 bool wrongSchema = false;
-                if (schema != null && schema.length() > 0) {
+                if (schema !is null && schema.length() > 0) {
                     for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
                         string columnName = resultSet.getMetaData().getColumnName(i + 1);
                         if ("TABLE_SCHEM".equalsIgnoreCase(columnName) || "TABLE_SCHEMA".equalsIgnoreCase(columnName)) {

@@ -39,7 +39,7 @@ class GetExecutionsVariablesCmd implements Command<List<VariableInstance>>, Seri
     @Override
     public List<VariableInstance> execute(CommandContext commandContext) {
         // Verify existence of executions
-        if (executionIds == null) {
+        if (executionIds is null) {
             throw new FlowableIllegalArgumentException("executionIds is null");
         }
         if (executionIds.isEmpty()) {

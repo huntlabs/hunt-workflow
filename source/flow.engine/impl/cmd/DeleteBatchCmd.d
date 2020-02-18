@@ -31,7 +31,7 @@ class DeleteBatchCmd implements Command<Void> {
     public Void execute(CommandContext commandContext) {
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
         Batch batch = batchService.getBatch(batchId);
-        if (batch == null) {
+        if (batch is null) {
             throw new FlowableException("batch entity not found for id " + batchId);
         }
         

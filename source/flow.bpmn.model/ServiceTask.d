@@ -35,8 +35,8 @@ class ServiceTask extends TaskWithFieldExtensions {
     protected string extensionId;
     protected List<CustomProperty> customProperties = new ArrayList<>();
     protected string skipExpression;
-    protected boolean useLocalScopeForResultVariable;
-    protected boolean triggerable;
+    protected bool useLocalScopeForResultVariable;
+    protected bool triggerable;
 
     public string getImplementation() {
         return implementation;
@@ -94,8 +94,8 @@ class ServiceTask extends TaskWithFieldExtensions {
         this.extensionId = extensionId;
     }
 
-    public boolean isExtended() {
-        return extensionId != null && !extensionId.isEmpty();
+    public bool isExtended() {
+        return extensionId !is null && !extensionId.isEmpty();
     }
 
     public string getSkipExpression() {
@@ -106,19 +106,19 @@ class ServiceTask extends TaskWithFieldExtensions {
         this.skipExpression = skipExpression;
     }
 
-    public boolean isUseLocalScopeForResultVariable() {
+    public bool isUseLocalScopeForResultVariable() {
         return useLocalScopeForResultVariable;
     }
 
-    public void setUseLocalScopeForResultVariable(boolean useLocalScopeForResultVariable) {
+    public void setUseLocalScopeForResultVariable(bool useLocalScopeForResultVariable) {
         this.useLocalScopeForResultVariable = useLocalScopeForResultVariable;
     }
 
-    public boolean isTriggerable() {
+    public bool isTriggerable() {
         return triggerable;
     }
 
-    public void setTriggerable(boolean triggerable) {
+    public void setTriggerable(bool triggerable) {
         this.triggerable = triggerable;
     }
 
@@ -142,14 +142,14 @@ class ServiceTask extends TaskWithFieldExtensions {
         setTriggerable(otherElement.isTriggerable());
 
         fieldExtensions = new ArrayList<>();
-        if (otherElement.getFieldExtensions() != null && !otherElement.getFieldExtensions().isEmpty()) {
+        if (otherElement.getFieldExtensions() !is null && !otherElement.getFieldExtensions().isEmpty()) {
             for (FieldExtension extension : otherElement.getFieldExtensions()) {
                 fieldExtensions.add(extension.clone());
             }
         }
 
         customProperties = new ArrayList<>();
-        if (otherElement.getCustomProperties() != null && !otherElement.getCustomProperties().isEmpty()) {
+        if (otherElement.getCustomProperties() !is null && !otherElement.getCustomProperties().isEmpty()) {
             for (CustomProperty property : otherElement.getCustomProperties()) {
                 customProperties.add(property.clone());
             }

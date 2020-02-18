@@ -12,8 +12,8 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.persistence.entity.AbstractEngineEntityManager;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.data.DataManager;

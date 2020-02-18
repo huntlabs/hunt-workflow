@@ -16,7 +16,7 @@
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.delegate.ExecutionListener;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.scripting.ScriptingEngines;
 
 class ScriptExecutionListener implements ExecutionListener {
@@ -37,17 +37,17 @@ class ScriptExecutionListener implements ExecutionListener {
         ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
         Object result = scriptingEngines.evaluate(script.getExpressionText(), language.getExpressionText(), execution);
 
-        if (resultVariable != null) {
+        if (resultVariable !is null) {
             execution.setVariable(resultVariable.getExpressionText(), result);
         }
     }
 
     protected void validateParameters() {
-        if (script == null) {
+        if (script is null) {
             throw new IllegalArgumentException("The field 'script' should be set on the ExecutionListener");
         }
 
-        if (language == null) {
+        if (language is null) {
             throw new IllegalArgumentException("The field 'language' should be set on the ExecutionListener");
         }
     }

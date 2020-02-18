@@ -18,7 +18,7 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import java.util.Collections;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.history.async.HistoryJsonConstants;

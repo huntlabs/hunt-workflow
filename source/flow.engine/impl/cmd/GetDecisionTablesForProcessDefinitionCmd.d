@@ -51,17 +51,17 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
     public List<DmnDecisionTable> execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Cannot find process definition for id: " + processDefinitionId, ProcessDefinition.class);
         }
 
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionId);
 
-        if (bpmnModel == null) {
+        if (bpmnModel is null) {
             throw new FlowableObjectNotFoundException("Cannot find bpmn model for process definition id: " + processDefinitionId, BpmnModel.class);
         }
 
-        if (CommandContextUtil.getDmnRepositoryService() == null) {
+        if (CommandContextUtil.getDmnRepositoryService() is null) {
             throw new FlowableException("DMN repository service is not available");
         }
 
@@ -78,7 +78,7 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
 
         for (ServiceTask serviceTask : serviceTasks) {
             if ("dmn".equals(serviceTask.getType())) {
-                if (serviceTask.getFieldExtensions() != null && serviceTask.getFieldExtensions().size() > 0) {
+                if (serviceTask.getFieldExtensions() !is null && serviceTask.getFieldExtensions().size() > 0) {
                     for (FieldExtension fieldExtension : serviceTask.getFieldExtensions()) {
                         if ("decisionTableReferenceKey".equals(fieldExtension.getFieldName())) {
                             string decisionTableReferenceKey = fieldExtension.getStringValue();
@@ -99,10 +99,10 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
     protected void addDecisionTableToCollection(List<DmnDecisionTable> decisionTables, string decisionTableKey, ProcessDefinition processDefinition) {
         DmnDecisionTableQuery decisionTableQuery = dmnRepositoryService.createDecisionTableQuery().decisionTableKey(decisionTableKey);
         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(processDefinition.getDeploymentId());
-        if (deployment.getParentDeploymentId() != null) {
+        if (deployment.getParentDeploymentId() !is null) {
             List<DmnDeployment> dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
             
-            if (dmnDeployments != null && dmnDeployments.size() > 0) {
+            if (dmnDeployments !is null && dmnDeployments.size() > 0) {
                 decisionTableQuery.deploymentId(dmnDeployments.get(0).getId());
             } else {
                 decisionTableQuery.latestVersion();
@@ -114,7 +114,7 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
         
         DmnDecisionTable decisionTable = decisionTableQuery.singleResult();
         
-        if (decisionTable != null) {
+        if (decisionTable !is null) {
             decisionTables.add(decisionTable);
         }
     }

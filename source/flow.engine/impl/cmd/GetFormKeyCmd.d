@@ -45,14 +45,14 @@ class GetFormKeyCmd implements Command<string> {
      */
     public GetFormKeyCmd(string processDefinitionId, string taskDefinitionKey) {
         setProcessDefinitionId(processDefinitionId);
-        if (taskDefinitionKey == null || taskDefinitionKey.length() < 1) {
+        if (taskDefinitionKey is null || taskDefinitionKey.length() < 1) {
             throw new FlowableIllegalArgumentException("The task definition key is mandatory, but '" + taskDefinitionKey + "' has been provided.");
         }
         this.taskDefinitionKey = taskDefinitionKey;
     }
 
     protected void setProcessDefinitionId(string processDefinitionId) {
-        if (processDefinitionId == null || processDefinitionId.length() < 1) {
+        if (processDefinitionId is null || processDefinitionId.length() < 1) {
             throw new FlowableIllegalArgumentException("The process definition id is mandatory, but '" + processDefinitionId + "' has been provided.");
         }
         this.processDefinitionId = processDefinitionId;
@@ -68,7 +68,7 @@ class GetFormKeyCmd implements Command<string> {
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         DefaultFormHandler formHandler;
-        if (taskDefinitionKey == null) {
+        if (taskDefinitionKey is null) {
             // TODO: Maybe add getFormKey() to FormHandler interface to avoid the following cast
             formHandler = (DefaultFormHandler) formHandlerHelper.getStartFormHandler(commandContext, processDefinition);
         } else {
@@ -76,7 +76,7 @@ class GetFormKeyCmd implements Command<string> {
             formHandler = (DefaultFormHandler) formHandlerHelper.getTaskFormHandlder(processDefinitionId, taskDefinitionKey);
         }
         string formKey = null;
-        if (formHandler.getFormKey() != null) {
+        if (formHandler.getFormKey() !is null) {
             formKey = formHandler.getFormKey().getExpressionText();
         }
         return formKey;

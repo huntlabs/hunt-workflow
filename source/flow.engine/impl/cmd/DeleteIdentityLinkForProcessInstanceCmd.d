@@ -50,15 +50,15 @@ class DeleteIdentityLinkForProcessInstanceCmd implements Command<Object>, Serial
     }
 
     protected void validateParams(string userId, string groupId, string processInstanceId, string type) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
         }
 
-        if (type == null) {
+        if (type is null) {
             throw new FlowableIllegalArgumentException("type is required when deleting a process identity link");
         }
 
-        if (userId == null && groupId == null) {
+        if (userId is null && groupId is null) {
             throw new FlowableIllegalArgumentException("userId and groupId cannot both be null");
         }
     }
@@ -67,7 +67,7 @@ class DeleteIdentityLinkForProcessInstanceCmd implements Command<Object>, Serial
     public Void execute(CommandContext commandContext) {
         ExecutionEntity processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
 
-        if (processInstance == null) {
+        if (processInstance is null) {
             throw new FlowableObjectNotFoundException("Cannot find process instance with id " + processInstanceId, ExecutionEntity.class);
         }
 

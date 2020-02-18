@@ -119,7 +119,7 @@ module flow.common.interceptor.JtaTransactionInterceptor;
 //    }
 //
 //    private void doResume(Transaction tx) {
-//        if (tx != null) {
+//        if (tx !is null) {
 //            try {
 //                transactionManager.resume(tx);
 //            } catch (SystemException e) {
@@ -167,7 +167,7 @@ module flow.common.interceptor.JtaTransactionInterceptor;
 //            rollbackEx = e;
 //            throw e;
 //        } finally {
-//            if (rollbackEx != null && originalException != null) {
+//            if (rollbackEx !is null && originalException !is null) {
 //                LOGGER.error("Error when rolling back transaction, original exception was:", originalException);
 //            }
 //        }

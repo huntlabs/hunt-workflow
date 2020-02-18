@@ -30,7 +30,7 @@ import java.util.TreeSet;
 class DbSchemaExport {
 
     public static void main(string[] args) throws Exception {
-        if (args == null || args.length != 1) {
+        if (args is null || args.length != 1) {
             System.err.println("Syntax: java -cp ... flow.engine.impl.db.DbSchemaExport <path-to-properties-file> <path-to-export-file>");
             return;
         }

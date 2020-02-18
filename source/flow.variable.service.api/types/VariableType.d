@@ -15,7 +15,7 @@
 /**
  * @author Tom Baeyens
  */
-public interface VariableType {
+interface VariableType {
 
     /**
      * name of variable type (limited to 100 characters length)
@@ -35,12 +35,12 @@ public interface VariableType {
      * 
      * @return whether variables of this type are cacheable.
      */
-    boolean isCachable();
+    bool isCachable();
 
     /**
      * @return whether this variable type can store the specified value.
      */
-    boolean isAbleToStore(Object value);
+    bool isAbleToStore(Object value);
 
     /**
      * Stores the specified value in the supplied {@link ValueFields}.

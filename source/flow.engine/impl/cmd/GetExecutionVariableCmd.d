@@ -43,16 +43,16 @@ class GetExecutionVariableCmd implements Command<Object>, Serializable {
 
     @Override
     public Object execute(CommandContext commandContext) {
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
-        if (variableName == null) {
+        if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
 
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 

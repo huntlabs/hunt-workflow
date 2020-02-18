@@ -36,10 +36,10 @@ class SaveCommentCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (comment == null) {
+        if (comment is null) {
             throw new FlowableIllegalArgumentException("comment is null");
         }
-        if (comment.getId() == null) {
+        if (comment.getId() is null) {
             throw new FlowableIllegalArgumentException("comment id is null");
         } 
         

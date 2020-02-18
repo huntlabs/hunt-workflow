@@ -31,7 +31,7 @@ class TotalExecutionTimeCommandInterceptor extends AbstractCommandInterceptor {
     public <T> T execute(CommandConfig config, Command<T> command) {
         ProfileSession currentProfileSession = profiler.getCurrentProfileSession();
 
-        if (currentProfileSession != null) {
+        if (currentProfileSession !is null) {
 
             string className = command.getClass().getName();
             CommandExecutionResult commandExecutionResult = new CommandExecutionResult();

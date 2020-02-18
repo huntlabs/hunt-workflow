@@ -12,8 +12,8 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -39,7 +39,7 @@ class TriggerTimerEventJobHandler implements JobHandler {
         ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
         CommandContextUtil.getAgenda(commandContext).planTriggerExecutionOperation(executionEntity);
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_FIRED, job));
         }
     }

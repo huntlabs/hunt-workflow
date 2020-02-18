@@ -136,7 +136,7 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
 
     @Override
     public ActivityInstanceQueryImpl activityTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
         }
         this.tenantId = tenantId;
@@ -149,7 +149,7 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
 
     @Override
     public ActivityInstanceQueryImpl activityTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
         }
         this.tenantIdLike = tenantIdLike;

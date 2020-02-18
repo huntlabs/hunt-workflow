@@ -29,7 +29,7 @@ class GetBatchPartCmd implements Command<BatchPart> {
     @Override
     public BatchPart execute(CommandContext commandContext) {
         BatchPart batchPart = CommandContextUtil.getBatchService(commandContext).getBatchPart(batchPartId);
-        if (batchPart == null) {
+        if (batchPart is null) {
             throw new FlowableObjectNotFoundException("No batch part found for id " + batchPartId);
         }
         

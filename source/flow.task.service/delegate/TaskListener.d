@@ -25,7 +25,7 @@ module flow.task.service.delegate.TaskListener;
 /**
  * @author Joram Barrez
  */
-public interface TaskListener : BaseTaskListener {
+interface TaskListener : BaseTaskListener {
 
     void notify(DelegateTask delegateTask);
 }

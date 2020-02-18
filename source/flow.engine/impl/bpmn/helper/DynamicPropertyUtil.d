@@ -19,9 +19,9 @@ class DynamicPropertyUtil {
     
     public static string getActiveValue(string originalValue, string propertyName, ObjectNode taskElementProperties) {
         string activeValue = originalValue;
-        if (taskElementProperties != null) {
+        if (taskElementProperties !is null) {
             JsonNode overrideValueNode = taskElementProperties.get(propertyName);
-            if (overrideValueNode != null) {
+            if (overrideValueNode !is null) {
                 if (overrideValueNode.isNull()) {
                     activeValue = null;
                 } else {

@@ -25,7 +25,7 @@ abstract class AbstractNeedsTaskHistoryJsonTransformer extends AbstractHistoryJs
     @Override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string taskId = getStringFromJson(historicalData, HistoryJsonConstants.ID);
-        return CommandContextUtil.getHistoricTaskService().getHistoricTask(taskId) != null;
+        return CommandContextUtil.getHistoricTaskService().getHistoricTask(taskId) !is null;
     }
 
 }

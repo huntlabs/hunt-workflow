@@ -125,11 +125,11 @@ class ProcessInstanceMigrationDocumentBuilderImpl implements ProcessInstanceMigr
     @Override
     public ProcessInstanceMigrationDocument build() {
 
-        if (migrateToProcessDefinitionId == null) {
-            if (migrateToProcessDefinitionKey == null) {
+        if (migrateToProcessDefinitionId is null) {
+            if (migrateToProcessDefinitionKey is null) {
                 throw new FlowableException("Process definition key cannot be null");
             }
-            if (migrateToProcessDefinitionVersion == null || migrateToProcessDefinitionVersion < 0) {
+            if (migrateToProcessDefinitionVersion is null || migrateToProcessDefinitionVersion < 0) {
                 throw new FlowableException("Process definition version must be a positive number");
             }
         }
@@ -137,22 +137,22 @@ class ProcessInstanceMigrationDocumentBuilderImpl implements ProcessInstanceMigr
         ProcessInstanceMigrationDocumentImpl document = new ProcessInstanceMigrationDocumentImpl();
         document.setMigrateToProcessDefinitionId(migrateToProcessDefinitionId);
         document.setMigrateToProcessDefinition(migrateToProcessDefinitionKey, migrateToProcessDefinitionVersion, migrateToProcessDefinitionTenantId);
-        if (preUpgradeScript != null) {
+        if (preUpgradeScript !is null) {
             document.setPreUpgradeScript(preUpgradeScript);
         }
-        if (preUpgradeJavaDelegate != null) {
+        if (preUpgradeJavaDelegate !is null) {
             document.setPreUpgradeJavaDelegate(preUpgradeJavaDelegate);
         }
-        if (preUpgradeJavaDelegateExpression != null) {
+        if (preUpgradeJavaDelegateExpression !is null) {
             document.setPreUpgradeJavaDelegateExpression(preUpgradeJavaDelegateExpression);
         }
-        if (postUpgradeScript != null) {
+        if (postUpgradeScript !is null) {
             document.setPostUpgradeScript(postUpgradeScript);
         }
-        if (postUpgradeJavaDelegate != null) {
+        if (postUpgradeJavaDelegate !is null) {
             document.setPostUpgradeJavaDelegate(postUpgradeJavaDelegate);
         }
-        if (postUpgradeJavaDelegateExpression != null) {
+        if (postUpgradeJavaDelegateExpression !is null) {
             document.setPostUpgradeJavaDelegateExpression(postUpgradeJavaDelegateExpression);
         }
         document.setActivityMigrationMappings(activityMigrationMappings);

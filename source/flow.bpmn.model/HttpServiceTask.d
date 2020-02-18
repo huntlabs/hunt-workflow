@@ -46,11 +46,11 @@ class HttpServiceTask extends ServiceTask {
     public void setValues(HttpServiceTask otherElement) {
         super.setValues(otherElement);
         
-        if (otherElement.getHttpRequestHandler() != null) {
+        if (otherElement.getHttpRequestHandler() !is null) {
             setHttpRequestHandler(otherElement.getHttpRequestHandler().clone());
         }
         
-        if (otherElement.getHttpResponseHandler() != null) {
+        if (otherElement.getHttpResponseHandler() !is null) {
             setHttpResponseHandler(otherElement.getHttpResponseHandler().clone());
         }
     }

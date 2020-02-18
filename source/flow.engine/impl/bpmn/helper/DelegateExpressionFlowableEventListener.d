@@ -13,10 +13,10 @@
 
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 import org.flowable.variable.service.impl.el.NoExecutionVariableScope;
 
 /**

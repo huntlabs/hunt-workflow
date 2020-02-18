@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.MapExceptionEntry;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.runtime.Clock;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.delegate.BpmnError;

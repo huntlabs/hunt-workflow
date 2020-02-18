@@ -15,7 +15,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import flow.common.api.delegate.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
@@ -43,7 +43,7 @@ class ProcessInstanceStartedEventHandler extends AbstractDatabaseEventLoggerEven
 
         if (event instanceof FlowableEntityWithVariablesEvent) {
             FlowableEntityWithVariablesEvent eventWithVariables = (FlowableEntityWithVariablesEvent) event;
-            if (eventWithVariables.getVariables() != null && !eventWithVariables.getVariables().isEmpty()) {
+            if (eventWithVariables.getVariables() !is null && !eventWithVariables.getVariables().isEmpty()) {
                 Map<string, Object> variableMap = new HashMap<>();
                 for (Object variableName : eventWithVariables.getVariables().keySet()) {
                     putInMapIfNotNull(variableMap, (string) variableName, eventWithVariables.getVariables().get(variableName));

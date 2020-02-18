@@ -46,13 +46,13 @@ class SetExecutionVariablesCmd extends NeedsActiveExecutionCmd<Object> {
         }
 
         if (isLocal) {
-            if (variables != null) {
+            if (variables !is null) {
                 for (string variableName : variables.keySet()) {
                     execution.setVariableLocal(variableName, variables.get(variableName), false);
                 }
             }
         } else {
-            if (variables != null) {
+            if (variables !is null) {
                 for (string variableName : variables.keySet()) {
                     execution.setVariable(variableName, variables.get(variableName), false);
                 }

@@ -21,7 +21,7 @@ class ScriptTask extends Task {
     protected string scriptFormat;
     protected string script;
     protected string resultVariable;
-    protected boolean autoStoreVariables; // see https://activiti.atlassian.net/browse/ACT-1626
+    protected bool autoStoreVariables; // see https://activiti.atlassian.net/browse/ACT-1626
 
     public string getScriptFormat() {
         return scriptFormat;
@@ -47,11 +47,11 @@ class ScriptTask extends Task {
         this.resultVariable = resultVariable;
     }
 
-    public boolean isAutoStoreVariables() {
+    public bool isAutoStoreVariables() {
         return autoStoreVariables;
     }
 
-    public void setAutoStoreVariables(boolean autoStoreVariables) {
+    public void setAutoStoreVariables(bool autoStoreVariables) {
         this.autoStoreVariables = autoStoreVariables;
     }
 

@@ -78,7 +78,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
             putInMapIfNotNull(data, Fields.VALUE_SHORT, value);
             putInMapIfNotNull(data, Fields.VARIABLE_TYPE, TYPE_SHORT);
 
-            if (value != null) {
+            if (value !is null) {
                 putInMapIfNotNull(data, Fields.VALUE_INTEGER, value.intValue());
                 putInMapIfNotNull(data, Fields.VALUE_LONG, value.longValue());
                 putInMapIfNotNull(data, Fields.VALUE_DOUBLE, value.doubleValue());
@@ -90,7 +90,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
             putInMapIfNotNull(data, Fields.VALUE_INTEGER, value);
             putInMapIfNotNull(data, Fields.VARIABLE_TYPE, TYPE_INTEGER);
 
-            if (value != null) {
+            if (value !is null) {
                 putInMapIfNotNull(data, Fields.VALUE_LONG, value.longValue());
                 putInMapIfNotNull(data, Fields.VALUE_DOUBLE, value.doubleValue());
             }
@@ -101,7 +101,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
             putInMapIfNotNull(data, Fields.VALUE_LONG, value);
             putInMapIfNotNull(data, Fields.VARIABLE_TYPE, TYPE_LONG);
 
-            if (value != null) {
+            if (value !is null) {
                 putInMapIfNotNull(data, Fields.VALUE_DOUBLE, value.doubleValue());
             }
 
@@ -111,7 +111,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
             putInMapIfNotNull(data, Fields.VALUE_DOUBLE, value);
             putInMapIfNotNull(data, Fields.VARIABLE_TYPE, TYPE_DOUBLE);
 
-            if (value != null) {
+            if (value !is null) {
                 putInMapIfNotNull(data, Fields.VALUE_INTEGER, value.intValue());
                 putInMapIfNotNull(data, Fields.VALUE_LONG, value.longValue());
             }
@@ -119,7 +119,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
         } else if (variableType instanceof DateType) {
 
             Date value = (Date) variableEvent.getVariableValue();
-            putInMapIfNotNull(data, Fields.VALUE_DATE, value != null ? value.getTime() : null);
+            putInMapIfNotNull(data, Fields.VALUE_DATE, value !is null ? value.getTime() : null);
             putInMapIfNotNull(data, Fields.VARIABLE_TYPE, TYPE_DATE);
 
         } else if (variableType instanceof UUIDType) {
@@ -135,7 +135,7 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
             putInMapIfNotNull(data, Fields.VALUE_STRING, value);
             putInMapIfNotNull(data, Fields.VARIABLE_TYPE, TYPE_UUID);
 
-        } else if (variableType instanceof SerializableType || (variableEvent.getVariableValue() != null && (variableEvent.getVariableValue() instanceof Object))) {
+        } else if (variableType instanceof SerializableType || (variableEvent.getVariableValue() !is null && (variableEvent.getVariableValue() instanceof Object))) {
 
             // Last try: serialize it to json
             ObjectMapper objectMapper = new ObjectMapper();

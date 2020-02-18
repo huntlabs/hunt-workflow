@@ -27,7 +27,7 @@ abstract class AbstractNeedsProcessInstanceHistoryJsonTransformer extends Abstra
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         HistoricProcessInstanceEntityManager historicProcessInstanceEntityManager = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext);
-        return historicProcessInstanceEntityManager.findById(processInstanceId) != null;
+        return historicProcessInstanceEntityManager.findById(processInstanceId) !is null;
     }
 
 }

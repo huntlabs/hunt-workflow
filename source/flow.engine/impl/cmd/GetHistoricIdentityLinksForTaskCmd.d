@@ -37,7 +37,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
     protected string processInstanceId;
 
     public GetHistoricIdentityLinksForTaskCmd(string taskId, string processInstanceId) {
-        if (taskId == null && processInstanceId == null) {
+        if (taskId is null && processInstanceId is null) {
             throw new FlowableIllegalArgumentException("taskId or processInstanceId is required");
         }
         this.taskId = taskId;
@@ -46,7 +46,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
 
     @Override
     public List<HistoricIdentityLink> execute(CommandContext commandContext) {
-        if (taskId != null) {
+        if (taskId !is null) {
             return getLinksForTask(commandContext);
         } else {
             return getLinksForProcessInstance(commandContext);
@@ -57,7 +57,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
     protected List<HistoricIdentityLink> getLinksForTask(CommandContext commandContext) {
         HistoricTaskInstanceEntity task = CommandContextUtil.getHistoricTaskService().getHistoricTask(taskId);
 
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("No historic task exists with the given id: " + taskId, HistoricTaskInstance.class);
         }
 
@@ -76,7 +76,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
         }
 
         // Similar to GetIdentityLinksForTask, return assignee and owner as identity link
-        if (task.getAssignee() != null && assigneeIdentityLink == null) {
+        if (task.getAssignee() !is null && assigneeIdentityLink is null) {
             HistoricIdentityLinkEntity identityLink = historicIdentityLinkService.createHistoricIdentityLink();
             identityLink.setUserId(task.getAssignee());
             identityLink.setTaskId(task.getId());
@@ -84,7 +84,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
             identityLinks.add(identityLink);
         }
 
-        if (task.getOwner() != null && ownerIdentityLink == null) {
+        if (task.getOwner() !is null && ownerIdentityLink is null) {
             HistoricIdentityLinkEntity identityLink = historicIdentityLinkService.createHistoricIdentityLink();
             identityLink.setTaskId(task.getId());
             identityLink.setUserId(task.getOwner());

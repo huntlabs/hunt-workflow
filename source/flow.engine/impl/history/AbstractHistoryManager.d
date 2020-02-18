@@ -66,9 +66,9 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
     @Override
     public bool isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId) {
-        if (enableProcessDefinitionHistoryLevel && processDefinitionId != null) {
+        if (enableProcessDefinitionHistoryLevel && processDefinitionId !is null) {
             HistoryLevel processDefinitionLevel = getProcessDefinitionHistoryLevel(processDefinitionId);
-            if (processDefinitionLevel != null) {
+            if (processDefinitionLevel !is null) {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Current history level: {}, level required: {}", processDefinitionLevel, level);
                 }
@@ -100,9 +100,9 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     
     @Override
     public bool isHistoryEnabled(string processDefinitionId) {
-        if (enableProcessDefinitionHistoryLevel && processDefinitionId != null) {
+        if (enableProcessDefinitionHistoryLevel && processDefinitionId !is null) {
             HistoryLevel processDefinitionLevel = getProcessDefinitionHistoryLevel(processDefinitionId);
-            if (processDefinitionLevel != null) {
+            if (processDefinitionLevel !is null) {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Current history level: {}", processDefinitionLevel);
                 }
@@ -156,7 +156,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
             comment.setType(CommentEntity.TYPE_EVENT);
             comment.setTime(getClock().getCurrentTime());
             comment.setTaskId(taskEntity.getId());
-            if (userId != null || forceNullUserId) {
+            if (userId !is null || forceNullUserId) {
                 if (create && !forceNullUserId) {
                     comment.setAction(Event.ACTION_ADD_USER_LINK);
                 } else {
@@ -190,7 +190,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
             comment.setType(CommentEntity.TYPE_EVENT);
             comment.setTime(getClock().getCurrentTime());
             comment.setProcessInstanceId(processInstance.getId());
-            if (userId != null || forceNullUserId) {
+            if (userId !is null || forceNullUserId) {
                 if (create && !forceNullUserId) {
                     comment.setAction(Event.ACTION_ADD_USER_LINK);
                 } else {
@@ -217,9 +217,9 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     @Override
     public void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, bool create) {
         string processDefinitionId = null;
-        if (processInstance != null) {
+        if (processInstance !is null) {
             processDefinitionId = processInstance.getProcessDefinitionId();
-        } else if (task != null) {
+        } else if (task !is null) {
             processDefinitionId = task.getProcessDefinitionId();
         }
         if (isHistoryEnabled(processDefinitionId)) {
@@ -228,10 +228,10 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
             comment.setUserId(userId);
             comment.setType(CommentEntity.TYPE_EVENT);
             comment.setTime(getClock().getCurrentTime());
-            if (task != null) {
+            if (task !is null) {
                 comment.setTaskId(task.getId());
             }
-            if (processInstance != null) {
+            if (processInstance !is null) {
                 comment.setProcessInstanceId(processInstance.getId());
             }
             if (create) {
@@ -266,9 +266,9 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     protected HistoricActivityInstanceEntity getHistoricActivityInstanceFromCache(string executionId, string activityId, bool endTimeMustBeNull) {
         List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = getEntityCache().findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
-            if (activityId != null
+            if (activityId !is null
                             && activityId.equals(cachedHistoricActivityInstance.getActivityId())
-                            && (!endTimeMustBeNull || cachedHistoricActivityInstance.getEndTime() == null)) {
+                            && (!endTimeMustBeNull || cachedHistoricActivityInstance.getEndTime() is null)) {
                 if (executionId.equals(cachedHistoricActivityInstance.getExecutionId())) {
                     return cachedHistoricActivityInstance;
                 }
@@ -282,7 +282,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     public HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, bool endTimeMustBeNull) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, execution.getProcessDefinitionId())) {
             string activityId = getActivityIdForExecution(execution);
-            return activityId != null ? findHistoricActivityInstance(execution, activityId, endTimeMustBeNull) : null;
+            return activityId !is null ? findHistoricActivityInstance(execution, activityId, endTimeMustBeNull) : null;
         }
         
         return null;
@@ -293,7 +293,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
         if (execution.getCurrentFlowElement() instanceof FlowNode) {
             activityId = execution.getCurrentFlowElement().getId();
         } else if (execution.getCurrentFlowElement() instanceof SequenceFlow
-                        && execution.getCurrentFlowableListener() == null) { // while executing sequence flow listeners, we don't want historic activities
+                        && execution.getCurrentFlowableListener() is null) { // while executing sequence flow listeners, we don't want historic activities
             activityId = ((SequenceFlow) execution.getCurrentFlowElement()).getSourceFlowElement().getId();
         }
         return activityId;
@@ -302,7 +302,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
     protected HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, string activityId, bool endTimeMustBeNull) {
 
         // No use looking for the HistoricActivityInstance when no activityId is provided.
-        if (activityId == null) {
+        if (activityId is null) {
             return null;
         }
 
@@ -310,7 +310,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
         // Check the cache
         HistoricActivityInstanceEntity historicActivityInstanceEntityFromCache = getHistoricActivityInstanceFromCache(executionId, activityId, endTimeMustBeNull);
-        if (historicActivityInstanceEntityFromCache != null) {
+        if (historicActivityInstanceEntityFromCache !is null) {
             return historicActivityInstanceEntityFromCache;
         }
 
@@ -322,7 +322,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
             List<HistoricActivityInstanceEntity> historicActivityInstances = getHistoricActivityInstanceEntityManager()
                             .findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(executionId, activityId);
 
-            if (historicActivityInstances.size() > 0 && (!endTimeMustBeNull || historicActivityInstances.get(0).getEndTime() == null)) {
+            if (historicActivityInstances.size() > 0 && (!endTimeMustBeNull || historicActivityInstances.get(0).getEndTime() is null)) {
                 return historicActivityInstances.get(0);
             }
 
@@ -351,7 +351,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
                 }
             }
     
-            if (processDefinitionHistoryLevel == null) {
+            if (processDefinitionHistoryLevel is null) {
                 processDefinitionHistoryLevel = this.historyLevel;
             }
         } catch (Exception e) {}
@@ -379,16 +379,16 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
     protected string getProcessDefinitionId(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution) {
         string processDefinitionId = null;
-        if (sourceActivityExecution != null) {
+        if (sourceActivityExecution !is null) {
             processDefinitionId = sourceActivityExecution.getProcessDefinitionId();
-        } else if (variable.getProcessInstanceId() != null) {
+        } else if (variable.getProcessInstanceId() !is null) {
             ExecutionEntity processInstanceExecution = CommandContextUtil.getExecutionEntityManager().findById(variable.getProcessInstanceId());
-            if (processInstanceExecution != null) {
+            if (processInstanceExecution !is null) {
                 processDefinitionId = processInstanceExecution.getProcessDefinitionId();
             }
-        } else if (variable.getTaskId() != null) {
+        } else if (variable.getTaskId() !is null) {
             TaskEntity taskEntity = CommandContextUtil.getTaskService().getTask(variable.getTaskId());
-            if (taskEntity != null) {
+            if (taskEntity !is null) {
                 processDefinitionId = taskEntity.getProcessDefinitionId();
             }
         }
@@ -397,14 +397,14 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
     protected string getProcessDefinitionId(IdentityLinkEntity identityLink) {
         string processDefinitionId = null;
-        if (identityLink.getProcessInstanceId() != null) {
+        if (identityLink.getProcessInstanceId() !is null) {
             ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(identityLink.getProcessInstanceId());
-            if (execution != null) {
+            if (execution !is null) {
                 processDefinitionId = execution.getProcessDefinitionId();
             }
-        } else if (identityLink.getTaskId() != null) {
+        } else if (identityLink.getTaskId() !is null) {
             TaskEntity task = CommandContextUtil.getTaskService().getTask(identityLink.getTaskId());
-            if (task != null) {
+            if (task !is null) {
                 processDefinitionId = task.getProcessDefinitionId();
             }
         }
@@ -413,15 +413,15 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
     protected string getProcessDefinitionId(EntityLinkEntity entityLink) {
         string processDefinitionId = null;
-        if (ScopeTypes.BPMN.equals(entityLink.getScopeType()) && entityLink.getScopeId() != null) {
+        if (ScopeTypes.BPMN.equals(entityLink.getScopeType()) && entityLink.getScopeId() !is null) {
             ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(entityLink.getScopeId());
-            if (execution != null) {
+            if (execution !is null) {
                 processDefinitionId = execution.getProcessDefinitionId();
             }
 
-        } else if (ScopeTypes.TASK.equals(entityLink.getScopeType()) && entityLink.getScopeId() != null) {
+        } else if (ScopeTypes.TASK.equals(entityLink.getScopeType()) && entityLink.getScopeId() !is null) {
             TaskEntity task = CommandContextUtil.getTaskService().getTask(entityLink.getScopeId());
-            if (task != null) {
+            if (task !is null) {
                 processDefinitionId = task.getProcessDefinitionId();
             }
         }

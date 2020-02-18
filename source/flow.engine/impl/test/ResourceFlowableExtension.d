@@ -68,7 +68,7 @@ class ResourceFlowableExtension extends InternalFlowableExtension {
 
     protected ProcessEngine initializeProcessEngine() {
         ProcessEngineConfiguration config = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(configurationResource);
-        if (processEngineName != null) {
+        if (processEngineName !is null) {
             logger.info("Initializing process engine with name '{}'", processEngineName);
             config.setEngineName(processEngineName);
         }
@@ -84,7 +84,7 @@ class ResourceFlowableExtension extends InternalFlowableExtension {
     }
 
     public ProcessEngine rebootEngine() {
-        string engineName = processEngineName != null ? processEngineName : ProcessEngines.NAME_DEFAULT;
+        string engineName = processEngineName !is null ? processEngineName : ProcessEngines.NAME_DEFAULT;
         ProcessEngine processEngine = ProcessEngines.getProcessEngine(engineName);
         ProcessEngines.unregister(processEngine);
         processEngine.close();

@@ -15,8 +15,8 @@
 
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import org.flowable.job.api.Job;
 import org.flowable.job.service.JobServiceConfiguration;
 import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
@@ -47,7 +47,7 @@ class JobEntityManagerImpl
     }
 
     protected bool doInsert(JobEntity jobEntity, bool fireCreateEvent) {
-        if (serviceConfiguration.getInternalJobManager() != null) {
+        if (serviceConfiguration.getInternalJobManager() !is null) {
             bool handledJob = serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
             if (!handledJob) {
                 return false;
@@ -78,14 +78,14 @@ class JobEntityManagerImpl
 
         // Send event
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, jobEntity));
         }
     }
 
     @Override
     public void delete(JobEntity entity, bool fireDeleteEvent) {
-        if (serviceConfiguration.getInternalJobManager() != null) {
+        if (serviceConfiguration.getInternalJobManager() !is null) {
             serviceConfiguration.getInternalJobManager().handleJobDelete(entity);
         }
         

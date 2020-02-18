@@ -43,12 +43,12 @@ class DefaultFormFieldHandler implements FormFieldHandler {
                     string scopeType, Map<string, Object> variables, string tenantId) {
         
         ContentService contentService = CommandContextUtil.getContentService();
-        if (contentService == null || formInfo == null) {
+        if (contentService is null || formInfo is null) {
             return;
         }
 
         SimpleFormModel formModel = (SimpleFormModel) formInfo.getFormModel();
-        if (formModel != null && formModel.getFields() != null) {
+        if (formModel !is null && formModel.getFields() !is null) {
             for (FormField formField : formModel.getFields()) {
                 if (FormFieldTypes.UPLOAD.equals(formField.getType())) {
 
@@ -81,12 +81,12 @@ class DefaultFormFieldHandler implements FormFieldHandler {
     @Override
     public void enrichFormFields(FormInfo formInfo) {
         ContentService contentService = CommandContextUtil.getContentService();
-        if (contentService == null) {
+        if (contentService is null) {
             return;
         }
 
         SimpleFormModel formModel = (SimpleFormModel) formInfo.getFormModel();
-        if (formModel.getFields() != null) {
+        if (formModel.getFields() !is null) {
             for (FormField formField : formModel.getFields()) {
                 if (FormFieldTypes.UPLOAD.equals(formField.getType())) {
 
@@ -100,7 +100,7 @@ class DefaultFormFieldHandler implements FormFieldHandler {
                         Collections.addAll(contentItemIds, splittedString);
                     }
 
-                    if (contentItemIds != null) {
+                    if (contentItemIds !is null) {
                         Set<string> contentItemIdSet = new HashSet<>(contentItemIds);
 
                         List<ContentItem> contentItems = contentService.createContentItemQuery()

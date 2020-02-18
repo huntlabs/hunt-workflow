@@ -32,9 +32,9 @@ class CorrelationUtil {
     
     public static string getCorrelationKey(string elementName, CommandContext commandContext, FlowElement flowElement, ExecutionEntity executionEntity) {
         string correlationKey = null;
-        if (flowElement != null) {
+        if (flowElement !is null) {
             List<ExtensionElement> eventCorrelations = flowElement.getExtensionElements().get(elementName);
-            if (eventCorrelations != null && !eventCorrelations.isEmpty()) {
+            if (eventCorrelations !is null && !eventCorrelations.isEmpty()) {
                 ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
                 ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
 
@@ -43,7 +43,7 @@ class CorrelationUtil {
                     string name = eventCorrelation.getAttributeValue(null, "name");
                     string valueExpression = eventCorrelation.getAttributeValue(null, "value");
                     if (StringUtils.isNotEmpty(valueExpression)) {
-                        if (executionEntity != null) {
+                        if (executionEntity !is null) {
                             Object value = expressionManager.createExpression(valueExpression).getValue(executionEntity);
                             correlationParameters.put(name, value);
                         } else {

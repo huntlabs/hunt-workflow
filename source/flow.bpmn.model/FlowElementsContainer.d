@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @author Tijs Rademakers
  */
-public interface FlowElementsContainer {
+interface FlowElementsContainer {
 
     FlowElement getFlowElement(string id);
 

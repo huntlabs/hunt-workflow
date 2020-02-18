@@ -10,15 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.NativeProcessDefinitionQuery;
+ 
+ 
+ 
 
 
 import flow.common.api.query.NativeQuery;
-
+import flow.engine.repository.ProcessDefinition;
 /**
  * Allows querying of {@link flow.engine.repository.ProcessDefinition}s via native (SQL) queries
  * 
  * @author Henry Yan(http://www.kafeitu.me)
  */
-interface NativeProcessDefinitionQuery extends NativeQuery<NativeProcessDefinitionQuery, ProcessDefinition> {
+interface NativeProcessDefinitionQuery : NativeQuery!(NativeProcessDefinitionQuery, ProcessDefinition) {
 
 }

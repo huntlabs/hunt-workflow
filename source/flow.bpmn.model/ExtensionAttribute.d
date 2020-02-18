@@ -61,13 +61,13 @@ class ExtensionAttribute {
     @Override
     public string toString() {
         StringBuilder sb = new StringBuilder();
-        if (namespacePrefix != null) {
+        if (namespacePrefix !is null) {
             sb.append(namespacePrefix);
-            if (name != null)
+            if (name !is null)
                 sb.append(":").append(name);
         } else
             sb.append(name);
-        if (value != null)
+        if (value !is null)
             sb.append("=").append(value);
         return sb.toString();
     }

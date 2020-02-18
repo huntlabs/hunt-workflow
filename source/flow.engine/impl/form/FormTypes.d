@@ -51,7 +51,7 @@ class FormTypes {
 
         } else if (StringUtils.isNotEmpty(formProperty.getType())) {
             formType = formTypes.get(formProperty.getType());
-            if (formType == null) {
+            if (formType is null) {
                 throw new FlowableIllegalArgumentException("unknown type '" + formProperty.getType() + "' " + formProperty.getId());
             }
         }

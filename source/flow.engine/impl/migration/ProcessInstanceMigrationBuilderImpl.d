@@ -181,7 +181,7 @@ class ProcessInstanceMigrationBuilderImpl implements ProcessInstanceMigrationBui
     }
 
     protected ProcessMigrationService getProcessMigrationService() {
-        if (processInstanceMigrationService == null) {
+        if (processInstanceMigrationService is null) {
             throw new FlowableException("ProcessInstanceMigrationService cannot be null, Obtain your builder instance from the ProcessInstanceMigrationService to access this feature");
         }
         return processInstanceMigrationService;

@@ -42,17 +42,17 @@ class SaveProcessDefinitionInfoCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("process definition id is null");
         }
 
-        if (infoNode == null) {
+        if (infoNode is null) {
             throw new FlowableIllegalArgumentException("process definition info node is null");
         }
 
         ProcessDefinitionInfoEntityManager definitionInfoEntityManager = CommandContextUtil.getProcessDefinitionInfoEntityManager(commandContext);
         ProcessDefinitionInfoEntity definitionInfoEntity = definitionInfoEntityManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinitionId);
-        if (definitionInfoEntity == null) {
+        if (definitionInfoEntity is null) {
             definitionInfoEntity = definitionInfoEntityManager.create();
             definitionInfoEntity.setProcessDefinitionId(processDefinitionId);
             CommandContextUtil.getProcessDefinitionInfoEntityManager().insertProcessDefinitionInfo(definitionInfoEntity);

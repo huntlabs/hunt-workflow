@@ -60,7 +60,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 class ProcessInstanceMigrationDocumentConverter {
 
-    protected static Predicate<JsonNode> isNotNullNode = jsonNode -> jsonNode != null && !jsonNode.isNull();
+    protected static Predicate<JsonNode> isNotNullNode = jsonNode -> jsonNode !is null && !jsonNode.isNull();
     protected static Predicate<JsonNode> isSingleTextValue = jsonNode -> isNotNullNode.test(jsonNode) && jsonNode.isTextual();
     protected static Predicate<JsonNode> isMultiValue = jsonNode -> isNotNullNode.test(jsonNode) && jsonNode.isArray();
 
@@ -84,55 +84,55 @@ class ProcessInstanceMigrationDocumentConverter {
 
         ObjectNode documentNode = objectMapper.createObjectNode();
 
-        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionId() != null) {
+        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionId() !is null) {
             documentNode.put(TO_PROCESS_DEFINITION_ID_JSON_PROPERTY, processInstanceMigrationDocument.getMigrateToProcessDefinitionId());
         }
 
-        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionKey() != null) {
+        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionKey() !is null) {
             documentNode.put(TO_PROCESS_DEFINITION_KEY_JSON_PROPERTY, processInstanceMigrationDocument.getMigrateToProcessDefinitionKey());
         }
 
-        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionVersion() != null) {
+        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionVersion() !is null) {
             documentNode.put(TO_PROCESS_DEFINITION_VERSION_JSON_PROPERTY, processInstanceMigrationDocument.getMigrateToProcessDefinitionVersion());
         }
 
-        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionTenantId() != null) {
+        if (processInstanceMigrationDocument.getMigrateToProcessDefinitionTenantId() !is null) {
             documentNode.put(TO_PROCESS_DEFINITION_TENANT_ID_JSON_PROPERTY, processInstanceMigrationDocument.getMigrateToProcessDefinitionTenantId());
         }
 
         JsonNode preUpgradeScriptNode = convertToJsonUpgradeScript(processInstanceMigrationDocument.getPreUpgradeScript(), objectMapper);
-        if (preUpgradeScriptNode != null && !preUpgradeScriptNode.isNull()) {
+        if (preUpgradeScriptNode !is null && !preUpgradeScriptNode.isNull()) {
             documentNode.set(PRE_UPGRADE_SCRIPT, preUpgradeScriptNode);
         }
 
-        if (processInstanceMigrationDocument.getPreUpgradeJavaDelegate() != null) {
+        if (processInstanceMigrationDocument.getPreUpgradeJavaDelegate() !is null) {
             documentNode.put(PRE_UPGRADE_JAVA_DELEGATE, processInstanceMigrationDocument.getPreUpgradeJavaDelegate());
         }
 
-        if (processInstanceMigrationDocument.getPreUpgradeJavaDelegateExpression() != null) {
+        if (processInstanceMigrationDocument.getPreUpgradeJavaDelegateExpression() !is null) {
             documentNode.put(PRE_UPGRADE_JAVA_DELEGATE_EXPRESSION, processInstanceMigrationDocument.getPreUpgradeJavaDelegateExpression());
         }
 
         JsonNode postUpgradeScriptNode = convertToJsonUpgradeScript(processInstanceMigrationDocument.getPostUpgradeScript(), objectMapper);
-        if (postUpgradeScriptNode != null && !postUpgradeScriptNode.isNull()) {
+        if (postUpgradeScriptNode !is null && !postUpgradeScriptNode.isNull()) {
             documentNode.set(POST_UPGRADE_SCRIPT, postUpgradeScriptNode);
         }
 
-        if (processInstanceMigrationDocument.getPostUpgradeJavaDelegate() != null) {
+        if (processInstanceMigrationDocument.getPostUpgradeJavaDelegate() !is null) {
             documentNode.put(POST_UPGRADE_JAVA_DELEGATE, processInstanceMigrationDocument.getPostUpgradeJavaDelegate());
         }
 
-        if (processInstanceMigrationDocument.getPostUpgradeJavaDelegateExpression() != null) {
+        if (processInstanceMigrationDocument.getPostUpgradeJavaDelegateExpression() !is null) {
             documentNode.put(POST_UPGRADE_JAVA_DELEGATE_EXPRESSION, processInstanceMigrationDocument.getPostUpgradeJavaDelegateExpression());
         }
 
         ArrayNode mappingNodes = convertToJsonActivityMigrationMappings(processInstanceMigrationDocument.getActivityMigrationMappings());
-        if (mappingNodes != null && !mappingNodes.isNull()) {
+        if (mappingNodes !is null && !mappingNodes.isNull()) {
             documentNode.set(ACTIVITY_MAPPINGS_JSON_SECTION, mappingNodes);
         }
 
         JsonNode processInstanceVariablesNode = convertToJsonProcessInstanceVariables(processInstanceMigrationDocument, objectMapper);
-        if (processInstanceVariablesNode != null && !processInstanceVariablesNode.isNull()) {
+        if (processInstanceVariablesNode !is null && !processInstanceVariablesNode.isNull()) {
             documentNode.set(PROCESS_INSTANCE_VARIABLES_JSON_SECTION, processInstanceVariablesNode);
         }
 
@@ -154,7 +154,7 @@ class ProcessInstanceMigrationDocumentConverter {
 
         for (ActivityMigrationMapping mapping : activityMigrationMappings) {
             BaseActivityMigrationMappingConverter mappingConverter = activityMigrationMappingConverters.get(mapping.getClass());
-            if (mappingConverter == null) {
+            if (mappingConverter is null) {
                 throw new FlowableException("Cannot convert mapping of type '" + mapping.getClass() + "'");
             }
             ObjectNode mappingNode = mappingConverter.convertToJson(mapping, objectMapper);
@@ -185,7 +185,7 @@ class ProcessInstanceMigrationDocumentConverter {
             documentBuilder.setTenantId(processDefinitionTenantId);
 
             JsonNode preUpgradeScriptNode = rootNode.get(PRE_UPGRADE_SCRIPT);
-            if (preUpgradeScriptNode != null) {
+            if (preUpgradeScriptNode !is null) {
                 string language = Optional.ofNullable(preUpgradeScriptNode.get(LANGUAGE)).map(JsonNode::asText).orElse("javascript");
                 string script = Optional.ofNullable(preUpgradeScriptNode.get(SCRIPT)).map(JsonNode::asText).orElse("javascript");
                 documentBuilder.setPreUpgradeScript(new Script(language, script));
@@ -200,7 +200,7 @@ class ProcessInstanceMigrationDocumentConverter {
             documentBuilder.setPreUpgradeJavaDelegateExpression(expression);
 
             JsonNode postUpgradeScriptNode = rootNode.get(POST_UPGRADE_SCRIPT);
-            if (postUpgradeScriptNode != null) {
+            if (postUpgradeScriptNode !is null) {
                 string language = Optional.ofNullable(postUpgradeScriptNode.get(LANGUAGE)).map(JsonNode::asText).orElse("javascript");
                 string script = Optional.ofNullable(postUpgradeScriptNode.get(SCRIPT)).map(JsonNode::asText).orElse("javascript");
                 documentBuilder.setPostUpgradeScript(new Script(language, script));
@@ -215,7 +215,7 @@ class ProcessInstanceMigrationDocumentConverter {
             documentBuilder.setPostUpgradeJavaDelegateExpression(postExpression);
 
             JsonNode activityMigrationMappings = rootNode.get(ACTIVITY_MAPPINGS_JSON_SECTION);
-            if (activityMigrationMappings != null) {
+            if (activityMigrationMappings !is null) {
 
                 for (JsonNode mappingNode : activityMigrationMappings) {
                     Class<? extends ActivityMigrationMapping> mappingClass = null;
@@ -236,7 +236,7 @@ class ProcessInstanceMigrationDocumentConverter {
             }
 
             JsonNode processInstanceVariablesNode = rootNode.get(PROCESS_INSTANCE_VARIABLES_JSON_SECTION);
-            if (processInstanceVariablesNode != null) {
+            if (processInstanceVariablesNode !is null) {
                 Map<string, Object> processInstanceVariables = ProcessInstanceMigrationDocumentConverter.convertFromJsonNodeToObject(processInstanceVariablesNode, objectMapper);
                 documentBuilder.addProcessInstanceVariables(processInstanceVariables);
             }
@@ -250,14 +250,14 @@ class ProcessInstanceMigrationDocumentConverter {
 
     protected static JsonNode convertToJsonProcessInstanceVariables(ProcessInstanceMigrationDocument processInstanceMigrationDocument, ObjectMapper objectMapper) {
         Map<string, Object> processInstanceVariables = processInstanceMigrationDocument.getProcessInstanceVariables();
-        if (processInstanceVariables != null && !processInstanceVariables.isEmpty()) {
+        if (processInstanceVariables !is null && !processInstanceVariables.isEmpty()) {
             return objectMapper.valueToTree(processInstanceVariables);
         }
         return null;
     }
 
     protected static JsonNode convertToJsonUpgradeScript(Script script, ObjectMapper objectMapper) {
-        if (script != null) {
+        if (script !is null) {
             return objectMapper.valueToTree(script);
         }
         return null;
@@ -269,12 +269,12 @@ class ProcessInstanceMigrationDocumentConverter {
             ObjectNode mappingNode = convertMappingInfoToJson(mapping, objectMapper);
 
             JsonNode newAssigneeToJsonNode = convertNewAssigneeToJson(mapping, objectMapper);
-            if (newAssigneeToJsonNode != null && !newAssigneeToJsonNode.isNull()) {
+            if (newAssigneeToJsonNode !is null && !newAssigneeToJsonNode.isNull()) {
                 mappingNode.set(NEW_ASSIGNEE_JSON_PROPERTY, newAssigneeToJsonNode);
             }
 
             JsonNode variablesToJsonNode = convertLocalVariablesToJson(mapping, objectMapper);
-            if (variablesToJsonNode != null && !variablesToJsonNode.isNull()) {
+            if (variablesToJsonNode !is null && !variablesToJsonNode.isNull()) {
                 mappingNode.set(LOCAL_VARIABLES_JSON_SECTION, variablesToJsonNode);
             }
 
@@ -322,7 +322,7 @@ class ProcessInstanceMigrationDocumentConverter {
 
         protected <V> V getLocalVariablesFromJson(JsonNode jsonNode, ObjectMapper objectMapper) {
             JsonNode localVariablesNode = jsonNode.get(LOCAL_VARIABLES_JSON_SECTION);
-            if (localVariablesNode != null) {
+            if (localVariablesNode !is null) {
                 return ProcessInstanceMigrationDocumentConverter.convertFromJsonNodeToObject(localVariablesNode, objectMapper);
             }
             return null;
@@ -351,7 +351,7 @@ class ProcessInstanceMigrationDocumentConverter {
         @Override
         public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.OneToOneMapping mapping, ObjectMapper objectMapper) {
             Map<string, Object> activityLocalVariables = mapping.getActivityLocalVariables();
-            if (activityLocalVariables != null && !activityLocalVariables.isEmpty()) {
+            if (activityLocalVariables !is null && !activityLocalVariables.isEmpty()) {
                 return objectMapper.valueToTree(activityLocalVariables);
             }
             return null;
@@ -374,7 +374,7 @@ class ProcessInstanceMigrationDocumentConverter {
                 .ifPresent(oneToOneMapping::withNewAssignee);
 
             Map<string, Object> localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
-            if (localVariables != null) {
+            if (localVariables !is null) {
                 oneToOneMapping.withLocalVariables(localVariables);
             }
 
@@ -398,7 +398,7 @@ class ProcessInstanceMigrationDocumentConverter {
         @Override
         public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.ManyToOneMapping mapping, ObjectMapper objectMapper) {
             Map<string, Object> activityLocalVariables = mapping.getActivityLocalVariables();
-            if (activityLocalVariables != null && !activityLocalVariables.isEmpty()) {
+            if (activityLocalVariables !is null && !activityLocalVariables.isEmpty()) {
                 return objectMapper.valueToTree(activityLocalVariables);
             }
             return null;
@@ -424,7 +424,7 @@ class ProcessInstanceMigrationDocumentConverter {
                 .ifPresent(manyToOneMapping::withNewAssignee);
 
             Map<string, Object> localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
-            if (localVariables != null) {
+            if (localVariables !is null) {
                 manyToOneMapping.withLocalVariables(localVariables);
             }
 
@@ -447,7 +447,7 @@ class ProcessInstanceMigrationDocumentConverter {
         @Override
         public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.OneToManyMapping mapping, ObjectMapper objectMapper) {
             Map<string, Map<string, Object>> activitiesLocalVariables = mapping.getActivitiesLocalVariables();
-            if (activitiesLocalVariables != null && !activitiesLocalVariables.isEmpty()) {
+            if (activitiesLocalVariables !is null && !activitiesLocalVariables.isEmpty()) {
                 return objectMapper.valueToTree(activitiesLocalVariables);
             }
             return null;
@@ -470,7 +470,7 @@ class ProcessInstanceMigrationDocumentConverter {
             convertAdditionalMappingInfoFromJson(oneToManyMapping, jsonNode);
 
             Map<string, Map<string, Object>> localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
-            if (localVariables != null) {
+            if (localVariables !is null) {
                 oneToManyMapping.withLocalVariables(localVariables);
             }
 

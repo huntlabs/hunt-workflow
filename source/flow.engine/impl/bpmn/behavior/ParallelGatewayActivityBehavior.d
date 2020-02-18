@@ -76,7 +76,7 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
         Collection<ExecutionEntity> joinedExecutions = executionEntityManager.findInactiveExecutionsByActivityIdAndProcessInstanceId(execution.getCurrentActivityId(), execution.getProcessInstanceId());
-        if (multiInstanceExecution != null) {
+        if (multiInstanceExecution !is null) {
             joinedExecutions = cleanJoinedExecutions(joinedExecutions, multiInstanceExecution);
         }
 
@@ -133,7 +133,7 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
     protected bool isChildOfMultiInstanceExecution(DelegateExecution executionEntity, DelegateExecution multiInstanceExecution) {
         bool isChild = false;
         DelegateExecution parentExecution = executionEntity.getParent();
-        if (parentExecution != null) {
+        if (parentExecution !is null) {
             if (parentExecution.getId().equals(multiInstanceExecution.getId())) {
                 isChild = true;
             } else {
@@ -149,8 +149,8 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
 
     protected bool hasMultiInstanceParent(FlowNode flowNode) {
         bool hasMultiInstanceParent = false;
-        if (flowNode.getSubProcess() != null) {
-            if (flowNode.getSubProcess().getLoopCharacteristics() != null) {
+        if (flowNode.getSubProcess() !is null) {
+            if (flowNode.getSubProcess().getLoopCharacteristics() !is null) {
                 hasMultiInstanceParent = true;
             } else {
                 bool hasNestedMultiInstanceParent = hasMultiInstanceParent(flowNode.getSubProcess());
@@ -166,18 +166,18 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
     protected DelegateExecution findMultiInstanceParentExecution(DelegateExecution execution) {
         DelegateExecution multiInstanceExecution = null;
         DelegateExecution parentExecution = execution.getParent();
-        if (parentExecution != null && parentExecution.getCurrentFlowElement() != null) {
+        if (parentExecution !is null && parentExecution.getCurrentFlowElement() !is null) {
             FlowElement flowElement = parentExecution.getCurrentFlowElement();
             if (flowElement instanceof Activity) {
                 Activity activity = (Activity) flowElement;
-                if (activity.getLoopCharacteristics() != null) {
+                if (activity.getLoopCharacteristics() !is null) {
                     multiInstanceExecution = parentExecution;
                 }
             }
 
-            if (multiInstanceExecution == null) {
+            if (multiInstanceExecution is null) {
                 DelegateExecution potentialMultiInstanceExecution = findMultiInstanceParentExecution(parentExecution);
-                if (potentialMultiInstanceExecution != null) {
+                if (potentialMultiInstanceExecution !is null) {
                     multiInstanceExecution = potentialMultiInstanceExecution;
                 }
             }

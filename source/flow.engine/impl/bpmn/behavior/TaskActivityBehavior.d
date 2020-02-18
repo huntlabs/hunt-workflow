@@ -31,9 +31,9 @@ class TaskActivityBehavior extends AbstractBpmnActivityBehavior {
 
     protected List<string> getActiveValueList(List<string> originalValues, string propertyName, ObjectNode taskElementProperties) {
         List<string> activeValues = originalValues;
-        if (taskElementProperties != null) {
+        if (taskElementProperties !is null) {
             JsonNode overrideValuesNode = taskElementProperties.get(propertyName);
-            if (overrideValuesNode != null) {
+            if (overrideValuesNode !is null) {
                 if (overrideValuesNode.isNull() || !overrideValuesNode.isArray() || overrideValuesNode.size() == 0) {
                     activeValues = null;
                 } else {

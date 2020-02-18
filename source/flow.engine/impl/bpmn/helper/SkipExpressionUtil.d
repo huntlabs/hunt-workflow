@@ -13,7 +13,7 @@
 
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
 import flow.engine.DynamicBpmnConstants;
@@ -28,13 +28,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 class SkipExpressionUtil {
 
     public static bool isSkipExpressionEnabled(string skipExpression, string activityId, DelegateExecution execution, CommandContext commandContext) {
-        if (skipExpression == null) {
+        if (skipExpression is null) {
             ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
             
             if (processEngineConfiguration.isEnableProcessDefinitionInfoCache()) {
                 ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(activityId, execution.getProcessDefinitionId());
                 string overrideSkipExpression = DynamicPropertyUtil.getActiveValue(null, DynamicBpmnConstants.TASK_SKIP_EXPRESSION, taskElementProperties);
-                if (overrideSkipExpression == null) {
+                if (overrideSkipExpression is null) {
                     return false;
                 }
                 
@@ -64,7 +64,7 @@ class SkipExpressionUtil {
         skipExpressionEnabledVariable = "_FLOWABLE_SKIP_EXPRESSION_ENABLED";
         isSkipExpressionEnabled = execution.getVariable(skipExpressionEnabledVariable);
 
-        if (isSkipExpressionEnabled == null) {
+        if (isSkipExpressionEnabled is null) {
             return false;
 
         } else if (isSkipExpressionEnabled instanceof bool) {
@@ -91,9 +91,9 @@ class SkipExpressionUtil {
     }
     
     protected static bool isEnableSkipExpression(ObjectNode globalProperties) {
-        if (globalProperties != null) {
+        if (globalProperties !is null) {
             JsonNode overrideValueNode = globalProperties.get(DynamicBpmnConstants.ENABLE_SKIP_EXPRESSION);
-            if (overrideValueNode != null && !overrideValueNode.isNull() && "true".equalsIgnoreCase(overrideValueNode.asText())) {
+            if (overrideValueNode !is null && !overrideValueNode.isNull() && "true".equalsIgnoreCase(overrideValueNode.asText())) {
                 return true;
             }
         }

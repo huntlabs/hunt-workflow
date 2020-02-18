@@ -15,8 +15,8 @@
 import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
@@ -51,11 +51,11 @@ class ExecuteAsyncJobCmd implements Command<Object>, Serializable {
     @Override
     public Object execute(CommandContext commandContext) {
         
-        if (jobEntityManager == null) {
+        if (jobEntityManager is null) {
             jobEntityManager = CommandContextUtil.getJobEntityManager(commandContext); // Backwards compatibility
         }
 
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
 
@@ -66,7 +66,7 @@ class ExecuteAsyncJobCmd implements Command<Object>, Serializable {
         // A refetch is thus needed here to be sure that it exists for this transaction.
 
         JobInfoEntity job = jobEntityManager.findById(jobId);
-        if (job == null) {
+        if (job is null) {
             LOGGER.debug("Job does not exist anymore and will not be executed. It has most likely been deleted "
                     + "as part of another concurrent part of the process instance.");
             return null;
@@ -79,7 +79,7 @@ class ExecuteAsyncJobCmd implements Command<Object>, Serializable {
         CommandContextUtil.getJobManager(commandContext).execute(job);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(
                     FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_EXECUTION_SUCCESS, job));
         }

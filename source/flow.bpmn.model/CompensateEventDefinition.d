@@ -18,7 +18,7 @@
 class CompensateEventDefinition extends EventDefinition {
 
     protected string activityRef;
-    protected boolean waitForCompletion = true;
+    protected bool waitForCompletion = true;
 
     public string getActivityRef() {
         return activityRef;
@@ -28,11 +28,11 @@ class CompensateEventDefinition extends EventDefinition {
         this.activityRef = activityRef;
     }
 
-    public boolean isWaitForCompletion() {
+    public bool isWaitForCompletion() {
         return waitForCompletion;
     }
 
-    public void setWaitForCompletion(boolean waitForCompletion) {
+    public void setWaitForCompletion(bool waitForCompletion) {
         this.waitForCompletion = waitForCompletion;
     }
 

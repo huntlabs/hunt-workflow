@@ -50,7 +50,7 @@ class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUti
                 initialStartEvent = startEvent;
                 break;
                 
-            } else if (initialStartEvent == null) {
+            } else if (initialStartEvent is null) {
                 initialStartEvent = startEvent;
             }
         }
@@ -62,7 +62,7 @@ class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUti
         process.addFlowElement(parallelGateway);
 
         SubProcess subProcess = new SubProcess();
-        if (dynamicEmbeddedSubProcessBuilder.getId() != null) {
+        if (dynamicEmbeddedSubProcessBuilder.getId() !is null) {
             subProcess.setId(dynamicEmbeddedSubProcessBuilder.getId());
         } else {
             subProcess.setId(dynamicEmbeddedSubProcessBuilder.nextSubProcessId(process.getFlowElementMap()));
@@ -81,7 +81,7 @@ class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUti
         
         Map<string, FlowElement> generatedIds = new HashMap<>();
         processSubProcessFlowElements(commandContext, subProcess.getId(), process, bpmnModel, subProcess, bpmnModelSubProcess, 
-                        subProcessDefinition, newDeploymentEntity, generatedIds, (elementGraphicInfo != null));
+                        subProcessDefinition, newDeploymentEntity, generatedIds, (elementGraphicInfo !is null));
         
         for (string originalFlowElementId : generatedIds.keySet()) {
             FlowElement duplicateFlowElement = generatedIds.get(originalFlowElementId);
@@ -110,7 +110,7 @@ class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUti
         flowFromStart.setId(dynamicEmbeddedSubProcessBuilder.nextFlowId(process.getFlowElementMap()));
         process.addFlowElement(flowFromStart);
         
-        if (elementGraphicInfo != null) {
+        if (elementGraphicInfo !is null) {
             double yDiff = 0;
             double xDiff = 80;
             if (elementGraphicInfo.getY() < 173) {

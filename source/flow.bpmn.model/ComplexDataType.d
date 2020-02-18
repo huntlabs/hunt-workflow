@@ -15,6 +15,6 @@
 /**
  * @author Tijs Rademakers
  */
-public interface ComplexDataType {
+interface ComplexDataType {
 
 }

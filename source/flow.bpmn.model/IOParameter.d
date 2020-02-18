@@ -21,7 +21,7 @@ class IOParameter extends BaseElement {
     protected string sourceExpression;
     protected string target;
     protected string targetExpression;
-    protected boolean isTransient;
+    protected bool isTransient;
 
     public string getSource() {
         return source;
@@ -55,11 +55,11 @@ class IOParameter extends BaseElement {
         this.targetExpression = targetExpression;
     }
 
-    public boolean isTransient() {
+    public bool isTransient() {
         return isTransient;
     }
 
-    public void setTransient(boolean isTransient) {
+    public void setTransient(bool isTransient) {
         this.isTransient = isTransient;
     }
 

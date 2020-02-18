@@ -19,7 +19,7 @@ class Pool extends BaseElement {
 
     protected string name;
     protected string processRef;
-    protected boolean executable = true;
+    protected bool executable = true;
 
     public string getName() {
         return name;
@@ -37,11 +37,11 @@ class Pool extends BaseElement {
         this.processRef = processRef;
     }
 
-    public boolean isExecutable() {
+    public bool isExecutable() {
         return this.executable;
     }
 
-    public void setExecutable(boolean executable) {
+    public void setExecutable(bool executable) {
         this.executable = executable;
     }
 

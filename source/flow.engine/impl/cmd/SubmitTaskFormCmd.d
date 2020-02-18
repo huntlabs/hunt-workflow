@@ -48,7 +48,7 @@ class SubmitTaskFormCmd extends NeedsActiveTaskCmd<Void> {
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
         // Backwards compatibility
-        if (task.getProcessDefinitionId() != null) {
+        if (task.getProcessDefinitionId() !is null) {
             if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
                 Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
                 compatibilityHandler.submitTaskFormData(taskId, properties, completeTask);
@@ -63,7 +63,7 @@ class SubmitTaskFormCmd extends NeedsActiveTaskCmd<Void> {
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         TaskFormHandler taskFormHandler = formHandlerHelper.getTaskFormHandlder(task);
 
-        if (taskFormHandler != null) {
+        if (taskFormHandler !is null) {
             taskFormHandler.submitFormProperties(properties, executionEntity);
 
             if (completeTask) {

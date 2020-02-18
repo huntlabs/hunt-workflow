@@ -49,25 +49,25 @@ class EventSubscriptionManager {
 
     protected void removeObsoleteMessageEventSubscriptions(ProcessDefinitionEntity previousProcessDefinition) {
         // remove all subscriptions for the previous version
-        if (previousProcessDefinition != null) {
+        if (previousProcessDefinition !is null) {
             removeObsoleteEventSubscriptionsImpl(previousProcessDefinition, MessageEventHandler.EVENT_HANDLER_TYPE);
         }
     }
 
     protected void removeObsoleteSignalEventSubScription(ProcessDefinitionEntity previousProcessDefinition) {
         // remove all subscriptions for the previous version
-        if (previousProcessDefinition != null) {
+        if (previousProcessDefinition !is null) {
             removeObsoleteEventSubscriptionsImpl(previousProcessDefinition, SignalEventHandler.EVENT_HANDLER_TYPE);
         }
     }
     
     protected void removeObsoleteEventRegistryEventSubScription(ProcessDefinitionEntity previousProcessDefinition) {
         // remove all subscriptions for the previous version
-        if (previousProcessDefinition != null) {
+        if (previousProcessDefinition !is null) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
             EventSubscriptionQueryImpl eventSubscriptionQuery = new EventSubscriptionQueryImpl(Context.getCommandContext());
             eventSubscriptionQuery.processDefinitionId(previousProcessDefinition.getId()).scopeType(ScopeTypes.BPMN);
-            if (previousProcessDefinition.getTenantId() != null) {
+            if (previousProcessDefinition.getTenantId() !is null) {
                 eventSubscriptionQuery.tenantId(previousProcessDefinition.getTenantId());
             }
             
@@ -109,7 +109,7 @@ class EventSubscriptionManager {
                         }
                         
                     } else {
-                        if (startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE) != null) {
+                        if (startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE) !is null) {
                             List<ExtensionElement> eventTypeElements = startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
                             if (!eventTypeElements.isEmpty()) {
                                 string eventDefinitionKey = eventTypeElements.get(0).getElementText();
@@ -126,14 +126,14 @@ class EventSubscriptionManager {
         CommandContext commandContext = Context.getCommandContext();
         SignalEventSubscriptionEntity subscriptionEntity = CommandContextUtil.getEventSubscriptionService(commandContext).createSignalEventSubscription();
         Signal signal = bpmnModel.getSignal(signalEventDefinition.getSignalRef());
-        if (signal != null) {
+        if (signal !is null) {
             subscriptionEntity.setEventName(signal.getName());
         } else {
             subscriptionEntity.setEventName(signalEventDefinition.getSignalRef());
         }
         subscriptionEntity.setActivityId(startEvent.getId());
         subscriptionEntity.setProcessDefinitionId(processDefinition.getId());
-        if (processDefinition.getTenantId() != null) {
+        if (processDefinition.getTenantId() !is null) {
             subscriptionEntity.setTenantId(processDefinition.getTenantId());
         }
 
@@ -151,7 +151,7 @@ class EventSubscriptionManager {
 
         for (EventSubscriptionEntity eventSubscriptionEntity : subscriptionsForSameMessageName) {
             // throw exception only if there's already a subscription as start event
-            if (eventSubscriptionEntity.getProcessInstanceId() == null || eventSubscriptionEntity.getProcessInstanceId().isEmpty()) { // processInstanceId != null or not empty -> it's a message
+            if (eventSubscriptionEntity.getProcessInstanceId() is null || eventSubscriptionEntity.getProcessInstanceId().isEmpty()) { // processInstanceId !is null or not empty -> it's a message
                                                                                                                                       // related to an execution
                 // the event subscription has no instance-id, so it's a message start event
                 throw new FlowableException("Cannot deploy process definition '" + processDefinition.getResourceName()
@@ -165,7 +165,7 @@ class EventSubscriptionManager {
         newSubscription.setConfiguration(processDefinition.getId());
         newSubscription.setProcessDefinitionId(processDefinition.getId());
 
-        if (processDefinition.getTenantId() != null) {
+        if (processDefinition.getTenantId() !is null) {
             newSubscription.setTenantId(processDefinition.getTenantId());
         }
 
@@ -183,7 +183,7 @@ class EventSubscriptionManager {
                 .scopeType(ScopeTypes.BPMN)
                 .configuration(CorrelationUtil.getCorrelationKey(BpmnXMLConstants.ELEMENT_EVENT_CORRELATION_PARAMETER, commandContext, startEvent, null));
                 
-        if (processDefinition.getTenantId() != null) {
+        if (processDefinition.getTenantId() !is null) {
             eventSubscriptionBuilder.tenantId(processDefinition.getTenantId());
         }
 

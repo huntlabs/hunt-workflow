@@ -86,6 +86,6 @@ import java.util.Date;
     void setFormKey(string formKey);
 
     /** Indicates whether this task is suspended or not. */
-    boolean isSuspended();
+    bool isSuspended();
 
 }

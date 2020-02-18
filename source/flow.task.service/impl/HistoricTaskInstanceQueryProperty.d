@@ -16,7 +16,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import org.flowable.common.engine.api.query.QueryProperty;
+import flow.common.api.query.QueryProperty;
 
 /**
  * @author Tom Baeyens

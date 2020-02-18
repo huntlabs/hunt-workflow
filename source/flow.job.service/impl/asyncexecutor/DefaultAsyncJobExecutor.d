@@ -176,12 +176,12 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
     }
 
     protected void initAsyncJobExecutionThreadPool() {
-        if (threadPoolQueue == null) {
+        if (threadPoolQueue is null) {
             LOGGER.info("Creating thread pool queue of size {}", queueSize);
             threadPoolQueue = new ArrayBlockingQueue<>(queueSize);
         }
 
-        if (executorService == null) {
+        if (executorService is null) {
             LOGGER.info("Creating executor service with corePoolSize {}, maxPoolSize {} and keepAliveTime {}", corePoolSize, maxPoolSize, keepAliveTime);
 
             BasicThreadFactory threadFactory = new BasicThreadFactory.Builder().namingPattern(threadPoolNamingPattern).build();
@@ -193,7 +193,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
     }
 
     protected void stopExecutingAsyncJobs() {
-        if (executorService != null) {
+        if (executorService !is null) {
 
             // Ask the thread pool to finish and exit
             executorService.shutdown();
@@ -215,7 +215,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
     /** Starts the acquisition thread */
     protected void startJobAcquisitionThread() {
         if (isAsyncJobAcquisitionEnabled) {
-            if (asyncJobAcquisitionThread == null) {
+            if (asyncJobAcquisitionThread is null) {
                 asyncJobAcquisitionThread = new Thread(asyncJobsDueRunnable);
             }
             asyncJobAcquisitionThread.start();
@@ -224,7 +224,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
 
     protected void startTimerAcquisitionThread() {
         if (isTimerJobAcquisitionEnabled) {
-            if (timerJobAcquisitionThread == null) {
+            if (timerJobAcquisitionThread is null) {
                 timerJobAcquisitionThread = new Thread(timerJobRunnable);
             }
             timerJobAcquisitionThread.start();
@@ -233,7 +233,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
 
     /** Stops the acquisition thread */
     protected void stopJobAcquisitionThread() {
-        if (asyncJobAcquisitionThread != null) {
+        if (asyncJobAcquisitionThread !is null) {
             try {
                 asyncJobAcquisitionThread.join();
             } catch (InterruptedException e) {
@@ -244,7 +244,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
     }
 
     protected void stopTimerAcquisitionThread() {
-        if (timerJobAcquisitionThread != null) {
+        if (timerJobAcquisitionThread !is null) {
             try {
                 timerJobAcquisitionThread.join();
             } catch (InterruptedException e) {
@@ -257,7 +257,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
     /** Starts the reset expired jobs thread */
     protected void startResetExpiredJobsThread() {
         if (isResetExpiredJobEnabled) {
-            if (resetExpiredJobThread == null) {
+            if (resetExpiredJobThread is null) {
                 resetExpiredJobThread = new Thread(resetExpiredJobsRunnable);
             }
             resetExpiredJobThread.start();
@@ -266,7 +266,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
 
     /** Stops the reset expired jobs thread */
     protected void stopResetExpiredJobsThread() {
-        if (resetExpiredJobThread != null) {
+        if (resetExpiredJobThread !is null) {
             try {
                 resetExpiredJobThread.join();
             } catch (InterruptedException e) {
@@ -339,7 +339,7 @@ class DefaultAsyncJobExecutor extends AbstractAsyncExecutor {
 
     @Override
     public int getRemainingCapacity() {
-        if (threadPoolQueue != null) {
+        if (threadPoolQueue !is null) {
             return threadPoolQueue.remainingCapacity();
         } else {
             // return plenty of remaining capacity if there's no thread pool queue

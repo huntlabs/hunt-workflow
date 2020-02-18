@@ -49,11 +49,11 @@
 //        }
 //
 //        List<ExecutionTreeNode> children = currentNode.getChildren();
-//        if (currentNode.getChildren() != null && children.size() > 0) {
+//        if (currentNode.getChildren() !is null && children.size() > 0) {
 //            int index = 0;
 //            while (index < children.size()) {
 //                ExecutionTreeNode result = getTreeNode(executionId, children.get(index));
-//                if (result != null) {
+//                if (result !is null) {
 //                    return result;
 //                }
 //                index++;
@@ -81,7 +81,7 @@
 //
 //    @Override
 //    public string toString() {
-//        return root != null ? root.toString() : "";
+//        return root !is null ? root.toString() : "";
 //    }
 //
 //}

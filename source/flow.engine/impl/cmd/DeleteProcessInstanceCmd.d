@@ -40,12 +40,12 @@ class DeleteProcessInstanceCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
         }
 
         ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
-        if (processInstanceEntity == null) {
+        if (processInstanceEntity is null) {
             throw new FlowableObjectNotFoundException("No process instance found for id '" + processInstanceId + "'", ProcessInstance.class);
         }
         if (processInstanceEntity.isDeleted()) {

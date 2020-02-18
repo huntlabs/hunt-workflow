@@ -12,12 +12,21 @@
  */
 
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.DeploymentQuery;
+ 
+ 
+ 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.query.Query;
 import flow.engine.RepositoryService;
-
+import flow.engine.repository.Deployment;
 /**
  * Allows programmatic querying of {@link Deployment}s.
  * 
@@ -29,7 +38,7 @@ import flow.engine.RepositoryService;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface DeploymentQuery extends Query<DeploymentQuery, Deployment> {
+interface DeploymentQuery : Query!(DeploymentQuery, Deployment) {
 
     /**
      * Only select deployments with the given deployment id.
@@ -39,7 +48,7 @@ interface DeploymentQuery extends Query<DeploymentQuery, Deployment> {
     /**
      * Only select deployments with an id in the given set of ids.
      */
-    DeploymentQuery deploymentIds(List<string> deploymentId);
+    DeploymentQuery deploymentIds(List!string deploymentId);
 
     /**
      * Only select deployments with the given name.
@@ -118,7 +127,7 @@ interface DeploymentQuery extends Query<DeploymentQuery, Deployment> {
     /**
      * Only select deployments with a parent deployment id that is the same as one of the given deployment identifiers.
      */
-    DeploymentQuery parentDeploymentIds(List<string> parentDeploymentIds);
+    DeploymentQuery parentDeploymentIds(List!string parentDeploymentIds);
 
     /**
      * Only select deployments with the given process definition key. 

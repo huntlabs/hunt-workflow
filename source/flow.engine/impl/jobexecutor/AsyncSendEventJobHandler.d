@@ -60,7 +60,7 @@ class AsyncSendEventJobHandler implements JobHandler {
             eventModel = CommandContextUtil.getEventRepositoryService(commandContext).getEventModelByKey(sendEventServiceTask.getEventType(), job.getTenantId());
         }
 
-        if (eventModel == null) {
+        if (eventModel is null) {
             throw new FlowableException("No event model found for event key " + sendEventServiceTask.getEventType());
         }
         

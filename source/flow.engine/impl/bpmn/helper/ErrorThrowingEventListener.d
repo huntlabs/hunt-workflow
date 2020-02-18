@@ -13,9 +13,9 @@
 
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
@@ -40,7 +40,7 @@ class ErrorThrowingEventListener extends BaseDelegateEventListener {
             FlowableEngineEvent engineEvent = (FlowableEngineEvent) event;
             CommandContext commandContext = Context.getCommandContext();
 
-            if (engineEvent.getProcessDefinitionId() != null &&
+            if (engineEvent.getProcessDefinitionId() !is null &&
                     Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, engineEvent.getProcessDefinitionId())) {
 
                 Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
@@ -50,12 +50,12 @@ class ErrorThrowingEventListener extends BaseDelegateEventListener {
 
             ExecutionEntity execution = null;
 
-            if (engineEvent.getExecutionId() != null) {
+            if (engineEvent.getExecutionId() !is null) {
                 // Get the execution based on the event's execution ID instead
                 execution = CommandContextUtil.getExecutionEntityManager().findById(engineEvent.getExecutionId());
             }
 
-            if (execution == null) {
+            if (execution is null) {
                 throw new FlowableException("No execution context active and event is not related to an execution. No compensation event can be thrown.");
             }
 

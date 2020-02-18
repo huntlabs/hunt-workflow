@@ -83,7 +83,7 @@ class ProcessDefinitionEntityManagerImpl
 
     @Override
     public ProcessDefinition findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, Integer processDefinitionVersion, string tenantId) {
-        if (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+        if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
             return dataManager.findProcessDefinitionByKeyAndVersion(processDefinitionKey, processDefinitionVersion);
         } else {
             return dataManager.findProcessDefinitionByKeyAndVersionAndTenantId(processDefinitionKey, processDefinitionVersion, tenantId);

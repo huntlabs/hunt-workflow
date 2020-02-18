@@ -23,7 +23,7 @@ class ExecutionsByParentExecutionIdEntityMatcher extends CachedEntityMatcherAdap
     @Override
     public bool isRetained(ExecutionEntity entity, Object parameter) {
         // parameter = parent execution id
-        return entity.getParentId() != null && entity.getParentId().equals((string) parameter);
+        return entity.getParentId() !is null && entity.getParentId().equals((string) parameter);
     }
 
 }

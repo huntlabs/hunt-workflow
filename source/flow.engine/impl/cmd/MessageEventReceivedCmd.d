@@ -45,7 +45,7 @@ class MessageEventReceivedCmd extends NeedsActiveExecutionCmd<Void> {
         super(executionId);
         this.messageName = messageName;
 
-        if (processVariables != null) {
+        if (processVariables !is null) {
             this.payload = new HashMap<>(processVariables);
 
         } else {
@@ -63,7 +63,7 @@ class MessageEventReceivedCmd extends NeedsActiveExecutionCmd<Void> {
 
     @Override
     protected Void execute(CommandContext commandContext, ExecutionEntity execution) {
-        if (messageName == null) {
+        if (messageName is null) {
             throw new FlowableIllegalArgumentException("messageName cannot be null");
         }
 

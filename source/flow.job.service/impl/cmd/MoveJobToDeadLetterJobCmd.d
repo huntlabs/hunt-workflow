@@ -42,16 +42,16 @@ class MoveJobToDeadLetterJobCmd implements Command<DeadLetterJobEntity>, Seriali
     @Override
     public DeadLetterJobEntity execute(CommandContext commandContext) {
 
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("jobId and job is null");
         }
 
         AbstractRuntimeJobEntity job = CommandContextUtil.getTimerJobEntityManager(commandContext).findById(jobId);
-        if (job == null) {
+        if (job is null) {
             job = CommandContextUtil.getJobEntityManager(commandContext).findById(jobId);
         }
 
-        if (job == null) {
+        if (job is null) {
             throw new JobNotFoundException(jobId);
         }
 

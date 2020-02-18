@@ -108,8 +108,8 @@ class UserTask extends Task {
         this.extensionId = extensionId;
     }
 
-    public boolean isExtended() {
-        return extensionId != null && !extensionId.isEmpty();
+    public bool isExtended() {
+        return extensionId !is null && !extensionId.isEmpty();
     }
 
     public List<string> getCandidateUsers() {
@@ -147,7 +147,7 @@ class UserTask extends Task {
     public void addCustomUserIdentityLink(string userId, string type) {
         Set<string> userIdentitySet = customUserIdentityLinks.get(type);
 
-        if (userIdentitySet == null) {
+        if (userIdentitySet is null) {
             userIdentitySet = new HashSet<>();
             customUserIdentityLinks.put(type, userIdentitySet);
         }
@@ -158,7 +158,7 @@ class UserTask extends Task {
     public void addCustomGroupIdentityLink(string groupId, string type) {
         Set<string> groupIdentitySet = customGroupIdentityLinks.get(type);
 
-        if (groupIdentitySet == null) {
+        if (groupIdentitySet is null) {
             groupIdentitySet = new HashSet<>();
             customGroupIdentityLinks.put(type, groupIdentitySet);
         }
@@ -232,14 +232,14 @@ class UserTask extends Task {
         setCustomUserIdentityLinks(otherElement.customUserIdentityLinks);
 
         formProperties = new ArrayList<>();
-        if (otherElement.getFormProperties() != null && !otherElement.getFormProperties().isEmpty()) {
+        if (otherElement.getFormProperties() !is null && !otherElement.getFormProperties().isEmpty()) {
             for (FormProperty property : otherElement.getFormProperties()) {
                 formProperties.add(property.clone());
             }
         }
 
         taskListeners = new ArrayList<>();
-        if (otherElement.getTaskListeners() != null && !otherElement.getTaskListeners().isEmpty()) {
+        if (otherElement.getTaskListeners() !is null && !otherElement.getTaskListeners().isEmpty()) {
             for (FlowableListener listener : otherElement.getTaskListeners()) {
                 taskListeners.add(listener.clone());
             }

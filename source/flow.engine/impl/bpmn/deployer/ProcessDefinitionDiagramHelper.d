@@ -81,7 +81,7 @@ class ProcessDefinitionDiagramHelper {
 
             // If the 'getProcessDiagramResourceNameFromDeployment' call returns null, it means
             // no diagram image for the process definition was provided in the deployment resources.
-            return ResourceNameUtil.getProcessDiagramResourceNameFromDeployment(processDefinition, deployment.getResources()) == null;
+            return ResourceNameUtil.getProcessDiagramResourceNameFromDeployment(processDefinition, deployment.getResources()) is null;
         }
 
         return false;

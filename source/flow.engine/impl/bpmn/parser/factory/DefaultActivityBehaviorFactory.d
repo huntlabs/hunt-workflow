@@ -55,7 +55,7 @@ import org.flowable.bpmn.model.TimerEventDefinition;
 import org.flowable.bpmn.model.Transaction;
 import org.flowable.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.scripting.ScriptingEngines;
 import flow.engine.delegate.BusinessRuleTaskDelegate;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
@@ -285,11 +285,11 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
                 }
             }
 
-            if (behaviorExtension != null) {
+            if (behaviorExtension !is null) {
                 fieldExtensions.remove(behaviorExtension);
             }
 
-            if (theClass == null) {
+            if (theClass is null) {
                 // Default Camel behavior class
                 theClass = Class.forName(getDefaultCamelBehaviorClassName());
             }
@@ -334,11 +334,11 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
                 }
             }
 
-            if (behaviorExtension != null) {
+            if (behaviorExtension !is null) {
                 serviceTask.getFieldExtensions().remove(behaviorExtension);
             }
 
-            if (theClass == null) {
+            if (theClass is null) {
                 // Default Http behavior class
                 theClass = Class.forName("org.flowable.http.bpmn.impl.HttpActivityBehaviorImpl");
             }
@@ -377,7 +377,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
 
         ruleActivity.setExclude(businessRuleTask.isExclude());
 
-        if (businessRuleTask.getResultVariableName() != null && businessRuleTask.getResultVariableName().length() > 0) {
+        if (businessRuleTask.getResultVariableName() !is null && businessRuleTask.getResultVariableName().length() > 0) {
             ruleActivity.setResultVariable(businessRuleTask.getResultVariableName());
         } else {
             ruleActivity.setResultVariable("flow.engine.rules.OUTPUT");
@@ -391,7 +391,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     @Override
     public ScriptTaskActivityBehavior createScriptTaskActivityBehavior(ScriptTask scriptTask) {
         string language = scriptTask.getScriptFormat();
-        if (language == null) {
+        if (language is null) {
             language = ScriptingEngines.DEFAULT_SCRIPTING_LANGUAGE;
         }
         return new ScriptTaskActivityBehavior(scriptTask.getId(), scriptTask.getScript(), language, scriptTask.getResultVariable(), scriptTask.isAutoStoreVariables());
@@ -591,7 +591,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
         bool terminateAll = false;
         bool terminateMultiInstance = false;
 
-        if (endEvent.getEventDefinitions() != null
+        if (endEvent.getEventDefinitions() !is null
                 && endEvent.getEventDefinitions().size() > 0
                 && endEvent.getEventDefinitions().get(0) instanceof TerminateEventDefinition) {
             terminateAll = ((TerminateEventDefinition) endEvent.getEventDefinitions().get(0)).isTerminateAll();

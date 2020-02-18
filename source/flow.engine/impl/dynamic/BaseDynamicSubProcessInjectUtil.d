@@ -74,19 +74,19 @@ class BaseDynamicSubProcessInjectUtil {
         Collection<FlowElement> flowElementsOfSubProcess = subProcess.getFlowElementMap().values(); 
         for (FlowElement flowElement : flowElementsOfSubProcess) {
 
-            if (process.getFlowElement(flowElement.getId(), true) != null) {
+            if (process.getFlowElement(flowElement.getId(), true) !is null) {
                 generateIdForDuplicateFlowElement(prefix, process, bpmnModel, subProcessBpmnModel, flowElement, generatedIds, includeDiInfo);
             } else {
                 if (includeDiInfo) {
                     if (flowElement instanceof SequenceFlow) {
                         List<GraphicInfo> wayPoints = subProcessBpmnModel.getFlowLocationGraphicInfo(flowElement.getId());
-                        if (wayPoints != null) {
+                        if (wayPoints !is null) {
                             bpmnModel.addFlowGraphicInfoList(flowElement.getId(), wayPoints);
                         }
                         
                     } else {
                         GraphicInfo graphicInfo = subProcessBpmnModel.getGraphicInfo(flowElement.getId());
-                        if (graphicInfo != null) {
+                        if (graphicInfo !is null) {
                             bpmnModel.addGraphicInfo(flowElement.getId(), subProcessBpmnModel.getGraphicInfo(flowElement.getId()));
                         }
                     }
@@ -107,11 +107,11 @@ class BaseDynamicSubProcessInjectUtil {
                     BpmnModel subProcessBpmnModel, FlowElement duplicateFlowElement, Map<string, FlowElement> generatedIds, bool includeDiInfo) {
         
         string originalFlowElementId = duplicateFlowElement.getId();
-        if (process.getFlowElement(originalFlowElementId, true) != null) {
+        if (process.getFlowElement(originalFlowElementId, true) !is null) {
             string newFlowElementId = prefix + "-" + originalFlowElementId;
             int counter = 0;
             bool maxLengthReached = false;
-            while (!maxLengthReached && process.getFlowElement(newFlowElementId, true) != null) {
+            while (!maxLengthReached && process.getFlowElement(newFlowElementId, true) !is null) {
                 newFlowElementId = prefix + counter++ + "-" + originalFlowElementId;
                 if (newFlowElementId.length() > 255) {
                     maxLengthReached = true;
@@ -149,7 +149,7 @@ class BaseDynamicSubProcessInjectUtil {
                     if (boundaryEvent.getAttachedToRefId().equals(originalFlowElementId)) {
                         boundaryEvent.setAttachedToRefId(newFlowElementId);
                     }
-                    if (boundaryEvent.getEventDefinitions() != null 
+                    if (boundaryEvent.getEventDefinitions() !is null
                             && boundaryEvent.getEventDefinitions().size() > 0
                             && (boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition)) {
                         
@@ -177,18 +177,18 @@ class BaseDynamicSubProcessInjectUtil {
         
         if (flowElement instanceof UserTask) {
             FormRepositoryService formRepositoryService = CommandContextUtil.getFormRepositoryService();
-            if (formRepositoryService != null) {
+            if (formRepositoryService !is null) {
                 UserTask userTask = (UserTask) flowElement;
                 if (StringUtils.isNotEmpty(userTask.getFormKey())) {
                     Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(originalProcessDefinitionEntity.getDeploymentId());
-                    if (deployment.getParentDeploymentId() != null) {
+                    if (deployment.getParentDeploymentId() !is null) {
                         List<FormDeployment> formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
                         
-                        if (formDeployments != null && formDeployments.size() > 0) {
+                        if (formDeployments !is null && formDeployments.size() > 0) {
                         
                             FormDefinition formDefinition = formRepositoryService.createFormDefinitionQuery()
                                     .formDefinitionKey(userTask.getFormKey()).deploymentId(formDeployments.get(0).getId()).latestVersion().singleResult();
-                            if (formDefinition != null) {
+                            if (formDefinition !is null) {
                                 string name = formDefinition.getResourceName();
                                 InputStream inputStream = formRepositoryService.getFormDefinitionResource(formDefinition.getId());
                                 addResource(commandContext, newDeploymentEntity, name, IoUtil.readInputStream(inputStream, name));
@@ -207,9 +207,9 @@ class BaseDynamicSubProcessInjectUtil {
         if (flowElement instanceof ServiceTask && ServiceTask.DMN_TASK.equals(((ServiceTask) flowElement).getType())) {
                     
             DmnRepositoryService dmnRepositoryService = CommandContextUtil.getDmnRepositoryService();
-            if (dmnRepositoryService != null) {
+            if (dmnRepositoryService !is null) {
                 ServiceTask serviceTask = (ServiceTask) flowElement;
-                if (serviceTask.getFieldExtensions() != null && serviceTask.getFieldExtensions().size() > 0) {
+                if (serviceTask.getFieldExtensions() !is null && serviceTask.getFieldExtensions().size() > 0) {
                     string decisionTableReferenceKey = null;
                     for (FieldExtension fieldExtension : serviceTask.getFieldExtensions()) {
                         if ("decisionTableReferenceKey".equals(fieldExtension.getFieldName())) {
@@ -218,15 +218,15 @@ class BaseDynamicSubProcessInjectUtil {
                         }
                     }
     
-                    if (decisionTableReferenceKey != null) {
+                    if (decisionTableReferenceKey !is null) {
                         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(originalProcessDefinitionEntity.getDeploymentId());
-                        if (deployment.getParentDeploymentId() != null) {
+                        if (deployment.getParentDeploymentId() !is null) {
                             List<DmnDeployment> dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
                             
-                            if (dmnDeployments != null && dmnDeployments.size() > 0) {
+                            if (dmnDeployments !is null && dmnDeployments.size() > 0) {
                                 DmnDecisionTable dmnDecisionTable = dmnRepositoryService.createDecisionTableQuery()
                                         .decisionTableKey(decisionTableReferenceKey).deploymentId(dmnDeployments.get(0).getId()).latestVersion().singleResult();
-                                if (dmnDecisionTable != null) {
+                                if (dmnDecisionTable !is null) {
                                     string name = dmnDecisionTable.getResourceName();
                                     InputStream inputStream = dmnRepositoryService.getDmnResource(dmnDecisionTable.getId());
                                     addResource(commandContext, newDeploymentEntity, name, IoUtil.readInputStream(inputStream, name));

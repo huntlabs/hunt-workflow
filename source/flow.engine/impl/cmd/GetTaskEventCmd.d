@@ -32,7 +32,7 @@ class GetTaskEventCmd implements Command<Event>, Serializable {
     public GetTaskEventCmd(string eventId) {
         this.eventId = eventId;
 
-        if (eventId == null) {
+        if (eventId is null) {
             throw new FlowableIllegalArgumentException("eventId is null");
         }
     }

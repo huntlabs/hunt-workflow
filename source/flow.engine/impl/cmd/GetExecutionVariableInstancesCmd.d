@@ -44,13 +44,13 @@ class GetExecutionVariableInstancesCmd implements Command<Map<string, VariableIn
     public Map<string, VariableInstance> execute(CommandContext commandContext) {
 
         // Verify existence of execution
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
 
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 
@@ -62,7 +62,7 @@ class GetExecutionVariableInstancesCmd implements Command<Map<string, VariableIn
 
         } else {
 
-            if (variableNames == null || variableNames.isEmpty()) {
+            if (variableNames is null || variableNames.isEmpty()) {
                 // Fetch all
                 if (isLocal) {
                     variables = execution.getVariableInstancesLocal();

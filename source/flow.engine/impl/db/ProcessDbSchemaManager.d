@@ -50,7 +50,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
                 errorMessage = addMissingComponent(errorMessage, "history");
             }
 
-            if (errorMessage != null) {
+            if (errorMessage !is null) {
                 throw new FlowableException("Flowable database problem: " + errorMessage);
             }
 
@@ -72,7 +72,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
     }
 
     protected string addMissingComponent(string missingComponents, string component) {
-        if (missingComponents == null) {
+        if (missingComponents is null) {
             return "Tables missing for component(s) " + component;
         }
         return missingComponents + ", " + component;
@@ -297,7 +297,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
 
             return feedback;
         } finally {
-            if (lockManager != null) {
+            if (lockManager !is null) {
                 lockManager.releaseLock();
             }
         }
@@ -330,7 +330,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
 
     protected bool isMissingTablesException(Exception e) {
         string exceptionMessage = e.getMessage();
-        if (e.getMessage() != null) {
+        if (e.getMessage() !is null) {
             // Matches message returned from H2
             if ((exceptionMessage.indexOf("Table") != -1) && (exceptionMessage.indexOf("not found") != -1)) {
                 return true;

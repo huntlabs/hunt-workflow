@@ -39,7 +39,7 @@ class EventSubscriptionUtil {
         }
 
         EventHandler eventHandler = CommandContextUtil.getProcessEngineConfiguration().getEventHandler(eventSubscriptionEntity.getEventType());
-        if (eventHandler == null) {
+        if (eventHandler is null) {
             throw new FlowableException("Could not find eventhandler for event of type '" + eventSubscriptionEntity.getEventType() + "'.");
         }
         eventHandler.handleEvent(eventSubscriptionEntity, payload, CommandContextUtil.getCommandContext());
@@ -55,7 +55,7 @@ class EventSubscriptionUtil {
         message.setTenantId(eventSubscriptionEntity.getTenantId());
 
         // TODO: support payload
-        // if(payload != null) {
+        // if(payload !is null) {
         // message.setEventPayload(payload);
         // }
 

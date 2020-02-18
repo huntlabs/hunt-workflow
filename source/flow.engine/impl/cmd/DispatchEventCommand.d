@@ -14,8 +14,8 @@
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
@@ -35,12 +35,12 @@ class DispatchEventCommand implements Command<Void> {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (event == null) {
+        if (event is null) {
             throw new FlowableIllegalArgumentException("event is null");
         }
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(event);
         } else {
             throw new FlowableException("Message dispatcher is disabled, cannot dispatch event");

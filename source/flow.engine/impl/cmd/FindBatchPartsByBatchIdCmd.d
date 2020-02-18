@@ -35,7 +35,7 @@ class FindBatchPartsByBatchIdCmd implements Command<List<BatchPart>> {
     
     @Override
     public List<BatchPart> execute(CommandContext commandContext) {
-        if (status != null) {
+        if (status !is null) {
             return CommandContextUtil.getBatchService(commandContext).findBatchPartsByBatchIdAndStatus(batchId, status);
         } else {
             return CommandContextUtil.getBatchService(commandContext).findBatchPartsByBatchId(batchId);

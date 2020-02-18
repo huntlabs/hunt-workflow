@@ -14,7 +14,7 @@
 
 import org.flowable.bpmn.model.EventListener;
 import org.flowable.bpmn.model.FlowableListener;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.engine.delegate.CustomPropertiesResolver;
 import flow.engine.delegate.ExecutionListener;
 import flow.engine.delegate.TransactionDependentExecutionListener;

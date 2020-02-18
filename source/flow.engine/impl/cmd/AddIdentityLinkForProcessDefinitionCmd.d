@@ -46,11 +46,11 @@ class AddIdentityLinkForProcessDefinitionCmd implements Command<Void>, Serializa
     }
 
     protected void validateParams(string userId, string groupId, string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("processDefinitionId is null");
         }
 
-        if (userId == null && groupId == null) {
+        if (userId is null && groupId is null) {
             throw new FlowableIllegalArgumentException("userId and groupId cannot both be null");
         }
     }
@@ -59,7 +59,7 @@ class AddIdentityLinkForProcessDefinitionCmd implements Command<Void>, Serializa
     public Void execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Cannot find process definition with id " + processDefinitionId, ProcessDefinition.class);
         }
 

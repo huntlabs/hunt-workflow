@@ -22,7 +22,7 @@ class GraphicInfo {
     protected double height;
     protected double width;
     protected BaseElement element;
-    protected Boolean expanded;
+    protected bool expanded;
     protected int xmlRowNumber;
     protected int xmlColumnNumber;
     
@@ -72,11 +72,11 @@ class GraphicInfo {
         this.width = width;
     }
 
-    public Boolean getExpanded() {
+    public bool getExpanded() {
         return expanded;
     }
 
-    public void setExpanded(Boolean expanded) {
+    public void setExpanded(bool expanded) {
         this.expanded = expanded;
     }
 
@@ -104,7 +104,7 @@ class GraphicInfo {
         this.xmlColumnNumber = xmlColumnNumber;
     }
 
-    public boolean equals(GraphicInfo ginfo) {
+    public bool equals(GraphicInfo ginfo) {
     	if (this.getX() != ginfo.getX()) {
     		return false;
     	}

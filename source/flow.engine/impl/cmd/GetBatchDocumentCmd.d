@@ -29,7 +29,7 @@ class GetBatchDocumentCmd implements Command<string> {
     @Override
     public string execute(CommandContext commandContext) {
         Batch batch = CommandContextUtil.getBatchService(commandContext).getBatch(batchId);
-        if (batch == null) {
+        if (batch is null) {
             throw new FlowableObjectNotFoundException("No batch found for id " + batchId);
         }
         

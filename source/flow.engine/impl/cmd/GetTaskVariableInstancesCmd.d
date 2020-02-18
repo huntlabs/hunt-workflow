@@ -41,18 +41,18 @@ class GetTaskVariableInstancesCmd implements Command<Map<string, VariableInstanc
 
     @Override
     public Map<string, VariableInstance> execute(CommandContext commandContext) {
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
 
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
         }
 
         Map<string, VariableInstance> variables = null;
-        if (variableNames == null) {
+        if (variableNames is null) {
 
             if (isLocal) {
                 variables = task.getVariableInstancesLocal();

@@ -54,7 +54,7 @@ class AddMultiInstanceExecutionCmd implements Command<Execution>, Serializable {
         
         ExecutionEntity miExecution = searchForMultiInstanceActivity(activityId, parentExecutionId, executionEntityManager);
         
-        if (miExecution == null) {
+        if (miExecution is null) {
             throw new FlowableException("No multi instance execution found for activity id " + activityId);
         }
         
@@ -72,7 +72,7 @@ class AddMultiInstanceExecutionCmd implements Command<Execution>, Serializable {
         Integer currentNumberOfInstances = (Integer) miExecution.getVariable(NUMBER_OF_INSTANCES);
         miExecution.setVariableLocal(NUMBER_OF_INSTANCES, currentNumberOfInstances + 1);
         
-        if (executionVariables != null) {
+        if (executionVariables !is null) {
             childExecution.setVariablesLocal(executionVariables);
         }
         
@@ -93,15 +93,15 @@ class AddMultiInstanceExecutionCmd implements Command<Execution>, Serializable {
         ExecutionEntity miExecution = null;
         for (ExecutionEntity childExecution : childExecutions) {
             if (activityId.equals(childExecution.getActivityId()) && childExecution.isMultiInstanceRoot()) {
-                if (miExecution != null) {
+                if (miExecution !is null) {
                     throw new FlowableException("Multiple multi instance executions found for activity id " + activityId);
                 }
                 miExecution = childExecution;
             }
             
             ExecutionEntity childMiExecution = searchForMultiInstanceActivity(activityId, childExecution.getId(), executionEntityManager);
-            if (childMiExecution != null) {
-                if (miExecution != null) {
+            if (childMiExecution !is null) {
+                if (miExecution !is null) {
                     throw new FlowableException("Multiple multi instance executions found for activity id " + activityId);
                 }
                 miExecution = childMiExecution;

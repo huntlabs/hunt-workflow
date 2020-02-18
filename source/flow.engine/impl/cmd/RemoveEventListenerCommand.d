@@ -13,7 +13,7 @@
 
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
@@ -34,7 +34,7 @@ class RemoveEventListenerCommand implements Command<Void> {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (listener == null) {
+        if (listener is null) {
             throw new FlowableIllegalArgumentException("listener is null.");
         }
 

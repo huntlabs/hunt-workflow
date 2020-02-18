@@ -48,12 +48,12 @@ class CommentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements Co
 
     @Override
     public byte[] getFullMessageBytes() {
-        return (fullMessage != null ? fullMessage.getBytes() : null);
+        return (fullMessage !is null ? fullMessage.getBytes() : null);
     }
 
     @Override
     public void setFullMessageBytes(byte[] fullMessageBytes) {
-        fullMessage = (fullMessageBytes != null ? new string(fullMessageBytes) : null);
+        fullMessage = (fullMessageBytes !is null ? new string(fullMessageBytes) : null);
     }
 
     public static final string MESSAGE_PARTS_MARKER = "_|_";
@@ -63,7 +63,7 @@ class CommentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements Co
     public void setMessage(string[] messageParts) {
         StringBuilder stringBuilder = new StringBuilder();
         for (string part : messageParts) {
-            if (part != null) {
+            if (part !is null) {
                 stringBuilder.append(part.replace(MESSAGE_PARTS_MARKER, " | "));
                 stringBuilder.append(MESSAGE_PARTS_MARKER);
             } else {
@@ -79,7 +79,7 @@ class CommentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements Co
 
     @Override
     public List<string> getMessageParts() {
-        if (message == null) {
+        if (message is null) {
             return null;
         }
         List<string> messageParts = new ArrayList<>();

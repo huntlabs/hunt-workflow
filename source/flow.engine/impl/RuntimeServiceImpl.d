@@ -22,9 +22,9 @@ import java.util.Set;
 
 import org.flowable.bpmn.model.FlowNode;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.service.CommonEngineServiceImpl;
 import flow.engine.RuntimeService;
 import flow.engine.form.FormData;
@@ -298,7 +298,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
 
     @Override
     public void setVariable(string executionId, string variableName, Object value) {
-        if (variableName == null) {
+        if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
         Map<string, Object> variables = new HashMap<>();
@@ -308,7 +308,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
 
     @Override
     public void setVariableLocal(string executionId, string variableName, Object value) {
-        if (variableName == null) {
+        if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
         Map<string, Object> variables = new HashMap<>();
@@ -728,9 +728,9 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     public ProcessInstance startProcessInstance(ProcessInstanceBuilderImpl processInstanceBuilder) {
-        if (processInstanceBuilder.getProcessDefinitionId() != null || processInstanceBuilder.getProcessDefinitionKey() != null) {
+        if (processInstanceBuilder.getProcessDefinitionId() !is null || processInstanceBuilder.getProcessDefinitionKey() !is null) {
             return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processInstanceBuilder));
-        } else if (processInstanceBuilder.getMessageName() != null) {
+        } else if (processInstanceBuilder.getMessageName() !is null) {
             return commandExecutor.execute(new StartProcessInstanceByMessageCmd(processInstanceBuilder));
         } else {
             throw new FlowableIllegalArgumentException("No processDefinitionId, processDefinitionKey nor messageName provided");
@@ -738,7 +738,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     public ProcessInstance startProcessInstanceAsync(ProcessInstanceBuilderImpl processInstanceBuilder) {
-        if (processInstanceBuilder.getProcessDefinitionId() != null || processInstanceBuilder.getProcessDefinitionKey() != null) {
+        if (processInstanceBuilder.getProcessDefinitionId() !is null || processInstanceBuilder.getProcessDefinitionKey() !is null) {
             return (ProcessInstance) commandExecutor.execute(new StartProcessInstanceAsyncCmd(processInstanceBuilder));
         } else {
             throw new FlowableIllegalArgumentException("No processDefinitionId, processDefinitionKey provided");

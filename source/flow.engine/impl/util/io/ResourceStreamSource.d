@@ -40,12 +40,12 @@ class ResourceStreamSource implements StreamSource {
     @Override
     public InputStream getInputStream() {
         InputStream inputStream = null;
-        if (classLoader == null) {
+        if (classLoader is null) {
             inputStream = ReflectUtil.getResourceAsStream(resource);
         } else {
             inputStream = classLoader.getResourceAsStream(resource);
         }
-        if (inputStream == null) {
+        if (inputStream is null) {
             throw new FlowableIllegalArgumentException("resource '" + resource + "' doesn't exist");
         }
         return new BufferedInputStream(inputStream);

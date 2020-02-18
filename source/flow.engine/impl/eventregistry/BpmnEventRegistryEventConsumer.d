@@ -75,7 +75,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
     protected void handleEventSubscription(RuntimeService runtimeService, EventSubscription eventSubscription,
             EventInstance eventInstance, Collection<CorrelationKey> correlationKeys) {
 
-        if (eventSubscription.getExecutionId() != null) {
+        if (eventSubscription.getExecutionId() !is null) {
 
             // When an executionId is set, this means that the process instance is waiting at that step for an event
 
@@ -83,8 +83,8 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
             transientVariableMap.put(EventConstants.EVENT_INSTANCE, eventInstance);
             runtimeService.trigger(eventSubscription.getExecutionId(), null, transientVariableMap);
 
-        } else if (eventSubscription.getProcessDefinitionId() != null
-                        && eventSubscription.getProcessInstanceId() == null && eventSubscription.getExecutionId() == null) {
+        } else if (eventSubscription.getProcessDefinitionId() !is null
+                        && eventSubscription.getProcessInstanceId() is null && eventSubscription.getExecutionId() is null) {
 
             // If there is no execution/process instance set, but a definition id is set, this means that it's a start event
 
@@ -92,11 +92,11 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
                 .processDefinitionId(eventSubscription.getProcessDefinitionId())
                 .transientVariable(EventConstants.EVENT_INSTANCE, eventInstance);
 
-            if (eventInstance.getTenantId() != null && !Objects.equals(ProcessEngineConfiguration.NO_TENANT_ID, eventInstance.getTenantId())) {
+            if (eventInstance.getTenantId() !is null && !Objects.equals(ProcessEngineConfiguration.NO_TENANT_ID, eventInstance.getTenantId())) {
                 processInstanceBuilder.overrideProcessDefinitionTenantId(eventInstance.getTenantId());
             }
 
-            if (correlationKeys != null) {
+            if (correlationKeys !is null) {
                 string startCorrelationConfiguration = getStartCorrelationConfiguration(eventSubscription);
 
                 if (Objects.equals(startCorrelationConfiguration, BpmnXMLConstants.START_EVENT_CORRELATION_STORE_AS_UNIQUE_REFERENCE_ID)) {
@@ -128,7 +128,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
 
     protected string getStartCorrelationConfiguration(EventSubscription eventSubscription) {
         BpmnModel bpmnModel = processEngineConfiguration.getRepositoryService().getBpmnModel(eventSubscription.getProcessDefinitionId());
-        if (bpmnModel != null) {
+        if (bpmnModel !is null) {
 
             // There are potentially multiple start events, with different configurations.
             // The one that has the matching eventType needs to be used
@@ -136,7 +136,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
             List<StartEvent> startEvents = bpmnModel.getMainProcess().findFlowElementsOfType(StartEvent.class);
             for (StartEvent startEvent : startEvents) {
                 List<ExtensionElement> eventTypes = startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
-                if (eventTypes != null && !eventTypes.isEmpty()
+                if (eventTypes !is null && !eventTypes.isEmpty()
                         && Objects.equals(eventSubscription.getEventType(), eventTypes.get(0).getElementText())) {
 
                     List<ExtensionElement> correlationCfgExtensions = startEvent.getExtensionElements()

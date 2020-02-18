@@ -73,7 +73,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl jobId(string jobId) {
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("Provided job id is null");
         }
         this.id = jobId;
@@ -82,7 +82,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl processInstanceId(string processInstanceId) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
         }
         this.processInstanceId = processInstanceId;
@@ -91,7 +91,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl processDefinitionId(string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
         }
         this.processDefinitionId = processDefinitionId;
@@ -100,7 +100,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl elementId(string elementId) {
-        if (elementId == null) {
+        if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
         }
         this.elementId = elementId;
@@ -109,7 +109,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl elementName(string elementName) {
-        if (elementName == null) {
+        if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
         }
         this.elementName = elementName;
@@ -118,7 +118,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl scopeId(string scopeId) {
-        if (scopeId == null) {
+        if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
         }
         this.scopeId = scopeId;
@@ -127,7 +127,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl subScopeId(string subScopeId) {
-        if (scopeId == null) {
+        if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
         }
         this.subScopeId = subScopeId;
@@ -136,7 +136,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl scopeType(string scopeType) {
-        if (scopeType == null) {
+        if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
         }
         this.scopeType = scopeType;
@@ -145,7 +145,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
-        if (scopeDefinitionId == null) {
+        if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
         }
         this.scopeDefinitionId = scopeDefinitionId;
@@ -154,7 +154,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl caseInstanceId(string caseInstanceId) {
-        if (caseInstanceId == null) {
+        if (caseInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided case instance id is null");
         }
         scopeId(caseInstanceId);
@@ -164,7 +164,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl caseDefinitionId(string caseDefinitionId) {
-        if (caseDefinitionId == null) {
+        if (caseDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided case definition id is null");
         }
         scopeDefinitionId(caseDefinitionId);
@@ -174,7 +174,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     
     @Override
     public SuspendedJobQueryImpl planItemInstanceId(string planItemInstanceId) {
-        if (planItemInstanceId == null) {
+        if (planItemInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided plan item instance id is null");
         }
         subScopeId(planItemInstanceId);
@@ -184,7 +184,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl executionId(string executionId) {
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
         }
         this.executionId = executionId;
@@ -193,7 +193,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl handlerType(string handlerType) {
-        if (handlerType == null) {
+        if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
         }
         this.handlerType = handlerType;
@@ -232,7 +232,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl duedateHigherThan(Date date) {
-        if (date == null) {
+        if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
         this.duedateHigherThan = date;
@@ -241,7 +241,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl duedateLowerThan(Date date) {
-        if (date == null) {
+        if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
         this.duedateLowerThan = date;
@@ -253,7 +253,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     }
 
     public SuspendedJobQueryImpl duedateHigherThenOrEquals(Date date) {
-        if (date == null) {
+        if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
         this.duedateHigherThanOrEqual = date;
@@ -265,7 +265,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     }
 
     public SuspendedJobQueryImpl duedateLowerThenOrEquals(Date date) {
-        if (date == null) {
+        if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
         this.duedateLowerThanOrEqual = date;
@@ -286,7 +286,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl exceptionMessage(string exceptionMessage) {
-        if (exceptionMessage == null) {
+        if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
         }
         this.exceptionMessage = exceptionMessage;
@@ -295,7 +295,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl jobTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
         this.tenantId = tenantId;
@@ -304,7 +304,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     @Override
     public SuspendedJobQueryImpl jobTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
         this.tenantIdLike = tenantIdLike;

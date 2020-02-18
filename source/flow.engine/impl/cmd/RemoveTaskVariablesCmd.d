@@ -39,7 +39,7 @@ class RemoveTaskVariablesCmd extends NeedsActiveTaskCmd<Void> {
     @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
-        if (task.getProcessDefinitionId() != null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
             compatibilityHandler.removeTaskVariables(taskId, variableNames, isLocal);
             return null;

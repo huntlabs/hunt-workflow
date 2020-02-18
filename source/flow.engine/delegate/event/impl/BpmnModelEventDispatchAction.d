@@ -21,10 +21,10 @@ module flow.engine.delegate.event.impl.BpmnModelEventDispatchAction;
  
 
 import org.flowable.bpmn.model.BpmnModel;
-import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.event.EventDispatchAction;
 import flow.common.event.FlowableEventSupport;
 import flow.common.interceptor.CommandContext;
@@ -45,9 +45,9 @@ class BpmnModelEventDispatchAction : EventDispatchAction {
         }
 
         // Try getting hold of the Process definition, based on the process definition key, if a context is active
-        if (commandContext != null) {
+        if (commandContext !is null) {
             BpmnModel bpmnModel = extractBpmnModelFromEvent(event);
-            if (bpmnModel != null) {
+            if (bpmnModel !is null) {
                 ((FlowableEventSupport) bpmnModel.getEventSupport()).dispatchEvent(event);
             }
         }
@@ -66,11 +66,11 @@ class BpmnModelEventDispatchAction : EventDispatchAction {
     protected BpmnModel extractBpmnModelFromEvent(FlowableEvent event) {
         BpmnModel result = null;
 
-        if (result == null && event instanceof FlowableEngineEvent && ((FlowableEngineEvent) event).getProcessDefinitionId() != null) {
+        if (result is null && event instanceof FlowableEngineEvent && ((FlowableEngineEvent) event).getProcessDefinitionId() !is null) {
             ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(
                     ((FlowableEngineEvent) event).getProcessDefinitionId(), true);
 
-            if (processDefinition != null) {
+            if (processDefinition !is null) {
                 result = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager().resolveProcessDefinition(processDefinition).getBpmnModel();
             }
         }

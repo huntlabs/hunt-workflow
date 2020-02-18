@@ -15,7 +15,7 @@
 
 import java.util.Set;
 
-import org.flowable.common.engine.api.query.Query;
+import flow.common.api.query.Query;
 
 /**
  * Programmatic querying for {@link HistoricVariableInstance}s.
@@ -23,7 +23,7 @@ import org.flowable.common.engine.api.query.Query;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public interface HistoricVariableInstanceQuery extends Query<HistoricVariableInstanceQuery, HistoricVariableInstance> {
+interface HistoricVariableInstanceQuery extends Query<HistoricVariableInstanceQuery, HistoricVariableInstance> {
 
     /** Only select a historic variable with the given id. */
     HistoricVariableInstanceQuery id(string id);

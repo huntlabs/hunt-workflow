@@ -28,10 +28,10 @@ class InactiveExecutionsInActivityAndProcInstMatcher extends CachedEntityMatcher
         string activityId = (string) paramMap.get("activityId");
         string processInstanceId = (string) paramMap.get("processInstanceId");
 
-        return executionEntity.getProcessInstanceId() != null
+        return executionEntity.getProcessInstanceId() !is null
                 && executionEntity.getProcessInstanceId().equals(processInstanceId)
                 && !executionEntity.isActive()
-                && executionEntity.getActivityId() != null
+                && executionEntity.getActivityId() !is null
                 && executionEntity.getActivityId().equals(activityId);
     }
 

@@ -29,7 +29,7 @@ import flow.common.api.repository.EngineDeployment;
 /**
  * @author Tijs Rademakers
  */
-public interface EngineDeployer {
+interface EngineDeployer {
 
     void deploy(EngineDeployment deployment, Map<string, Object> deploymentSettings);
 }

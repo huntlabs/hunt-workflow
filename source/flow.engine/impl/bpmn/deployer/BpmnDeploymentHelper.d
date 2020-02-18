@@ -72,12 +72,12 @@ class BpmnDeploymentHelper {
         for (ProcessDefinitionEntity processDefinition : processDefinitions) {
 
             // Backwards compatibility
-            if (engineVersion != null) {
+            if (engineVersion !is null) {
                 processDefinition.setEngineVersion(engineVersion);
             }
 
             // process definition inherits the tenant id
-            if (tenantId != null) {
+            if (tenantId !is null) {
                 processDefinition.setTenantId(tenantId);
             }
 
@@ -106,7 +106,7 @@ class BpmnDeploymentHelper {
 
         ProcessDefinitionEntity existingDefinition = null;
 
-        if (tenantId != null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
+        if (tenantId !is null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
             existingDefinition = processDefinitionManager.findLatestProcessDefinitionByKeyAndTenantId(key, tenantId);
         } else {
             existingDefinition = processDefinitionManager.findLatestProcessDefinitionByKey(key);
@@ -126,7 +126,7 @@ class BpmnDeploymentHelper {
 
         ProcessDefinitionEntity existingDefinition = null;
 
-        if (tenantId != null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
+        if (tenantId !is null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
             existingDefinition = processDefinitionManager.findLatestDerivedProcessDefinitionByKeyAndTenantId(key, tenantId);
         } else {
             existingDefinition = processDefinitionManager.findLatestDerivedProcessDefinitionByKey(key);
@@ -147,7 +147,7 @@ class BpmnDeploymentHelper {
 
         ProcessDefinitionEntityManager processDefinitionManager = CommandContextUtil.getProcessEngineConfiguration().getProcessDefinitionEntityManager();
         ProcessDefinitionEntity persistedProcessDefinition = null;
-        if (processDefinition.getTenantId() == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
+        if (processDefinition.getTenantId() is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
             persistedProcessDefinition = processDefinitionManager.findProcessDefinitionByDeploymentAndKey(deploymentId, processDefinition.getKey());
         } else {
             persistedProcessDefinition = processDefinitionManager.findProcessDefinitionByDeploymentAndKeyAndTenantId(deploymentId, processDefinition.getKey(), processDefinition.getTenantId());
@@ -191,7 +191,7 @@ class BpmnDeploymentHelper {
     protected void addAuthorizationsFromIterator(CommandContext commandContext, List<string> expressions,
             ProcessDefinitionEntity processDefinition, ExpressionType expressionType) {
 
-        if (expressions != null) {
+        if (expressions !is null) {
             IdentityLinkService identityLinkService = CommandContextUtil.getIdentityLinkService();
             Iterator<string> iterator = expressions.iterator();
             while (iterator.hasNext()) {

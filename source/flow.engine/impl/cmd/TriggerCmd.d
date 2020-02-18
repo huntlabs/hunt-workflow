@@ -15,7 +15,7 @@
 
 import java.util.Map;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
@@ -59,12 +59,12 @@ class TriggerCmd extends NeedsActiveExecutionCmd<Object> {
             return null;
         }
         
-        if (processVariables != null) {
+        if (processVariables !is null) {
             execution.setVariables(processVariables);
         }
 
         if (!async) {
-            if (transientVariables != null) {
+            if (transientVariables !is null) {
                 execution.setTransientVariables(transientVariables);
             }
 

@@ -71,7 +71,7 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
 
         ExecutionEntity parentScopeExecution = null;
         ExecutionEntity currentlyExaminedExecution = executionEntityManager.findById(attachedRefScopeExecution.getParentId());
-        while (currentlyExaminedExecution != null && parentScopeExecution == null) {
+        while (currentlyExaminedExecution !is null && parentScopeExecution is null) {
             if (currentlyExaminedExecution.isScope()) {
                 parentScopeExecution = currentlyExaminedExecution;
             } else {
@@ -79,7 +79,7 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
             }
         }
 
-        if (parentScopeExecution == null) {
+        if (parentScopeExecution is null) {
             throw new FlowableException("Programmatic error: no parent scope execution found for boundary event");
         }
 
@@ -114,7 +114,7 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
 
         ExecutionEntity scopeExecution = null;
         ExecutionEntity currentlyExaminedExecution = executionEntityManager.findById(parentExecutionEntity.getParentId());
-        while (currentlyExaminedExecution != null && scopeExecution == null) {
+        while (currentlyExaminedExecution !is null && scopeExecution is null) {
             if (currentlyExaminedExecution.isScope()) {
                 scopeExecution = currentlyExaminedExecution;
             } else {
@@ -122,7 +122,7 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
             }
         }
 
-        if (scopeExecution == null) {
+        if (scopeExecution is null) {
             throw new FlowableException("Programmatic error: no parent scope execution found for boundary event");
         }
 

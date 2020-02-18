@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.db.AbstractDataManager;
+import flow.common.db.AbstractDataManager;
 import org.flowable.task.api.history.HistoricTaskLogEntry;
 import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;

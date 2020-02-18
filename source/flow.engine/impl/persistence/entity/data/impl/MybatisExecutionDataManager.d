@@ -113,13 +113,13 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
         
         // Find execution in db or cache to check process definition setting for execution fetch.
         // If not set, no extra work is done. The execution is in the cache however now as a side-effect of calling this method.
-        ExecutionEntity executionEntity = (cachedExecutionEntity != null) ? cachedExecutionEntity : super.findById(executionId);
+        ExecutionEntity executionEntity = (cachedExecutionEntity !is null) ? cachedExecutionEntity : super.findById(executionId);
         if (!ProcessDefinitionUtil.getProcess(executionEntity.getProcessDefinitionId()).isEnableEagerExecutionTreeFetching()) {
             return false;
         }
         
         // If it's in the cache, the execution and its tree have been fetched before. No need to do anything more.
-        if (cachedExecutionEntity != null) {
+        if (cachedExecutionEntity !is null) {
             return true;
         }
         
@@ -265,7 +265,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
         int maxResults = executionQuery.getMaxResults();
 
         // setting max results, limit to 20000 results for performance reasons
-        if (executionQuery.getProcessInstanceVariablesLimit() != null) {
+        if (executionQuery.getProcessInstanceVariablesLimit() !is null) {
             executionQuery.setMaxResults(executionQuery.getProcessInstanceVariablesLimit());
         } else {
             executionQuery.setMaxResults(getProcessEngineConfiguration().getExecutionQueryLimit());
@@ -275,7 +275,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
         List<ProcessInstance> instanceList = getDbSqlSession().selectListWithRawParameterNoCacheLoadAndStore(
                         "selectProcessInstanceWithVariablesByQueryCriteria", executionQuery, getManagedEntityClass());
 
-        if (instanceList != null && !instanceList.isEmpty()) {
+        if (instanceList !is null && !instanceList.isEmpty()) {
             if (firstResult > 0) {
                 if (firstResult <= instanceList.size()) {
                     int toIndex = firstResult + Math.min(maxResults, instanceList.size() - firstResult);

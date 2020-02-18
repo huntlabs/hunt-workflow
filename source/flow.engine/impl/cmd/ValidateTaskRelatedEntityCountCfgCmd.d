@@ -37,7 +37,7 @@ class ValidateTaskRelatedEntityCountCfgCmd implements Command<Void> {
         bool configProperty = CommandContextUtil.getProcessEngineConfiguration(commandContext).getPerformanceSettings().isEnableTaskRelationshipCounts();
         PropertyEntity propertyEntity = propertyEntityManager.findById(PROPERTY_TASK_RELATED_ENTITY_COUNT);
 
-        if (propertyEntity == null) {
+        if (propertyEntity is null) {
             // 'not there' case in the table above: easy, simply insert the value
 
             PropertyEntity newPropertyEntity = propertyEntityManager.create();

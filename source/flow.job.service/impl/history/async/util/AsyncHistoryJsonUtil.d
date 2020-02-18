@@ -29,13 +29,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 class AsyncHistoryJsonUtil {
     
     public static void putIfNotNull(Map<string, string> map, string key, string value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, value);
         }
     }
 
     public static void putIfNotNull(ObjectNode map, string key, string value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, value);
         }
     }
@@ -48,56 +48,56 @@ class AsyncHistoryJsonUtil {
     }
     
     public static void putIfNotNull(Map<string, string> map, string key, Double value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, Double.toString(value));
         }
     }
 
     public static void putIfNotNull(ObjectNode map, string key, Double value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, value);
         }
     }
     
     public static void putIfNotNull(Map<string, string> map, string key, Long value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, Long.toString(value));
         }
     }
 
     public static void putIfNotNull(ObjectNode map, string key, Long value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, value);
         }
     }
 
     public static void putIfNotNull(Map<string, string> map, string key, Date value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, AsyncHistoryDateUtil.formatDate(value));
         }
     }
 
     public static void putIfNotNull(ObjectNode map, string key, Date value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, AsyncHistoryDateUtil.formatDate(value));
         }
     }
     
     public static void putIfNotNull(Map<string, string> map, string key, bool value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, bool.toString(value));
         }
     }
 
     public static void putIfNotNull(ObjectNode map, string key, bool value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, value);
         }
     }
 
     public static string convertToBase64(VariableInstanceEntity variable) {
         byte[] bytes = variable.getBytes();
-        if (bytes != null) {
+        if (bytes !is null) {
             return new string(Base64.getEncoder().encode(variable.getBytes()), StandardCharsets.US_ASCII);
         } else {
             return null;
@@ -142,7 +142,7 @@ class AsyncHistoryJsonUtil {
     
     public static bool getBooleanFromJson(ObjectNode objectNode, string fieldName, bool defaultValue) {
         bool value = getBooleanFromJson(objectNode, fieldName);
-        return value != null ? value : defaultValue;
+        return value !is null ? value : defaultValue;
     }
     
     public static bool getBooleanFromJson(ObjectNode objectNode, string fieldName) {

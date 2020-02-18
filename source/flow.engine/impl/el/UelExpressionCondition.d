@@ -14,7 +14,7 @@
 
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.impl.Condition;
 
@@ -36,7 +36,7 @@ class UelExpressionCondition implements Condition {
     public bool evaluate(string sequenceFlowId, DelegateExecution execution) {
         Object result = expression.getValue(execution);
 
-        if (result == null) {
+        if (result is null) {
             throw new FlowableException("condition expression returns null (sequenceFlowId: " + sequenceFlowId + ")" );
         }
         if (!(result instanceof bool)) {

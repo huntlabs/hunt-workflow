@@ -44,6 +44,6 @@ class Problem {
 
     @Override
     public string toString() {
-        return errorMessage + (resource != null ? " | " + resource : "") + " | line " + line + " | column " + column;
+        return errorMessage + (resource !is null ? " | " + resource : "") + " | line " + line + " | column " + column;
     }
 }

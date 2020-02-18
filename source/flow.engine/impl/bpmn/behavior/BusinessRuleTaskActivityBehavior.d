@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.delegate.BusinessRuleTaskDelegate;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.impl.rules.RulesAgendaFilter;
@@ -54,7 +54,7 @@ class BusinessRuleTaskActivityBehavior extends TaskActivityBehavior implements B
         KieBase knowledgeBase = RulesHelper.findKnowledgeBaseByDeploymentId(deploymentId);
         KieSession ksession = knowledgeBase.newKieSession();
 
-        if (variablesInputExpressions != null) {
+        if (variablesInputExpressions !is null) {
             Iterator<Expression> itVariable = variablesInputExpressions.iterator();
             while (itVariable.hasNext()) {
                 Expression variable = itVariable.next();
@@ -77,7 +77,7 @@ class BusinessRuleTaskActivityBehavior extends TaskActivityBehavior implements B
         }
 
         Collection<? extends Object> ruleOutputObjects = ksession.getObjects();
-        if (ruleOutputObjects != null && !ruleOutputObjects.isEmpty()) {
+        if (ruleOutputObjects !is null && !ruleOutputObjects.isEmpty()) {
             Collection<Object> outputVariables = new ArrayList<>(ruleOutputObjects);
             execution.setVariable(resultVariable, outputVariables);
         }

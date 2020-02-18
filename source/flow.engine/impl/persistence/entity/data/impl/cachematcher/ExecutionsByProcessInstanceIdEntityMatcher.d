@@ -23,9 +23,9 @@ class ExecutionsByProcessInstanceIdEntityMatcher extends CachedEntityMatcherAdap
     @Override
     public bool isRetained(ExecutionEntity entity, Object parameter) {
         // parameter = process instance execution id
-        return entity.getProcessInstanceId() != null
+        return entity.getProcessInstanceId() !is null
                 && entity.getProcessInstanceId().equals((string) parameter)
-                && entity.getParentId() != null;
+                && entity.getParentId() !is null;
     }
 
 }

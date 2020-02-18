@@ -33,7 +33,7 @@ class GetModelEditorSourceExtraCmd implements Command<byte[]>, Serializable {
 
     @Override
     public byte[] execute(CommandContext commandContext) {
-        if (modelId == null) {
+        if (modelId is null) {
             throw new FlowableIllegalArgumentException("modelId is null");
         }
 

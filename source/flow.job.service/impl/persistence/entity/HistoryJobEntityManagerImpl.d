@@ -15,8 +15,8 @@
 
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import org.flowable.job.api.HistoryJob;
 import org.flowable.job.service.JobServiceConfiguration;
 import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
@@ -59,7 +59,7 @@ class HistoryJobEntityManagerImpl
 
         // Send event
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
-        if (eventDispatcher != null && getEventDispatcher().isEnabled()) {
+        if (eventDispatcher !is null && getEventDispatcher().isEnabled()) {
             getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, jobEntity));
         }
     }

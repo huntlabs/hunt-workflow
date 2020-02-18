@@ -22,7 +22,7 @@ module flow.engine.delegata.event.FlowableEscalationEvent;
  
 
 
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 
 /**
  * An {@link FlowableEvent} related to an escalation being sent to an activity.

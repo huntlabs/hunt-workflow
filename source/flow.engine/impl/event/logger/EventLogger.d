@@ -17,10 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import flow.common.api.delegate.event.AbstractFlowableEventListener;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.AbstractFlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandContextCloseListener;
@@ -99,16 +99,16 @@ class EventLogger extends AbstractFlowableEventListener {
     @Override
     public void onEvent(FlowableEvent event) {
         EventLoggerEventHandler eventHandler = getEventHandler(event);
-        if (eventHandler != null) {
+        if (eventHandler !is null) {
 
             // Events are flushed when command context is closed
             CommandContext currentCommandContext = Context.getCommandContext();
             EventFlusher eventFlusher = (EventFlusher) currentCommandContext.getAttribute(EVENT_FLUSHER_KEY);
 
-            if (eventFlusher == null) {
+            if (eventFlusher is null) {
 
                 eventFlusher = createEventFlusher();
-                if (eventFlusher == null) {
+                if (eventFlusher is null) {
                     eventFlusher = new DatabaseEventFlusher(); // Default
                 }
                 currentCommandContext.addAttribute(EVENT_FLUSHER_KEY, eventFlusher);
@@ -124,7 +124,7 @@ class EventLogger extends AbstractFlowableEventListener {
                             @Override
                             public void closed(CommandContext commandContext) {
                                 // For those who are interested: we can now broadcast the events were added
-                                if (listeners != null) {
+                                if (listeners !is null) {
                                     for (EventLoggerListener listener : listeners) {
                                         listener.eventsAdded(EventLogger.this);
                                     }
@@ -171,7 +171,7 @@ class EventLogger extends AbstractFlowableEventListener {
             eventHandlerClass = eventHandlers.get(event.getType());
         }
 
-        if (eventHandlerClass != null) {
+        if (eventHandlerClass !is null) {
             return instantiateEventHandler(event, eventHandlerClass);
         }
 
@@ -202,7 +202,7 @@ class EventLogger extends AbstractFlowableEventListener {
     }
 
     public void addEventLoggerListener(EventLoggerListener listener) {
-        if (listeners == null) {
+        if (listeners is null) {
             listeners = new ArrayList<>(1);
         }
         listeners.add(listener);

@@ -28,9 +28,9 @@ import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
@@ -99,12 +99,12 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
 
         // Get model from cache
         Process subProcess = ProcessDefinitionUtil.getProcess(processDefinition.getId());
-        if (subProcess == null) {
+        if (subProcess is null) {
             throw new FlowableException("Cannot start a sub process instance. Process model " + processDefinition.getName() + " (id = " + processDefinition.getId() + ") could not be found");
         }
 
         FlowElement initialFlowElement = subProcess.getInitialFlowElement();
-        if (initialFlowElement == null) {
+        if (initialFlowElement is null) {
             throw new FlowableException("No start element found for process definition " + processDefinition.getId());
         }
 
@@ -132,7 +132,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
                         variables, executionEntity, callActivity.getInParameters(), callActivity.isInheritVariables(), 
                         initialFlowElement.getId(), initialFlowElement, subProcess, processDefinition);
         
-        if (processEngineConfiguration.getStartProcessInstanceInterceptor() != null) {
+        if (processEngineConfiguration.getStartProcessInstanceInterceptor() !is null) {
             processEngineConfiguration.getStartProcessInstanceInterceptor().beforeStartSubProcessInstance(instanceBeforeContext);
         }
 
@@ -141,7 +141,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
                         instanceBeforeContext.getBusinessKey(), instanceBeforeContext.getInitialActivityId());
 
         FlowableEventDispatcher eventDispatcher = processEngineConfiguration.getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
                     FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_CREATED, subProcessInstance));
         }
@@ -172,7 +172,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
             if (StringUtils.isNotEmpty(inParameter.getTargetExpression())) {
                 Expression expression = expressionManager.createExpression(inParameter.getTargetExpression());
                 Object variableNameValue = expression.getValue(execution);
-                if (variableNameValue != null) {
+                if (variableNameValue !is null) {
                     variableName = variableNameValue.toString();
                 } else {
                     LOGGER.warn("In parameter target expression {} did not resolve to a variable name, this is most likely a programmatic error",
@@ -199,7 +199,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
             subProcessInstance.setName(processInstanceName);
         }
 
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, subProcessInstance));
         }
         
@@ -220,7 +220,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
         ExecutionEntity subProcessInitialExecution = executionEntityManager.createChildExecution(subProcessInstance);
         subProcessInitialExecution.setCurrentFlowElement(instanceBeforeContext.getInitialFlowElement());
 
-        if (processEngineConfiguration.getStartProcessInstanceInterceptor() != null) {
+        if (processEngineConfiguration.getStartProcessInstanceInterceptor() !is null) {
             StartSubProcessInstanceAfterContext instanceAfterContext = new StartSubProcessInstanceAfterContext(subProcessInstance, subProcessInitialExecution,
                 instanceBeforeContext.getVariables(), instanceBeforeContext.getCallActivityExecution(), instanceBeforeContext.getInParameters(),
                 instanceBeforeContext.getInitialFlowElement(), instanceBeforeContext.getProcess(), instanceBeforeContext.getProcessDefinition());
@@ -232,7 +232,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
 
         CommandContextUtil.getAgenda().planContinueProcessOperation(subProcessInitialExecution);
 
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(subProcessInitialExecution, instanceBeforeContext.getVariables(), false));
         }
         
@@ -282,7 +282,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
                 Expression expression = expressionManager.createExpression(outParameter.getTargetExpression());
 
                 Object variableNameValue = expression.getValue(subProcessInstance);
-                if (variableNameValue != null) {
+                if (variableNameValue !is null) {
                     variableName = variableNameValue.toString();
                 } else {
                     LOGGER.warn("Out parameter target expression {} did not resolve to a variable name, this is most likely a programmatic error",
@@ -319,22 +319,22 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
 
         if (isSameDeployment) {
             string deploymentId = ProcessDefinitionUtil.getProcessDefinition(execution.getProcessDefinitionId()).getDeploymentId();
-            if (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+            if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
                 processDefinition = processDefinitionEntityManager.findProcessDefinitionByDeploymentAndKey(deploymentId, processDefinitionKey);
             } else {
                 processDefinition = processDefinitionEntityManager.findProcessDefinitionByDeploymentAndKeyAndTenantId(deploymentId, processDefinitionKey, tenantId);
             }
 
-            if (processDefinition != null) {
+            if (processDefinition !is null) {
                 return processDefinition;
             }
         }
 
-        if (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+        if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
         } else {
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
-            if (processDefinition == null && ((this.fallbackToDefaultTenant != null && this.fallbackToDefaultTenant) || processEngineConfiguration.isFallbackToDefaultTenant())) {
+            if (processDefinition is null && ((this.fallbackToDefaultTenant !is null && this.fallbackToDefaultTenant) || processEngineConfiguration.isFallbackToDefaultTenant())) {
 
                 string defaultTenant = processEngineConfiguration.getDefaultTenantProvider().getDefaultTenant(tenantId, ScopeTypes.BPMN, processDefinitionKey);
                 if (StringUtils.isNotEmpty(defaultTenant)) {
@@ -346,7 +346,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
             }
         }
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Process definition " + processDefinitionKey + " was not found in sameDeployment["+ isSameDeployment +
                 "] tenantId["+ tenantId+ "] fallbackToDefaultTenant["+ this.fallbackToDefaultTenant + "]");
         }
@@ -369,7 +369,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
     protected Map<string, Object> processDataObjects(Collection<ValuedDataObject> dataObjects) {
         Map<string, Object> variablesMap = new HashMap<>();
         // convert data objects to process variables
-        if (dataObjects != null) {
+        if (dataObjects !is null) {
             variablesMap = new HashMap<>(dataObjects.size());
             for (ValuedDataObject dataObject : dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());

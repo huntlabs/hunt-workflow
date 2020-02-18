@@ -37,7 +37,7 @@ class GetTableNameCmd implements Command<string>, Serializable {
 
     @Override
     public string execute(CommandContext commandContext) {
-        if (entityClass == null) {
+        if (entityClass is null) {
             throw new FlowableIllegalArgumentException("entityClass is null");
         }
         return CommandContextUtil.getTableDataManager(commandContext).getTableName(entityClass, withPrefix);

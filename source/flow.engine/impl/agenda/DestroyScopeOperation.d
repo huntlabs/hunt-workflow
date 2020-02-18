@@ -40,7 +40,7 @@ class DestroyScopeOperation extends AbstractOperation {
         // Find parent scope execution
         ExecutionEntity scopeExecution = execution.isScope() ? execution : findFirstParentScopeExecution(execution);
 
-        if (scopeExecution == null) {
+        if (scopeExecution is null) {
             throw new FlowableException("Programmatic error: no parent scope execution found for boundary event");
         }
 

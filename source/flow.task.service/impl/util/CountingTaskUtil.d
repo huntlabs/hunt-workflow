@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
-import org.flowable.common.engine.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import org.flowable.task.service.impl.persistence.CountingTaskEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.service.event.impl.FlowableVariableEventBuilder;
@@ -24,8 +24,8 @@ import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEnt
  */
 class CountingTaskUtil {
 
-    public static void handleDeleteVariableInstanceEntityCount(VariableInstanceEntity variableInstance, boolean fireDeleteEvent) {
-        if (variableInstance.getTaskId() != null && isTaskRelatedEntityCountEnabledGlobally()) {
+    public static void handleDeleteVariableInstanceEntityCount(VariableInstanceEntity variableInstance, bool fireDeleteEvent) {
+        if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
             CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskEntityManager().findById(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() - 1);
@@ -33,7 +33,7 @@ class CountingTaskUtil {
         }
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getTaskServiceConfiguration().getEventDispatcher();
-        if (fireDeleteEvent && eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (fireDeleteEvent && eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableVariableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, variableInstance));
 
             eventDispatcher.dispatchEvent(FlowableVariableEventBuilder.createVariableEvent(FlowableEngineEventType.VARIABLE_DELETED,
@@ -44,7 +44,7 @@ class CountingTaskUtil {
     }
 
     public static void handleInsertVariableInstanceEntityCount(VariableInstanceEntity variableInstance) {
-        if (variableInstance.getTaskId() != null && isTaskRelatedEntityCountEnabledGlobally()) {
+        if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
             CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskEntityManager().findById(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() + 1);
@@ -55,15 +55,15 @@ class CountingTaskUtil {
     /**
      * Check if the Task Relationship Count performance improvement is enabled.
      */
-    public static boolean isTaskRelatedEntityCountEnabledGlobally() {
-        if (CommandContextUtil.getTaskServiceConfiguration() == null) {
+    public static bool isTaskRelatedEntityCountEnabledGlobally() {
+        if (CommandContextUtil.getTaskServiceConfiguration() is null) {
             return false;
         }
         
         return CommandContextUtil.getTaskServiceConfiguration().isEnableTaskRelationshipCounts();
     }
 
-    public static boolean isTaskRelatedEntityCountEnabled(TaskEntity taskEntity) {
+    public static bool isTaskRelatedEntityCountEnabled(TaskEntity taskEntity) {
         if (taskEntity instanceof CountingTaskEntity) {
             return isTaskRelatedEntityCountEnabled((CountingTaskEntity) taskEntity);
         }
@@ -73,7 +73,7 @@ class CountingTaskUtil {
     /**
      * Similar functionality with <b>ExecutionRelatedEntityCount</b>, but on the TaskEntity level.
      */
-    public static boolean isTaskRelatedEntityCountEnabled(CountingTaskEntity taskEntity) {
+    public static bool isTaskRelatedEntityCountEnabled(CountingTaskEntity taskEntity) {
         return isTaskRelatedEntityCountEnabledGlobally() && taskEntity.isCountEnabled();
     }
 }

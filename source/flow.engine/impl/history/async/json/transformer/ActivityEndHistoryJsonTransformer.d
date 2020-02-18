@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.history.async.HistoryJsonConstants;
@@ -40,13 +40,13 @@ class ActivityEndHistoryJsonTransformer extends AbstractNeedsUnfinishedHistoricA
         string executionId = getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID);
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
         HistoricActivityInstanceEntity historicActivityInstanceEntity = findUnfinishedHistoricActivityInstance(commandContext, executionId, activityId);
-        if (historicActivityInstanceEntity != null) {
+        if (historicActivityInstanceEntity !is null) {
             Date endTime = getDateFromJson(historicalData, HistoryJsonConstants.END_TIME);
             historicActivityInstanceEntity.setEndTime(endTime);
             historicActivityInstanceEntity.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
 
             Date startTime = historicActivityInstanceEntity.getStartTime();
-            if (startTime != null && endTime != null) {
+            if (startTime !is null && endTime !is null) {
                 historicActivityInstanceEntity.setDurationInMillis(endTime.getTime() - startTime.getTime());
             }
 

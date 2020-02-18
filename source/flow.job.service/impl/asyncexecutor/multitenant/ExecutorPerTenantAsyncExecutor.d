@@ -63,7 +63,7 @@ class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor {
     public void addTenantAsyncExecutor(string tenantId, bool startExecutor) {
         AsyncExecutor tenantExecutor = null;
 
-        if (tenantAwareAyncExecutorFactory == null) {
+        if (tenantAwareAyncExecutorFactory is null) {
             tenantExecutor = new DefaultAsyncJobExecutor();
         } else {
             tenantExecutor = tenantAwareAyncExecutorFactory.createAsyncExecutor(tenantId);

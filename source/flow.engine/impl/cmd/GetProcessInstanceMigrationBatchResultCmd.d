@@ -45,11 +45,11 @@ class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstan
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
         Batch batch = batchService.getBatch(batchId);
 
-        if (batch != null) {
+        if (batch !is null) {
             ObjectMapper objectMapper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getObjectMapper();
             ProcessInstanceBatchMigrationResult result = convertFromBatch(batch, objectMapper);
             List<BatchPart> batchParts = batchService.findBatchPartsByBatchId(batch.getId());
-            if (batchParts != null && !batchParts.isEmpty()) {
+            if (batchParts !is null && !batchParts.isEmpty()) {
                 for (BatchPart batchPart : batchParts) {
                     result.addMigrationPart(convertFromBatchPart(batchPart, objectMapper));
                 }
@@ -79,12 +79,12 @@ class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstan
         partResult.setSourceProcessDefinitionId(batchPart.getBatchSearchKey());
         partResult.setTargetProcessDefinitionId(batchPart.getBatchSearchKey2());
 
-        if (batchPart.getCompleteTime() != null) {
+        if (batchPart.getCompleteTime() !is null) {
             partResult.setStatus(ProcessInstanceBatchMigrationResult.STATUS_COMPLETED);
         }
         
         partResult.setResult(batchPart.getStatus());
-        if (ProcessInstanceBatchMigrationResult.RESULT_FAIL.equals(batchPart.getStatus()) && batchPart.getResultDocumentJson() != null) {
+        if (ProcessInstanceBatchMigrationResult.RESULT_FAIL.equals(batchPart.getStatus()) && batchPart.getResultDocumentJson() !is null) {
             try {
                 JsonNode resultNode = objectMapper.readTree(batchPart.getResultDocumentJson());
                 if (resultNode.has(BATCH_RESULT_MESSAGE_LABEL)) {

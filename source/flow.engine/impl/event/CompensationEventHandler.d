@@ -23,8 +23,8 @@ import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.bpmn.helper.ScopeUtil;
@@ -48,7 +48,7 @@ class CompensationEventHandler implements EventHandler {
     public void handleEvent(EventSubscriptionEntity eventSubscription, Object payload, CommandContext commandContext) {
 
         string configuration = eventSubscription.getConfiguration();
-        if (configuration == null) {
+        if (configuration is null) {
             throw new FlowableException("Compensating execution not set for compensate event subscription with id " + eventSubscription.getId());
         }
 
@@ -56,7 +56,7 @@ class CompensationEventHandler implements EventHandler {
 
         string processDefinitionId = compensatingExecution.getProcessDefinitionId();
         Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
-        if (process == null) {
+        if (process is null) {
             throw new FlowableException("Cannot start process instance. Process model (id = " + processDefinitionId + ") could not be found");
         }
 
@@ -74,7 +74,7 @@ class CompensationEventHandler implements EventHandler {
             try {
 
                 FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-                if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+                if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     eventDispatcher.dispatchEvent(
                             FlowableEventBuilder.createActivityEvent(FlowableEngineEventType.ACTIVITY_COMPENSATE, flowElement.getId(), flowElement.getName(),
                                     compensatingExecution.getId(), compensatingExecution.getProcessInstanceId(), compensatingExecution.getProcessDefinitionId(), flowElement));
@@ -100,7 +100,7 @@ class CompensationEventHandler implements EventHandler {
                     }
                 }
                 
-                if (compensationActivity != null) {
+                if (compensationActivity !is null) {
                     flowElement = compensationActivity;
                 }
                 

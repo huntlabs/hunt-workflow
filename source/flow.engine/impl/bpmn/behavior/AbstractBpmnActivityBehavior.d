@@ -88,7 +88,7 @@ class AbstractBpmnActivityBehavior extends FlowNodeActivityBehavior {
         List<BoundaryEvent> results = new ArrayList<>(1);
         Collection<BoundaryEvent> boundaryEvents = process.findFlowElementsOfType(BoundaryEvent.class, true);
         for (BoundaryEvent boundaryEvent : boundaryEvents) {
-            if (boundaryEvent.getAttachedToRefId() != null && boundaryEvent.getAttachedToRefId().equals(flowElement.getId())) {
+            if (boundaryEvent.getAttachedToRefId() !is null && boundaryEvent.getAttachedToRefId().equals(flowElement.getId())) {
                 results.add(boundaryEvent);
             }
         }
@@ -105,7 +105,7 @@ class AbstractBpmnActivityBehavior extends FlowNodeActivityBehavior {
     }
 
     protected bool hasMultiInstanceCharacteristics() {
-        return multiInstanceActivityBehavior != null;
+        return multiInstanceActivityBehavior !is null;
     }
 
     public MultiInstanceActivityBehavior getMultiInstanceActivityBehavior() {

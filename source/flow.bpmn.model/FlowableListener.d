@@ -116,7 +116,7 @@ class FlowableListener extends BaseElement {
         setImplementationType(otherListener.getImplementationType());
 
         fieldExtensions = new ArrayList<>();
-        if (otherListener.getFieldExtensions() != null && !otherListener.getFieldExtensions().isEmpty()) {
+        if (otherListener.getFieldExtensions() !is null && !otherListener.getFieldExtensions().isEmpty()) {
             for (FieldExtension extension : otherListener.getFieldExtensions()) {
                 fieldExtensions.add(extension.clone());
             }

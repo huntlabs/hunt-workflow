@@ -29,7 +29,7 @@ class DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd implements Command<O
         CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricProcessIdentityLinksForNonExistingInstances();
         CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricTaskIdentityLinksForNonExistingInstances();
         HistoricEntityLinkService historicEntityLinkService = CommandContextUtil.getHistoricEntityLinkService();
-        if (historicEntityLinkService != null) {
+        if (historicEntityLinkService !is null) {
             historicEntityLinkService.deleteHistoricEntityLinksForNonExistingProcessInstances();
         }
         CommandContextUtil.getHistoricTaskService(commandContext).deleteHistoricTaskLogEntriesForNonExistingProcessInstances();

@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.form.AbstractFormType;
 import flow.engine.form.FormProperty;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -44,12 +44,12 @@ class FormPropertyHandler implements Serializable {
         FormPropertyImpl formProperty = new FormPropertyImpl(this);
         Object modelValue = null;
 
-        if (execution != null) {
-            if (variableName != null || variableExpression == null) {
-                final string varName = variableName != null ? variableName : id;
+        if (execution !is null) {
+            if (variableName !is null || variableExpression is null) {
+                final string varName = variableName !is null ? variableName : id;
                 if (execution.hasVariable(varName)) {
                     modelValue = execution.getVariable(varName);
-                } else if (defaultExpression != null) {
+                } else if (defaultExpression !is null) {
                     modelValue = defaultExpression.getValue(execution);
                 }
             } else {
@@ -58,17 +58,17 @@ class FormPropertyHandler implements Serializable {
         } else {
             // Execution is null, the form-property is used in a start-form.
             // Default value should be available (ACT-1028) even though no execution is available.
-            if (defaultExpression != null) {
+            if (defaultExpression !is null) {
                 modelValue = defaultExpression.getValue(NoExecutionVariableScope.getSharedInstance());
             }
         }
 
         if (modelValue instanceof string) {
             formProperty.setValue((string) modelValue);
-        } else if (type != null) {
+        } else if (type !is null) {
             string formValue = type.convertModelValueToFormValue(modelValue);
             formProperty.setValue(formValue);
-        } else if (modelValue != null) {
+        } else if (modelValue !is null) {
             formProperty.setValue(modelValue.toString());
         }
 
@@ -80,7 +80,7 @@ class FormPropertyHandler implements Serializable {
             throw new FlowableException("form property '" + id + "' is not writable");
         }
 
-        if (isRequired && !properties.containsKey(id) && defaultExpression == null) {
+        if (isRequired && !properties.containsKey(id) && defaultExpression is null) {
             throw new FlowableException("form property '" + id + "' is required");
         }
         bool propertyExists = false;
@@ -88,25 +88,25 @@ class FormPropertyHandler implements Serializable {
         if (properties.containsKey(id)) {
             propertyExists = true;
             final string propertyValue = properties.remove(id);
-            if (type != null) {
+            if (type !is null) {
                 modelValue = type.convertFormValueToModelValue(propertyValue);
             } else {
                 modelValue = propertyValue;
             }
-        } else if (defaultExpression != null) {
+        } else if (defaultExpression !is null) {
             final Object expressionValue = defaultExpression.getValue(execution);
-            if (type != null && expressionValue != null) {
+            if (type !is null && expressionValue !is null) {
                 modelValue = type.convertFormValueToModelValue(expressionValue.toString());
-            } else if (expressionValue != null) {
+            } else if (expressionValue !is null) {
                 modelValue = expressionValue.toString();
             } else if (isRequired) {
                 throw new FlowableException("form property '" + id + "' is required");
             }
         }
-        if (propertyExists || (modelValue != null)) {
-            if (variableName != null) {
+        if (propertyExists || (modelValue !is null)) {
+            if (variableName !is null) {
                 execution.setVariable(variableName, modelValue);
-            } else if (variableExpression != null) {
+            } else if (variableExpression !is null) {
                 variableExpression.setValue(modelValue, execution);
             } else {
                 execution.setVariable(id, modelValue);

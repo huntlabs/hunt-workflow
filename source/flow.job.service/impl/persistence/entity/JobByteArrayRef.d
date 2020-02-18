@@ -51,7 +51,7 @@ class JobByteArrayRef implements Serializable {
 
     public byte[] getBytes() {
         ensureInitialized();
-        return (entity != null ? entity.getBytes() : null);
+        return (entity !is null ? entity.getBytes() : null);
     }
 
     /**
@@ -61,7 +61,7 @@ class JobByteArrayRef implements Serializable {
      */
     public string asString() {
         byte[] bytes = getBytes();
-        if (bytes == null) {
+        if (bytes is null) {
             return null;
         }
 
@@ -82,14 +82,14 @@ class JobByteArrayRef implements Serializable {
      */
     public void setValue(string name, string value) {
         this.name = name;
-        if (value != null) {
+        if (value !is null) {
             setBytes(value.getBytes(StandardCharsets.UTF_8));
         }
     }
 
     private void setBytes(byte[] bytes) {
-        if (id == null) {
-            if (bytes != null) {
+        if (id is null) {
+            if (bytes !is null) {
                 JobByteArrayEntityManager byteArrayEntityManager = CommandContextUtil.getJobByteArrayEntityManager();
                 entity = byteArrayEntityManager.create();
                 entity.setName(name);
@@ -109,8 +109,8 @@ class JobByteArrayRef implements Serializable {
     }
 
     public void delete() {
-        if (!deleted && id != null) {
-            if (entity != null) {
+        if (!deleted && id !is null) {
+            if (entity !is null) {
                 // if the entity has been loaded already,
                 // we might as well use the safer optimistic locking delete.
                 CommandContextUtil.getJobByteArrayEntityManager().delete(entity);
@@ -124,7 +124,7 @@ class JobByteArrayRef implements Serializable {
     }
 
     private void ensureInitialized() {
-        if (id != null && entity == null) {
+        if (id !is null && entity is null) {
             entity = CommandContextUtil.getJobByteArrayEntityManager().findById(id);
             name = entity.getName();
         }

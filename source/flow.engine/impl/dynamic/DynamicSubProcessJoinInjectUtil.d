@@ -55,7 +55,7 @@ class DynamicSubProcessJoinInjectUtil extends BaseDynamicSubProcessInjectUtil {
         }
         UserTask userTask = (UserTask) taskFlowElement;
 
-        if (dynamicEmbeddedSubProcessBuilder.getId() != null && process.getFlowElement(dynamicEmbeddedSubProcessBuilder.getId(), true) != null) {
+        if (dynamicEmbeddedSubProcessBuilder.getId() !is null && process.getFlowElement(dynamicEmbeddedSubProcessBuilder.getId(), true) !is null) {
             throw new FlowableIllegalArgumentException("Invalid sub-process identifier: identifier already exists in host process definition");
         }
         
@@ -79,7 +79,7 @@ class DynamicSubProcessJoinInjectUtil extends BaseDynamicSubProcessInjectUtil {
         userTask.setIncomingFlows(new ArrayList<>());
         userTask.setOutgoingFlows(new ArrayList<>());
         
-        if (elementGraphicInfo != null) {
+        if (elementGraphicInfo !is null) {
             elementGraphicInfo.setExpanded(false);
             bpmnModel.addGraphicInfo(parentSubProcess.getId(), elementGraphicInfo);
         }
@@ -93,7 +93,7 @@ class DynamicSubProcessJoinInjectUtil extends BaseDynamicSubProcessInjectUtil {
         parentContainer.addFlowElement(parentSubProcess);
 
         SubProcess subProcess = new SubProcess();
-        if (dynamicEmbeddedSubProcessBuilder.getId() != null) {
+        if (dynamicEmbeddedSubProcessBuilder.getId() !is null) {
             subProcess.setId(dynamicEmbeddedSubProcessBuilder.getId());
         } else {
             subProcess.setId(dynamicEmbeddedSubProcessBuilder.nextSubProcessId(process.getFlowElementMap()));
@@ -112,7 +112,7 @@ class DynamicSubProcessJoinInjectUtil extends BaseDynamicSubProcessInjectUtil {
         
         Map<string, FlowElement> generatedIds = new HashMap<>();
         processSubProcessFlowElements(commandContext, subProcess.getId(), process, bpmnModel, subProcess, bpmnModelSubProcess, 
-                        originalProcessDefinitionEntity, newDeploymentEntity, generatedIds, (elementGraphicInfo != null));
+                        originalProcessDefinitionEntity, newDeploymentEntity, generatedIds, (elementGraphicInfo !is null));
         
         for (string originalFlowElementId : generatedIds.keySet()) {
             FlowElement duplicateFlowElement = generatedIds.get(originalFlowElementId);
@@ -162,7 +162,7 @@ class DynamicSubProcessJoinInjectUtil extends BaseDynamicSubProcessInjectUtil {
         endFlow.setId(dynamicEmbeddedSubProcessBuilder.nextFlowId(process.getFlowElementMap()));
         parentSubProcess.addFlowElement(endFlow);
 
-        if (elementGraphicInfo != null) {
+        if (elementGraphicInfo !is null) {
             GraphicInfo startGraphicInfo = new GraphicInfo(45, 135, 30, 30);
             bpmnModel.addGraphicInfo(startEvent.getId(), startGraphicInfo);
             

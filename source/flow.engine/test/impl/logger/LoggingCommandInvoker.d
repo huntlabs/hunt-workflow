@@ -40,7 +40,7 @@ class LoggingCommandInvoker extends CommandInvoker {
 
         super.executeOperation(runnable);
 
-        if (debugInfo != null) {
+        if (debugInfo !is null) {
             debugInfo.setPostExecutionTime(System.currentTimeMillis());
         }
     }

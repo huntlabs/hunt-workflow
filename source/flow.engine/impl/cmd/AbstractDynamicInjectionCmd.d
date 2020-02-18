@@ -73,7 +73,7 @@ abstract class AbstractDynamicInjectionCmd {
         newDeploymentEntity.setTenantId(deploymentEntity.getTenantId());
 
         newDeploymentEntity.setDerivedFrom(deploymentEntity.getId());
-        if (deploymentEntity.getDerivedFromRoot() != null) {
+        if (deploymentEntity.getDerivedFromRoot() !is null) {
             newDeploymentEntity.setDerivedFromRoot(deploymentEntity.getDerivedFromRoot());
         } else {
             newDeploymentEntity.setDerivedFromRoot(deploymentEntity.getId());
@@ -95,7 +95,7 @@ abstract class AbstractDynamicInjectionCmd {
         Map<string, Object> deploymentSettings = new HashMap<>();
         deploymentSettings.put(DeploymentSettings.IS_DERIVED_DEPLOYMENT, true);
         deploymentSettings.put(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ID, originalProcessDefinitionEntity.getId());
-        if (originalProcessDefinitionEntity.getDerivedFromRoot() != null) {
+        if (originalProcessDefinitionEntity.getDerivedFromRoot() !is null) {
             deploymentSettings.put(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ROOT_ID, originalProcessDefinitionEntity.getDerivedFromRoot());
         } else {
             deploymentSettings.put(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ROOT_ID, originalProcessDefinitionEntity.getId());
@@ -155,7 +155,7 @@ abstract class AbstractDynamicInjectionCmd {
         
         List<IdentityLinkEntity> identityLinks = CommandContextUtil.getIdentityLinkService().findIdentityLinksByProcessDefinitionId(previousProcessDefinitionId);
         for (IdentityLinkEntity identityLinkEntity : identityLinks) {
-            if (identityLinkEntity.getTaskId() != null || identityLinkEntity.getProcessInstanceId() != null || identityLinkEntity.getScopeId() != null) {
+            if (identityLinkEntity.getTaskId() !is null || identityLinkEntity.getProcessInstanceId() !is null || identityLinkEntity.getScopeId() !is null) {
                 identityLinkEntity.setProcessDefId(processDefinitionEntity.getId());
             }
         }

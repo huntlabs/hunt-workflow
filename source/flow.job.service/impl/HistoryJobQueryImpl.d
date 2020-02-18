@@ -58,7 +58,7 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
 
     @Override
     public HistoryJobQuery jobId(string jobId) {
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("Provided job id is null");
         }
         this.id = jobId;
@@ -67,7 +67,7 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
 
     @Override
     public HistoryJobQuery handlerType(string handlerType) {
-        if (handlerType == null) {
+        if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
         }
         this.handlerType = handlerType;
@@ -82,7 +82,7 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
 
     @Override
     public HistoryJobQuery exceptionMessage(string exceptionMessage) {
-        if (exceptionMessage == null) {
+        if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
         }
         this.exceptionMessage = exceptionMessage;
@@ -91,7 +91,7 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
     
     @Override
     public HistoryJobQuery scopeType(string scopeType) {
-        if (scopeType == null) {
+        if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null"); 
         }
         this.scopeType = scopeType;
@@ -100,7 +100,7 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
 
     @Override
     public HistoryJobQuery jobTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
         this.tenantId = tenantId;
@@ -109,7 +109,7 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
 
     @Override
     public HistoryJobQuery jobTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
         this.tenantIdLike = tenantIdLike;

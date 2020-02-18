@@ -11,36 +11,46 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.DiagramEdgeWaypoint;
+ 
+ 
+ 
 
 
-import java.io.Serializable;
 
-/**
- * Stores the position of a waypoint of a diagram edge.
- * 
- * @author Falko Menge
- */
-class DiagramEdgeWaypoint implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private Double x;
-    private Double y;
-
-    public Double getX() {
-        return x;
-    }
-
-    public void setX(Double x) {
-        this.x = x;
-    }
-
-    public Double getY() {
-        return y;
-    }
-
-    public void setY(Double y) {
-        this.y = y;
-    }
-
-}
+//import java.io.Serializable;
+//
+///**
+// * Stores the position of a waypoint of a diagram edge.
+// *
+// * @author Falko Menge
+// */
+//class DiagramEdgeWaypoint implements Serializable {
+//
+//    private static final long serialVersionUID = 1L;
+//
+//    private Double x;
+//    private Double y;
+//
+//    public Double getX() {
+//        return x;
+//    }
+//
+//    public void setX(Double x) {
+//        this.x = x;
+//    }
+//
+//    public Double getY() {
+//        return y;
+//    }
+//
+//    public void setY(Double y) {
+//        this.y = y;
+//    }
+//
+//}

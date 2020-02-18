@@ -14,7 +14,7 @@
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.SequenceFlow;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.DynamicBpmnConstants;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.impl.Condition;
@@ -53,9 +53,9 @@ class ConditionUtil {
 
     protected static string getActiveValue(string originalValue, string propertyName, ObjectNode elementProperties) {
         string activeValue = originalValue;
-        if (elementProperties != null) {
+        if (elementProperties !is null) {
             JsonNode overrideValueNode = elementProperties.get(propertyName);
-            if (overrideValueNode != null) {
+            if (overrideValueNode !is null) {
                 if (overrideValueNode.isNull()) {
                     activeValue = null;
                 } else {

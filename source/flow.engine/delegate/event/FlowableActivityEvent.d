@@ -21,8 +21,8 @@ module flow.engine.delegate.event.FlowableActivityEvent;
  
 
 
-import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 
 /**
  * An {@link FlowableEvent} related to an activity within an execution.

@@ -27,7 +27,7 @@ import java.io.Serializable;
 /**
  * @author Yvo Swillens
  */
-public interface BaseTaskListener : Serializable {
+interface BaseTaskListener : Serializable {
 
     string EVENTNAME_CREATE = "create";
     string EVENTNAME_ASSIGNMENT = "assignment";

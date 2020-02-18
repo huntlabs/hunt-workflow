@@ -35,8 +35,8 @@ import org.flowable.bpmn.model.MapExceptionEntry;
 import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.StartEvent;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.util.CollectionUtil;
 import flow.common.util.ReflectUtil;
 import flow.engine.delegate.BpmnError;
@@ -67,8 +67,8 @@ class ErrorPropagation {
         Set<string> rootProcessDefinitionIds = new HashSet<>();
         if (!execution.getProcessInstanceId().equals(execution.getRootProcessInstanceId())) {
             ExecutionEntity parentExecution = (ExecutionEntity) execution;
-            while (parentExecution.getParentId() != null || parentExecution.getSuperExecutionId() != null) {
-                if (parentExecution.getParentId() != null) {
+            while (parentExecution.getParentId() !is null || parentExecution.getSuperExecutionId() !is null) {
+                if (parentExecution.getParentId() !is null) {
                     parentExecution = parentExecution.getParent();
                 } else {
                     parentExecution = parentExecution.getSuperExecution();
@@ -102,7 +102,7 @@ class ErrorPropagation {
 
         if (eventMap.containsKey(currentExecution.getActivityId() + "#" + currentExecution.getProcessDefinitionId())) {
             // Check for multi instance
-            if (currentExecution.getParentId() != null && currentExecution.getParent().isMultiInstanceRoot()) {
+            if (currentExecution.getParentId() !is null && currentExecution.getParent().isMultiInstanceRoot()) {
                 parentExecution = currentExecution.getParent();
             } else {
                 parentExecution = currentExecution;
@@ -115,7 +115,7 @@ class ErrorPropagation {
             parentExecution = currentExecution.getParent();
             
             // Traverse parents until one is found that is a scope and matches the activity the boundary event is defined on
-            while (matchingEvent == null && parentExecution != null) {
+            while (matchingEvent is null && parentExecution !is null) {
                 FlowElementsContainer currentContainer = null;
                 if (parentExecution.getCurrentFlowElement() instanceof FlowElementsContainer) {
                     currentContainer = (FlowElementsContainer) parentExecution.getCurrentFlowElement();
@@ -123,14 +123,14 @@ class ErrorPropagation {
                     currentContainer = ProcessDefinitionUtil.getProcess(parentExecution.getProcessDefinitionId());
                 }
 
-                if (currentContainer != null) {
+                if (currentContainer !is null) {
                     for (string refId : eventMap.keySet()) {
                         List<Event> events = eventMap.get(refId);
                         if (CollectionUtil.isNotEmpty(events) && events.get(0) instanceof StartEvent) {
                             string refActivityId = refId.substring(0, refId.indexOf('#'));
                             string refProcessDefinitionId = refId.substring(refId.indexOf('#') + 1);
                             if (parentExecution.getProcessDefinitionId().equals(refProcessDefinitionId) && 
-                                            currentContainer.getFlowElement(refActivityId) != null) {
+                                            currentContainer.getFlowElement(refActivityId) !is null) {
                                 
                                 matchingEvent = getCatchEventFromList(events, parentExecution);
                                 string errorCode = getErrorCodeFromErrorEventDefinition(matchingEvent);
@@ -142,10 +142,10 @@ class ErrorPropagation {
                     }
                 }
 
-                if (matchingEvent == null) {
+                if (matchingEvent is null) {
                     if (eventMap.containsKey(parentExecution.getActivityId() + "#" + parentExecution.getProcessDefinitionId())) {
                         // Check for multi instance
-                        if (parentExecution.getParentId() != null && parentExecution.getParent().isMultiInstanceRoot()) {
+                        if (parentExecution.getParentId() !is null && parentExecution.getParent().isMultiInstanceRoot()) {
                             parentExecution = parentExecution.getParent();
                         }
                         
@@ -167,7 +167,7 @@ class ErrorPropagation {
             }
         }
 
-        if (matchingEvent != null && parentExecution != null) {
+        if (matchingEvent !is null && parentExecution !is null) {
             
             for (string processInstanceId : toDeleteProcessInstanceIds) {
                 ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
@@ -175,16 +175,16 @@ class ErrorPropagation {
 
                 // Delete
                 executionEntityManager.deleteProcessInstanceExecutionEntity(processInstanceEntity.getId(),
-                                currentExecution.getCurrentFlowElement() != null ? currentExecution.getCurrentFlowElement().getId() : null,
+                                currentExecution.getCurrentFlowElement() !is null ? currentExecution.getCurrentFlowElement().getId() : null,
                                                 "ERROR_EVENT " + errorId, false, false, false);
 
                 // Event
                 ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
                 FlowableEventDispatcher eventDispatcher = null;
-                if (processEngineConfiguration != null) {
+                if (processEngineConfiguration !is null) {
                     eventDispatcher = processEngineConfiguration.getEventDispatcher();
                 }
-                if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+                if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     processEngineConfiguration.getEventDispatcher()
                             .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_COMPLETED_WITH_ERROR_END_EVENT, processInstanceEntity));
                 }
@@ -200,15 +200,15 @@ class ErrorPropagation {
     protected static void executeEventHandler(Event event, ExecutionEntity parentExecution, ExecutionEntity currentExecution, string errorId) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         FlowableEventDispatcher eventDispatcher = null;
-        if (processEngineConfiguration != null) {
+        if (processEngineConfiguration !is null) {
             eventDispatcher = processEngineConfiguration.getEventDispatcher();
         }
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(parentExecution.getProcessDefinitionId());
-            if (bpmnModel != null) {
+            if (bpmnModel !is null) {
 
                 string errorCode = bpmnModel.getErrors().get(errorId);
-                if (errorCode == null) {
+                if (errorCode is null) {
                     errorCode = errorId;
                 }
 
@@ -230,7 +230,7 @@ class ErrorPropagation {
             }
 
             ExecutionEntity eventSubProcessExecution = executionEntityManager.createChildExecution(parentExecution);
-            if (event.getSubProcess() != null) {
+            if (event.getSubProcess() !is null) {
                 eventSubProcessExecution.setCurrentFlowElement(event.getSubProcess());
                 ExecutionEntity subProcessStartEventExecution = executionEntityManager.createChildExecution(eventSubProcessExecution);
                 subProcessStartEventExecution.setCurrentFlowElement(event);
@@ -245,8 +245,8 @@ class ErrorPropagation {
             ExecutionEntity boundaryExecution = null;
             List<? extends ExecutionEntity> childExecutions = parentExecution.getExecutions();
             for (ExecutionEntity childExecution : childExecutions) {
-                if (childExecution != null
-                        && childExecution.getActivityId() != null
+                if (childExecution !is null
+                        && childExecution.getActivityId() !is null
                         && childExecution.getActivityId().equals(event.getId())) {
                     boundaryExecution = childExecution;
                 }
@@ -272,7 +272,7 @@ class ErrorPropagation {
                         ErrorEventDefinition errorEventDef = (ErrorEventDefinition) startEvent.getEventDefinitions().get(0);
                         string eventErrorCode = retrieveErrorCode(bpmnModel, errorEventDef.getErrorCode());
 
-                        if (eventErrorCode == null || compareErrorCode == null || eventErrorCode.equals(compareErrorCode)) {
+                        if (eventErrorCode is null || compareErrorCode is null || eventErrorCode.equals(compareErrorCode)) {
                             List<Event> startEvents = new ArrayList<>();
                             startEvents.add(startEvent);
                             eventMap.put(eventSubProcess.getId() + "#" + processDefinitionId, startEvents);
@@ -284,12 +284,12 @@ class ErrorPropagation {
 
         List<BoundaryEvent> boundaryEvents = process.findFlowElementsOfType(BoundaryEvent.class, true);
         for (BoundaryEvent boundaryEvent : boundaryEvents) {
-            if (boundaryEvent.getAttachedToRefId() != null && CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) && boundaryEvent.getEventDefinitions().get(0) instanceof ErrorEventDefinition) {
+            if (boundaryEvent.getAttachedToRefId() !is null && CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) && boundaryEvent.getEventDefinitions().get(0) instanceof ErrorEventDefinition) {
 
                 ErrorEventDefinition errorEventDef = (ErrorEventDefinition) boundaryEvent.getEventDefinitions().get(0);
                 string eventErrorCode = retrieveErrorCode(bpmnModel, errorEventDef.getErrorCode());
 
-                if (eventErrorCode == null || compareErrorCode == null || eventErrorCode.equals(compareErrorCode)) {
+                if (eventErrorCode is null || compareErrorCode is null || eventErrorCode.equals(compareErrorCode)) {
                     List<Event> elementBoundaryEvents = null;
                     if (!eventMap.containsKey(boundaryEvent.getAttachedToRefId() + "#" + processDefinitionId)) {
                         elementBoundaryEvents = new ArrayList<>();
@@ -306,15 +306,15 @@ class ErrorPropagation {
 
     public static bool mapException(Exception e, ExecutionEntity execution, List<MapExceptionEntry> exceptionMap) {
         string errorCode = findMatchingExceptionMapping(e, exceptionMap);
-        if (errorCode != null) {
+        if (errorCode !is null) {
             propagateError(errorCode, execution);
             return true;
         } else {
             ExecutionEntity callActivityExecution = null;
             ExecutionEntity parentExecution = execution.getParent();
-            while (parentExecution != null && callActivityExecution == null) {
+            while (parentExecution !is null && callActivityExecution is null) {
                 if (parentExecution.getId().equals(parentExecution.getProcessInstanceId())) {
-                    if (parentExecution.getSuperExecution() != null) {
+                    if (parentExecution.getSuperExecution() !is null) {
                         callActivityExecution = parentExecution.getSuperExecution();
                     } else {
                         parentExecution = null;
@@ -324,11 +324,11 @@ class ErrorPropagation {
                 }
             }
 
-            if (callActivityExecution != null) {
+            if (callActivityExecution !is null) {
                 CallActivity callActivity = (CallActivity) callActivityExecution.getCurrentFlowElement();
                 if (CollectionUtil.isNotEmpty(callActivity.getMapExceptions())) {
                     errorCode = findMatchingExceptionMapping(e, callActivity.getMapExceptions());
-                    if (errorCode != null) {
+                    if (errorCode !is null) {
                         propagateError(errorCode, callActivityExecution);
                         return true;
                     }
@@ -348,7 +348,7 @@ class ErrorPropagation {
             string rootCause = me.getRootCause();
 
             // save the first mapping with no exception class as default map
-            if (StringUtils.isNotEmpty(errorCode) && StringUtils.isEmpty(exceptionClass) && defaultExceptionMapping == null) {
+            if (StringUtils.isNotEmpty(errorCode) && StringUtils.isEmpty(exceptionClass) && defaultExceptionMapping is null) {
                 // if rootCause is set, check if it matches the exception
                 if (StringUtils.isNotEmpty(rootCause)) {
                     if (ExceptionUtils.getRootCause(e).getClass().getName().equals(rootCause)) {
@@ -400,11 +400,11 @@ class ErrorPropagation {
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(parentExecution.getProcessDefinitionId());
         for (Event event : events) {
             string errorCode = getErrorCodeFromErrorEventDefinition(event);
-            if (bpmnModel != null) {
+            if (bpmnModel !is null) {
                 errorCode = retrieveErrorCode(bpmnModel, errorCode);
             }
             
-            if (selectedEvent == null || (StringUtils.isEmpty(selectedEventErrorCode) && StringUtils.isNotEmpty(errorCode))) {
+            if (selectedEvent is null || (StringUtils.isEmpty(selectedEventErrorCode) && StringUtils.isNotEmpty(errorCode))) {
                 selectedEvent = event;
                 selectedEventErrorCode = errorCode;
             }
@@ -425,7 +425,7 @@ class ErrorPropagation {
 
     protected static string retrieveErrorCode(BpmnModel bpmnModel, string errorCode) {
         string finalErrorCode = null;
-        if (errorCode != null && bpmnModel.containsErrorRef(errorCode)) {
+        if (errorCode !is null && bpmnModel.containsErrorRef(errorCode)) {
             finalErrorCode = bpmnModel.getErrors().get(errorCode);
         } else {
             finalErrorCode = errorCode;

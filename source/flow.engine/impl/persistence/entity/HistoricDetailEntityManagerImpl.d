@@ -52,7 +52,7 @@ class HistoricDetailEntityManagerImpl
 
         ActivityInstanceEntity activityInstance = getActivityInstanceEntityManager().findUnfinishedActivityInstance(execution);
         string activityInstanceId;
-        if (activityInstance != null) {
+        if (activityInstance !is null) {
             activityInstanceId = activityInstance.getId();
         } else {
             throw new FlowableException("ActivityInstance not found for execution "+execution.getId());
@@ -79,7 +79,7 @@ class HistoricDetailEntityManagerImpl
         historicVariableUpdate.setDoubleValue(variableInstance.getDoubleValue());
         historicVariableUpdate.setLongValue(variableInstance.getLongValue());
 
-        if (variableInstance.getBytes() != null) {
+        if (variableInstance.getBytes() !is null) {
             historicVariableUpdate.setBytes(variableInstance.getBytes());
         }
 
@@ -93,7 +93,7 @@ class HistoricDetailEntityManagerImpl
 
         if (entity instanceof HistoricDetailVariableInstanceUpdateEntity) {
             HistoricDetailVariableInstanceUpdateEntity historicDetailVariableInstanceUpdateEntity = ((HistoricDetailVariableInstanceUpdateEntity) entity);
-            if (historicDetailVariableInstanceUpdateEntity.getByteArrayRef() != null) {
+            if (historicDetailVariableInstanceUpdateEntity.getByteArrayRef() !is null) {
                 historicDetailVariableInstanceUpdateEntity.getByteArrayRef().delete();
             }
         }

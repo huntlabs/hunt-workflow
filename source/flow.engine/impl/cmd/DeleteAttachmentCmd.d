@@ -15,8 +15,8 @@
 
 import java.io.Serializable;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
@@ -47,9 +47,9 @@ class DeleteAttachmentCmd implements Command<Object>, Serializable {
         string processInstanceId = attachment.getProcessInstanceId();
         string processDefinitionId = null;
         ExecutionEntity processInstance = null;
-        if (attachment.getProcessInstanceId() != null) {
+        if (attachment.getProcessInstanceId() !is null) {
             processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
-            if (processInstance != null) {
+            if (processInstance !is null) {
                 processDefinitionId = processInstance.getProcessDefinitionId();
                 if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
                     Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
@@ -61,21 +61,21 @@ class DeleteAttachmentCmd implements Command<Object>, Serializable {
 
         CommandContextUtil.getAttachmentEntityManager().delete(attachment, false);
 
-        if (attachment.getContentId() != null) {
+        if (attachment.getContentId() !is null) {
             CommandContextUtil.getByteArrayEntityManager().deleteByteArrayById(attachment.getContentId());
         }
         
         TaskEntity task = null;
-        if (attachment.getTaskId() != null) {
+        if (attachment.getTaskId() !is null) {
             task = CommandContextUtil.getTaskService().getTask(attachment.getTaskId());
         }
 
-        if (attachment.getTaskId() != null) {
+        if (attachment.getTaskId() !is null) {
             CommandContextUtil.getHistoryManager(commandContext).createAttachmentComment(task, processInstance, attachment.getName(), false);
         }
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
                     .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, attachment, processInstanceId, processInstanceId, processDefinitionId));
         }

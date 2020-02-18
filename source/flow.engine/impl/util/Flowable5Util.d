@@ -55,13 +55,13 @@ class Flowable5Util {
 
     public static bool isFlowable5ProcessDefinitionId(CommandContext commandContext, final string processDefinitionId) {
 
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             return false;
         }
 
         try {
             ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
-            if (processDefinition == null) {
+            if (processDefinition is null) {
                 return false;
             }
             return isFlowable5ProcessDefinition(processDefinition, commandContext);
@@ -76,12 +76,12 @@ class Flowable5Util {
      */
     public static bool isFlowable5ProcessDefinitionId(final ProcessEngineConfigurationImpl processEngineConfiguration, final string processDefinitionId) {
 
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             return false;
         }
 
         ProcessDefinitionCacheEntry cacheEntry = processEngineConfiguration.getProcessDefinitionCache().get(processDefinitionId);
-        if (cacheEntry != null) {
+        if (cacheEntry !is null) {
             ProcessDefinition processDefinition = cacheEntry.getProcessDefinition();
             return isFlowable5ProcessDefinition(processDefinition, processEngineConfiguration);
 
@@ -124,14 +124,14 @@ class Flowable5Util {
 
     public static bool isV5Entity(string tag, string id, string entityType, ProcessEngineConfigurationImpl processEngineConfiguration) {
         if (isVersion5Tag(tag)) {
-            if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() == null) {
+            if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() is null) {
                 throw new FlowableException(entityType + " with id " + id + " has a v5 tag and flowable 5 compatibility is not enabled");
             }
 
             return true;
 
         } else {
-            if (tag != null) {
+            if (tag !is null) {
                 throw new FlowableException("Invalid 'engine' for " + entityType + " with id " + id + " : " + tag);
             }
             return false;
@@ -144,11 +144,11 @@ class Flowable5Util {
 
     public static Flowable5CompatibilityHandler getFlowable5CompatibilityHandler() {
         Flowable5CompatibilityHandler flowable5CompatibilityHandler = CommandContextUtil.getProcessEngineConfiguration().getFlowable5CompatibilityHandler(); 
-        if (flowable5CompatibilityHandler == null) {
+        if (flowable5CompatibilityHandler is null) {
             flowable5CompatibilityHandler = Flowable5CompatibilityContext.getFallbackFlowable5CompatibilityHandler();
         }
 
-        if (flowable5CompatibilityHandler == null) {
+        if (flowable5CompatibilityHandler is null) {
             throw new FlowableException("Found Flowable 5 process definition, but no compatibility handler on the classpath");
         }
         return flowable5CompatibilityHandler;

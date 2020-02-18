@@ -13,9 +13,9 @@
 
 
 import org.flowable.bpmn.model.ConditionalEventDefinition;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.DelegateExecution;
@@ -45,7 +45,7 @@ class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBeha
         ExecutionEntity executionEntity = (ExecutionEntity) execution;
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_WAITING, executionEntity.getActivityId(), 
                             conditionExpression, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
         }
@@ -58,11 +58,11 @@ class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBeha
 
         Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
-        if (result != null && result instanceof bool && (bool) result) {
+        if (result !is null && result instanceof bool && (bool) result) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(executionEntity);
             
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_RECEIVED, executionEntity.getActivityId(), 
                                 conditionExpression, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
             }

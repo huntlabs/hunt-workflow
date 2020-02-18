@@ -16,7 +16,7 @@
 import java.util.List;
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.history.HistoryManager;
@@ -43,14 +43,14 @@ class CommentEntityManagerImpl
         insert(commentEntity, false);
 
         Comment comment = (Comment) commentEntity;
-        if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+        if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
             // Forced to fetch the process-instance to associate the right
             // process definition
             string processDefinitionId = null;
             string processInstanceId = comment.getProcessInstanceId();
-            if (comment.getProcessInstanceId() != null) {
+            if (comment.getProcessInstanceId() !is null) {
                 ExecutionEntity process = getExecutionEntityManager().findById(comment.getProcessInstanceId());
-                if (process != null) {
+                if (process !is null) {
                     processDefinitionId = process.getProcessDefinitionId();
                 }
             }
@@ -67,14 +67,14 @@ class CommentEntityManagerImpl
 
         CommentEntity updatedCommentEntity = update(commentEntity, false);
 
-        if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+        if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
             // Forced to fetch the process-instance to associate the right
             // process definition
             string processDefinitionId = null;
             string processInstanceId = updatedCommentEntity.getProcessInstanceId();
-            if (updatedCommentEntity.getProcessInstanceId() != null) {
+            if (updatedCommentEntity.getProcessInstanceId() !is null) {
                 ExecutionEntity process = getExecutionEntityManager().findById(updatedCommentEntity.getProcessInstanceId());
-                if (process != null) {
+                if (process !is null) {
                     processDefinitionId = process.getProcessDefinitionId();
                 }
             }
@@ -156,14 +156,14 @@ class CommentEntityManagerImpl
         delete(commentEntity, false);
 
         Comment comment = (Comment) commentEntity;
-        if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+        if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
             // Forced to fetch the process-instance to associate the right
             // process definition
             string processDefinitionId = null;
             string processInstanceId = comment.getProcessInstanceId();
-            if (comment.getProcessInstanceId() != null) {
+            if (comment.getProcessInstanceId() !is null) {
                 ExecutionEntity process = getExecutionEntityManager().findById(comment.getProcessInstanceId());
-                if (process != null) {
+                if (process !is null) {
                     processDefinitionId = process.getProcessDefinitionId();
                 }
             }

@@ -46,7 +46,7 @@ class EngineServiceUtil {
     public static IdmIdentityService getIdmIdentityService(AbstractEngineConfiguration engineConfiguration) {
         IdmIdentityService idmIdentityService = null;
         IdmEngineConfigurationApi idmEngineConfiguration = getIdmEngineConfiguration(engineConfiguration);
-        if (idmEngineConfiguration != null) {
+        if (idmEngineConfiguration !is null) {
             idmIdentityService = idmEngineConfiguration.getIdmIdentityService();
         }
         
@@ -62,7 +62,7 @@ class EngineServiceUtil {
     public static EventRegistry getEventRegistry(AbstractEngineConfiguration engineConfiguration) {
         EventRegistry eventRegistry = null;
         EventRegistryEngineConfiguration eventRegistryEngineConfiguration = getEventRegistryEngineConfiguration(engineConfiguration);
-        if (eventRegistryEngineConfiguration != null) {
+        if (eventRegistryEngineConfiguration !is null) {
             eventRegistry = eventRegistryEngineConfiguration.getEventRegistry();
         }
         
@@ -78,7 +78,7 @@ class EngineServiceUtil {
     public static CmmnRepositoryService getCmmnRepositoryService(AbstractEngineConfiguration engineConfiguration) {
         CmmnRepositoryService cmmnRepositoryService = null;
         CmmnEngineConfigurationApi cmmnEngineConfiguration = getCmmnEngineConfiguration(engineConfiguration);
-        if (cmmnEngineConfiguration != null) {
+        if (cmmnEngineConfiguration !is null) {
             cmmnRepositoryService = cmmnEngineConfiguration.getCmmnRepositoryService();
         }
         
@@ -88,7 +88,7 @@ class EngineServiceUtil {
     public static CmmnRuntimeService getCmmnRuntimeService(AbstractEngineConfiguration engineConfiguration) {
         CmmnRuntimeService cmmnRuntimeService = null;
         CmmnEngineConfigurationApi cmmnEngineConfiguration = getCmmnEngineConfiguration(engineConfiguration);
-        if (cmmnEngineConfiguration != null) {
+        if (cmmnEngineConfiguration !is null) {
             cmmnRuntimeService = cmmnEngineConfiguration.getCmmnRuntimeService();
         }
         
@@ -98,7 +98,7 @@ class EngineServiceUtil {
     public static CmmnHistoryService getCmmnHistoryService(AbstractEngineConfiguration engineConfiguration) {
         CmmnHistoryService cmmnHistoryService = null;
         CmmnEngineConfigurationApi cmmnEngineConfiguration = getCmmnEngineConfiguration(engineConfiguration);
-        if (cmmnEngineConfiguration != null) {
+        if (cmmnEngineConfiguration !is null) {
             cmmnHistoryService = cmmnEngineConfiguration.getCmmnHistoryService();
         }
         
@@ -108,7 +108,7 @@ class EngineServiceUtil {
     public static CmmnManagementService getCmmnManagementService(AbstractEngineConfiguration engineConfiguration) {
         CmmnManagementService cmmnManagementService = null;
         CmmnEngineConfigurationApi cmmnEngineConfiguration = getCmmnEngineConfiguration(engineConfiguration);
-        if (cmmnEngineConfiguration != null) {
+        if (cmmnEngineConfiguration !is null) {
             cmmnManagementService = cmmnEngineConfiguration.getCmmnManagementService();
         }
         
@@ -124,7 +124,7 @@ class EngineServiceUtil {
     public static DmnRepositoryService getDmnRepositoryService(AbstractEngineConfiguration engineConfiguration) {
         DmnRepositoryService dmnRepositoryService = null;
         DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration(engineConfiguration);
-        if (dmnEngineConfiguration != null) {
+        if (dmnEngineConfiguration !is null) {
             dmnRepositoryService = dmnEngineConfiguration.getDmnRepositoryService();
         }
         
@@ -134,7 +134,7 @@ class EngineServiceUtil {
     public static DmnRuleService getDmnRuleService(AbstractEngineConfiguration engineConfiguration) {
         DmnRuleService dmnRuleService = null;
         DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration(engineConfiguration);
-        if (dmnEngineConfiguration != null) {
+        if (dmnEngineConfiguration !is null) {
             dmnRuleService = dmnEngineConfiguration.getDmnRuleService();
         }
         
@@ -144,7 +144,7 @@ class EngineServiceUtil {
     public static DmnManagementService getDmnManagementService(AbstractEngineConfiguration engineConfiguration) {
         DmnManagementService dmnManagementService = null;
         DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration(engineConfiguration);
-        if (dmnEngineConfiguration != null) {
+        if (dmnEngineConfiguration !is null) {
             dmnManagementService = dmnEngineConfiguration.getDmnManagementService();
         }
         
@@ -160,7 +160,7 @@ class EngineServiceUtil {
     public static FormRepositoryService getFormRepositoryService(ProcessEngineConfiguration processEngineConfiguration) {
         FormRepositoryService formRepositoryService = null;
         FormEngineConfigurationApi formEngineConfiguration = getFormEngineConfiguration(processEngineConfiguration);
-        if (formEngineConfiguration != null) {
+        if (formEngineConfiguration !is null) {
             formRepositoryService = formEngineConfiguration.getFormRepositoryService();
         }
         
@@ -170,7 +170,7 @@ class EngineServiceUtil {
     public static FormService getFormService(AbstractEngineConfiguration engineConfiguration) {
         FormService formService = null;
         FormEngineConfigurationApi formEngineConfiguration = getFormEngineConfiguration(engineConfiguration);
-        if (formEngineConfiguration != null) {
+        if (formEngineConfiguration !is null) {
             formService = formEngineConfiguration.getFormService();
         }
         
@@ -180,7 +180,7 @@ class EngineServiceUtil {
     public static FormManagementService getFormManagementService(AbstractEngineConfiguration engineConfiguration) {
         FormManagementService formManagementService = null;
         FormEngineConfigurationApi formEngineConfiguration = getFormEngineConfiguration(engineConfiguration);
-        if (formEngineConfiguration != null) {
+        if (formEngineConfiguration !is null) {
             formManagementService = formEngineConfiguration.getFormManagementService();
         }
         
@@ -196,7 +196,7 @@ class EngineServiceUtil {
     public static ContentService getContentService(AbstractEngineConfiguration engineConfiguration) {
         ContentService contentService = null;
         ContentEngineConfigurationApi contentEngineConfiguration = getContentEngineConfiguration(engineConfiguration);
-        if (contentEngineConfiguration != null) {
+        if (contentEngineConfiguration !is null) {
             contentService = contentEngineConfiguration.getContentService();
         }
         

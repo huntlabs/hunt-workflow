@@ -293,9 +293,9 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     @Override
     public FlowElement getCurrentFlowElement() {
-        if (currentFlowElement == null) {
+        if (currentFlowElement is null) {
             string processDefinitionId = getProcessDefinitionId();
-            if (processDefinitionId != null) {
+            if (processDefinitionId !is null) {
                 org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
                 currentFlowElement = process.getFlowElement(getCurrentActivityId(), true);
             }
@@ -306,7 +306,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     @Override
     public void setCurrentFlowElement(FlowElement currentFlowElement) {
         this.currentFlowElement = currentFlowElement;
-        if (currentFlowElement != null) {
+        if (currentFlowElement !is null) {
             this.activityId = currentFlowElement.getId();
             this.activityName = currentFlowElement.getName();
         } else {
@@ -353,7 +353,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected void ensureExecutionsInitialized() {
-        if (executions == null) {
+        if (executions is null) {
             this.executions = (List) CommandContextUtil.getExecutionEntityManager().findChildExecutionsByParentExecutionId(id);
         }
     }
@@ -437,7 +437,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureProcessInstanceInitialized() {
-        if ((processInstance == null) && (processInstanceId != null)) {
+        if ((processInstance is null) && (processInstanceId !is null)) {
             processInstance = (ExecutionEntityImpl) CommandContextUtil.getExecutionEntityManager().findById(processInstanceId);
         }
     }
@@ -445,14 +445,14 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     @Override
     public void setProcessInstance(ExecutionEntity processInstance) {
         this.processInstance = (ExecutionEntityImpl) processInstance;
-        if (processInstance != null) {
+        if (processInstance !is null) {
             this.processInstanceId = this.processInstance.getId();
         }
     }
 
     @Override
     public bool isProcessInstanceType() {
-        return parentId == null;
+        return parentId is null;
     }
 
     // parent ///////////////////////////////////////////////////////////////////
@@ -465,7 +465,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureParentInitialized() {
-        if (parent == null && parentId != null) {
+        if (parent is null && parentId !is null) {
             parent = (ExecutionEntityImpl) CommandContextUtil.getExecutionEntityManager().findById(parentId);
         }
     }
@@ -474,7 +474,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     public void setParent(ExecutionEntity parent) {
         this.parent = (ExecutionEntityImpl) parent;
 
-        if (parent != null) {
+        if (parent !is null) {
             this.parentId = parent.getId();
         } else {
             this.parentId = null;
@@ -501,11 +501,11 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     @Override
     public void setSuperExecution(ExecutionEntity superExecution) {
         this.superExecution = (ExecutionEntityImpl) superExecution;
-        if (superExecution != null) {
+        if (superExecution !is null) {
             superExecution.setSubProcessInstance(null);
         }
 
-        if (superExecution != null) {
+        if (superExecution !is null) {
             this.superExecutionId = ((ExecutionEntityImpl) superExecution).getId();
         } else {
             this.superExecutionId = null;
@@ -513,7 +513,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureSuperExecutionInitialized() {
-        if (superExecution == null && superExecutionId != null) {
+        if (superExecution is null && superExecutionId !is null) {
             superExecution = (ExecutionEntityImpl) CommandContextUtil.getExecutionEntityManager().findById(superExecutionId);
         }
     }
@@ -530,7 +530,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureSubProcessInstanceInitialized() {
-        if (subProcessInstance == null) {
+        if (subProcessInstance is null) {
             subProcessInstance = (ExecutionEntityImpl) CommandContextUtil.getExecutionEntityManager().findSubProcessInstanceBySuperExecutionId(id);
         }
     }
@@ -542,7 +542,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureRootProcessInstanceInitialized() {
-        if (rootProcessInstance == null && rootProcessInstanceId != null) {
+        if (rootProcessInstance is null && rootProcessInstanceId !is null) {
             rootProcessInstance = (ExecutionEntityImpl) CommandContextUtil.getExecutionEntityManager().findById(rootProcessInstanceId);
         }
     }
@@ -551,7 +551,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     public void setRootProcessInstance(ExecutionEntity rootProcessInstance) {
         this.rootProcessInstance = (ExecutionEntityImpl) rootProcessInstance;
 
-        if (rootProcessInstance != null) {
+        if (rootProcessInstance !is null) {
             this.rootProcessInstanceId = rootProcessInstance.getId();
         } else {
             this.rootProcessInstanceId = null;
@@ -590,7 +590,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     // TODO: this should ideally move to another place
     @Override
     protected void initializeVariableInstanceBackPointer(VariableInstanceEntity variableInstance) {
-        if (processInstanceId != null) {
+        if (processInstanceId !is null) {
             variableInstance.setProcessInstanceId(processInstanceId);
         } else {
             variableInstance.setProcessInstanceId(id);
@@ -637,13 +637,13 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
             // Otherwise, go up the hierarchy (we're trying to put it as high as possible)
             VariableScopeImpl parentVariableScope = getParentVariableScope();
-            if (parentVariableScope != null) {
+            if (parentVariableScope !is null) {
                 FlowElement localFlowElement = getCurrentFlowElement();
-                if (localFlowElement != null) {
+                if (localFlowElement !is null) {
                     ((ExecutionEntity) parentVariableScope).setOriginatingCurrentFlowElement(localFlowElement);
                 }
                 
-                if (sourceExecution == null) {
+                if (sourceExecution is null) {
                     parentVariableScope.setVariable(variableName, value);
                 } else {
                     ((ExecutionEntity) parentVariableScope).setVariable(variableName, value, sourceExecution, true);
@@ -652,7 +652,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
             }
 
             // We're as high as possible and the variable doesn't exist yet, so we're creating it
-            if (sourceExecution != null) {
+            if (sourceExecution !is null) {
                 createVariableLocal(variableName, value, sourceExecution);
             } else {
                 createVariableLocal(variableName, value);
@@ -665,7 +665,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
                 updateVariableInstance(usedVariablesCache.get(variableName), value, sourceExecution);
 
-            } else if (variableInstances != null && variableInstances.containsKey(variableName)) {
+            } else if (variableInstances !is null && variableInstances.containsKey(variableName)) {
 
                 updateVariableInstance(variableInstances.get(variableName), value, sourceExecution);
 
@@ -674,14 +674,14 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
                 // Not in local cache, check if defined on this scope
                 // Create it if it doesn't exist yet
                 VariableInstanceEntity variable = getSpecificVariable(variableName);
-                if (variable != null) {
+                if (variable !is null) {
                     updateVariableInstance(variable, value, sourceExecution);
                     usedVariablesCache.put(variableName, variable);
                 } else {
 
                     VariableScopeImpl parent = getParentVariableScope();
-                    if (parent != null) {
-                        if (sourceExecution == null) {
+                    if (parent !is null) {
+                        if (sourceExecution is null) {
                             parent.setVariable(variableName, value, fetchAllVariables);
                         } else {
                             ((ExecutionEntity) parent).setVariable(variableName, value, sourceExecution, fetchAllVariables);
@@ -716,11 +716,11 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
             ensureVariableInstancesInitialized();
 
             VariableInstanceEntity variableInstance = variableInstances.get(variableName);
-            if (variableInstance == null) {
+            if (variableInstance is null) {
                 variableInstance = usedVariablesCache.get(variableName);
             }
 
-            if (variableInstance == null) {
+            if (variableInstance is null) {
                 createVariableLocal(variableName, value, sourceExecution);
             } else {
                 updateVariableInstance(variableInstance, value, sourceExecution);
@@ -732,12 +732,12 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
             if (usedVariablesCache.containsKey(variableName)) {
                 updateVariableInstance(usedVariablesCache.get(variableName), value, sourceExecution);
-            } else if (variableInstances != null && variableInstances.containsKey(variableName)) {
+            } else if (variableInstances !is null && variableInstances.containsKey(variableName)) {
                 updateVariableInstance(variableInstances.get(variableName), value, sourceExecution);
             } else {
 
                 VariableInstanceEntity variable = getSpecificVariable(variableName);
-                if (variable != null) {
+                if (variable !is null) {
                     updateVariableInstance(variable, value, sourceExecution);
                 } else {
                     variable = createVariableInstance(variableName, value, sourceExecution);
@@ -821,7 +821,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     protected VariableInstanceEntity getSpecificVariable(string variableName) {
 
         CommandContext commandContext = Context.getCommandContext();
-        if (commandContext == null) {
+        if (commandContext is null) {
             throw new FlowableException("lazy loading outside command context");
         }
         VariableInstanceEntity variableInstance = CommandContextUtil.getVariableService().findVariableInstanceByExecutionAndName(id, variableName);
@@ -832,7 +832,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     @Override
     protected List<VariableInstanceEntity> getSpecificVariables(Collection<string> variableNames) {
         CommandContext commandContext = Context.getCommandContext();
-        if (commandContext == null) {
+        if (commandContext is null) {
             throw new FlowableException("lazy loading outside command context");
         }
         return CommandContextUtil.getVariableService().findVariableInstancesByExecutionAndNames(id, variableNames);
@@ -847,7 +847,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureEventSubscriptionsInitialized() {
-        if (eventSubscriptions == null) {
+        if (eventSubscriptions is null) {
             eventSubscriptions = CommandContextUtil.getEventSubscriptionService().findEventSubscriptionsByExecution(id);
         }
     }
@@ -861,7 +861,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureJobsInitialized() {
-        if (jobs == null) {
+        if (jobs is null) {
             jobs = CommandContextUtil.getJobService().findJobsByExecutionId(id);
         }
     }
@@ -873,7 +873,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureTimerJobsInitialized() {
-        if (timerJobs == null) {
+        if (timerJobs is null) {
             timerJobs = CommandContextUtil.getTimerJobService().findTimerJobsByExecutionId(id);
         }
     }
@@ -881,7 +881,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     // referenced task entities ///////////////////////////////////////////////////
 
     protected void ensureTasksInitialized() {
-        if (tasks == null) {
+        if (tasks is null) {
             tasks = CommandContextUtil.getTaskService().findTasksByExecutionId(id);
         }
     }
@@ -901,7 +901,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     protected void ensureIdentityLinksInitialized() {
-        if (identityLinks == null) {
+        if (identityLinks is null) {
             identityLinks = CommandContextUtil.getIdentityLinkService().findIdentityLinksByProcessInstanceId(id);
         }
     }
@@ -1044,7 +1044,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     @Override
     public string getName() {
-        if (localizedName != null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length() > 0) {
             return localizedName;
         } else {
             return name;
@@ -1058,7 +1058,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     @Override
     public string getDescription() {
-        if (localizedDescription != null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length() > 0) {
             return localizedDescription;
         } else {
             return description;
@@ -1114,16 +1114,16 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     public Map<string, Object> getProcessVariables() {
         Map<string, Object> variables = new HashMap<>();
 
-        if (queryVariables != null) {
+        if (queryVariables !is null) {
             for (VariableInstanceEntity variableInstance : queryVariables) {
-                if (variableInstance.getId() != null && variableInstance.getTaskId() == null) {
+                if (variableInstance.getId() !is null && variableInstance.getTaskId() is null) {
                     variables.put(variableInstance.getName(), variableInstance.getValue());
                 }
             }
         }
 
         // The variables from the cache have precedence
-        if (variableInstances != null) {
+        if (variableInstances !is null) {
             for (string variableName : variableInstances.keySet()) {
                 variables.put(variableName, variableInstances.get(variableName).getValue());
             }
@@ -1134,7 +1134,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     public List<VariableInstanceEntity> getQueryVariables() {
-        if (queryVariables == null && Context.getCommandContext() != null) {
+        if (queryVariables is null && Context.getCommandContext() !is null) {
             queryVariables = new VariableInitializingList();
         }
         return queryVariables;
@@ -1317,7 +1317,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
         if (CommandContextUtil.getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.FULL)) {
             ActivityInstanceEntity unfinishedActivityInstance = CommandContextUtil.getActivityInstanceEntityManager()
                 .findUnfinishedActivityInstance(sourceExecution);
-            if (unfinishedActivityInstance != null) {
+            if (unfinishedActivityInstance !is null) {
                 activityInstanceId = unfinishedActivityInstance.getId();
             }
         }
@@ -1341,10 +1341,10 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
             }
             strb.append("' ]");
             
-            if (activityId != null) {
+            if (activityId !is null) {
                 strb.append(" - activity '").append(activityId).append("'");
             }
-            if (parentId != null) {
+            if (parentId !is null) {
                 strb.append(" - parent '").append(parentId).append("'");
             }
             return strb.toString();

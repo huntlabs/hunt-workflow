@@ -13,8 +13,8 @@
 
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -40,7 +40,7 @@ class MessageEventHandler extends AbstractEventHandler {
         // thrown before the actual message has been sent
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FlowableEventDispatcher eventDispatcher = processEngineConfiguration.getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             string executionId = eventSubscription.getExecutionId();
             ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
             eventDispatcher.dispatchEvent(

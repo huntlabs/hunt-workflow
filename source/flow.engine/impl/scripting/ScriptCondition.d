@@ -36,7 +36,7 @@ class ScriptCondition implements Condition {
         ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
 
         Object result = scriptingEngines.evaluate(expression, language, execution);
-        if (result == null) {
+        if (result is null) {
             throw new FlowableException("condition script returns null: " + expression);
         }
         if (!(result instanceof bool)) {

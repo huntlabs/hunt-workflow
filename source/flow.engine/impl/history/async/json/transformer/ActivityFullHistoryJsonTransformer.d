@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.history.async.HistoryJsonConstants;
@@ -62,7 +62,7 @@ class ActivityFullHistoryJsonTransformer extends AbstractHistoryJsonTransformer 
         historicActivityInstanceEntity.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
 
         Date startTime = historicActivityInstanceEntity.getStartTime();
-        if (startTime != null && endTime != null) {
+        if (startTime !is null && endTime !is null) {
             historicActivityInstanceEntity.setDurationInMillis(endTime.getTime() - startTime.getTime());
         }
 

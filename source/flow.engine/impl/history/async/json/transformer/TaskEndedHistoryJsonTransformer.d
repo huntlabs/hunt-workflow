@@ -44,9 +44,9 @@ class TaskEndedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransf
         HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
         HistoricTaskInstanceEntity historicTaskInstance = historicTaskService.getHistoricTask(taskId);
         
-        if (historicTaskInstance != null) {
+        if (historicTaskInstance !is null) {
             Date lastUpdateTime = getDateFromJson(historicalData, HistoryJsonConstants.TIMESTAMP);
-            if (historicTaskInstance.getLastUpdateTime() == null || !historicTaskInstance.getLastUpdateTime().after(lastUpdateTime)) {
+            if (historicTaskInstance.getLastUpdateTime() is null || !historicTaskInstance.getLastUpdateTime().after(lastUpdateTime)) {
                 historicTaskInstance.setLastUpdateTime(lastUpdateTime);
                 
                 historicTaskInstance.setName(getStringFromJson(historicalData, HistoryJsonConstants.NAME));
@@ -76,7 +76,7 @@ class TaskEndedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransf
             historicTaskInstance.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
     
             Date startTime = historicTaskInstance.getStartTime();
-            if (startTime != null && endTime != null) {
+            if (startTime !is null && endTime !is null) {
                 historicTaskInstance.setDurationInMillis(endTime.getTime() - startTime.getTime());
             }
             
@@ -114,7 +114,7 @@ class TaskEndedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransf
             historicTaskInstance.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
     
             Date startTime = historicTaskInstance.getStartTime();
-            if (startTime != null && endTime != null) {
+            if (startTime !is null && endTime !is null) {
                 historicTaskInstance.setDurationInMillis(endTime.getTime() - startTime.getTime());
             }
             
@@ -124,7 +124,7 @@ class TaskEndedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransf
                 string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
                 if (StringUtils.isNotEmpty(activityId)) {
                     HistoricActivityInstanceEntity historicActivityInstanceEntity = findHistoricActivityInstance(commandContext, executionId, activityId);
-                    if (historicActivityInstanceEntity != null) {
+                    if (historicActivityInstanceEntity !is null) {
                         historicActivityInstanceEntity.setTaskId(taskId);
                     }
                 }

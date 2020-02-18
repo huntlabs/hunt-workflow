@@ -46,22 +46,22 @@ class GetRenderedTaskFormCmd implements Command<Object>, Serializable {
     @Override
     public Object execute(CommandContext commandContext) {
 
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("Task id should not be null");
         }
 
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("Task '" + taskId + "' not found", Task.class);
         }
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         TaskFormHandler taskFormHandler = formHandlerHelper.getTaskFormHandlder(task);
-        if (taskFormHandler != null) {
+        if (taskFormHandler !is null) {
 
             FormEngine formEngine = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormEngines().get(formEngineName);
 
-            if (formEngine == null) {
+            if (formEngine is null) {
                 throw new FlowableException("No formEngine '" + formEngineName + "' defined process engine configuration");
             }
 

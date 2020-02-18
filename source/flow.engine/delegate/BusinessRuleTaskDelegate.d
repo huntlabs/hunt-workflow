@@ -21,7 +21,7 @@ module flow.engine.delegate.BusinessRuleTaskDelegate;
  
 
 
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.impl.delegate.ActivityBehavior;
 
 interface BusinessRuleTaskDelegate : ActivityBehavior {

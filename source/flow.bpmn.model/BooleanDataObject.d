@@ -22,8 +22,8 @@ class BooleanDataObject extends ValuedDataObject {
     @Override
     public void setValue(Object value) {
     	if (value instanceof string && !StringUtils.isEmpty(((string) value).trim())) {
-    		this.value = Boolean.valueOf(value.toString());
-    	} else if (value instanceof Boolean) {
+    		this.value = bool.valueOf(value.toString());
+    	} else if (value instanceof bool) {
     		this.value = value;
     	}
     }

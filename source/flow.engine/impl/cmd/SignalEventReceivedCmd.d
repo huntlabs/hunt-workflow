@@ -19,7 +19,7 @@ import java.util.Map;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
@@ -47,7 +47,7 @@ class SignalEventReceivedCmd implements Command<Void> {
     public SignalEventReceivedCmd(string eventName, string executionId, Map<string, Object> processVariables, string tenantId) {
         this.eventName = eventName;
         this.executionId = executionId;
-        if (processVariables != null) {
+        if (processVariables !is null) {
             this.payload = new HashMap<>(processVariables);
 
         } else {
@@ -71,13 +71,13 @@ class SignalEventReceivedCmd implements Command<Void> {
         List<SignalEventSubscriptionEntity> signalEvents = null;
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-        if (executionId == null) {
+        if (executionId is null) {
             signalEvents = eventSubscriptionService.findSignalEventSubscriptionsByEventName(eventName, tenantId);
         } else {
 
             ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
-            if (execution == null) {
+            if (execution is null) {
                 throw new FlowableObjectNotFoundException("Cannot find execution with id '" + executionId + "'", Execution.class);
             }
 
@@ -103,7 +103,7 @@ class SignalEventReceivedCmd implements Command<Void> {
             // Process instance scoped signals must be thrown within the process itself
             if (signalEventSubscriptionEntity.isGlobalScoped()) {
 
-                if (executionId == null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, signalEventSubscriptionEntity.getProcessDefinitionId())) {
+                if (executionId is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, signalEventSubscriptionEntity.getProcessDefinitionId())) {
                     Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
                     compatibilityHandler.signalEventReceived(signalEventSubscriptionEntity, payload, async);
 

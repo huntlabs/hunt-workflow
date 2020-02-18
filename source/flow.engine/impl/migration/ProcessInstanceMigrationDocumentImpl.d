@@ -69,8 +69,8 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     }
 
     public void setPreUpgradeScript(Script script) {
-        if (this.preUpgradeJavaDelegate == null && this.preUpgradeJavaDelegateExpression == null) {
-            if (script != null) {
+        if (this.preUpgradeJavaDelegate is null && this.preUpgradeJavaDelegateExpression is null) {
+            if (script !is null) {
                 this.preUpgradeScript = script;
             } else {
                 throw new IllegalArgumentException("Pre upgrade script can't be null.");
@@ -81,7 +81,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     }
 
     public void setPreUpgradeJavaDelegate(string javaDelegateClassName) {
-        if (this.preUpgradeScript == null && this.preUpgradeJavaDelegateExpression == null) {
+        if (this.preUpgradeScript is null && this.preUpgradeJavaDelegateExpression is null) {
             if (StringUtils.isNotEmpty(javaDelegateClassName)) {
                 this.preUpgradeJavaDelegate = javaDelegateClassName;
             } else {
@@ -93,7 +93,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     }
 
     public void setPreUpgradeJavaDelegateExpression(string expression) {
-        if (this.preUpgradeScript == null && this.preUpgradeJavaDelegate == null) {
+        if (this.preUpgradeScript is null && this.preUpgradeJavaDelegate is null) {
             if (StringUtils.isNotEmpty(expression)) {
                 this.preUpgradeJavaDelegateExpression = expression;
             } else {
@@ -105,8 +105,8 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     }
 
     public void setPostUpgradeScript(Script script) {
-        if (this.postUpgradeJavaDelegate == null && this.postUpgradeJavaDelegateExpression == null) {
-            if (script != null) {
+        if (this.postUpgradeJavaDelegate is null && this.postUpgradeJavaDelegateExpression is null) {
+            if (script !is null) {
                 this.postUpgradeScript = script;
             } else {
                 throw new IllegalArgumentException("Post upgrade script can't be null.");
@@ -117,7 +117,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     }
 
     public void setPostUpgradeJavaDelegate(string javaDelegateClassName) {
-        if (this.postUpgradeScript == null && this.postUpgradeJavaDelegateExpression == null) {
+        if (this.postUpgradeScript is null && this.postUpgradeJavaDelegateExpression is null) {
             if (StringUtils.isNotEmpty(javaDelegateClassName)) {
                 this.postUpgradeJavaDelegate = javaDelegateClassName;
             } else {
@@ -129,7 +129,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     }
 
     public void setPostUpgradeJavaDelegateExpression(string expression) {
-        if (this.postUpgradeScript == null && this.postUpgradeJavaDelegate == null) {
+        if (this.postUpgradeScript is null && this.postUpgradeJavaDelegate is null) {
             if (StringUtils.isNotEmpty(expression)) {
                 this.postUpgradeJavaDelegateExpression = expression;
             } else {
@@ -232,7 +232,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
                 if (mapping instanceof ActivityMigrationMapping.OneToManyMapping) {
                     mappedLocalVariables = ((ActivityMigrationMapping.OneToManyMapping) mapping).getActivitiesLocalVariables().get(activityId);
                 }
-                if (mappedLocalVariables != null && !mappedLocalVariables.isEmpty()) {
+                if (mappedLocalVariables !is null && !mappedLocalVariables.isEmpty()) {
                     Map<string, Object> activityLocalVariables = variablesMap.computeIfAbsent(activityId, key -> new HashMap<>());
                     activityLocalVariables.putAll(mappedLocalVariables);
                 }

@@ -39,7 +39,7 @@ class AdhocSubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
 
         // initialize the template-defined data objects as variables
         Map<string, Object> dataObjectVars = processDataObjects(subProcess.getDataObjects());
-        if (dataObjectVars != null) {
+        if (dataObjectVars !is null) {
             execution.setVariablesLocal(dataObjectVars);
         }
     }
@@ -58,7 +58,7 @@ class AdhocSubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
     protected Map<string, Object> processDataObjects(Collection<ValuedDataObject> dataObjects) {
         Map<string, Object> variablesMap = new HashMap<>();
         // convert data objects to process variables
-        if (dataObjects != null) {
+        if (dataObjects !is null) {
             for (ValuedDataObject dataObject : dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }

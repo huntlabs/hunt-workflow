@@ -15,9 +15,9 @@
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.api.delegate.event.FlowableEventDispatcher;
-import org.flowable.common.engine.api.delegate.event.FlowableEventListener;
-import org.flowable.common.engine.impl.AbstractServiceConfiguration;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEventListener;
+import flow.common.AbstractServiceConfiguration;
 import org.flowable.idm.api.IdmIdentityService;
 import org.flowable.task.api.TaskQueryInterceptor;
 import org.flowable.task.api.history.HistoricTaskQueryInterceptor;
@@ -65,8 +65,8 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
     protected InternalTaskLocalizationManager internalTaskLocalizationManager;
     protected InternalTaskAssignmentManager internalTaskAssignmentManager;
     
-    protected boolean enableTaskRelationshipCounts;
-    protected boolean enableLocalization;
+    protected bool enableTaskRelationshipCounts;
+    protected bool enableLocalization;
     
     protected TaskQueryInterceptor taskQueryInterceptor;
     protected HistoricTaskQueryInterceptor historicTaskQueryInterceptor;
@@ -76,7 +76,7 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
     protected TaskPostProcessor taskPostProcessor;
 
     // Events
-    protected boolean enableHistoricTaskLogging;
+    protected bool enableHistoricTaskLogging;
     
     public TaskServiceConfiguration(string engineName) {
         super(engineName);
@@ -95,31 +95,31 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
     ///////////////////////////////////////////////////////////
 
     public void initDataManagers() {
-        if (taskDataManager == null) {
+        if (taskDataManager is null) {
             taskDataManager = new MybatisTaskDataManager();
         }
-        if (historicTaskInstanceDataManager == null) {
+        if (historicTaskInstanceDataManager is null) {
             historicTaskInstanceDataManager = new MybatisHistoricTaskInstanceDataManager();
         }
-        if (historicTaskLogDataManager == null) {
+        if (historicTaskLogDataManager is null) {
             historicTaskLogDataManager = new MyBatisHistoricTaskLogEntryDataManager();
         }
     }
 
     public void initEntityManagers() {
-        if (taskEntityManager == null) {
+        if (taskEntityManager is null) {
             taskEntityManager = new TaskEntityManagerImpl(this, taskDataManager);
         }
-        if (historicTaskInstanceEntityManager == null) {
+        if (historicTaskInstanceEntityManager is null) {
             historicTaskInstanceEntityManager = new HistoricTaskInstanceEntityManagerImpl(this, historicTaskInstanceDataManager);
         }
-        if (historicTaskLogEntryEntityManager == null) {
+        if (historicTaskLogEntryEntityManager is null) {
             historicTaskLogEntryEntityManager = new HistoricTaskLogEntryEntityManagerImpl(this, historicTaskLogDataManager);
         }
     }
 
     public void initTaskPostProcessor() {
-        if (taskPostProcessor == null) {
+        if (taskPostProcessor is null) {
             taskPostProcessor = taskBuilder -> taskBuilder;
         }
     }
@@ -231,20 +231,20 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
         this.internalTaskAssignmentManager = internalTaskAssignmentManager;
     }
 
-    public boolean isEnableTaskRelationshipCounts() {
+    public bool isEnableTaskRelationshipCounts() {
         return enableTaskRelationshipCounts;
     }
 
-    public TaskServiceConfiguration setEnableTaskRelationshipCounts(boolean enableTaskRelationshipCounts) {
+    public TaskServiceConfiguration setEnableTaskRelationshipCounts(bool enableTaskRelationshipCounts) {
         this.enableTaskRelationshipCounts = enableTaskRelationshipCounts;
         return this;
     }
 
-    public boolean isEnableLocalization() {
+    public bool isEnableLocalization() {
         return enableLocalization;
     }
 
-    public TaskServiceConfiguration setEnableLocalization(boolean enableLocalization) {
+    public TaskServiceConfiguration setEnableLocalization(bool enableLocalization) {
         this.enableLocalization = enableLocalization;
         return this;
     }
@@ -285,17 +285,17 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
         return this;
     }
 
-    public boolean isEnableHistoricTaskLogging() {
+    public bool isEnableHistoricTaskLogging() {
         return enableHistoricTaskLogging;
     }
 
-    public TaskServiceConfiguration setEnableHistoricTaskLogging(boolean enableHistoricTaskLogging) {
+    public TaskServiceConfiguration setEnableHistoricTaskLogging(bool enableHistoricTaskLogging) {
         this.enableHistoricTaskLogging = enableHistoricTaskLogging;
         return this;
     }
 
     @Override
-    public TaskServiceConfiguration setEnableEventDispatcher(boolean enableEventDispatcher) {
+    public TaskServiceConfiguration setEnableEventDispatcher(bool enableEventDispatcher) {
         this.enableEventDispatcher = enableEventDispatcher;
         return this;
     }

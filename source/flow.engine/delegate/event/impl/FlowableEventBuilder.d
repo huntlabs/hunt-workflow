@@ -26,10 +26,10 @@ import java.util.Map;
 import org.flowable.bpmn.model.Activity;
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.FlowNode;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableExceptionEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableExceptionEvent;
 import flow.common.event.FlowableEngineEventImpl;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.delegate.event.FlowableActivityCancelledEvent;
@@ -160,7 +160,7 @@ class FlowableEventBuilder {
 
         FlowableSequenceFlowTakenEventImpl newEvent = new FlowableSequenceFlowTakenEventImpl(type);
 
-        if (executionEntity != null) {
+        if (executionEntity !is null) {
             newEvent.setExecutionId(executionEntity.getId());
             newEvent.setProcessInstanceId(executionEntity.getProcessInstanceId());
             newEvent.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
@@ -170,11 +170,11 @@ class FlowableEventBuilder {
         newEvent.setSourceActivityId(sourceActivityId);
         newEvent.setSourceActivityName(sourceActivityName);
         newEvent.setSourceActivityType(sourceActivityType);
-        newEvent.setSourceActivityBehaviorClass(sourceActivityBehavior != null ? sourceActivityBehavior.getClass().getCanonicalName() : null);
+        newEvent.setSourceActivityBehaviorClass(sourceActivityBehavior !is null ? sourceActivityBehavior.getClass().getCanonicalName() : null);
         newEvent.setTargetActivityId(targetActivityId);
         newEvent.setTargetActivityName(targetActivityName);
         newEvent.setTargetActivityType(targetActivityType);
-        newEvent.setTargetActivityBehaviorClass(targetActivityBehavior != null ? targetActivityBehavior.getClass().getCanonicalName() : null);
+        newEvent.setTargetActivityBehaviorClass(targetActivityBehavior !is null ? targetActivityBehavior.getClass().getCanonicalName() : null);
 
         return newEvent;
     }
@@ -246,7 +246,7 @@ class FlowableEventBuilder {
             FlowNode flowNode = (FlowNode) flowElement;
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
-            if (behaviour != null) {
+            if (behaviour !is null) {
                 newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
             }
         }
@@ -268,7 +268,7 @@ class FlowableEventBuilder {
             FlowNode flowNode = (FlowNode) flowElement;
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
-            if (behaviour != null) {
+            if (behaviour !is null) {
                 newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
             }
 
@@ -296,7 +296,7 @@ class FlowableEventBuilder {
             FlowNode flowNode = (FlowNode) flowElement;
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
-            if (behaviour != null) {
+            if (behaviour !is null) {
                 newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
             }
 
@@ -441,14 +441,14 @@ class FlowableEventBuilder {
                 
             } else if (persistedObject instanceof IdentityLinkEntity) {
                 IdentityLinkEntity idLink = (IdentityLinkEntity) persistedObject;
-                if (idLink.getProcessDefinitionId() != null) {
+                if (idLink.getProcessDefinitionId() !is null) {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
                     
-                } else if (idLink.getProcessInstanceId() != null) {
+                } else if (idLink.getProcessInstanceId() !is null) {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
                     event.setProcessInstanceId(idLink.getProcessInstanceId());
                     
-                } else if (idLink.getTaskId() != null) {
+                } else if (idLink.getTaskId() !is null) {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
                 }
                 

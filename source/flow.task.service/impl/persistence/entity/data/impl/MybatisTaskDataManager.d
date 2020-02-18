@@ -17,9 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.db.AbstractDataManager;
-import org.flowable.common.engine.impl.db.DbSqlSession;
-import org.flowable.common.engine.impl.persistence.cache.CachedEntityMatcher;
+import flow.common.db.AbstractDataManager;
+import flow.common.db.DbSqlSession;
+import flow.common.persistence.cache.CachedEntityMatcher;
 import org.flowable.task.api.Task;
 import org.flowable.task.service.impl.TaskQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
@@ -113,7 +113,7 @@ class MybatisTaskDataManager extends AbstractDataManager<TaskEntity> implements 
         int maxResults = taskQuery.getMaxResults();
 
         // setting max results, limit to 20000 results for performance reasons
-        if (taskQuery.getTaskVariablesLimit() != null) {
+        if (taskQuery.getTaskVariablesLimit() !is null) {
             taskQuery.setMaxResults(taskQuery.getTaskVariablesLimit());
         } else {
             taskQuery.setMaxResults(CommandContextUtil.getTaskServiceConfiguration().getTaskQueryLimit());
@@ -122,7 +122,7 @@ class MybatisTaskDataManager extends AbstractDataManager<TaskEntity> implements 
 
         List<Task> instanceList = getDbSqlSession().selectListWithRawParameterNoCacheLoadAndStore(query, taskQuery, getManagedEntityClass());
 
-        if (instanceList != null && !instanceList.isEmpty()) {
+        if (instanceList !is null && !instanceList.isEmpty()) {
             if (firstResult > 0) {
                 if (firstResult <= instanceList.size()) {
                     int toIndex = firstResult + Math.min(maxResults, instanceList.size() - firstResult);
@@ -169,7 +169,7 @@ class MybatisTaskDataManager extends AbstractDataManager<TaskEntity> implements 
     }
 
     @Override
-    public void updateAllTaskRelatedEntityCountFlags(boolean newValue) {
+    public void updateAllTaskRelatedEntityCountFlags(bool newValue) {
         getDbSqlSession().update("updateTaskRelatedEntityCountEnabled", newValue);
     }
     

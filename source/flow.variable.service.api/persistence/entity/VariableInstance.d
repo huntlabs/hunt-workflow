@@ -19,7 +19,7 @@ import org.flowable.variable.api.types.ValueFields;
  * 
  * @author Tijs Rademakers
  */
-public interface VariableInstance extends ValueFields {
+interface VariableInstance extends ValueFields {
 
     string getId();
     

@@ -18,9 +18,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.BoundaryEvent;
 import org.flowable.bpmn.model.Signal;
 import org.flowable.bpmn.model.SignalEventDefinition;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.DelegateExecution;
@@ -78,7 +78,7 @@ class BoundarySignalEventActivityBehavior extends BoundaryEventActivityBehavior 
         executionEntity.getEventSubscriptions().add(eventSubscription);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
                     .dispatchEvent(FlowableEventBuilder.createSignalEvent(FlowableEngineEventType.ACTIVITY_SIGNAL_WAITING, executionEntity.getActivityId(), signalName,
                             null, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
@@ -92,7 +92,7 @@ class BoundarySignalEventActivityBehavior extends BoundaryEventActivityBehavior 
 
         if (boundaryEvent.isCancelActivity()) {
             string eventName = null;
-            if (signal != null) {
+            if (signal !is null) {
                 eventName = signal.getName();
             } else {
                 eventName = signalEventDefinition.getSignalRef();

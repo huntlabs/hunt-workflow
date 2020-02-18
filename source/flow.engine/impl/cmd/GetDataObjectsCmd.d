@@ -67,13 +67,13 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
     public Map<string, DataObject> execute(CommandContext commandContext) {
 
         // Verify existence of execution
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
 
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 
@@ -85,7 +85,7 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
 
         } else {
 
-            if (dataObjectNames == null || dataObjectNames.isEmpty()) {
+            if (dataObjectNames is null || dataObjectNames.isEmpty()) {
                 // Fetch all
                 if (isLocal) {
                     variables = execution.getVariableInstancesLocal();
@@ -104,7 +104,7 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
         }
 
         Map<string, DataObject> dataObjects = null;
-        if (variables != null) {
+        if (variables !is null) {
             dataObjects = new HashMap<>(variables.size());
 
             for (Entry<string, VariableInstance> entry : variables.entrySet()) {
@@ -118,7 +118,7 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
 
                 BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(execution.getProcessDefinitionId());
                 ValuedDataObject foundDataObject = null;
-                if (executionEntity.getParentId() == null) {
+                if (executionEntity.getParentId() is null) {
                     for (ValuedDataObject dataObject : bpmnModel.getMainProcess().getDataObjects()) {
                         if (dataObject.getName().equals(variableEntity.getName())) {
                             foundDataObject = dataObject;
@@ -138,23 +138,23 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
                 string localizedName = null;
                 string localizedDescription = null;
 
-                if (locale != null && foundDataObject != null) {
+                if (locale !is null && foundDataObject !is null) {
                     ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, foundDataObject.getId(),
                             execution.getProcessDefinitionId(), withLocalizationFallback);
 
-                    if (languageNode != null) {
+                    if (languageNode !is null) {
                         JsonNode nameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                        if (nameNode != null) {
+                        if (nameNode !is null) {
                             localizedName = nameNode.asText();
                         }
                         JsonNode descriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                        if (descriptionNode != null) {
+                        if (descriptionNode !is null) {
                             localizedDescription = descriptionNode.asText();
                         }
                     }
                 }
 
-                if (foundDataObject != null) {
+                if (foundDataObject !is null) {
                     dataObjects.put(name, new DataObjectImpl(variableEntity.getId(), variableEntity.getProcessInstanceId(),
                             variableEntity.getExecutionId(), variableEntity.getName(), variableEntity.getValue(),
                             foundDataObject.getDocumentation(), foundDataObject.getType(), localizedName,

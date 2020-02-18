@@ -30,8 +30,8 @@
 //
 //        // Find highest parent
 //        ExecutionEntity parentExecution = (ExecutionEntity) executionEntity;
-//        while (parentExecution.getParentId() != null || parentExecution.getSuperExecutionId() != null) {
-//            if (parentExecution.getParentId() != null) {
+//        while (parentExecution.getParentId() !is null || parentExecution.getSuperExecutionId() !is null) {
+//            if (parentExecution.getParentId() !is null) {
 //                parentExecution = parentExecution.getParent();
 //            } else {
 //                parentExecution = parentExecution.getSuperExecution();
@@ -51,7 +51,7 @@
 //            collectChildExecutions(childExecutionEntity, allExecutions);
 //        }
 //
-//        if (rootExecutionEntity.getSubProcessInstance() != null) {
+//        if (rootExecutionEntity.getSubProcessInstance() !is null) {
 //            allExecutions.add(rootExecutionEntity.getSubProcessInstance());
 //            collectChildExecutions(rootExecutionEntity.getSubProcessInstance(), allExecutions);
 //        }
@@ -66,16 +66,16 @@
 //            string parentId = executionEntity.getParentId();
 //
 //            // Support for call activity
-//            if (parentId == null) {
+//            if (parentId is null) {
 //                parentId = executionEntity.getSuperExecutionId();
 //            }
 //
-//            if (parentId != null) {
+//            if (parentId !is null) {
 //                if (!parentMapping.containsKey(parentId)) {
 //                    parentMapping.put(parentId, new ArrayList<>());
 //                }
 //                parentMapping.get(parentId).add(executionEntity);
-//            } else if (executionEntity.getSuperExecutionId() == null) {
+//            } else if (executionEntity.getSuperExecutionId() is null) {
 //                executionTree.setRoot(new ExecutionTreeNode(executionEntity));
 //            }
 //        }
@@ -95,7 +95,7 @@
 //        for (ExecutionEntity executionEntity : executions) {
 //            string parentId = executionEntity.getParentId();
 //
-//            if (parentId != null) {
+//            if (parentId !is null) {
 //                if (!parentMapping.containsKey(parentId)) {
 //                    parentMapping.put(parentId, new ArrayList<>());
 //                }
@@ -110,7 +110,7 @@
 //    }
 //
 //    protected static void fillExecutionTree(ExecutionTree executionTree, Map<string, List<ExecutionEntity>> parentMapping) {
-//        if (executionTree.getRoot() == null) {
+//        if (executionTree.getRoot() is null) {
 //            throw new FlowableException("Programmatic error: the list of passed executions in the argument of the method should contain the process instance execution");
 //        }
 //

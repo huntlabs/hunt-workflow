@@ -13,8 +13,8 @@
 
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;
 import flow.common.interceptor.CommandContext;
@@ -54,7 +54,7 @@ class FailedJobListener implements CommandContextCloseListener {
     @Override
     public void closed(CommandContext context) {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(
                     FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_EXECUTION_SUCCESS, job));
         }
@@ -63,7 +63,7 @@ class FailedJobListener implements CommandContextCloseListener {
     @Override
     public void closeFailure(CommandContext commandContext) {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityExceptionEvent(
                     FlowableEngineEventType.JOB_EXECUTION_FAILURE, job, commandContext.getException()));
         }

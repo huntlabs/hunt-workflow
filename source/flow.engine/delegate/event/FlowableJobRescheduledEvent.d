@@ -22,7 +22,7 @@ module flow.engine.delegate.event.FlowableJobRescheduledEvent;
  
 
 
-import flow.common.api.delegate.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEntityEvent;
 
 interface FlowableJobRescheduledEvent : FlowableEntityEvent {
     /**

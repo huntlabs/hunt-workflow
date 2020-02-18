@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.flowable.common.engine.api.FlowableException;
+import flow.common.api.FlowableException;
 
 /**
  * @author Joram Barrez
@@ -158,7 +158,7 @@ class FlowableVersions {
 
         // If no match has been found, but the version starts with '5.x',
         // we assume it's the last version (see comment in the VERSIONS list)
-        if (matchingVersionIndex < 0 && dbVersion != null && dbVersion.startsWith("5.")) {
+        if (matchingVersionIndex < 0 && dbVersion !is null && dbVersion.startsWith("5.")) {
             matchingVersionIndex = findMatchingVersionIndex(FlowableVersions.LAST_V5_VERSION);
         }
 

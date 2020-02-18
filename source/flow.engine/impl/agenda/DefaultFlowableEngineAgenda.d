@@ -50,7 +50,7 @@ class DefaultFlowableEngineAgenda extends AbstractAgenda implements FlowableEngi
         operations.add(operation);
         LOGGER.debug("Operation {} added to agenda", operation.getClass());
 
-        if (executionEntity != null) {
+        if (executionEntity !is null) {
             CommandContextUtil.addInvolvedExecution(commandContext, executionEntity);
         }
     }

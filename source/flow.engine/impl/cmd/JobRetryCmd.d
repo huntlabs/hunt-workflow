@@ -21,8 +21,8 @@ import java.util.GregorianCalendar;
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.ServiceTask;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.calendar.DurationHelper;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -60,15 +60,15 @@ class JobRetryCmd implements Command<Object> {
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService(commandContext);
         
         JobEntity job = jobService.findJobById(jobId);
-        if (job == null) {
+        if (job is null) {
             return null;
         }
 
         ProcessEngineConfiguration processEngineConfig = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 
         ExecutionEntity executionEntity = fetchExecutionEntity(commandContext, job.getExecutionId());
-        FlowElement currentFlowElement = executionEntity != null ? executionEntity.getCurrentFlowElement() : null;
-        if (executionEntity != null) {
+        FlowElement currentFlowElement = executionEntity !is null ? executionEntity.getCurrentFlowElement() : null;
+        if (executionEntity !is null) {
             executionEntity.setActive(false);
         }
 
@@ -78,7 +78,7 @@ class JobRetryCmd implements Command<Object> {
         }
 
         AbstractRuntimeJobEntity newJobEntity = null;
-        if (currentFlowElement == null || failedJobRetryTimeCycleValue == null) {
+        if (currentFlowElement is null || failedJobRetryTimeCycleValue is null) {
 
             LOGGER.debug("activity or FailedJobRetryTimerCycleValue is null in job {}. Only decrementing retries.", jobId);
 
@@ -89,7 +89,7 @@ class JobRetryCmd implements Command<Object> {
             }
 
             newJobEntity.setRetries(job.getRetries() - 1);
-            if (job.getDuedate() == null || JobEntity.JOB_TYPE_MESSAGE.equals(job.getJobType())) {
+            if (job.getDuedate() is null || JobEntity.JOB_TYPE_MESSAGE.equals(job.getJobType())) {
                 // add wait time for failed async job
                 newJobEntity.setDuedate(calculateDueDate(commandContext, processEngineConfig.getAsyncFailedJobWaitTime(), null));
             } else {
@@ -101,7 +101,7 @@ class JobRetryCmd implements Command<Object> {
             try {
                 DurationHelper durationHelper = new DurationHelper(failedJobRetryTimeCycleValue, processEngineConfig.getClock());
                 int jobRetries = job.getRetries();
-                if (job.getExceptionMessage() == null) {
+                if (job.getExceptionMessage() is null) {
                     // change default retries to the ones configured
                     jobRetries = durationHelper.getTimes();
                 }
@@ -114,7 +114,7 @@ class JobRetryCmd implements Command<Object> {
 
                 newJobEntity.setDuedate(durationHelper.getDateAfter());
 
-                if (job.getExceptionMessage() == null) { // is it the first exception
+                if (job.getExceptionMessage() is null) { // is it the first exception
                     LOGGER.debug("Applying JobRetryStrategy '{}' the first time for job {} with {} retries", failedJobRetryTimeCycleValue, job.getId(), durationHelper.getTimes());
 
                 } else {
@@ -128,14 +128,14 @@ class JobRetryCmd implements Command<Object> {
             }
         }
 
-        if (exception != null) {
+        if (exception !is null) {
             newJobEntity.setExceptionMessage(exception.getMessage());
             newJobEntity.setExceptionStacktrace(getExceptionStacktrace());
         }
 
         // Dispatch both an update and a retry-decrement event
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, newJobEntity));
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_RETRIES_DECREMENTED, newJobEntity));
         }
@@ -145,7 +145,7 @@ class JobRetryCmd implements Command<Object> {
 
     protected Date calculateDueDate(CommandContext commandContext, int waitTimeInSeconds, Date oldDate) {
         Calendar newDateCal = new GregorianCalendar();
-        if (oldDate != null) {
+        if (oldDate !is null) {
             newDateCal.setTime(oldDate);
 
         } else {
@@ -163,7 +163,7 @@ class JobRetryCmd implements Command<Object> {
     }
 
     protected ExecutionEntity fetchExecutionEntity(CommandContext commandContext, string executionId) {
-        if (executionId == null) {
+        if (executionId is null) {
             return null;
         }
         return CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);

@@ -55,7 +55,7 @@ class UpdateProcessDefinitionCascadeHistoryJsonTransformer extends AbstractNeeds
         HistoricTaskInstanceQueryImpl taskQuery = new HistoricTaskInstanceQueryImpl();
         taskQuery.processInstanceId(processInstanceId);
         List<HistoricTaskInstance> historicTasks = historicTaskService.findHistoricTaskInstancesByQueryCriteria(taskQuery);
-        if (historicTasks != null) {
+        if (historicTasks !is null) {
             for (HistoricTaskInstance historicTaskInstance : historicTasks) {
                 HistoricTaskInstanceEntity taskEntity = (HistoricTaskInstanceEntity) historicTaskInstance;
                 taskEntity.setProcessDefinitionId(processDefinitionId);
@@ -67,7 +67,7 @@ class UpdateProcessDefinitionCascadeHistoryJsonTransformer extends AbstractNeeds
         HistoricActivityInstanceQueryImpl activityQuery = new HistoricActivityInstanceQueryImpl();
         activityQuery.processInstanceId(processInstanceId);
         List<HistoricActivityInstance> historicActivities = historicActivityInstanceEntityManager.findHistoricActivityInstancesByQueryCriteria(activityQuery);
-        if (historicActivities != null) {
+        if (historicActivities !is null) {
             for (HistoricActivityInstance historicActivityInstance : historicActivities) {
                 HistoricActivityInstanceEntity activityEntity = (HistoricActivityInstanceEntity) historicActivityInstance;
                 activityEntity.setProcessDefinitionId(processDefinitionId);

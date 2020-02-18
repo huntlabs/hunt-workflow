@@ -78,7 +78,7 @@ class Operation extends BaseElement {
         setOutMessageRef(otherElement.getOutMessageRef());
 
         errorMessageRef = new ArrayList<>();
-        if (otherElement.getErrorMessageRef() != null && !otherElement.getErrorMessageRef().isEmpty()) {
+        if (otherElement.getErrorMessageRef() !is null && !otherElement.getErrorMessageRef().isEmpty()) {
             errorMessageRef.addAll(otherElement.getErrorMessageRef());
         }
     }

@@ -22,7 +22,7 @@ class ProcessInstancesByProcessDefinitionMatcher extends CachedEntityMatcherAdap
 
     @Override
     public bool isRetained(ExecutionEntity entity, Object parameter) {
-        return entity.getParentId() == null && entity.getProcessDefinitionId() != null && entity.getProcessDefinitionId().equals(parameter);
+        return entity.getParentId() is null && entity.getProcessDefinitionId() !is null && entity.getProcessDefinitionId().equals(parameter);
     }
 
 }

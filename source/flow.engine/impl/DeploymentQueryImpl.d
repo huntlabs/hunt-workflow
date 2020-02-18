@@ -65,7 +65,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentId(string deploymentId) {
-        if (deploymentId == null) {
+        if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("Deployment id is null");
         }
         this.deploymentId = deploymentId;
@@ -74,7 +74,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentIds(List<string> deploymentIds) {
-        if (deploymentIds == null) {
+        if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("Deployment ids is null");
         }
         this.deploymentIds = deploymentIds;
@@ -83,7 +83,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentName(string deploymentName) {
-        if (deploymentName == null) {
+        if (deploymentName is null) {
             throw new FlowableIllegalArgumentException("deploymentName is null");
         }
         this.name = deploymentName;
@@ -92,7 +92,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentNameLike(string nameLike) {
-        if (nameLike == null) {
+        if (nameLike is null) {
             throw new FlowableIllegalArgumentException("deploymentNameLike is null");
         }
         this.nameLike = nameLike;
@@ -101,7 +101,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentCategory(string deploymentCategory) {
-        if (deploymentCategory == null) {
+        if (deploymentCategory is null) {
             throw new FlowableIllegalArgumentException("deploymentCategory is null");
         }
         this.category = deploymentCategory;
@@ -110,7 +110,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentCategoryLike(string categoryLike) {
-        if (categoryLike == null) {
+        if (categoryLike is null) {
             throw new FlowableIllegalArgumentException("deploymentCategoryLike is null");
         }
         this.categoryLike = categoryLike;
@@ -119,7 +119,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentCategoryNotEquals(string deploymentCategoryNotEquals) {
-        if (deploymentCategoryNotEquals == null) {
+        if (deploymentCategoryNotEquals is null) {
             throw new FlowableIllegalArgumentException("deploymentCategoryExclude is null");
         }
         this.categoryNotEquals = deploymentCategoryNotEquals;
@@ -128,7 +128,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentKey(string deploymentKey) {
-        if (deploymentKey == null) {
+        if (deploymentKey is null) {
             throw new FlowableIllegalArgumentException("deploymentKey is null");
         }
         this.key = deploymentKey;
@@ -137,7 +137,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentKeyLike(string deploymentKeyLike) {
-        if (deploymentKeyLike == null) {
+        if (deploymentKeyLike is null) {
             throw new FlowableIllegalArgumentException("deploymentKeyLike is null");
         }
         this.keyLike = deploymentKeyLike;
@@ -146,7 +146,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("deploymentTenantId is null");
         }
         this.tenantId = tenantId;
@@ -155,7 +155,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl deploymentTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("deploymentTenantIdLike is null");
         }
         this.tenantIdLike = tenantIdLike;
@@ -194,7 +194,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
     
     @Override
     public DeploymentQuery parentDeploymentIds(List<string> parentDeploymentIds) {
-        if (parentDeploymentIds == null) {
+        if (parentDeploymentIds is null) {
             throw new FlowableIllegalArgumentException("parentDeploymentIds is null");
         }
         this.parentDeploymentIds = parentDeploymentIds;
@@ -203,7 +203,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl processDefinitionKey(string key) {
-        if (key == null) {
+        if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
         this.processDefinitionKey = key;
@@ -212,7 +212,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl processDefinitionKeyLike(string keyLike) {
-        if (keyLike == null) {
+        if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
         }
         this.processDefinitionKeyLike = keyLike;
@@ -221,7 +221,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     @Override
     public DeploymentQueryImpl latest() {
-        if (key == null) {
+        if (key is null) {
             throw new FlowableIllegalArgumentException("latest can only be used together with a deployment key");
         }
 

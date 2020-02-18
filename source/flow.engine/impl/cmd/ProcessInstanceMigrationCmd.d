@@ -30,11 +30,11 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
     protected ProcessInstanceMigrationDocument processInstanceMigrationDocument;
 
     public ProcessInstanceMigrationCmd(string processInstanceId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableException("Must specify a process instance id to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -43,11 +43,11 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
     }
 
     public ProcessInstanceMigrationCmd(ProcessInstanceMigrationDocument processInstanceMigrationDocument, string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableException("Must specify a process definition id to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -56,11 +56,11 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
     }
 
     public ProcessInstanceMigrationCmd(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
-        if (processDefinitionKey == null) {
+        if (processDefinitionKey is null) {
             throw new FlowableException("Must specify a process definition key to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -74,11 +74,11 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
     public Void execute(CommandContext commandContext) {
         ProcessInstanceMigrationManager migrationManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceMigrationManager();
 
-        if (processInstanceId != null) {
+        if (processInstanceId !is null) {
             migrationManager.migrateProcessInstance(processInstanceId, processInstanceMigrationDocument, commandContext);
-        } else if (processDefinitionId != null) {
+        } else if (processDefinitionId !is null) {
             migrationManager.migrateProcessInstancesOfProcessDefinition(processDefinitionId, processInstanceMigrationDocument, commandContext);
-        } else if (processDefinitionKey != null && processDefinitionVersion >= 0) {
+        } else if (processDefinitionKey !is null && processDefinitionVersion >= 0) {
             migrationManager.migrateProcessInstancesOfProcessDefinition(processDefinitionKey, processDefinitionVersion, processDefinitionTenantId, processInstanceMigrationDocument, commandContext);
         } else {
             throw new FlowableException("Cannot migrate process(es), not enough information");

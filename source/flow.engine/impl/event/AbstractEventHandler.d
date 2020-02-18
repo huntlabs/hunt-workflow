@@ -33,7 +33,7 @@ abstract class AbstractEventHandler implements EventHandler {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
         FlowNode currentFlowElement = (FlowNode) execution.getCurrentFlowElement();
 
-        if (currentFlowElement == null) {
+        if (currentFlowElement is null) {
             throw new FlowableException("Error while sending signal for event subscription '" + eventSubscription.getId() + "': " + "no activity associated with event subscription");
         }
 

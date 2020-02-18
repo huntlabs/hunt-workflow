@@ -48,7 +48,7 @@ class ListenerNotificationHelper {
 
     public void executeExecutionListeners(HasExecutionListeners elementWithExecutionListeners, DelegateExecution execution, string eventType) {
         List<FlowableListener> listeners = elementWithExecutionListeners.getExecutionListeners();
-        if (listeners != null && listeners.size() > 0) {
+        if (listeners !is null && listeners.size() > 0) {
             ListenerFactory listenerFactory = CommandContextUtil.getProcessEngineConfiguration().getListenerFactory();
             for (FlowableListener listener : listeners) {
 
@@ -61,7 +61,7 @@ class ListenerNotificationHelper {
                     } else if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
                         executionListener = listenerFactory.createExpressionExecutionListener(listener);
                     } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
-                        if (listener.getOnTransaction() != null) {
+                        if (listener.getOnTransaction() !is null) {
                             executionListener = listenerFactory.createTransactionDependentDelegateExpressionExecutionListener(listener);
                         } else {
                             executionListener = listenerFactory.createDelegateExpressionExecutionListener(listener);
@@ -70,8 +70,8 @@ class ListenerNotificationHelper {
                         executionListener = (ExecutionListener) listener.getInstance();
                     }
 
-                    if (executionListener != null) {
-                        if (listener.getOnTransaction() != null) {
+                    if (executionListener !is null) {
+                        if (listener.getOnTransaction() !is null) {
                             planTransactionDependentExecutionListener(listenerFactory, execution, (TransactionDependentExecutionListener) executionListener, listener);
                         } else {
                             execution.setEventName(eventType); // eventName is used to differentiate the event when reusing an execution listener for various events
@@ -101,7 +101,7 @@ class ListenerNotificationHelper {
     }
 
     public void executeTaskListeners(TaskEntity taskEntity, string eventType) {
-        if (taskEntity.getProcessDefinitionId() != null) {
+        if (taskEntity.getProcessDefinitionId() !is null) {
             org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(taskEntity.getProcessDefinitionId());
             FlowElement flowElement = process.getFlowElement(taskEntity.getTaskDefinitionKey(), true);
             if (flowElement instanceof UserTask) {
@@ -117,7 +117,7 @@ class ListenerNotificationHelper {
             if (event.equals(eventType) || event.equals(TaskListener.EVENTNAME_ALL_EVENTS)) {
                 BaseTaskListener taskListener = createTaskListener(listener);
 
-                if (listener.getOnTransaction() != null) {
+                if (listener.getOnTransaction() !is null) {
                     planTransactionDependentTaskListener(ExecutionHelper.getExecution(taskEntity.getExecutionId()), (TransactionDependentTaskListener) taskListener, listener);
                 } else {
                     taskEntity.setEventName(eventType);
@@ -145,7 +145,7 @@ class ListenerNotificationHelper {
         } else if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
             taskListener = listenerFactory.createExpressionTaskListener(listener);
         } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
-            if (listener.getOnTransaction() != null) {
+            if (listener.getOnTransaction() !is null) {
                 taskListener = listenerFactory.createTransactionDependentDelegateExpressionTaskListener(listener);
             } else {
                 taskListener = listenerFactory.createDelegateExpressionTaskListener(listener);
@@ -182,7 +182,7 @@ class ListenerNotificationHelper {
 
     protected Map<string, Object> invokeCustomPropertiesResolver(DelegateExecution execution, CustomPropertiesResolver customPropertiesResolver) {
         Map<string, Object> customPropertiesMapToUse = null;
-        if (customPropertiesResolver != null) {
+        if (customPropertiesResolver !is null) {
             customPropertiesMapToUse = customPropertiesResolver.getCustomPropertiesMap(execution);
         }
         return customPropertiesMapToUse;

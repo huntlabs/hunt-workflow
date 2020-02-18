@@ -21,7 +21,7 @@ import org.flowable.task.api.Task;
 /**
  * @author Tijs Rademakers
  */
-public interface InternalTaskAssignmentManager {
+interface InternalTaskAssignmentManager {
     
     void changeAssignee(Task task, string assignee);
     

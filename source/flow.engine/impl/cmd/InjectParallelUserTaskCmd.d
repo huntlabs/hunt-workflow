@@ -88,7 +88,7 @@ class InjectParallelUserTaskCmd extends AbstractDynamicInjectionCmd implements C
         userTask.setOutgoingFlows(new ArrayList<>());
         
         GraphicInfo elementGraphicInfo = bpmnModel.getGraphicInfo(flowElement.getId());
-        if (elementGraphicInfo != null) {
+        if (elementGraphicInfo !is null) {
             elementGraphicInfo.setExpanded(false);
             bpmnModel.addGraphicInfo(subProcess.getId(), elementGraphicInfo);
         }
@@ -114,7 +114,7 @@ class InjectParallelUserTaskCmd extends AbstractDynamicInjectionCmd implements C
         subProcess.addFlowElement(startFlow1);
         
         UserTask newUserTask = new UserTask();
-        if (dynamicUserTaskBuilder.getId() != null) {
+        if (dynamicUserTaskBuilder.getId() !is null) {
             newUserTask.setId(dynamicUserTaskBuilder.getId());
         } else {
             newUserTask.setId(dynamicUserTaskBuilder.nextTaskId(process.getFlowElementMap()));
@@ -153,11 +153,11 @@ class InjectParallelUserTaskCmd extends AbstractDynamicInjectionCmd implements C
         endFlow.setId(dynamicUserTaskBuilder.nextFlowId(process.getFlowElementMap()));
         subProcess.addFlowElement(endFlow);
 
-        if (dynamicUserTaskBuilder.getDynamicUserTaskCallback() != null) {
+        if (dynamicUserTaskBuilder.getDynamicUserTaskCallback() !is null) {
             dynamicUserTaskBuilder.getDynamicUserTaskCallback().handleCreatedDynamicUserTask(newUserTask, subProcess, parentContainer, process);
         }
         
-        if (elementGraphicInfo != null) {
+        if (elementGraphicInfo !is null) {
             GraphicInfo startGraphicInfo = new GraphicInfo(45, 135, 30, 30);
             bpmnModel.addGraphicInfo(startEvent.getId(), startGraphicInfo);
             

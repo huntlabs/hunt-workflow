@@ -81,7 +81,7 @@ public abstract class FlowElement extends BaseElement implements HasExecutionLis
         setDocumentation(otherElement.getDocumentation());
 
         executionListeners = new ArrayList<>();
-        if (otherElement.getExecutionListeners() != null && !otherElement.getExecutionListeners().isEmpty()) {
+        if (otherElement.getExecutionListeners() !is null && !otherElement.getExecutionListeners().isEmpty()) {
             for (FlowableListener listener : otherElement.getExecutionListeners()) {
                 executionListeners.add(listener.clone());
             }

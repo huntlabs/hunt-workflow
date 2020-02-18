@@ -43,11 +43,11 @@ class GetEventLogEntriesCmd implements Command<List<EventLogEntry>> {
 
     @Override
     public List<EventLogEntry> execute(CommandContext commandContext) {
-        if (processInstanceId != null) {
+        if (processInstanceId !is null) {
             return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntriesByProcessInstanceId(processInstanceId);
 
-        } else if (startLogNr != null) {
-            return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntries(startLogNr, pageSize != null ? pageSize : -1);
+        } else if (startLogNr !is null) {
+            return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntries(startLogNr, pageSize !is null ? pageSize : -1);
 
         } else {
             return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findAllEventLogEntries();

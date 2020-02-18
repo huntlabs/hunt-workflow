@@ -38,13 +38,13 @@ abstract class NeedsActiveExecutionCmd<T> implements Command<T>, Serializable {
 
     @Override
     public T execute(CommandContext commandContext) {
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
 
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 

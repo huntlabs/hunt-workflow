@@ -89,12 +89,12 @@ module flow.common.interceptor.CrDbRetryInterceptor;
 //    protected bool isTransactionRetryException(Throwable exception) {
 //        if (exception instanceof SQLException) {
 //            SQLException sqlException = (SQLException) exception;
-//            if (sqlException.getErrorCode() == 40001 || (sqlException.getMessage() != null && sqlException.getMessage().contains("retry txn"))) {
+//            if (sqlException.getErrorCode() == 40001 || (sqlException.getMessage() !is null && sqlException.getMessage().contains("retry txn"))) {
 //                return true;
 //            }
 //        }
 //
-//        if (exception.getCause() != null) {
+//        if (exception.getCause() !is null) {
 //            if (isTransactionRetryException(exception.getCause())) {
 //                return true;
 //            }

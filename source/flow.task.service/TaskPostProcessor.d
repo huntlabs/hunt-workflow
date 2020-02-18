@@ -17,6 +17,6 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 /**
  * Function to enrich {@link TaskEntity} instance with additional info
  */
-public interface TaskPostProcessor {
+interface TaskPostProcessor {
     TaskEntity enrich(TaskEntity taskEntityToEnrich);
 }

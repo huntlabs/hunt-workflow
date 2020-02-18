@@ -31,11 +31,11 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
     protected ProcessInstanceMigrationDocument processInstanceMigrationDocument;
 
     public ProcessInstanceMigrationValidationCmd(string processInstanceId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableException("Must specify a process instance id to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -44,11 +44,11 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
     }
 
     public ProcessInstanceMigrationValidationCmd(ProcessInstanceMigrationDocument processInstanceMigrationDocument, string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableException("Must specify a process definition id to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -57,11 +57,11 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
     }
 
     public ProcessInstanceMigrationValidationCmd(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
-        if (processDefinitionKey == null) {
+        if (processDefinitionKey is null) {
             throw new FlowableException("Must specify a process definition key to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -75,15 +75,15 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
 
         ProcessInstanceMigrationManager migrationManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceMigrationManager();
 
-        if (processInstanceId != null) {
+        if (processInstanceId !is null) {
             return migrationManager.validateMigrateProcessInstance(processInstanceId, processInstanceMigrationDocument, commandContext);
         }
 
-        if (processDefinitionId != null) {
+        if (processDefinitionId !is null) {
             return migrationManager.validateMigrateProcessInstancesOfProcessDefinition(processDefinitionId, processInstanceMigrationDocument, commandContext);
         }
 
-        if (processDefinitionKey != null && processDefinitionVersion >= 0) {
+        if (processDefinitionKey !is null && processDefinitionVersion >= 0) {
             return migrationManager.validateMigrateProcessInstancesOfProcessDefinition(processDefinitionKey, processDefinitionVersion, processDefinitionTenantId, processInstanceMigrationDocument, commandContext);
         }
 

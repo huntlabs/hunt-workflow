@@ -47,14 +47,14 @@ class BoundaryCancelEventActivityBehavior extends BoundaryEventActivityBehavior 
         // TODO: this can be optimized. A full search in the all executions shouldn't be needed
         List<ExecutionEntity> processInstanceExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(execution.getProcessInstanceId());
         for (ExecutionEntity childExecution : processInstanceExecutions) {
-            if (childExecution.getCurrentFlowElement() != null
+            if (childExecution.getCurrentFlowElement() !is null
                     && childExecution.getCurrentFlowElement().getId().equals(boundaryEvent.getAttachedToRefId())) {
                 subProcessExecution = childExecution;
                 break;
             }
         }
 
-        if (subProcessExecution == null) {
+        if (subProcessExecution is null) {
             throw new FlowableException("No execution found for sub process of boundary cancel event " + boundaryEvent.getId());
         }
 
@@ -72,7 +72,7 @@ class BoundaryCancelEventActivityBehavior extends BoundaryEventActivityBehavior 
             executionEntityManager.deleteExecutionAndRelatedData(subProcessExecution, deleteReason, false);
             if (subProcessExecution.getCurrentFlowElement() instanceof Activity) {
                 Activity activity = (Activity) subProcessExecution.getCurrentFlowElement();
-                if (activity.getLoopCharacteristics() != null) {
+                if (activity.getLoopCharacteristics() !is null) {
                     ExecutionEntity miExecution = subProcessExecution.getParent();
                     List<ExecutionEntity> miChildExecutions = executionEntityManager.findChildExecutionsByParentExecutionId(miExecution.getId());
                     for (ExecutionEntity miChildExecution : miChildExecutions) {

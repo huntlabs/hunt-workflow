@@ -14,7 +14,7 @@
 
 import java.util.Date;
 
-import org.flowable.common.engine.impl.persistence.entity.AbstractEntityNoRevision;
+import flow.common.persistence.entity.AbstractEntityNoRevision;
 
 /**
  * @author martin.grofcik

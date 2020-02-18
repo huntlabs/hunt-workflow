@@ -70,7 +70,7 @@ interface ModelQuery : Query!(ModelQuery, Model) {
     /** Only select models that are the source for the provided deployment */
     ModelQuery deploymentId(string deploymentId);
 
-    /** Only select models that are deployed (ie deploymentId != null) */
+    /** Only select models that are deployed (ie deploymentId !is null) */
     ModelQuery deployed();
 
     /** Only select models that are not yet deployed */

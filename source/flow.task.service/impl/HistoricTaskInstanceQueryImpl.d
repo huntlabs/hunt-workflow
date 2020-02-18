@@ -19,14 +19,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import org.flowable.common.engine.api.FlowableException;
-import org.flowable.common.engine.api.FlowableIllegalArgumentException;
-import org.flowable.common.engine.api.query.QueryCacheValues;
-import org.flowable.common.engine.api.scope.ScopeTypes;
-import org.flowable.common.engine.impl.context.Context;
-import org.flowable.common.engine.impl.interceptor.CommandContext;
-import org.flowable.common.engine.impl.interceptor.CommandExecutor;
-import org.flowable.common.engine.impl.persistence.cache.EntityCache;
+import flow.common.api.FlowableException;
+import flow.common.api.FlowableIllegalArgumentException;
+import flow.common.api.query.QueryCacheValues;
+import flow.common.api.scope.ScopeTypes;
+import flow.common.context.Context;
+import flow.common.interceptor.CommandContext;
+import flow.common.interceptor.CommandExecutor;
+import flow.common.persistence.cache.EntityCache;
 import org.flowable.idm.api.Group;
 import org.flowable.idm.api.IdmIdentityService;
 import org.flowable.task.api.history.HistoricTaskInstance;
@@ -101,18 +101,18 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     private Collection<string> candidateGroups;
     protected string involvedUser;
     protected Collection<string> involvedGroups;
-    protected boolean ignoreAssigneeValue;
+    protected bool ignoreAssigneeValue;
     protected Integer taskPriority;
     protected Integer taskMinPriority;
     protected Integer taskMaxPriority;
-    protected boolean finished;
-    protected boolean unfinished;
-    protected boolean processFinished;
-    protected boolean processUnfinished;
+    protected bool finished;
+    protected bool unfinished;
+    protected bool processFinished;
+    protected bool processUnfinished;
     protected Date dueDate;
     protected Date dueAfter;
     protected Date dueBefore;
-    protected boolean withoutDueDate;
+    protected bool withoutDueDate;
     protected Date creationDate;
     protected Date creationAfterDate;
     protected Date creationBeforeDate;
@@ -120,22 +120,22 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     protected Date completedAfterDate;
     protected Date completedBeforeDate;
     protected string category;
-    protected boolean withFormKey;
+    protected bool withFormKey;
     protected string formKey;
     protected string tenantId;
     protected string tenantIdLike;
-    protected boolean withoutTenantId;
-    protected boolean withoutDeleteReason;
+    protected bool withoutTenantId;
+    protected bool withoutDeleteReason;
     protected string locale;
-    protected boolean withLocalizationFallback;
-    protected boolean includeTaskLocalVariables;
-    protected boolean includeProcessVariables;
+    protected bool withLocalizationFallback;
+    protected bool includeTaskLocalVariables;
+    protected bool includeProcessVariables;
     protected Integer taskVariablesLimit;
-    protected boolean includeIdentityLinks;
+    protected bool includeIdentityLinks;
     protected List<HistoricTaskInstanceQueryImpl> orQueryObjects = new ArrayList<>();
     protected HistoricTaskInstanceQueryImpl currentOrQueryObject;
 
-    protected boolean inOrStatement;
+    protected bool inOrStatement;
 
     public HistoricTaskInstanceQueryImpl() {
     }
@@ -154,7 +154,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         ensureVariablesInitialized();
 
         TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration(commandContext);
-        if (taskServiceConfiguration.getHistoricTaskQueryInterceptor() != null) {
+        if (taskServiceConfiguration.getHistoricTaskQueryInterceptor() !is null) {
             taskServiceConfiguration.getHistoricTaskQueryInterceptor().beforeHistoricTaskQueryExecute(this);
         }
 
@@ -167,14 +167,14 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         List<HistoricTaskInstance> tasks = null;
 
         TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration(commandContext);
-        if (taskServiceConfiguration.getHistoricTaskQueryInterceptor() != null) {
+        if (taskServiceConfiguration.getHistoricTaskQueryInterceptor() !is null) {
             taskServiceConfiguration.getHistoricTaskQueryInterceptor().beforeHistoricTaskQueryExecute(this);
         }
 
         if (includeTaskLocalVariables || includeProcessVariables || includeIdentityLinks) {
             tasks = CommandContextUtil.getHistoricTaskInstanceEntityManager(commandContext).findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(this);
 
-            if (taskId != null) {
+            if (taskId !is null) {
                 if (includeProcessVariables) {
                     addCachedVariableForQueryById(commandContext, tasks, false);
                 } else if (includeTaskLocalVariables) {
@@ -186,20 +186,20 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
             tasks = CommandContextUtil.getHistoricTaskInstanceEntityManager(commandContext).findHistoricTaskInstancesByQueryCriteria(this);
         }
 
-        if (tasks != null && taskServiceConfiguration.getInternalTaskLocalizationManager() != null && taskServiceConfiguration.isEnableLocalization()) {
+        if (tasks !is null && taskServiceConfiguration.getInternalTaskLocalizationManager() !is null && taskServiceConfiguration.isEnableLocalization()) {
             for (HistoricTaskInstance task : tasks) {
                 taskServiceConfiguration.getInternalTaskLocalizationManager().localize(task, locale, withLocalizationFallback);
             }
         }
 
-        if (taskServiceConfiguration.getHistoricTaskQueryInterceptor() != null) {
+        if (taskServiceConfiguration.getHistoricTaskQueryInterceptor() !is null) {
             taskServiceConfiguration.getHistoricTaskQueryInterceptor().afterHistoricTaskQueryExecute(this, tasks);
         }
 
         return tasks;
     }
 
-    protected void addCachedVariableForQueryById(CommandContext commandContext, List<HistoricTaskInstance> results, boolean local) {
+    protected void addCachedVariableForQueryById(CommandContext commandContext, List<HistoricTaskInstance> results, bool local) {
         for (HistoricTaskInstance task : results) {
             if (Objects.equals(taskId, task.getId())) {
 
@@ -234,14 +234,14 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQueryImpl processInstanceIdIn(Collection<string> processInstanceIds) {
-        if (processInstanceIds == null) {
+        if (processInstanceIds is null) {
             throw new FlowableIllegalArgumentException("Process instance id list is null");
         }
         if (processInstanceIds.isEmpty()) {
             throw new FlowableIllegalArgumentException("Process instance id list is empty");
         }
         for (string processInstanceId : processInstanceIds) {
-            if (processInstanceId == null) {
+            if (processInstanceId is null) {
                 throw new FlowableIllegalArgumentException("None of the given process instance ids can be null");
             }
         }
@@ -482,14 +482,14 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery processCategoryIn(Collection<string> processCategoryInList) {
-        if (processCategoryInList == null) {
+        if (processCategoryInList is null) {
             throw new FlowableIllegalArgumentException("Process category list is null");
         }
         if (processCategoryInList.isEmpty()) {
             throw new FlowableIllegalArgumentException("Process category list is empty");
         }
         for (string processCategory : processCategoryInList) {
-            if (processCategory == null) {
+            if (processCategory is null) {
                 throw new FlowableIllegalArgumentException("None of the given process categories can be null");
             }
         }
@@ -504,14 +504,14 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery processCategoryNotIn(Collection<string> processCategoryNotInList) {
-        if (processCategoryNotInList == null) {
+        if (processCategoryNotInList is null) {
             throw new FlowableIllegalArgumentException("Process category list is null");
         }
         if (processCategoryNotInList.isEmpty()) {
             throw new FlowableIllegalArgumentException("Process category list is empty");
         }
         for (string processCategory : processCategoryNotInList) {
-            if (processCategory == null) {
+            if (processCategory is null) {
                 throw new FlowableIllegalArgumentException("None of the given process categories can be null");
             }
         }
@@ -586,20 +586,20 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskNameIn(Collection<string> taskNameList) {
-        if (taskNameList == null) {
+        if (taskNameList is null) {
             throw new FlowableIllegalArgumentException("Task name list is null");
         }
         if (taskNameList.isEmpty()) {
             throw new FlowableIllegalArgumentException("Task name list is empty");
         }
 
-        if (taskName != null) {
+        if (taskName !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskName");
         }
-        if (taskNameLike != null) {
+        if (taskNameLike !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskNameLike");
         }
-        if (taskNameLikeIgnoreCase != null) {
+        if (taskNameLikeIgnoreCase !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskNameLikeIgnoreCase");
         }
 
@@ -613,25 +613,25 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskNameInIgnoreCase(Collection<string> taskNameList) {
-        if (taskNameList == null) {
+        if (taskNameList is null) {
             throw new FlowableIllegalArgumentException("Task name list is null");
         }
         if (taskNameList.isEmpty()) {
             throw new FlowableIllegalArgumentException("Task name list is empty");
         }
         for (string taskName : taskNameList) {
-            if (taskName == null) {
+            if (taskName is null) {
                 throw new FlowableIllegalArgumentException("None of the given task names can be null");
             }
         }
 
-        if (taskName != null) {
+        if (taskName !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and name");
         }
-        if (taskNameLike != null) {
+        if (taskNameLike !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and nameLike");
         }
-        if (taskNameLikeIgnoreCase != null) {
+        if (taskNameLikeIgnoreCase !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and nameLikeIgnoreCase");
         }
 
@@ -761,25 +761,25 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskAssigneeIds(Collection<string> assigneeIds) {
-        if (assigneeIds == null) {
+        if (assigneeIds is null) {
             throw new FlowableIllegalArgumentException("Task assignee list is null");
         }
         if (assigneeIds.isEmpty()) {
             throw new FlowableIllegalArgumentException("Task assignee list is empty");
         }
         for (string assignee : assigneeIds) {
-            if (assignee == null) {
+            if (assignee is null) {
                 throw new FlowableIllegalArgumentException("None of the given task assignees can be null");
             }
         }
 
-        if (taskAssignee != null) {
+        if (taskAssignee !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskAssigneeIds and taskAssignee");
         }
-        if (taskAssigneeLike != null) {
+        if (taskAssigneeLike !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskAssigneeIds and taskAssigneeLike");
         }
-        if (taskAssigneeLikeIgnoreCase != null) {
+        if (taskAssigneeLikeIgnoreCase !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskAssigneeIds and taskAssigneeLikeIgnoreCase");
         }
 
@@ -1315,7 +1315,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskFormKey(string formKey) {
-        if (formKey == null) {
+        if (formKey is null) {
             throw new FlowableIllegalArgumentException("Task formKey is null");
         }
 
@@ -1329,7 +1329,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskCandidateUser(string candidateUser) {
-        if (candidateUser == null) {
+        if (candidateUser is null) {
             throw new FlowableIllegalArgumentException("Candidate user is null");
         }
 
@@ -1343,11 +1343,11 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskCandidateGroup(string candidateGroup) {
-        if (candidateGroup == null) {
+        if (candidateGroup is null) {
             throw new FlowableIllegalArgumentException("Candidate group is null");
         }
 
-        if (candidateGroups != null) {
+        if (candidateGroups !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateGroup and candidateGroupIn");
         }
 
@@ -1361,7 +1361,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskCandidateGroupIn(Collection<string> candidateGroups) {
-        if (candidateGroups == null) {
+        if (candidateGroups is null) {
             throw new FlowableIllegalArgumentException("Candidate group list is null");
         }
 
@@ -1369,7 +1369,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
             throw new FlowableIllegalArgumentException("Candidate group list is empty");
         }
 
-        if (candidateGroup != null) {
+        if (candidateGroup !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both candidateGroupIn and candidateGroup");
         }
 
@@ -1383,7 +1383,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskInvolvedUser(string involvedUser) {
-        if (involvedUser == null) {
+        if (involvedUser is null) {
             throw new FlowableIllegalArgumentException("involved user is null");
         }
 
@@ -1397,7 +1397,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskInvolvedGroups(Collection<string> involvedGroups) {
-        if (involvedGroups == null) {
+        if (involvedGroups is null) {
             throw new FlowableIllegalArgumentException("Involved groups are null");
         }
         if (involvedGroups.isEmpty()) {
@@ -1423,7 +1423,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("task tenant id is null");
         }
         if (inOrStatement) {
@@ -1436,7 +1436,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public HistoricTaskInstanceQuery taskTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("task tenant id is null");
         }
         if (inOrStatement) {
@@ -1668,7 +1668,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     public string getMssqlOrDB2OrderBy() {
         string specialOrderBy = super.getOrderByColumns();
-        if (specialOrderBy != null && specialOrderBy.length() > 0) {
+        if (specialOrderBy !is null && specialOrderBy.length() > 0) {
             specialOrderBy = specialOrderBy.replace("RES.", "TEMPRES_");
             specialOrderBy = specialOrderBy.replace("VAR.", "TEMPVAR_");
         }
@@ -1676,15 +1676,15 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     public Collection<string> getCandidateGroups() {
-        if (candidateGroup != null) {
+        if (candidateGroup !is null) {
             Collection<string> candidateGroupList = new ArrayList<>(1);
             candidateGroupList.add(candidateGroup);
             return candidateGroupList;
 
-        } else if (candidateGroups != null) {
+        } else if (candidateGroups !is null) {
             return candidateGroups;
 
-        } else if (candidateUser != null) {
+        } else if (candidateUser !is null) {
             return getGroupsForCandidateUser(candidateUser);
         }
         return null;
@@ -1693,7 +1693,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     protected Collection<string> getGroupsForCandidateUser(string candidateUser) {
         Collection<string> groupIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
-        if (idmIdentityService != null) {
+        if (idmIdentityService !is null) {
             List<Group> groups = idmIdentityService.createGroupQuery().groupMember(candidateUser).list();
             for (Group group : groups) {
                 groupIds.add(group.getId());
@@ -1704,7 +1704,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
 
     @Override
     public void delete() {
-        if (commandExecutor != null) {
+        if (commandExecutor !is null) {
             commandExecutor.execute(context -> {
                 CommandContextUtil.getHistoricTaskInstanceEntityManager(context).deleteHistoricTaskInstances(this);
                 return null;
@@ -1838,11 +1838,11 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return taskMaxPriority;
     }
 
-    public boolean isProcessFinished() {
+    public bool isProcessFinished() {
         return processFinished;
     }
 
-    public boolean isProcessUnfinished() {
+    public bool isProcessUnfinished() {
         return processUnfinished;
     }
 
@@ -1858,7 +1858,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return dueBefore;
     }
 
-    public boolean isWithoutDueDate() {
+    public bool isWithoutDueDate() {
         return withoutDueDate;
     }
 
@@ -1886,7 +1886,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return category;
     }
 
-    public boolean isWithFormKey() {
+    public bool isWithFormKey() {
         return withFormKey;
     }
 
@@ -1902,31 +1902,31 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 
-    public boolean isIncludeTaskLocalVariables() {
+    public bool isIncludeTaskLocalVariables() {
         return includeTaskLocalVariables;
     }
 
-    public boolean isIncludeProcessVariables() {
+    public bool isIncludeProcessVariables() {
         return includeProcessVariables;
     }
 
-    public boolean isIncludeIdentityLinks() {
+    public bool isIncludeIdentityLinks() {
         return includeIdentityLinks;
     }
 
-    public boolean isInOrStatement() {
+    public bool isInOrStatement() {
         return inOrStatement;
     }
 
-    public boolean isFinished() {
+    public bool isFinished() {
         return finished;
     }
 
-    public boolean isUnfinished() {
+    public bool isUnfinished() {
         return unfinished;
     }
 
@@ -2023,7 +2023,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return involvedGroups;
     }
 
-    public boolean isIgnoreAssigneeValue() {
+    public bool isIgnoreAssigneeValue() {
         return ignoreAssigneeValue;
     }
 
@@ -2051,7 +2051,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return taskAssigneeLikeIgnoreCase;
     }
 
-    public boolean isWithoutDeleteReason() {
+    public bool isWithoutDeleteReason() {
         return withoutDeleteReason;
     }
 

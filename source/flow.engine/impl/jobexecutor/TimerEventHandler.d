@@ -29,10 +29,10 @@ class TimerEventHandler {
     public static string createConfiguration(string id, string endDate, string calendarName) {
         ObjectNode cfgJson = createObjectNode();
         cfgJson.put(PROPERTYNAME_TIMER_ACTIVITY_ID, id);
-        if (endDate != null) {
+        if (endDate !is null) {
             cfgJson.put(PROPERTYNAME_END_DATE_EXPRESSION, endDate);
         }
-        if (calendarName != null) {
+        if (calendarName !is null) {
             cfgJson.put(PROPERTYNAME_CALENDAR_NAME_EXPRESSION, calendarName);
         }
         return cfgJson.toString();
@@ -52,7 +52,7 @@ class TimerEventHandler {
         try {
             JsonNode cfgJson = readJsonValue(jobHandlerConfiguration);
             JsonNode activityIdNode = cfgJson.get(PROPERTYNAME_TIMER_ACTIVITY_ID);
-            if (activityIdNode != null) {
+            if (activityIdNode !is null) {
                 return activityIdNode.asText();
             } else {
                 return jobHandlerConfiguration;
@@ -67,7 +67,7 @@ class TimerEventHandler {
         try {
             JsonNode cfgJson = readJsonValue(jobHandlerConfiguration);
             JsonNode calendarNameNode = cfgJson.get(PROPERTYNAME_CALENDAR_NAME_EXPRESSION);
-            if (calendarNameNode != null) {
+            if (calendarNameNode !is null) {
                 return calendarNameNode.asText();
             } else {
                 return "";
@@ -89,7 +89,7 @@ class TimerEventHandler {
             cfgJson.put(PROPERTYNAME_TIMER_ACTIVITY_ID, jobHandlerConfiguration);
         }
         
-        if (endDate != null) {
+        if (endDate !is null) {
             cfgJson.put(PROPERTYNAME_END_DATE_EXPRESSION, endDate);
         }
 
@@ -100,7 +100,7 @@ class TimerEventHandler {
         try {
             JsonNode cfgJson = readJsonValue(jobHandlerConfiguration);
             JsonNode endDateNode = cfgJson.get(PROPERTYNAME_END_DATE_EXPRESSION);
-            if (endDateNode != null) {
+            if (endDateNode !is null) {
                 return endDateNode.asText();
             } else {
                 return null;
@@ -120,7 +120,7 @@ class TimerEventHandler {
     }
     
     protected static JsonNode readJsonValue(string config) throws IOException {
-        if (CommandContextUtil.getCommandContext() != null) {
+        if (CommandContextUtil.getCommandContext() !is null) {
             return CommandContextUtil.getProcessEngineConfiguration().getObjectMapper().readTree(config);
         } else {
             return new ObjectMapper().readTree(config);

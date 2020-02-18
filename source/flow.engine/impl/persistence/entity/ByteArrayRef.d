@@ -50,7 +50,7 @@ class ByteArrayRef implements Serializable {
 
     public byte[] getBytes() {
         ensureInitialized();
-        return (entity != null ? entity.getBytes() : null);
+        return (entity !is null ? entity.getBytes() : null);
     }
 
     public void setValue(string name, byte[] bytes) {
@@ -59,8 +59,8 @@ class ByteArrayRef implements Serializable {
     }
 
     private void setBytes(byte[] bytes) {
-        if (id == null) {
-            if (bytes != null) {
+        if (id is null) {
+            if (bytes !is null) {
                 ByteArrayEntityManager byteArrayEntityManager = CommandContextUtil.getByteArrayEntityManager();
                 entity = byteArrayEntityManager.create();
                 entity.setName(name);
@@ -80,8 +80,8 @@ class ByteArrayRef implements Serializable {
     }
 
     public void delete() {
-        if (!deleted && id != null) {
-            if (entity != null) {
+        if (!deleted && id !is null) {
+            if (entity !is null) {
                 // if the entity has been loaded already,
                 // we might as well use the safer optimistic locking delete.
                 CommandContextUtil.getByteArrayEntityManager().delete(entity);
@@ -95,7 +95,7 @@ class ByteArrayRef implements Serializable {
     }
 
     private void ensureInitialized() {
-        if (id != null && entity == null) {
+        if (id !is null && entity is null) {
             entity = CommandContextUtil.getByteArrayEntityManager().findById(id);
             name = entity.getName();
         }

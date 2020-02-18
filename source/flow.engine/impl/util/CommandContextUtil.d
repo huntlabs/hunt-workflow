@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.flowable.batch.api.BatchService;
 import org.flowable.batch.service.BatchServiceConfiguration;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.db.DbSqlSession;
 import flow.common.interceptor.CommandContext;
@@ -88,7 +88,7 @@ class CommandContextUtil {
     }
 
     public static ProcessEngineConfigurationImpl getProcessEngineConfiguration(CommandContext commandContext) {
-        if (commandContext != null) {
+        if (commandContext !is null) {
             return (ProcessEngineConfigurationImpl) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_PROCESS_ENGINE_CONFIG);
         }
         return null;
@@ -111,7 +111,7 @@ class CommandContextUtil {
     public static VariableService getVariableService(CommandContext commandContext) {
         VariableService variableService = null;
         VariableServiceConfiguration variableServiceConfiguration = getVariableServiceConfiguration();
-        if (variableServiceConfiguration != null) {
+        if (variableServiceConfiguration !is null) {
             variableService = variableServiceConfiguration.getVariableService();
         }
 
@@ -121,7 +121,7 @@ class CommandContextUtil {
     public static HistoricVariableService getHistoricVariableService() {
         HistoricVariableService historicVariableService = null;
         VariableServiceConfiguration variableServiceConfiguration = getVariableServiceConfiguration();
-        if (variableServiceConfiguration != null) {
+        if (variableServiceConfiguration !is null) {
             historicVariableService = variableServiceConfiguration.getHistoricVariableService();
         }
 
@@ -145,7 +145,7 @@ class CommandContextUtil {
     public static IdentityLinkService getIdentityLinkService(CommandContext commandContext) {
         IdentityLinkService identityLinkService = null;
         IdentityLinkServiceConfiguration identityLinkServiceConfiguration = getIdentityLinkServiceConfiguration(commandContext);
-        if (identityLinkServiceConfiguration != null) {
+        if (identityLinkServiceConfiguration !is null) {
             identityLinkService = identityLinkServiceConfiguration.getIdentityLinkService();
         }
 
@@ -155,7 +155,7 @@ class CommandContextUtil {
     public static HistoricIdentityLinkService getHistoricIdentityLinkService() {
         HistoricIdentityLinkService historicIdentityLinkService = null;
         IdentityLinkServiceConfiguration identityLinkServiceConfiguration = getIdentityLinkServiceConfiguration();
-        if (identityLinkServiceConfiguration != null) {
+        if (identityLinkServiceConfiguration !is null) {
             historicIdentityLinkService = identityLinkServiceConfiguration.getHistoricIdentityLinkService();
         }
 
@@ -179,7 +179,7 @@ class CommandContextUtil {
     public static EntityLinkService getEntityLinkService(CommandContext commandContext) {
         EntityLinkService entityLinkService = null;
         EntityLinkServiceConfiguration entityLinkServiceConfiguration = getEntityLinkServiceConfiguration(commandContext);
-        if (entityLinkServiceConfiguration != null) {
+        if (entityLinkServiceConfiguration !is null) {
             entityLinkService = entityLinkServiceConfiguration.getEntityLinkService();
         }
 
@@ -189,7 +189,7 @@ class CommandContextUtil {
     public static HistoricEntityLinkService getHistoricEntityLinkService() {
         HistoricEntityLinkService historicEntityLinkService = null;
         EntityLinkServiceConfiguration entityLinkServiceConfiguration = getEntityLinkServiceConfiguration();
-        if (entityLinkServiceConfiguration != null) {
+        if (entityLinkServiceConfiguration !is null) {
             historicEntityLinkService = entityLinkServiceConfiguration.getHistoricEntityLinkService();
         }
 
@@ -213,7 +213,7 @@ class CommandContextUtil {
     public static EventSubscriptionService getEventSubscriptionService(CommandContext commandContext) {
         EventSubscriptionService eventSubscriptionService = null;
         EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration = getEventSubscriptionServiceConfiguration(commandContext);
-        if (eventSubscriptionServiceConfiguration != null) {
+        if (eventSubscriptionServiceConfiguration !is null) {
             eventSubscriptionService = eventSubscriptionServiceConfiguration.getEventSubscriptionService();
         }
         
@@ -237,7 +237,7 @@ class CommandContextUtil {
     public static TaskService getTaskService(CommandContext commandContext) {
         TaskService taskService = null;
         TaskServiceConfiguration taskServiceConfiguration = getTaskServiceConfiguration(commandContext);
-        if (taskServiceConfiguration != null) {
+        if (taskServiceConfiguration !is null) {
             taskService = taskServiceConfiguration.getTaskService();
         }
         return taskService;
@@ -250,7 +250,7 @@ class CommandContextUtil {
     public static HistoricTaskService getHistoricTaskService(CommandContext commandContext) {
         HistoricTaskService historicTaskService = null;
         TaskServiceConfiguration taskServiceConfiguration = getTaskServiceConfiguration(commandContext);
-        if (taskServiceConfiguration != null) {
+        if (taskServiceConfiguration !is null) {
             historicTaskService = taskServiceConfiguration.getHistoricTaskService();
         }
 
@@ -274,7 +274,7 @@ class CommandContextUtil {
     public static JobService getJobService(CommandContext commandContext) {
         JobService jobService = null;
         JobServiceConfiguration jobServiceConfiguration = getJobServiceConfiguration(commandContext);
-        if (jobServiceConfiguration != null) {
+        if (jobServiceConfiguration !is null) {
             jobService = jobServiceConfiguration.getJobService();
         }
 
@@ -288,7 +288,7 @@ class CommandContextUtil {
     public static TimerJobService getTimerJobService(CommandContext commandContext) {
         TimerJobService timerJobService = null;
         JobServiceConfiguration jobServiceConfiguration = getJobServiceConfiguration(commandContext);
-        if (jobServiceConfiguration != null) {
+        if (jobServiceConfiguration !is null) {
             timerJobService = jobServiceConfiguration.getTimerJobService();
         }
 
@@ -302,7 +302,7 @@ class CommandContextUtil {
     public static HistoryJobService getHistoryJobService(CommandContext commandContext) {
         HistoryJobService historyJobService = null;
         JobServiceConfiguration jobServiceConfiguration = getJobServiceConfiguration(commandContext);
-        if (jobServiceConfiguration != null) {
+        if (jobServiceConfiguration !is null) {
             historyJobService = jobServiceConfiguration.getHistoryJobService();
         }
 
@@ -326,7 +326,7 @@ class CommandContextUtil {
     public static BatchService getBatchService(CommandContext commandContext) {
         BatchService batchService = null;
         BatchServiceConfiguration batchServiceConfiguration = getBatchServiceConfiguration(commandContext);
-        if (batchServiceConfiguration != null) {
+        if (batchServiceConfiguration !is null) {
             batchService = batchServiceConfiguration.getBatchService();
         }
 
@@ -346,7 +346,7 @@ class CommandContextUtil {
     public static IdmIdentityService getIdmIdentityService() {
         IdmIdentityService idmIdentityService = null;
         IdmEngineConfigurationApi idmEngineConfiguration = getIdmEngineConfiguration();
-        if (idmEngineConfiguration != null) {
+        if (idmEngineConfiguration !is null) {
             idmIdentityService = idmEngineConfiguration.getIdmIdentityService();
         }
 
@@ -370,7 +370,7 @@ class CommandContextUtil {
     public static EventRegistry getEventRegistry(CommandContext commandContext) {
         EventRegistry eventRegistry = null;
         EventRegistryEngineConfiguration eventRegistryEngineConfiguration = getEventRegistryEngineConfiguration(commandContext);
-        if (eventRegistryEngineConfiguration != null) {
+        if (eventRegistryEngineConfiguration !is null) {
             eventRegistry = eventRegistryEngineConfiguration.getEventRegistry();
         }
 
@@ -384,7 +384,7 @@ class CommandContextUtil {
     public static EventRepositoryService getEventRepositoryService(CommandContext commandContext) {
         EventRepositoryService eventRepositoryService = null;
         EventRegistryEngineConfiguration eventRegistryEngineConfiguration = getEventRegistryEngineConfiguration(commandContext);
-        if (eventRegistryEngineConfiguration != null) {
+        if (eventRegistryEngineConfiguration !is null) {
             eventRepositoryService = eventRegistryEngineConfiguration.getEventRepositoryService();
         }
 
@@ -404,7 +404,7 @@ class CommandContextUtil {
     public static DmnRepositoryService getDmnRepositoryService() {
         DmnRepositoryService dmnRepositoryService = null;
         DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
-        if (dmnEngineConfiguration != null) {
+        if (dmnEngineConfiguration !is null) {
             dmnRepositoryService = dmnEngineConfiguration.getDmnRepositoryService();
         }
 
@@ -414,7 +414,7 @@ class CommandContextUtil {
     public static DmnRuleService getDmnRuleService() {
         DmnRuleService dmnRuleService = null;
         DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
-        if (dmnEngineConfiguration != null) {
+        if (dmnEngineConfiguration !is null) {
             dmnRuleService = dmnEngineConfiguration.getDmnRuleService();
         }
 
@@ -424,7 +424,7 @@ class CommandContextUtil {
     public static DmnManagementService getDmnManagementService() {
         DmnManagementService dmnManagementService = null;
         DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
-        if (dmnEngineConfiguration != null) {
+        if (dmnEngineConfiguration !is null) {
             dmnManagementService = dmnEngineConfiguration.getDmnManagementService();
         }
 
@@ -448,7 +448,7 @@ class CommandContextUtil {
     public static FormRepositoryService getFormRepositoryService(CommandContext commandContext) {
         FormRepositoryService formRepositoryService = null;
         FormEngineConfigurationApi formEngineConfiguration = getFormEngineConfiguration(commandContext);
-        if (formEngineConfiguration != null) {
+        if (formEngineConfiguration !is null) {
             formRepositoryService = formEngineConfiguration.getFormRepositoryService();
         }
 
@@ -462,7 +462,7 @@ class CommandContextUtil {
     public static FormService getFormService(CommandContext commandContext) {
         FormService formService = null;
         FormEngineConfigurationApi formEngineConfiguration = getFormEngineConfiguration(commandContext);
-        if (formEngineConfiguration != null) {
+        if (formEngineConfiguration !is null) {
             formService = formEngineConfiguration.getFormService();
         }
 
@@ -476,7 +476,7 @@ class CommandContextUtil {
     public static FormManagementService getFormManagementService(CommandContext commandContext) {
         FormManagementService formManagementService = null;
         FormEngineConfigurationApi formEngineConfiguration = getFormEngineConfiguration(commandContext);
-        if (formEngineConfiguration != null) {
+        if (formEngineConfiguration !is null) {
             formManagementService = formEngineConfiguration.getFormManagementService();
         }
 
@@ -500,7 +500,7 @@ class CommandContextUtil {
     public static ContentService getContentService(CommandContext commandContext) {
         ContentService contentService = null;
         ContentEngineConfigurationApi contentEngineConfiguration = getContentEngineConfiguration(commandContext);
-        if (contentEngineConfiguration != null) {
+        if (contentEngineConfiguration !is null) {
             contentService = contentEngineConfiguration.getContentService();
         }
 
@@ -533,10 +533,10 @@ class CommandContextUtil {
 
     @SuppressWarnings("unchecked")
     public static void addInvolvedExecution(CommandContext commandContext, ExecutionEntity executionEntity) {
-        if (executionEntity.getId() != null) {
+        if (executionEntity.getId() !is null) {
             Map<string, ExecutionEntity> involvedExecutions = null;
             Object obj = commandContext.getAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS);
-            if (obj != null) {
+            if (obj !is null) {
                 involvedExecutions = (Map<string, ExecutionEntity>) obj;
             } else {
                 involvedExecutions = new HashMap<>();
@@ -549,14 +549,14 @@ class CommandContextUtil {
     @SuppressWarnings("unchecked")
     public static Map<string, ExecutionEntity> getInvolvedExecutions(CommandContext commandContext) {
         Object obj = commandContext.getAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS);
-        if (obj != null) {
+        if (obj !is null) {
             return (Map<string, ExecutionEntity>) obj;
         }
         return null;
     }
 
     public static bool hasInvolvedExecutions(CommandContext commandContext) {
-        return getInvolvedExecutions(commandContext) != null;
+        return getInvolvedExecutions(commandContext) !is null;
     }
 
     public static TableDataManager getTableDataManager() {

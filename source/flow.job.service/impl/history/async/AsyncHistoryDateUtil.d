@@ -24,14 +24,14 @@ class AsyncHistoryDateUtil {
     protected static TimeZone utcTimeZone = TimeZone.getTimeZone("UTC");
 
     public static string formatDate(Date date) {
-        if (date != null) {
+        if (date !is null) {
             return ISO8601Utils.format(date, true, utcTimeZone);
         }
         return null;
     }
 
     public static Date parseDate(string s) {
-        if (s != null) {
+        if (s !is null) {
             try {
                 return ISO8601Utils.parse(s, new ParsePosition(0));
             } catch (ParseException e) {

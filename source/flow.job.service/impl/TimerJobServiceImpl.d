@@ -15,7 +15,7 @@
 import java.util.Collection;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import org.flowable.job.service.JobServiceConfiguration;
 import org.flowable.job.service.TimerJobService;
 import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
@@ -94,7 +94,7 @@ class TimerJobServiceImpl extends ServiceImpl implements TimerJobService {
         Collection<TimerJobEntity> timerJobsForExecution = timerJobEntityManager.findJobsByExecutionId(executionId);
         for (TimerJobEntity job : timerJobsForExecution) {
             timerJobEntityManager.delete(job);
-            if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+            if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
                 getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
             }
         }

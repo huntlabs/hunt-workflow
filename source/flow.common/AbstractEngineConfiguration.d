@@ -55,9 +55,9 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.api.engine.EngineLifecycleListener;
 import flow.common.cfg.CommandExecutorImpl;
 import flow.common.cfg.IdGenerator;
@@ -408,16 +408,16 @@ abstract class AbstractEngineConfiguration {
     // ///////////////////////////////////////////////////////////////
 
     protected void initDataSource() {
-        if (dataSource == null) {
-            if (dataSourceJndiName != null) {
+        if (dataSource is null) {
+            if (dataSourceJndiName !is null) {
                 try {
                     dataSource = (DataSource) new InitialContext().lookup(dataSourceJndiName);
                 } catch (Exception e) {
                     throw new FlowableException("couldn't lookup datasource from " + dataSourceJndiName + ": " + e.getMessage(), e);
                 }
 
-            } else if (jdbcUrl != null) {
-                if ((jdbcDriver == null) || (jdbcUsername == null)) {
+            } else if (jdbcUrl !is null) {
+                if ((jdbcDriver is null) || (jdbcUsername is null)) {
                     throw new FlowableException("DataSource or JDBC properties have to be specified in a process engine configuration");
                 }
 
@@ -446,7 +446,7 @@ abstract class AbstractEngineConfiguration {
                 }
                 if (jdbcPingEnabled) {
                     pooledDataSource.setPoolPingEnabled(true);
-                    if (jdbcPingQuery != null) {
+                    if (jdbcPingQuery !is null) {
                         pooledDataSource.setPoolPingQuery(jdbcPingQuery);
                     }
                     pooledDataSource.setPoolPingConnectionsNotUsedFor(jdbcPingConnectionNotUsedFor);
@@ -458,7 +458,7 @@ abstract class AbstractEngineConfiguration {
             }
         }
 
-        if (databaseType == null) {
+        if (databaseType is null) {
             initDatabaseType();
         }
     }
@@ -488,7 +488,7 @@ abstract class AbstractEngineConfiguration {
             }
 
             databaseType = databaseTypeMappings.getProperty(databaseProductName);
-            if (databaseType == null) {
+            if (databaseType is null) {
                 throw new FlowableException("couldn't deduct database type from database product name '" + databaseProductName + "'");
             }
             logger.debug("using database type: {}", databaseType);
@@ -497,7 +497,7 @@ abstract class AbstractEngineConfiguration {
             logger.error("Exception while initializing Database connection", e);
         } finally {
             try {
-                if (connection != null) {
+                if (connection !is null) {
                     connection.close();
                 }
             } catch (SQLException e) {
@@ -513,7 +513,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initSchemaManager() {
-        if (this.commonSchemaManager == null) {
+        if (this.commonSchemaManager is null) {
             this.commonSchemaManager = new CommonDbSchemaManager();
         }
     }
@@ -525,13 +525,13 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initCommandContextFactory() {
-        if (commandContextFactory == null) {
+        if (commandContextFactory is null) {
             commandContextFactory = new CommandContextFactory();
         }
     }
 
     public void initTransactionContextFactory() {
-        if (transactionContextFactory == null) {
+        if (transactionContextFactory is null) {
             transactionContextFactory = new StandaloneMybatisTransactionContextFactory();
         }
     }
@@ -546,31 +546,31 @@ abstract class AbstractEngineConfiguration {
 
 
     public void initDefaultCommandConfig() {
-        if (defaultCommandConfig == null) {
+        if (defaultCommandConfig is null) {
             defaultCommandConfig = new CommandConfig();
         }
     }
 
     public void initSchemaCommandConfig() {
-        if (schemaCommandConfig == null) {
+        if (schemaCommandConfig is null) {
             schemaCommandConfig = new CommandConfig();
         }
     }
 
     public void initCommandInvoker() {
-        if (commandInvoker == null) {
+        if (commandInvoker is null) {
             commandInvoker = new DefaultCommandInvoker();
         }
     }
 
     public void initCommandInterceptors() {
-        if (commandInterceptors == null) {
+        if (commandInterceptors is null) {
             commandInterceptors = new ArrayList<>();
-            if (customPreCommandInterceptors != null) {
+            if (customPreCommandInterceptors !is null) {
                 commandInterceptors.addAll(customPreCommandInterceptors);
             }
             commandInterceptors.addAll(getDefaultCommandInterceptors());
-            if (customPostCommandInterceptors != null) {
+            if (customPostCommandInterceptors !is null) {
                 commandInterceptors.addAll(customPostCommandInterceptors);
             }
             commandInterceptors.add(commandInvoker);
@@ -578,7 +578,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public Collection<? extends CommandInterceptor> getDefaultCommandInterceptors() {
-        if (defaultCommandInterceptors == null) {
+        if (defaultCommandInterceptors is null) {
             List<CommandInterceptor> interceptors = new ArrayList<>();
             interceptors.add(new LogInterceptor());
 
@@ -587,11 +587,11 @@ abstract class AbstractEngineConfiguration {
             }
 
             CommandInterceptor transactionInterceptor = createTransactionInterceptor();
-            if (transactionInterceptor != null) {
+            if (transactionInterceptor !is null) {
                 interceptors.add(transactionInterceptor);
             }
 
-            if (commandContextFactory != null) {
+            if (commandContextFactory !is null) {
                 string engineCfgKey = getEngineCfgKey();
                 CommandContextInterceptor commandContextInterceptor = new CommandContextInterceptor(commandContextFactory);
                 engineConfigurations.put(engineCfgKey, this);
@@ -601,12 +601,12 @@ abstract class AbstractEngineConfiguration {
                 interceptors.add(commandContextInterceptor);
             }
 
-            if (transactionContextFactory != null) {
+            if (transactionContextFactory !is null) {
                 interceptors.add(new TransactionContextInterceptor(transactionContextFactory));
             }
 
             List<CommandInterceptor> additionalCommandInterceptors = getAdditionalDefaultCommandInterceptors();
-            if (additionalCommandInterceptors != null) {
+            if (additionalCommandInterceptors !is null) {
                 interceptors.addAll(additionalCommandInterceptors);
             }
 
@@ -622,14 +622,14 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initCommandExecutor() {
-        if (commandExecutor == null) {
+        if (commandExecutor is null) {
             CommandInterceptor first = initInterceptorChain(commandInterceptors);
             commandExecutor = new CommandExecutorImpl(getDefaultCommandConfig(), first);
         }
     }
 
     public CommandInterceptor initInterceptorChain(List<CommandInterceptor> chain) {
-        if (chain == null || chain.isEmpty()) {
+        if (chain is null || chain.isEmpty()) {
             throw new FlowableException("invalid command interceptor chain configuration: " + chain);
         }
         for (int i = 0; i < chain.size() - 1; i++) {
@@ -642,7 +642,7 @@ abstract class AbstractEngineConfiguration {
 
 
     public void initBeans() {
-        if (beans == null) {
+        if (beans is null) {
             beans = new HashMap<>();
         }
     }
@@ -651,13 +651,13 @@ abstract class AbstractEngineConfiguration {
     // /////////////////////////////////////////////////////////////
 
     public void initIdGenerator() {
-        if (idGenerator == null) {
+        if (idGenerator is null) {
             idGenerator = new StrongUuidGenerator();
         }
     }
 
     public void initClock() {
-        if (clock == null) {
+        if (clock is null) {
             clock = new DefaultClockImpl();
         }
     }
@@ -665,7 +665,7 @@ abstract class AbstractEngineConfiguration {
     // Data managers ///////////////////////////////////////////////////////////
 
     public void initDataManagers() {
-        if (propertyDataManager == null) {
+        if (propertyDataManager is null) {
             propertyDataManager = new MybatisPropertyDataManager();
         }
     }
@@ -673,7 +673,7 @@ abstract class AbstractEngineConfiguration {
     // Entity managers //////////////////////////////////////////////////////////
 
     public void initEntityManagers() {
-        if (propertyEntityManager == null) {
+        if (propertyEntityManager is null) {
             propertyEntityManager = new PropertyEntityManagerImpl(this, propertyDataManager);
         }
     }
@@ -691,7 +691,7 @@ abstract class AbstractEngineConfiguration {
     // ////////////////////////////////////////////////
 
     public void initSessionFactories() {
-        if (sessionFactories == null) {
+        if (sessionFactories is null) {
             sessionFactories = new HashMap<>();
 
             if (usingRelationalDatabase) {
@@ -712,7 +712,7 @@ abstract class AbstractEngineConfiguration {
             commandContextFactory.setSessionFactories(sessionFactories);
         }
 
-        if (customSessionFactories != null) {
+        if (customSessionFactories !is null) {
             for (SessionFactory sessionFactory : customSessionFactories) {
                 addSessionFactory(sessionFactory);
             }
@@ -720,7 +720,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initDbSqlSessionFactory() {
-        if (dbSqlSessionFactory == null) {
+        if (dbSqlSessionFactory is null) {
             dbSqlSessionFactory = createDbSqlSessionFactory();
         }
         dbSqlSessionFactory.setDatabaseType(databaseType);
@@ -744,7 +744,7 @@ abstract class AbstractEngineConfiguration {
     protected abstract void initDbSqlSessionFactoryEntitySettings();
 
     protected void defaultInitDbSqlSessionFactoryEntitySettings(List<Class<? extends Entity>> insertOrder, List<Class<? extends Entity>> deleteOrder) {
-        if (insertOrder != null) {
+        if (insertOrder !is null) {
             for (Class<? extends Entity> clazz : insertOrder) {
                 dbSqlSessionFactory.getInsertionOrder().add(clazz);
     
@@ -754,7 +754,7 @@ abstract class AbstractEngineConfiguration {
             }
         }
 
-        if (deleteOrder != null) {
+        if (deleteOrder !is null) {
             for (Class<? extends Entity> clazz : deleteOrder) {
                 dbSqlSessionFactory.getDeletionOrder().add(clazz);
             }
@@ -762,7 +762,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initTransactionFactory() {
-        if (transactionFactory == null) {
+        if (transactionFactory is null) {
             if (transactionsExternallyManaged) {
                 transactionFactory = new ManagedTransactionFactory();
                 Properties properties = new Properties();
@@ -775,7 +775,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initSqlSessionFactory() {
-        if (sqlSessionFactory == null) {
+        if (sqlSessionFactory is null) {
             InputStream inputStream = null;
             try {
                 inputStream = getMyBatisXmlConfigurationStream();
@@ -786,7 +786,7 @@ abstract class AbstractEngineConfiguration {
                 properties.put("prefix", databaseTablePrefix);
 
                 string wildcardEscapeClause = "";
-                if ((databaseWildcardEscapeCharacter != null) && (databaseWildcardEscapeCharacter.length() != 0)) {
+                if ((databaseWildcardEscapeCharacter !is null) && (databaseWildcardEscapeCharacter.length() != 0)) {
                     wildcardEscapeClause = " escape '" + databaseWildcardEscapeCharacter + "'";
                 }
                 properties.put("wildcardEscapeClause", wildcardEscapeClause);
@@ -801,7 +801,7 @@ abstract class AbstractEngineConfiguration {
                 properties.put("blobType", "BLOB");
                 properties.put("boolValue", "TRUE");
 
-                if (databaseType != null) {
+                if (databaseType !is null) {
                     properties.load(getResourceAsStream(pathToEngineDbProperties()));
                 }
 
@@ -824,7 +824,7 @@ abstract class AbstractEngineConfiguration {
         XMLConfigBuilder parser = new XMLConfigBuilder(reader, "", properties);
         Configuration configuration = parser.getConfiguration();
 
-        if (databaseType != null) {
+        if (databaseType !is null) {
             configuration.setDatabaseId(databaseType);
         }
 
@@ -842,7 +842,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initCustomMybatisMappers(Configuration configuration) {
-        if (getCustomMybatisMappers() != null) {
+        if (getCustomMybatisMappers() !is null) {
             for (Class<?> clazz : getCustomMybatisMappers()) {
                 configuration.addMapper(clazz);
             }
@@ -868,12 +868,12 @@ abstract class AbstractEngineConfiguration {
     public Configuration parseMybatisConfiguration(XMLConfigBuilder parser) {
         Configuration configuration = parser.parse();
 
-        if (dependentEngineMybatisTypeAliasConfigs != null) {
+        if (dependentEngineMybatisTypeAliasConfigs !is null) {
             for (MybatisTypeAliasConfigurator typeAliasConfig : dependentEngineMybatisTypeAliasConfigs) {
                 typeAliasConfig.configure(configuration.getTypeAliasRegistry());
             }
         }
-        if (dependentEngineMybatisTypeHandlerConfigs != null) {
+        if (dependentEngineMybatisTypeHandlerConfigs !is null) {
             for (MybatisTypeHandlerConfigurator typeHandlerConfig : dependentEngineMybatisTypeHandlerConfigs) {
                 typeHandlerConfig.configure(configuration.getTypeHandlerRegistry());
             }
@@ -885,7 +885,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void parseCustomMybatisXMLMappers(Configuration configuration) {
-        if (getCustomMybatisXMLMappers() != null) {
+        if (getCustomMybatisXMLMappers() !is null) {
             for (string resource : getCustomMybatisXMLMappers()) {
                 parseMybatisXmlMapping(configuration, resource);
             }
@@ -893,7 +893,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void parseDependentEngineMybatisXMLMappers(Configuration configuration) {
-        if (getDependentEngineMyBatisXmlMappers() != null) {
+        if (getDependentEngineMyBatisXmlMappers() !is null) {
             for (string resource : getDependentEngineMyBatisXmlMappers()) {
                 parseMybatisXmlMapping(configuration, resource);
             }
@@ -908,7 +908,7 @@ abstract class AbstractEngineConfiguration {
 
     protected InputStream getResourceAsStream(string resource) {
         ClassLoader classLoader = getClassLoader();
-        if (classLoader != null) {
+        if (classLoader !is null) {
             return getClassLoader().getResourceAsStream(resource);
         } else {
             return this.getClass().getClassLoader().getResourceAsStream(resource);
@@ -931,14 +931,14 @@ abstract class AbstractEngineConfiguration {
         allConfigurators.addAll(getEngineSpecificEngineConfigurators());
 
         // Configurators that are explicitly added to the config
-        if (configurators != null) {
+        if (configurators !is null) {
             allConfigurators.addAll(configurators);
         }
 
         // Auto discovery through ServiceLoader
         if (enableConfiguratorServiceLoader) {
             ClassLoader classLoader = getClassLoader();
-            if (classLoader == null) {
+            if (classLoader is null) {
                 classLoader = ReflectUtil.getClassLoader();
             }
 
@@ -1041,7 +1041,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void addEngineLifecycleListener(EngineLifecycleListener engineLifecycleListener) {
-        if (this.engineLifecycleListeners == null) {
+        if (this.engineLifecycleListeners is null) {
             this.engineLifecycleListeners = new ArrayList<>();
         }
         this.engineLifecycleListeners.add(engineLifecycleListener);
@@ -1345,7 +1345,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void addEngineConfiguration(string key, AbstractEngineConfiguration engineConfiguration) {
-        if (engineConfigurations == null) {
+        if (engineConfigurations is null) {
             engineConfigurations = new HashMap<>();
         }
         engineConfigurations.put(key, engineConfiguration);
@@ -1361,7 +1361,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void addServiceConfiguration(string key, AbstractServiceConfiguration serviceConfiguration) {
-        if (serviceConfigurations == null) {
+        if (serviceConfigurations is null) {
             serviceConfigurations = new HashMap<>();
         }
         serviceConfigurations.put(key, serviceConfiguration);
@@ -1377,7 +1377,7 @@ abstract class AbstractEngineConfiguration {
     }
     
     public void addEventRegistryEventConsumer(string key, EventRegistryEventConsumer eventRegistryEventConsumer) {
-        if (eventRegistryEventConsumers == null) {
+        if (eventRegistryEventConsumers is null) {
             eventRegistryEventConsumers = new HashMap<>();
         }
         eventRegistryEventConsumers.put(key, eventRegistryEventConsumer);
@@ -1510,7 +1510,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public AbstractEngineConfiguration addCustomSessionFactory(SessionFactory sessionFactory) {
-        if (customSessionFactories == null) {
+        if (customSessionFactories is null) {
             customSessionFactories = new ArrayList<>();
         }
         customSessionFactories.add(sessionFactory);
@@ -1707,7 +1707,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void initEventDispatcher() {
-        if (this.eventDispatcher == null) {
+        if (this.eventDispatcher is null) {
             this.eventDispatcher = new FlowableEventDispatcherImpl();
         }
 
@@ -1720,7 +1720,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     protected void initEventListeners() {
-        if (eventListeners != null) {
+        if (eventListeners !is null) {
             for (FlowableEventListener listenerToAdd : eventListeners) {
                 this.eventDispatcher.addEventListener(listenerToAdd);
             }
@@ -1728,13 +1728,13 @@ abstract class AbstractEngineConfiguration {
     }
 
     protected void initAdditionalEventDispatchActions() {
-        if (this.additionalEventDispatchActions == null) {
+        if (this.additionalEventDispatchActions is null) {
             this.additionalEventDispatchActions = new ArrayList<>();
         }
     }
 
     protected void initTypedEventListeners() {
-        if (typedEventListeners != null) {
+        if (typedEventListeners !is null) {
             for (Map.Entry<string, List<FlowableEventListener>> listenersToAdd : typedEventListeners.entrySet()) {
                 // Extract types from the given string
                 FlowableEngineEventType[] types = FlowableEngineEventType.getTypesFromString(listenersToAdd.getKey());
@@ -1747,7 +1747,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public bool isLoggingSessionEnabled() {
-        return loggingListener != null;
+        return loggingListener !is null;
     }
     
     public LoggingListener getLoggingListener() {
@@ -1873,7 +1873,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public AbstractEngineConfiguration addConfigurator(EngineConfigurator configurator) {
-        if (configurators == null) {
+        if (configurators is null) {
             configurators = new ArrayList<>();
         }
         configurators.add(configurator);

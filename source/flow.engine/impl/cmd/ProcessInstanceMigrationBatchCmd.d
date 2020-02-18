@@ -30,11 +30,11 @@ class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
     protected ProcessInstanceMigrationDocument processInstanceMigrationDocument;
 
     public ProcessInstanceMigrationBatchCmd(string processDefinitionId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableException("Must specify a process definition id to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -45,11 +45,11 @@ class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
     public ProcessInstanceMigrationBatchCmd(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId,
                     ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
 
-        if (processDefinitionKey == null) {
+        if (processDefinitionKey is null) {
             throw new FlowableException("Must specify a process definition key to migrate");
         }
         
-        if (processInstanceMigrationDocument == null) {
+        if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
 
@@ -62,7 +62,7 @@ class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
     @Override
     public Batch execute(CommandContext commandContext) {
         ProcessInstanceMigrationManager migrationManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceMigrationManager();
-        if (processDefinitionId != null) {
+        if (processDefinitionId !is null) {
             return migrationManager.batchMigrateProcessInstancesOfProcessDefinition(processDefinitionId, processInstanceMigrationDocument, commandContext);
         }
 

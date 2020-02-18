@@ -44,7 +44,7 @@ class FormPropertiesSubmittedHistoryJsonTransformer extends AbstractHistoryJsonT
             HistoricActivityInstance historicActivityInstance = findHistoricActivityInstance(commandContext,
                     getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID), activityId);
 
-            if (historicActivityInstance == null) {
+            if (historicActivityInstance is null) {
                 return false;
             }
         }

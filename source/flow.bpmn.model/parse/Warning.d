@@ -37,6 +37,6 @@ class Warning {
 
     @Override
     public string toString() {
-        return warningMessage + (resource != null ? " | " + resource : "") + " | line " + line + " | column " + column;
+        return warningMessage + (resource !is null ? " | " + resource : "") + " | line " + line + " | column " + column;
     }
 }

@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.common.engine.impl.persistence.entity.AbstractEntity;
+import flow.common.persistence.entity.AbstractEntity;
 
 public abstract class AbstractTaskServiceEntity extends AbstractEntity {
 

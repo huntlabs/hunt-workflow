@@ -44,18 +44,18 @@ class GetTaskFormCmd implements Command<TaskFormData>, Serializable {
     @Override
     public TaskFormData execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("No task found for taskId '" + taskId + "'", Task.class);
         }
         
-        if (task.getProcessDefinitionId() != null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
             return compatibilityHandler.getTaskFormData(taskId);
         }
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         TaskFormHandler taskFormHandler = formHandlerHelper.getTaskFormHandlder(task);
-        if (taskFormHandler == null) {
+        if (taskFormHandler is null) {
             throw new FlowableException("No taskFormHandler specified for task '" + taskId + "'");
         }
 

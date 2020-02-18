@@ -48,7 +48,7 @@ class RulesDeployer implements EngineDeployer {
         for (string resourceName : resources.keySet()) {
             if (resourceName.endsWith(".drl")) { // is only parsing .drls sufficient? what about other rule dsl's? (@see ResourceType)
                 LOGGER.info("Processing rules resource {}", resourceName);
-                if (knowledgeBuilder == null) {
+                if (knowledgeBuilder is null) {
                     knowledgeBuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
                 }
                 EngineResource resourceEntity = resources.get(resourceName);
@@ -58,7 +58,7 @@ class RulesDeployer implements EngineDeployer {
             }
         }
 
-        if (knowledgeBuilder != null) {
+        if (knowledgeBuilder !is null) {
             KieBase kieBase = knowledgeBuilder.newKieBase();
             deploymentManager.getKnowledgeBaseCache().add(deployment.getId(), kieBase);
         }

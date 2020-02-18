@@ -15,7 +15,7 @@
 import java.util.Collection;
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.impl.delegate.FlowableCollectionHandler;
 

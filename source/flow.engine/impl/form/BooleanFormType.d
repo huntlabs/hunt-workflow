@@ -34,7 +34,7 @@ class BooleanFormType extends AbstractFormType {
 
     @Override
     public Object convertFormValueToModelValue(string propertyValue) {
-        if (propertyValue == null || "".equals(propertyValue)) {
+        if (propertyValue is null || "".equals(propertyValue)) {
             return null;
         }
         return bool.valueOf(propertyValue);
@@ -43,7 +43,7 @@ class BooleanFormType extends AbstractFormType {
     @Override
     public string convertModelValueToFormValue(Object modelValue) {
 
-        if (modelValue == null) {
+        if (modelValue is null) {
             return null;
         }
 

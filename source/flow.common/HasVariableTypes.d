@@ -27,7 +27,7 @@ import org.flowable.variable.api.types.VariableTypes;
 /**
  * @author Filip Hrisafov
  */
-public interface HasVariableTypes {
+interface HasVariableTypes {
 
     VariableTypes getVariableTypes();
 

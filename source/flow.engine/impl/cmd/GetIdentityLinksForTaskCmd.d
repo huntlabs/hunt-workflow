@@ -42,7 +42,7 @@ class GetIdentityLinksForTaskCmd implements Command<List<IdentityLink>>, Seriali
     public List<IdentityLink> execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
         
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("task not found");
         }
 
@@ -56,14 +56,14 @@ class GetIdentityLinksForTaskCmd implements Command<List<IdentityLink>>, Seriali
         // Note: we cant move this code to the TaskEntity (which would be cleaner),
         // since the task.delete cascaded to all associated identityLinks
         // and of course this leads to exception while trying to delete a non-existing identityLink
-        if (task.getAssignee() != null) {
+        if (task.getAssignee() !is null) {
             IdentityLinkEntity identityLink = CommandContextUtil.getIdentityLinkService().createIdentityLink();
             identityLink.setUserId(task.getAssignee());
             identityLink.setType(IdentityLinkType.ASSIGNEE);
             identityLink.setTaskId(task.getId());
             identityLinks.add(identityLink);
         }
-        if (task.getOwner() != null) {
+        if (task.getOwner() !is null) {
             IdentityLinkEntity identityLink = CommandContextUtil.getIdentityLinkService().createIdentityLink();
             identityLink.setUserId(task.getOwner());
             identityLink.setTaskId(task.getId());

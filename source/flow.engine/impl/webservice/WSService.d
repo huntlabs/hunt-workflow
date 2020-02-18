@@ -56,7 +56,7 @@ class WSService implements BpmnInterfaceImplementation {
     }
 
     SyncWebServiceClient getClient() {
-        if (this.client == null) {
+        if (this.client is null) {
             // TODO refactor to use configuration
             SyncWebServiceClientFactory factory = (SyncWebServiceClientFactory) ReflectUtil.instantiate(ProcessEngineConfigurationImpl.DEFAULT_WS_SYNC_FACTORY);
             this.client = factory.create(this.wsdlLocation);

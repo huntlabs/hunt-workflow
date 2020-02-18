@@ -36,7 +36,7 @@ class RescheduleTimerJobCmd implements Command<TimerJobEntity>, Serializable {
     private string calendarName;
 
     public RescheduleTimerJobCmd(string timerJobId, string timeDate, string timeDuration, string timeCycle, string endDate, string calendarName) {
-        if (timerJobId == null) {
+        if (timerJobId is null) {
             throw new FlowableIllegalArgumentException("The timer job id is mandatory, but 'null' has been provided.");
         }
 
@@ -47,7 +47,7 @@ class RescheduleTimerJobCmd implements Command<TimerJobEntity>, Serializable {
             throw new FlowableIllegalArgumentException("At most one non-null value can be provided for timeDate, timeDuration, or timeCycle");
         }
 
-        if (endDate != null && timeCycle == null) {
+        if (endDate !is null && timeCycle is null) {
             throw new FlowableIllegalArgumentException("An end date can only be provided when rescheduling a timer using timeDuration.");
         }
 

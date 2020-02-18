@@ -13,11 +13,11 @@
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.common.engine.api.FlowableIllegalArgumentException;
-import org.flowable.common.engine.impl.identity.Authentication;
-import org.flowable.common.engine.impl.interceptor.Command;
-import org.flowable.common.engine.impl.interceptor.CommandContext;
-import org.flowable.common.engine.impl.interceptor.CommandExecutor;
+import flow.common.api.FlowableIllegalArgumentException;
+import flow.common.identity.Authentication;
+import flow.common.interceptor.Command;
+import flow.common.interceptor.CommandContext;
+import flow.common.interceptor.CommandExecutor;
 import org.flowable.task.api.TaskInfo;
 import org.flowable.task.service.impl.util.CommandContextUtil;
 
@@ -50,7 +50,7 @@ class HistoricTaskLogEntryBuilderImpl extends BaseHistoricTaskLogEntryBuilderImp
         if (StringUtils.isEmpty(getUserId())) {
             userId(Authentication.getAuthenticatedUserId());
         }
-        if (timeStamp == null) {
+        if (timeStamp is null) {
             timeStamp(CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime());
         }
 

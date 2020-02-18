@@ -35,7 +35,7 @@ class GetEntityLinkParentsForTaskCmd implements Command<List<EntityLink>>, Seria
     protected string taskId;
 
     public GetEntityLinkParentsForTaskCmd(string taskId) {
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is required");
         }
         this.taskId = taskId;
@@ -45,7 +45,7 @@ class GetEntityLinkParentsForTaskCmd implements Command<List<EntityLink>>, Seria
     public List<EntityLink> execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("Cannot find task with id " + taskId, ExecutionEntity.class);
         }
 

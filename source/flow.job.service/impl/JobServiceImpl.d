@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import org.flowable.job.api.DeadLetterJobQuery;
 import org.flowable.job.api.HistoryJobQuery;
 import org.flowable.job.api.JobInfo;
@@ -185,7 +185,7 @@ class JobServiceImpl extends ServiceImpl implements JobService {
         Collection<JobEntity> jobsForExecution = jobEntityManager.findJobsByExecutionId(executionId);
         for (JobEntity job : jobsForExecution) {
             getJobEntityManager().delete(job);
-            if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+            if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
                 getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
             }
         }
@@ -197,7 +197,7 @@ class JobServiceImpl extends ServiceImpl implements JobService {
         Collection<SuspendedJobEntity> suspendedJobsForExecution = suspendedJobEntityManager.findJobsByExecutionId(executionId);
         for (SuspendedJobEntity job : suspendedJobsForExecution) {
             suspendedJobEntityManager.delete(job);
-            if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+            if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
                 getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
             }
         }
@@ -209,7 +209,7 @@ class JobServiceImpl extends ServiceImpl implements JobService {
         Collection<DeadLetterJobEntity> deadLetterJobsForExecution = deadLetterJobEntityManager.findJobsByExecutionId(executionId);
         for (DeadLetterJobEntity job : deadLetterJobsForExecution) {
             deadLetterJobEntityManager.delete(job);
-            if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+            if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
                 getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
             }
         }

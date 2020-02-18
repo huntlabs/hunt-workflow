@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.db.HasRevision;
-import org.flowable.common.engine.impl.persistence.entity.Entity;
+import flow.common.db.HasRevision;
+import flow.common.persistence.entity.Entity;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.task.api.Task;
 import org.flowable.task.service.delegate.DelegateTask;
@@ -28,7 +28,7 @@ import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEnt
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-public interface TaskEntity extends VariableScope, Task, DelegateTask, Entity, HasRevision {
+interface TaskEntity extends VariableScope, Task, DelegateTask, Entity, HasRevision {
 
     void setExecutionId(string executionId);
 
@@ -67,9 +67,9 @@ public interface TaskEntity extends VariableScope, Task, DelegateTask, Entity, H
 
     void forceUpdate();
 
-    boolean isCanceled();
+    bool isCanceled();
 
-    void setCanceled(boolean isCanceled);
+    void setCanceled(bool isCanceled);
 
     void setClaimTime(Date claimTime);
     

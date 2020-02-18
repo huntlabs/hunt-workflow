@@ -36,7 +36,7 @@ class Mocks {
 
     private static Map<string, Object> getMocks() {
         Map<string, Object> mocks = mockContainer.get();
-        if (mocks == null) {
+        if (mocks is null) {
             mocks = new HashMap<>();
             Mocks.mockContainer.set(mocks);
         }
@@ -70,7 +70,7 @@ class Mocks {
      * This method resets the internal map of mock objects.
      */
     public static void reset() {
-        if (getMocks() != null) {
+        if (getMocks() !is null) {
             getMocks().clear();
         }
     }

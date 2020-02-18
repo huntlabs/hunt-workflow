@@ -19,7 +19,7 @@ import org.flowable.bpmn.model.EventListener;
 import org.flowable.bpmn.model.FlowableListener;
 import org.flowable.bpmn.model.ImplementationType;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.engine.delegate.CustomPropertiesResolver;
 import flow.engine.delegate.ExecutionListener;
 import flow.engine.delegate.TransactionDependentTaskListener;
@@ -148,7 +148,7 @@ class DefaultListenerFactory extends AbstractBehaviorFactory implements Listener
             ((ErrorThrowingEventListener) result).setErrorCode(eventListener.getImplementation());
         }
 
-        if (result == null) {
+        if (result is null) {
             throw new FlowableIllegalArgumentException("Cannot create an event-throwing event-listener, unknown implementation type: " + eventListener.getImplementationType());
         }
 
@@ -179,9 +179,9 @@ class DefaultListenerFactory extends AbstractBehaviorFactory implements Listener
      *             when the given entity name
      */
     protected Class<?> getEntityType(string entityType) {
-        if (entityType != null) {
+        if (entityType !is null) {
             Class<?> entityClass = ENTITY_MAPPING.get(entityType.trim());
-            if (entityClass == null) {
+            if (entityClass is null) {
                 throw new FlowableIllegalArgumentException("Unsupported entity-type for a FlowableEventListener: " + entityType);
             }
             return entityClass;

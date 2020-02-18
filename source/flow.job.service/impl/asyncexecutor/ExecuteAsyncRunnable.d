@@ -73,11 +73,11 @@ class ExecuteAsyncRunnable implements Runnable {
 
     private List<AsyncRunnableExecutionExceptionHandler> initializeExceptionHandlers(JobServiceConfiguration jobServiceConfiguration, AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler) {
         List<AsyncRunnableExecutionExceptionHandler> asyncRunnableExecutionExceptionHandlers = new ArrayList<>();
-        if (asyncRunnableExecutionExceptionHandler != null) {
+        if (asyncRunnableExecutionExceptionHandler !is null) {
             asyncRunnableExecutionExceptionHandlers.add(asyncRunnableExecutionExceptionHandler);
         }
         
-        if (jobServiceConfiguration.getAsyncRunnableExecutionExceptionHandlers() != null) {
+        if (jobServiceConfiguration.getAsyncRunnableExecutionExceptionHandlers() !is null) {
             asyncRunnableExecutionExceptionHandlers.addAll(jobServiceConfiguration.getAsyncRunnableExecutionExceptionHandlers());
         }
         
@@ -87,7 +87,7 @@ class ExecuteAsyncRunnable implements Runnable {
     @Override
     public void run() {
 
-        if (job == null) {
+        if (job is null) {
             job = jobServiceConfiguration.getCommandExecutor().execute(new Command<JobInfoEntity>() {
                 @Override
                 public JobInfoEntity execute(CommandContext commandContext) {
@@ -99,7 +99,7 @@ class ExecuteAsyncRunnable implements Runnable {
         if (job instanceof Job) {
             Job jobObject = (Job) job;
             InternalJobCompatibilityManager internalJobCompatibilityManager = jobServiceConfiguration.getInternalJobCompatibilityManager();
-            if (internalJobCompatibilityManager != null && internalJobCompatibilityManager.isFlowable5Job(jobObject)) {
+            if (internalJobCompatibilityManager !is null && internalJobCompatibilityManager.isFlowable5Job(jobObject)) {
                 internalJobCompatibilityManager.executeV5JobWithLockAndRetry(jobObject);
                 return;
             }
@@ -205,7 +205,7 @@ class ExecuteAsyncRunnable implements Runnable {
 
     protected void unacquireJob() {
         CommandContext commandContext = Context.getCommandContext();
-        if (commandContext != null) {
+        if (commandContext !is null) {
             CommandContextUtil.getJobManager(commandContext).unacquire(job);
         } else {
             jobServiceConfiguration.getCommandExecutor().execute(new Command<Void>() {

@@ -12,7 +12,7 @@
  */
 
 
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.delegate.DelegateExecution;
 
 /**

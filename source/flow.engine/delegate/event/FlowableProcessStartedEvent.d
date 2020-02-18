@@ -22,7 +22,7 @@ module flow.engine.delegate.event.FlowableProcessStartedEvent;
  
 
 
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
 /**
  * An {@link FlowableEvent} related to start event being sent when a process instance is started.

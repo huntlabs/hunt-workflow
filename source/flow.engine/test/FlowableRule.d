@@ -189,15 +189,15 @@ class FlowableRule implements TestRule {
     }
 
     protected void starting(Description description) {
-        if (processEngine == null) {
+        if (processEngine is null) {
             initializeProcessEngine();
         }
 
-        if (processEngineConfiguration == null) {
+        if (processEngineConfiguration is null) {
             initializeServices();
         }
 
-        if (mockSupport == null) {
+        if (mockSupport is null) {
             initializeMockSupport();
         }
 
@@ -256,7 +256,7 @@ class FlowableRule implements TestRule {
         processEngineConfiguration.getClock().reset();
 
         // Rest mocks
-        if (mockSupport != null) {
+        if (mockSupport !is null) {
             TestHelper.annotationMockSupportTeardown(mockSupport);
         }
     }

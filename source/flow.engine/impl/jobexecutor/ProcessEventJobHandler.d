@@ -44,7 +44,7 @@ class ProcessEventJobHandler implements JobHandler {
         EventSubscriptionEntity eventSubscriptionEntity = eventSubscriptionService.findById(configuration);
 
         // if event subscription is null, ignore
-        if (eventSubscriptionEntity != null) {
+        if (eventSubscriptionEntity !is null) {
             EventSubscriptionUtil.eventReceived(eventSubscriptionEntity, null, false);
         }
 

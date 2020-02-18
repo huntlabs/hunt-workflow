@@ -16,8 +16,8 @@
 import java.util.List;
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.history.HistoryManager;
@@ -55,17 +55,17 @@ class AttachmentEntityManagerImpl
         checkHistoryEnabled();
         List<AttachmentEntity> attachments = findAttachmentsByTaskId(taskId);
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
-        bool dispatchEvents = eventDispatcher != null && eventDispatcher.isEnabled();
+        bool dispatchEvents = eventDispatcher !is null && eventDispatcher.isEnabled();
 
         string processInstanceId = null;
         string processDefinitionId = null;
         string executionId = null;
 
-        if (dispatchEvents && attachments != null && !attachments.isEmpty()) {
+        if (dispatchEvents && attachments !is null && !attachments.isEmpty()) {
             // Forced to fetch the task to get hold of the process definition
             // for event-dispatching, if available
             Task task = CommandContextUtil.getTaskService().getTask(taskId);
-            if (task != null) {
+            if (task !is null) {
                 processDefinitionId = task.getProcessDefinitionId();
                 processInstanceId = task.getProcessInstanceId();
                 executionId = task.getExecutionId();
@@ -74,7 +74,7 @@ class AttachmentEntityManagerImpl
 
         for (Attachment attachment : attachments) {
             string contentId = attachment.getContentId();
-            if (contentId != null) {
+            if (contentId !is null) {
                 getByteArrayEntityManager().deleteByteArrayById(contentId);
             }
 

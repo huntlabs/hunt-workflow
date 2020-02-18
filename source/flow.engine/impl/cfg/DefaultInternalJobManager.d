@@ -23,7 +23,7 @@ import org.flowable.bpmn.model.EventDefinition;
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.calendar.BusinessCalendar;
 import flow.common.calendar.CycleBusinessCalendar;
 import flow.common.logging.LoggingSessionConstants;
@@ -59,7 +59,7 @@ class DefaultInternalJobManager implements InternalJobManager {
     
     @Override
     public VariableScope resolveVariableScope(Job job) {
-        if (job.getExecutionId() != null) {
+        if (job.getExecutionId() !is null) {
             return getExecutionEntityManager().findById(job.getExecutionId());
         }
         return null;
@@ -68,12 +68,12 @@ class DefaultInternalJobManager implements InternalJobManager {
     @Override
     public bool handleJobInsert(Job job) {
         // add link to execution
-        if (job.getExecutionId() != null) {
+        if (job.getExecutionId() !is null) {
             ExecutionEntity execution = getExecutionEntityManager().findById(job.getExecutionId());
-            if (execution != null) {
+            if (execution !is null) {
                 
                 // Inherit tenant if (if applicable)
-                if (execution.getTenantId() != null) {
+                if (execution.getTenantId() !is null) {
                     ((AbstractRuntimeJobEntity) job).setTenantId(execution.getTenantId());
                 }
                 
@@ -118,7 +118,7 @@ class DefaultInternalJobManager implements InternalJobManager {
 
     @Override
     public void handleJobDelete(Job job) {
-        if (job.getExecutionId() != null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
+        if (job.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             ExecutionEntity executionEntity = getExecutionEntityManager().findById(job.getExecutionId());
             if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(executionEntity)) {
                 CountingExecutionEntity countingExecutionEntity = (CountingExecutionEntity) executionEntity;
@@ -144,7 +144,7 @@ class DefaultInternalJobManager implements InternalJobManager {
     public void lockJobScope(Job job) {
         ExecutionEntityManager executionEntityManager = getExecutionEntityManager();
         ExecutionEntity execution = executionEntityManager.findById(job.getExecutionId());
-        if (execution != null) {
+        if (execution !is null) {
             executionEntityManager.updateProcessInstanceLockTime(execution.getProcessInstanceId());
         }
         
@@ -159,7 +159,7 @@ class DefaultInternalJobManager implements InternalJobManager {
     public void clearJobScopeLock(Job job) {
         ExecutionEntityManager executionEntityManager = getExecutionEntityManager();
         ExecutionEntity execution = executionEntityManager.findById(job.getProcessInstanceId());
-        if (execution != null) {
+        if (execution !is null) {
             executionEntityManager.clearProcessInstanceLockTime(execution.getId());
         }
         
@@ -181,7 +181,7 @@ class DefaultInternalJobManager implements InternalJobManager {
             activityId = TimerEventHandler.getActivityIdFromConfiguration(jobEntity.getJobHandlerConfiguration());
             string endDateExpressionString = TimerEventHandler.getEndDateFromConfiguration(jobEntity.getJobHandlerConfiguration());
 
-            if (endDateExpressionString != null) {
+            if (endDateExpressionString !is null) {
                 Expression endDateExpression = processEngineConfiguration.getExpressionManager().createExpression(endDateExpressionString);
 
                 string endDateString = null;
@@ -189,7 +189,7 @@ class DefaultInternalJobManager implements InternalJobManager {
                 BusinessCalendar businessCalendar = processEngineConfiguration.getBusinessCalendarManager().getBusinessCalendar(
                         getBusinessCalendarName(TimerEventHandler.getCalendarNameFromConfiguration(jobEntity.getJobHandlerConfiguration()), variableScope));
 
-                if (endDateExpression != null) {
+                if (endDateExpression !is null) {
                     Object endDateValue = endDateExpression.getValue(variableScope);
                     if (endDateValue instanceof string) {
                         endDateString = (string) endDateValue;
@@ -200,7 +200,7 @@ class DefaultInternalJobManager implements InternalJobManager {
                                 + "' was not configured with a valid duration/time, either hand in a java.util.Date or a string in format 'yyyy-MM-dd'T'hh:mm:ss'");
                     }
 
-                    if (jobEntity.getEndDate() == null) {
+                    if (jobEntity.getEndDate() is null) {
                         jobEntity.setEndDate(businessCalendar.resolveEndDate(endDateString));
                     }
                 }
@@ -208,7 +208,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         }
 
         int maxIterations = 1;
-        if (jobEntity.getProcessDefinitionId() != null) {
+        if (jobEntity.getProcessDefinitionId() !is null) {
             org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(jobEntity.getProcessDefinitionId());
             maxIterations = getMaxIterations(process, activityId);
             if (maxIterations <= 1) {
@@ -225,18 +225,18 @@ class DefaultInternalJobManager implements InternalJobManager {
 
     protected int getMaxIterations(org.flowable.bpmn.model.Process process, string activityId) {
         FlowElement flowElement = process.getFlowElement(activityId, true);
-        if (flowElement != null) {
+        if (flowElement !is null) {
             if (flowElement instanceof Event) {
 
                 Event event = (Event) flowElement;
                 List<EventDefinition> eventDefinitions = event.getEventDefinitions();
 
-                if (eventDefinitions != null) {
+                if (eventDefinitions !is null) {
 
                     for (EventDefinition eventDefinition : eventDefinitions) {
                         if (eventDefinition instanceof TimerEventDefinition) {
                             TimerEventDefinition timerEventDefinition = (TimerEventDefinition) eventDefinition;
-                            if (timerEventDefinition.getTimeCycle() != null) {
+                            if (timerEventDefinition.getTimeCycle() !is null) {
                                 return calculateMaxIterationsValue(timerEventDefinition.getTimeCycle());
                             }
                         }

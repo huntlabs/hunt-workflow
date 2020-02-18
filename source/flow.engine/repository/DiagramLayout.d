@@ -11,64 +11,73 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.DiagramLayout;
+ 
+ 
+ 
 
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-/**
- * Stores a two-dimensional graph layout.
- * 
- * @author Falko Menge
- */
-class DiagramLayout implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private Map<string, DiagramElement> elements;
-
-    public DiagramLayout(Map<string, DiagramElement> elements) {
-        this.setElements(elements);
-    }
-
-    public DiagramNode getNode(string id) {
-        DiagramElement element = getElements().get(id);
-        if (element instanceof DiagramNode) {
-            return (DiagramNode) element;
-        } else {
-            return null;
-        }
-    }
-
-    public DiagramEdge getEdge(string id) {
-        DiagramElement element = getElements().get(id);
-        if (element instanceof DiagramEdge) {
-            return (DiagramEdge) element;
-        } else {
-            return null;
-        }
-    }
-
-    public Map<string, DiagramElement> getElements() {
-        return elements;
-    }
-
-    public void setElements(Map<string, DiagramElement> elements) {
-        this.elements = elements;
-    }
-
-    public List<DiagramNode> getNodes() {
-        List<DiagramNode> nodes = new ArrayList<>();
-        for (Entry<string, DiagramElement> entry : getElements().entrySet()) {
-            DiagramElement element = entry.getValue();
-            if (element instanceof DiagramNode) {
-                nodes.add((DiagramNode) element);
-            }
-        }
-        return nodes;
-    }
-
-}
+//import java.io.Serializable;
+//import java.util.ArrayList;
+//import java.util.List;
+//import java.util.Map;
+//import java.util.Map.Entry;
+//
+///**
+// * Stores a two-dimensional graph layout.
+// *
+// * @author Falko Menge
+// */
+//class DiagramLayout implements Serializable {
+//
+//    private static final long serialVersionUID = 1L;
+//
+//    private Map<string, DiagramElement> elements;
+//
+//    public DiagramLayout(Map<string, DiagramElement> elements) {
+//        this.setElements(elements);
+//    }
+//
+//    public DiagramNode getNode(string id) {
+//        DiagramElement element = getElements().get(id);
+//        if (element instanceof DiagramNode) {
+//            return (DiagramNode) element;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public DiagramEdge getEdge(string id) {
+//        DiagramElement element = getElements().get(id);
+//        if (element instanceof DiagramEdge) {
+//            return (DiagramEdge) element;
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    public Map<string, DiagramElement> getElements() {
+//        return elements;
+//    }
+//
+//    public void setElements(Map<string, DiagramElement> elements) {
+//        this.elements = elements;
+//    }
+//
+//    public List<DiagramNode> getNodes() {
+//        List<DiagramNode> nodes = new ArrayList<>();
+//        for (Entry<string, DiagramElement> entry : getElements().entrySet()) {
+//            DiagramElement element = entry.getValue();
+//            if (element instanceof DiagramNode) {
+//                nodes.add((DiagramNode) element);
+//            }
+//        }
+//        return nodes;
+//    }
+//
+//}

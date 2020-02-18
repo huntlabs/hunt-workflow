@@ -41,7 +41,7 @@ class GetProcessDefinitionHistoryLevelModelCmd implements Command<HistoryLevel>,
 
     @Override
     public HistoryLevel execute(CommandContext commandContext) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("processDefinitionId is null");
         }
 
@@ -64,7 +64,7 @@ class GetProcessDefinitionHistoryLevelModelCmd implements Command<HistoryLevel>,
             }
         }
 
-        if (historyLevel == null) {
+        if (historyLevel is null) {
             historyLevel = CommandContextUtil.getProcessEngineConfiguration(commandContext).getHistoryLevel();
         }
 

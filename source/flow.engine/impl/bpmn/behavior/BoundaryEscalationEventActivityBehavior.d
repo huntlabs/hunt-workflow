@@ -14,8 +14,8 @@
 
 import org.flowable.bpmn.model.Escalation;
 import org.flowable.bpmn.model.EscalationEventDefinition;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.DelegateExecution;
@@ -46,7 +46,7 @@ class BoundaryEscalationEventActivityBehavior extends BoundaryEventActivityBehav
 
         string escalationCode = null;
         string escalationName = null;
-        if (escalation != null) {
+        if (escalation !is null) {
             escalationCode = escalation.getEscalationCode();
             escalationName = escalation.getName();
         } else {
@@ -54,7 +54,7 @@ class BoundaryEscalationEventActivityBehavior extends BoundaryEventActivityBehav
         }
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
                     .dispatchEvent(FlowableEventBuilder.createEscalationEvent(FlowableEngineEventType.ACTIVITY_ESCALATION_WAITING, executionEntity.getActivityId(), escalationCode,
                                     escalationName, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));

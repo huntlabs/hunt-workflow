@@ -53,7 +53,7 @@ class BpmnError : FlowableException {
     }
 
     protected void setErrorCode(string errorCode) {
-        if (errorCode == null) {
+        if (errorCode is null) {
             throw new FlowableIllegalArgumentException("Error Code must not be null.");
         }
         if (errorCode.length() < 1) {

@@ -32,7 +32,7 @@ abstract class AbstractActivityBpmnParseHandler<T extends FlowNode> extends Abst
     public void parse(BpmnParse bpmnParse, BaseElement element) {
         super.parse(bpmnParse, element);
 
-        if (element instanceof Activity && ((Activity) element).getLoopCharacteristics() != null) {
+        if (element instanceof Activity && ((Activity) element).getLoopCharacteristics() !is null) {
             createMultiInstanceLoopCharacteristics(bpmnParse, (Activity) element);
         }
     }
@@ -78,7 +78,7 @@ abstract class AbstractActivityBpmnParseHandler<T extends FlowNode> extends Abst
         }
 
         // flowable:collectionParser
-        if (loopCharacteristics.getHandler() != null) {
+        if (loopCharacteristics.getHandler() !is null) {
             miActivityBehavior.setHandler(loopCharacteristics.getHandler().clone());
         }
     }

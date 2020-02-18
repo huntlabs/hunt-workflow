@@ -15,7 +15,7 @@
 import java.util.List;
 import java.util.Map;
 
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.api.variable.VariableContainer;
 import flow.common.el.DynamicBeanPropertyELResolver;
 import flow.common.javax.el.BeanELResolver;

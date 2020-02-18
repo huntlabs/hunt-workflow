@@ -16,8 +16,8 @@ import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import org.flowable.job.api.Job;
@@ -54,14 +54,14 @@ class DeleteHistoryJobCmd implements Command<Object>, Serializable {
 
     protected void sendCancelEvent(HistoryJobEntity jobToDelete) {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getJobServiceConfiguration().getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
                 .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, jobToDelete));
         }
     }
 
     protected HistoryJobEntity getJobToDelete(CommandContext commandContext) {
-        if (historyJobId == null) {
+        if (historyJobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
         if (LOGGER.isDebugEnabled()) {
@@ -69,7 +69,7 @@ class DeleteHistoryJobCmd implements Command<Object>, Serializable {
         }
 
         HistoryJobEntity job = CommandContextUtil.getHistoryJobEntityManager(commandContext).findById(historyJobId);
-        if (job == null) {
+        if (job is null) {
             throw new FlowableObjectNotFoundException("No history job found with id '" + historyJobId + "'", Job.class);
         }
 

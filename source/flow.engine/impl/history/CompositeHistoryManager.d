@@ -144,7 +144,7 @@ class CompositeHistoryManager implements HistoryManager {
     public HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, bool validateEndTimeNull) {
         for (HistoryManager historyManager : historyManagers) {
             HistoricActivityInstanceEntity historicActivityInstance = historyManager.findHistoricActivityInstance(execution, validateEndTimeNull);
-            if (historicActivityInstance != null) {
+            if (historicActivityInstance !is null) {
                 return historicActivityInstance;
             }
         }

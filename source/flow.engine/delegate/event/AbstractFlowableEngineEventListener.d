@@ -24,11 +24,11 @@ module flow.engine.delegate.event.AbstractFlowableEngineEventListener;
 
 import java.util.Set;
 
-import flow.common.api.delegate.event.AbstractFlowableEventListener;
-import flow.common.api.delegate.event.FlowableEngineEntityEvent;
-import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.AbstractFlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEntityEvent;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.impl.util.CommandContextUtil;
@@ -53,7 +53,7 @@ abstract class AbstractFlowableEngineEventListener : AbstractFlowableEventListen
             FlowableEngineEvent flowableEngineEvent = cast(FlowableEngineEvent) flowableEvent;
             FlowableEngineEventType engineEventType = cast(FlowableEngineEventType) flowableEvent.getType();
 
-            if(types == null || types.contains(engineEventType)) {
+            if(types is null || types.contains(engineEventType)) {
                 switch (engineEventType) {
                     case ENTITY_CREATED:
                         entityCreated((FlowableEngineEntityEvent) flowableEngineEvent);
@@ -303,9 +303,9 @@ abstract class AbstractFlowableEngineEventListener : AbstractFlowableEventListen
     protected DelegateExecution getExecution(FlowableEngineEvent event) {
         string executionId = event.getExecutionId();
 
-        if (executionId != null) {
+        if (executionId !is null) {
             CommandContext commandContext = CommandContextUtil.getCommandContext();
-            if (commandContext != null) {
+            if (commandContext !is null) {
                 return CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
                 }
             }

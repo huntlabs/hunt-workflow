@@ -42,7 +42,7 @@ class HistoricUserTaskLogDeleteJsonTransformer extends AbstractHistoryJsonTransf
     @Override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         Long logNumber = getLongFromJson(historicalData, HistoryJsonConstants.LOG_ENTRY_LOGNUMBER);
-        if (logNumber != null) {
+        if (logNumber !is null) {
             CommandContextUtil.getHistoricTaskService().deleteHistoricTaskLogEntry(logNumber);
         }
     }

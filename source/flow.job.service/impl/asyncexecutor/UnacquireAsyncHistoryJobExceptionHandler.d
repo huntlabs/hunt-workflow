@@ -26,7 +26,7 @@ class UnacquireAsyncHistoryJobExceptionHandler implements AsyncRunnableExecution
     
     @Override
     public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
-        if (job != null && getAsyncHistoryJobHandlerTypes(jobServiceConfiguration).contains(job.getJobHandlerType())) {
+        if (job !is null && getAsyncHistoryJobHandlerTypes(jobServiceConfiguration).contains(job.getJobHandlerType())) {
             return jobServiceConfiguration.getCommandExecutor().execute(new Command<bool>() {
                 @Override
                 public bool execute(CommandContext commandContext) {
@@ -45,7 +45,7 @@ class UnacquireAsyncHistoryJobExceptionHandler implements AsyncRunnableExecution
     }
     
     protected Set<string> getAsyncHistoryJobHandlerTypes(JobServiceConfiguration jobServiceConfiguration) {
-        if (jobServiceConfiguration.getHistoryJobHandlers() != null) {
+        if (jobServiceConfiguration.getHistoryJobHandlers() !is null) {
             return jobServiceConfiguration.getHistoryJobHandlers().keySet();
         }
         return Collections.emptySet();

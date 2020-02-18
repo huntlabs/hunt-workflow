@@ -87,7 +87,7 @@ class ActivityInstanceEntityManagerImpl
     @Override
     public void recordActivityStart(ExecutionEntity executionEntity) {
         ActivityInstance activityInstance = recordRuntimeActivityStart(executionEntity);
-        if (activityInstance != null) {
+        if (activityInstance !is null) {
             getHistoryManager().recordActivityStart(activityInstance);
         }
     }
@@ -95,7 +95,7 @@ class ActivityInstanceEntityManagerImpl
     @Override
     public void recordActivityEnd(ExecutionEntity executionEntity, string deleteReason) {
         ActivityInstance activityInstance = recordActivityInstanceEnd(executionEntity, deleteReason);
-        if (activityInstance == null) {
+        if (activityInstance is null) {
             getHistoryManager().recordActivityEnd(executionEntity, deleteReason, getClock().getCurrentTime());
         } else {
             getHistoryManager().recordActivityEnd(activityInstance);
@@ -113,7 +113,7 @@ class ActivityInstanceEntityManagerImpl
     @Override
     public void recordSubProcessInstanceStart(ExecutionEntity parentExecution, ExecutionEntity subProcessInstance) {
         ActivityInstanceEntity activityInstance = findUnfinishedActivityInstance(parentExecution);
-        if (activityInstance != null) {
+        if (activityInstance !is null) {
             activityInstance.setCalledProcessInstanceId(subProcessInstance.getProcessInstanceId());
             getHistoryManager().updateHistoricActivityInstance(activityInstance);
         }
@@ -128,9 +128,9 @@ class ActivityInstanceEntityManagerImpl
     }
 
     protected void recordActivityTaskCreated(TaskEntity task, ExecutionEntity execution) {
-        if (execution != null) {
+        if (execution !is null) {
             ActivityInstanceEntity activityInstance = findUnfinishedActivityInstance(execution);
-            if (activityInstance != null) {
+            if (activityInstance !is null) {
                 activityInstance.setTaskId(task.getId());
                 getHistoryManager().updateHistoricActivityInstance(activityInstance);
             }
@@ -140,7 +140,7 @@ class ActivityInstanceEntityManagerImpl
     @Override
     public void recordTaskInfoChange(TaskEntity taskEntity, Date changeTime) {
         ActivityInstanceEntity activityInstanceEntity = recordActivityTaskInfoChange(taskEntity);
-        getHistoryManager().recordTaskInfoChange(taskEntity, activityInstanceEntity != null ? activityInstanceEntity.getId() : null, changeTime);
+        getHistoryManager().recordTaskInfoChange(taskEntity, activityInstanceEntity !is null ? activityInstanceEntity.getId() : null, changeTime);
     }
 
     @Override
@@ -154,7 +154,7 @@ class ActivityInstanceEntityManagerImpl
         ActivityInstanceQueryImpl activityQuery = new ActivityInstanceQueryImpl();
         activityQuery.processInstanceId(processInstanceId);
         List<ActivityInstance> activities = findActivityInstancesByQueryCriteria(activityQuery);
-        if (activities != null) {
+        if (activities !is null) {
             for (ActivityInstance activityInstance : activities) {
                 ActivityInstanceEntity activityEntity = (ActivityInstanceEntity) activityInstance;
                 activityEntity.setProcessDefinitionId(newProcessDefinitionId);
@@ -177,16 +177,16 @@ class ActivityInstanceEntityManagerImpl
     protected ActivityInstanceEntity recordActivityTaskInfoChange(TaskEntity taskEntity) {
         ActivityInstanceEntity activityInstance = null;
         ExecutionEntity executionEntity = getExecutionEntityManager().findById(taskEntity.getExecutionId());
-        if (executionEntity != null) {
+        if (executionEntity !is null) {
             if (!Objects.equals(getOriginalAssignee(taskEntity), taskEntity.getAssignee())) {
                 activityInstance = findUnfinishedActivityInstance(executionEntity);
-                if (activityInstance == null) {
+                if (activityInstance is null) {
                     HistoricActivityInstanceEntity historicActivityInstance = getHistoryManager().findHistoricActivityInstance(executionEntity, true);
-                    if (historicActivityInstance != null) {
+                    if (historicActivityInstance !is null) {
                         activityInstance = createActivityInstance(historicActivityInstance);
                     }
                 }
-                if (activityInstance != null) {
+                if (activityInstance !is null) {
                     activityInstance.setAssignee(taskEntity.getAssignee());
                     getHistoryManager().updateHistoricActivityInstance(activityInstance);
                 }
@@ -198,7 +198,7 @@ class ActivityInstanceEntityManagerImpl
 
     @SuppressWarnings("unchecked")
     protected Object getOriginalAssignee(TaskEntity taskEntity) {
-        if (taskEntity.getOriginalPersistentState() != null) {
+        if (taskEntity.getOriginalPersistentState() !is null) {
             return ((Map<string, Object>) taskEntity.getOriginalPersistentState()).get("assignee");
         } else {
             return null;
@@ -207,9 +207,9 @@ class ActivityInstanceEntityManagerImpl
 
     protected ActivityInstance recordRuntimeActivityStart(ExecutionEntity executionEntity) {
         ActivityInstance activityInstance = null;
-        if (executionEntity.getActivityId() != null && executionEntity.getCurrentFlowElement() != null) {
+        if (executionEntity.getActivityId() !is null && executionEntity.getCurrentFlowElement() !is null) {
             activityInstance = findUnfinishedActivityInstance(executionEntity);
-            if (activityInstance == null) {
+            if (activityInstance is null) {
                 return createActivityInstance(executionEntity);
             }
         }
@@ -219,12 +219,12 @@ class ActivityInstanceEntityManagerImpl
 
     protected ActivityInstance createActivityInstance(ExecutionEntity executionEntity) {
         ActivityInstance activityInstance = null;
-        if (executionEntity.getActivityId() != null && executionEntity.getCurrentFlowElement() != null) {
+        if (executionEntity.getActivityId() !is null && executionEntity.getCurrentFlowElement() !is null) {
 
             // activity instance could have been created (but only in cache, never persisted)
             // for example when submitting form properties
             activityInstance = getActivityInstanceFromCache(executionEntity.getId(), executionEntity.getActivityId(), true);
-            if (activityInstance  == null) {
+            if (activityInstance  is null) {
                 activityInstance = createActivityInstanceEntity(executionEntity);
             } else {
                 // activityInstance is not null only on its creation time
@@ -236,13 +236,13 @@ class ActivityInstanceEntityManagerImpl
 
     protected ActivityInstance recordActivityInstanceEnd(ExecutionEntity executionEntity, string deleteReason) {
         ActivityInstanceEntity activityInstance = findUnfinishedActivityInstance(executionEntity);
-        if (activityInstance != null) {
+        if (activityInstance !is null) {
             activityInstance.markEnded(deleteReason);
         } else {
             // in the case of upgrade from 6.4.1.1 to 6.4.1.2 we have to create activityInstance for all already unfinished historicActivities
             // which are going to be ended
             HistoricActivityInstanceEntity historicActivityInstance = getHistoryManager().findHistoricActivityInstance(executionEntity, true);
-            if (historicActivityInstance != null) {
+            if (historicActivityInstance !is null) {
                 activityInstance = createActivityInstance(historicActivityInstance);
                 activityInstance.markEnded(deleteReason);
             }
@@ -253,14 +253,14 @@ class ActivityInstanceEntityManagerImpl
     @Override
     public ActivityInstanceEntity findUnfinishedActivityInstance(ExecutionEntity execution) {
         string activityId = getActivityIdForExecution(execution);
-        if (activityId != null) {
+        if (activityId !is null) {
             // No use looking for the ActivityInstance when no activityId is provided.
 
             string executionId = execution.getId();
 
             // Check the cache
             ActivityInstanceEntity activityInstanceFromCache = getActivityInstanceFromCache(executionId, activityId, true);
-            if (activityInstanceFromCache != null) {
+            if (activityInstanceFromCache !is null) {
                 return activityInstanceFromCache;
             }
 
@@ -272,7 +272,7 @@ class ActivityInstanceEntityManagerImpl
                 List<ActivityInstanceEntity> activityInstances = findUnfinishedActivityInstancesByExecutionAndActivityId(executionId, activityId);
                 // cache can be updated before DB
                 ActivityInstanceEntity activityFromCache = getActivityInstanceFromCache(executionId, activityId, false);
-                if (activityFromCache != null && activityFromCache.getEndTime() != null) {
+                if (activityFromCache !is null && activityFromCache.getEndTime() !is null) {
                     activityInstances.remove(activityFromCache);
                 }
                 if (activityInstances.size() > 0) {
@@ -301,7 +301,7 @@ class ActivityInstanceEntityManagerImpl
         activityInstanceEntity.setProcessDefinitionId(processDefinitionId);
         activityInstanceEntity.setProcessInstanceId(processInstanceId);
         activityInstanceEntity.setExecutionId(execution.getId());
-        if (execution.getActivityId() != null ) {
+        if (execution.getActivityId() !is null ) {
             activityInstanceEntity.setActivityId(execution.getActivityId());
         } else {
             // sequence flow activity id can be null
@@ -311,14 +311,14 @@ class ActivityInstanceEntityManagerImpl
             }
         }
 
-        if (execution.getCurrentFlowElement() != null) {
+        if (execution.getCurrentFlowElement() !is null) {
             activityInstanceEntity.setActivityName(execution.getCurrentFlowElement().getName());
             activityInstanceEntity.setActivityType(parseActivityType(execution.getCurrentFlowElement()));
         }
         Date now = getClock().getCurrentTime();
         activityInstanceEntity.setStartTime(now);
 
-        if (execution.getTenantId() != null) {
+        if (execution.getTenantId() !is null) {
             activityInstanceEntity.setTenantId(execution.getTenantId());
         }
 
@@ -329,9 +329,9 @@ class ActivityInstanceEntityManagerImpl
     protected ActivityInstanceEntity getActivityInstanceFromCache(string executionId, string activityId, bool endTimeMustBeNull) {
         List<ActivityInstanceEntity> cachedActivityInstances = getEntityCache().findInCache(ActivityInstanceEntity.class);
         for (ActivityInstanceEntity cachedActivityInstance : cachedActivityInstances) {
-            if (activityId != null
+            if (activityId !is null
                 && activityId.equals(cachedActivityInstance.getActivityId())
-                && (!endTimeMustBeNull || cachedActivityInstance.getEndTime() == null)) {
+                && (!endTimeMustBeNull || cachedActivityInstance.getEndTime() is null)) {
                 if (executionId.equals(cachedActivityInstance.getExecutionId())) {
                     return cachedActivityInstance;
                 }
@@ -352,7 +352,7 @@ class ActivityInstanceEntityManagerImpl
         if (execution.getCurrentFlowElement() instanceof FlowNode) {
             activityId = execution.getCurrentFlowElement().getId();
         } else if (execution.getCurrentFlowElement() instanceof SequenceFlow
-            && execution.getCurrentFlowableListener() == null) { // while executing sequence flow listeners, we don't want historic activities
+            && execution.getCurrentFlowableListener() is null) { // while executing sequence flow listeners, we don't want historic activities
             activityId = ((SequenceFlow) execution.getCurrentFlowElement()).getSourceFlowElement().getId();
         }
         return activityId;

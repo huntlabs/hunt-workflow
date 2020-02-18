@@ -14,7 +14,7 @@
 
 import java.util.Map;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.engine.EngineLifecycleListener;
 import flow.common.cfg.TransactionContextFactory;
 import flow.common.interceptor.CommandExecutor;
@@ -78,11 +78,11 @@ class ProcessEngineImpl implements ProcessEngine {
         this.sessionFactories = processEngineConfiguration.getSessionFactories();
         this.transactionContextFactory = processEngineConfiguration.getTransactionContextFactory();
 
-        if (processEngineConfiguration.getSchemaManagementCmd() != null) {
+        if (processEngineConfiguration.getSchemaManagementCmd() !is null) {
             commandExecutor.execute(processEngineConfiguration.getSchemaCommandConfig(), processEngineConfiguration.getSchemaManagementCmd());
         }
 
-        if (name == null) {
+        if (name is null) {
             LOGGER.info("default ProcessEngine created");
         } else {
             LOGGER.info("ProcessEngine {} created", name);
@@ -90,7 +90,7 @@ class ProcessEngineImpl implements ProcessEngine {
 
         ProcessEngines.registerProcessEngine(this);
 
-        if (processEngineConfiguration.getEngineLifecycleListeners() != null) {
+        if (processEngineConfiguration.getEngineLifecycleListeners() !is null) {
             for (EngineLifecycleListener engineLifecycleListener : processEngineConfiguration.getEngineLifecycleListeners()) {
                 engineLifecycleListener.onEngineBuilt(this);
             }
@@ -101,11 +101,11 @@ class ProcessEngineImpl implements ProcessEngine {
 
     @Override
     public void startExecutors() {
-        if (asyncExecutor != null && asyncExecutor.isAutoActivate()) {
+        if (asyncExecutor !is null && asyncExecutor.isAutoActivate()) {
             asyncExecutor.start();
         }
         
-        if (asyncHistoryExecutor != null && asyncHistoryExecutor.isAutoActivate()) {
+        if (asyncHistoryExecutor !is null && asyncHistoryExecutor.isAutoActivate()) {
             asyncHistoryExecutor.start();
         }
         
@@ -117,21 +117,21 @@ class ProcessEngineImpl implements ProcessEngine {
     @Override
     public void close() {
         ProcessEngines.unregister(this);
-        if (asyncExecutor != null && asyncExecutor.isActive()) {
+        if (asyncExecutor !is null && asyncExecutor.isActive()) {
             asyncExecutor.shutdown();
         }
-        if (asyncHistoryExecutor != null && asyncHistoryExecutor.isActive()) {
+        if (asyncHistoryExecutor !is null && asyncHistoryExecutor.isActive()) {
             asyncHistoryExecutor.shutdown();
         }
 
         Runnable closeRunnable = processEngineConfiguration.getProcessEngineCloseRunnable();
-        if (closeRunnable != null) {
+        if (closeRunnable !is null) {
             closeRunnable.run();
         }
 
         processEngineConfiguration.close();
 
-        if (processEngineConfiguration.getEngineLifecycleListeners() != null) {
+        if (processEngineConfiguration.getEngineLifecycleListeners() !is null) {
             for (EngineLifecycleListener engineLifecycleListener : processEngineConfiguration.getEngineLifecycleListeners()) {
                 engineLifecycleListener.onEngineClosed(this);
             }

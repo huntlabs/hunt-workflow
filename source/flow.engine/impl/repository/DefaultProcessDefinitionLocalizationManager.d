@@ -39,16 +39,16 @@ class DefaultProcessDefinitionLocalizationManager implements InternalProcessDefi
         processDefinitionEntity.setLocalizedName(null);
         processDefinitionEntity.setLocalizedDescription(null);
 
-        if (locale != null) {
+        if (locale !is null) {
             ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, processDefinitionEntity.getKey(), processDefinition.getId(), withLocalizationFallback);
-            if (languageNode != null) {
+            if (languageNode !is null) {
                 JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                if (languageNameNode != null && !languageNameNode.isNull()) {
+                if (languageNameNode !is null && !languageNameNode.isNull()) {
                     processDefinitionEntity.setLocalizedName(languageNameNode.asText());
                 }
 
                 JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                if (languageDescriptionNode != null && !languageDescriptionNode.isNull()) {
+                if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
                     processDefinitionEntity.setLocalizedDescription(languageDescriptionNode.asText());
                 }
             }

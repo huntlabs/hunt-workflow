@@ -22,7 +22,7 @@ module flow.engine.delegate.event.impl.FlowableProcessEventImpl;
  
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.event.FlowableEngineEventImpl;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.DelegateExecution;
@@ -40,9 +40,9 @@ class FlowableProcessEventImpl : FlowableEngineEventImpl , FlowableProcessEngine
 
     @Override
     public DelegateExecution getExecution() {
-        if (executionId != null) {
+        if (executionId !is null) {
             CommandContext commandContext = CommandContextUtil.getCommandContext();
-            if (commandContext != null) {
+            if (commandContext !is null) {
                 return CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
             }
         }

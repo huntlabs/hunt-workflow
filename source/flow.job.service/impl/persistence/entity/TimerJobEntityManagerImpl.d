@@ -17,8 +17,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.Page;
 import flow.common.calendar.BusinessCalendar;
 import org.flowable.job.api.Job;
@@ -51,7 +51,7 @@ class TimerJobEntityManagerImpl
                 setNewRepeat(timerEntity, repeatValue);
             }
             Date newTimer = calculateNextTimer(timerEntity, variableScope);
-            if (newTimer != null && isValidTime(timerEntity, newTimer, variableScope)) {
+            if (newTimer !is null && isValidTime(timerEntity, newTimer, variableScope)) {
                 TimerJobEntity te = createTimer(timerEntity);
                 te.setDuedate(newTimer);
                 return te;
@@ -126,7 +126,7 @@ class TimerJobEntityManagerImpl
     }
 
     protected bool doInsert(TimerJobEntity jobEntity, bool fireCreateEvent) {
-        if (serviceConfiguration.getInternalJobManager() != null) {
+        if (serviceConfiguration.getInternalJobManager() !is null) {
             bool handledJob = serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
             if (!handledJob) {
                 return false;
@@ -145,13 +145,13 @@ class TimerJobEntityManagerImpl
         deleteByteArrayRef(jobEntity.getExceptionByteArrayRef());
         deleteByteArrayRef(jobEntity.getCustomValuesByteArrayRef());
 
-        if (serviceConfiguration.getInternalJobManager() != null) {
+        if (serviceConfiguration.getInternalJobManager() !is null) {
             serviceConfiguration.getInternalJobManager().handleJobDelete(jobEntity);
         }
 
         // Send event
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, jobEntity));
         }
     }

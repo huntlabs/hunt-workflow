@@ -57,10 +57,10 @@ class AddCommentCmd implements Command<Comment> {
 
         TaskEntity task = null;
         // Validate task
-        if (taskId != null) {
+        if (taskId !is null) {
             task = CommandContextUtil.getTaskService().getTask(taskId);
 
-            if (task == null) {
+            if (task is null) {
                 throw new FlowableObjectNotFoundException("Cannot find task with id " + taskId, Task.class);
             }
 
@@ -70,10 +70,10 @@ class AddCommentCmd implements Command<Comment> {
         }
 
         ExecutionEntity execution = null;
-        if (processInstanceId != null) {
+        if (processInstanceId !is null) {
             execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
 
-            if (execution == null) {
+            if (execution is null) {
                 throw new FlowableObjectNotFoundException("execution " + processInstanceId + " doesn't exist", Execution.class);
             }
 
@@ -83,13 +83,13 @@ class AddCommentCmd implements Command<Comment> {
         }
 
         string processDefinitionId = null;
-        if (execution != null) {
+        if (execution !is null) {
             processDefinitionId = execution.getProcessDefinitionId();
-        } else if (task != null) {
+        } else if (task !is null) {
             processDefinitionId = task.getProcessDefinitionId();
         }
 
-        if (processDefinitionId != null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processDefinitionId)) {
+        if (processDefinitionId !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processDefinitionId)) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
             return compatibilityHandler.addComment(taskId, processInstanceId, type, message);
         }
@@ -97,7 +97,7 @@ class AddCommentCmd implements Command<Comment> {
         string userId = Authentication.getAuthenticatedUserId();
         CommentEntity comment = CommandContextUtil.getCommentEntityManager(commandContext).create();
         comment.setUserId(userId);
-        comment.setType((type == null) ? CommentEntity.TYPE_COMMENT : type);
+        comment.setType((type is null) ? CommentEntity.TYPE_COMMENT : type);
         comment.setTime(CommandContextUtil.getProcessEngineConfiguration(commandContext).getClock().getCurrentTime());
         comment.setTaskId(taskId);
         comment.setProcessInstanceId(processInstanceId);

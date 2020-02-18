@@ -22,7 +22,7 @@ class BoundaryEvent extends Event {
     @JsonIgnore
     protected Activity attachedToRef;
     protected string attachedToRefId;
-    protected boolean cancelActivity = true;
+    protected bool cancelActivity = true;
 
     public Activity getAttachedToRef() {
         return attachedToRef;
@@ -40,11 +40,11 @@ class BoundaryEvent extends Event {
         this.attachedToRefId = attachedToRefId;
     }
 
-    public boolean isCancelActivity() {
+    public bool isCancelActivity() {
         return cancelActivity;
     }
 
-    public void setCancelActivity(boolean cancelActivity) {
+    public void setCancelActivity(bool cancelActivity) {
         this.cancelActivity = cancelActivity;
     }
 

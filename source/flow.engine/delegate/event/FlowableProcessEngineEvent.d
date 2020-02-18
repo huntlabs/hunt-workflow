@@ -22,8 +22,8 @@ module flow.engine.delegate.event.FlowableProcessEngineEvent;
  
 
 
-import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.engine.delegate.DelegateExecution;
 
 /**

@@ -119,7 +119,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl processDefinitionId(string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Process definition id is null");
         }
         if (inOrStatement) {
@@ -132,7 +132,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl processDefinitionKey(string processDefinitionKey) {
-        if (processDefinitionKey == null) {
+        if (processDefinitionKey is null) {
             throw new FlowableIllegalArgumentException("Process definition key is null");
         }
         if (inOrStatement) {
@@ -145,7 +145,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery processDefinitionCategory(string processDefinitionCategory) {
-        if (processDefinitionCategory == null) {
+        if (processDefinitionCategory is null) {
             throw new FlowableIllegalArgumentException("Process definition category is null");
         }
         if (inOrStatement) {
@@ -158,7 +158,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery processDefinitionName(string processDefinitionName) {
-        if (processDefinitionName == null) {
+        if (processDefinitionName is null) {
             throw new FlowableIllegalArgumentException("Process definition name is null");
         }
         if (inOrStatement) {
@@ -171,7 +171,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery processDefinitionVersion(Integer processDefinitionVersion) {
-        if (processDefinitionVersion == null) {
+        if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition version is null");
         }
         if (inOrStatement) {
@@ -184,7 +184,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery processDefinitionEngineVersion(string processDefinitionEngineVersion) {
-        if (processDefinitionEngineVersion == null) {
+        if (processDefinitionEngineVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition engine version is null");
         }
         if (inOrStatement) {
@@ -197,7 +197,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl processInstanceId(string processInstanceId) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Process instance id is null");
         }
         if (inOrStatement) {
@@ -210,7 +210,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl rootProcessInstanceId(string rootProcessInstanceId) {
-        if (rootProcessInstanceId == null) {
+        if (rootProcessInstanceId is null) {
             throw new FlowableIllegalArgumentException("Root process instance id is null");
         }
         if (inOrStatement) {
@@ -223,7 +223,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery processInstanceBusinessKey(string businessKey) {
-        if (businessKey == null) {
+        if (businessKey is null) {
             throw new FlowableIllegalArgumentException("Business key is null");
         }
         if (inOrStatement) {
@@ -239,7 +239,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         if (!includeChildExecutions) {
             return processInstanceBusinessKey(processInstanceBusinessKey);
         } else {
-            if (processInstanceBusinessKey == null) {
+            if (processInstanceBusinessKey is null) {
                 throw new FlowableIllegalArgumentException("Business key is null");
             }
             
@@ -257,7 +257,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery processDefinitionKeys(Set<string> processDefinitionKeys) {
-        if (processDefinitionKeys == null) {
+        if (processDefinitionKeys is null) {
             throw new FlowableIllegalArgumentException("Process definition keys is null");
         }
         if (inOrStatement) {
@@ -270,7 +270,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl executionId(string executionId) {
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("Execution id is null");
         }
         if (inOrStatement) {
@@ -285,14 +285,14 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     public ExecutionQueryImpl activityId(string activityId) {
         if (inOrStatement) {
             this.currentOrQueryObject.activityId = activityId;
-            if (activityId != null) {
+            if (activityId !is null) {
                 this.currentOrQueryObject.isActive = true;
             }
             
         } else {
             this.activityId = activityId;
 
-            if (activityId != null) {
+            if (activityId !is null) {
                 this.isActive = true;
             }
         }
@@ -302,7 +302,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl parentId(string parentId) {
-        if (parentId == null) {
+        if (parentId is null) {
             throw new FlowableIllegalArgumentException("Parent id is null");
         }
         if (inOrStatement) {
@@ -345,7 +345,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl executionTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("execution tenant id is null");
         }
         if (inOrStatement) {
@@ -358,7 +358,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQueryImpl executionTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("execution tenant id is null");
         }
         if (inOrStatement) {
@@ -415,21 +415,21 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     }
 
     public ExecutionQuery eventSubscription(string eventType, string eventName) {
-        if (eventName == null) {
+        if (eventName is null) {
             throw new FlowableIllegalArgumentException("event name is null");
         }
-        if (eventType == null) {
+        if (eventType is null) {
             throw new FlowableIllegalArgumentException("event type is null");
         }
         
         if (inOrStatement) {
-            if (this.currentOrQueryObject.eventSubscriptions == null) {
+            if (this.currentOrQueryObject.eventSubscriptions is null) {
                 this.currentOrQueryObject.eventSubscriptions = new ArrayList<>();
             }
             this.currentOrQueryObject.eventSubscriptions.add(new EventSubscriptionQueryValue(eventName, eventType));
            
         } else {
-            if (eventSubscriptions == null) {
+            if (eventSubscriptions is null) {
                 eventSubscriptions = new ArrayList<>();
             }
             eventSubscriptions.add(new EventSubscriptionQueryValue(eventName, eventType));
@@ -722,7 +722,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery startedBefore(Date beforeTime) {
-        if (beforeTime == null) {
+        if (beforeTime is null) {
             throw new FlowableIllegalArgumentException("before time is null");
         }
         
@@ -737,7 +737,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery startedAfter(Date afterTime) {
-        if (afterTime == null) {
+        if (afterTime is null) {
             throw new FlowableIllegalArgumentException("after time is null");
         }
         
@@ -752,7 +752,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     @Override
     public ExecutionQuery startedBy(string userId) {
-        if (userId == null) {
+        if (userId is null) {
             throw new FlowableIllegalArgumentException("user id is null");
         }
         
@@ -821,7 +821,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         ensureVariablesInitialized();
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (processEngineConfiguration.getExecutionQueryInterceptor() != null) {
+        if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
             processEngineConfiguration.getExecutionQueryInterceptor().beforeExecutionQueryExecute(this);
         }
         
@@ -834,7 +834,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         ensureVariablesInitialized();
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (processEngineConfiguration.getExecutionQueryInterceptor() != null) {
+        if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
             processEngineConfiguration.getExecutionQueryInterceptor().beforeExecutionQueryExecute(this);
         }
         
@@ -844,7 +844,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             for (ExecutionEntity execution : (List<ExecutionEntity>) executions) {
                 string activityId = null;
                 if (execution.getId().equals(execution.getProcessInstanceId())) {
-                    if (execution.getProcessDefinitionId() != null) {
+                    if (execution.getProcessDefinitionId() !is null) {
                         ProcessDefinition processDefinition = processEngineConfiguration
                                 .getDeploymentManager()
                                 .findDeployedProcessDefinitionById(execution.getProcessDefinitionId());
@@ -855,13 +855,13 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
                     activityId = execution.getActivityId();
                 }
 
-                if (activityId != null) {
+                if (activityId !is null) {
                     localize(execution, activityId);
                 }
             }
         }
         
-        if (processEngineConfiguration.getExecutionQueryInterceptor() != null) {
+        if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
             processEngineConfiguration.getExecutionQueryInterceptor().afterExecutionQueryExecute(this, (List<Execution>) executions);
         }
 
@@ -874,16 +874,16 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         executionEntity.setLocalizedDescription(null);
 
         string processDefinitionId = executionEntity.getProcessDefinitionId();
-        if (locale != null && processDefinitionId != null) {
+        if (locale !is null && processDefinitionId !is null) {
             ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, activityId, processDefinitionId, withLocalizationFallback);
-            if (languageNode != null) {
+            if (languageNode !is null) {
                 JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                if (languageNameNode != null && !languageNameNode.isNull()) {
+                if (languageNameNode !is null && !languageNameNode.isNull()) {
                     executionEntity.setLocalizedName(languageNameNode.asText());
                 }
 
                 JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                if (languageDescriptionNode != null && !languageDescriptionNode.isNull()) {
+                if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
                     executionEntity.setLocalizedDescription(languageDescriptionNode.asText());
                 }
             }

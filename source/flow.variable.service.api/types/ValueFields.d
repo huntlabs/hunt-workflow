@@ -18,7 +18,7 @@
  * 
  * @author Tom Baeyens
  */
-public interface ValueFields {
+interface ValueFields {
 
     /**
      * @return the name of the variable

@@ -13,8 +13,8 @@
 
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
@@ -41,11 +41,11 @@ class AddEventListenerCommand implements Command<Void> {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (listener == null) {
+        if (listener is null) {
             throw new FlowableIllegalArgumentException("listener is null.");
         }
 
-        if (types != null) {
+        if (types !is null) {
             CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher().addEventListener(listener, types);
         } else {
             CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher().addEventListener(listener);

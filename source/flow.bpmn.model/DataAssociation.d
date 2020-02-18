@@ -67,7 +67,7 @@ class DataAssociation extends BaseElement {
         setTransformation(otherAssociation.getTransformation());
 
         assignments = new ArrayList<>();
-        if (otherAssociation.getAssignments() != null && !otherAssociation.getAssignments().isEmpty()) {
+        if (otherAssociation.getAssignments() !is null && !otherAssociation.getAssignments().isEmpty()) {
             for (Assignment assignment : otherAssociation.getAssignments()) {
                 assignments.add(assignment.clone());
             }

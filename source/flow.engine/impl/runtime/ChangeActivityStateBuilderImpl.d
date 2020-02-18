@@ -172,7 +172,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
 
     @Override
     public ChangeActivityStateBuilder processVariable(string processVariableName, Object processVariableValue) {
-        if (this.processVariables == null) {
+        if (this.processVariables is null) {
             this.processVariables = new HashMap<>();
         }
 
@@ -188,7 +188,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
 
     @Override
     public ChangeActivityStateBuilder localVariable(string startActivityId, string localVariableName, Object localVariableValue) {
-        if (this.localVariables == null) {
+        if (this.localVariables is null) {
             this.localVariables = new HashMap<>();
         }
 
@@ -208,7 +208,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
 
     @Override
     public ChangeActivityStateBuilder localVariables(string startActivityId, Map<string, Object> localVariables) {
-        if (this.localVariables == null) {
+        if (this.localVariables is null) {
             this.localVariables = new HashMap<>();
         }
 
@@ -219,7 +219,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
 
     @Override
     public void changeState() {
-        if (runtimeService == null) {
+        if (runtimeService is null) {
             throw new FlowableException("RuntimeService cannot be null, Obtain your builder instance from the RuntimService to access this feature");
         }
         runtimeService.changeActivityState(this);

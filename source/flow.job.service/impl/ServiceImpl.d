@@ -12,7 +12,7 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandExecutor;
 import flow.common.service.CommonServiceImpl;
 import org.flowable.job.service.JobServiceConfiguration;

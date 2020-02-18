@@ -27,7 +27,7 @@ import org.flowable.bpmn.model.BaseElement;
 import org.flowable.bpmn.model.ExtensionElement;
 import org.flowable.bpmn.model.IOParameter;
 import org.flowable.bpmn.model.SendEventServiceTask;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
 import org.flowable.eventregistry.api.runtime.EventInstance;
 import org.flowable.eventregistry.api.runtime.EventPayloadInstance;
@@ -126,7 +126,7 @@ class EventInstanceBpmnUtil {
         
         EventPayloadInstance payloadInstance = payloadInstances.get(source);
         if (StringUtils.isNotEmpty(target)) {
-            Object value = payloadInstance != null ? payloadInstance.getValue() : null;
+            Object value = payloadInstance !is null ? payloadInstance.getValue() : null;
             if (bool.TRUE.equals(isTransient)) {
                 variableScope.setTransientVariable(target, value);
             } else {

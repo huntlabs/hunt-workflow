@@ -36,7 +36,7 @@ class ValidateV5EntitiesCmd implements Command<Void> {
     @Override
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() == null) {
+        if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() is null) {
 
             RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();
             long numberOfV5Deployments = repositoryService.createDeploymentQuery().deploymentEngineVersion(Flowable5Util.V5_ENGINE_TAG).count();

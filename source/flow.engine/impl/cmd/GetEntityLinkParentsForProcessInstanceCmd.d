@@ -41,7 +41,7 @@ class GetEntityLinkParentsForProcessInstanceCmd implements Command<List<EntityLi
     public List<EntityLink> execute(CommandContext commandContext) {
         ExecutionEntity processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
 
-        if (processInstance == null) {
+        if (processInstance is null) {
             throw new FlowableObjectNotFoundException("Cannot find process instance with id " + processInstanceId, ExecutionEntity.class);
         }
 

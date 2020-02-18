@@ -12,8 +12,8 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.CountingExecutionEntity;
@@ -30,12 +30,12 @@ class CountingEntityUtil {
 
     public static void handleDeleteVariableInstanceEntityCount(VariableInstanceEntity variableInstance, bool fireDeleteEvent) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
-        if (variableInstance.getTaskId() != null && isTaskRelatedEntityCountEnabledGlobally()) {
+        if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
             CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskService().getTask(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() - 1);
             }
-        } else if (variableInstance.getExecutionId() != null && isExecutionRelatedEntityCountEnabledGlobally()) {
+        } else if (variableInstance.getExecutionId() !is null && isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager(commandContext).findById(variableInstance.getExecutionId());
             if (isExecutionRelatedEntityCountEnabled(executionEntity)) {
                 executionEntity.setVariableCount(executionEntity.getVariableCount() - 1);
@@ -43,7 +43,7 @@ class CountingEntityUtil {
         }
         
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
-        if (fireDeleteEvent && eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (fireDeleteEvent && eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, variableInstance));
     
             eventDispatcher.dispatchEvent(EventUtil.createVariableDeleteEvent(variableInstance));
@@ -52,12 +52,12 @@ class CountingEntityUtil {
     
     public static void handleInsertVariableInstanceEntityCount(VariableInstanceEntity variableInstance) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
-        if (variableInstance.getTaskId() != null && isTaskRelatedEntityCountEnabledGlobally()) {
+        if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
             CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskService().getTask(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() + 1);
             }
-        } else if (variableInstance.getExecutionId() != null && isExecutionRelatedEntityCountEnabledGlobally()) {
+        } else if (variableInstance.getExecutionId() !is null && isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager(commandContext).findById(variableInstance.getExecutionId());
             if (isExecutionRelatedEntityCountEnabled(executionEntity)) {
                 executionEntity.setVariableCount(executionEntity.getVariableCount() + 1);
@@ -66,7 +66,7 @@ class CountingEntityUtil {
     }
     
     public static void handleInsertEventSubscriptionEntityCount(EventSubscription eventSubscription) {
-        if (eventSubscription.getExecutionId() != null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
+        if (eventSubscription.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
                             eventSubscription.getExecutionId());
 
@@ -77,7 +77,7 @@ class CountingEntityUtil {
     }
     
     public static void handleDeleteEventSubscriptionEntityCount(EventSubscription eventSubscription) {
-        if (eventSubscription.getExecutionId() != null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
+        if (eventSubscription.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
                             eventSubscription.getExecutionId());
             

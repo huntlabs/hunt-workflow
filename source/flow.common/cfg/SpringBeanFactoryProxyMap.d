@@ -41,7 +41,7 @@ module flow.common.cfg.SpringBeanFactoryProxyMap;
 //
 //    @Override
 //    public Object get(Object key) {
-//        if ((key == null) || !string.class.isAssignableFrom(key.getClass())) {
+//        if ((key is null) || !string.class.isAssignableFrom(key.getClass())) {
 //            return null;
 //        }
 //        return beanFactory.getBean((string) key);
@@ -49,7 +49,7 @@ module flow.common.cfg.SpringBeanFactoryProxyMap;
 //
 //    @Override
 //    public bool containsKey(Object key) {
-//        if ((key == null) || !string.class.isAssignableFrom(key.getClass())) {
+//        if ((key is null) || !string.class.isAssignableFrom(key.getClass())) {
 //            return false;
 //        }
 //        return beanFactory.containsBean((string) key);

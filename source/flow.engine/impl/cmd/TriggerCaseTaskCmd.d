@@ -39,7 +39,7 @@ class TriggerCaseTaskCmd implements Command<Void>, Serializable {
     public TriggerCaseTaskCmd(string executionId, Map<string, Object> variables) {
         this.executionId = executionId;
 
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
         }
         
@@ -50,7 +50,7 @@ class TriggerCaseTaskCmd implements Command<Void>, Serializable {
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         ExecutionEntity execution = (ExecutionEntity) processEngineConfiguration.getExecutionEntityManager().findById(executionId);
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableException("No execution could be found for id " + executionId);
         }
         

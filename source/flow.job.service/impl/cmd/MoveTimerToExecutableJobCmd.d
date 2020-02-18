@@ -42,13 +42,13 @@ class MoveTimerToExecutableJobCmd implements Command<JobEntity>, Serializable {
     @Override
     public JobEntity execute(CommandContext commandContext) {
 
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("jobId and job is null");
         }
 
         TimerJobEntity timerJob = CommandContextUtil.getTimerJobEntityManager(commandContext).findById(jobId);
 
-        if (timerJob == null) {
+        if (timerJob is null) {
             throw new JobNotFoundException(jobId);
         }
 

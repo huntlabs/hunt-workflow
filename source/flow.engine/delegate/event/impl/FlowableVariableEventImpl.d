@@ -21,7 +21,7 @@ module flow.engine.delegate.event.impl.FlowableVariableEventImpl;
  
  
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import org.flowable.variable.api.event.FlowableVariableEvent;
 import org.flowable.variable.api.types.VariableType;
 

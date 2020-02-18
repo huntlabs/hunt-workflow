@@ -75,7 +75,7 @@ class ProcessDiagramLayoutFactory {
      * @return Layout of the process diagram; null when parameter imageStream is null
      */
     public DiagramLayout getBpmnProcessDiagramLayout(Document bpmnModel, InputStream imageStream) {
-        if (imageStream == null) {
+        if (imageStream is null) {
             return null;
         }
         DiagramNode diagramBoundsXml = getDiagramBoundsFromBpmnDi(bpmnModel);
@@ -136,16 +136,16 @@ class ProcessDiagramLayoutFactory {
                 // <bpmndi:BPMNLabel><dc:Bounds height="0.0" width="0.0" x="0.0"
                 // y="0.0"/></bpmndi:BPMNLabel>
             } else {
-                if (minX == null || x < minX) {
+                if (minX is null || x < minX) {
                     minX = x;
                 }
-                if (minY == null || y < minY) {
+                if (minY is null || y < minY) {
                     minY = y;
                 }
-                if (maxX == null || maxX < (x + width)) {
+                if (maxX is null || maxX < (x + width)) {
                     maxX = (x + width);
                 }
-                if (maxY == null || maxY < (y + height)) {
+                if (maxY is null || maxY < (y + height)) {
                     maxY = (y + height);
                 }
             }
@@ -158,16 +158,16 @@ class ProcessDiagramLayoutFactory {
             Double x = Double.valueOf(waypoint.getAttribute("x"));
             Double y = Double.valueOf(waypoint.getAttribute("y"));
 
-            if (minX == null || x < minX) {
+            if (minX is null || x < minX) {
                 minX = x;
             }
-            if (minY == null || y < minY) {
+            if (minY is null || y < minY) {
                 minY = y;
             }
-            if (maxX == null || maxX < x) {
+            if (maxX is null || maxX < x) {
                 maxX = x;
             }
-            if (maxY == null || maxY < y) {
+            if (maxY is null || maxY < y) {
                 maxY = y;
             }
         }

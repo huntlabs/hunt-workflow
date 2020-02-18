@@ -23,9 +23,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.calendar.BusinessCalendar;
 import flow.common.calendar.DueDateBusinessCalendar;
 import flow.common.el.ExpressionManager;
@@ -127,7 +127,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                         activeTaskPriority, activeTaskCategory, activeTaskFormKey, activeTaskSkipExpression, activeTaskAssignee, activeTaskOwner, 
                         activeTaskCandidateUsers, activeTaskCandidateGroups);
         
-        if (processEngineConfiguration.getCreateUserTaskInterceptor() != null) {
+        if (processEngineConfiguration.getCreateUserTaskInterceptor() !is null) {
             processEngineConfiguration.getCreateUserTaskInterceptor().beforeCreateUserTask(beforeContext);
         }
 
@@ -135,7 +135,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             string name = null;
             try {
                 Object nameValue = expressionManager.createExpression(beforeContext.getName()).getValue(execution);
-                if (nameValue != null) {
+                if (nameValue !is null) {
                     name = nameValue.toString();
                 }
             } catch (FlowableException e) {
@@ -149,7 +149,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             string description = null;
             try {
                 Object descriptionValue = expressionManager.createExpression(beforeContext.getDescription()).getValue(execution);
-                if (descriptionValue != null) {
+                if (descriptionValue !is null) {
                     description = descriptionValue.toString();
                 }
             } catch (FlowableException e) {
@@ -161,7 +161,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
 
         if (StringUtils.isNotEmpty(beforeContext.getDueDate())) {
             Object dueDate = expressionManager.createExpression(beforeContext.getDueDate()).getValue(execution);
-            if (dueDate != null) {
+            if (dueDate !is null) {
                 if (dueDate instanceof Date) {
                     task.setDueDate((Date) dueDate);
                 } else if (dueDate instanceof string) {
@@ -184,7 +184,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
 
         if (StringUtils.isNotEmpty(beforeContext.getPriority())) {
             final Object priority = expressionManager.createExpression(beforeContext.getPriority()).getValue(execution);
-            if (priority != null) {
+            if (priority !is null) {
                 if (priority instanceof string) {
                     try {
                         task.setPriority(Integer.valueOf((string) priority));
@@ -203,7 +203,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             string category = null;
             try {
                 Object categoryValue = expressionManager.createExpression(beforeContext.getCategory()).getValue(execution);
-                if (categoryValue != null) {
+                if (categoryValue !is null) {
                     category = categoryValue.toString();
                 }
             }  catch (FlowableException e) {
@@ -217,7 +217,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             string formKey = null;
             try {
                 Object formKeyValue = expressionManager.createExpression(beforeContext.getFormKey()).getValue(execution);
-                if (formKeyValue != null) {
+                if (formKeyValue !is null) {
                     formKey = formKeyValue.toString();
                 }
             } catch (FlowableException e) {
@@ -242,7 +242,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             handleAssignments(taskService, beforeContext.getAssignee(), beforeContext.getOwner(), beforeContext.getCandidateUsers(), 
                             beforeContext.getCandidateGroups(), task, expressionManager, execution, processEngineConfiguration);
             
-            if (processEngineConfiguration.getCreateUserTaskInterceptor() != null) {
+            if (processEngineConfiguration.getCreateUserTaskInterceptor() !is null) {
                 CreateUserTaskAfterContext afterContext = new CreateUserTaskAfterContext(userTask, task, execution);
                 processEngineConfiguration.getCreateUserTaskInterceptor().afterCreateUserTask(afterContext);
             }
@@ -251,7 +251,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
 
             // All properties set, now firing 'create' events
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getTaskServiceConfiguration(commandContext).getEventDispatcher();
-            if (eventDispatcher != null  && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null  && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
                         FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_CREATED, task));
             }
@@ -283,7 +283,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
         if (StringUtils.isNotEmpty(assignee)) {
             Object assigneeExpressionValue = expressionManager.createExpression(assignee).getValue(execution);
             string assigneeValue = null;
-            if (assigneeExpressionValue != null) {
+            if (assigneeExpressionValue !is null) {
                 assigneeValue = assigneeExpressionValue.toString();
             }
 
@@ -300,7 +300,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
         if (StringUtils.isNotEmpty(owner)) {
             Object ownerExpressionValue = expressionManager.createExpression(owner).getValue(execution);
             string ownerValue = null;
-            if (ownerExpressionValue != null) {
+            if (ownerExpressionValue !is null) {
                 ownerValue = ownerExpressionValue.toString();
             }
 
@@ -314,12 +314,12 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             }
         }
 
-        if (candidateGroups != null && !candidateGroups.isEmpty()) {
+        if (candidateGroups !is null && !candidateGroups.isEmpty()) {
             List<IdentityLinkEntity> allIdentityLinkEntities = new ArrayList<>();
             for (string candidateGroup : candidateGroups) {
                 Expression groupIdExpr = expressionManager.createExpression(candidateGroup);
                 Object value = groupIdExpr.getValue(execution);
-                if (value != null) {
+                if (value !is null) {
                     List<IdentityLinkEntity> identityLinkEntities = null;
                     if (value instanceof Collection) {
                         identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), (Collection) value);
@@ -332,7 +332,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                         }
                     }
                     
-                    if (identityLinkEntities != null && !identityLinkEntities.isEmpty()) {
+                    if (identityLinkEntities !is null && !identityLinkEntities.isEmpty()) {
                         IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
                         allIdentityLinkEntities.addAll(identityLinkEntities);
                     }
@@ -348,12 +348,12 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             }
         }
 
-        if (candidateUsers != null && !candidateUsers.isEmpty()) {
+        if (candidateUsers !is null && !candidateUsers.isEmpty()) {
             List<IdentityLinkEntity> allIdentityLinkEntities = new ArrayList<>();
             for (string candidateUser : candidateUsers) {
                 Expression userIdExpr = expressionManager.createExpression(candidateUser);
                 Object value = userIdExpr.getValue(execution);
-                if (value != null) {
+                if (value !is null) {
                     List<IdentityLinkEntity> identityLinkEntities = null;
                     if (value instanceof Collection) {
                         identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateUsers(task.getId(), (Collection) value);
@@ -366,7 +366,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                         }
                     }
                     
-                    if (identityLinkEntities != null && !identityLinkEntities.isEmpty()) {
+                    if (identityLinkEntities !is null && !identityLinkEntities.isEmpty()) {
                         IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
                         allIdentityLinkEntities.addAll(identityLinkEntities);
                     }
@@ -382,7 +382,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             }
         }
 
-        if (userTask.getCustomUserIdentityLinks() != null && !userTask.getCustomUserIdentityLinks().isEmpty()) {
+        if (userTask.getCustomUserIdentityLinks() !is null && !userTask.getCustomUserIdentityLinks().isEmpty()) {
 
             List<IdentityLinkEntity> customIdentityLinkEntities = new ArrayList<>();
             for (string customUserIdentityLinkType : userTask.getCustomUserIdentityLinks().keySet()) {
@@ -419,7 +419,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             }
         }
 
-        if (userTask.getCustomGroupIdentityLinks() != null && !userTask.getCustomGroupIdentityLinks().isEmpty()) {
+        if (userTask.getCustomGroupIdentityLinks() !is null && !userTask.getCustomGroupIdentityLinks().isEmpty()) {
 
             List<IdentityLinkEntity> customIdentityLinkEntities = new ArrayList<>();
             for (string customGroupIdentityLinkType : userTask.getCustomGroupIdentityLinks().keySet()) {

@@ -30,14 +30,14 @@ class RulesHelper {
         DeploymentCache<Object> knowledgeBaseCache = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager().getKnowledgeBaseCache();
 
         KieBase knowledgeBase = (KieBase) knowledgeBaseCache.get(deploymentId);
-        if (knowledgeBase == null) {
+        if (knowledgeBase is null) {
             DeploymentEntity deployment = CommandContextUtil.getDeploymentEntityManager().findById(deploymentId);
-            if (deployment == null) {
+            if (deployment is null) {
                 throw new FlowableObjectNotFoundException("no deployment with id " + deploymentId, Deployment.class);
             }
             CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager().deploy(deployment);
             knowledgeBase = (KieBase) knowledgeBaseCache.get(deploymentId);
-            if (knowledgeBase == null) {
+            if (knowledgeBase is null) {
                 throw new FlowableException("deployment " + deploymentId + " doesn't contain any rules");
             }
         }

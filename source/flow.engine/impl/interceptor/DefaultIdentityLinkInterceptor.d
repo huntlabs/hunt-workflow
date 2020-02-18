@@ -26,7 +26,7 @@ class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
 
     @Override
     public void handleCompleteTask(TaskEntity task) {
-        if (Authentication.getAuthenticatedUserId() != null && task.getProcessInstanceId() != null) {
+        if (Authentication.getAuthenticatedUserId() !is null && task.getProcessInstanceId() !is null) {
             ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
             IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity,
                     Authentication.getAuthenticatedUserId(), null, IdentityLinkType.PARTICIPANT);
@@ -51,7 +51,7 @@ class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
     @Override
     public void handleCreateProcessInstance(ExecutionEntity processInstanceExecution) {
         string authenticatedUserId = Authentication.getAuthenticatedUserId();
-        if (authenticatedUserId != null) {
+        if (authenticatedUserId !is null) {
             IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
         }
     }
@@ -59,13 +59,13 @@ class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
     @Override
     public void handleCreateSubProcessInstance(ExecutionEntity subProcessInstanceExecution, ExecutionEntity superExecution) {
         string authenticatedUserId = Authentication.getAuthenticatedUserId();
-        if (authenticatedUserId != null) {
+        if (authenticatedUserId !is null) {
             IdentityLinkUtil.createProcessInstanceIdentityLink(subProcessInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
         }
     }
     
     protected void addUserIdentityLinkToParent(Task task, string userId) {
-        if (userId != null && task.getProcessInstanceId() != null) {
+        if (userId !is null && task.getProcessInstanceId() !is null) {
             ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
             for (IdentityLinkEntity identityLink : processInstanceEntity.getIdentityLinks()) {
                 if (identityLink.isUser() && identityLink.getUserId().equals(userId) && IdentityLinkType.PARTICIPANT.equals(identityLink.getType())) {

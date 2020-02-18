@@ -19,7 +19,7 @@
  * @author dsyer
  * @author Frederik Heremans
  */
-public interface VariableTypes {
+interface VariableTypes {
 
     /**
      * @return the type for the given type name. Returns null if no type was found with the name.
@@ -28,7 +28,7 @@ public interface VariableTypes {
 
     /**
      * @return the variable type to be used to store the given value as a variable.
-     * @throws org.flowable.common.engine.api.FlowableException
+     * @throws flow.common.api.FlowableException
      *             When no available type is capable of storing the value.
      */
     public VariableType findVariableType(Object value);

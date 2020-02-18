@@ -94,7 +94,7 @@ public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
         // already being closing), but the asyncHistorySession still has it stored.
         
         TransactionContext transactionContext = Context.getTransactionContext();
-        if (transactionContext == null) {
+        if (transactionContext is null) {
             if (job instanceof HistoryJobEntity) {
                 CommandContext commandContext = Context.getCommandContext();
                 AsyncHistorySession asyncHistorySession = commandContext.getSession(AsyncHistorySession.class);
@@ -102,7 +102,7 @@ public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
             }
         }
         
-        if (transactionContext != null) {
+        if (transactionContext !is null) {
             transactionContext.addTransactionListener(TransactionState.COMMITTED, new TransactionListener() {
                 @Override
                 public void execute(CommandContext commandContext) {

@@ -75,7 +75,7 @@ class ParsedDeploymentBuilder {
                 .deployment(deployment)
                 .name(resourceName);
 
-        if (deploymentSettings != null) {
+        if (deploymentSettings !is null) {
 
             // Schema validation if needed
             if (deploymentSettings.containsKey(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED)) {

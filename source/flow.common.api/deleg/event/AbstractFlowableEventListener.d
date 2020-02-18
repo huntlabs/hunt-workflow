@@ -16,20 +16,30 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.event.FlowableEntityEvent;
+module flow.common.api.deleg.event.AbstractFlowableEventListener;
  
  
  
 
 /**
- * An {@link FlowableEvent} related to a single entity.
- * 
- * @author Frederik Heremans
+ * @author Joram Barrez
  */
-interface FlowableEntityEvent extends FlowableEvent {
+ class AbstractFlowableEventListener : FlowableEventListener {
 
-    /**
-     * @return the entity that is targeted by this event.
-     */
-    Object getEntity();
+    protected string onTransaction;
+    
+    @Override
+    public bool isFireOnTransactionLifecycleEvent() {
+        return onTransaction !is null;
+    }
+
+    @Override
+    public string getOnTransaction() {
+        return onTransaction;
+    }
+
+    public void setOnTransaction(string onTransaction) {
+        this.onTransaction = onTransaction;
+    }
+
 }

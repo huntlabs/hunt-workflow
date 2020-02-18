@@ -63,11 +63,11 @@ class ModelEntityManagerImpl
     @Override
     public void insertEditorSourceForModel(string modelId, byte[] modelSource) {
         ModelEntity model = findById(modelId);
-        if (model != null) {
+        if (model !is null) {
             ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceValueId());
             ref.setValue("source", modelSource);
 
-            if (model.getEditorSourceValueId() == null) {
+            if (model.getEditorSourceValueId() is null) {
                 model.setEditorSourceValueId(ref.getId());
                 updateModel(model);
             }
@@ -76,7 +76,7 @@ class ModelEntityManagerImpl
 
     @Override
     public void deleteEditorSource(ModelEntity model) {
-        if (model.getEditorSourceValueId() != null) {
+        if (model.getEditorSourceValueId() !is null) {
             ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceValueId());
             ref.delete();
         }
@@ -84,7 +84,7 @@ class ModelEntityManagerImpl
 
     @Override
     public void deleteEditorSourceExtra(ModelEntity model) {
-        if (model.getEditorSourceExtraValueId() != null) {
+        if (model.getEditorSourceExtraValueId() !is null) {
             ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceExtraValueId());
             ref.delete();
         }
@@ -93,11 +93,11 @@ class ModelEntityManagerImpl
     @Override
     public void insertEditorSourceExtraForModel(string modelId, byte[] modelSource) {
         ModelEntity model = findById(modelId);
-        if (model != null) {
+        if (model !is null) {
             ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceExtraValueId());
             ref.setValue("source-extra", modelSource);
 
-            if (model.getEditorSourceExtraValueId() == null) {
+            if (model.getEditorSourceExtraValueId() is null) {
                 model.setEditorSourceExtraValueId(ref.getId());
                 updateModel(model);
             }
@@ -117,7 +117,7 @@ class ModelEntityManagerImpl
     @Override
     public byte[] findEditorSourceByModelId(string modelId) {
         ModelEntity model = findById(modelId);
-        if (model == null || model.getEditorSourceValueId() == null) {
+        if (model is null || model.getEditorSourceValueId() is null) {
             return null;
         }
 
@@ -128,7 +128,7 @@ class ModelEntityManagerImpl
     @Override
     public byte[] findEditorSourceExtraByModelId(string modelId) {
         ModelEntity model = findById(modelId);
-        if (model == null || model.getEditorSourceExtraValueId() == null) {
+        if (model is null || model.getEditorSourceExtraValueId() is null) {
             return null;
         }
 

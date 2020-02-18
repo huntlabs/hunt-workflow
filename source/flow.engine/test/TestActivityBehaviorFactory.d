@@ -54,7 +54,7 @@ import org.flowable.bpmn.model.ThrowEvent;
 import org.flowable.bpmn.model.TimerEventDefinition;
 import org.flowable.bpmn.model.Transaction;
 import org.flowable.bpmn.model.UserTask;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.behavior.AdhocSubProcessActivityBehavior;
 import flow.engine.impl.bpmn.behavior.BoundaryCancelEventActivityBehavior;
@@ -182,11 +182,11 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
 
             return createNoOpServiceTask(serviceTask);
 
-        } else if (serviceTask.getImplementation() != null && mockedClassDelegatesMapping.containsKey(serviceTask.getImplementation())) {
+        } else if (serviceTask.getImplementation() !is null && mockedClassDelegatesMapping.containsKey(serviceTask.getImplementation())) {
 
             return new ClassDelegate(mockedClassDelegatesMapping.get(serviceTask.getImplementation()), createFieldDeclarations(serviceTask.getFieldExtensions()));
 
-        } else if (serviceTask.getId() != null && mockedClassTaskIdDelegatesMapping.containsKey(serviceTask.getId())) {
+        } else if (serviceTask.getId() !is null && mockedClassTaskIdDelegatesMapping.containsKey(serviceTask.getId())) {
             return new ClassDelegate(mockedClassTaskIdDelegatesMapping.get(serviceTask.getId()), createFieldDeclarations(serviceTask.getFieldExtensions()));
         }
 

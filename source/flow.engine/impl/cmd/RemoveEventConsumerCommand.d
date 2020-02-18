@@ -28,7 +28,7 @@ class RemoveEventConsumerCommand implements Command<Void> {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (eventConsumer == null) {
+        if (eventConsumer is null) {
             throw new FlowableIllegalArgumentException("event consumer is null.");
         }
 

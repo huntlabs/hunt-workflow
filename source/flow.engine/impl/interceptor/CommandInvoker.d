@@ -79,7 +79,7 @@ class CommandInvoker extends AbstractCommandInterceptor {
 
             // Execute the operation if the operation has no execution (i.e. it's an operation not working on a process instance)
             // or the operation has an execution and it is not ended
-            if (operation.getExecution() == null || !operation.getExecution().isEnded()) {
+            if (operation.getExecution() is null || !operation.getExecution().isEnded()) {
 
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("Executing operation {}", operation.getClass());

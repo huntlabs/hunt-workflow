@@ -29,8 +29,8 @@ class ExecutionsByParentExecutionIdAndActivityIdEntityMatcher extends CachedEnti
         string parentExecutionId = (string) paramMap.get("parentExecutionId");
         Collection<string> activityIds = (Collection<string>) paramMap.get("activityIds");
 
-        return executionEntity.getParentId() != null && executionEntity.getParentId().equals(parentExecutionId)
-                && executionEntity.getActivityId() != null && activityIds.contains(executionEntity.getActivityId());
+        return executionEntity.getParentId() !is null && executionEntity.getParentId().equals(parentExecutionId)
+                && executionEntity.getActivityId() !is null && activityIds.contains(executionEntity.getActivityId());
     }
 
 }

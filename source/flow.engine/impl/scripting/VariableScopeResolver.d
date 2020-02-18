@@ -52,7 +52,7 @@ class VariableScopeResolver implements Resolver {
 
         this.processEngineConfiguration = processEngineConfiguration;
 
-        if (variableScope == null) {
+        if (variableScope is null) {
             throw new FlowableIllegalArgumentException("variableScope cannot be null");
         }
         if (variableScope instanceof ExecutionEntity) {

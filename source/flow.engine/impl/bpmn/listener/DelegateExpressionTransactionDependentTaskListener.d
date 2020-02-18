@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.flowable.bpmn.model.Task;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.delegate.TransactionDependentTaskListener;
 import org.flowable.variable.service.impl.el.NoExecutionVariableScope;
 

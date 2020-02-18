@@ -11,14 +11,23 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.ProcessDefinitionQuery;
+ 
+ 
+ 
 
 
-import java.util.Collection;
-import java.util.Set;
-
+import hunt.collection;
+import hunt.collection.Set;
+import hunt.Integer;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.Query;
-
+import flow.engine.repository.ProcessDefinition;
 /**
  * Allows programmatic querying of {@link ProcessDefinition}s.
  * 
@@ -27,13 +36,13 @@ import flow.common.api.query.Query;
  * @author Daniel Meyer
  * @author Saeid Mirzaei
  */
-interface ProcessDefinitionQuery extends Query<ProcessDefinitionQuery, ProcessDefinition> {
+interface ProcessDefinitionQuery : Query!(ProcessDefinitionQuery, ProcessDefinition) {
 
     /** Only select process definition with the given id. */
     ProcessDefinitionQuery processDefinitionId(string processDefinitionId);
 
     /** Only select process definitions with the given ids. */
-    ProcessDefinitionQuery processDefinitionIds(Set<string> processDefinitionIds);
+    ProcessDefinitionQuery processDefinitionIds(Set!string processDefinitionIds);
 
     /** Only select process definitions with the given category. */
     ProcessDefinitionQuery processDefinitionCategory(string processDefinitionCategory);
@@ -66,7 +75,7 @@ interface ProcessDefinitionQuery extends Query<ProcessDefinitionQuery, ProcessDe
     /**
      * Select process definitions that are deployed in deployments with the given set of ids
      */
-    ProcessDefinitionQuery deploymentIds(Set<string> deploymentIds);
+    ProcessDefinitionQuery deploymentIds(Set!string deploymentIds);
 
     /**
      * Only select process definition with the given key.
@@ -127,7 +136,7 @@ interface ProcessDefinitionQuery extends Query<ProcessDefinitionQuery, ProcessDe
     /**
      * Only selects process definition which the given userId or groups are authorized to start.
      */
-    ProcessDefinitionQuery startableByUserOrGroups(string userId, Collection<string> groups);
+    ProcessDefinitionQuery startableByUserOrGroups(string userId, Collection!string groups);
 
     /**
      * Only selects process definitions which are suspended

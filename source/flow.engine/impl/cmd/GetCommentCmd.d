@@ -32,7 +32,7 @@ class GetCommentCmd implements Command<Comment>, Serializable {
     public GetCommentCmd(string commentId) {
         this.commentId = commentId;
 
-        if (commentId == null) {
+        if (commentId is null) {
             throw new FlowableIllegalArgumentException("commentId is null");
         }
     }

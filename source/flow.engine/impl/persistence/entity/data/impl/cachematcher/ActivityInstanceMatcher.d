@@ -28,8 +28,8 @@ class ActivityInstanceMatcher extends CachedEntityMatcherAdapter<ActivityInstanc
         string executionId = paramMap.get("executionId");
         string activityId = paramMap.get("activityId");
 
-        return entity.getExecutionId() != null && entity.getExecutionId().equals(executionId)
-                && entity.getActivityId() != null && entity.getActivityId().equals(activityId);
+        return entity.getExecutionId() !is null && entity.getExecutionId().equals(executionId)
+                && entity.getActivityId() !is null && entity.getActivityId().equals(activityId);
     }
 
 }

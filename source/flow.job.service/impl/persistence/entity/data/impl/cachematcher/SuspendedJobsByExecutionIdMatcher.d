@@ -22,7 +22,7 @@ class SuspendedJobsByExecutionIdMatcher extends CachedEntityMatcherAdapter<Suspe
 
     @Override
     public bool isRetained(SuspendedJobEntity jobEntity, Object param) {
-        return jobEntity.getExecutionId() != null && jobEntity.getExecutionId().equals(param);
+        return jobEntity.getExecutionId() !is null && jobEntity.getExecutionId().equals(param);
     }
 
 }

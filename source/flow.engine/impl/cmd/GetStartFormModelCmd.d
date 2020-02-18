@@ -51,7 +51,7 @@ class GetStartFormModelCmd implements Command<FormInfo>, Serializable {
     public FormInfo execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FormService formService = CommandContextUtil.getFormService(commandContext);
-        if (formService == null) {
+        if (formService is null) {
             throw new FlowableIllegalArgumentException("Form engine is not initialized");
         }
 
@@ -70,7 +70,7 @@ class GetStartFormModelCmd implements Command<FormInfo>, Serializable {
         }
 
         // If form does not exists, we don't want to leak out this info to just anyone
-        if (formInfo == null) {
+        if (formInfo is null) {
             throw new FlowableObjectNotFoundException("Form model for process definition " + processDefinitionId + " cannot be found");
         }
 

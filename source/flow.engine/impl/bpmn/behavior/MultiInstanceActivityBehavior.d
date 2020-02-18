@@ -29,8 +29,8 @@ import org.flowable.bpmn.model.FlowNode;
 import org.flowable.bpmn.model.ImplementationType;
 import org.flowable.bpmn.model.Process;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.el.ExpressionManager;
 import flow.common.util.CollectionUtil;
 import flow.engine.DynamicBpmnConstants;
@@ -107,7 +107,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
     @Override
     public void execute(DelegateExecution delegateExecution) {
         ExecutionEntity execution = (ExecutionEntity) delegateExecution;
-        if (getLocalLoopVariable(execution, getCollectionElementIndexVariable()) == null) {
+        if (getLocalLoopVariable(execution, getCollectionElementIndexVariable()) is null) {
 
             int nrOfInstances = 0;
 
@@ -191,7 +191,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
         List<BoundaryEvent> results = new ArrayList<>(1);
         Collection<BoundaryEvent> boundaryEvents = process.findFlowElementsOfType(BoundaryEvent.class, true);
         for (BoundaryEvent boundaryEvent : boundaryEvents) {
-            if (boundaryEvent.getAttachedToRefId() != null && boundaryEvent.getAttachedToRefId().equals(flowElement.getId())) {
+            if (boundaryEvent.getAttachedToRefId() !is null && boundaryEvent.getAttachedToRefId().equals(flowElement.getId())) {
                 results.add(boundaryEvent);
             }
         }
@@ -226,7 +226,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
     }
     
     public bool completionConditionSatisfied(DelegateExecution execution) {
-        if (completionCondition != null) {
+        if (completionCondition !is null) {
             
             ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
             ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
@@ -259,11 +259,11 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
     public Integer getLoopVariable(DelegateExecution execution, string variableName) {
         Object value = execution.getVariableLocal(variableName);
         DelegateExecution parent = execution.getParent();
-        while (value == null && parent != null) {
+        while (value is null && parent !is null) {
             value = parent.getVariableLocal(variableName);
             parent = parent.getParent();
         }
-        return (Integer) (value != null ? value : 0);
+        return (Integer) (value !is null ? value : 0);
     }
 
     // Helpers
@@ -292,7 +292,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
 
     @SuppressWarnings("rawtypes")
     protected int resolveNrOfInstances(DelegateExecution execution) {
-        if (loopCardinalityExpression != null) {
+        if (loopCardinalityExpression !is null) {
             return resolveLoopCardinality(execution);
 
         } else if (usesCollection()) {
@@ -306,7 +306,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
 
     @SuppressWarnings("rawtypes")
     protected void executeOriginalBehavior(DelegateExecution execution, ExecutionEntity multiInstanceRootExecution, int loopCounter) {
-        if (usesCollection() && collectionElementVariable != null) {
+        if (usesCollection() && collectionElementVariable !is null) {
             Collection collection = (Collection) resolveAndValidateCollection(execution);
 
             Object value = null;
@@ -326,7 +326,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
     @SuppressWarnings("rawtypes")
     protected Collection resolveAndValidateCollection(DelegateExecution execution) {
         Object obj = resolveCollection(execution);
-        if (collectionHandler != null ) {           
+        if (collectionHandler !is null ) {
             return createFlowableCollectionHandler(collectionHandler, execution).resolveCollection(obj, execution);
         } else {
             if (obj instanceof Collection) {
@@ -341,7 +341,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
                     return (Collection) collectionVariable;
                 } else if (collectionVariable instanceof Iterable) {
                     return iterableToCollection((Iterable) collectionVariable);
-                } else if (collectionVariable == null) {
+                } else if (collectionVariable is null) {
                     throw new FlowableIllegalArgumentException("Variable '" + obj + "' was not found");
                 } else {
                     throw new FlowableIllegalArgumentException("Variable '" + obj + "':" + collectionVariable + " is not a Collection");
@@ -363,24 +363,24 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
 
     protected Object resolveCollection(DelegateExecution execution) {
         Object collection = null;
-        if (collectionExpression != null) {
+        if (collectionExpression !is null) {
             collection = collectionExpression.getValue(execution);
 
-        } else if (collectionVariable != null) {
+        } else if (collectionVariable !is null) {
             collection = execution.getVariable(collectionVariable);
             
-        } else if (collectionString != null) {
+        } else if (collectionString !is null) {
             collection = collectionString;
         }
         return collection;
     }
 
     protected bool usesCollection() {
-        return collectionExpression != null || collectionVariable != null || collectionString != null;
+        return collectionExpression !is null || collectionVariable !is null || collectionString !is null;
     }
 
     protected bool isExtraScopeNeeded(FlowNode flowNode) {
-        return flowNode.getSubProcess() != null;
+        return flowNode.getSubProcess() !is null;
     }
 
     protected int resolveLoopCardinality(DelegateExecution execution) {
@@ -436,7 +436,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
     protected void logLoopDetails(DelegateExecution execution, string custom, int loopCounter, int nrOfCompletedInstances, int nrOfActiveInstances, int nrOfInstances) {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Multi-instance '{}' {}. Details: loopCounter={}, nrOrCompletedInstances={},nrOfActiveInstances={},nrOfInstances={}",
-                    execution.getCurrentFlowElement() != null ? execution.getCurrentFlowElement().getId() : "", custom, loopCounter,
+                    execution.getCurrentFlowElement() !is null ? execution.getCurrentFlowElement().getId() : "", custom, loopCounter,
                     nrOfCompletedInstances, nrOfActiveInstances, nrOfInstances);
         }
     }
@@ -444,7 +444,7 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
     protected DelegateExecution getMultiInstanceRootExecution(DelegateExecution executionEntity) {
         DelegateExecution multiInstanceRootExecution = null;
         DelegateExecution currentExecution = executionEntity;
-        while (currentExecution != null && multiInstanceRootExecution == null && currentExecution.getParent() != null) {
+        while (currentExecution !is null && multiInstanceRootExecution is null && currentExecution.getParent() !is null) {
             if (currentExecution.isMultiInstanceRoot()) {
                 multiInstanceRootExecution = currentExecution;
             } else {
@@ -456,9 +456,9 @@ abstract class MultiInstanceActivityBehavior extends FlowNodeActivityBehavior im
     
     protected string getActiveValue(string originalValue, string propertyName, ObjectNode taskElementProperties) {
         string activeValue = originalValue;
-        if (taskElementProperties != null) {
+        if (taskElementProperties !is null) {
             JsonNode overrideValueNode = taskElementProperties.get(propertyName);
-            if (overrideValueNode != null) {
+            if (overrideValueNode !is null) {
                 if (overrideValueNode.isNull()) {
                     activeValue = null;
                 } else {

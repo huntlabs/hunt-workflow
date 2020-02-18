@@ -13,7 +13,7 @@
 
 
 
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.interceptor.CommandContext;
 import flow.common.logging.LoggingSessionConstants;
 import flow.engine.delegate.DelegateExecution;
@@ -84,7 +84,7 @@ class ServiceTaskJavaDelegateActivityBehavior extends TaskActivityBehavior imple
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         string skipExpressionText = null;
-        if (skipExpression != null) {
+        if (skipExpression !is null) {
             skipExpressionText = skipExpression.getExpressionText();
         }
         bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText,

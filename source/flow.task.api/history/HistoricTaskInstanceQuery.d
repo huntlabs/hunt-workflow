@@ -15,7 +15,7 @@
 
 import java.util.Date;
 
-import org.flowable.common.engine.api.query.DeleteQuery;
+import flow.common.api.query.DeleteQuery;
 import org.flowable.task.api.TaskInfoQuery;
 
 /**

@@ -60,10 +60,10 @@ class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
     private final Integer processDefinitionVersion;
 
     public SetProcessDefinitionVersionCmd(string processInstanceId, Integer processDefinitionVersion) {
-        if (processInstanceId == null || processInstanceId.length() < 1) {
+        if (processInstanceId is null || processInstanceId.length() < 1) {
             throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" + processInstanceId + "' has been provided.");
         }
-        if (processDefinitionVersion == null) {
+        if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("The process definition version is mandatory, but 'null' has been provided.");
         }
         if (processDefinitionVersion < 1) {
@@ -79,7 +79,7 @@ class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
         // process definition that the process instance is using
         ExecutionEntityManager executionManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity processInstance = executionManager.findById(processInstanceId);
-        if (processInstance == null) {
+        if (processInstance is null) {
             throw new FlowableObjectNotFoundException("No process instance found for id = '" + processInstanceId + "'.", ProcessInstance.class);
         } else if (!processInstance.isProcessInstanceType()) {
             throw new FlowableIllegalArgumentException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' " + "points to a child execution of process instance " + "'"
@@ -115,7 +115,7 @@ class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
     protected void validateAndSwitchVersionOfExecution(CommandContext commandContext, ExecutionEntity execution, ProcessDefinition newProcessDefinition) {
         // check that the new process definition version contains the current activity
         org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(newProcessDefinition.getId());
-        if (execution.getActivityId() != null && process.getFlowElement(execution.getActivityId(), true) == null) {
+        if (execution.getActivityId() !is null && process.getFlowElement(execution.getActivityId(), true) is null) {
             throw new FlowableException("The new process definition " + "(key = '" + newProcessDefinition.getKey() + "') " + "does not contain the current activity " + "(id = '"
                     + execution.getActivityId() + "') " + "of the process instance " + "(id = '" + processInstanceId + "').");
         }

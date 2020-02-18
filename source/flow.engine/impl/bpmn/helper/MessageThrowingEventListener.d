@@ -15,9 +15,9 @@
 import java.util.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
 import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
@@ -41,7 +41,7 @@ class MessageThrowingEventListener extends BaseDelegateEventListener {
 
             FlowableEngineEvent engineEvent = (FlowableEngineEvent) event;
 
-            if (engineEvent.getProcessInstanceId() == null) {
+            if (engineEvent.getProcessInstanceId() is null) {
                 throw new FlowableIllegalArgumentException("Cannot throw process-instance scoped message, since the dispatched event is not part of an ongoing process instance");
             }
 

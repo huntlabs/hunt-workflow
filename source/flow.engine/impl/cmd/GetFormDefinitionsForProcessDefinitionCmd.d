@@ -52,17 +52,17 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
     public List<FormDefinition> execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Cannot find process definition for id: " + processDefinitionId, ProcessDefinition.class);
         }
 
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionId);
 
-        if (bpmnModel == null) {
+        if (bpmnModel is null) {
             throw new FlowableObjectNotFoundException("Cannot find bpmn model for process definition id: " + processDefinitionId, BpmnModel.class);
         }
 
-        if (CommandContextUtil.getFormRepositoryService() == null) {
+        if (CommandContextUtil.getFormRepositoryService() is null) {
             throw new FlowableException("Form repository service is not available");
         }
 
@@ -104,10 +104,10 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
     protected void addFormDefinitionToCollection(List<FormDefinition> formDefinitions, string formKey, ProcessDefinition processDefinition) {
         FormDefinitionQuery formDefinitionQuery = formRepositoryService.createFormDefinitionQuery().formDefinitionKey(formKey);
         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(processDefinition.getDeploymentId());
-        if (deployment.getParentDeploymentId() != null) {
+        if (deployment.getParentDeploymentId() !is null) {
             List<FormDeployment> formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
             
-            if (formDeployments != null && formDeployments.size() > 0) {
+            if (formDeployments !is null && formDeployments.size() > 0) {
                 formDefinitionQuery.deploymentId(formDeployments.get(0).getId());
             } else {
                 formDefinitionQuery.latestVersion();
@@ -119,7 +119,7 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
         
         FormDefinition formDefinition = formDefinitionQuery.singleResult();
         
-        if (formDefinition != null) {
+        if (formDefinition !is null) {
             formDefinitions.add(formDefinition);
         }
     }

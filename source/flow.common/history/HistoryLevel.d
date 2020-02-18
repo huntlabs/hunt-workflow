@@ -19,20 +19,42 @@
  
 module flow.common.history.HistoryLevel;
 
-
+ import hunt.Enum;
+import std.concurrency : initOnce;
 /**
  * Enum that contains all possible history-levels.
  * 
  * @author Frederik Heremans
  */
-public enum HistoryLevel {
+class HistoryLevel : AbstractEnum!HistoryLevel {
 
-    NONE("none"), ACTIVITY("activity"), AUDIT("audit"), FULL("full");
 
-    private final string key;
+    private  string key;
 
-    private HistoryLevel(string key) {
+
+    static HistoryLevel  NONE() {
+        __gshared HistoryLevel  inst;
+        return initOnce!inst(new HistoryLevel("none" , 0));
+    }
+    static HistoryLevel  ACTIVITY() {
+        __gshared HistoryLevel  inst;
+        return initOnce!inst(new HistoryLevel("activity" , 1));
+    }
+    static HistoryLevel  AUDIT() {
+        __gshared HistoryLevel  inst;
+        return initOnce!inst(new HistoryLevel("audit" , 2));
+    }
+    static HistoryLevel  FULL() {
+        __gshared HistoryLevel  inst;
+        return initOnce!inst(new HistoryLevel("full" , 3));
+    }
+    static HistoryLevel[]  VALUES() {
+        __gshared HistoryLevel  inst[];
+        return initOnce!inst(inst = [NONE,ACTIVITY,AUDIT,FULL]);
+    }
+    this(string key , int val) {
         this.key = key;
+        super(key,val);
     }
 
     /**
@@ -43,12 +65,13 @@ public enum HistoryLevel {
      *             when passed in key doesn't correspond to existing level
      */
     public static HistoryLevel getHistoryLevelForKey(string key) {
-        for (HistoryLevel level : values()) {
+        foreach (HistoryLevel level ; VALUES()) {
             if (level.key.equals(key)) {
                 return level;
             }
         }
-        throw new FlowableIllegalArgumentException("Illegal value for history-level: " + key);
+        return null;
+      //  throw new FlowableIllegalArgumentException("Illegal value for history-level: " + key);
     }
 
     /**
@@ -64,6 +87,6 @@ public enum HistoryLevel {
     public bool isAtLeast(HistoryLevel level) {
         // Comparing enums actually compares the location of values declared in
         // the enum
-        return this.compareTo(level) >= 0;
+        return this >= (level);
     }
 }

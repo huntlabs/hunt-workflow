@@ -175,12 +175,12 @@ class ModelEntityImpl extends AbstractBpmnEngineEntity implements ModelEntity, S
 
     @Override
     public bool hasEditorSource() {
-        return this.editorSourceValueId != null;
+        return this.editorSourceValueId !is null;
     }
 
     @Override
     public bool hasEditorSourceExtra() {
-        return this.editorSourceExtraValueId != null;
+        return this.editorSourceExtraValueId !is null;
     }
 
 }

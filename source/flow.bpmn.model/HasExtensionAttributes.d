@@ -20,7 +20,7 @@ import java.util.Map;
  * 
  * @author Martin Grofcik
  */
-public interface HasExtensionAttributes {
+interface HasExtensionAttributes {
     /** get element's attributes */
     Map<string, List<ExtensionAttribute>> getAttributes();
 

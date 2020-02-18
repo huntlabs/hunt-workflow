@@ -17,8 +17,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
@@ -52,9 +52,9 @@ class CancelJobsCmd implements Command<Void>, Serializable {
             jobToDelete = CommandContextUtil.getJobEntityManager(commandContext).findById(jobId);
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
-            if (jobToDelete != null) {
+            if (jobToDelete !is null) {
                 // When given job doesn't exist, ignore
-                if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+                if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     eventDispatcher
                         .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, jobToDelete));
                 }
@@ -64,9 +64,9 @@ class CancelJobsCmd implements Command<Void>, Serializable {
             } else {
                 TimerJobEntity timerJobToDelete = CommandContextUtil.getTimerJobEntityManager(commandContext).findById(jobId);
 
-                if (timerJobToDelete != null) {
+                if (timerJobToDelete !is null) {
                     // When given job doesn't exist, ignore
-                    if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+                    if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                         eventDispatcher
                             .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, timerJobToDelete));
                     }

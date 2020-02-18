@@ -82,7 +82,7 @@ class InjectEmbeddedSubProcessInProcessInstanceCmd extends AbstractDynamicInject
             }
         }
         
-        if (initialEvent == null) {
+        if (initialEvent is null) {
             throw new FlowableException("Could not find a none start event in dynamic sub process");
         }
         

@@ -134,7 +134,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
 
             string annotationDeploymentKey = context.getUniqueId() + ANNOTATION_DEPLOYMENT_ID_KEY;
             string deploymentIdFromDeploymentAnnotation = getStore(context).get(annotationDeploymentKey, string.class);
-            if (deploymentIdFromDeploymentAnnotation != null) {
+            if (deploymentIdFromDeploymentAnnotation !is null) {
                 TestHelper.annotationDeploymentTearDown(processEngine, deploymentIdFromDeploymentAnnotation, context.getRequiredTestClass(),
                     context.getRequiredTestMethod().getName());
                 getStore(context).remove(annotationDeploymentKey);

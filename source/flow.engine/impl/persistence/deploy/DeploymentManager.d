@@ -20,8 +20,8 @@ import org.flowable.bpmn.model.BpmnModel;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.EngineDeployer;
 import flow.common.persistence.deploy.DeploymentCache;
 import flow.engine.app.AppModel;
@@ -64,17 +64,17 @@ class DeploymentManager {
     }
 
     public ProcessDefinition findDeployedProcessDefinitionById(string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Invalid process definition id : null");
         }
 
         // first try the cache
         ProcessDefinitionCacheEntry cacheEntry = processDefinitionCache.get(processDefinitionId);
-        ProcessDefinition processDefinition = cacheEntry != null ? cacheEntry.getProcessDefinition() : null;
+        ProcessDefinition processDefinition = cacheEntry !is null ? cacheEntry.getProcessDefinition() : null;
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             processDefinition = processDefinitionEntityManager.findById(processDefinitionId);
-            if (processDefinition == null) {
+            if (processDefinition is null) {
                 throw new FlowableObjectNotFoundException("no deployed process definition found with id '" + processDefinitionId + "'", ProcessDefinition.class);
             }
             processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
@@ -85,7 +85,7 @@ class DeploymentManager {
     public ProcessDefinition findDeployedLatestProcessDefinitionByKey(string processDefinitionKey) {
         ProcessDefinition processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("no processes deployed with key '" + processDefinitionKey + "'", ProcessDefinition.class);
         }
         processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
@@ -94,7 +94,7 @@ class DeploymentManager {
 
     public ProcessDefinition findDeployedLatestProcessDefinitionByKeyAndTenantId(string processDefinitionKey, string tenantId) {
         ProcessDefinition processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("no processes deployed with key '" + processDefinitionKey + "' for tenant identifier '" + tenantId + "'", ProcessDefinition.class);
         }
         processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
@@ -104,7 +104,7 @@ class DeploymentManager {
     public ProcessDefinition findDeployedProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, Integer processDefinitionVersion, string tenantId) {
         ProcessDefinition processDefinition = (ProcessDefinitionEntity) processDefinitionEntityManager
                 .findProcessDefinitionByKeyAndVersionAndTenantId(processDefinitionKey, processDefinitionVersion, tenantId);
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("no processes deployed with key = '" + processDefinitionKey + "' and version = '" + processDefinitionVersion + "'", ProcessDefinition.class);
         }
         processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
@@ -120,7 +120,7 @@ class DeploymentManager {
 
         ProcessDefinitionCacheEntry cachedProcessDefinition = processDefinitionCache.get(processDefinitionId);
 
-        if (cachedProcessDefinition == null) {
+        if (cachedProcessDefinition is null) {
             if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, processEngineConfiguration)) {
                 return Flowable5Util.getFlowable5CompatibilityHandler().resolveProcessDefinition(processDefinition);
             }
@@ -130,7 +130,7 @@ class DeploymentManager {
             deploy(deployment, null);
             cachedProcessDefinition = processDefinitionCache.get(processDefinitionId);
 
-            if (cachedProcessDefinition == null) {
+            if (cachedProcessDefinition is null) {
                 throw new FlowableException("deployment '" + deploymentId + "' didn't put process definition '" + processDefinitionId + "' in the cache");
             }
         }
@@ -140,7 +140,7 @@ class DeploymentManager {
     public Object getAppResourceObject(string deploymentId) {
         Object appResourceObject = appResourceCache.get(deploymentId);
 
-        if (appResourceObject == null) {
+        if (appResourceObject is null) {
             bool appResourcePresent = false;
             List<string> deploymentResourceNames = getDeploymentEntityManager().getDeploymentResourceNames(deploymentId);
             for (string deploymentResourceName : deploymentResourceNames) {
@@ -160,7 +160,7 @@ class DeploymentManager {
             }
 
             appResourceObject = appResourceCache.get(deploymentId);
-            if (appResourceObject == null) {
+            if (appResourceObject is null) {
                 throw new FlowableException("deployment '" + deploymentId + "' didn't put an app resource in the cache");
             }
         }
@@ -180,7 +180,7 @@ class DeploymentManager {
     public void removeDeployment(string deploymentId, bool cascade) {
 
         DeploymentEntity deployment = deploymentEntityManager.findById(deploymentId);
-        if (deployment == null) {
+        if (deployment is null) {
             throw new FlowableObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.", DeploymentEntity.class);
         }
 
@@ -196,7 +196,7 @@ class DeploymentManager {
         for (ProcessDefinition processDefinition : processDefinitions) {
 
             // Since all process definitions are deleted by a single query, we should dispatch the events in this loop
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, processDefinition));
             }
         }
@@ -205,7 +205,7 @@ class DeploymentManager {
         deploymentEntityManager.deleteDeployment(deploymentId, cascade);
 
         // Since we use a delete by query, delete-events are not automatically dispatched
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, deployment));
         }
 

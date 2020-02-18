@@ -13,9 +13,9 @@
 
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.util.ReflectUtil;
 
 /**
@@ -46,14 +46,14 @@ class DelegateFlowableEventListener extends BaseDelegateEventListener {
 
     @Override
     public bool isFailOnException() {
-        if (delegateInstance != null) {
+        if (delegateInstance !is null) {
             return delegateInstance.isFailOnException();
         }
         return failOnException;
     }
 
     protected FlowableEventListener getDelegateInstance() {
-        if (delegateInstance == null) {
+        if (delegateInstance is null) {
             Object instance = ReflectUtil.instantiate(className);
             if (instance instanceof FlowableEventListener) {
                 delegateInstance = (FlowableEventListener) instance;

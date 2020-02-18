@@ -74,7 +74,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQuery jobId(string jobId) {
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("Provided job id is null");
         }
         this.id = jobId;
@@ -83,7 +83,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQueryImpl processInstanceId(string processInstanceId) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
         }
         this.processInstanceId = processInstanceId;
@@ -92,7 +92,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQueryImpl processDefinitionId(string processDefinitionId) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
         }
         this.processDefinitionId = processDefinitionId;
@@ -101,7 +101,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl elementId(string elementId) {
-        if (elementId == null) {
+        if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
         }
         this.elementId = elementId;
@@ -110,7 +110,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl elementName(string elementName) {
-        if (elementName == null) {
+        if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
         }
         this.elementName = elementName;
@@ -119,7 +119,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl scopeId(string scopeId) {
-        if (scopeId == null) {
+        if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
         }
         this.scopeId = scopeId;
@@ -128,7 +128,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl subScopeId(string subScopeId) {
-        if (subScopeId == null) {
+        if (subScopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
         }
         this.subScopeId = subScopeId;
@@ -137,7 +137,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl scopeType(string scopeType) {
-        if (scopeType == null) {
+        if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
         }
         this.scopeType = scopeType;
@@ -146,7 +146,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
-        if (scopeDefinitionId == null) {
+        if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
         }
         this.scopeDefinitionId = scopeDefinitionId;
@@ -155,7 +155,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl caseInstanceId(string caseInstanceId) {
-        if (caseInstanceId == null) {
+        if (caseInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided case instance id is null");
         }
         scopeId(caseInstanceId);
@@ -165,7 +165,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl caseDefinitionId(string caseDefinitionId) {
-        if (caseDefinitionId == null) {
+        if (caseDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided case definition id is null");
         }
         scopeDefinitionId(caseDefinitionId);
@@ -175,7 +175,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     
     @Override
     public JobQueryImpl planItemInstanceId(string planItemInstanceId) {
-        if (planItemInstanceId == null) {
+        if (planItemInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided plan item instance id is null");
         }
         subScopeId(planItemInstanceId);
@@ -185,7 +185,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQueryImpl executionId(string executionId) {
-        if (executionId == null) {
+        if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
         }
         this.executionId = executionId;
@@ -194,7 +194,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQueryImpl handlerType(string handlerType) {
-        if (handlerType == null) {
+        if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
         }
         this.handlerType = handlerType;
@@ -221,7 +221,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQuery duedateHigherThan(Date date) {
-        if (date == null) {
+        if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
         this.duedateHigherThan = date;
@@ -230,7 +230,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQuery duedateLowerThan(Date date) {
-        if (date == null) {
+        if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
         this.duedateLowerThan = date;
@@ -245,7 +245,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQuery exceptionMessage(string exceptionMessage) {
-        if (exceptionMessage == null) {
+        if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
         }
         this.exceptionMessage = exceptionMessage;
@@ -254,7 +254,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQuery jobTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
         this.tenantId = tenantId;
@@ -263,7 +263,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     @Override
     public JobQuery jobTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
         this.tenantIdLike = tenantIdLike;

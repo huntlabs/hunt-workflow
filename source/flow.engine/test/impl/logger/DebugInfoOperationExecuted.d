@@ -36,10 +36,10 @@ class DebugInfoOperationExecuted extends AbstractDebugInfo {
         this.operation = operation;
 
         // Need to capture data here, as it will change when other steps are executed
-        if (operation.getExecution() != null) {
+        if (operation.getExecution() !is null) {
             this.executionId = operation.getExecution().getId();
 
-            if (operation.getExecution().getCurrentFlowElement() != null) {
+            if (operation.getExecution().getCurrentFlowElement() !is null) {
                 this.flowElementId = operation.getExecution().getCurrentFlowElement().getId();
                 this.flowElementClass = operation.getExecution().getCurrentFlowElement().getClass();
             }
@@ -69,10 +69,10 @@ class DebugInfoOperationExecuted extends AbstractDebugInfo {
         strb.append(" ").append(getOperation().getClass().getSimpleName()).append(" ");
 
         // Execution info
-        if (getExecutionId() != null) {
+        if (getExecutionId() !is null) {
             strb.append("with execution ").append(getExecutionId());
 
-            if (getFlowElementId() != null) {
+            if (getFlowElementId() !is null) {
                 strb.append(" at flow element ").append(getFlowElementId()).append(" (").append(getFlowElementClass().getSimpleName()).append(")");
             }
         }

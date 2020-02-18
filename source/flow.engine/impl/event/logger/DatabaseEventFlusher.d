@@ -29,7 +29,7 @@ class DatabaseEventFlusher extends AbstractEventFlusher {
     @Override
     public void closing(CommandContext commandContext) {
 
-        if (commandContext.getException() != null) {
+        if (commandContext.getException() !is null) {
             return; // Not interested in events about exceptions
         }
 

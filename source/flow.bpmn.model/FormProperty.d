@@ -26,9 +26,9 @@ class FormProperty extends BaseElement {
     protected string type;
     protected string defaultExpression;
     protected string datePattern;
-    protected boolean readable = true;
-    protected boolean writeable = true;
-    protected boolean required;
+    protected bool readable = true;
+    protected bool writeable = true;
+    protected bool required;
     protected List<FormValue> formValues = new ArrayList<>();
 
     public string getName() {
@@ -79,27 +79,27 @@ class FormProperty extends BaseElement {
         this.datePattern = datePattern;
     }
 
-    public boolean isReadable() {
+    public bool isReadable() {
         return readable;
     }
 
-    public void setReadable(boolean readable) {
+    public void setReadable(bool readable) {
         this.readable = readable;
     }
 
-    public boolean isWriteable() {
+    public bool isWriteable() {
         return writeable;
     }
 
-    public void setWriteable(boolean writeable) {
+    public void setWriteable(bool writeable) {
         this.writeable = writeable;
     }
 
-    public boolean isRequired() {
+    public bool isRequired() {
         return required;
     }
 
-    public void setRequired(boolean required) {
+    public void setRequired(bool required) {
         this.required = required;
     }
 
@@ -131,7 +131,7 @@ class FormProperty extends BaseElement {
         setRequired(otherProperty.isRequired());
 
         formValues = new ArrayList<>();
-        if (otherProperty.getFormValues() != null && !otherProperty.getFormValues().isEmpty()) {
+        if (otherProperty.getFormValues() !is null && !otherProperty.getFormValues().isEmpty()) {
             for (FormValue formValue : otherProperty.getFormValues()) {
                 formValues.add(formValue.clone());
             }

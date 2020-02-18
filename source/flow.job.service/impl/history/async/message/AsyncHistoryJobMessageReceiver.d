@@ -50,10 +50,10 @@ class AsyncHistoryJobMessageReceiver {
     }
     
     public void messageForJobReceived(final string jobId) {
-        if (commandExecutor == null) {
+        if (commandExecutor is null) {
             throw new FlowableException("Programmatic error: this class needs a CommandExecutor instance");
         }
-        if (asyncHistoryJobMessageHandler == null) {
+        if (asyncHistoryJobMessageHandler is null) {
             throw new FlowableException("Programmatic error: this class needs an AsyncHistoryJobMessageHandler instance.");
         }
         
@@ -70,7 +70,7 @@ class AsyncHistoryJobMessageReceiver {
                 query.jobId(jobId);
                 
                 List<HistoryJob> jobs = historyJobEntityManager.findHistoryJobsByQueryCriteria(query);
-                if (jobs == null || jobs.isEmpty()) {
+                if (jobs is null || jobs.isEmpty()) {
                     throw new FlowableException("No history job found for id " + jobId);
                 }
                 if (jobs.size() > 1) {
@@ -93,7 +93,7 @@ class AsyncHistoryJobMessageReceiver {
     
     protected JsonNode getHistoryJobData(CommandContext commandContext, HistoryJobEntity job) {
         ObjectMapper objectMapper = CommandContextUtil.getJobServiceConfiguration(commandContext).getObjectMapper();
-        if (job.getAdvancedJobHandlerConfigurationByteArrayRef() != null) {
+        if (job.getAdvancedJobHandlerConfigurationByteArrayRef() !is null) {
             try {
                 return objectMapper.readTree(job.getAdvancedJobHandlerConfigurationByteArrayRef().getBytes());
             } catch (IOException e) {

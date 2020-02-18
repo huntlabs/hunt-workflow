@@ -59,7 +59,7 @@ class EventSubProcessMessageStartEventActivityBehavior extends AbstractBpmnActiv
 
         // initialize the template-defined data objects as variables
         Map<string, Object> dataObjectVars = processDataObjects(eventSubProcess.getDataObjects());
-        if (dataObjectVars != null) {
+        if (dataObjectVars !is null) {
             execution.setVariablesLocal(dataObjectVars);
         }
     }
@@ -109,7 +109,7 @@ class EventSubProcessMessageStartEventActivityBehavior extends AbstractBpmnActiv
     protected Map<string, Object> processDataObjects(Collection<ValuedDataObject> dataObjects) {
         Map<string, Object> variablesMap = new HashMap<>();
         // convert data objects to process variables
-        if (dataObjects != null) {
+        if (dataObjects !is null) {
             for (ValuedDataObject dataObject : dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }

@@ -23,8 +23,8 @@ module flow.engine.delegate.event.impl.FlowableEntityWithVariablesEventImpl;
 
 import java.util.Map;
 
-import flow.common.api.delegate.event.FlowableEngineEntityEvent;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEntityEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
 
 /**

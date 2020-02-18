@@ -12,8 +12,8 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.persistence.entity.AbstractServiceEngineEntityManager;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.data.DataManager;
@@ -36,7 +36,7 @@ public abstract class AbstractJobServiceEngineEntityManager<EntityImpl extends E
     }
 
     protected void deleteByteArrayRef(JobByteArrayRef jobByteArrayRef) {
-        if(jobByteArrayRef != null) {
+        if(jobByteArrayRef !is null) {
             jobByteArrayRef.delete();
         }
     }

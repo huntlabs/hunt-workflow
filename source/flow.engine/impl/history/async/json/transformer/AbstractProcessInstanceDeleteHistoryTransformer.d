@@ -35,7 +35,7 @@ abstract class AbstractProcessInstanceDeleteHistoryTransformer extends AbstractH
         TaskHelper.deleteHistoricTaskInstancesByProcessInstanceId(processInstanceId);
         CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricIdentityLinksByProcessInstanceId(processInstanceId);
         HistoricEntityLinkService historicEntityLinkService = CommandContextUtil.getHistoricEntityLinkService();
-        if (historicEntityLinkService != null) {
+        if (historicEntityLinkService !is null) {
             historicEntityLinkService.deleteHistoricEntityLinksByScopeIdAndScopeType(processInstanceId, ScopeTypes.BPMN);
         }
         CommandContextUtil.getCommentEntityManager(commandContext).deleteCommentsByProcessInstanceId(processInstanceId);

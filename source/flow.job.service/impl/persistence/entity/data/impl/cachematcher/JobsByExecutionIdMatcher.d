@@ -22,7 +22,7 @@ class JobsByExecutionIdMatcher extends CachedEntityMatcherAdapter<JobEntity> {
 
     @Override
     public bool isRetained(JobEntity jobEntity, Object parameter) {
-        return jobEntity.getExecutionId() != null && jobEntity.getExecutionId().equals((string) parameter);
+        return jobEntity.getExecutionId() !is null && jobEntity.getExecutionId().equals((string) parameter);
     }
 
 }

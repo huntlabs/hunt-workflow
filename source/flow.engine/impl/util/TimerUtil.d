@@ -24,9 +24,9 @@ import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.IntermediateCatchEvent;
 import org.flowable.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.calendar.BusinessCalendar;
 import flow.common.calendar.CycleBusinessCalendar;
 import flow.common.calendar.DueDateBusinessCalendar;
@@ -70,7 +70,7 @@ class TimerUtil {
         // ACT-1415: timer-declaration on start-event may contain expressions NOT
         // evaluating variables but other context, evaluating should happen nevertheless
         VariableScope scopeForExpression = executionEntity;
-        if (scopeForExpression == null) {
+        if (scopeForExpression is null) {
             scopeForExpression = NoExecutionVariableScope.getSharedInstance();
         }
 
@@ -96,7 +96,7 @@ class TimerUtil {
             businessCalendarRef = businessCalendarExpression.getValue(scopeForExpression).toString();
         }
 
-        if (expression == null) {
+        if (expression is null) {
             throw new FlowableException("Timer needs configuration (either timeDate, timeCycle or timeDuration is needed) (" + timerEventDefinition.getId() + ")");
         }
 
@@ -121,17 +121,17 @@ class TimerUtil {
         } else if (dueDateValue instanceof Instant) {
             duedate = Date.from((Instant) dueDateValue);
             
-        } else if (dueDateValue != null) {
+        } else if (dueDateValue !is null) {
             throw new FlowableException("Timer '" + executionEntity.getActivityId()
                     + "' was not configured with a valid duration/time, either hand in a java.util.Date or a java.time.Instant or a org.joda.time.DateTime or a string in format 'yyyy-MM-dd'T'hh:mm:ss'");
         }
 
-        if (duedate == null && dueDateString != null) {
+        if (duedate is null && dueDateString !is null) {
             duedate = businessCalendar.resolveDuedate(dueDateString);
         }
 
         TimerJobEntity timer = null;
-        if (duedate != null) {
+        if (duedate !is null) {
             timer = CommandContextUtil.getTimerJobService().createTimerJob();
             timer.setJobType(JobEntity.JOB_TYPE_TIMER);
             timer.setRevision(1);
@@ -140,13 +140,13 @@ class TimerUtil {
             timer.setExclusive(true);
             timer.setRetries(processEngineConfiguration.getAsyncExecutorNumberOfRetries());
             timer.setDuedate(duedate);
-            if (executionEntity != null) {
+            if (executionEntity !is null) {
                 timer.setExecutionId(executionEntity.getId());
                 timer.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
                 timer.setProcessInstanceId(executionEntity.getProcessInstanceId());
 
                 // Inherit tenant identifier (if applicable)
-                if (executionEntity.getTenantId() != null) {
+                if (executionEntity.getTenantId() !is null) {
                     timer.setTenantId(executionEntity.getTenantId());
                 }
             }
@@ -160,7 +160,7 @@ class TimerUtil {
             bool repeat = !isInterruptingTimer;
 
             // ACT-1951: intermediate catching timer events shouldn't repeat according to spec
-            if (executionEntity != null) {
+            if (executionEntity !is null) {
                 FlowElement currentElement = executionEntity.getCurrentFlowElement();
                 if (currentElement instanceof IntermediateCatchEvent) {
                     repeat = false;
@@ -173,7 +173,7 @@ class TimerUtil {
             }
         }
 
-        if (timer != null && executionEntity != null) {
+        if (timer !is null && executionEntity !is null) {
             timer.setExecutionId(executionEntity.getId());
             timer.setProcessDefinitionId(executionEntity.getProcessDefinitionId());
             timer.setProcessInstanceId(executionEntity.getProcessInstanceId());
@@ -181,7 +181,7 @@ class TimerUtil {
             timer.setElementName(executionEntity.getCurrentFlowElement().getName());
             
             // Inherit tenant identifier (if applicable)
-            if (executionEntity.getTenantId() != null) {
+            if (executionEntity.getTenantId() !is null) {
                 timer.setTenantId(executionEntity.getTenantId());
             }
         }
@@ -192,7 +192,7 @@ class TimerUtil {
     public static TimerJobEntity rescheduleTimerJob(string timerJobId, TimerEventDefinition timerEventDefinition) {
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
         TimerJobEntity timerJob = timerJobService.findTimerJobById(timerJobId);
-        if (timerJob != null) {
+        if (timerJob !is null) {
             BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(timerJob.getProcessDefinitionId());
             Event eventElement = (Event) bpmnModel.getFlowElement(TimerEventHandler.getActivityIdFromConfiguration(timerJob.getJobHandlerConfiguration()));
             bool isInterruptingTimer = false;
@@ -208,7 +208,7 @@ class TimerUtil {
             timerJobService.insertTimerJob(rescheduledTimerJob);
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
                         FlowableEventBuilder.createJobRescheduledEvent(FlowableEngineEventType.JOB_RESCHEDULED, rescheduledTimerJob, timerJob.getId()));
                 

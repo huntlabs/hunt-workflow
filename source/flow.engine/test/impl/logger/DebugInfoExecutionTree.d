@@ -65,14 +65,14 @@ class DebugInfoExecutionTree {
             StringBuilder strb = new StringBuilder(30);
             strb.append(id);
 
-            if (activityId != null || activityName != null) {
+            if (activityId !is null || activityName !is null) {
                 strb.append(" in flow element ");
 
-                if (activityId != null) {
+                if (activityId !is null) {
                     strb.append("'").append(activityId).append("'");
                 }
 
-                if (activityName != null) {
+                if (activityName !is null) {
                     strb.append(" with name ").append(activityName);
                 }
 

@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.flowable.common.engine.api.variable.VariableContainer;
+import flow.common.api.variable.VariableContainer;
 import org.flowable.variable.api.persistence.entity.VariableInstance;
 
 /**
@@ -30,7 +30,7 @@ import org.flowable.variable.api.persistence.entity.VariableInstance;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-public interface VariableScope extends VariableContainer {
+interface VariableScope extends VariableContainer {
 
     /**
      * Returns all variables. This will include all variables of parent scopes too.
@@ -58,13 +58,13 @@ public interface VariableScope extends VariableContainer {
      * If set to false, only the specific variables will be fetched. Depending on the use case, this can be better for performance, as it avoids fetching and processing the other variables. However,
      * if the other variables are needed further on, getting them in one go is probably better (and the variables are cached during one {@link Command} execution).
      */
-    Map<string, Object> getVariables(Collection<string> variableNames, boolean fetchAllVariables);
+    Map<string, Object> getVariables(Collection<string> variableNames, bool fetchAllVariables);
 
     /**
-     * Similar to {@link #getVariables(Collection, boolean)} but returns the variables as instances of the {@link VariableInstance} interface, which gives more information than only the value
+     * Similar to {@link #getVariables(Collection, bool)} but returns the variables as instances of the {@link VariableInstance} interface, which gives more information than only the value
      * (type, execution id, etc.)
      */
-    Map<string, VariableInstance> getVariableInstances(Collection<string> variableNames, boolean fetchAllVariables);
+    Map<string, VariableInstance> getVariableInstances(Collection<string> variableNames, bool fetchAllVariables);
 
     /**
      * Returns the variable local to this scope only. So, in contrary to {@link #getVariables()}, the variables from the parent scope won't be returned.
@@ -87,14 +87,14 @@ public interface VariableScope extends VariableContainer {
     Map<string, VariableInstance> getVariableInstancesLocal(Collection<string> variableNames);
 
     /**
-     * Similar to {@link #getVariables(Collection, boolean)}, but only for variables local to this scope.
+     * Similar to {@link #getVariables(Collection, bool)}, but only for variables local to this scope.
      */
-    Map<string, Object> getVariablesLocal(Collection<string> variableNames, boolean fetchAllVariables);
+    Map<string, Object> getVariablesLocal(Collection<string> variableNames, bool fetchAllVariables);
 
     /**
-     * Similar to {@link #getVariableInstances(Collection, boolean)}, but only for variables local to this scope.
+     * Similar to {@link #getVariableInstances(Collection, bool)}, but only for variables local to this scope.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal(Collection<string> variableNames, boolean fetchAllVariables);
+    Map<string, VariableInstance> getVariableInstancesLocal(Collection<string> variableNames, bool fetchAllVariables);
 
     /**
      * Returns the variable value for one specific variable. Will look in parent scopes when the variable does not exist on this particular scope.
@@ -113,12 +113,12 @@ public interface VariableScope extends VariableContainer {
      * By default true (for backwards compatibility reasons), which means that calling {@link #getVariable(string)} will fetch all variables, of the current scope and all parent scopes. Setting this
      * flag to false can thus be better for performance. However, variables are cached, and if other variables are used later on, setting this true might actually be better for performance.
      */
-    Object getVariable(string variableName, boolean fetchAllVariables);
+    Object getVariable(string variableName, bool fetchAllVariables);
 
     /**
-     * Similar to {@link #getVariable(string, boolean)}, but returns an instance of {@link VariableInstance}, which has some additional information beyond the value.
+     * Similar to {@link #getVariable(string, bool)}, but returns an instance of {@link VariableInstance}, which has some additional information beyond the value.
      */
-    VariableInstance getVariableInstance(string variableName, boolean fetchAllVariables);
+    VariableInstance getVariableInstance(string variableName, bool fetchAllVariables);
 
     /**
      * Returns the value for the specific variable and only checks this scope and not any parent scope.
@@ -136,12 +136,12 @@ public interface VariableScope extends VariableContainer {
      * By default true (for backwards compatibility reasons), which means that calling {@link #getVariableLocal(string)} will fetch all variables, of the current scope. Setting this flag to false can
      * thus be better for performance. However, variables are cached, and if other variables are used later on, setting this true might actually be better for performance.
      */
-    Object getVariableLocal(string variableName, boolean fetchAllVariables);
+    Object getVariableLocal(string variableName, bool fetchAllVariables);
 
     /**
-     * Similar to {@link #getVariableLocal(string, boolean)}, but returns an instance of {@link VariableInstance}, which has some additional information beyond the value.
+     * Similar to {@link #getVariableLocal(string, bool)}, but returns an instance of {@link VariableInstance}, which has some additional information beyond the value.
      */
-    VariableInstance getVariableInstanceLocal(string variableName, boolean fetchAllVariables);
+    VariableInstance getVariableInstanceLocal(string variableName, bool fetchAllVariables);
 
     /**
      * Typed version of the {@link #getVariable(string)} method.
@@ -197,7 +197,7 @@ public interface VariableScope extends VariableContainer {
      * The default (e.g. when calling {@link #setVariable(string, Object)}), is <i>true</i>, for backwards compatibility reasons. However, in some use cases, it might make sense not to fetch any other
      * variables when setting one variable (for example when doing nothing more than just setting one variable).
      */
-    void setVariable(string variableName, Object value, boolean fetchAllVariables);
+    void setVariable(string variableName, Object value, bool fetchAllVariables);
 
     /**
      * Similar to {@link #setVariable(string, Object)}, but the variable is set to this scope specifically. Variable name
@@ -208,7 +208,7 @@ public interface VariableScope extends VariableContainer {
     /**
      * Similar to {@link #setVariableLocal(string, Object, value)}, but with an extra flag to indicate whether all variables should be fetched while doing this or not.
      */
-    Object setVariableLocal(string variableName, Object value, boolean fetchAllVariables);
+    Object setVariableLocal(string variableName, Object value, bool fetchAllVariables);
 
     /**
      * Sets the provided variables to the variable scope.
@@ -229,23 +229,23 @@ public interface VariableScope extends VariableContainer {
     /**
      * Returns whether this scope or any parent scope has variables.
      */
-    boolean hasVariables();
+    bool hasVariables();
 
     /**
      * Returns whether this scope has variables.
      */
-    boolean hasVariablesLocal();
+    bool hasVariablesLocal();
 
     /**
      * Returns whether this scope or any parent scope has a specific variable.
      */
     @Override
-    boolean hasVariable(string variableName);
+    bool hasVariable(string variableName);
 
     /**
      * Returns whether this scope has a specific variable.
      */
-    boolean hasVariableLocal(string variableName);
+    bool hasVariableLocal(string variableName);
 
     /**
      * Removes the variable and creates a new;@link HistoricVariableUpdateEntity}

@@ -26,7 +26,7 @@ class VariableScopeResolverFactory implements ResolverFactory {
 
     @Override
     public Resolver createResolver(AbstractEngineConfiguration engineConfiguration, VariableScope variableScope) {
-        if (variableScope != null) {
+        if (variableScope !is null) {
             return new VariableScopeResolver((ProcessEngineConfigurationImpl) engineConfiguration, variableScope);
         }
         return null;

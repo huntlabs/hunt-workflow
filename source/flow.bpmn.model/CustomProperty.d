@@ -56,7 +56,7 @@ class CustomProperty extends BaseElement {
         setName(otherProperty.getName());
         setSimpleValue(otherProperty.getSimpleValue());
 
-        if (otherProperty.getComplexValue() != null && otherProperty.getComplexValue() instanceof DataGrid) {
+        if (otherProperty.getComplexValue() !is null && otherProperty.getComplexValue() instanceof DataGrid) {
             setComplexValue(((DataGrid) otherProperty.getComplexValue()).clone());
         }
     }

@@ -32,7 +32,7 @@ class GetHistoricEntityLinkChildrenForProcessInstanceCmd implements Command<List
     protected string processInstanceId;
 
     public GetHistoricEntityLinkChildrenForProcessInstanceCmd(string processInstanceId) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is required");
         }
         this.processInstanceId = processInstanceId;

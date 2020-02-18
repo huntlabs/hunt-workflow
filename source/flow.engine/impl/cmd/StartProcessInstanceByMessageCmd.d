@@ -66,25 +66,25 @@ class StartProcessInstanceByMessageCmd implements Command<ProcessInstance> {
     @Override
     public ProcessInstance execute(CommandContext commandContext) {
 
-        if (messageName == null) {
+        if (messageName is null) {
             throw new FlowableIllegalArgumentException("Cannot start process instance by message: message name is null");
         }
 
         MessageEventSubscriptionEntity messageEventSubscription = CommandContextUtil.getEventSubscriptionService(commandContext).findMessageStartEventSubscriptionByName(messageName, tenantId);
 
-        if (messageEventSubscription == null) {
+        if (messageEventSubscription is null) {
             throw new FlowableObjectNotFoundException("Cannot start process instance by message: no subscription to message with name '" + messageName + "' found.", MessageEventSubscriptionEntity.class);
         }
 
         string processDefinitionId = messageEventSubscription.getConfiguration();
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableException("Cannot start process instance by message: subscription to message with name '" + messageName + "' is not a message start event.");
         }
 
         DeploymentManager deploymentCache = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager();
 
         ProcessDefinition processDefinition = deploymentCache.findDeployedProcessDefinitionById(processDefinitionId);
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("No process definition found for id '" + processDefinitionId + "'", ProcessDefinition.class);
         }
 

@@ -24,7 +24,7 @@ class DefaultAsyncHistoryJobExecutor extends DefaultAsyncJobExecutor {
     
     @Override
     protected void initializeJobEntityManager() {
-        if (jobEntityManager == null) {
+        if (jobEntityManager is null) {
             jobEntityManager = jobServiceConfiguration.getHistoryJobEntityManager();
         }
     }

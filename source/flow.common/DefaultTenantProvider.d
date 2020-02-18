@@ -24,7 +24,7 @@ module flow.common.DefaultTenantProvider;
 /**
  * @author Valentin Zickner
  */
-public interface DefaultTenantProvider {
+interface DefaultTenantProvider {
 
     string getDefaultTenant(string tenantId, string scope, string scopeKey);
 

@@ -35,10 +35,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-import org.flowable.common.engine.api.FlowableException;
-import org.flowable.common.engine.impl.db.MybatisTypeAliasConfigurator;
-import org.flowable.common.engine.impl.db.MybatisTypeHandlerConfigurator;
-import org.flowable.common.engine.impl.persistence.entity.Entity;
+import flow.common.api.FlowableException;
+import flow.common.db.MybatisTypeAliasConfigurator;
+import flow.common.db.MybatisTypeHandlerConfigurator;
+import flow.common.persistence.entity.Entity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -52,7 +52,7 @@ import org.xml.sax.SAXException;
  */
 public abstract class AbstractEngineConfigurator implements EngineConfigurator {
 
-    protected boolean enableMybatisXmlMappingValidation;
+    protected bool enableMybatisXmlMappingValidation;
 
     @Override
     public void beforeInit(AbstractEngineConfiguration engineConfiguration) {
@@ -60,9 +60,9 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
         registerCustomMybatisMappings(engineConfiguration);
 
         List<MybatisTypeAliasConfigurator> typeAliasConfigs = getMybatisTypeAliases();
-        if (typeAliasConfigs != null) {
+        if (typeAliasConfigs !is null) {
             for (MybatisTypeAliasConfigurator customMybatisTypeAliasConfig : typeAliasConfigs) {
-                if (engineConfiguration.getDependentEngineMybatisTypeAliasConfigs() == null) {
+                if (engineConfiguration.getDependentEngineMybatisTypeAliasConfigs() is null) {
                     engineConfiguration.setDependentEngineMybatisTypeAliasConfigs(new ArrayList<>());
                 }
                 engineConfiguration.getDependentEngineMybatisTypeAliasConfigs().add(customMybatisTypeAliasConfig);
@@ -70,9 +70,9 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
         }
 
         List<MybatisTypeHandlerConfigurator> typeHandlerConfigs = getMybatisTypeHandlers();
-        if (typeHandlerConfigs != null) {
+        if (typeHandlerConfigs !is null) {
             for (MybatisTypeHandlerConfigurator typeHandler : typeHandlerConfigs) {
-                if (engineConfiguration.getDependentEngineMybatisTypeHandlerConfigs() == null) {
+                if (engineConfiguration.getDependentEngineMybatisTypeHandlerConfigs() is null) {
                     engineConfiguration.setDependentEngineMybatisTypeHandlerConfigs(new ArrayList<>());
                 }
                 engineConfiguration.getDependentEngineMybatisTypeHandlerConfigs() .add(typeHandler);
@@ -82,8 +82,8 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
 
     protected void registerCustomDeployers(AbstractEngineConfiguration engineConfiguration) {
         List<EngineDeployer> deployers = getCustomDeployers();
-        if (deployers != null) {
-            if (engineConfiguration.getCustomPostDeployers() == null) {
+        if (deployers !is null) {
+            if (engineConfiguration.getCustomPostDeployers() is null) {
                 engineConfiguration.setCustomPostDeployers(new ArrayList<>());
             }
             engineConfiguration.getCustomPostDeployers().addAll(deployers);
@@ -100,11 +100,11 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
 
     protected void registerCustomMybatisMappings(AbstractEngineConfiguration engineConfiguration) {
         string cfgPath = getMybatisCfgPath();
-        if (cfgPath != null) {
+        if (cfgPath !is null) {
             Set<string> resources = new HashSet<>();
 
             ClassLoader classLoader = engineConfiguration.getClassLoader();
-            if (classLoader == null) {
+            if (classLoader is null) {
                 classLoader = this.getClass().getClassLoader();
             }
 
@@ -163,7 +163,7 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
             }
             
             if (typeAliasConfigurators.size() > 0) {
-                if (engineConfiguration.getDependentEngineMybatisTypeAliasConfigs() == null) {
+                if (engineConfiguration.getDependentEngineMybatisTypeAliasConfigs() is null) {
                     engineConfiguration.setDependentEngineMybatisTypeAliasConfigs(typeAliasConfigurators);
                     
                 } else {
@@ -172,7 +172,7 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
             }
             
             if (typeHandlerConfigurators.size() > 0) {
-                if (engineConfiguration.getDependentEngineMybatisTypeHandlerConfigs() == null) {
+                if (engineConfiguration.getDependentEngineMybatisTypeHandlerConfigs() is null) {
                     engineConfiguration.setDependentEngineMybatisTypeHandlerConfigs(typeHandlerConfigurators);
                     
                 } else {
@@ -180,7 +180,7 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
                 }
             }
 
-            if (engineConfiguration.getCustomMybatisXMLMappers() == null) {
+            if (engineConfiguration.getCustomMybatisXMLMappers() is null) {
                 engineConfiguration.setCustomMybatisXMLMappers(resources);
             } else {
                 engineConfiguration.getCustomMybatisXMLMappers().addAll(resources);
@@ -238,7 +238,7 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
 
     protected void initServiceConfigurations(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
         for (string serviceConfigurationKey : engineConfiguration.getServiceConfigurations().keySet()) {
-            if (targetEngineConfiguration.getServiceConfigurations() == null
+            if (targetEngineConfiguration.getServiceConfigurations() is null
                     || !targetEngineConfiguration.getServiceConfigurations().containsKey(serviceConfigurationKey)) {
                 targetEngineConfiguration.addServiceConfiguration(serviceConfigurationKey, engineConfiguration.getServiceConfigurations().get(serviceConfigurationKey));
             }
@@ -254,14 +254,14 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
     }
 
     protected void initIdGenerator(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        if (targetEngineConfiguration.getIdGenerator() == null) {
+        if (targetEngineConfiguration.getIdGenerator() is null) {
             targetEngineConfiguration.setIdGenerator(engineConfiguration.getIdGenerator());
         }
         targetEngineConfiguration.setUsePrefixId(engineConfiguration.isUsePrefixId());
     }
 
     protected void initDataSource(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        if (engineConfiguration.getDataSource() != null) {
+        if (engineConfiguration.getDataSource() !is null) {
             targetEngineConfiguration.setDataSource(engineConfiguration.getDataSource());
         } else {
             throw new FlowableException("A datasource is required for initializing the IDM engine ");
@@ -293,7 +293,7 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
     }
 
     protected void initEventDispatcher(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        if (engineConfiguration.getEventDispatcher() != null) {
+        if (engineConfiguration.getEventDispatcher() !is null) {
             targetEngineConfiguration.setEventDispatcher(engineConfiguration.getEventDispatcher());
         }
     }
@@ -312,11 +312,11 @@ public abstract class AbstractEngineConfigurator implements EngineConfigurator {
 
     protected abstract List<Class<? extends Entity>> getEntityDeletionOrder();
 
-    public boolean isEnableMybatisXmlMappingValidation() {
+    public bool isEnableMybatisXmlMappingValidation() {
         return enableMybatisXmlMappingValidation;
     }
 
-    public void setEnableMybatisXmlMappingValidation(boolean enableMybatisXmlMappingValidation) {
+    public void setEnableMybatisXmlMappingValidation(bool enableMybatisXmlMappingValidation) {
         this.enableMybatisXmlMappingValidation = enableMybatisXmlMappingValidation;
     }
 

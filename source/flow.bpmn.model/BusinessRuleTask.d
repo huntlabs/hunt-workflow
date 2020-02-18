@@ -21,16 +21,16 @@ import java.util.List;
 class BusinessRuleTask extends Task {
 
     protected string resultVariableName;
-    protected boolean exclude;
+    protected bool exclude;
     protected List<string> ruleNames = new ArrayList<>();
     protected List<string> inputVariables = new ArrayList<>();
     protected string className;
 
-    public boolean isExclude() {
+    public bool isExclude() {
         return exclude;
     }
 
-    public void setExclude(boolean exclude) {
+    public void setExclude(bool exclude) {
         this.exclude = exclude;
     }
 

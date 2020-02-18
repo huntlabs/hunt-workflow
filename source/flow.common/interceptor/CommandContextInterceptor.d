@@ -59,7 +59,7 @@ module flow.common.interceptor.CommandContextInterceptor;
 //
 //        // We need to check the exception, because the transaction can be in a
 //        // rollback state, and some other command is being fired to compensate (eg. decrementing job retries)
-//        if (!config.isContextReusePossible() || commandContext == null || commandContext.getException() != null) {
+//        if (!config.isContextReusePossible() || commandContext is null || commandContext.getException() !is null) {
 //            commandContext = commandContextFactory.createCommandContext(command);
 //            commandContext.setEngineConfigurations(engineConfigurations);
 //
@@ -97,7 +97,7 @@ module flow.common.interceptor.CommandContextInterceptor;
 //        }
 //
 //        // Rethrow exception if needed
-//        if (contextReused && commandContext.getException() != null) {
+//        if (contextReused && commandContext.getException() !is null) {
 //
 //            // If it's reused, we need to throw the exception again so it propagates upwards,
 //            // but the exception needs to be reset again or the parent call can incorrectly be marked

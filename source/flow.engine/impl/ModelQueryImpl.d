@@ -65,7 +65,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQueryImpl modelCategory(string category) {
-        if (category == null) {
+        if (category is null) {
             throw new FlowableIllegalArgumentException("category is null");
         }
         this.category = category;
@@ -74,7 +74,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQueryImpl modelCategoryLike(string categoryLike) {
-        if (categoryLike == null) {
+        if (categoryLike is null) {
             throw new FlowableIllegalArgumentException("categoryLike is null");
         }
         this.categoryLike = categoryLike;
@@ -83,7 +83,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQueryImpl modelCategoryNotEquals(string categoryNotEquals) {
-        if (categoryNotEquals == null) {
+        if (categoryNotEquals is null) {
             throw new FlowableIllegalArgumentException("categoryNotEquals is null");
         }
         this.categoryNotEquals = categoryNotEquals;
@@ -92,7 +92,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQueryImpl modelName(string name) {
-        if (name == null) {
+        if (name is null) {
             throw new FlowableIllegalArgumentException("name is null");
         }
         this.name = name;
@@ -101,7 +101,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQueryImpl modelNameLike(string nameLike) {
-        if (nameLike == null) {
+        if (nameLike is null) {
             throw new FlowableIllegalArgumentException("nameLike is null");
         }
         this.nameLike = nameLike;
@@ -110,7 +110,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQuery modelKey(string key) {
-        if (key == null) {
+        if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
         this.key = key;
@@ -119,7 +119,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQueryImpl modelVersion(Integer version) {
-        if (version == null) {
+        if (version is null) {
             throw new FlowableIllegalArgumentException("version is null");
         } else if (version <= 0) {
             throw new FlowableIllegalArgumentException("version must be positive");
@@ -136,7 +136,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQuery deploymentId(string deploymentId) {
-        if (deploymentId == null) {
+        if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("DeploymentId is null");
         }
         this.deploymentId = deploymentId;
@@ -163,7 +163,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQuery modelTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Model tenant id is null");
         }
         this.tenantId = tenantId;
@@ -172,7 +172,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     @Override
     public ModelQuery modelTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Model tenant id is null");
         }
         this.tenantIdLike = tenantIdLike;

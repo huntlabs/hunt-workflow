@@ -40,12 +40,12 @@ class ExecuteHistoryJobCmd implements Command<Void> {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (historyJobId == null) {
+        if (historyJobId is null) {
             throw new FlowableIllegalArgumentException("historyJobId is null");
         }
 
         HistoryJobEntity historyJobEntity = CommandContextUtil.getHistoryJobEntityManager(commandContext).findById(historyJobId);
-        if (historyJobEntity == null) {
+        if (historyJobEntity is null) {
             throw new JobNotFoundException(historyJobId);
         }
 

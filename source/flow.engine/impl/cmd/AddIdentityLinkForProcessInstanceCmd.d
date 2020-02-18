@@ -51,15 +51,15 @@ class AddIdentityLinkForProcessInstanceCmd implements Command<Void>, Serializabl
 
     protected void validateParams(string processInstanceId, string userId, string groupId, string type) {
 
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
         }
 
-        if (type == null) {
+        if (type is null) {
             throw new FlowableIllegalArgumentException("type is required when adding a new process instance identity link");
         }
 
-        if (userId == null && groupId == null) {
+        if (userId is null && groupId is null) {
             throw new FlowableIllegalArgumentException("userId and groupId cannot both be null");
         }
 
@@ -71,7 +71,7 @@ class AddIdentityLinkForProcessInstanceCmd implements Command<Void>, Serializabl
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity processInstance = executionEntityManager.findById(processInstanceId);
 
-        if (processInstance == null) {
+        if (processInstance is null) {
             throw new FlowableObjectNotFoundException("Cannot find process instance with id " + processInstanceId, ExecutionEntity.class);
         }
 

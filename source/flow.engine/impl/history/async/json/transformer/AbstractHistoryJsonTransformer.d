@@ -17,8 +17,8 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.history.async.HistoryJsonConstants;
@@ -33,15 +33,15 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
 
     protected void dispatchEvent(CommandContext commandContext, FlowableEvent event) {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(event);
         }
     }
 
     public bool historicActivityInstanceExistsForData(ObjectNode historicalData, CommandContext commandContext) {
         string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
-        if (runtimeActivityInstanceId != null) {
-            return CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findById(runtimeActivityInstanceId) != null;
+        if (runtimeActivityInstanceId !is null) {
+            return CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findById(runtimeActivityInstanceId) !is null;
         } else {
             string executionId = getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID);
             if (StringUtils.isNotEmpty(executionId)) {
@@ -50,7 +50,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
                 if (StringUtils.isNotEmpty(activityId)) {
                     HistoricActivityInstanceEntity historicActivityInstanceEntity = findUnfinishedHistoricActivityInstance(commandContext, executionId,
                         activityId);
-                    return historicActivityInstanceEntity != null;
+                    return historicActivityInstanceEntity !is null;
                 }
             }
         }
@@ -61,7 +61,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
         string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (StringUtils.isNotEmpty(runtimeActivityInstanceId)) {
             HistoricActivityInstanceEntity historicActivityInstanceEntity = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findById(runtimeActivityInstanceId);
-            return historicActivityInstanceEntity != null;
+            return historicActivityInstanceEntity !is null;
         } else {
             string executionId = getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID);
             if (StringUtils.isNotEmpty(executionId)) {
@@ -69,7 +69,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
 
                 if (StringUtils.isNotEmpty(activityId)) {
                     HistoricActivityInstanceEntity historicActivityInstanceEntity = findHistoricActivityInstance(commandContext, executionId, activityId);
-                    return historicActivityInstanceEntity != null;
+                    return historicActivityInstanceEntity !is null;
                 }
             }
             return false;
@@ -77,12 +77,12 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
     }
 
     protected HistoricActivityInstanceEntity findUnfinishedHistoricActivityInstance(CommandContext commandContext, string executionId, string activityId) {
-        if (executionId == null || activityId == null) {
+        if (executionId is null || activityId is null) {
             return null;
         }
 
         HistoricActivityInstanceEntity historicActivityInstanceEntity = getUnfinishedHistoricActivityInstanceFromCache(commandContext, executionId, activityId);
-        if (historicActivityInstanceEntity == null) {
+        if (historicActivityInstanceEntity is null) {
             List<HistoricActivityInstanceEntity> historicActivityInstances = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext)
                             .findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(executionId, activityId);
             if (!historicActivityInstances.isEmpty()) {
@@ -97,9 +97,9 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
         
         List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
-            if (activityId != null
+            if (activityId !is null
                             && activityId.equals(cachedHistoricActivityInstance.getActivityId())
-                            && cachedHistoricActivityInstance.getEndTime() == null
+                            && cachedHistoricActivityInstance.getEndTime() is null
                             && executionId.equals(cachedHistoricActivityInstance.getExecutionId())) {
                 
                 return cachedHistoricActivityInstance;
@@ -109,12 +109,12 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
     }
 
     protected HistoricActivityInstanceEntity findHistoricActivityInstance(CommandContext commandContext, string executionId, string activityId) {
-        if (executionId == null || activityId == null) {
+        if (executionId is null || activityId is null) {
             return null;
         }
 
         HistoricActivityInstanceEntity historicActivityInstanceEntity = getHistoricActivityInstanceFromCache(commandContext, executionId, activityId);
-        if (historicActivityInstanceEntity == null) {
+        if (historicActivityInstanceEntity is null) {
             List<HistoricActivityInstanceEntity> historicActivityInstances = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext)
                             .findHistoricActivityInstancesByExecutionAndActivityId(executionId, activityId);
             if (!historicActivityInstances.isEmpty()) {
@@ -129,7 +129,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
         
         List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
-            if (activityId != null
+            if (activityId !is null
                             && activityId.equals(cachedHistoricActivityInstance.getActivityId())
                             && executionId.equals(cachedHistoricActivityInstance.getExecutionId())) {
                 

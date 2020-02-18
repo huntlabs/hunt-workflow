@@ -40,7 +40,7 @@ class GetAttachmentContentCmd implements Command<InputStream>, Serializable {
         AttachmentEntity attachment = CommandContextUtil.getAttachmentEntityManager().findById(attachmentId);
 
         string contentId = attachment.getContentId();
-        if (contentId == null) {
+        if (contentId is null) {
             return null;
         }
 

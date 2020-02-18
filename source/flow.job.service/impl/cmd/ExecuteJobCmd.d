@@ -46,13 +46,13 @@ class ExecuteJobCmd implements Command<Object>, Serializable {
     @Override
     public Object execute(CommandContext commandContext) {
 
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("JobId is null");
         }
 
         Job job = CommandContextUtil.getJobEntityManager(commandContext).findById(jobId);
 
-        if (job == null) {
+        if (job is null) {
             throw new JobNotFoundException(jobId);
         }
 
@@ -62,7 +62,7 @@ class ExecuteJobCmd implements Command<Object>, Serializable {
 
         JobServiceConfiguration jobServiceConfiguration = CommandContextUtil.getJobServiceConfiguration(commandContext);
         InternalJobCompatibilityManager internalJobCompatibilityManager = jobServiceConfiguration.getInternalJobCompatibilityManager();
-        if (internalJobCompatibilityManager != null && internalJobCompatibilityManager.isFlowable5Job(job)) {
+        if (internalJobCompatibilityManager !is null && internalJobCompatibilityManager.isFlowable5Job(job)) {
             internalJobCompatibilityManager.executeV5Job(job);
             return null;
         }

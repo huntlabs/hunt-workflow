@@ -35,7 +35,7 @@ class DeleteHistoricTaskInstanceCmd implements Command<Object>, Serializable {
     @Override
     public Object execute(CommandContext commandContext) {
 
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
         

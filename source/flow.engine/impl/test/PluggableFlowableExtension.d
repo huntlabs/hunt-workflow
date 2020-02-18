@@ -65,7 +65,7 @@ class PluggableFlowableExtension extends InternalFlowableExtension {
         ProcessEngines.destroy(); // Just to be sure we're not getting any previously cached version
 
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-        if (processEngine == null) {
+        if (processEngine is null) {
             throw new FlowableException("no default process engine available");
         }
         return processEngine;
@@ -79,13 +79,13 @@ class PluggableFlowableExtension extends InternalFlowableExtension {
             CommandInterceptor previousCommandInterceptor = null;
             CommandInterceptor commandInterceptor = commandExecutorImpl.getFirst();
 
-            while (commandInterceptor != null) {
+            while (commandInterceptor !is null) {
 
                 bool matches = debug ? (commandInterceptor instanceof CommandInvoker) : (commandInterceptor instanceof LoggingExecutionTreeCommandInvoker);
                 if (matches) {
 
                     CommandInterceptor commandInvoker = debug ? new LoggingExecutionTreeCommandInvoker() : new CommandInvoker();
-                    if (previousCommandInterceptor != null) {
+                    if (previousCommandInterceptor !is null) {
                         previousCommandInterceptor.setNext(commandInvoker);
                     } else {
                         commandExecutorImpl.setFirst(previousCommandInterceptor);

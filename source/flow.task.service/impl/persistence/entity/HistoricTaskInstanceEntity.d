@@ -16,8 +16,8 @@
 import java.util.Date;
 import java.util.List;
 
-import org.flowable.common.engine.impl.db.HasRevision;
-import org.flowable.common.engine.impl.persistence.entity.Entity;
+import flow.common.db.HasRevision;
+import flow.common.persistence.entity.Entity;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
@@ -25,7 +25,7 @@ import org.flowable.variable.service.impl.persistence.entity.HistoricVariableIns
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-public interface HistoricTaskInstanceEntity extends Entity, HistoricTaskInstance, HasRevision {
+interface HistoricTaskInstanceEntity extends Entity, HistoricTaskInstance, HasRevision {
 
     void setExecutionId(string executionId);
 

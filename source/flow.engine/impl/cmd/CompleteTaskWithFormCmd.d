@@ -63,14 +63,14 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
     @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         FormService formService = CommandContextUtil.getFormService();
-        if (formService == null) {
+        if (formService is null) {
             throw new FlowableIllegalArgumentException("Form engine is not initialized");
         }
 
         FormRepositoryService formRepositoryService = CommandContextUtil.getFormRepositoryService();
         FormInfo formInfo = formRepositoryService.getFormModelById(formDefinitionId);
 
-        if (formInfo != null) {
+        if (formInfo !is null) {
             ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
             FormFieldHandler formFieldHandler = processEngineConfiguration.getFormFieldHandler();
             if (isFormFieldValidationEnabled(task, processEngineConfiguration, task.getProcessDefinitionId(), task.getTaskDefinitionKey())) {
@@ -82,7 +82,7 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
 
             // The taskVariables are the variables that should be used when completing the task
             // the actual variables should instead be used when saving the form instances
-            if (task.getProcessInstanceId() != null) {
+            if (task.getProcessInstanceId() !is null) {
                 formService.saveFormInstance(variables, formInfo, task.getId(), task.getProcessInstanceId(),
                                 task.getProcessDefinitionId(), task.getTenantId(), outcome);
             } else {

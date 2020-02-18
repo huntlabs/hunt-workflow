@@ -22,11 +22,11 @@ module flow.engine.delegate.event.BaseEntityEventListener;
  
 
 
-import flow.common.api.delegate.event.AbstractFlowableEventListener;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.AbstractFlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 
 /**
  * Base event listener that can be used when implementing an {@link FlowableEventListener} to get notified when an entity is created, updated, deleted or if another entity-related event occurs.
@@ -93,7 +93,7 @@ class BaseEntityEventListener : AbstractFlowableEventListener {
     protected bool isValidEvent(FlowableEvent event) {
         bool valid = false;
         if (event instanceof FlowableEntityEvent) {
-            if (entityClass == null) {
+            if (entityClass is null) {
                 valid = true;
             } else {
                 valid = entityClass.isAssignableFrom(((FlowableEntityEvent) event).getEntity().getClass());

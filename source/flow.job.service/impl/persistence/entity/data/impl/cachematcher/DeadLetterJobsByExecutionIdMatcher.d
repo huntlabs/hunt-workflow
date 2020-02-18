@@ -22,7 +22,7 @@ class DeadLetterJobsByExecutionIdMatcher extends CachedEntityMatcherAdapter<Dead
 
     @Override
     public bool isRetained(DeadLetterJobEntity jobEntity, Object param) {
-        return jobEntity.getExecutionId() != null && jobEntity.getExecutionId().equals(param); // param = executionId
+        return jobEntity.getExecutionId() !is null && jobEntity.getExecutionId().equals(param); // param = executionId
     }
 
 }

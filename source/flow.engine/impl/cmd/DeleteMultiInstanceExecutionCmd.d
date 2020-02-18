@@ -55,7 +55,7 @@ class DeleteMultiInstanceExecutionCmd implements Command<Void>, Serializable {
         Activity miActivityElement = (Activity) bpmnModel.getFlowElement(execution.getActivityId());
         MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics = miActivityElement.getLoopCharacteristics();
         
-        if (miActivityElement.getLoopCharacteristics() == null) {
+        if (miActivityElement.getLoopCharacteristics() is null) {
             throw new FlowableException("No multi instance execution found for execution id " + executionId);
         }
         
@@ -101,7 +101,7 @@ class DeleteMultiInstanceExecutionCmd implements Command<Void>, Serializable {
     protected ExecutionEntity getMultiInstanceRootExecution(ExecutionEntity executionEntity) {
         ExecutionEntity multiInstanceRootExecution = null;
         ExecutionEntity currentExecution = executionEntity;
-        while (currentExecution != null && multiInstanceRootExecution == null && currentExecution.getParent() != null) {
+        while (currentExecution !is null && multiInstanceRootExecution is null && currentExecution.getParent() !is null) {
             if (currentExecution.isMultiInstanceRoot()) {
                 multiInstanceRootExecution = currentExecution;
             } else {

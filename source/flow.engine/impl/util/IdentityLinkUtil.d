@@ -79,7 +79,7 @@ class IdentityLinkUtil {
         taskEntity.getIdentityLinks().add(identityLinkEntity);
         
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
-        if (processEngineConfiguration.getIdentityLinkInterceptor() != null) {
+        if (processEngineConfiguration.getIdentityLinkInterceptor() !is null) {
             processEngineConfiguration.getIdentityLinkInterceptor().handleAddIdentityLinkToTask(taskEntity, identityLinkEntity);
         }
     }

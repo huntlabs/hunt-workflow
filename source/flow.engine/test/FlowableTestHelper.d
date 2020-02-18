@@ -67,7 +67,7 @@ class FlowableTestHelper {
     }
 
     public void setCurrentTime(Instant instant) {
-        processEngine.getProcessEngineConfiguration().getClock().setCurrentTime(instant == null ? null : Date.from(instant));
+        processEngine.getProcessEngineConfiguration().getClock().setCurrentTime(instant is null ? null : Date.from(instant));
     }
 
 }

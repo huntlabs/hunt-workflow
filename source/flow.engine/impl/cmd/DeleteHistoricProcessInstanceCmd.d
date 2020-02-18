@@ -39,16 +39,16 @@ class DeleteHistoricProcessInstanceCmd implements Command<Object>, Serializable 
 
     @Override
     public Object execute(CommandContext commandContext) {
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
         }
         // Check if process instance is still running
         HistoricProcessInstance instance = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findById(processInstanceId);
 
-        if (instance == null) {
+        if (instance is null) {
             throw new FlowableObjectNotFoundException("No historic process instance found with id: " + processInstanceId, HistoricProcessInstance.class);
         }
-        if (instance.getEndTime() == null) {
+        if (instance.getEndTime() is null) {
             throw new FlowableException("Process instance is still running, cannot delete historic process instance: " + processInstanceId);
         }
 

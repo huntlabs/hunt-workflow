@@ -23,7 +23,7 @@ module flow.engine.delegate.event.impl.FlowableProcessStartedEventImpl;
 
 import java.util.Map;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.delegate.event.FlowableProcessStartedEvent;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 
@@ -46,7 +46,7 @@ class FlowableProcessStartedEventImpl : FlowableEntityWithVariablesEventImpl , F
             }
 
             final ExecutionEntity superExecution = executionEntity.getSuperExecution();
-            if (superExecution != null) {
+            if (superExecution !is null) {
                 this.nestedProcessDefinitionId = superExecution.getProcessDefinitionId();
                 this.nestedProcessInstanceId = superExecution.getProcessInstanceId();
             } else {

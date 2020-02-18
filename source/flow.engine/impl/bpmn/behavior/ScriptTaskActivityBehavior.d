@@ -65,7 +65,7 @@ class ScriptTaskActivityBehavior extends TaskActivityBehavior {
 
         if (CommandContextUtil.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
             ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(scriptTaskId, execution.getProcessDefinitionId());
-            if (taskElementProperties != null && taskElementProperties.has(DynamicBpmnConstants.SCRIPT_TASK_SCRIPT)) {
+            if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SCRIPT_TASK_SCRIPT)) {
                 string overrideScript = taskElementProperties.get(DynamicBpmnConstants.SCRIPT_TASK_SCRIPT).asText();
                 if (StringUtils.isNotEmpty(overrideScript) && !overrideScript.equals(script)) {
                     script = overrideScript;
@@ -83,7 +83,7 @@ class ScriptTaskActivityBehavior extends TaskActivityBehavior {
                 }
             }
 
-            if (resultVariable != null) {
+            if (resultVariable !is null) {
                 execution.setVariable(resultVariable, result);
             }
 

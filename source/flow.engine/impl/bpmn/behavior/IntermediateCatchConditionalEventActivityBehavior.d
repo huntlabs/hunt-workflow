@@ -13,9 +13,9 @@
 
 
 import org.flowable.bpmn.model.ConditionalEventDefinition;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -38,7 +38,7 @@ class IntermediateCatchConditionalEventActivityBehavior extends IntermediateCatc
         ExecutionEntity executionEntity = (ExecutionEntity) execution;
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_WAITING, 
                             executionEntity.getActivityId(), conditionExpression, executionEntity.getId(), 
                             executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
@@ -50,10 +50,10 @@ class IntermediateCatchConditionalEventActivityBehavior extends IntermediateCatc
         Expression expression = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
         
-        if (result != null && result instanceof bool && (bool) result) {
+        if (result !is null && result instanceof bool && (bool) result) {
             ExecutionEntity executionEntity = (ExecutionEntity) execution;
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_RECEIVED, executionEntity.getActivityId(), 
                                 conditionExpression, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
             }

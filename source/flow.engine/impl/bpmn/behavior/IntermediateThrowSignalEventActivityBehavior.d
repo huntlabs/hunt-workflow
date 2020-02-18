@@ -19,8 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.Signal;
 import org.flowable.bpmn.model.SignalEventDefinition;
 import org.flowable.bpmn.model.ThrowEvent;
-import flow.common.api.delegate.Expression;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.Expression;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
@@ -49,7 +49,7 @@ class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityB
     protected bool processInstanceScope;
 
     public IntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent, SignalEventDefinition signalEventDefinition, Signal signal) {
-        if (signal != null) {
+        if (signal !is null) {
             signalEventName = signal.getName();
             if (Signal.SCOPE_PROCESS_INSTANCE.equals(signal.getScope())) {
                 this.processInstanceScope = true;
@@ -69,7 +69,7 @@ class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityB
         CommandContext commandContext = Context.getCommandContext();
 
         string eventSubscriptionName = null;
-        if (signalEventName != null) {
+        if (signalEventName !is null) {
             eventSubscriptionName = signalEventName;
         } else {
             Expression expressionObject = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(signalExpression);
@@ -85,7 +85,7 @@ class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityB
             if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableEntityLinks()) {
                 List<EntityLink> entityLinks = CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByReferenceScopeIdAndType(
                                 execution.getProcessInstanceId(), ScopeTypes.BPMN, EntityLinkType.CHILD);
-                if (entityLinks != null) {
+                if (entityLinks !is null) {
                     for (EntityLink entityLink : entityLinks) {
                         if (ScopeTypes.BPMN.equals(entityLink.getScopeType())) {
                             subscriptionEntities.addAll(eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(

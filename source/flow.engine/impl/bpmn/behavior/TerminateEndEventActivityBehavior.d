@@ -20,8 +20,8 @@ import org.flowable.bpmn.model.FlowElementsContainer;
 import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.history.HistoryLevel;
 import flow.common.interceptor.CommandContext;
@@ -96,13 +96,13 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
 
         string deleteReason = createDeleteReason(execution.getCurrentActivityId());
 
-        if (scopeExecutionEntity.isProcessInstanceType() && scopeExecutionEntity.getSuperExecutionId() == null) {
+        if (scopeExecutionEntity.isProcessInstanceType() && scopeExecutionEntity.getSuperExecutionId() is null) {
             endAllHistoricActivities(scopeExecutionEntity.getId(), deleteReason);
             deleteExecutionEntities(executionEntityManager, scopeExecutionEntity, execution, deleteReason);
             CommandContextUtil.getHistoryManager(commandContext).recordProcessInstanceEnd(scopeExecutionEntity, deleteReason, execution.getCurrentActivityId(),
                 commandContext.getCurrentEngineConfiguration().getClock().getCurrentTime());
 
-        } else if (scopeExecutionEntity.getCurrentFlowElement() != null
+        } else if (scopeExecutionEntity.getCurrentFlowElement() !is null
                 && scopeExecutionEntity.getCurrentFlowElement() instanceof SubProcess) { // SubProcess
 
             SubProcess subProcess = (SubProcess) scopeExecutionEntity.getCurrentFlowElement();
@@ -120,8 +120,8 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
                 CommandContextUtil.getAgenda(commandContext).planTakeOutgoingSequenceFlowsOperation(outgoingFlowExecution, true);
             }
 
-        } else if (scopeExecutionEntity.getParentId() == null
-                && scopeExecutionEntity.getSuperExecutionId() != null) { // CallActivity
+        } else if (scopeExecutionEntity.getParentId() is null
+                && scopeExecutionEntity.getSuperExecutionId() !is null) { // CallActivity
 
             ExecutionEntity callActivityExecution = scopeExecutionEntity.getSuperExecution();
             CallActivity callActivity = (CallActivity) callActivityExecution.getCurrentFlowElement();
@@ -176,10 +176,10 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
             // Fire event
             ProcessEngineConfigurationImpl config = CommandContextUtil.getProcessEngineConfiguration();
             FlowableEventDispatcher eventDispatcher = null;
-            if (config != null) {
+            if (config !is null) {
                 eventDispatcher = config.getEventDispatcher();
             }
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
                         FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, historicActivityInstance));
             }
@@ -192,7 +192,7 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
 
         // When terminateMultiInstance is 'true', we look for the multi instance root and delete it from there.
         ExecutionEntity miRootExecutionEntity = executionEntityManager.findFirstMultiInstanceRoot( execution);
-        if (miRootExecutionEntity != null) {
+        if (miRootExecutionEntity !is null) {
 
             // Create sibling execution to continue process instance execution before deletion
             ExecutionEntity siblingExecution = executionEntityManager.createChildExecution(miRootExecutionEntity.getParent());
@@ -229,9 +229,9 @@ class TerminateEndEventActivityBehavior extends FlowNodeActivityBehavior {
             .executeExecutionListeners(process, execution, ExecutionListener.EVENTNAME_END);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
-            if ((execution.isProcessInstanceType() && execution.getSuperExecutionId() == null) ||
-                    (execution.getParentId() == null && execution.getSuperExecutionId() != null)) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
+            if ((execution.isProcessInstanceType() && execution.getSuperExecutionId() is null) ||
+                    (execution.getParentId() is null && execution.getSuperExecutionId() !is null)) {
 
                 // This event should only be fired if terminate end event is part of the process definition for the process instance execution,
                 // otherwise a regular cancel event of the process instance will be fired (see above).

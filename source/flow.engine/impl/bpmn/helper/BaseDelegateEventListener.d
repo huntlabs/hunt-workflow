@@ -12,10 +12,10 @@
  */
 
 
-import flow.common.api.delegate.event.AbstractFlowableEventListener;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.AbstractFlowableEventListener;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 
 /**
  * Base implementation of a {@link FlowableEventListener}, used when creating event-listeners that are part of a BPMN definition.
@@ -36,10 +36,10 @@ abstract class BaseDelegateEventListener extends AbstractFlowableEventListener {
     
     protected bool isValidEvent(FlowableEvent event) {
         bool valid = false;
-        if (entityClass != null) {
+        if (entityClass !is null) {
             if (event instanceof FlowableEntityEvent) {
                 Object entity = ((FlowableEntityEvent) event).getEntity();
-                if (entity != null) {
+                if (entity !is null) {
                     valid = entityClass.isAssignableFrom(entity.getClass());
                 }
             }

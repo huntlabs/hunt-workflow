@@ -12,10 +12,10 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableExceptionEvent;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableExceptionEvent;
 import flow.common.event.FlowableEntityEventImpl;
 import flow.common.event.FlowableEntityExceptionEventImpl;
 import flow.common.event.FlowableEngineEventImpl;

@@ -51,21 +51,21 @@ class DeleteIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
     }
 
     protected void validateParams(string userId, string groupId, string type, string taskId) {
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
 
-        if (type == null) {
+        if (type is null) {
             throw new FlowableIllegalArgumentException("type is required when adding a new task identity link");
         }
 
         // Special treatment for assignee and owner: group cannot be used and userId may be null
         if (IdentityLinkType.ASSIGNEE.equals(type) || IdentityLinkType.OWNER.equals(type)) {
-            if (groupId != null) {
+            if (groupId !is null) {
                 throw new FlowableIllegalArgumentException("Incompatible usage: cannot use type '" + type + "' together with a groupId");
             }
         } else {
-            if (userId == null && groupId == null) {
+            if (userId is null && groupId is null) {
                 throw new FlowableIllegalArgumentException("userId and groupId cannot both be null");
             }
         }
@@ -73,7 +73,7 @@ class DeleteIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
 
     @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
-        if (task.getProcessDefinitionId() != null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
             compatibilityHandler.deleteIdentityLink(taskId, userId, groupId, type);
             return null;

@@ -73,12 +73,12 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
             List<CompensateEventSubscriptionEntity> compensationEvents = eventSubscriptionService
                     .findCompensateEventSubscriptionsByProcessInstanceIdAndActivityId(execution.getProcessInstanceId(), activityRef);
             
-            if (compensationEvents == null || compensationEvents.size() == 0) {
+            if (compensationEvents is null || compensationEvents.size() == 0) {
                 // check if compensation activity was referenced directly (backwards compatibility pre 6.4.0)
                 
                 string processDefinitionId = execution.getProcessDefinitionId();
                 Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
-                if (process == null) {
+                if (process is null) {
                     throw new FlowableException("Process model (id = " + processDefinitionId + ") could not be found");
                 }
 
@@ -92,7 +92,7 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
                             FlowElement sourceElement = process.getFlowElement(association.getSourceRef(), true);
                             if (sourceElement instanceof BoundaryEvent) {
                                 BoundaryEvent sourceBoundaryEvent = (BoundaryEvent) sourceElement;
-                                if (sourceBoundaryEvent.getAttachedToRefId() != null) {
+                                if (sourceBoundaryEvent.getAttachedToRefId() !is null) {
                                     compensationActivityId = sourceBoundaryEvent.getAttachedToRefId();
                                     break;
                                 }
@@ -101,7 +101,7 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
                     }
                 }
                 
-                if (compensationActivityId != null) {
+                if (compensationActivityId !is null) {
                     compensationEvents = eventSubscriptionService
                             .findCompensateEventSubscriptionsByProcessInstanceIdAndActivityId(execution.getProcessInstanceId(), compensationActivityId);
                 }
@@ -115,7 +115,7 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
             Process process = ProcessDefinitionUtil.getProcess(execution.getProcessDefinitionId());
 
             FlowElementsContainer flowElementsContainer = null;
-            if (throwEvent.getSubProcess() == null) {
+            if (throwEvent.getSubProcess() is null) {
                 flowElementsContainer = process;
             } else {
                 flowElementsContainer = throwEvent.getSubProcess();

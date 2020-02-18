@@ -19,7 +19,7 @@ import org.flowable.variable.service.impl.persistence.entity.VariableScopeImpl;
 /**
  * @author Tijs Rademakers
  */
-public interface InternalTaskVariableScopeResolver {
+interface InternalTaskVariableScopeResolver {
 
     VariableScopeImpl resolveParentVariableScope(TaskEntity task);
     

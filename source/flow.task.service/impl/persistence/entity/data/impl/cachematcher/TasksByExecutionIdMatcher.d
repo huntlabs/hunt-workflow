@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.common.engine.impl.persistence.cache.CachedEntityMatcherAdapter;
+import flow.common.persistence.cache.CachedEntityMatcherAdapter;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**
@@ -21,8 +21,8 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 class TasksByExecutionIdMatcher extends CachedEntityMatcherAdapter<TaskEntity> {
 
     @Override
-    public boolean isRetained(TaskEntity taskEntity, Object parameter) {
-        return taskEntity.getExecutionId() != null && parameter.equals(taskEntity.getExecutionId());
+    public bool isRetained(TaskEntity taskEntity, Object parameter) {
+        return taskEntity.getExecutionId() !is null && parameter.equals(taskEntity.getExecutionId());
     }
 
 }

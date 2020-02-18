@@ -22,7 +22,7 @@ import org.flowable.bpmn.model.MapExceptionEntry;
 import org.flowable.bpmn.model.Task;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.engine.DynamicBpmnConstants;
 import flow.engine.delegate.BpmnError;
 import flow.engine.delegate.CustomPropertiesResolver;
@@ -110,7 +110,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
 
     @Override
     public Map<string, Object> getCustomPropertiesMap(DelegateExecution execution) {
-        if (customPropertiesResolverInstance == null) {
+        if (customPropertiesResolverInstance is null) {
             customPropertiesResolverInstance = getCustomPropertiesResolverInstance();
         }
         return customPropertiesResolverInstance.getCustomPropertiesMap(execution);
@@ -186,7 +186,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     public void execute(DelegateExecution execution) {
         if (CommandContextUtil.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
             ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
-            if (taskElementProperties != null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_CLASS_NAME)) {
+            if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_CLASS_NAME)) {
                 string overrideClassName = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_CLASS_NAME).asText();
                 if (StringUtils.isNotEmpty(overrideClassName) && !overrideClassName.equals(className)) {
                     className = overrideClassName;
@@ -195,7 +195,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
             }
         }
 
-        if (activityBehaviorInstance == null) {
+        if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
         }
 
@@ -212,7 +212,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     // Signallable activity behavior
     @Override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
-        if (activityBehaviorInstance == null) {
+        if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
         }
 
@@ -230,7 +230,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
 
     @Override
     public void completing(DelegateExecution execution, DelegateExecution subProcessInstance) throws Exception {
-        if (activityBehaviorInstance == null) {
+        if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
         }
 
@@ -243,7 +243,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
 
     @Override
     public void completed(DelegateExecution execution) throws Exception {
-        if (activityBehaviorInstance == null) {
+        if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
         }
 

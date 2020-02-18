@@ -71,7 +71,7 @@ class FormHandlerHelper {
     }
 
     public TaskFormHandler getTaskFormHandlder(TaskEntity taskEntity) {
-        if (taskEntity.getProcessDefinitionId() != null) {
+        if (taskEntity.getProcessDefinitionId() !is null) {
             return getTaskFormHandlder(taskEntity.getProcessDefinitionId(), taskEntity.getTaskDefinitionKey());
         }
         return null;

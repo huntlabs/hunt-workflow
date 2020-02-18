@@ -32,7 +32,7 @@ class JtaProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
 
     @Override
     public CommandInterceptor createTransactionInterceptor() {
-        if (transactionManager == null) {
+        if (transactionManager is null) {
             throw new FlowableException("transactionManager is required property for JtaProcessEngineConfiguration, use " + StandaloneProcessEngineConfiguration.class.getName() + " otherwise");
         }
 
@@ -41,7 +41,7 @@ class JtaProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
 
     @Override
     public void initTransactionContextFactory() {
-        if (transactionContextFactory == null) {
+        if (transactionContextFactory is null) {
             transactionContextFactory = new JtaTransactionContextFactory(transactionManager);
         }
     }

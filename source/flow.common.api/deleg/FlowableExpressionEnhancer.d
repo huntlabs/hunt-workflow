@@ -16,18 +16,21 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.event.FlowableEventType;
+module flow.common.api.deleg.FlowableExpressionEnhancer;
  
  
  
 
 /**
- * Enumeration containing all possible types of {@link FlowableEvent}s.
+ * Instances of this interface can be registered by engines that use expressions through an expression manager.
  * 
- * @author Frederik Heremans
+ * The instances will be called in the order as they are configured and can be used to change the text of the 
+ * expression before the actual {@link Expression} is created from it.
  * 
+ * @author Joram Barrez
  */
-interface FlowableEventType {
+interface FlowableExpressionEnhancer {
 
-    string name();
+    string enhance(string expressionText);
+
 }

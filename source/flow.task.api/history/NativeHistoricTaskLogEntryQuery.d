@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.common.engine.api.query.NativeQuery;
+import flow.common.api.query.NativeQuery;
 
 /**
  * Allows querying of {@link HistoricTaskLogEntry}s via native (SQL) queries

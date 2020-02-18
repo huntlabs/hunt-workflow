@@ -24,7 +24,7 @@ import org.flowable.bpmn.model.Signal;
 import org.flowable.bpmn.model.SignalEventDefinition;
 import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.TimerEventDefinition;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.repository.EngineResource;
 import flow.common.util.CollectionUtil;
 import flow.engine.ProcessEngineConfiguration;
@@ -142,9 +142,9 @@ class DeploymentEntityManagerImpl
     protected void removeTimerStartJobs(ProcessDefinition processDefinition) {
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
         List<TimerJobEntity> timerStartJobs = timerJobService.findJobsByTypeAndProcessDefinitionId(TimerStartEventJobHandler.TYPE, processDefinition.getId());
-        if (timerStartJobs != null && timerStartJobs.size() > 0) {
+        if (timerStartJobs !is null && timerStartJobs.size() > 0) {
             for (TimerJobEntity timerStartJob : timerStartJobs) {
-                if (getEventDispatcher() != null && getEventDispatcher().isEnabled()) {
+                if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
                     getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, timerStartJob, null, null, processDefinition.getId()));
                 }
 
@@ -155,11 +155,11 @@ class DeploymentEntityManagerImpl
 
     protected void restorePreviousStartEventsIfNeeded(ProcessDefinition processDefinition) {
         ProcessDefinitionEntity latestProcessDefinition = findLatestProcessDefinition(processDefinition);
-        if (latestProcessDefinition != null && processDefinition.getId().equals(latestProcessDefinition.getId())) {
+        if (latestProcessDefinition !is null && processDefinition.getId().equals(latestProcessDefinition.getId())) {
 
             // Try to find a previous version (it could be some versions are missing due to deletions)
             ProcessDefinition previousProcessDefinition = findNewLatestProcessDefinitionAfterRemovalOf(processDefinition);
-            if (previousProcessDefinition != null) {
+            if (previousProcessDefinition !is null) {
 
                 BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(previousProcessDefinition.getId());
                 org.flowable.bpmn.model.Process previousProcess = ProcessDefinitionUtil.getProcess(previousProcessDefinition.getId());
@@ -196,13 +196,13 @@ class DeploymentEntityManagerImpl
         TimerJobEntity timer = TimerUtil.createTimerEntityForTimerEventDefinition((TimerEventDefinition) eventDefinition, false, null, TimerStartEventJobHandler.TYPE,
                 TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
 
-        if (timer != null) {
+        if (timer !is null) {
             TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE, 
                             TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
             
             timerJob.setProcessDefinitionId(previousProcessDefinition.getId());
 
-            if (previousProcessDefinition.getTenantId() != null) {
+            if (previousProcessDefinition.getTenantId() !is null) {
                 timerJob.setTenantId(previousProcessDefinition.getTenantId());
             }
 
@@ -214,14 +214,14 @@ class DeploymentEntityManagerImpl
         SignalEventDefinition signalEventDefinition = (SignalEventDefinition) eventDefinition;
         SignalEventSubscriptionEntity subscriptionEntity = CommandContextUtil.getEventSubscriptionService().createSignalEventSubscription();
         Signal signal = bpmnModel.getSignal(signalEventDefinition.getSignalRef());
-        if (signal != null) {
+        if (signal !is null) {
             subscriptionEntity.setEventName(signal.getName());
         } else {
             subscriptionEntity.setEventName(signalEventDefinition.getSignalRef());
         }
         subscriptionEntity.setActivityId(startEvent.getId());
         subscriptionEntity.setProcessDefinitionId(previousProcessDefinition.getId());
-        if (previousProcessDefinition.getTenantId() != null) {
+        if (previousProcessDefinition.getTenantId() !is null) {
             subscriptionEntity.setTenantId(previousProcessDefinition.getTenantId());
         }
 
@@ -242,7 +242,7 @@ class DeploymentEntityManagerImpl
         newSubscription.setConfiguration(previousProcessDefinition.getId());
         newSubscription.setProcessDefinitionId(previousProcessDefinition.getId());
 
-        if (previousProcessDefinition.getTenantId() != null) {
+        if (previousProcessDefinition.getTenantId() !is null) {
             newSubscription.setTenantId(previousProcessDefinition.getTenantId());
         }
 
@@ -252,7 +252,7 @@ class DeploymentEntityManagerImpl
 
     protected ProcessDefinitionEntity findLatestProcessDefinition(ProcessDefinition processDefinition) {
         ProcessDefinitionEntity latestProcessDefinition = null;
-        if (processDefinition.getTenantId() != null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
+        if (processDefinition.getTenantId() !is null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
             latestProcessDefinition = getProcessDefinitionEntityManager()
                     .findLatestProcessDefinitionByKeyAndTenantId(processDefinition.getKey(), processDefinition.getTenantId());
         } else {
@@ -270,7 +270,7 @@ class DeploymentEntityManagerImpl
         ProcessDefinitionQueryImpl query = new ProcessDefinitionQueryImpl();
         query.processDefinitionKey(processDefinitionToBeRemoved.getKey());
 
-        if (processDefinitionToBeRemoved.getTenantId() != null
+        if (processDefinitionToBeRemoved.getTenantId() !is null
                 && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinitionToBeRemoved.getTenantId())) {
             query.processDefinitionTenantId(processDefinitionToBeRemoved.getTenantId());
         } else {
@@ -285,7 +285,7 @@ class DeploymentEntityManagerImpl
         query.setFirstResult(0);
         query.setMaxResults(1);
         List<ProcessDefinition> processDefinitions = getProcessDefinitionEntityManager().findProcessDefinitionsByQueryCriteria(query);
-        if (processDefinitions != null && processDefinitions.size() > 0) {
+        if (processDefinitions !is null && processDefinitions.size() > 0) {
             return processDefinitions.get(0);
         }
         return null;

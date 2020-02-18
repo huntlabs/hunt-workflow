@@ -95,7 +95,7 @@ abstract class AbstractBpmnParseHandler<T extends BaseElement> implements BpmnPa
 
     protected void createAssociation(BpmnParse bpmnParse, Association association) {
         BpmnModel bpmnModel = bpmnParse.getBpmnModel();
-        if (bpmnModel.getArtifact(association.getSourceRef()) != null || bpmnModel.getArtifact(association.getTargetRef()) != null) {
+        if (bpmnModel.getArtifact(association.getSourceRef()) !is null || bpmnModel.getArtifact(association.getTargetRef()) !is null) {
 
             // connected to a text annotation so skipping it
         }
@@ -110,17 +110,17 @@ abstract class AbstractBpmnParseHandler<T extends BaseElement> implements BpmnPa
         // text annotations so do not throw an exception if sourceActivity or
         // targetActivity are null)
         // However, we make sure they reference 'something':
-        // if (sourceActivity == null) {
+        // if (sourceActivity is null) {
         // bpmnModel.addProblem("Invalid reference sourceRef '" +
         // association.getSourceRef() + "' of association element ",
         // association.getId());
-        // } else if (targetActivity == null) {
+        // } else if (targetActivity is null) {
         // bpmnModel.addProblem("Invalid reference targetRef '" +
         // association.getTargetRef() + "' of association element ",
         // association.getId());
         /*
          * } else { if (sourceActivity.getProperty("type").equals("compensationBoundaryCatch" )) { Object isForCompensation = targetActivity.getProperty(PROPERTYNAME_IS_FOR_COMPENSATION); if
-         * (isForCompensation == null || !(bool) isForCompensation) { LOGGER.warn( "compensation boundary catch must be connected to element with isForCompensation=true" ); } else { ActivityImpl
+         * (isForCompensation is null || !(bool) isForCompensation) { LOGGER.warn( "compensation boundary catch must be connected to element with isForCompensation=true" ); } else { ActivityImpl
          * compensatedActivity = sourceActivity.getParentActivity(); compensatedActivity.setProperty(BpmnParse .PROPERTYNAME_COMPENSATION_HANDLER_ID, targetActivity.getId()); } } }
          */
     }

@@ -22,14 +22,13 @@ module flow.common.AbstractServiceConfiguration;
  
 
 
-import java.util.List;
-import java.util.Map;
-
-import org.flowable.common.engine.api.delegate.event.FlowableEventDispatcher;
-import org.flowable.common.engine.api.delegate.event.FlowableEventListener;
-import org.flowable.common.engine.impl.event.EventDispatchAction;
-import org.flowable.common.engine.impl.history.HistoryLevel;
-import org.flowable.common.engine.impl.runtime.Clock;
+import hunt.collection.List;
+import hunt.collection.Map;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEventListener;
+import flow.common.event.EventDispatchAction;
+import flow.common.history.HistoryLevel;
+import flow.common.runtime.Clock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,7 @@ abstract class AbstractServiceConfiguration {
     public static final string NO_TENANT_ID = "";
 
     protected string engineName;
-    protected boolean enableEventDispatcher = true;
+    protected bool enableEventDispatcher = true;
     protected FlowableEventDispatcher eventDispatcher;
     protected List<FlowableEventListener> eventListeners;
     protected Map<string, List<FlowableEventListener>> typedEventListeners;
@@ -60,7 +59,7 @@ abstract class AbstractServiceConfiguration {
         this.engineName = engineName;
     }
     
-    public boolean isHistoryLevelAtLeast(HistoryLevel level) {
+    public bool isHistoryLevelAtLeast(HistoryLevel level) {
         if (logger.isDebugEnabled()) {
             logger.debug("Current history level: {}, level required: {}", historyLevel, level);
         }
@@ -68,7 +67,7 @@ abstract class AbstractServiceConfiguration {
         return historyLevel.isAtLeast(level);
     }
 
-    public boolean isHistoryEnabled() {
+    public bool isHistoryEnabled() {
         if (logger.isDebugEnabled()) {
             logger.debug("Current history level: {}", historyLevel);
         }
@@ -83,15 +82,15 @@ abstract class AbstractServiceConfiguration {
         this.engineName = engineName;
     }
     
-    public boolean isEventDispatcherEnabled() {
-        return getEventDispatcher() != null && getEventDispatcher().isEnabled();
+    public bool isEventDispatcherEnabled() {
+        return getEventDispatcher() !is null && getEventDispatcher().isEnabled();
     }
 
-    public boolean isEnableEventDispatcher() {
+    public bool isEnableEventDispatcher() {
         return enableEventDispatcher;
     }
 
-    public AbstractServiceConfiguration setEnableEventDispatcher(boolean enableEventDispatcher) {
+    public AbstractServiceConfiguration setEnableEventDispatcher(bool enableEventDispatcher) {
         this.enableEventDispatcher = enableEventDispatcher;
         return this;
     }

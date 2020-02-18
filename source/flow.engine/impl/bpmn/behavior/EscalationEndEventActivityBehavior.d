@@ -36,7 +36,7 @@ class EscalationEndEventActivityBehavior extends FlowNodeActivityBehavior {
 
     @Override
     public void execute(DelegateExecution execution) {
-        if (escalation != null) {
+        if (escalation !is null) {
             EscalationPropagation.propagateEscalation(escalation, execution);
         } else {
             EscalationPropagation.propagateEscalation(escalationEventDefinition.getEscalationCode(), 

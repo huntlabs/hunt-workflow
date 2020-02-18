@@ -11,12 +11,19 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.DeploymentBuilder;
+ 
+ 
+ 
 
-import java.io.InputStream;
-import java.util.Date;
-import java.util.zip.ZipInputStream;
-
-import org.flowable.bpmn.model.BpmnModel;
+import hunt.io.Common;
+import flow.engine.repository.Deployment;
+//import flow.bpmn.model.BpmnModel;
 
 /**
  * Builder for creating new deployments.
@@ -40,9 +47,9 @@ interface DeploymentBuilder {
 
     DeploymentBuilder addBytes(string resourceName, byte[] bytes);
 
-    DeploymentBuilder addZipInputStream(ZipInputStream zipInputStream);
+    //DeploymentBuilder addZipInputStream(ZipInputStream zipInputStream);
 
-    DeploymentBuilder addBpmnModel(string resourceName, BpmnModel bpmnModel);
+   // DeploymentBuilder addBpmnModel(string resourceName, BpmnModel bpmnModel);
 
     /**
      * If called, no XML schema validation against the BPMN 2.0 XSD.

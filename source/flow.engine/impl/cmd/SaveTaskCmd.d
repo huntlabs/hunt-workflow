@@ -16,8 +16,8 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.history.HistoryLevel;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -50,11 +50,11 @@ class SaveTaskCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (task == null) {
+        if (task is null) {
             throw new FlowableIllegalArgumentException("task is null");
         }
 
-        if (task.getProcessDefinitionId() != null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
             compatibilityHandler.saveTask(task);
             return null;
@@ -66,7 +66,7 @@ class SaveTaskCmd implements Command<Void>, Serializable {
             TaskHelper.insertTask(task, null, true, false);
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 CommandContextUtil.getEventDispatcher().dispatchEvent(FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_CREATED, task));
             }
             
@@ -78,7 +78,7 @@ class SaveTaskCmd implements Command<Void>, Serializable {
 
             TaskInfo originalTaskEntity = taskService.getTask(task.getId());
             
-            if (originalTaskEntity == null && processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
+            if (originalTaskEntity is null && processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
                 originalTaskEntity = CommandContextUtil.getHistoricTaskService().getHistoricTask(task.getId());
             }
 
@@ -106,7 +106,7 @@ class SaveTaskCmd implements Command<Void>, Serializable {
         processEngineConfiguration.getListenerNotificationHelper().executeTaskListeners(task, TaskListener.EVENTNAME_ASSIGNMENT);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             CommandContextUtil.getEventDispatcher().dispatchEvent(FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, task));
         }
     }
@@ -115,7 +115,7 @@ class SaveTaskCmd implements Command<Void>, Serializable {
         if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(task)) {
             
             // Parent task is set, none was set before or it's a new subtask
-            if (task.getParentTaskId() != null && (originalTaskEntity == null || originalTaskEntity.getParentTaskId() == null)) {
+            if (task.getParentTaskId() !is null && (originalTaskEntity is null || originalTaskEntity.getParentTaskId() is null)) {
                 TaskEntity parentTaskEntity = taskService.getTask(task.getParentTaskId());
                 if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(parentTaskEntity)) {
                     CountingTaskEntity countingParentTaskEntity = (CountingTaskEntity) parentTaskEntity;
@@ -124,7 +124,7 @@ class SaveTaskCmd implements Command<Void>, Serializable {
                 }
                 
             // Parent task removed and was set before   
-            } else if (task.getParentTaskId() == null && originalTaskEntity != null && originalTaskEntity.getParentTaskId() != null) {
+            } else if (task.getParentTaskId() is null && originalTaskEntity !is null && originalTaskEntity.getParentTaskId() !is null) {
                 TaskEntity parentTaskEntity = taskService.getTask(originalTaskEntity.getParentTaskId());
                 if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(parentTaskEntity)) {
                     CountingTaskEntity countingParentTaskEntity = (CountingTaskEntity) parentTaskEntity;
@@ -133,7 +133,7 @@ class SaveTaskCmd implements Command<Void>, Serializable {
                 }
               
             // Parent task was changed    
-            } else if (task.getParentTaskId() != null && originalTaskEntity.getParentTaskId() != null 
+            } else if (task.getParentTaskId() !is null && originalTaskEntity.getParentTaskId() !is null
                     && !task.getParentTaskId().equals(originalTaskEntity.getParentTaskId())) {
                 
                 TaskEntity originalParentTaskEntity = taskService.getTask(originalTaskEntity.getParentTaskId());

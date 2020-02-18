@@ -11,14 +11,25 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.NativeDeploymentQuery;
+ 
+ 
+ 
+
 
 import flow.common.api.query.NativeQuery;
+import flow.engine.repository.Deployment;
 
 /**
  * Allows querying of {@link flow.engine.repository.Deployment}s via native (SQL) queries
  * 
  * @author Henry Yan(http://www.kafeitu.me)
  */
-interface NativeDeploymentQuery extends NativeQuery<NativeDeploymentQuery, Deployment> {
+interface NativeDeploymentQuery : NativeQuery!(NativeDeploymentQuery, Deployment) {
 
 }

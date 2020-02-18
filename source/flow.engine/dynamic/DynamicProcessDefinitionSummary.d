@@ -92,13 +92,13 @@ class DynamicProcessDefinitionSummary implements DynamicBpmnConstants {
     public ObjectNode getElement(string elementId) throws IllegalStateException {
 
         FlowElement flowElement = bpmnModel.getFlowElement(elementId);
-        if (flowElement == null) {
+        if (flowElement is null) {
             throw new IllegalStateException("No flow element with id " + elementId + " found in bpmnmodel " + bpmnModel.getMainProcess().getId());
         }
 
         PropertiesParser propertiesParser = summaryParsers.get(flowElement.getClass().getSimpleName());
         ObjectNode bpmnProperties = getBpmnProperties(elementId, processInfo);
-        if (propertiesParser != null) {
+        if (propertiesParser !is null) {
             return propertiesParser.parseElement(flowElement, bpmnProperties, objectMapper);
         } else {
             // if there is no parser for an element we have to use the default summary parser.
@@ -120,9 +120,9 @@ class DynamicProcessDefinitionSummary implements DynamicBpmnConstants {
 
     protected ObjectNode getBpmnProperties(string elementId, ObjectNode processInfoNode) {
         JsonNode bpmnNode = processInfoNode.get(BPMN_NODE);
-        if (bpmnNode != null) {
+        if (bpmnNode !is null) {
             JsonNode elementNode = bpmnNode.get(elementId);
-            if (elementNode == null) {
+            if (elementNode is null) {
                 return objectMapper.createObjectNode();
             } else {
                 return (ObjectNode) elementNode;

@@ -12,7 +12,7 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.db.DbSqlSession;
 import flow.common.interceptor.CommandContext;
@@ -33,7 +33,7 @@ class CommandContextUtil {
     }
     
     public static JobServiceConfiguration getJobServiceConfiguration(CommandContext commandContext) {
-        if (commandContext != null) {
+        if (commandContext !is null) {
             return (JobServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
                             .get(EngineConfigurationConstants.KEY_JOB_SERVICE_CONFIG);
         }

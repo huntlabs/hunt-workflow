@@ -13,8 +13,8 @@
 
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.db.SuspensionState;
 import flow.common.identity.Authentication;
@@ -80,10 +80,10 @@ class SuspensionStateUtil {
     protected static void dispatchStateChangeEvent(Object entity, SuspensionState state) {
         CommandContext commandContext = Context.getCommandContext();
         FlowableEventDispatcher eventDispatcher = null;
-        if (commandContext != null) {
+        if (commandContext !is null) {
             eventDispatcher = CommandContextUtil.getEventDispatcher();
         }
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             FlowableEngineEventType eventType = null;
             if (state == SuspensionState.ACTIVE) {
                 eventType = FlowableEngineEventType.ENTITY_ACTIVATED;

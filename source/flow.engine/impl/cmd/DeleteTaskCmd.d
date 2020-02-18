@@ -45,9 +45,9 @@ class DeleteTaskCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (taskId != null) {
+        if (taskId !is null) {
             deleteTask(commandContext, taskId);
-        } else if (taskIds != null) {
+        } else if (taskIds !is null) {
             for (string taskId : taskIds) {
                 deleteTask(commandContext, taskId);
             }

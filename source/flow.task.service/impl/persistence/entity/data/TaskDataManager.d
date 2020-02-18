@@ -15,7 +15,7 @@
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.persistence.entity.data.DataManager;
+import flow.common.persistence.entity.data.DataManager;
 import org.flowable.task.api.Task;
 import org.flowable.task.service.impl.TaskQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
@@ -23,7 +23,7 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tijs Rademakers
  */
-public interface TaskDataManager extends DataManager<TaskEntity> {
+interface TaskDataManager extends DataManager<TaskEntity> {
 
     List<TaskEntity> findTasksByExecutionId(final string executionId);
 
@@ -47,7 +47,7 @@ public interface TaskDataManager extends DataManager<TaskEntity> {
 
     void updateTaskTenantIdForDeployment(string deploymentId, string newTenantId);
 
-    void updateAllTaskRelatedEntityCountFlags(boolean newValue);
+    void updateAllTaskRelatedEntityCountFlags(bool newValue);
     
     void deleteTasksByExecutionId(string executionId);
 

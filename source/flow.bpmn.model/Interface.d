@@ -46,7 +46,7 @@ class Interface extends BaseElement {
     }
 
     @Override
-    public Interface clone() {
+    interface clone() {
         Interface clone = new Interface();
         clone.setValues(this);
         return clone;
@@ -58,7 +58,7 @@ class Interface extends BaseElement {
         setImplementationRef(otherElement.getImplementationRef());
 
         operations = new ArrayList<>();
-        if (otherElement.getOperations() != null && !otherElement.getOperations().isEmpty()) {
+        if (otherElement.getOperations() !is null && !otherElement.getOperations().isEmpty()) {
             for (Operation operation : otherElement.getOperations()) {
                 operations.add(operation.clone());
             }

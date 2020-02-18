@@ -86,9 +86,9 @@ class CachingAndArtifactsManager {
         ProcessDefinitionInfoEntity definitionInfoEntity = definitionInfoEntityManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinition.getId());
 
         ObjectNode infoNode = null;
-        if (definitionInfoEntity != null && definitionInfoEntity.getInfoJsonId() != null) {
+        if (definitionInfoEntity !is null && definitionInfoEntity.getInfoJsonId() !is null) {
             byte[] infoBytes = definitionInfoEntityManager.findInfoJsonById(definitionInfoEntity.getInfoJsonId());
-            if (infoBytes != null) {
+            if (infoBytes !is null) {
                 try {
                     infoNode = (ObjectNode) objectMapper.readTree(infoBytes);
                 } catch (Exception e) {
@@ -98,14 +98,14 @@ class CachingAndArtifactsManager {
         }
 
         ProcessDefinitionInfoCacheObject definitionCacheObject = new ProcessDefinitionInfoCacheObject();
-        if (definitionInfoEntity == null) {
+        if (definitionInfoEntity is null) {
             definitionCacheObject.setRevision(0);
         } else {
             definitionCacheObject.setId(definitionInfoEntity.getId());
             definitionCacheObject.setRevision(definitionInfoEntity.getRevision());
         }
 
-        if (infoNode == null) {
+        if (infoNode is null) {
             infoNode = objectMapper.createObjectNode();
         }
         definitionCacheObject.setInfoNode(infoNode);

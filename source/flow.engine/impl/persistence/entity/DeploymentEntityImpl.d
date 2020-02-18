@@ -57,7 +57,7 @@ class DeploymentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements
 
     @Override
     public void addResource(ResourceEntity resource) {
-        if (resources == null) {
+        if (resources is null) {
             resources = new HashMap<>();
         }
         resources.put(resource.getName(), resource);
@@ -67,7 +67,7 @@ class DeploymentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements
 
     @Override
     public Map<string, EngineResource> getResources() {
-        if (resources == null && id != null) {
+        if (resources is null && id !is null) {
             List<ResourceEntity> resourcesList = CommandContextUtil.getResourceEntityManager().findResourcesByDeploymentId(id);
             resources = new HashMap<>();
             for (ResourceEntity resource : resourcesList) {
@@ -91,13 +91,13 @@ class DeploymentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements
 
     @Override
     public void addDeployedArtifact(Object deployedArtifact) {
-        if (deployedArtifacts == null) {
+        if (deployedArtifacts is null) {
             deployedArtifacts = new HashMap<>();
         }
 
         Class<?> clazz = deployedArtifact.getClass();
         List<Object> artifacts = deployedArtifacts.get(clazz);
-        if (artifacts == null) {
+        if (artifacts is null) {
             artifacts = new ArrayList<>();
             deployedArtifacts.put(clazz, artifacts);
         }
@@ -108,7 +108,7 @@ class DeploymentEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements
     @Override
     @SuppressWarnings("unchecked")
     public <T> List<T> getDeployedArtifacts(Class<T> clazz) {
-        if (deployedArtifacts == null) {
+        if (deployedArtifacts is null) {
             return null;
         }
         for (Class<?> deployedArtifactsClass : deployedArtifacts.keySet()) {

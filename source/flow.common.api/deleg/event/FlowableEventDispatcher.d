@@ -16,11 +16,11 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.event.FlowableEventDispatcher;
+module flow.common.api.deleg.event.FlowableEventDispatcher;
  
  
- 
-
+ import flow.common.api.deleg.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEvent;
 /**
  * Dispatcher which allows for adding and removing {@link FlowableEventListener} s to the Flowable Engine as well as dispatching {@link FlowableEvent} to all the listeners registered.
  * 
@@ -44,7 +44,7 @@ interface FlowableEventDispatcher {
      * @param types
      *            types of events the listener should be notified for
      */
-    void addEventListener(FlowableEventListener listenerToAdd, FlowableEventType... types);
+   // void addEventListener(FlowableEventListener listenerToAdd, FlowableEventType... types);
 
     /**
      * Removes the given listener from this dispatcher. The listener will no longer be notified, regardless of the type(s) it was registered for in the first place.

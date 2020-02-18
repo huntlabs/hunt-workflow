@@ -35,7 +35,7 @@ class GetAppResourceObjectCmd implements Command<Object>, Serializable {
 
     @Override
     public Object execute(CommandContext commandContext) {
-        if (deploymentId == null) {
+        if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");
         }
 

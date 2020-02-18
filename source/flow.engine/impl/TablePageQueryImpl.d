@@ -67,7 +67,7 @@ class TablePageQueryImpl implements TablePageQuery, Command<TablePage>, Serializ
     }
 
     protected void addOrder(string column, string sortOrder) {
-        if (order == null) {
+        if (order is null) {
             order = "";
         } else {
             order = order + ", ";

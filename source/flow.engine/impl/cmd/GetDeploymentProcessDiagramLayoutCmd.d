@@ -35,7 +35,7 @@ class GetDeploymentProcessDiagramLayoutCmd implements Command<DiagramLayout>, Se
     protected string processDefinitionId;
 
     public GetDeploymentProcessDiagramLayoutCmd(string processDefinitionId) {
-        if (processDefinitionId == null || processDefinitionId.length() < 1) {
+        if (processDefinitionId is null || processDefinitionId.length() < 1) {
             throw new FlowableException("The process definition id is mandatory, but '" + processDefinitionId + "' has been provided.");
         }
         this.processDefinitionId = processDefinitionId;

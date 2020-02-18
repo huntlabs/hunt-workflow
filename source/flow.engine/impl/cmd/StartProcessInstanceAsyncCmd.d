@@ -13,7 +13,7 @@
 
 
 import org.flowable.bpmn.model.Process;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -50,7 +50,7 @@ class StartProcessInstanceAsyncCmd extends StartProcessInstanceCmd {
         processInstanceHelper.processAvailableEventSubProcesses(processInstance, process, commandContext);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(execution, variables, false));
         }
 
@@ -71,7 +71,7 @@ class StartProcessInstanceAsyncCmd extends StartProcessInstanceCmd {
         job.setJobHandlerType(AsyncContinuationJobHandler.TYPE);
 
         // Inherit tenant id (if applicable)
-        if (execution.getTenantId() != null) {
+        if (execution.getTenantId() !is null) {
             job.setTenantId(execution.getTenantId());
         }
 

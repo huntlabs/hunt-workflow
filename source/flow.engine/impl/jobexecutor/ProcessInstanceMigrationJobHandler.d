@@ -57,7 +57,7 @@ class ProcessInstanceMigrationJobHandler extends AbstractProcessInstanceMigratio
 
         string resultAsJsonString = prepareResultAsJsonString(exceptionMessage);
         
-        if (exceptionMessage != null) {
+        if (exceptionMessage !is null) {
             batchService.completeBatchPart(batchPartId, ProcessInstanceBatchMigrationResult.RESULT_FAIL, resultAsJsonString);
         } else {
             batchService.completeBatchPart(batchPartId, ProcessInstanceBatchMigrationResult.RESULT_SUCCESS, resultAsJsonString);
@@ -66,7 +66,7 @@ class ProcessInstanceMigrationJobHandler extends AbstractProcessInstanceMigratio
 
     protected static string prepareResultAsJsonString(string exceptionMessage) {
         ObjectNode objectNode = getObjectMapper().createObjectNode();
-        if (exceptionMessage == null) {
+        if (exceptionMessage is null) {
             objectNode.put(BATCH_RESULT_STATUS_LABEL, ProcessInstanceBatchMigrationResult.RESULT_SUCCESS);
         } else {
             objectNode.put(BATCH_RESULT_STATUS_LABEL, ProcessInstanceBatchMigrationResult.RESULT_FAIL);

@@ -38,12 +38,12 @@ class MoveSuspendedJobToExecutableJobCmd implements Command<Job>, Serializable {
     @Override
     public Job execute(CommandContext commandContext) {
 
-        if (jobId == null) {
+        if (jobId is null) {
             throw new FlowableIllegalArgumentException("jobId and job is null");
         }
 
         SuspendedJobEntity job = CommandContextUtil.getSuspendedJobEntityManager(commandContext).findById(jobId);
-        if (job == null) {
+        if (job is null) {
             throw new JobNotFoundException(jobId);
         }
         return CommandContextUtil.getJobServiceConfiguration().getJobService().activateSuspendedJob(job);

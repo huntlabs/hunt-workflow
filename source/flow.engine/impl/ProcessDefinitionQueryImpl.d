@@ -96,7 +96,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionCategory(string category) {
-        if (category == null) {
+        if (category is null) {
             throw new FlowableIllegalArgumentException("category is null");
         }
         this.category = category;
@@ -105,7 +105,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionCategoryLike(string categoryLike) {
-        if (categoryLike == null) {
+        if (categoryLike is null) {
             throw new FlowableIllegalArgumentException("categoryLike is null");
         }
         this.categoryLike = categoryLike;
@@ -114,7 +114,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionCategoryNotEquals(string categoryNotEquals) {
-        if (categoryNotEquals == null) {
+        if (categoryNotEquals is null) {
             throw new FlowableIllegalArgumentException("categoryNotEquals is null");
         }
         this.categoryNotEquals = categoryNotEquals;
@@ -123,7 +123,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionName(string name) {
-        if (name == null) {
+        if (name is null) {
             throw new FlowableIllegalArgumentException("name is null");
         }
         this.name = name;
@@ -132,7 +132,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionNameLike(string nameLike) {
-        if (nameLike == null) {
+        if (nameLike is null) {
             throw new FlowableIllegalArgumentException("nameLike is null");
         }
         this.nameLike = nameLike;
@@ -141,7 +141,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl deploymentId(string deploymentId) {
-        if (deploymentId == null) {
+        if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("id is null");
         }
         this.deploymentId = deploymentId;
@@ -150,7 +150,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl deploymentIds(Set<string> deploymentIds) {
-        if (deploymentIds == null) {
+        if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("ids are null");
         }
         this.deploymentIds = deploymentIds;
@@ -159,7 +159,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionKey(string key) {
-        if (key == null) {
+        if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
         this.key = key;
@@ -168,7 +168,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionKeyLike(string keyLike) {
-        if (keyLike == null) {
+        if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
         }
         this.keyLike = keyLike;
@@ -177,7 +177,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionResourceName(string resourceName) {
-        if (resourceName == null) {
+        if (resourceName is null) {
             throw new FlowableIllegalArgumentException("resourceName is null");
         }
         this.resourceName = resourceName;
@@ -186,7 +186,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl processDefinitionResourceNameLike(string resourceNameLike) {
-        if (resourceNameLike == null) {
+        if (resourceNameLike is null) {
             throw new FlowableIllegalArgumentException("resourceNameLike is null");
         }
         this.resourceNameLike = resourceNameLike;
@@ -229,7 +229,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     }
 
     protected void checkVersion(Integer version) {
-        if (version == null) {
+        if (version is null) {
             throw new FlowableIllegalArgumentException("version is null");
         } else if (version <= 0) {
             throw new FlowableIllegalArgumentException("version must be positive");
@@ -256,7 +256,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQuery processDefinitionTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("processDefinition tenantId is null");
         }
         this.tenantId = tenantId;
@@ -265,7 +265,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQuery processDefinitionTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("process definition tenantId is null");
         }
         this.tenantIdLike = tenantIdLike;
@@ -311,10 +311,10 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     }
 
     public ProcessDefinitionQuery eventSubscription(string eventType, string eventName) {
-        if (eventName == null) {
+        if (eventName is null) {
             throw new FlowableIllegalArgumentException("event name is null");
         }
-        if (eventType == null) {
+        if (eventType is null) {
             throw new FlowableException("event type is null");
         }
         this.eventSubscriptionType = eventType;
@@ -327,7 +327,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
             // if authorizationGroupsSet is true then startableByUserOrGroups was called
             // and the groups passed in that methods have precedence
             return authorizationGroups;
-        } else if (authorizationUserId == null) {
+        } else if (authorizationUserId is null) {
             return null;
         }
         return CommandContextUtil.getProcessEngineConfiguration().getCandidateManager().getGroupsForCandidateUser(authorizationUserId);
@@ -335,7 +335,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQueryImpl startableByUser(string userId) {
-        if (userId == null) {
+        if (userId is null) {
             throw new FlowableIllegalArgumentException("userId is null");
         }
         this.authorizationUserId = userId;
@@ -344,7 +344,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     @Override
     public ProcessDefinitionQuery startableByUserOrGroups(string userId, Collection<string> groups) {
-        if (userId == null && (groups == null || groups.isEmpty())) {
+        if (userId is null && (groups is null || groups.isEmpty())) {
             throw new FlowableIllegalArgumentException("userId is null and groups are null or empty");
         }
         this.authorizationUserId = userId;
@@ -403,7 +403,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
         List<ProcessDefinition> processDefinitions = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findProcessDefinitionsByQueryCriteria(this);
 
-        if (processDefinitions != null && processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessDefinitionLocalizationManager() != null) {
+        if (processDefinitions !is null && processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessDefinitionLocalizationManager() !is null) {
             for (ProcessDefinition processDefinition : processDefinitions) {
                 processEngineConfiguration.getInternalProcessDefinitionLocalizationManager().localize(processDefinition, locale, withLocalizationFallback);
             }
@@ -531,6 +531,6 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     }
 
     public bool isIncludeAuthorization() {
-        return authorizationUserId != null || (authorizationGroups != null && !authorizationGroups.isEmpty());
+        return authorizationUserId !is null || (authorizationGroups !is null && !authorizationGroups.isEmpty());
     }
 }

@@ -39,7 +39,7 @@ class DataGrid implements ComplexDataType {
 
     public void setValues(DataGrid otherGrid) {
         rows = new ArrayList<>();
-        if (otherGrid.getRows() != null && !otherGrid.getRows().isEmpty()) {
+        if (otherGrid.getRows() !is null && !otherGrid.getRows().isEmpty()) {
             for (DataGridRow row : otherGrid.getRows()) {
                 rows.add(row.clone());
             }

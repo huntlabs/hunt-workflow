@@ -32,7 +32,7 @@ class GetHistoricEntityLinkParentsForTaskCmd implements Command<List<HistoricEnt
     protected string taskId;
 
     public GetHistoricEntityLinkParentsForTaskCmd(string taskId) {
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is required");
         }
         this.taskId = taskId;

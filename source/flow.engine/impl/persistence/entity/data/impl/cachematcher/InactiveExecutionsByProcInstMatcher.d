@@ -27,7 +27,7 @@ class InactiveExecutionsByProcInstMatcher extends CachedEntityMatcherAdapter<Exe
         Map<string, Object> paramMap = (Map<string, Object>) parameter;
         string processInstanceId = (string) paramMap.get("processInstanceId");
 
-        return executionEntity.getProcessInstanceId() != null
+        return executionEntity.getProcessInstanceId() !is null
                 && executionEntity.getProcessInstanceId().equals(processInstanceId)
                 && !executionEntity.isActive();
     }

@@ -32,8 +32,8 @@ import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.FlowElementsContainer;
 import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.StartEvent;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.util.CollectionUtil;
 import flow.engine.delegate.DelegateExecution;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
@@ -61,8 +61,8 @@ class EscalationPropagation {
         Set<string> rootProcessDefinitionIds = new HashSet<>();
         if (!execution.getProcessInstanceId().equals(execution.getRootProcessInstanceId())) {
             ExecutionEntity parentExecution = (ExecutionEntity) execution;
-            while (parentExecution.getParentId() != null || parentExecution.getSuperExecutionId() != null) {
-                if (parentExecution.getParentId() != null) {
+            while (parentExecution.getParentId() !is null || parentExecution.getSuperExecutionId() !is null) {
+                if (parentExecution.getParentId() !is null) {
                     parentExecution = parentExecution.getParent();
                 } else {
                     parentExecution = parentExecution.getSuperExecution();
@@ -92,7 +92,7 @@ class EscalationPropagation {
 
         if (eventMap.containsKey(currentExecution.getActivityId() + "#" + currentExecution.getProcessDefinitionId())) {
             // Check for multi instance
-            if (currentExecution.getParentId() != null && currentExecution.getParent().isMultiInstanceRoot()) {
+            if (currentExecution.getParentId() !is null && currentExecution.getParent().isMultiInstanceRoot()) {
                 parentExecution = currentExecution.getParent();
             } else {
                 parentExecution = currentExecution;
@@ -105,7 +105,7 @@ class EscalationPropagation {
             parentExecution = currentExecution.getParent();
             
             // Traverse parents until one is found that is a scope and matches the activity the boundary event is defined on
-            while (matchingEvent == null && parentExecution != null) {
+            while (matchingEvent is null && parentExecution !is null) {
                 FlowElementsContainer currentContainer = null;
                 if (parentExecution.getCurrentFlowElement() instanceof FlowElementsContainer) {
                     currentContainer = (FlowElementsContainer) parentExecution.getCurrentFlowElement();
@@ -113,14 +113,14 @@ class EscalationPropagation {
                     currentContainer = ProcessDefinitionUtil.getProcess(parentExecution.getProcessDefinitionId());
                 }
 
-                if (currentContainer != null) {
+                if (currentContainer !is null) {
                     for (string refId : eventMap.keySet()) {
                         List<Event> events = eventMap.get(refId);
                         if (CollectionUtil.isNotEmpty(events) && events.get(0) instanceof StartEvent) {
                             string refActivityId = refId.substring(0, refId.indexOf('#'));
                             string refProcessDefinitionId = refId.substring(refId.indexOf('#') + 1);
                             if (parentExecution.getProcessDefinitionId().equals(refProcessDefinitionId) && 
-                                            currentContainer.getFlowElement(refActivityId) != null) {
+                                            currentContainer.getFlowElement(refActivityId) !is null) {
                                 
                                 matchingEvent = getCatchEventFromList(events, parentExecution);
                                 EscalationEventDefinition escalationEventDef = getEscalationEventDefinition(matchingEvent);
@@ -132,10 +132,10 @@ class EscalationPropagation {
                     }
                 }
 
-                if (matchingEvent == null) {
+                if (matchingEvent is null) {
                     if (eventMap.containsKey(parentExecution.getActivityId() + "#" + parentExecution.getProcessDefinitionId())) {
                         // Check for multi instance
-                        if (parentExecution.getParentId() != null && parentExecution.getParent().isMultiInstanceRoot()) {
+                        if (parentExecution.getParentId() !is null && parentExecution.getParent().isMultiInstanceRoot()) {
                             parentExecution = parentExecution.getParent();
                         }
                         
@@ -157,7 +157,7 @@ class EscalationPropagation {
             }
         }
 
-        if (matchingEvent != null && parentExecution != null) {
+        if (matchingEvent !is null && parentExecution !is null) {
             
             for (string processInstanceId : toDeleteProcessInstanceIds) {
                 ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
@@ -166,10 +166,10 @@ class EscalationPropagation {
                 // Event
                 ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
                 FlowableEventDispatcher eventDispatcher = null;
-                if (processEngineConfiguration != null) {
+                if (processEngineConfiguration !is null) {
                     eventDispatcher = processEngineConfiguration.getEventDispatcher();
                 }
-                if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+                if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     processEngineConfiguration.getEventDispatcher()
                             .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_COMPLETED_WITH_ESCALATION_END_EVENT, processInstanceEntity));
                 }
@@ -182,11 +182,11 @@ class EscalationPropagation {
     protected static void executeEventHandler(Event event, ExecutionEntity parentExecution, ExecutionEntity currentExecution, string escalationCode, string escalationName) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         FlowableEventDispatcher eventDispatcher = null;
-        if (processEngineConfiguration != null) {
+        if (processEngineConfiguration !is null) {
             eventDispatcher = processEngineConfiguration.getEventDispatcher();
         }
         
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             processEngineConfiguration.getEventDispatcher().dispatchEvent(
                     FlowableEventBuilder.createEscalationEvent(FlowableEngineEventType.ACTIVITY_ESCALATION_RECEIVED, event.getId(), escalationCode, 
                                     escalationName, parentExecution.getId(), parentExecution.getProcessInstanceId(), parentExecution.getProcessDefinitionId()));
@@ -196,15 +196,15 @@ class EscalationPropagation {
             ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
 
             ExecutionEntity eventSubProcessExecution = executionEntityManager.createChildExecution(parentExecution);
-            eventSubProcessExecution.setCurrentFlowElement(event.getSubProcess() != null ? event.getSubProcess() : event);
+            eventSubProcessExecution.setCurrentFlowElement(event.getSubProcess() !is null ? event.getSubProcess() : event);
             CommandContextUtil.getAgenda().planContinueProcessOperation(eventSubProcessExecution);
 
         } else {
             ExecutionEntity boundaryExecution = null;
             List<? extends ExecutionEntity> childExecutions = parentExecution.getExecutions();
             for (ExecutionEntity childExecution : childExecutions) {
-                if (childExecution != null
-                        && childExecution.getActivityId() != null
+                if (childExecution !is null
+                        && childExecution.getActivityId() !is null
                         && childExecution.getActivityId().equals(event.getId())) {
                     boundaryExecution = childExecution;
                 }
@@ -233,7 +233,7 @@ class EscalationPropagation {
                             eventEscalationCode = escalationEventDef.getEscalationCode();
                         }
                         
-                        if (eventEscalationCode == null || escalationCode == null || eventEscalationCode.equals(escalationCode)) {
+                        if (eventEscalationCode is null || escalationCode is null || eventEscalationCode.equals(escalationCode)) {
                             List<Event> startEvents = new ArrayList<>();
                             startEvents.add(startEvent);
                             eventMap.put(eventSubProcess.getId() + "#" + processDefinitionId, startEvents);
@@ -245,7 +245,7 @@ class EscalationPropagation {
 
         List<BoundaryEvent> boundaryEvents = process.findFlowElementsOfType(BoundaryEvent.class, true);
         for (BoundaryEvent boundaryEvent : boundaryEvents) {
-            if (boundaryEvent.getAttachedToRefId() != null && CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) && boundaryEvent.getEventDefinitions().get(0) instanceof EscalationEventDefinition) {
+            if (boundaryEvent.getAttachedToRefId() !is null && CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) && boundaryEvent.getEventDefinitions().get(0) instanceof EscalationEventDefinition) {
 
                 EscalationEventDefinition escalationEventDef = (EscalationEventDefinition) boundaryEvent.getEventDefinitions().get(0);
                 string eventEscalationCode = null;
@@ -255,7 +255,7 @@ class EscalationPropagation {
                     eventEscalationCode = escalationEventDef.getEscalationCode();
                 }
 
-                if (eventEscalationCode == null || escalationCode == null || eventEscalationCode.equals(escalationCode)) {
+                if (eventEscalationCode is null || escalationCode is null || eventEscalationCode.equals(escalationCode)) {
                     List<Event> elementBoundaryEvents = null;
                     if (!eventMap.containsKey(boundaryEvent.getAttachedToRefId() + "#" + processDefinitionId)) {
                         elementBoundaryEvents = new ArrayList<>();
@@ -278,7 +278,7 @@ class EscalationPropagation {
         for (Event event : events) {
             EscalationEventDefinition escalationEventDef = getEscalationEventDefinition(event);
             string escalationCode = escalationEventDef.getEscalationCode();
-            if (bpmnModel != null) {
+            if (bpmnModel !is null) {
                 if (StringUtils.isNotEmpty(escalationEventDef.getEscalationCode()) && bpmnModel.containsEscalationRef(escalationEventDef.getEscalationCode())) {
                     escalationCode = bpmnModel.getEscalation(escalationEventDef.getEscalationCode()).getEscalationCode();
                 } else {
@@ -286,7 +286,7 @@ class EscalationPropagation {
                 }
             }
             
-            if (selectedEvent == null || (StringUtils.isEmpty(selectedEventEscalationCode) && StringUtils.isNotEmpty(escalationCode))) {
+            if (selectedEvent is null || (StringUtils.isEmpty(selectedEventEscalationCode) && StringUtils.isNotEmpty(escalationCode))) {
                 selectedEvent = event;
                 selectedEventEscalationCode = escalationCode;
             }

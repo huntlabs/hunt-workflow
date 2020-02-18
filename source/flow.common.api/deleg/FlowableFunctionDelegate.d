@@ -16,7 +16,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.FlowableFunctionDelegate;
+module flow.common.api.deleg.FlowableFunctionDelegate;
  
  
  

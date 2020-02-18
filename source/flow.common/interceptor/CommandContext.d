@@ -58,7 +58,7 @@ class CommandContext {
             try {
                 try {
                     executeCloseListenersClosing();
-                    if (exception == null) {
+                    if (exception is null) {
                         flushSessions();
                     }
                 } catch (Throwable exception) {
@@ -67,14 +67,14 @@ class CommandContext {
                 } finally {
 
                     try {
-                        if (exception == null) {
+                        if (exception is null) {
                             executeCloseListenersAfterSessionFlushed();
                         }
                     } catch (Throwable exception) {
                         exception(exception);
                     }
 
-                    if (exception != null) {
+                    if (exception !is null) {
                         logException();
                         executeCloseListenersCloseFailure();
                     } else {
@@ -95,7 +95,7 @@ class CommandContext {
             exception(exception);
         }
 
-        if (exception != null) {
+        if (exception !is null) {
             rethrowExceptionIfNeeded();
         }
     }
@@ -130,7 +130,7 @@ class CommandContext {
     }
 
     public void addCloseListener(CommandContextCloseListener commandContextCloseListener) {
-        if (closeListeners == null) {
+        if (closeListeners is null) {
             closeListeners = new ArrayList<>();
         }
         closeListeners.add(commandContextCloseListener);
@@ -141,7 +141,7 @@ class CommandContext {
     }
 
     protected void executeCloseListenersClosing() {
-        if (closeListeners != null) {
+        if (closeListeners !is null) {
             try {
                 for (CommandContextCloseListener listener : closeListeners) {
                     listener.closing(this);
@@ -153,7 +153,7 @@ class CommandContext {
     }
 
     protected void executeCloseListenersAfterSessionFlushed() {
-        if (closeListeners != null) {
+        if (closeListeners !is null) {
             try {
                 for (CommandContextCloseListener listener : closeListeners) {
                     listener.afterSessionsFlush(this);
@@ -165,7 +165,7 @@ class CommandContext {
     }
 
     protected void executeCloseListenersClosed() {
-        if (closeListeners != null) {
+        if (closeListeners !is null) {
             try {
                 for (CommandContextCloseListener listener : closeListeners) {
                     listener.closed(this);
@@ -177,7 +177,7 @@ class CommandContext {
     }
 
     protected void executeCloseListenersCloseFailure() {
-        if (closeListeners != null) {
+        if (closeListeners !is null) {
             try {
                 for (CommandContextCloseListener listener : closeListeners) {
                     listener.closeFailure(this);
@@ -210,7 +210,7 @@ class CommandContext {
      * If there is already an exception being stored, a 'masked exception' message will be logged.
      */
     public void exception(Throwable exception) {
-        if (this.exception == null) {
+        if (this.exception is null) {
             this.exception = exception;
 
         } else {
@@ -223,14 +223,14 @@ class CommandContext {
     }
 
     public void addAttribute(string key, Object value) {
-        if (attributes == null) {
+        if (attributes is null) {
             attributes = new HashMap<>(1);
         }
         attributes.put(key, value);
     }
 
     public Object getAttribute(string key) {
-        if (attributes != null) {
+        if (attributes !is null) {
             return attributes.get(key);
         }
         return null;
@@ -239,9 +239,9 @@ class CommandContext {
     @SuppressWarnings({ "unchecked" })
     public <T> T getSession(Class<T> sessionClass) {
         Session session = sessions.get(sessionClass);
-        if (session == null) {
+        if (session is null) {
             SessionFactory sessionFactory = sessionFactories.get(sessionClass);
-            if (sessionFactory == null) {
+            if (sessionFactory is null) {
                 throw new FlowableException("no session factory configured for " + sessionClass.getName());
             }
             session = sessionFactory.openSession(this);
@@ -276,7 +276,7 @@ class CommandContext {
     }
     
     public void addEngineConfiguration(string engineKey, AbstractEngineConfiguration engineConfiguration) {
-        if (engineConfigurations == null) {
+        if (engineConfigurations is null) {
             engineConfigurations = new HashMap<>();
         }
         engineConfigurations.put(engineKey, engineConfiguration);

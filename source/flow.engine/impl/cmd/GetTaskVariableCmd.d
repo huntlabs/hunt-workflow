@@ -42,16 +42,16 @@ class GetTaskVariableCmd implements Command<Object>, Serializable {
 
     @Override
     public Object execute(CommandContext commandContext) {
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
-        if (variableName == null) {
+        if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
 
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
         }
 

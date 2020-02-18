@@ -349,7 +349,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
 
     @Override
     public void setVariable(string taskId, string variableName, Object value) {
-        if (variableName == null) {
+        if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
         Map<string, Object> variables = new HashMap<>();
@@ -359,7 +359,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
 
     @Override
     public void setVariableLocal(string taskId, string variableName, Object value) {
-        if (variableName == null) {
+        if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
         Map<string, Object> variables = new HashMap<>();

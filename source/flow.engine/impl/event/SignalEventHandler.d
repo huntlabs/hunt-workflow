@@ -41,11 +41,11 @@ class SignalEventHandler extends AbstractEventHandler {
     @SuppressWarnings("unchecked")
     @Override
     public void handleEvent(EventSubscriptionEntity eventSubscription, Object payload, CommandContext commandContext) {
-        if (eventSubscription.getExecutionId() != null) {
+        if (eventSubscription.getExecutionId() !is null) {
 
             super.handleEvent(eventSubscription, payload, commandContext);
 
-        } else if (eventSubscription.getProcessDefinitionId() != null) {
+        } else if (eventSubscription.getProcessDefinitionId() !is null) {
 
             // Find initial flow element matching the signal start event
             string processDefinitionId = eventSubscription.getProcessDefinitionId();
@@ -57,7 +57,7 @@ class SignalEventHandler extends AbstractEventHandler {
             }
 
             FlowElement flowElement = process.getFlowElement(eventSubscription.getActivityId(), true);
-            if (flowElement == null) {
+            if (flowElement is null) {
                 throw new FlowableException("Could not find matching FlowElement for activityId " + eventSubscription.getActivityId());
             }
 
@@ -69,7 +69,7 @@ class SignalEventHandler extends AbstractEventHandler {
             ProcessInstanceHelper processInstanceHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceHelper();
             processInstanceHelper.createAndStartProcessInstanceWithInitialFlowElement(processDefinition, null, null, flowElement, process, variables, null, true);
 
-        } else if (eventSubscription.getScopeId() != null && ScopeTypes.CMMN.equals(eventSubscription.getScopeType())) {
+        } else if (eventSubscription.getScopeId() !is null && ScopeTypes.CMMN.equals(eventSubscription.getScopeType())) {
             CommandContextUtil.getProcessEngineConfiguration(commandContext).getCaseInstanceService().handleSignalEvent(eventSubscription);
         
         } else {

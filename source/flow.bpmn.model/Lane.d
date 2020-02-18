@@ -64,7 +64,7 @@ class Lane extends BaseElement {
         setParentProcess(otherElement.getParentProcess());
 
         flowReferences = new ArrayList<>();
-        if (otherElement.getFlowReferences() != null && !otherElement.getFlowReferences().isEmpty()) {
+        if (otherElement.getFlowReferences() !is null && !otherElement.getFlowReferences().isEmpty()) {
             flowReferences.addAll(otherElement.getFlowReferences());
         }
     }

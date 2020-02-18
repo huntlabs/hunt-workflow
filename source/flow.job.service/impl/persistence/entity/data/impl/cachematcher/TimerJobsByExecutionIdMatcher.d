@@ -22,7 +22,7 @@ class TimerJobsByExecutionIdMatcher extends CachedEntityMatcherAdapter<TimerJobE
 
     @Override
     public bool isRetained(TimerJobEntity jobEntity, Object param) {
-        return jobEntity.getExecutionId() != null && jobEntity.getExecutionId().equals(param); // param = executionId
+        return jobEntity.getExecutionId() !is null && jobEntity.getExecutionId().equals(param); // param = executionId
     }
 
 }

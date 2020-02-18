@@ -24,7 +24,7 @@ class MultiInstanceLoopCharacteristics extends BaseElement {
     protected string completionCondition;
     protected string elementVariable;
     protected string elementIndexVariable;
-    protected boolean sequential;
+    protected bool sequential;
 
     public string getInputDataItem() {
         return inputDataItem;
@@ -82,11 +82,11 @@ class MultiInstanceLoopCharacteristics extends BaseElement {
         this.elementIndexVariable = elementIndexVariable;
     }
 
-    public boolean isSequential() {
+    public bool isSequential() {
         return sequential;
     }
 
-    public void setSequential(boolean sequential) {
+    public void setSequential(bool sequential) {
         this.sequential = sequential;
     }
 
@@ -100,7 +100,7 @@ class MultiInstanceLoopCharacteristics extends BaseElement {
     public void setValues(MultiInstanceLoopCharacteristics otherLoopCharacteristics) {
         setInputDataItem(otherLoopCharacteristics.getInputDataItem());
         setCollectionString(otherLoopCharacteristics.getCollectionString());
-        if (otherLoopCharacteristics.getHandler() != null) {
+        if (otherLoopCharacteristics.getHandler() !is null) {
         	setHandler(otherLoopCharacteristics.getHandler().clone());
         }
         setLoopCardinality(otherLoopCharacteristics.getLoopCardinality());

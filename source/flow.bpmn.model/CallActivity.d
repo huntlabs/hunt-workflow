@@ -23,16 +23,16 @@ class CallActivity extends Activity {
 
     protected string calledElement;
     protected string calledElementType;
-    protected boolean inheritVariables;
-    protected boolean sameDeployment;
+    protected bool inheritVariables;
+    protected bool sameDeployment;
     protected List<IOParameter> inParameters = new ArrayList<>();
     protected List<IOParameter> outParameters = new ArrayList<>();
     protected string processInstanceName;
     protected string businessKey;
-    protected boolean inheritBusinessKey;
-    protected boolean useLocalScopeForOutParameters;
-    protected boolean completeAsync;
-    protected Boolean fallbackToDefaultTenant;
+    protected bool inheritBusinessKey;
+    protected bool useLocalScopeForOutParameters;
+    protected bool completeAsync;
+    protected bool fallbackToDefaultTenant;
     protected string processInstanceIdVariableName;
 
     public string getCalledElement() {
@@ -43,19 +43,19 @@ class CallActivity extends Activity {
         this.calledElement = calledElement;
     }
 
-    public boolean isInheritVariables() {
+    public bool isInheritVariables() {
         return inheritVariables;
     }
 
-    public void setInheritVariables(boolean inheritVariables) {
+    public void setInheritVariables(bool inheritVariables) {
         this.inheritVariables = inheritVariables;
     }
 
-    public boolean isSameDeployment() {
+    public bool isSameDeployment() {
         return sameDeployment;
     }
 
-    public void setSameDeployment(boolean sameDeployment) {
+    public void setSameDeployment(bool sameDeployment) {
         this.sameDeployment = sameDeployment;
     }
 
@@ -91,35 +91,35 @@ class CallActivity extends Activity {
         this.businessKey = businessKey;
     }
 
-    public boolean isInheritBusinessKey() {
+    public bool isInheritBusinessKey() {
         return inheritBusinessKey;
     }
 
-    public void setInheritBusinessKey(boolean inheritBusinessKey) {
+    public void setInheritBusinessKey(bool inheritBusinessKey) {
         this.inheritBusinessKey = inheritBusinessKey;
     }
 
-    public boolean isUseLocalScopeForOutParameters() {
+    public bool isUseLocalScopeForOutParameters() {
         return useLocalScopeForOutParameters;
     }
 
-    public void setUseLocalScopeForOutParameters(boolean useLocalScopeForOutParameters) {
+    public void setUseLocalScopeForOutParameters(bool useLocalScopeForOutParameters) {
         this.useLocalScopeForOutParameters = useLocalScopeForOutParameters;
     }
     
-    public boolean isCompleteAsync() {
+    public bool isCompleteAsync() {
         return completeAsync;
     }
 
-    public void setCompleteAsync(boolean completeAsync) {
+    public void setCompleteAsync(bool completeAsync) {
         this.completeAsync = completeAsync;
     }
 
-    public Boolean getFallbackToDefaultTenant() {
+    public bool getFallbackToDefaultTenant() {
         return fallbackToDefaultTenant;
     }
 
-    public void setFallbackToDefaultTenant(Boolean fallbackToDefaultTenant) {
+    public void setFallbackToDefaultTenant(bool fallbackToDefaultTenant) {
         this.fallbackToDefaultTenant = fallbackToDefaultTenant;
     }
 
@@ -143,14 +143,14 @@ class CallActivity extends Activity {
         setFallbackToDefaultTenant(otherElement.getFallbackToDefaultTenant());
 
         inParameters = new ArrayList<>();
-        if (otherElement.getInParameters() != null && !otherElement.getInParameters().isEmpty()) {
+        if (otherElement.getInParameters() !is null && !otherElement.getInParameters().isEmpty()) {
             for (IOParameter parameter : otherElement.getInParameters()) {
                 inParameters.add(parameter.clone());
             }
         }
 
         outParameters = new ArrayList<>();
-        if (otherElement.getOutParameters() != null && !otherElement.getOutParameters().isEmpty()) {
+        if (otherElement.getOutParameters() !is null && !otherElement.getOutParameters().isEmpty()) {
             for (IOParameter parameter : otherElement.getOutParameters()) {
                 outParameters.add(parameter.clone());
             }

@@ -36,7 +36,7 @@ class ChangeActivityStateCmd implements Command<Void> {
         if (changeActivityStateBuilder.getMoveExecutionIdList().size() == 0 && changeActivityStateBuilder.getMoveActivityIdList().size() == 0) {
             throw new FlowableIllegalArgumentException("No move execution or activity ids provided");
 
-        } else if (changeActivityStateBuilder.getMoveActivityIdList().size() > 0 && changeActivityStateBuilder.getProcessInstanceId() == null) {
+        } else if (changeActivityStateBuilder.getMoveActivityIdList().size() > 0 && changeActivityStateBuilder.getProcessInstanceId() is null) {
             throw new FlowableIllegalArgumentException("Process instance id is required");
         }
 

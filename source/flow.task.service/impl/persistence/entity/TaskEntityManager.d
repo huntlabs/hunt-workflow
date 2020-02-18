@@ -15,13 +15,13 @@
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.persistence.entity.EntityManager;
+import flow.common.persistence.entity.EntityManager;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskBuilder;
 import org.flowable.task.api.TaskInfo;
 import org.flowable.task.service.impl.TaskQueryImpl;
 
-public interface TaskEntityManager extends EntityManager<TaskEntity> {
+interface TaskEntityManager extends EntityManager<TaskEntity> {
 
     /**
      * Creates {@link TaskEntity} according to {@link TaskInfo} template
@@ -57,7 +57,7 @@ public interface TaskEntityManager extends EntityManager<TaskEntity> {
 
     void updateTaskTenantIdForDeployment(string deploymentId, string newTenantId);
     
-    void updateAllTaskRelatedEntityCountFlags(boolean configProperty);
+    void updateAllTaskRelatedEntityCountFlags(bool configProperty);
     
     void deleteTasksByExecutionId(string executionId);
 }

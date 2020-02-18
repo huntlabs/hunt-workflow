@@ -48,7 +48,7 @@ class BoundaryEventParseHandler extends AbstractFlowNodeBpmnParseHandler<Boundar
     @Override
     protected void executeParse(BpmnParse bpmnParse, BoundaryEvent boundaryEvent) {
 
-        if (boundaryEvent.getAttachedToRef() == null) {
+        if (boundaryEvent.getAttachedToRef() is null) {
             LOGGER.warn("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event {}", boundaryEvent.getId());
             return;
         }
@@ -67,7 +67,7 @@ class BoundaryEventParseHandler extends AbstractFlowNodeBpmnParseHandler<Boundar
             
         } else if (!boundaryEvent.getExtensionElements().isEmpty()) {
             List<ExtensionElement> eventTypeExtensionElements = boundaryEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
-            if (eventTypeExtensionElements != null && !eventTypeExtensionElements.isEmpty()) {
+            if (eventTypeExtensionElements !is null && !eventTypeExtensionElements.isEmpty()) {
                 string eventTypeValue = eventTypeExtensionElements.get(0).getElementText();
                 if (StringUtils.isNotEmpty(eventTypeValue)) {
                     boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEventRegistryEventActivityBehavior(

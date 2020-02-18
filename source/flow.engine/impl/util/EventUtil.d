@@ -12,7 +12,7 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.variable.api.event.FlowableVariableEvent;
@@ -26,9 +26,9 @@ class EventUtil {
     public static FlowableVariableEvent createVariableDeleteEvent(VariableInstanceEntity variableInstance) {
 
         string processDefinitionId = null;
-        if (variableInstance.getProcessInstanceId() != null) {
+        if (variableInstance.getProcessInstanceId() !is null) {
             ExecutionEntity executionEntity = CommandContextUtil.getExecutionEntityManager().findById(variableInstance.getProcessInstanceId());
-            if (executionEntity != null) {
+            if (executionEntity !is null) {
                 processDefinitionId = executionEntity.getProcessDefinitionId();
             }
         }

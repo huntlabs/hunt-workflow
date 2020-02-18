@@ -44,7 +44,7 @@ class ProcessInstanceMigrationStatusJobHandler extends AbstractProcessInstanceMi
         int completedBatchParts = 0;
         int failedBatchParts = 0;
         for (BatchPart batchPart : batchParts) {
-            if (batchPart.getCompleteTime() != null) {
+            if (batchPart.getCompleteTime() !is null) {
                 completedBatchParts++;
                 
                 if (ProcessInstanceBatchMigrationResult.RESULT_FAIL.equals(batchPart.getStatus())) {

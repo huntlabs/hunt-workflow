@@ -28,7 +28,7 @@ import org.flowable.bpmn.model.Message;
 import org.flowable.bpmn.model.SendTask;
 import org.flowable.bpmn.model.ServiceTask;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
 import flow.common.util.ReflectUtil;
 import flow.engine.delegate.BpmnError;
@@ -116,7 +116,7 @@ class WebServiceActivityBehavior extends AbstractBpmnActivityBehavior {
 
         try {
 
-            if (ioSpecification != null) {
+            if (ioSpecification !is null) {
                 initializeIoSpecification(ioSpecification, execution, bpmnModel);
                 if (ioSpecification.getDataInputRefs().size() > 0) {
                     string firstDataInputName = ioSpecification.getDataInputRefs().get(0);
@@ -138,9 +138,9 @@ class WebServiceActivityBehavior extends AbstractBpmnActivityBehavior {
 
             execution.setTransientVariable(CURRENT_MESSAGE, receivedMessage);
 
-            if (ioSpecification != null && ioSpecification.getDataOutputRefs().size() > 0) {
+            if (ioSpecification !is null && ioSpecification.getDataOutputRefs().size() > 0) {
                 string firstDataOutputName = ioSpecification.getDataOutputRefs().get(0);
-                if (firstDataOutputName != null) {
+                if (firstDataOutputName !is null) {
                     ItemInstance outputItem = (ItemInstance) execution.getTransientVariable(firstDataOutputName);
                     outputItem.getStructureInstance().loadFrom(receivedMessage.getStructureInstance().toArray());
                 }
@@ -154,7 +154,7 @@ class WebServiceActivityBehavior extends AbstractBpmnActivityBehavior {
 
             Throwable cause = exc;
             BpmnError error = null;
-            while (cause != null) {
+            while (cause !is null) {
                 if (cause instanceof BpmnError) {
                     error = (BpmnError) cause;
                     break;
@@ -162,7 +162,7 @@ class WebServiceActivityBehavior extends AbstractBpmnActivityBehavior {
                 cause = cause.getCause();
             }
 
-            if (error != null) {
+            if (error !is null) {
                 ErrorPropagation.propagateError(error, execution);
             } else if (exc instanceof RuntimeException) {
                 throw (RuntimeException) exc;

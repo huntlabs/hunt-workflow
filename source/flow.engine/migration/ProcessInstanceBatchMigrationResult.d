@@ -71,26 +71,26 @@ class ProcessInstanceBatchMigrationResult {
     }
 
     public void addMigrationPart(ProcessInstanceBatchMigrationPartResult migrationPart) {
-        if (allMigrationParts == null) {
+        if (allMigrationParts is null) {
             allMigrationParts = new ArrayList<>();
         }
         allMigrationParts.add(migrationPart);
         
         if (!STATUS_COMPLETED.equals(migrationPart.getStatus())) {
-            if (waitingMigrationParts == null) {
+            if (waitingMigrationParts is null) {
                 waitingMigrationParts = new ArrayList<>();
             }
             waitingMigrationParts.add(migrationPart);
         
         } else {
             if (RESULT_SUCCESS.equals(migrationPart.getResult())) {
-                if (succesfulMigrationParts == null) {
+                if (succesfulMigrationParts is null) {
                     succesfulMigrationParts = new ArrayList<>();
                 }
                 succesfulMigrationParts.add(migrationPart);
             
             } else {
-                if (failedMigrationParts == null) {
+                if (failedMigrationParts is null) {
                     failedMigrationParts = new ArrayList<>();
                 }
                 failedMigrationParts.add(migrationPart);

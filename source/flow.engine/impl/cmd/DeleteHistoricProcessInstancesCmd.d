@@ -32,7 +32,7 @@ class DeleteHistoricProcessInstancesCmd implements Command<Object>, Serializable
 
     @Override
     public Object execute(CommandContext commandContext) {
-        if (historicProcessInstanceQuery == null) {
+        if (historicProcessInstanceQuery is null) {
             throw new FlowableIllegalArgumentException("query is null");
         }
         

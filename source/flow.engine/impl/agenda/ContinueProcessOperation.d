@@ -24,8 +24,8 @@ import org.flowable.bpmn.model.FlowNode;
 import org.flowable.bpmn.model.SequenceFlow;
 import org.flowable.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.common.logging.LoggingSessionConstants;
 import flow.common.util.CollectionUtil;
@@ -96,9 +96,9 @@ class ContinueProcessOperation extends AbstractOperation {
         execution.setActive(true);
 
         // Check if it's the initial flow element. If so, we must fire the execution listeners for the process too
-        if (flowNode.getIncomingFlows() != null
+        if (flowNode.getIncomingFlows() !is null
                 && flowNode.getIncomingFlows().size() == 0
-                && flowNode.getSubProcess() == null) {
+                && flowNode.getSubProcess() is null) {
             
             executeProcessStartExecutionListeners();
         }
@@ -159,7 +159,7 @@ class ContinueProcessOperation extends AbstractOperation {
         // Execute actual behavior
         ActivityBehavior activityBehavior = (ActivityBehavior) flowNode.getBehavior();
 
-        if (activityBehavior != null) {
+        if (activityBehavior !is null) {
             executeActivityBehavior(activityBehavior, flowNode);
             executeBoundaryEvents(boundaryEvents, boundaryEventExecutions);
         } else {
@@ -181,7 +181,7 @@ class ContinueProcessOperation extends AbstractOperation {
         job.setJobHandlerType(AsyncContinuationJobHandler.TYPE);
 
         // Inherit tenant id (if applicable)
-        if (execution.getTenantId() != null) {
+        if (execution.getTenantId() !is null) {
             job.setTenantId(execution.getTenantId());
         }
         
@@ -211,7 +211,7 @@ class ContinueProcessOperation extends AbstractOperation {
         // Execute the multi instance behavior
         ActivityBehavior activityBehavior = (ActivityBehavior) flowNode.getBehavior();
 
-        if (activityBehavior != null) {
+        if (activityBehavior !is null) {
             executeActivityBehavior(activityBehavior, flowNode);
             
             if (!execution.isDeleted() && !execution.isEnded()) {
@@ -235,7 +235,7 @@ class ContinueProcessOperation extends AbstractOperation {
     
     protected bool hasMultiInstanceRootExecution(ExecutionEntity execution, FlowNode flowNode) {
         ExecutionEntity currentExecution = execution.getParent();
-        while (currentExecution != null) {
+        while (currentExecution !is null) {
             if (currentExecution.isMultiInstanceRoot() && flowNode.getId().equals(currentExecution.getActivityId())) {
                 return true;
             }
@@ -264,10 +264,10 @@ class ContinueProcessOperation extends AbstractOperation {
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         FlowableEventDispatcher eventDispatcher = null;
-        if (processEngineConfiguration != null) {
+        if (processEngineConfiguration !is null) {
             eventDispatcher = processEngineConfiguration.getEventDispatcher();
         }
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
 
             if (flowNode instanceof Activity && ((Activity) flowNode).hasMultiInstanceLoopCharacteristics()) {
                 processEngineConfiguration.getEventDispatcher().dispatchEvent(
@@ -307,10 +307,10 @@ class ContinueProcessOperation extends AbstractOperation {
         // Firing event that transition is being taken
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         FlowableEventDispatcher eventDispatcher = null;
-        if (processEngineConfiguration != null) {
+        if (processEngineConfiguration !is null) {
             eventDispatcher = processEngineConfiguration.getEventDispatcher();
         }
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             FlowElement sourceFlowElement = sequenceFlow.getSourceFlowElement();
             FlowElement targetFlowElement = sequenceFlow.getTargetFlowElement();
             processEngineConfiguration.getEventDispatcher().dispatchEvent(
@@ -318,14 +318,14 @@ class ContinueProcessOperation extends AbstractOperation {
                             execution,
                             FlowableEngineEventType.SEQUENCEFLOW_TAKEN,
                             sequenceFlow.getId(),
-                            sourceFlowElement != null ? sourceFlowElement.getId() : null,
-                            sourceFlowElement != null ? sourceFlowElement.getName() : null,
-                            sourceFlowElement != null ? sourceFlowElement.getClass().getName() : null,
-                            sourceFlowElement != null ? ((FlowNode) sourceFlowElement).getBehavior() : null,
-                            targetFlowElement != null ? targetFlowElement.getId() : null,
-                            targetFlowElement != null ? targetFlowElement.getName() : null,
-                            targetFlowElement != null ? targetFlowElement.getClass().getName() : null,
-                            targetFlowElement != null ? ((FlowNode) targetFlowElement).getBehavior() : null));
+                            sourceFlowElement !is null ? sourceFlowElement.getId() : null,
+                            sourceFlowElement !is null ? sourceFlowElement.getName() : null,
+                            sourceFlowElement !is null ? sourceFlowElement.getClass().getName() : null,
+                            sourceFlowElement !is null ? ((FlowNode) sourceFlowElement).getBehavior() : null,
+                            targetFlowElement !is null ? targetFlowElement.getId() : null,
+                            targetFlowElement !is null ? targetFlowElement.getName() : null,
+                            targetFlowElement !is null ? targetFlowElement.getClass().getName() : null,
+                            targetFlowElement !is null ? ((FlowNode) targetFlowElement).getBehavior() : null));
         }
 
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordSequenceFlowTaken(execution);

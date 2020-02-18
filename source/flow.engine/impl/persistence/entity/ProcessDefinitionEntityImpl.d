@@ -91,7 +91,7 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
 
     @Override
     public string getName() {
-        if(localizedName != null && localizedName.length() > 0) {
+        if(localizedName !is null && localizedName.length() > 0) {
             return localizedName;
         }
         return name;
@@ -118,7 +118,7 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
 
     @Override
     public string getDescription() {
-        if(localizedDescription != null && localizedDescription.length() > 0) {
+        if(localizedDescription !is null && localizedDescription.length() > 0) {
             return localizedDescription;
         }
         return description;

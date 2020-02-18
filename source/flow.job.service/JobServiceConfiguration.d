@@ -10,6 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.job.service.JobServiceConfiguration;
+ 
+ 
+ 
 
 
 import java.util.Collections;
@@ -65,10 +74,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  * @author Tijs Rademakers
  */
-class JobServiceConfiguration extends AbstractServiceConfiguration {
+class JobServiceConfiguration : AbstractServiceConfiguration {
 
-    public static final string JOB_EXECUTION_SCOPE_ALL = "all";
-    public static final string JOB_EXECUTION_SCOPE_CMMN = "cmmn";
+    public static  string JOB_EXECUTION_SCOPE_ALL = "all";
+    public static  string JOB_EXECUTION_SCOPE_CMMN = "cmmn";
 
     // SERVICES
     // /////////////////////////////////////////////////////////////////
@@ -164,7 +173,7 @@ class JobServiceConfiguration extends AbstractServiceConfiguration {
     // Job manager ///////////////////////////////////////////////////////////
 
     public void initJobManager() {
-        if (jobManager == null) {
+        if (jobManager is null) {
             jobManager = new DefaultJobManager(this);
         }
 
@@ -175,43 +184,43 @@ class JobServiceConfiguration extends AbstractServiceConfiguration {
     ///////////////////////////////////////////////////////////
 
     public void initDataManagers() {
-        if (jobDataManager == null) {
+        if (jobDataManager is null) {
             jobDataManager = new MybatisJobDataManager(this);
         }
-        if (deadLetterJobDataManager == null) {
+        if (deadLetterJobDataManager is null) {
             deadLetterJobDataManager = new MybatisDeadLetterJobDataManager();
         }
-        if (suspendedJobDataManager == null) {
+        if (suspendedJobDataManager is null) {
             suspendedJobDataManager = new MybatisSuspendedJobDataManager();
         }
-        if (timerJobDataManager == null) {
+        if (timerJobDataManager is null) {
             timerJobDataManager = new MybatisTimerJobDataManager(this);
         }
-        if (historyJobDataManager == null) {
+        if (historyJobDataManager is null) {
             historyJobDataManager = new MybatisHistoryJobDataManager(this);
         }
-        if (jobByteArrayDataManager == null) {
+        if (jobByteArrayDataManager is null) {
             jobByteArrayDataManager = new MybatisJobByteArrayDataManager();
         }
     }
 
     public void initEntityManagers() {
-        if (jobEntityManager == null) {
+        if (jobEntityManager is null) {
             jobEntityManager = new JobEntityManagerImpl(this, jobDataManager);
         }
-        if (deadLetterJobEntityManager == null) {
+        if (deadLetterJobEntityManager is null) {
             deadLetterJobEntityManager = new DeadLetterJobEntityManagerImpl(this, deadLetterJobDataManager);
         }
-        if (suspendedJobEntityManager == null) {
+        if (suspendedJobEntityManager is null) {
             suspendedJobEntityManager = new SuspendedJobEntityManagerImpl(this, suspendedJobDataManager);
         }
-        if (timerJobEntityManager == null) {
+        if (timerJobEntityManager is null) {
             timerJobEntityManager = new TimerJobEntityManagerImpl(this, timerJobDataManager);
         }
-        if (historyJobEntityManager == null) {
+        if (historyJobEntityManager is null) {
             historyJobEntityManager = new HistoryJobEntityManagerImpl(this, historyJobDataManager);
         }
-        if (jobByteArrayEntityManager == null) {
+        if (jobByteArrayEntityManager is null) {
             jobByteArrayEntityManager = new JobByteArrayEntityManagerImpl(this, jobByteArrayDataManager);
         }
     }
@@ -463,7 +472,7 @@ class JobServiceConfiguration extends AbstractServiceConfiguration {
     }
     
     public JobServiceConfiguration addJobHandler(string type, JobHandler jobHandler) {
-        if (this.jobHandlers == null) {
+        if (this.jobHandlers is null) {
             this.jobHandlers = new HashMap<>();
         }
         this.jobHandlers.put(type, jobHandler);
@@ -498,7 +507,7 @@ class JobServiceConfiguration extends AbstractServiceConfiguration {
     }
     
     public JobServiceConfiguration addHistoryJobHandler(string type, HistoryJobHandler historyJobHandler) {
-        if (this.historyJobHandlers == null) {
+        if (this.historyJobHandlers is null) {
             this.historyJobHandlers = new HashMap<>();
         }
         this.historyJobHandlers.put(type, historyJobHandler);
@@ -520,7 +529,7 @@ class JobServiceConfiguration extends AbstractServiceConfiguration {
      * In this case, both {@link AsyncHistoryJobHandler} instances should be able to handle history jobs from any engine.
      */
     public JobServiceConfiguration mergeHistoryJobHandler(HistoryJobHandler historyJobHandler) {
-        if (historyJobHandlers != null 
+        if (historyJobHandlers !is null
                 && historyJobHandler instanceof AsyncHistoryJobHandler
                 && !historyJobHandlers.containsKey(historyJobHandler.getType())) {
             for (HistoryJobHandler existingHistoryJobHandler : historyJobHandlers.values()) {

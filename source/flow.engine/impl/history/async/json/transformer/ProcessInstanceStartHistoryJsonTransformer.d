@@ -18,7 +18,7 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import java.util.Collections;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.history.async.HistoryJsonConstants;
@@ -47,7 +47,7 @@ class ProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonTran
 
         string id = getStringFromJson(historicalData, "id");
         HistoricProcessInstanceEntity historicProcessInstance = historicProcessInstanceEntityManager.findById(id);
-        if (historicProcessInstance == null) {
+        if (historicProcessInstance is null) {
             historicProcessInstance = historicProcessInstanceEntityManager.create();
             historicProcessInstance.setId(getStringFromJson(historicalData, HistoryJsonConstants.ID));
             historicProcessInstance.setProcessInstanceId(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID));
@@ -57,7 +57,7 @@ class ProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonTran
             historicProcessInstance.setProcessDefinitionKey(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_KEY));
             historicProcessInstance.setProcessDefinitionName(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_NAME));
             string versionString = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_VERSION);
-            historicProcessInstance.setProcessDefinitionVersion(versionString != null ? Integer.valueOf(versionString) : 0);
+            historicProcessInstance.setProcessDefinitionVersion(versionString !is null ? Integer.valueOf(versionString) : 0);
             historicProcessInstance.setDeploymentId(getStringFromJson(historicalData, HistoryJsonConstants.DEPLOYMENT_ID));
             historicProcessInstance.setStartTime(getDateFromJson(historicalData, HistoryJsonConstants.START_TIME));
             historicProcessInstance.setStartUserId(getStringFromJson(historicalData, HistoryJsonConstants.START_USER_ID));

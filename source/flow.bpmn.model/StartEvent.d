@@ -22,7 +22,7 @@ class StartEvent extends Event {
 
     protected string initiator;
     protected string formKey;
-    protected boolean isInterrupting = true;
+    protected bool isInterrupting = true;
     protected string validateFormFields;
     protected List<FormProperty> formProperties = new ArrayList<>();
 
@@ -42,11 +42,11 @@ class StartEvent extends Event {
         this.formKey = formKey;
     }
 
-    public boolean isInterrupting() {
+    public bool isInterrupting() {
         return isInterrupting;
     }
 
-    public void setInterrupting(boolean isInterrupting) {
+    public void setInterrupting(bool isInterrupting) {
         this.isInterrupting = isInterrupting;
     }
 
@@ -81,7 +81,7 @@ class StartEvent extends Event {
         setValidateFormFields(otherEvent.validateFormFields);
 
         formProperties = new ArrayList<>();
-        if (otherEvent.getFormProperties() != null && !otherEvent.getFormProperties().isEmpty()) {
+        if (otherEvent.getFormProperties() !is null && !otherEvent.getFormProperties().isEmpty()) {
             for (FormProperty property : otherEvent.getFormProperties()) {
                 formProperties.add(property.clone());
             }

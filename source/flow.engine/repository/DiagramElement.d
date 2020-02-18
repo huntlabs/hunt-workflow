@@ -12,45 +12,54 @@
  */
 
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.DiagramElement;
+ 
+ 
+ 
 
-import java.io.Serializable;
-
-/**
- * Represents a diagram node.
- * 
- * @author Falko Menge
- */
-abstract class DiagramElement implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    protected string id;
-
-    public DiagramElement() {
-    }
-
-    public DiagramElement(string id) {
-        this.id = id;
-    }
-
-    /**
-     * Id of the diagram element.
-     */
-    public string getId() {
-        return id;
-    }
-
-    public void setId(string id) {
-        this.id = id;
-    }
-
-    @Override
-    public string toString() {
-        return "id=" + getId();
-    }
-
-    abstract bool isNode();
-
-    abstract bool isEdge();
-
-}
+//import java.io.Serializable;
+//
+///**
+// * Represents a diagram node.
+// *
+// * @author Falko Menge
+// */
+//abstract class DiagramElement implements Serializable {
+//
+//    private static final long serialVersionUID = 1L;
+//
+//    protected string id;
+//
+//    public DiagramElement() {
+//    }
+//
+//    public DiagramElement(string id) {
+//        this.id = id;
+//    }
+//
+//    /**
+//     * Id of the diagram element.
+//     */
+//    public string getId() {
+//        return id;
+//    }
+//
+//    public void setId(string id) {
+//        this.id = id;
+//    }
+//
+//    @Override
+//    public string toString() {
+//        return "id=" + getId();
+//    }
+//
+//    abstract bool isNode();
+//
+//    abstract bool isEdge();
+//
+//}

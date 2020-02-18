@@ -20,7 +20,7 @@ import org.flowable.bpmn.model.FieldExtension;
 import org.flowable.bpmn.model.Task;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
 import org.flowable.dmn.api.DecisionExecutionAuditContainer;
 import org.flowable.dmn.api.DmnRuleService;
@@ -58,14 +58,14 @@ class DmnActivityBehavior extends TaskActivityBehavior {
     @Override
     public void execute(DelegateExecution execution) {
         FieldExtension fieldExtension = DelegateHelper.getFlowElementField(execution, EXPRESSION_DECISION_TABLE_REFERENCE_KEY);
-        if (fieldExtension == null || ((fieldExtension.getStringValue() == null || fieldExtension.getStringValue().length() == 0) &&
-                (fieldExtension.getExpression() == null || fieldExtension.getExpression().length() == 0))) {
+        if (fieldExtension is null || ((fieldExtension.getStringValue() is null || fieldExtension.getStringValue().length() == 0) &&
+                (fieldExtension.getExpression() is null || fieldExtension.getExpression().length() == 0))) {
 
             throw new FlowableException("decisionTableReferenceKey is a required field extension for the dmn task " + task.getId());
         }
 
         string activeDecisionTableKey = null;
-        if (fieldExtension.getExpression() != null && fieldExtension.getExpression().length() > 0) {
+        if (fieldExtension.getExpression() !is null && fieldExtension.getExpression().length() > 0) {
             activeDecisionTableKey = fieldExtension.getExpression();
 
         } else {
@@ -82,7 +82,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
 
         string finaldecisionTableKeyValue = null;
         Object decisionTableKeyValue = expressionManager.createExpression(activeDecisionTableKey).getValue(execution);
-        if (decisionTableKeyValue != null) {
+        if (decisionTableKeyValue !is null) {
             if (decisionTableKeyValue instanceof string) {
                 finaldecisionTableKeyValue = (string) decisionTableKeyValue;
             } else {
@@ -90,7 +90,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
             }
         }
 
-        if (finaldecisionTableKeyValue == null || finaldecisionTableKeyValue.length() == 0) {
+        if (finaldecisionTableKeyValue is null || finaldecisionTableKeyValue.length() == 0) {
             throw new FlowableIllegalArgumentException("decisionTableReferenceKey expression resolves to an empty value: " + decisionTableKeyValue);
         }
 
@@ -118,7 +118,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
 
         /*Throw error if there were no rules hit when the flag indicates to do this.*/
         FieldExtension throwErrorFieldExtension = DelegateHelper.getFlowElementField(execution, EXPRESSION_DECISION_TABLE_THROW_ERROR_FLAG);
-        if (throwErrorFieldExtension != null) {
+        if (throwErrorFieldExtension !is null) {
             string throwErrorString = null;
             if (StringUtils.isNotEmpty(throwErrorFieldExtension.getStringValue())) {
                 throwErrorString = throwErrorFieldExtension.getStringValue();
@@ -127,7 +127,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
                 throwErrorString = throwErrorFieldExtension.getExpression();
             }
             
-            if (decisionExecutionAuditContainer.getDecisionResult().isEmpty() && throwErrorString != null) {
+            if (decisionExecutionAuditContainer.getDecisionResult().isEmpty() && throwErrorString !is null) {
                 if ("true".equalsIgnoreCase(throwErrorString)) {
                     throw new FlowableException("DMN decision table with key " + finaldecisionTableKeyValue + " did not hit any rules for the provided input.");
                     
@@ -142,7 +142,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
             }
         }
 
-        if (processEngineConfiguration.getDecisionTableVariableManager() != null) {
+        if (processEngineConfiguration.getDecisionTableVariableManager() !is null) {
             processEngineConfiguration.getDecisionTableVariableManager().setVariablesOnExecution(decisionExecutionAuditContainer.getDecisionResult(), 
                             finaldecisionTableKeyValue, execution, processEngineConfiguration.getObjectMapper());
             
@@ -156,7 +156,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
 
     protected void applyFallbackToDefaultTenant(DelegateExecution execution, ExecuteDecisionBuilder executeDecisionBuilder) {
         FieldExtension fallbackfieldExtension = DelegateHelper.getFlowElementField(execution, EXPRESSION_DECISION_TABLE_FALLBACK_TO_DEFAULT_TENANT);
-        if (fallbackfieldExtension != null && ((fallbackfieldExtension.getStringValue() != null && fallbackfieldExtension.getStringValue().length() != 0))) {
+        if (fallbackfieldExtension !is null && ((fallbackfieldExtension.getStringValue() !is null && fallbackfieldExtension.getStringValue().length() != 0))) {
             string fallbackToDefaultTenant = fallbackfieldExtension.getStringValue();
             if (StringUtils.isNotEmpty(fallbackToDefaultTenant) && bool.parseBoolean(fallbackToDefaultTenant)) {
                 executeDecisionBuilder.fallbackToDefaultTenant();
@@ -165,7 +165,7 @@ class DmnActivityBehavior extends TaskActivityBehavior {
     }
 
     protected void setVariablesOnExecution(List<Map<string, Object>> executionResult, string decisionKey, DelegateExecution execution, ObjectMapper objectMapper) {
-        if (executionResult == null || executionResult.isEmpty()) {
+        if (executionResult is null || executionResult.isEmpty()) {
             return;
         }
 

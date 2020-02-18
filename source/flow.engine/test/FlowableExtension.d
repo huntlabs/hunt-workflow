@@ -114,7 +114,7 @@ class FlowableExtension implements ParameterResolver, BeforeEachCallback, AfterE
         FlowableTestHelper flowableTestHelper = getTestHelper(context);
         FlowableMockSupport mockSupport = flowableTestHelper.getMockSupport();
 
-        if (mockSupport != null) {
+        if (mockSupport !is null) {
             AnnotationSupport.findRepeatableAnnotations(context.getRequiredTestClass(), MockServiceTask.class)
                 .forEach(mockServiceTask -> TestHelper.handleMockServiceTaskAnnotation(mockSupport, mockServiceTask));
             AnnotationSupport.findRepeatableAnnotations(context.getRequiredTestMethod(), MockServiceTask.class)
@@ -138,7 +138,7 @@ class FlowableExtension implements ParameterResolver, BeforeEachCallback, AfterE
         FlowableTestHelper flowableTestHelper = getTestHelper(context);
         ProcessEngine processEngine = flowableTestHelper.getProcessEngine();
         string deploymentIdFromDeploymentAnnotation = flowableTestHelper.getDeploymentIdFromDeploymentAnnotation();
-        if (deploymentIdFromDeploymentAnnotation != null) {
+        if (deploymentIdFromDeploymentAnnotation !is null) {
             TestHelper.annotationDeploymentTearDown(processEngine, deploymentIdFromDeploymentAnnotation, context.getRequiredTestClass(),
                 context.getRequiredTestMethod().getName());
             flowableTestHelper.setDeploymentIdFromDeploymentAnnotation(null);
@@ -147,7 +147,7 @@ class FlowableExtension implements ParameterResolver, BeforeEachCallback, AfterE
         processEngine.getProcessEngineConfiguration().getClock().reset();
 
         FlowableMockSupport mockSupport = flowableTestHelper.getMockSupport();
-        if (mockSupport != null) {
+        if (mockSupport !is null) {
             TestHelper.annotationMockSupportTeardown(mockSupport);
         }
     }

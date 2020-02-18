@@ -12,8 +12,8 @@
  */
 
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;
 import flow.common.interceptor.CommandContext;
@@ -47,7 +47,7 @@ class DefaultAsyncRunnableExecutionExceptionHandler implements AsyncRunnableExec
                 if (job instanceof AbstractRuntimeJobEntity) {
                     AbstractRuntimeJobEntity runtimeJob = (AbstractRuntimeJobEntity) job;
                     InternalJobCompatibilityManager internalJobCompatibilityManager = jobServiceConfiguration.getInternalJobCompatibilityManager();
-                    if (internalJobCompatibilityManager != null && internalJobCompatibilityManager.isFlowable5Job(runtimeJob)) {
+                    if (internalJobCompatibilityManager !is null && internalJobCompatibilityManager.isFlowable5Job(runtimeJob)) {
                         internalJobCompatibilityManager.handleFailedV5Job(runtimeJob, exception);
                         return null;
                     }
@@ -63,7 +63,7 @@ class DefaultAsyncRunnableExecutionExceptionHandler implements AsyncRunnableExec
                 // Dispatch an event, indicating job execution failed in a
                 // try-catch block, to prevent the original exception to be swallowed
                 FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
-                if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+                if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     try {
                         eventDispatcher
                             .dispatchEvent(FlowableJobEventBuilder.createEntityExceptionEvent(FlowableEngineEventType.JOB_EXECUTION_FAILURE, job, exception));

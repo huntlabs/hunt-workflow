@@ -29,7 +29,7 @@ import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.SubProcess;
 import org.flowable.bpmn.model.Transaction;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.common.util.CollectionUtil;
 import flow.engine.delegate.ExecutionListener;
@@ -95,7 +95,7 @@ class EndExecutionOperation extends AbstractOperation {
         
         // copy variables before destroying the ended sub process instance (call activity)
         SubProcessActivityBehavior subProcessActivityBehavior = null;
-        if (superExecution != null) {
+        if (superExecution !is null) {
             FlowNode superExecutionElement = (FlowNode) superExecution.getCurrentFlowElement();
             subProcessActivityBehavior = (SubProcessActivityBehavior) superExecutionElement.getBehavior();
             try {
@@ -115,7 +115,7 @@ class EndExecutionOperation extends AbstractOperation {
 
             // note the use of execution here vs processinstance execution for getting the flow element
             executionEntityManager.deleteProcessInstanceExecutionEntity(processInstanceId,
-                    execution.getCurrentFlowElement() != null ? execution.getCurrentFlowElement().getId() : null, null, false, false, true);
+                    execution.getCurrentFlowElement() !is null ? execution.getCurrentFlowElement().getId() : null, null, false, false, true);
         } else {
             LOGGER.debug("Active executions found. Process instance {} will not be ended.", processInstanceId);
         }
@@ -128,7 +128,7 @@ class EndExecutionOperation extends AbstractOperation {
         }
 
         // and trigger execution afterwards if doing a call activity
-        if (superExecution != null) {
+        if (superExecution !is null) {
             superExecution.setSubProcessInstance(null);
             try {
                 subProcessActivityBehavior.completed(superExecution);
@@ -144,7 +144,7 @@ class EndExecutionOperation extends AbstractOperation {
     }
     
     protected bool isAsyncCompleteCallActivity(ExecutionEntity superExecution) {
-        if (superExecution != null) {
+        if (superExecution !is null) {
             FlowNode superExecutionFlowNode = (FlowNode) superExecution.getCurrentFlowElement();
             if (superExecutionFlowNode instanceof CallActivity) {
                 CallActivity callActivity = (CallActivity) superExecutionFlowNode;
@@ -165,7 +165,7 @@ class EndExecutionOperation extends AbstractOperation {
         // Child execution of subprocess is passed as configuration
         job.setJobHandlerConfiguration(childProcessInstanceExecutionEntity.getId());
         
-        string processInstanceId = superExecutionEntity.getProcessInstanceId() != null ? superExecutionEntity.getProcessInstanceId() : superExecutionEntity.getId();
+        string processInstanceId = superExecutionEntity.getProcessInstanceId() !is null ? superExecutionEntity.getProcessInstanceId() : superExecutionEntity.getId();
         job.setProcessInstanceId(processInstanceId);
         job.setProcessDefinitionId(childProcessInstanceExecutionEntity.getProcessDefinitionId());
         job.setElementId(superExecutionEntity.getCurrentFlowElement().getId());
@@ -273,7 +273,7 @@ class EndExecutionOperation extends AbstractOperation {
 
             ExecutionEntity executionToContinue = null;
 
-            if (subProcess != null) {
+            if (subProcess !is null) {
 
                 // In case of ending a subprocess: go up in the scopes and continue via the parent scope
                 // unless its a compensation, then we don't need to do anything and can just end it
@@ -292,7 +292,7 @@ class EndExecutionOperation extends AbstractOperation {
                 executionToContinue = handleRegularExecutionEnd(executionEntityManager, parentExecution);
             }
 
-            if (executionToContinue != null) {
+            if (executionToContinue !is null) {
                 // only continue with outgoing sequence flows if the execution is
                 // not the process instance root execution (otherwise the process instance is finished)
                 if (executionToContinue.isProcessInstanceType()) {
@@ -413,8 +413,8 @@ class EndExecutionOperation extends AbstractOperation {
         if (executionEntity.getCurrentFlowElement() instanceof EndEvent) {
             SubProcess subProcess = ((EndEvent) execution.getCurrentFlowElement()).getSubProcess();
             return !executionEntity.getParent().isProcessInstanceType()
-                    && subProcess != null
-                    && subProcess.getLoopCharacteristics() != null
+                    && subProcess !is null
+                    && subProcess.getLoopCharacteristics() !is null
                     && subProcess.getBehavior() instanceof MultiInstanceActivityBehavior;
         }
         return false;
@@ -472,11 +472,11 @@ class EndExecutionOperation extends AbstractOperation {
 
     protected bool allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
         for (ExecutionEntity childExecutionEntity : parentExecutionEntity.getExecutions()) {
-            if (executionEntityToIgnore == null || !executionEntityToIgnore.getId().equals(childExecutionEntity.getId())) {
+            if (executionEntityToIgnore is null || !executionEntityToIgnore.getId().equals(childExecutionEntity.getId())) {
                 if (!childExecutionEntity.isEnded()) {
                     return false;
                 }
-                if (childExecutionEntity.getExecutions() != null && childExecutionEntity.getExecutions().size() > 0) {
+                if (childExecutionEntity.getExecutions() !is null && childExecutionEntity.getExecutions().size() > 0) {
                     if (!allChildExecutionsEnded(childExecutionEntity, executionEntityToIgnore)) {
                         return false;
                     }
@@ -488,7 +488,7 @@ class EndExecutionOperation extends AbstractOperation {
     
     protected bool isInEventSubProcess(ExecutionEntity executionEntity) {
         ExecutionEntity currentExecutionEntity = executionEntity;
-        while (currentExecutionEntity != null) {
+        while (currentExecutionEntity !is null) {
             if (currentExecutionEntity.getCurrentFlowElement() instanceof EventSubProcess) {
                 return true;
             }

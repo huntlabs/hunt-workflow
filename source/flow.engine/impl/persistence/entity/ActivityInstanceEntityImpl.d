@@ -66,10 +66,10 @@ class ActivityInstanceEntityImpl extends AbstractBpmnEngineEntity implements Act
 
     @Override
     public void markEnded(string deleteReason) {
-        if (this.endTime == null) {
+        if (this.endTime is null) {
             this.deleteReason = deleteReason;
             this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime();
-            if (endTime != null && startTime != null) {
+            if (endTime !is null && startTime !is null) {
                 this.durationInMillis = endTime.getTime() - startTime.getTime();
             }
         }

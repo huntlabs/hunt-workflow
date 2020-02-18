@@ -16,10 +16,10 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.event.FlowableEventListener;
+module flow.common.api.deleg.event.FlowableEventListener;
  
  
- 
+ import flow.common.api.deleg.event.FlowableEvent;
 
 /**
  * Describes a class that listens for {@link FlowableEvent}s dispatched by the engine.

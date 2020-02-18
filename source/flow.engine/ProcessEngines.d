@@ -82,7 +82,7 @@ abstract class ProcessEngines {
      */
     public static synchronized void init() {
         if (!isInitialized()) {
-            if (processEngines == null) {
+            if (processEngines is null) {
                 // Create new map to store process-engines if current map is null
                 processEngines = new HashMap<>();
             }
@@ -157,10 +157,10 @@ abstract class ProcessEngines {
     private static EngineInfo initProcessEngineFromResource(URL resourceUrl) {
         EngineInfo processEngineInfo = processEngineInfosByResourceUrl.get(resourceUrl.toString());
         // if there is an existing process engine info
-        if (processEngineInfo != null) {
+        if (processEngineInfo !is null) {
             // remove that process engine from the member fields
             processEngineInfos.remove(processEngineInfo);
-            if (processEngineInfo.getException() == null) {
+            if (processEngineInfo.getException() is null) {
                 string processEngineName = processEngineInfo.getName();
                 processEngines.remove(processEngineName);
                 processEngineInfosByName.remove(processEngineName);
@@ -262,7 +262,7 @@ abstract class ProcessEngines {
                 try {
                     processEngine.close();
                 } catch (Exception e) {
-                    LOGGER.error("exception while closing {}", (processEngineName == null ? "the default process engine" : "process engine " + processEngineName), e);
+                    LOGGER.error("exception while closing {}", (processEngineName is null ? "the default process engine" : "process engine " + processEngineName), e);
                 }
             }
 

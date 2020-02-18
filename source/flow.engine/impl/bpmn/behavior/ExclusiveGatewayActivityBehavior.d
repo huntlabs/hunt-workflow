@@ -17,8 +17,8 @@ import java.util.Iterator;
 import org.flowable.bpmn.model.ExclusiveGateway;
 import org.flowable.bpmn.model.SequenceFlow;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.DelegateExecution;
@@ -61,10 +61,10 @@ class ExclusiveGatewayActivityBehavior extends GatewayActivityBehavior {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FlowableEventDispatcher eventDispatcher = null;
-        if (processEngineConfiguration != null) {
+        if (processEngineConfiguration !is null) {
             eventDispatcher = processEngineConfiguration.getEventDispatcher();
         }
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             processEngineConfiguration.getEventDispatcher().dispatchEvent(
                     FlowableEventBuilder.createActivityEvent(FlowableEngineEventType.ACTIVITY_COMPLETED, exclusiveGateway.getId(), exclusiveGateway.getName(), execution.getId(),
                             execution.getProcessInstanceId(), execution.getProcessDefinitionId(), exclusiveGateway));
@@ -76,13 +76,13 @@ class ExclusiveGatewayActivityBehavior extends GatewayActivityBehavior {
 
         // Determine sequence flow to take
         Iterator<SequenceFlow> sequenceFlowIterator = exclusiveGateway.getOutgoingFlows().iterator();
-        while (outgoingSequenceFlow == null && sequenceFlowIterator.hasNext()) {
+        while (outgoingSequenceFlow is null && sequenceFlowIterator.hasNext()) {
             SequenceFlow sequenceFlow = sequenceFlowIterator.next();
 
             string skipExpressionString = sequenceFlow.getSkipExpression();
             if (!SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {
                 bool conditionEvaluatesToTrue = ConditionUtil.hasTrueCondition(sequenceFlow, execution);
-                if (conditionEvaluatesToTrue && (defaultSequenceFlowId == null || !defaultSequenceFlowId.equals(sequenceFlow.getId()))) {
+                if (conditionEvaluatesToTrue && (defaultSequenceFlowId is null || !defaultSequenceFlowId.equals(sequenceFlow.getId()))) {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("Sequence flow '{}' selected as outgoing sequence flow.", sequenceFlow.getId());
                     }
@@ -94,17 +94,17 @@ class ExclusiveGatewayActivityBehavior extends GatewayActivityBehavior {
             }
 
             // Already store it, if we would need it later. Saves one for loop.
-            if (defaultSequenceFlowId != null && defaultSequenceFlowId.equals(sequenceFlow.getId())) {
+            if (defaultSequenceFlowId !is null && defaultSequenceFlowId.equals(sequenceFlow.getId())) {
                 defaultSequenceFlow = sequenceFlow;
             }
 
         }
 
         // Leave the gateway
-        if (outgoingSequenceFlow != null) {
+        if (outgoingSequenceFlow !is null) {
             execution.setCurrentFlowElement(outgoingSequenceFlow);
         } else {
-            if (defaultSequenceFlow != null) {
+            if (defaultSequenceFlow !is null) {
                 execution.setCurrentFlowElement(defaultSequenceFlow);
             } else {
 

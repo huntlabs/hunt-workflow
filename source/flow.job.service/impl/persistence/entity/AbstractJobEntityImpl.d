@@ -75,11 +75,11 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
         persistentState.put("elementId", elementId);
         persistentState.put("elementName", elementName);
         
-        if (customValuesByteArrayRef != null) {
+        if (customValuesByteArrayRef !is null) {
             persistentState.put("customValuesByteArrayRef", customValuesByteArrayRef);
         }
 
-        if (exceptionByteArrayRef != null) {
+        if (exceptionByteArrayRef !is null) {
             persistentState.put("exceptionByteArrayRef", exceptionByteArrayRef);
         }
 
@@ -280,7 +280,7 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
 
     @Override
     public void setCustomValues(string customValues) {
-        if(customValuesByteArrayRef == null) {
+        if(customValuesByteArrayRef is null) {
             customValuesByteArrayRef = new JobByteArrayRef();
         }
         customValuesByteArrayRef.setValue("jobCustomValues", customValues);
@@ -313,7 +313,7 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
 
     @Override
     public void setExceptionStacktrace(string exception) {
-        if (exceptionByteArrayRef == null) {
+        if (exceptionByteArrayRef is null) {
             exceptionByteArrayRef = new JobByteArrayRef();
         }
 
@@ -336,7 +336,7 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
     }
 
     private string getJobByteArrayRefAsString(JobByteArrayRef jobByteArrayRef) {
-        if (jobByteArrayRef == null) {
+        if (jobByteArrayRef is null) {
             return null;
         }
         return jobByteArrayRef.asString();

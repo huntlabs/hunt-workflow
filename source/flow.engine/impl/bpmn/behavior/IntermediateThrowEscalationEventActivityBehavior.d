@@ -37,7 +37,7 @@ class IntermediateThrowEscalationEventActivityBehavior extends AbstractBpmnActiv
     public IntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent, EscalationEventDefinition escalationEventDefinition, 
                     Escalation escalation) {
         
-        if (escalation != null) {
+        if (escalation !is null) {
             escalationCode = escalation.getEscalationCode();
             escalationName = escalation.getName();
             

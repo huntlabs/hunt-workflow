@@ -51,7 +51,7 @@ class TaskCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
         
         HistoricTaskInstanceEntity historicTaskInstance = historicTaskService.getHistoricTask(taskId);
         
-        if (historicTaskInstance == null) {
+        if (historicTaskInstance is null) {
             historicTaskInstance = historicTaskService.createHistoricTask();
             historicTaskInstance.setId(taskId);
             historicTaskInstance.setProcessDefinitionId(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_ID));
@@ -84,7 +84,7 @@ class TaskCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
             string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
             if (StringUtils.isNotEmpty(activityId)) {
                 HistoricActivityInstanceEntity historicActivityInstanceEntity = findHistoricActivityInstance(commandContext, executionId, activityId);
-                if (historicActivityInstanceEntity != null) {
+                if (historicActivityInstanceEntity !is null) {
                     historicActivityInstanceEntity.setTaskId(taskId);
                 }
             }

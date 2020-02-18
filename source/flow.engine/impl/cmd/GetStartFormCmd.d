@@ -41,7 +41,7 @@ class GetStartFormCmd implements Command<StartFormData>, Serializable {
     @Override
     public StartFormData execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("No process definition found for id '" + processDefinitionId + "'", ProcessDefinition.class);
         }
 
@@ -51,7 +51,7 @@ class GetStartFormCmd implements Command<StartFormData>, Serializable {
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         StartFormHandler startFormHandler = formHandlerHelper.getStartFormHandler(commandContext, processDefinition);
-        if (startFormHandler == null) {
+        if (startFormHandler is null) {
             throw new FlowableException("No startFormHandler defined in process '" + processDefinitionId + "'");
         }
 

@@ -48,7 +48,7 @@ abstract class BasePropertiesParser implements PropertiesParser, DynamicBpmnCons
     protected void putPropertyValue(string key, List<string> values, ObjectNode propertiesNode) {
         // we don't set a node value if the collection is null.
         // An empty collection is a indicator. if a task has candidate users you can only overrule it by putting an empty array as dynamic candidate users
-        if (values != null) {
+        if (values !is null) {
             ArrayNode arrayNode = propertiesNode.putArray(key);
             for (string value : values) {
                 arrayNode.add(value);
@@ -57,7 +57,7 @@ abstract class BasePropertiesParser implements PropertiesParser, DynamicBpmnCons
     }
 
     protected void putPropertyValue(string key, JsonNode node, ObjectNode propertiesNode) {
-        if (node != null) {
+        if (node !is null) {
             if (!node.isMissingNode() && !node.isNull()) {
                 propertiesNode.set(key, node);
             }

@@ -10,8 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.repository.NativeModelQuery;
+ 
+ 
+ 
 
-
+import flow.engine.repository.Model;
 import flow.common.api.query.NativeQuery;
 
 /**
@@ -19,6 +28,6 @@ import flow.common.api.query.NativeQuery;
  * 
  * @author Henry Yan(http://www.kafeitu.me)
  */
-interface NativeModelQuery extends NativeQuery<NativeModelQuery, Model> {
+interface NativeModelQuery : NativeQuery!(NativeModelQuery, Model) {
 
 }

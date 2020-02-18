@@ -43,10 +43,10 @@ class ResolveTaskCmd extends NeedsActiveTaskCmd<Void> {
 
     @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
-        if (variables != null) {
+        if (variables !is null) {
             task.setVariables(variables);
         }
-        if (transientVariables != null) {
+        if (transientVariables !is null) {
             task.setTransientVariables(transientVariables);
         }
 

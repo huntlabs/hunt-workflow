@@ -48,7 +48,7 @@ abstract class AbstractAsyncHistoryManager extends AbstractHistoryManager {
         putIfNotNull(data, HistoryJsonConstants.START_TIME, processInstance.getStartTime());
         putIfNotNull(data, HistoryJsonConstants.START_USER_ID, processInstance.getStartUserId());
         putIfNotNull(data, HistoryJsonConstants.START_ACTIVITY_ID, processInstance.getStartActivityId());
-        putIfNotNull(data, HistoryJsonConstants.SUPER_PROCESS_INSTANCE_ID, processInstance.getSuperExecution() != null ? processInstance.getSuperExecution().getProcessInstanceId() : null);
+        putIfNotNull(data, HistoryJsonConstants.SUPER_PROCESS_INSTANCE_ID, processInstance.getSuperExecution() !is null ? processInstance.getSuperExecution().getProcessInstanceId() : null);
         putIfNotNull(data, HistoryJsonConstants.CALLBACK_ID, processInstance.getCallbackId());
         putIfNotNull(data, HistoryJsonConstants.CALLBACK_TYPE, processInstance.getCallbackType());
         putIfNotNull(data, HistoryJsonConstants.REFERENCE_ID, processInstance.getReferenceId());
@@ -59,14 +59,14 @@ abstract class AbstractAsyncHistoryManager extends AbstractHistoryManager {
     }
 
     protected void addProcessDefinitionFields(ObjectNode data, string processDefinitionId) {
-        if (processDefinitionId != null) {
+        if (processDefinitionId !is null) {
             ProcessDefinition processDefinition = processEngineConfiguration.getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
             addProcessDefinitionFields(data, processDefinition);
         }
     }
 
     protected void addProcessDefinitionFields(ObjectNode data, ProcessDefinition processDefinition) {
-        if (processDefinition != null) {
+        if (processDefinition !is null) {
             putIfNotNull(data, HistoryJsonConstants.PROCESS_DEFINITION_ID, processDefinition.getId());
             putIfNotNull(data, HistoryJsonConstants.PROCESS_DEFINITION_KEY, processDefinition.getKey());
             putIfNotNull(data, HistoryJsonConstants.PROCESS_DEFINITION_NAME, processDefinition.getName());
@@ -97,13 +97,13 @@ abstract class AbstractAsyncHistoryManager extends AbstractHistoryManager {
         putIfNotNull(data, HistoryJsonConstants.CLAIM_TIME, task.getClaimTime());
         putIfNotNull(data, HistoryJsonConstants.TENANT_ID, task.getTenantId());
 
-        if (execution != null) {
+        if (execution !is null) {
             putIfNotNull(data, HistoryJsonConstants.PROCESS_INSTANCE_ID, execution.getProcessInstanceId());
             putIfNotNull(data, HistoryJsonConstants.EXECUTION_ID, execution.getId());
 
             addProcessDefinitionFields(data, execution.getProcessDefinitionId());
 
-        } else if (task.getProcessDefinitionId() != null) {
+        } else if (task.getProcessDefinitionId() !is null) {
             addProcessDefinitionFields(data, task.getProcessDefinitionId());
 
         }
@@ -125,11 +125,11 @@ abstract class AbstractAsyncHistoryManager extends AbstractHistoryManager {
         putIfNotNull(data, HistoryJsonConstants.VARIABLE_TEXT_VALUE2, variable.getTextValue2());
         putIfNotNull(data, HistoryJsonConstants.VARIABLE_DOUBLE_VALUE, variable.getDoubleValue());
         putIfNotNull(data, HistoryJsonConstants.VARIABLE_LONG_VALUE, variable.getLongValue());
-        if (variable.getByteArrayRef() != null) {
+        if (variable.getByteArrayRef() !is null) {
             putIfNotNull(data, HistoryJsonConstants.VARIABLE_BYTES_VALUE, convertToBase64(variable));
         }
 
-        if (variable.getExecutionId() != null) {
+        if (variable.getExecutionId() !is null) {
             addProcessDefinitionFields(data, variable.getProcessDefinitionId());
         }
     }

@@ -44,7 +44,7 @@ class GetPotentialStarterGroupsCmd implements Command<List<Group>>, Serializable
     public List<Group> execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Cannot find process definition with id " + processDefinitionId, ProcessDefinition.class);
         }
 
@@ -53,7 +53,7 @@ class GetPotentialStarterGroupsCmd implements Command<List<Group>>, Serializable
         List<string> groupIds = new ArrayList<>();
         List<IdentityLink> identityLinks = (List) processDefinition.getIdentityLinks();
         for (IdentityLink identityLink : identityLinks) {
-            if (identityLink.getGroupId() != null && identityLink.getGroupId().length() > 0) {
+            if (identityLink.getGroupId() !is null && identityLink.getGroupId().length() > 0) {
 
                 if (!groupIds.contains(identityLink.getGroupId())) {
                     groupIds.add(identityLink.getGroupId());

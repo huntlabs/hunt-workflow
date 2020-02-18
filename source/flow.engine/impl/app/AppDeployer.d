@@ -52,7 +52,7 @@ class AppDeployer implements EngineDeployer {
             }
         }
 
-        if (appResourceObject != null) {
+        if (appResourceObject !is null) {
             deploymentManager.getAppResourceCache().add(deployment.getId(), appResourceObject);
         }
     }

@@ -49,15 +49,15 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
     }
 
     protected void validateParams(string taskId, string identityId, int identityIdType, string identityType) {
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
 
-        if (identityType == null) {
+        if (identityType is null) {
             throw new FlowableIllegalArgumentException("type is required when adding a new task identity link");
         }
 
-        if (identityId == null && (identityIdType == IDENTITY_GROUP ||
+        if (identityId is null && (identityIdType == IDENTITY_GROUP ||
                 (!IdentityLinkType.ASSIGNEE.equals(identityType) && !IdentityLinkType.OWNER.equals(identityType)))) {
 
             throw new FlowableIllegalArgumentException("identityId is null");
@@ -71,7 +71,7 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
     @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
-        if (task.getProcessDefinitionId() != null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
             compatibilityHandler.addIdentityLink(taskId, identityId, identityIdType, identityType);
             return null;
@@ -83,29 +83,29 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
         bool assignedToNoOne = false;
         if (IdentityLinkType.ASSIGNEE.equals(identityType)) {
             
-            if (oldAssigneeId == null && identityId == null) {
+            if (oldAssigneeId is null && identityId is null) {
                 return null;
             }
             
-            if (oldAssigneeId != null && oldAssigneeId.equals(identityId)) {
+            if (oldAssigneeId !is null && oldAssigneeId.equals(identityId)) {
                 return null;
             }
             
             TaskHelper.changeTaskAssignee(task, identityId);
-            assignedToNoOne = identityId == null;
+            assignedToNoOne = identityId is null;
             
         } else if (IdentityLinkType.OWNER.equals(identityType)) {
             
-            if (oldOwnerId == null && identityId == null) {
+            if (oldOwnerId is null && identityId is null) {
                 return null;
             }
             
-            if (oldOwnerId != null && oldOwnerId.equals(identityId)) {
+            if (oldOwnerId !is null && oldOwnerId.equals(identityId)) {
                 return null;
             }
 
             TaskHelper.changeTaskOwner(task, identityId);
-            assignedToNoOne = identityId == null;
+            assignedToNoOne = identityId is null;
 
         } else if (IDENTITY_USER == identityIdType) {
             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), identityId, null, identityType);

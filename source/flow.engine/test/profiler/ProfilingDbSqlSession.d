@@ -44,7 +44,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
         long endTime = System.currentTimeMillis();
 
         CommandExecutionResult commandExecutionResult = getCurrentCommandExecution();
-        if (commandExecutionResult != null) {
+        if (commandExecutionResult !is null) {
             commandExecutionResult.addDatabaseTime(endTime - startTime);
         }
     }
@@ -57,7 +57,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
         long endTime = System.currentTimeMillis();
 
         CommandExecutionResult commandExecutionResult = getCurrentCommandExecution();
-        if (commandExecutionResult != null) {
+        if (commandExecutionResult !is null) {
             commandExecutionResult.addDatabaseTime(endTime - startTime);
         }
     }
@@ -66,7 +66,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
 
     @Override
     public Object selectOne(string statement, Object parameter) {
-        if (getCurrentCommandExecution() != null) {
+        if (getCurrentCommandExecution() !is null) {
             getCurrentCommandExecution().addDbSelect(statement);
         }
         return super.selectOne(statement, parameter);
@@ -74,7 +74,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
 
     @Override
     public <T extends Entity> T selectById(Class<T> entityClass, string id, bool useCache) {
-        if (getCurrentCommandExecution() != null) {
+        if (getCurrentCommandExecution() !is null) {
             getCurrentCommandExecution().addDbSelect("selectById " + entityClass.getName());
         }
         return super.selectById(entityClass, id, useCache);
@@ -84,7 +84,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
 
     @Override
     public List selectListWithRawParameter(string statement, Object parameter, bool useCache) {
-        if (getCurrentCommandExecution() != null) {
+        if (getCurrentCommandExecution() !is null) {
             getCurrentCommandExecution().addDbSelect(statement);
         }
         return super.selectListWithRawParameter(statement, parameter, useCache);
@@ -92,7 +92,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
 
     @Override
     public List selectListWithRawParameterNoCacheLoadAndStore(string statement, Object parameter) {
-        if (getCurrentCommandExecution() != null) {
+        if (getCurrentCommandExecution() !is null) {
             getCurrentCommandExecution().addDbSelect(statement);
         }
         return super.selectListWithRawParameterNoCacheLoadAndStore(statement, parameter);
@@ -103,14 +103,14 @@ class ProfilingDbSqlSession extends DbSqlSession {
     @Override
     protected void flushRegularInsert(Entity entity, Class<? extends Entity> clazz) {
         super.flushRegularInsert(entity, clazz);
-        if (getCurrentCommandExecution() != null) {
+        if (getCurrentCommandExecution() !is null) {
             getCurrentCommandExecution().addDbInsert(clazz.getName());
         }
     }
 
     @Override
     protected void flushBulkInsert(Collection<Entity> entities, Class<? extends Entity> clazz) {
-        if (getCurrentCommandExecution() != null && entities.size() > 0) {
+        if (getCurrentCommandExecution() !is null && entities.size() > 0) {
             getCurrentCommandExecution().addDbInsert(clazz.getName() + "-bulk-with-" + entities.size());
         }
         super.flushBulkInsert(entities, clazz);
@@ -120,7 +120,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
 
     @Override
     protected void flushUpdates() {
-        if (getCurrentCommandExecution() != null) {
+        if (getCurrentCommandExecution() !is null) {
             for (Entity persistentObject : updatedObjects) {
                 getCurrentCommandExecution().addDbUpdate(persistentObject.getClass().getName());
             }
@@ -134,7 +134,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
     @Override
     protected void flushDeleteEntities(Class<? extends Entity> entityClass, Collection<Entity> entitiesToDelete) {
         super.flushDeleteEntities(entityClass, entitiesToDelete);
-        if (getCurrentCommandExecution() != null) {
+        if (getCurrentCommandExecution() !is null) {
             for (Entity entity : entitiesToDelete) {
                 getCurrentCommandExecution().addDbDelete(entity.getClass().getName());
             }
@@ -144,7 +144,7 @@ class ProfilingDbSqlSession extends DbSqlSession {
     @Override
     protected void flushBulkDeletes(Class<? extends Entity> entityClass, List<BulkDeleteOperation> deleteOperations) {
         // Bulk deletes
-        if (getCurrentCommandExecution() != null && deleteOperations != null) {
+        if (getCurrentCommandExecution() !is null && deleteOperations !is null) {
             for (BulkDeleteOperation bulkDeleteOperation : deleteOperations) {
                 getCurrentCommandExecution().addDbDelete("Bulk-delete-" + bulkDeleteOperation.getStatement());
             }
@@ -153,9 +153,9 @@ class ProfilingDbSqlSession extends DbSqlSession {
     }
 
     public CommandExecutionResult getCurrentCommandExecution() {
-        if (commandExecutionResult == null) {
+        if (commandExecutionResult is null) {
             ProfileSession profileSession = FlowableProfiler.getInstance().getCurrentProfileSession();
-            if (profileSession != null) {
+            if (profileSession !is null) {
                 this.commandExecutionResult = profileSession.getCurrentCommandExecution();
             }
         }

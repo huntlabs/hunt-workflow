@@ -22,10 +22,10 @@ class CaseServiceTask extends ServiceTask {
 
     protected string caseDefinitionKey;
     protected string caseInstanceName;
-    protected boolean sameDeployment;
+    protected bool sameDeployment;
     protected string businessKey;
-    protected boolean inheritBusinessKey;
-    protected boolean fallbackToDefaultTenant;
+    protected bool inheritBusinessKey;
+    protected bool fallbackToDefaultTenant;
     protected string caseInstanceIdVariableName;
     
     protected List<IOParameter> inParameters = new ArrayList<>();
@@ -47,11 +47,11 @@ class CaseServiceTask extends ServiceTask {
         this.caseInstanceName = caseInstanceName;
     }
 
-    public boolean isSameDeployment() {
+    public bool isSameDeployment() {
         return sameDeployment;
     }
 
-    public void setSameDeployment(boolean sameDeployment) {
+    public void setSameDeployment(bool sameDeployment) {
         this.sameDeployment = sameDeployment;
     }
 
@@ -63,19 +63,19 @@ class CaseServiceTask extends ServiceTask {
         this.businessKey = businessKey;
     }
 
-    public boolean isInheritBusinessKey() {
+    public bool isInheritBusinessKey() {
         return inheritBusinessKey;
     }
 
-    public void setInheritBusinessKey(boolean inheritBusinessKey) {
+    public void setInheritBusinessKey(bool inheritBusinessKey) {
         this.inheritBusinessKey = inheritBusinessKey;
     }
 
-    public boolean isFallbackToDefaultTenant() {
+    public bool isFallbackToDefaultTenant() {
         return fallbackToDefaultTenant;
     }
 
-    public void setFallbackToDefaultTenant(boolean fallbackToDefaultTenant) {
+    public void setFallbackToDefaultTenant(bool fallbackToDefaultTenant) {
         this.fallbackToDefaultTenant = fallbackToDefaultTenant;
     }
 
@@ -122,14 +122,14 @@ class CaseServiceTask extends ServiceTask {
         setCaseInstanceIdVariableName(otherElement.getCaseInstanceIdVariableName());
 
         inParameters = new ArrayList<>();
-        if (otherElement.getInParameters() != null && !otherElement.getInParameters().isEmpty()) {
+        if (otherElement.getInParameters() !is null && !otherElement.getInParameters().isEmpty()) {
             for (IOParameter parameter : otherElement.getInParameters()) {
                 inParameters.add(parameter.clone());
             }
         }
 
         outParameters = new ArrayList<>();
-        if (otherElement.getOutParameters() != null && !otherElement.getOutParameters().isEmpty()) {
+        if (otherElement.getOutParameters() !is null && !otherElement.getOutParameters().isEmpty()) {
             for (IOParameter parameter : otherElement.getOutParameters()) {
                 outParameters.add(parameter.clone());
             }

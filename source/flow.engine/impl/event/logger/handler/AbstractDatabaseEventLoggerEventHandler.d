@@ -15,8 +15,8 @@
 import java.util.Date;
 import java.util.Map;
 
-import flow.common.api.delegate.event.FlowableEntityEvent;
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.identity.Authentication;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
@@ -63,15 +63,15 @@ abstract class AbstractDatabaseEventLoggerEventHandler implements EventLoggerEve
 
         // Current user
         string userId = Authentication.getAuthenticatedUserId();
-        if (userId != null) {
+        if (userId !is null) {
             eventLogEntry.setUserId(userId);
             putInMapIfNotNull(data, "userId", userId);
         }
 
         // Current tenant
-        if (!data.containsKey(Fields.TENANT_ID) && processDefinitionId != null) {
+        if (!data.containsKey(Fields.TENANT_ID) && processDefinitionId !is null) {
             ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
-            if (processDefinition != null && !ProcessEngineConfigurationImpl.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
+            if (processDefinition !is null && !ProcessEngineConfigurationImpl.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
                 putInMapIfNotNull(data, Fields.TENANT_ID, processDefinition.getTenantId());
             }
         }
@@ -109,7 +109,7 @@ abstract class AbstractDatabaseEventLoggerEventHandler implements EventLoggerEve
     }
 
     public void putInMapIfNotNull(Map<string, Object> map, string key, Object value) {
-        if (value != null) {
+        if (value !is null) {
             map.put(key, value);
         }
     }

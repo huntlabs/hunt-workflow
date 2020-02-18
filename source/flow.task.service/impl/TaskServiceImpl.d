@@ -14,7 +14,7 @@
 
 import java.util.List;
 
-import org.flowable.common.engine.impl.service.CommonServiceImpl;
+import flow.common.service.CommonServiceImpl;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskBuilder;
 import org.flowable.task.api.TaskQuery;
@@ -79,12 +79,12 @@ class TaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration> implem
     }
 
     @Override
-    public void updateTask(TaskEntity taskEntity, boolean fireUpdateEvent) {
+    public void updateTask(TaskEntity taskEntity, bool fireUpdateEvent) {
         getTaskEntityManager().update(taskEntity, fireUpdateEvent);
     }
     
     @Override
-    public void updateAllTaskRelatedEntityCountFlags(boolean configProperty) {
+    public void updateAllTaskRelatedEntityCountFlags(bool configProperty) {
         getTaskEntityManager().updateAllTaskRelatedEntityCountFlags(configProperty);
     }
 
@@ -94,12 +94,12 @@ class TaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration> implem
     }
 
     @Override
-    public void insertTask(TaskEntity taskEntity, boolean fireCreateEvent) {
+    public void insertTask(TaskEntity taskEntity, bool fireCreateEvent) {
         getTaskEntityManager().insert(taskEntity, fireCreateEvent);
     }
 
     @Override
-    public void deleteTask(TaskEntity task, boolean fireEvents) {
+    public void deleteTask(TaskEntity task, bool fireEvents) {
         getTaskEntityManager().delete(task, fireEvents);
     }
     

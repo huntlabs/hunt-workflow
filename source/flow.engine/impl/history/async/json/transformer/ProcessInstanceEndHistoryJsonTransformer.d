@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.history.async.HistoryJsonConstants;
@@ -44,7 +44,7 @@ class ProcessInstanceEndHistoryJsonTransformer extends AbstractNeedsProcessInsta
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         HistoricProcessInstanceEntity historicProcessInstance = historicProcessInstanceEntityManager.findById(processInstanceId);
         
-        if (historicProcessInstance != null) {
+        if (historicProcessInstance !is null) {
             historicProcessInstance.setEndActivityId(getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID));
     
             Date endTime = getDateFromJson(historicalData, HistoryJsonConstants.END_TIME);
@@ -52,7 +52,7 @@ class ProcessInstanceEndHistoryJsonTransformer extends AbstractNeedsProcessInsta
             historicProcessInstance.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
     
             Date startTime = historicProcessInstance.getStartTime();
-            if (startTime != null && endTime != null) {
+            if (startTime !is null && endTime !is null) {
                 historicProcessInstance.setDurationInMillis(endTime.getTime() - startTime.getTime());
             }
     
@@ -67,7 +67,7 @@ class ProcessInstanceEndHistoryJsonTransformer extends AbstractNeedsProcessInsta
             historicProcessInstance.setProcessDefinitionKey(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_KEY));
             historicProcessInstance.setProcessDefinitionName(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_NAME));
             string versionString = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_VERSION);
-            historicProcessInstance.setProcessDefinitionVersion(versionString != null ? Integer.valueOf(versionString) : 0);
+            historicProcessInstance.setProcessDefinitionVersion(versionString !is null ? Integer.valueOf(versionString) : 0);
             historicProcessInstance.setDeploymentId(getStringFromJson(historicalData, HistoryJsonConstants.DEPLOYMENT_ID));
             historicProcessInstance.setStartTime(getDateFromJson(historicalData, HistoryJsonConstants.START_TIME));
             historicProcessInstance.setStartUserId(getStringFromJson(historicalData, HistoryJsonConstants.START_USER_ID));
@@ -90,7 +90,7 @@ class ProcessInstanceEndHistoryJsonTransformer extends AbstractNeedsProcessInsta
             historicProcessInstance.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
     
             Date startTime = historicProcessInstance.getStartTime();
-            if (startTime != null && endTime != null) {
+            if (startTime !is null && endTime !is null) {
                 historicProcessInstance.setDurationInMillis(endTime.getTime() - startTime.getTime());
             }
             

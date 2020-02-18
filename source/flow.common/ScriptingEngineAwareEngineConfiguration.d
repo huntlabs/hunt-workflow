@@ -25,13 +25,13 @@ module flow.common.ScriptingEngineAwareEngineConfiguration;
  
 
 
-import org.flowable.common.engine.impl.scripting.ScriptingEngines;
+import flow.common.scripting.ScriptingEngines;
 
 /**
  * Interface that could be implemented by EngineConfiguration to access ScriptingEngines. with fluent setter
  * @author Dennis
  */
-public interface ScriptingEngineAwareEngineConfiguration {
+interface ScriptingEngineAwareEngineConfiguration {
 
     public ScriptingEngines getScriptingEngines();
 

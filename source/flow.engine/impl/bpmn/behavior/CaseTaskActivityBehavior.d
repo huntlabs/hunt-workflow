@@ -21,7 +21,7 @@ import org.flowable.bpmn.model.CaseServiceTask;
 import org.flowable.bpmn.model.IOParameter;
 import flow.common.api.FlowableException;
 import flow.common.api.constant.ReferenceTypes;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.api.variable.VariableContainer;
 import flow.common.el.ExpressionManager;
@@ -61,7 +61,7 @@ class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements S
         ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
         CaseInstanceService caseInstanceService = processEngineConfiguration.getCaseInstanceService();
         
-        if (caseInstanceService == null) {
+        if (caseInstanceService is null) {
             throw new FlowableException("To use the case service task a CaseInstanceService implementation needs to be available in the process engine configuration");
         }
 
@@ -99,7 +99,7 @@ class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements S
             if (StringUtils.isNotEmpty(inParameter.getTargetExpression())) {
                 Expression expression = expressionManager.createExpression(inParameter.getTargetExpression());
                 Object variableNameValue = expression.getValue(execution);
-                if (variableNameValue != null) {
+                if (variableNameValue !is null) {
                     variableName = variableNameValue.toString();
                 } else {
                     LOGGER.warn("In parameter target expression {} did not resolve to a variable name, this is most likely a programmatic error",

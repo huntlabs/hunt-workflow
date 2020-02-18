@@ -17,8 +17,8 @@ import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import org.flowable.job.api.Job;
@@ -37,7 +37,7 @@ class SetJobRetriesCmd implements Command<Void>, Serializable {
     private final int retries;
 
     public SetJobRetriesCmd(string jobId, int retries) {
-        if (jobId == null || jobId.length() < 1) {
+        if (jobId is null || jobId.length() < 1) {
             throw new FlowableIllegalArgumentException("The job id is mandatory, but '" + jobId + "' has been provided.");
         }
         if (retries < 0) {
@@ -50,12 +50,12 @@ class SetJobRetriesCmd implements Command<Void>, Serializable {
     @Override
     public Void execute(CommandContext commandContext) {
         JobEntity job = CommandContextUtil.getJobEntityManager(commandContext).findById(jobId);
-        if (job != null) {
+        if (job !is null) {
 
             job.setRetries(retries);
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
-            if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+            if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, job));
             }
         } else {

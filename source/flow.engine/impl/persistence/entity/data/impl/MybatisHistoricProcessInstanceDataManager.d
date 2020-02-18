@@ -82,7 +82,7 @@ class MybatisHistoricProcessInstanceDataManager extends AbstractProcessDataManag
         int maxResults = historicProcessInstanceQuery.getMaxResults();
 
         // setting max results, limit to 20000 results for performance reasons
-        if (historicProcessInstanceQuery.getProcessInstanceVariablesLimit() != null) {
+        if (historicProcessInstanceQuery.getProcessInstanceVariablesLimit() !is null) {
             historicProcessInstanceQuery.setMaxResults(historicProcessInstanceQuery.getProcessInstanceVariablesLimit());
         } else {
             historicProcessInstanceQuery.setMaxResults(getProcessEngineConfiguration().getHistoricProcessInstancesQueryLimit());
@@ -92,7 +92,7 @@ class MybatisHistoricProcessInstanceDataManager extends AbstractProcessDataManag
         List<HistoricProcessInstance> instanceList = getDbSqlSession().selectListWithRawParameterNoCacheLoadAndStore(
                         "selectHistoricProcessInstancesWithVariablesByQueryCriteria", historicProcessInstanceQuery, getManagedEntityClass());
 
-        if (instanceList != null && !instanceList.isEmpty()) {
+        if (instanceList !is null && !instanceList.isEmpty()) {
             if (firstResult > 0) {
                 if (firstResult <= instanceList.size()) {
                     int toIndex = firstResult + Math.min(maxResults, instanceList.size() - firstResult);

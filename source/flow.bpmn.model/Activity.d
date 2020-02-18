@@ -21,7 +21,7 @@ import java.util.List;
 public abstract class Activity extends FlowNode {
 
     protected string defaultFlow;
-    protected boolean forCompensation;
+    protected bool forCompensation;
     protected MultiInstanceLoopCharacteristics loopCharacteristics;
     protected IOSpecification ioSpecification;
     protected List<DataAssociation> dataInputAssociations = new ArrayList<>();
@@ -38,11 +38,11 @@ public abstract class Activity extends FlowNode {
         this.failedJobRetryTimeCycleValue = failedJobRetryTimeCycleValue;
     }
 
-    public boolean isForCompensation() {
+    public bool isForCompensation() {
         return forCompensation;
     }
 
-    public void setForCompensation(boolean forCompensation) {
+    public void setForCompensation(bool forCompensation) {
         this.forCompensation = forCompensation;
     }
 
@@ -70,8 +70,8 @@ public abstract class Activity extends FlowNode {
         this.loopCharacteristics = loopCharacteristics;
     }
 
-    public boolean hasMultiInstanceLoopCharacteristics() {
-        return getLoopCharacteristics() != null;
+    public bool hasMultiInstanceLoopCharacteristics() {
+        return getLoopCharacteristics() !is null;
     }
 
     public IOSpecification getIoSpecification() {
@@ -111,22 +111,22 @@ public abstract class Activity extends FlowNode {
         setFailedJobRetryTimeCycleValue(otherActivity.getFailedJobRetryTimeCycleValue());
         setDefaultFlow(otherActivity.getDefaultFlow());
         setForCompensation(otherActivity.isForCompensation());
-        if (otherActivity.getLoopCharacteristics() != null) {
+        if (otherActivity.getLoopCharacteristics() !is null) {
             setLoopCharacteristics(otherActivity.getLoopCharacteristics().clone());
         }
-        if (otherActivity.getIoSpecification() != null) {
+        if (otherActivity.getIoSpecification() !is null) {
             setIoSpecification(otherActivity.getIoSpecification().clone());
         }
 
         dataInputAssociations = new ArrayList<>();
-        if (otherActivity.getDataInputAssociations() != null && !otherActivity.getDataInputAssociations().isEmpty()) {
+        if (otherActivity.getDataInputAssociations() !is null && !otherActivity.getDataInputAssociations().isEmpty()) {
             for (DataAssociation association : otherActivity.getDataInputAssociations()) {
                 dataInputAssociations.add(association.clone());
             }
         }
 
         dataOutputAssociations = new ArrayList<>();
-        if (otherActivity.getDataOutputAssociations() != null && !otherActivity.getDataOutputAssociations().isEmpty()) {
+        if (otherActivity.getDataOutputAssociations() !is null && !otherActivity.getDataOutputAssociations().isEmpty()) {
             for (DataAssociation association : otherActivity.getDataOutputAssociations()) {
                 dataOutputAssociations.add(association.clone());
             }

@@ -61,7 +61,7 @@ abstract class TestHelper {
     public static void assertProcessEnded(ProcessEngine processEngine, string processInstanceId) {
         ProcessInstance processInstance = processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 
-        if (processInstance != null) {
+        if (processInstance !is null) {
             throw new AssertionError("expected finished process instance '" + processInstanceId + "' but it was still in the db");
         }
     }
@@ -87,7 +87,7 @@ abstract class TestHelper {
     public static string annotationDeploymentSetUp(ProcessEngine processEngine, Class<?> testClass, Method method, Deployment deploymentAnnotation) {
         string deploymentId = null;
         string methodName = method.getName();
-        if (deploymentAnnotation != null) {
+        if (deploymentAnnotation !is null) {
             LOGGER.debug("annotation @Deployment creates deployment for {}.{}", testClass.getSimpleName(), methodName);
             string[] resources = deploymentAnnotation.resources();
             if (resources.length == 0) {
@@ -102,7 +102,7 @@ abstract class TestHelper {
                 deploymentBuilder.addClasspathResource(resource);
             }
 
-            if (deploymentAnnotation.tenantId() != null
+            if (deploymentAnnotation.tenantId() !is null
                     && deploymentAnnotation.tenantId().length() > 0) {
                 deploymentBuilder.tenantId(deploymentAnnotation.tenantId());
             }
@@ -115,7 +115,7 @@ abstract class TestHelper {
 
     public static void annotationDeploymentTearDown(ProcessEngine processEngine, string deploymentId, Class<?> testClass, string methodName) {
         LOGGER.debug("annotation @Deployment deletes deployment for {}.{}", testClass.getSimpleName(), methodName);
-        if (deploymentId != null) {
+        if (deploymentId !is null) {
             try {
                 processEngine.getRepositoryService().deleteDeployment(deploymentId, true);
             
@@ -143,7 +143,7 @@ abstract class TestHelper {
 
     protected static void handleMockServiceTaskAnnotation(FlowableMockSupport mockSupport, Method method) {
         MockServiceTask mockedServiceTask = method.getAnnotation(MockServiceTask.class);
-        if (mockedServiceTask != null) {
+        if (mockedServiceTask !is null) {
             handleMockServiceTaskAnnotation(mockSupport, mockedServiceTask);
         }
     }
@@ -167,7 +167,7 @@ abstract class TestHelper {
 
     protected static void handleMockServiceTasksAnnotation(FlowableMockSupport mockSupport, Method method) {
         MockServiceTasks mockedServiceTasks = method.getAnnotation(MockServiceTasks.class);
-        if (mockedServiceTasks != null) {
+        if (mockedServiceTasks !is null) {
             for (MockServiceTask mockedServiceTask : mockedServiceTasks.value()) {
                 handleMockServiceTaskAnnotation(mockSupport, mockedServiceTask);
             }
@@ -176,34 +176,34 @@ abstract class TestHelper {
 
     protected static void handleNoOpServiceTasksAnnotation(FlowableMockSupport mockSupport, Method method) {
         NoOpServiceTasks noOpServiceTasks = method.getAnnotation(NoOpServiceTasks.class);
-        if (noOpServiceTasks != null) {
+        if (noOpServiceTasks !is null) {
             handleNoOpServiceTasksAnnotation(mockSupport, noOpServiceTasks);
         }
     }
 
     public static void handleNoOpServiceTasksAnnotation(FlowableMockSupport mockSupport, NoOpServiceTasks noOpServiceTasks) {
-        if (noOpServiceTasks != null) {
+        if (noOpServiceTasks !is null) {
             string[] ids = noOpServiceTasks.ids();
             Class<?>[] classes = noOpServiceTasks.classes();
             string[] classNames = noOpServiceTasks.classNames();
 
-            if ((ids == null || ids.length == 0) && (classes == null || classes.length == 0) && (classNames == null || classNames.length == 0)) {
+            if ((ids is null || ids.length == 0) && (classes is null || classes.length == 0) && (classNames is null || classNames.length == 0)) {
                 mockSupport.setAllServiceTasksNoOp();
             } else {
 
-                if (ids != null && ids.length > 0) {
+                if (ids !is null && ids.length > 0) {
                     for (string id : ids) {
                         mockSupport.addNoOpServiceTaskById(id);
                     }
                 }
 
-                if (classes != null && classes.length > 0) {
+                if (classes !is null && classes.length > 0) {
                     for (Class<?> clazz : classes) {
                         mockSupport.addNoOpServiceTaskByClassName(clazz.getName());
                     }
                 }
 
-                if (classNames != null && classNames.length > 0) {
+                if (classNames !is null && classNames.length > 0) {
                     for (string className : classNames) {
                         mockSupport.addNoOpServiceTaskByClassName(className);
                     }
@@ -225,7 +225,7 @@ abstract class TestHelper {
         for (string suffix : ResourceNameUtil.BPMN_RESOURCE_SUFFIXES) {
             string resource = type.getName().replace('.', '/') + "." + name + "." + suffix;
             InputStream inputStream = ReflectUtil.getResourceAsStream(resource);
-            if (inputStream == null) {
+            if (inputStream is null) {
                 continue;
             } else {
                 return resource;
@@ -239,7 +239,7 @@ abstract class TestHelper {
 
     public static ProcessEngine getProcessEngine(string configurationResource) {
         ProcessEngine processEngine = processEngines.get(configurationResource);
-        if (processEngine == null) {
+        if (processEngine is null) {
             LOGGER.debug("==== BUILDING PROCESS ENGINE ========================================================================");
             processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(configurationResource).buildProcessEngine();
             LOGGER.debug("==== PROCESS ENGINE CREATED =========================================================================");

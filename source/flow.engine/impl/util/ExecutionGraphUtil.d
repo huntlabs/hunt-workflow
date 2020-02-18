@@ -41,7 +41,7 @@ class ExecutionGraphUtil {
         // Root elements
         HashSet<string> previousIds = new HashSet<>();
         for (ExecutionEntity execution : executions) {
-            if (execution.getParentId() == null) {
+            if (execution.getParentId() is null) {
                 orderedList.add(execution);
                 previousIds.add(execution.getId());
             }
@@ -90,10 +90,10 @@ class ExecutionGraphUtil {
             targetElement = (FlowNode) ((SequenceFlow) targetFlowElement).getTargetFlowElement();
         }
 
-        if (sourceElement == null) {
+        if (sourceElement is null) {
             throw new FlowableException("Invalid sourceElementId '" + sourceElementId + "': no element found for this id n process definition '" + processDefinitionId + "'");
         }
-        if (targetElement == null) {
+        if (targetElement is null) {
             throw new FlowableException("Invalid targetElementId '" + targetElementId + "': no element found for this id n process definition '" + processDefinitionId + "'");
         }
 
@@ -131,11 +131,11 @@ class ExecutionGraphUtil {
         visitedElements.add(sourceElement.getId());
 
         List<SequenceFlow> sequenceFlows = sourceElement.getOutgoingFlows();
-        if (sequenceFlows != null && sequenceFlows.size() > 0) {
+        if (sequenceFlows !is null && sequenceFlows.size() > 0) {
             for (SequenceFlow sequenceFlow : sequenceFlows) {
                 string targetRef = sequenceFlow.getTargetRef();
                 FlowNode sequenceFlowTarget = (FlowNode) process.getFlowElement(targetRef, true);
-                if (sequenceFlowTarget != null && !visitedElements.contains(sequenceFlowTarget.getId())) {
+                if (sequenceFlowTarget !is null && !visitedElements.contains(sequenceFlowTarget.getId())) {
                     bool reachable = isReachable(process, sequenceFlowTarget, targetElement, visitedElements);
 
                     if (reachable) {
@@ -150,7 +150,7 @@ class ExecutionGraphUtil {
 
     protected static bool isInEventSubprocess(FlowNode flowNode) {
         FlowElementsContainer flowElementsContainer = flowNode.getParentContainer();
-        while (flowElementsContainer != null) {
+        while (flowElementsContainer !is null) {
             if (flowElementsContainer instanceof EventSubProcess) {
                 return true;
             }

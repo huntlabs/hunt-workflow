@@ -23,7 +23,7 @@ module flow.engine.delegate.event.impl.FlowableProcessTerminatedEventImpl;
 
 
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.delegate.event.FlowableProcessTerminatedEvent;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 

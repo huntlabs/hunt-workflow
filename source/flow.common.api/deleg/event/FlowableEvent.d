@@ -16,12 +16,22 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.event.FlowableEngineEntityEvent;
+module flow.common.api.deleg.event.FlowableEvent;
  
  
- 
+import flow.common.api.deleg.event.FlowableEventType;
 
+/**
+ * Describes an event that occurred in the Flowable Engine which is dispatched to external listeners, if any.
+ * 
+ * @author Frederik Heremans
+ * 
+ */
+interface FlowableEvent {
 
-interface FlowableEngineEntityEvent : FlowableEntityEvent, FlowableEngineEvent {
+    /**
+     * @return type of event.
+     */
+    FlowableEventType getType();
 
 }

@@ -17,8 +17,8 @@ import java.io.InputStream;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.identity.Authentication;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -63,15 +63,15 @@ class CreateAttachmentCmd implements Command<Attachment> {
     @Override
     public Attachment execute(CommandContext commandContext) {
 
-        if (taskId != null) {
+        if (taskId !is null) {
             TaskEntity task = verifyTaskParameters(commandContext);
-            if (task.getProcessDefinitionId() != null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+            if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
                 Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
                 return compatibilityHandler.createAttachment(attachmentType, taskId, processInstanceId, attachmentName, attachmentDescription, content, url);
             }
         }
 
-        if (processInstanceId != null) {
+        if (processInstanceId !is null) {
             ExecutionEntity execution = verifyExecutionParameters(commandContext);
             if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
                 Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
@@ -91,7 +91,7 @@ class CreateAttachmentCmd implements Command<Attachment> {
 
         CommandContextUtil.getAttachmentEntityManager().insert(attachment, false);
 
-        if (content != null) {
+        if (content !is null) {
             byte[] bytes = IoUtil.readInputStream(content, attachmentName);
             ByteArrayEntity byteArray = CommandContextUtil.getByteArrayEntityManager().create();
             byteArray.setBytes(bytes);
@@ -101,25 +101,25 @@ class CreateAttachmentCmd implements Command<Attachment> {
         }
 
         ExecutionEntity processInstance = null;
-        if (processInstanceId != null) {
+        if (processInstanceId !is null) {
             processInstance = CommandContextUtil.getExecutionEntityManager().findById(processInstanceId);
         }
         
         TaskEntity task = null;
-        if (taskId != null) {
+        if (taskId !is null) {
             task = CommandContextUtil.getTaskService().getTask(taskId);
         }
         
         CommandContextUtil.getHistoryManager(commandContext).createAttachmentComment(task, processInstance, attachmentName, true);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             // Forced to fetch the process-instance to associate the right
             // process definition
             string processDefinitionId = null;
-            if (attachment.getProcessInstanceId() != null) {
+            if (attachment.getProcessInstanceId() !is null) {
                 ExecutionEntity process = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
-                if (process != null) {
+                if (process !is null) {
                     processDefinitionId = process.getProcessDefinitionId();
                 }
             }
@@ -136,7 +136,7 @@ class CreateAttachmentCmd implements Command<Attachment> {
     protected TaskEntity verifyTaskParameters(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("Cannot find task with id " + taskId, Task.class);
         }
 
@@ -150,7 +150,7 @@ class CreateAttachmentCmd implements Command<Attachment> {
     protected ExecutionEntity verifyExecutionParameters(CommandContext commandContext) {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
 
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("Process instance " + processInstanceId + " doesn't exist", ProcessInstance.class);
         }
 

@@ -58,7 +58,7 @@ class AsyncHistoryJobHandler extends AbstractAsyncHistoryJobHandler {
         }
 
         List<HistoryJsonTransformer> transformers = historyJsonTransformers.get(type);
-        if (transformers != null && !transformers.isEmpty()) {
+        if (transformers !is null && !transformers.isEmpty()) {
             executeHistoryTransformers(commandContext, job, historicalJsonData, transformers);
         } else {
             handleNoMatchingHistoryTransformer(commandContext, job, historicalJsonData, type);
@@ -82,7 +82,7 @@ class AsyncHistoryJobHandler extends AbstractAsyncHistoryJobHandler {
     }
 
     protected void handleNoMatchingHistoryTransformer(CommandContext commandContext, HistoryJobEntity job, ObjectNode historicalData, string type) {
-        if (defaultHistoryJsonTransformer != null) {
+        if (defaultHistoryJsonTransformer !is null) {
             if (defaultHistoryJsonTransformer.isApplicable(historicalData, commandContext)) {
                 defaultHistoryJsonTransformer.transformJson(job, historicalData, commandContext);
             } else {

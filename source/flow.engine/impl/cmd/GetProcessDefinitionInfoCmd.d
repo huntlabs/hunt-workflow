@@ -41,7 +41,7 @@ class GetProcessDefinitionInfoCmd implements Command<ObjectNode>, Serializable {
 
     @Override
     public ObjectNode execute(CommandContext commandContext) {
-        if (processDefinitionId == null) {
+        if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("process definition id is null");
         }
 
@@ -55,7 +55,7 @@ class GetProcessDefinitionInfoCmd implements Command<ObjectNode>, Serializable {
         }
 
         ProcessDefinitionInfoCacheObject definitionInfoCacheObject = deploymentManager.getProcessDefinitionInfoCache().get(processDefinitionId);
-        if (definitionInfoCacheObject != null) {
+        if (definitionInfoCacheObject !is null) {
             resultNode = definitionInfoCacheObject.getInfoNode();
         }
 

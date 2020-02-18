@@ -65,7 +65,7 @@ class DebugContinueProcessOperation extends ContinueProcessOperation {
         brokenJob.setJobHandlerType(HANDLER_TYPE_BREAK_POINT);
 
         // Inherit tenant id (if applicable)
-        if (execution.getTenantId() != null) {
+        if (execution.getTenantId() !is null) {
             brokenJob.setTenantId(execution.getTenantId());
         }
 

@@ -15,8 +15,8 @@
 
 import java.io.Serializable;
 
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
@@ -45,9 +45,9 @@ class SaveAttachmentCmd implements Command<Object>, Serializable {
 
         string processInstanceId = updateAttachment.getProcessInstanceId();
         string processDefinitionId = null;
-        if (updateAttachment.getProcessInstanceId() != null) {
+        if (updateAttachment.getProcessInstanceId() !is null) {
             ExecutionEntity process = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
-            if (process != null) {
+            if (process !is null) {
                 processDefinitionId = process.getProcessDefinitionId();
                 if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, process.getProcessDefinitionId())) {
                     Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
@@ -61,7 +61,7 @@ class SaveAttachmentCmd implements Command<Object>, Serializable {
         updateAttachment.setDescription(attachment.getDescription());
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
-        if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+        if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
                     .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, attachment, processInstanceId, processInstanceId, processDefinitionId));
         }

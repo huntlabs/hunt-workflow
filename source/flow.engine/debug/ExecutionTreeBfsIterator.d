@@ -51,7 +51,7 @@
 //                flattenedList.add(currentNode);
 //            }
 //
-//            if (currentNode.getChildren() != null && currentNode.getChildren().size() > 0) {
+//            if (currentNode.getChildren() !is null && currentNode.getChildren().size() > 0) {
 //                nodesToHandle.addAll(currentNode.getChildren());
 //            }
 //        }
@@ -61,7 +61,7 @@
 //
 //    @Override
 //    public bool hasNext() {
-//        if (flattenedList == null) {
+//        if (flattenedList is null) {
 //            flattenTree();
 //        }
 //        return flattenedListIterator.hasNext();
@@ -69,7 +69,7 @@
 //
 //    @Override
 //    public ExecutionTreeNode next() {
-//        if (flattenedList == null) {
+//        if (flattenedList is null) {
 //            flattenTree();
 //        }
 //        return flattenedListIterator.next();
@@ -77,7 +77,7 @@
 //
 //    @Override
 //    public void remove() {
-//        if (flattenedList == null) {
+//        if (flattenedList is null) {
 //            flattenTree();
 //        }
 //        flattenedListIterator.remove();

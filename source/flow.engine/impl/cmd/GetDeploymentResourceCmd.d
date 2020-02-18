@@ -40,16 +40,16 @@ class GetDeploymentResourceCmd implements Command<InputStream>, Serializable {
 
     @Override
     public InputStream execute(CommandContext commandContext) {
-        if (deploymentId == null) {
+        if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");
         }
-        if (resourceName == null) {
+        if (resourceName is null) {
             throw new FlowableIllegalArgumentException("resourceName is null");
         }
 
         ResourceEntity resource = CommandContextUtil.getResourceEntityManager().findResourceByDeploymentIdAndResourceName(deploymentId, resourceName);
-        if (resource == null) {
-            if (CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId) == null) {
+        if (resource is null) {
+            if (CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId) is null) {
                 throw new FlowableObjectNotFoundException("deployment does not exist: " + deploymentId, Deployment.class);
             } else {
                 throw new FlowableObjectNotFoundException("no resource found with name '" + resourceName + "' in deployment '" + deploymentId + "'", InputStream.class);

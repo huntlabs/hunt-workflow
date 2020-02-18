@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.common.engine.api.query.NativeQuery;
+import flow.common.api.query.NativeQuery;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 
@@ -21,6 +21,6 @@ import org.flowable.task.api.history.HistoricTaskInstanceQuery;
  * 
  * @author Bernd Ruecker (camunda)
  */
-public interface NativeHistoricTaskInstanceQuery extends NativeQuery<NativeHistoricTaskInstanceQuery, HistoricTaskInstance> {
+interface NativeHistoricTaskInstanceQuery extends NativeQuery<NativeHistoricTaskInstanceQuery, HistoricTaskInstance> {
 
 }

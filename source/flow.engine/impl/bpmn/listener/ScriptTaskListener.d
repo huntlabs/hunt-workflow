@@ -16,7 +16,7 @@
 import flow.engine.delegate.TaskListener;
 import flow.engine.impl.util.CommandContextUtil;
 import org.flowable.task.service.delegate.DelegateTask;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.scripting.ScriptingEngines;
 
 /**
@@ -42,17 +42,17 @@ class ScriptTaskListener implements TaskListener {
         ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
         Object result = scriptingEngines.evaluate(script.getExpressionText(), language.getExpressionText(), delegateTask, autoStoreVariables);
 
-        if (resultVariable != null) {
+        if (resultVariable !is null) {
             delegateTask.setVariable(resultVariable.getExpressionText(), result);
         }
     }
 
     protected void validateParameters() {
-        if (script == null) {
+        if (script is null) {
             throw new IllegalArgumentException("The field 'script' should be set on the TaskListener");
         }
 
-        if (language == null) {
+        if (language is null) {
             throw new IllegalArgumentException("The field 'language' should be set on the TaskListener");
         }
     }

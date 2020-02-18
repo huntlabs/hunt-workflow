@@ -14,7 +14,7 @@
 
 
 import org.flowable.bpmn.model.ConditionalEventDefinition;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.DelegateExecution;
@@ -44,7 +44,7 @@ class EventSubProcessConditionalStartEventActivityBehavior extends FlowNodeActiv
         
         Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
-        if (result != null && result instanceof bool && (bool) result) {
+        if (result !is null && result instanceof bool && (bool) result) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart((ExecutionEntity) execution);
             super.trigger(execution, signalName, signalData);
         }

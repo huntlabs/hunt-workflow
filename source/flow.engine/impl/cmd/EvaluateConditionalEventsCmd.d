@@ -47,11 +47,11 @@ class EvaluateConditionalEventsCmd extends NeedsActiveExecutionCmd<Object> {
             throw new FlowableException("Execution is not of type process instance");
         }
         
-        if (processVariables != null) {
+        if (processVariables !is null) {
             execution.setVariables(processVariables);
         }
 
-        if (transientVariables != null) {
+        if (transientVariables !is null) {
             execution.setTransientVariables(transientVariables);
         }
 

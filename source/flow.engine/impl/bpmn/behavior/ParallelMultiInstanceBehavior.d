@@ -117,7 +117,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
         int nrOfActiveInstances = getLoopVariable(execution, NUMBER_OF_ACTIVE_INSTANCES) - 1;
         
         DelegateExecution miRootExecution = getMultiInstanceRootExecution(execution);
-        if (miRootExecution != null) { // will be null in case of empty collection
+        if (miRootExecution !is null) { // will be null in case of empty collection
             setLoopVariable(miRootExecution, NUMBER_OF_COMPLETED_INSTANCES, nrOfCompletedInstances);
             setLoopVariable(miRootExecution, NUMBER_OF_ACTIVE_INSTANCES, nrOfActiveInstances);
         }
@@ -132,7 +132,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
         }
 
         ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        if (executionEntity.getParent() != null) {
+        if (executionEntity.getParent() !is null) {
 
             executionEntity.inactivate();
             lockFirstParentScope(executionEntity);
@@ -161,7 +161,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
                         }
                         
                         List<DelegateExecution> childExecutions = (List<DelegateExecution>) childExecution.getExecutions();
-                        if (childExecutions != null && !childExecutions.isEmpty()) {
+                        if (childExecutions !is null && !childExecutions.isEmpty()) {
                             toVerify.addAll(childExecutions);
                         }
                     }
@@ -212,12 +212,12 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
     protected void verifyCallActivity(ExecutionEntity executionToUse, Activity activity) {
         if (activity instanceof CallActivity) {
             ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
-            if (executionToUse != null) {
+            if (executionToUse !is null) {
                 List<string> callActivityExecutionIds = new ArrayList<>();
 
                 // Find all execution entities that are at the call activity
                 List<ExecutionEntity> childExecutions = executionEntityManager.collectChildren(executionToUse);
-                if (childExecutions != null) {
+                if (childExecutions !is null) {
                     for (ExecutionEntity childExecution : childExecutions) {
                         if (activity.getId().equals(childExecution.getCurrentActivityId())) {
                             callActivityExecutionIds.add(childExecution.getId());
@@ -248,9 +248,9 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
         bool found = false;
         ExecutionEntity parentScopeExecution = null;
         ExecutionEntity currentExecution = (ExecutionEntity) execution;
-        while (!found && currentExecution != null && currentExecution.getParentId() != null) {
+        while (!found && currentExecution !is null && currentExecution.getParentId() !is null) {
             parentScopeExecution = executionEntityManager.findById(currentExecution.getParentId());
-            if (parentScopeExecution != null && parentScopeExecution.isScope()) {
+            if (parentScopeExecution !is null && parentScopeExecution.isScope()) {
                 found = true;
             }
             currentExecution = parentScopeExecution;

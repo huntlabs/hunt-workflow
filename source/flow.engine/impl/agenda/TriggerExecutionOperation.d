@@ -75,7 +75,7 @@ class TriggerExecutionOperation extends AbstractOperation {
                     job.setJobHandlerType(AsyncTriggerJobHandler.TYPE);
                     
                     // Inherit tenant id (if applicable)
-                    if(execution.getTenantId() != null) {
+                    if(execution.getTenantId() !is null) {
                         job.setTenantId(execution.getTenantId());
                     }
 
@@ -91,7 +91,7 @@ class TriggerExecutionOperation extends AbstractOperation {
 
             }
 
-        } else if (currentFlowElement == null) {
+        } else if (currentFlowElement is null) {
             throw new FlowableException("Cannot trigger execution with id " + execution.getId()
                     + " : no current flow element found. Check the execution id that is being passed "
                     + "(it should not be a process instance execution, but a child execution currently referencing a flow element).");

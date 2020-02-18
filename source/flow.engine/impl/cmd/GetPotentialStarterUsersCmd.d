@@ -44,7 +44,7 @@ class GetPotentialStarterUsersCmd implements Command<List<User>>, Serializable {
     public List<User> execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
-        if (processDefinition == null) {
+        if (processDefinition is null) {
             throw new FlowableObjectNotFoundException("Cannot find process definition with id " + processDefinitionId, ProcessDefinition.class);
         }
 
@@ -53,7 +53,7 @@ class GetPotentialStarterUsersCmd implements Command<List<User>>, Serializable {
         List<string> userIds = new ArrayList<>();
         List<IdentityLink> identityLinks = (List) processDefinition.getIdentityLinks();
         for (IdentityLink identityLink : identityLinks) {
-            if (identityLink.getUserId() != null && identityLink.getUserId().length() > 0) {
+            if (identityLink.getUserId() !is null && identityLink.getUserId().length() > 0) {
 
                 if (!userIds.contains(identityLink.getUserId())) {
                     userIds.add(identityLink.getUserId());

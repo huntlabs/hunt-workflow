@@ -89,7 +89,7 @@ abstract class FlowableTestCase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        if (processEngine == null) {
+        if (processEngine is null) {
             initializeProcessEngine();
         }
         
@@ -158,7 +158,7 @@ abstract class FlowableTestCase extends TestCase {
         processEngineConfiguration.getClock().reset();
 
         // Reset any mocks
-        if (mockSupport != null) {
+        if (mockSupport !is null) {
             mockSupport.reset();
         }
 

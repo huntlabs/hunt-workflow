@@ -22,12 +22,12 @@ module flow.common.HasExpressionManagerEngineConfiguration;
 
 
 
-import org.flowable.common.engine.impl.el.ExpressionManager;
+import flow.common.el.ExpressionManager;
 
 /**
  * author martin.grofcik
  */
-public interface HasExpressionManagerEngineConfiguration {
+interface HasExpressionManagerEngineConfiguration {
 
     ExpressionManager getExpressionManager();
 

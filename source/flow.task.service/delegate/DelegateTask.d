@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
-import org.flowable.common.engine.api.FlowableObjectNotFoundException;
+import flow.common.api.FlowableObjectNotFoundException;
 import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.identitylink.api.IdentityLinkType;
 import org.flowable.task.api.DelegationState;
@@ -34,7 +34,7 @@ import org.flowable.variable.api.delegate.VariableScope;
 /**
  * @author Joram Barrez
  */
-public interface DelegateTask : VariableScope {
+interface DelegateTask : VariableScope {
 
     /** DB id of the task. */
     string getId();
@@ -87,7 +87,7 @@ public interface DelegateTask : VariableScope {
     string getTaskDefinitionKey();
 
     /** Indicated whether this task is suspended or not. */
-    boolean isSuspended();
+    bool isSuspended();
 
     /** The tenant identifier of this task */
     @Override

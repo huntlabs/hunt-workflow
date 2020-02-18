@@ -39,7 +39,7 @@ class GetTasksLocalVariablesCmd implements Command<List<VariableInstance>>, Seri
 
     @Override
     public List<VariableInstance> execute(CommandContext commandContext) {
-        if (taskIds == null) {
+        if (taskIds is null) {
             throw new FlowableIllegalArgumentException("taskIds is null");
         }
         if (taskIds.isEmpty()) {

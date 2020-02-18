@@ -14,8 +14,8 @@
 
 import org.flowable.bpmn.model.FlowElement;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.event.FlowableEngineEventType;
-import flow.common.api.delegate.event.FlowableEventDispatcher;
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
 import flow.engine.delegate.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cmd.StartProcessInstanceCmd;
@@ -45,7 +45,7 @@ class TimerStartEventJobHandler extends TimerEventHandler implements JobHandler 
 
         ProcessDefinitionEntity processDefinitionEntity = ProcessDefinitionUtil
                 .getProcessDefinitionFromDatabase(job.getProcessDefinitionId()); // From DB -> need to get latest suspended state
-        if (processDefinitionEntity == null) {
+        if (processDefinitionEntity is null) {
             throw new FlowableException("Could not find process definition needed for timer start event");
         }
 
@@ -53,16 +53,16 @@ class TimerStartEventJobHandler extends TimerEventHandler implements JobHandler 
             if (!processDefinitionEntity.isSuspended()) {
 
                 FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
-                if (eventDispatcher != null && eventDispatcher.isEnabled()) {
+                if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_FIRED, job));
                 }
 
                 // Find initial flow element matching the signal start event
                 org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(job.getProcessDefinitionId());
                 string activityId = TimerEventHandler.getActivityIdFromConfiguration(configuration);
-                if (activityId != null) {
+                if (activityId !is null) {
                     FlowElement flowElement = process.getFlowElement(activityId, true);
-                    if (flowElement == null) {
+                    if (flowElement is null) {
                         throw new FlowableException("Could not find matching FlowElement for activityId " + activityId);
                     }
                     ProcessInstanceHelper processInstanceHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceHelper();

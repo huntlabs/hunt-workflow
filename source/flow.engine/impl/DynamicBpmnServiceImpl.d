@@ -271,7 +271,7 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
                 valuesNode = (ArrayNode) infoNode.get(BPMN_NODE).get(id).get(USER_TASK_CANDIDATE_USERS);
             }
 
-            if (valuesNode == null || valuesNode.isNull()) {
+            if (valuesNode is null || valuesNode.isNull()) {
                 valuesNode = configuration.getObjectMapper().createArrayNode();
             }
         }
@@ -297,7 +297,7 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
                 valuesNode = (ArrayNode) infoNode.get(BPMN_NODE).get(id).get(USER_TASK_CANDIDATE_GROUPS);
             }
 
-            if (valuesNode == null || valuesNode.isNull()) {
+            if (valuesNode is null || valuesNode.isNull()) {
                 valuesNode = configuration.getObjectMapper().createArrayNode();
             }
         }
@@ -390,7 +390,7 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     public ObjectNode getBpmnElementProperties(string id, ObjectNode infoNode) {
         ObjectNode propertiesNode = null;
         ObjectNode bpmnNode = getBpmnNode(infoNode);
-        if (bpmnNode != null) {
+        if (bpmnNode !is null) {
             propertiesNode = (ObjectNode) bpmnNode.get(id);
         }
         return propertiesNode;
@@ -424,9 +424,9 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     public ObjectNode getLocalizationElementProperties(string language, string id, ObjectNode infoNode) {
         ObjectNode propertiesNode = null;
         ObjectNode localizationNode = getLocalizationNode(infoNode);
-        if (localizationNode != null) {
+        if (localizationNode !is null) {
             JsonNode languageNode = localizationNode.get(language);
-            if (languageNode != null) {
+            if (languageNode !is null) {
                 propertiesNode = (ObjectNode) languageNode.get(id);
             }
         }
@@ -435,7 +435,7 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
 
     protected bool doesElementPropertyExist(string id, string propertyName, ObjectNode infoNode) {
         bool exists = false;
-        if (infoNode.get(BPMN_NODE) != null && infoNode.get(BPMN_NODE).get(id) != null && infoNode.get(BPMN_NODE).get(id).get(propertyName) != null) {
+        if (infoNode.get(BPMN_NODE) !is null && infoNode.get(BPMN_NODE).get(id) !is null && infoNode.get(BPMN_NODE).get(id).get(propertyName) !is null) {
             JsonNode propNode = infoNode.get(BPMN_NODE).get(id).get(propertyName);
             if (!propNode.isNull()) {
                 exists = true;
@@ -459,12 +459,12 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
         BpmnModel bpmnModel = commandExecutor.execute(new GetBpmnModelCmd(processDefinitionId));
 
         // aggressive exception. this method should not be called if the process definition does not exists.
-        if (bpmnModel == null) {
+        if (bpmnModel is null) {
             throw new FlowableException("ProcessDefinition " + processDefinitionId + " does not exists");
         }
 
         // to avoid redundant null checks we create an new node
-        if (infoNode == null) {
+        if (infoNode is null) {
             infoNode = configuration.getObjectMapper().createObjectNode();
             createOrGetBpmnNode(infoNode);
         }

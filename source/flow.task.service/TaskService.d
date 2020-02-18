@@ -34,7 +34,7 @@ import java.util.List;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-public interface TaskService {
+interface TaskService {
 
     TaskEntity getTask(string id);
     
@@ -54,17 +54,17 @@ public interface TaskService {
     
     void updateTaskTenantIdForDeployment(string deploymentId, string tenantId);
     
-    void updateTask(TaskEntity taskEntity, boolean fireUpdateEvent);
+    void updateTask(TaskEntity taskEntity, bool fireUpdateEvent);
     
-    void updateAllTaskRelatedEntityCountFlags(boolean configProperty);
+    void updateAllTaskRelatedEntityCountFlags(bool configProperty);
     
     TaskEntity createTask();
     
     TaskEntity createTask(TaskBuilder taskBuilder);
     
-    void insertTask(TaskEntity taskEntity, boolean fireCreateEvent);
+    void insertTask(TaskEntity taskEntity, bool fireCreateEvent);
     
-    void deleteTask(TaskEntity task, boolean fireEvents);
+    void deleteTask(TaskEntity task, bool fireEvents);
     
     void deleteTasksByExecutionId(string executionId);
 }

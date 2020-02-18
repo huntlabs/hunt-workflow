@@ -22,7 +22,7 @@ module flow.engine.delegate.event.FlowableProcessTerminatedEvent;
  
  
 
-import flow.common.api.delegate.event.FlowableEntityEvent;
+import flow.common.api.deleg.event.FlowableEntityEvent;
 
 /**
  * Event extends default {@link FlowableEntityEvent} with the cause of termination

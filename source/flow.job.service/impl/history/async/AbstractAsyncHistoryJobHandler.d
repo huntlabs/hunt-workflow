@@ -43,7 +43,7 @@ public abstract class AbstractAsyncHistoryJobHandler implements HistoryJobHandle
     @Override
     public void execute(HistoryJobEntity job, string configuration, CommandContext commandContext) {
         ObjectMapper objectMapper = CommandContextUtil.getJobServiceConfiguration(commandContext).getObjectMapper();
-        if (job.getAdvancedJobHandlerConfigurationByteArrayRef() != null) {
+        if (job.getAdvancedJobHandlerConfigurationByteArrayRef() !is null) {
             try {
 
                 byte[] bytes = getJobBytes(job);

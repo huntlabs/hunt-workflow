@@ -58,16 +58,16 @@ class GetTaskDataObjectCmd implements Command<DataObject>, Serializable {
 
     @Override
     public DataObject execute(CommandContext commandContext) {
-        if (taskId == null) {
+        if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
-        if (variableName == null) {
+        if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
 
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
-        if (task == null) {
+        if (task is null) {
             throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
         }
 
@@ -77,7 +77,7 @@ class GetTaskDataObjectCmd implements Command<DataObject>, Serializable {
         string localizedName = null;
         string localizedDescription = null;
 
-        if (variableEntity != null) {
+        if (variableEntity !is null) {
             ExecutionEntity executionEntity = CommandContextUtil.getExecutionEntityManager(commandContext).findById(variableEntity.getExecutionId());
             while (!executionEntity.isScope()) {
                 executionEntity = executionEntity.getParent();
@@ -85,7 +85,7 @@ class GetTaskDataObjectCmd implements Command<DataObject>, Serializable {
 
             BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(executionEntity.getProcessDefinitionId());
             ValuedDataObject foundDataObject = null;
-            if (executionEntity.getParentId() == null) {
+            if (executionEntity.getParentId() is null) {
                 for (ValuedDataObject dataObjectDefinition : bpmnModel.getMainProcess().getDataObjects()) {
                     if (dataObjectDefinition.getName().equals(variableEntity.getName())) {
                         foundDataObject = dataObjectDefinition;
@@ -102,23 +102,23 @@ class GetTaskDataObjectCmd implements Command<DataObject>, Serializable {
                 }
             }
 
-            if (locale != null && foundDataObject != null) {
+            if (locale !is null && foundDataObject !is null) {
                 ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, foundDataObject.getId(),
                         task.getProcessDefinitionId(), withLocalizationFallback);
 
-                if (languageNode != null) {
+                if (languageNode !is null) {
                     JsonNode nameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                    if (nameNode != null) {
+                    if (nameNode !is null) {
                         localizedName = nameNode.asText();
                     }
                     JsonNode descriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                    if (descriptionNode != null) {
+                    if (descriptionNode !is null) {
                         localizedDescription = descriptionNode.asText();
                     }
                 }
             }
 
-            if (foundDataObject != null) {
+            if (foundDataObject !is null) {
                 dataObject = new DataObjectImpl(variableEntity.getId(), variableEntity.getProcessInstanceId(),
                         variableEntity.getExecutionId(),
                         variableEntity.getName(), variableEntity.getValue(), foundDataObject.getDocumentation(),

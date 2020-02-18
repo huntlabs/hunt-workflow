@@ -34,10 +34,10 @@ class SaveModelCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (model == null) {
+        if (model is null) {
             throw new FlowableIllegalArgumentException("model is null");
         }
-        if (model.getId() == null) {
+        if (model.getId() is null) {
             CommandContextUtil.getModelEntityManager(commandContext).insert(model);
         } else {
             CommandContextUtil.getModelEntityManager(commandContext).updateModel(model);

@@ -67,7 +67,7 @@ class WSOperation implements OperationImplementation {
 
         results = this.service.getClient().send(this.name, arguments, overridenEndpointAddresses);
 
-        if (results == null) {
+        if (results is null) {
             results = new Object[] {};
         }
         return results;
@@ -76,7 +76,7 @@ class WSOperation implements OperationImplementation {
     private MessageInstance createResponseMessage(Object[] results, Operation operation) {
         MessageInstance message = null;
         MessageDefinition outMessage = operation.getOutMessage();
-        if (outMessage != null) {
+        if (outMessage !is null) {
             message = outMessage.createInstance();
             message.getStructureInstance().loadFrom(results);
         }

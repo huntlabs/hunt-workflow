@@ -157,7 +157,7 @@ class IdentityServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigura
     
     protected IdmIdentityService getIdmIdentityService() {
         IdmIdentityService idmIdentityService = EngineServiceUtil.getIdmIdentityService(configuration);
-        if (idmIdentityService == null) {
+        if (idmIdentityService is null) {
             throw new FlowableException("Trying to use idm identity service when it is not initialized");
         }
         return idmIdentityService;

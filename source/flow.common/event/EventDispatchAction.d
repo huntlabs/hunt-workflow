@@ -16,30 +16,17 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.api.delegate.event.AbstractFlowableEventListener;
+module flow.common.event.EventDispatchAction;
  
  
- 
+import flow.common.event.FlowableEventSupport;
 
-/**
- * @author Joram Barrez
- */
- class AbstractFlowableEventListener : FlowableEventListener {
 
-    protected string onTransaction;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.interceptor.CommandContext;
+
+interface EventDispatchAction {
     
-    @Override
-    public bool isFireOnTransactionLifecycleEvent() {
-        return onTransaction != null;
-    }
-
-    @Override
-    public string getOnTransaction() {
-        return onTransaction;
-    }
-
-    public void setOnTransaction(string onTransaction) {
-        this.onTransaction = onTransaction;
-    }
+    void dispatchEvent(CommandContext commandContext, FlowableEventSupport eventSupport, FlowableEvent event); 
 
 }

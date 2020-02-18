@@ -50,7 +50,7 @@ class HistoricDetailVariableInstanceUpdateEntityImpl extends HistoricDetailEntit
 
     @Override
     public Object getValue() {
-        if (!variableType.isCachable() || cachedValue == null) {
+        if (!variableType.isCachable() || cachedValue is null) {
             cachedValue = variableType.getValue(this);
         }
         return cachedValue;
@@ -58,7 +58,7 @@ class HistoricDetailVariableInstanceUpdateEntityImpl extends HistoricDetailEntit
 
     @Override
     public string getVariableTypeName() {
-        return (variableType != null ? variableType.getTypeName() : null);
+        return (variableType !is null ? variableType.getTypeName() : null);
     }
 
     @Override
@@ -70,7 +70,7 @@ class HistoricDetailVariableInstanceUpdateEntityImpl extends HistoricDetailEntit
 
     @Override
     public byte[] getBytes() {
-        if (byteArrayRef != null) {
+        if (byteArrayRef !is null) {
             return byteArrayRef.getBytes();
         }
         return null;
@@ -84,7 +84,7 @@ class HistoricDetailVariableInstanceUpdateEntityImpl extends HistoricDetailEntit
     @Override
     public void setBytes(byte[] bytes) {
         string byteArrayName = "hist.detail.var-" + name;
-        if (byteArrayRef == null) {
+        if (byteArrayRef is null) {
             byteArrayRef = new ByteArrayRef();
         }
         byteArrayRef.setValue(byteArrayName, bytes);
@@ -185,20 +185,20 @@ class HistoricDetailVariableInstanceUpdateEntityImpl extends HistoricDetailEntit
         sb.append("HistoricDetailVariableInstanceUpdateEntity[");
         sb.append("id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", type=").append(variableType != null ? variableType.getTypeName() : "null");
-        if (longValue != null) {
+        sb.append(", type=").append(variableType !is null ? variableType.getTypeName() : "null");
+        if (longValue !is null) {
             sb.append(", longValue=").append(longValue);
         }
-        if (doubleValue != null) {
+        if (doubleValue !is null) {
             sb.append(", doubleValue=").append(doubleValue);
         }
-        if (textValue != null) {
+        if (textValue !is null) {
             sb.append(", textValue=").append(StringUtils.abbreviate(textValue, 40));
         }
-        if (textValue2 != null) {
+        if (textValue2 !is null) {
             sb.append(", textValue2=").append(StringUtils.abbreviate(textValue2, 40));
         }
-        if (byteArrayRef != null && byteArrayRef.getId() != null) {
+        if (byteArrayRef !is null && byteArrayRef.getId() !is null) {
             sb.append(", byteArrayValueId=").append(byteArrayRef.getId());
         }
         sb.append("]");

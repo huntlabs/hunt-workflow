@@ -36,7 +36,7 @@ class JuelFormEngine implements FormEngine {
 
     @Override
     public Object renderStartForm(StartFormData startForm) {
-        if (startForm.getFormKey() == null) {
+        if (startForm.getFormKey() is null) {
             return null;
         }
         string formTemplateString = getFormTemplateString(startForm, startForm.getFormKey());
@@ -46,7 +46,7 @@ class JuelFormEngine implements FormEngine {
 
     @Override
     public Object renderTaskForm(TaskFormData taskForm) {
-        if (taskForm.getFormKey() == null) {
+        if (taskForm.getFormKey() is null) {
             return null;
         }
         string formTemplateString = getFormTemplateString(taskForm, taskForm.getFormKey());
@@ -54,7 +54,7 @@ class JuelFormEngine implements FormEngine {
         TaskEntity task = (TaskEntity) taskForm.getTask();
         
         ExecutionEntity executionEntity = null;
-        if (task.getExecutionId() != null) {
+        if (task.getExecutionId() !is null) {
             executionEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getExecutionId());
         }
         
@@ -66,7 +66,7 @@ class JuelFormEngine implements FormEngine {
 
         ResourceEntity resourceStream = CommandContextUtil.getResourceEntityManager().findResourceByDeploymentIdAndResourceName(deploymentId, formKey);
 
-        if (resourceStream == null) {
+        if (resourceStream is null) {
             throw new FlowableObjectNotFoundException("Form with formKey '" + formKey + "' does not exist", string.class);
         }
 

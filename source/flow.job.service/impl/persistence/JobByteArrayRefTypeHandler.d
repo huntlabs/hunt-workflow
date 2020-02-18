@@ -35,7 +35,7 @@ class JobByteArrayRefTypeHandler extends TypeReference<JobByteArrayRef> implemen
     }
 
     private string getValueToSet(JobByteArrayRef parameter) {
-        if (parameter == null) {
+        if (parameter is null) {
             // Note that this should not happen: VariableByteArrayRefs should always be initialized.
             return null;
         }

@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.flowable.common.engine.impl.context.Context;
+import flow.common.context.Context;
 import org.flowable.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.impl.util.CommandContextUtil;
@@ -66,7 +66,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     protected List<HistoricVariableInstanceEntity> queryVariables;
     protected List<HistoricIdentityLinkEntity> queryIdentityLinks;
     protected List<HistoricIdentityLinkEntity> identityLinks = new ArrayList<>();
-    protected boolean isIdentityLinksInitialized;
+    protected bool isIdentityLinksInitialized;
 
     public HistoricTaskInstanceEntityImpl() {
 
@@ -97,7 +97,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
         this.setCategory(task.getCategory());
 
         // Inherit tenant id (if applicable)
-        if (task.getTenantId() != null) {
+        if (task.getTenantId() !is null) {
             tenantId = task.getTenantId();
         }
     }
@@ -135,14 +135,14 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     
     @Override
     public void markEnded(string deleteReason, Date endTime) {
-        if (this.endTime == null) {
+        if (this.endTime is null) {
             this.deleteReason = deleteReason;
-            if (endTime != null) {
+            if (endTime !is null) {
                 this.endTime = endTime;
             } else {
                 this.endTime = CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime();
             }
-            if (endTime != null && createTime != null) {
+            if (endTime !is null && createTime !is null) {
                 this.durationInMillis = endTime.getTime() - createTime.getTime();
             }
         }
@@ -277,7 +277,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
 
     @Override
     public string getName() {
-        if (localizedName != null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length() > 0) {
             return localizedName;
         } else {
             return name;
@@ -296,7 +296,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
 
     @Override
     public string getDescription() {
-        if (localizedDescription != null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length() > 0) {
             return localizedDescription;
         } else {
             return description;
@@ -425,7 +425,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
 
     @Override
     public Long getWorkTimeInMillis() {
-        if (endTime == null || claimTime == null) {
+        if (endTime is null || claimTime is null) {
             return null;
         }
         return endTime.getTime() - claimTime.getTime();
@@ -444,9 +444,9 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     @Override
     public Map<string, Object> getTaskLocalVariables() {
         Map<string, Object> variables = new HashMap<>();
-        if (queryVariables != null) {
+        if (queryVariables !is null) {
             for (HistoricVariableInstanceEntity variableInstance : queryVariables) {
-                if (variableInstance.getId() != null && variableInstance.getTaskId() != null) {
+                if (variableInstance.getId() !is null && variableInstance.getTaskId() !is null) {
                     variables.put(variableInstance.getName(), variableInstance.getValue());
                 }
             }
@@ -457,9 +457,9 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     @Override
     public Map<string, Object> getProcessVariables() {
         Map<string, Object> variables = new HashMap<>();
-        if (queryVariables != null) {
+        if (queryVariables !is null) {
             for (HistoricVariableInstanceEntity variableInstance : queryVariables) {
-                if (variableInstance.getId() != null && variableInstance.getTaskId() == null) {
+                if (variableInstance.getId() !is null && variableInstance.getTaskId() is null) {
                     variables.put(variableInstance.getName(), variableInstance.getValue());
                 }
             }
@@ -469,7 +469,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
 
     @Override
     public List<HistoricVariableInstanceEntity> getQueryVariables() {
-        if (queryVariables == null && Context.getCommandContext() != null) {
+        if (queryVariables is null && Context.getCommandContext() !is null) {
             queryVariables = new HistoricVariableInitializingList();
         }
         return queryVariables;
@@ -483,7 +483,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     @Override
     public List<HistoricIdentityLinkEntity> getIdentityLinks() {
         if (!isIdentityLinksInitialized) {
-            if (queryIdentityLinks == null) {
+            if (queryIdentityLinks is null) {
                 identityLinks = CommandContextUtil.getHistoricIdentityLinkEntityManager().findHistoricIdentityLinksByTaskId(id);
             } else {
                 identityLinks = queryIdentityLinks;
@@ -495,7 +495,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     }
 
     public List<HistoricIdentityLinkEntity> getQueryIdentityLinks() {
-        if(queryIdentityLinks == null) {
+        if(queryIdentityLinks is null) {
             queryIdentityLinks = new LinkedList<>();
         }
         return queryIdentityLinks;

@@ -55,7 +55,7 @@ class BpmnLoggingSessionUtil {
         string activityName = null;
         string activityType = null;
         string activitySubType = null;
-        if (flowElement != null) {
+        if (flowElement !is null) {
             activityId = flowElement.getId();
             activityName = flowElement.getName();
             activityType = flowElement.getClass().getSimpleName();
@@ -119,10 +119,10 @@ class BpmnLoggingSessionUtil {
         string message = null;
         FlowElement flowElement = execution.getCurrentFlowElement();
         SequenceFlow sequenceFlow = null;
-        if (flowElement != null && flowElement instanceof SequenceFlow) {
+        if (flowElement !is null && flowElement instanceof SequenceFlow) {
             sequenceFlow = (SequenceFlow) flowElement;
             string sequenceFlowId = "";
-            if (sequenceFlow.getId() != null) {
+            if (sequenceFlow.getId() !is null) {
                 sequenceFlowId = sequenceFlow.getId() + ", ";
             }
             message = "Sequence flow will be taken for " + sequenceFlowId + sequenceFlow.getSourceRef() + " --> " + sequenceFlow.getTargetRef();
@@ -132,7 +132,7 @@ class BpmnLoggingSessionUtil {
         
         ObjectNode loggingNode = LoggingSessionUtil.fillLoggingData(message, execution.getProcessInstanceId(), execution.getId(), ScopeTypes.BPMN);
         loggingNode.put("scopeDefinitionId", execution.getProcessDefinitionId());
-        if (sequenceFlow != null) {
+        if (sequenceFlow !is null) {
             putIfNotNull("elementId", sequenceFlow.getId(), loggingNode);
             putIfNotNull("elementName", sequenceFlow.getName(), loggingNode);
             loggingNode.put("elementType", sequenceFlow.getClass().getSimpleName());
@@ -163,7 +163,7 @@ class BpmnLoggingSessionUtil {
         string activityName = null;
         string activityType = null;
         string activitySubType = null;
-        if (flowElement != null) {
+        if (flowElement !is null) {
             activityId = flowElement.getId();
             activityName = flowElement.getName();
             activityType = flowElement.getClass().getSimpleName();
@@ -182,11 +182,11 @@ class BpmnLoggingSessionUtil {
         fillScopeDefinitionInfo(executionEntity.getProcessDefinitionId(), loggingNode);
         
         FlowElement flowElement = executionEntity.getCurrentFlowElement();
-        if (flowElement == null) {
+        if (flowElement is null) {
             flowElement = executionEntity.getOriginatingCurrentFlowElement();
         }
         
-        if (flowElement != null) {
+        if (flowElement !is null) {
             loggingNode.put("elementId", flowElement.getId());
             putIfNotNull("elementName", flowElement.getName(), loggingNode);
             loggingNode.put("elementType", flowElement.getClass().getSimpleName());
@@ -220,7 +220,7 @@ class BpmnLoggingSessionUtil {
     
     public static string getBoundaryCreateEventType(BoundaryEvent boundaryEvent) {
         List<EventDefinition> eventDefinitions = boundaryEvent.getEventDefinitions();
-        if (eventDefinitions != null && !eventDefinitions.isEmpty()) {
+        if (eventDefinitions !is null && !eventDefinitions.isEmpty()) {
             EventDefinition eventDefinition = eventDefinitions.get(0);
             if (eventDefinition instanceof TimerEventDefinition) {
                 return LoggingSessionConstants.TYPE_BOUNDARY_TIMER_EVENT_CREATE;
@@ -244,7 +244,7 @@ class BpmnLoggingSessionUtil {
     
     public static string getBoundaryEventType(BoundaryEvent boundaryEvent) {
         List<EventDefinition> eventDefinitions = boundaryEvent.getEventDefinitions();
-        if (eventDefinitions != null && !eventDefinitions.isEmpty()) {
+        if (eventDefinitions !is null && !eventDefinitions.isEmpty()) {
             EventDefinition eventDefinition = eventDefinitions.get(0);
             return eventDefinition.getClass().getSimpleName();
         }
@@ -257,21 +257,21 @@ class BpmnLoggingSessionUtil {
         if (flowElement instanceof Event) {
             Event event = (Event) flowElement;
             List<EventDefinition> eventDefinitions = event.getEventDefinitions();
-            if (eventDefinitions != null && !eventDefinitions.isEmpty()) {
+            if (eventDefinitions !is null && !eventDefinitions.isEmpty()) {
                 EventDefinition eventDefinition = eventDefinitions.get(0);
                 activitySubType = eventDefinition.getClass().getSimpleName();
             }
             
         } else if (flowElement instanceof ServiceTask) {
             ServiceTask serviceTask = (ServiceTask) flowElement;
-            if (serviceTask.getBehavior() != null && serviceTask.getBehavior() instanceof ClassDelegate) {
+            if (serviceTask.getBehavior() !is null && serviceTask.getBehavior() instanceof ClassDelegate) {
                 ClassDelegate classDelegate = (ClassDelegate) serviceTask.getBehavior();
                 activitySubType = classDelegate.getClassName();
                 
-            } else if (serviceTask.getBehavior() != null && serviceTask.getBehavior() instanceof ServiceTaskExpressionActivityBehavior) {
+            } else if (serviceTask.getBehavior() !is null && serviceTask.getBehavior() instanceof ServiceTaskExpressionActivityBehavior) {
                 activitySubType = serviceTask.getImplementation();
             
-            } else if (serviceTask.getBehavior() != null && serviceTask.getBehavior() instanceof ServiceTaskDelegateExpressionActivityBehavior) {
+            } else if (serviceTask.getBehavior() !is null && serviceTask.getBehavior() instanceof ServiceTaskDelegateExpressionActivityBehavior) {
                 activitySubType = serviceTask.getImplementation();
             }
         }
@@ -288,7 +288,7 @@ class BpmnLoggingSessionUtil {
     protected static void fillFlowElementInfo(ObjectNode loggingNode, DelegateExecution execution) {
         FlowElement flowElement = execution.getCurrentFlowElement();
         
-        if (flowElement != null) {
+        if (flowElement !is null) {
             loggingNode.put("elementId", flowElement.getId());
             putIfNotNull("elementName", flowElement.getName(), loggingNode);
             loggingNode.put("elementType", flowElement.getClass().getSimpleName());
@@ -302,13 +302,13 @@ class BpmnLoggingSessionUtil {
     }
     
     protected static void putIfNotNull(string name, Integer value, ObjectNode loggingNode) {
-        if (value != null) {
+        if (value !is null) {
             loggingNode.put(name, value);
         }
     }
     
     protected static void putIfNotNull(string name, Date value, ObjectNode loggingNode) {
-        if (value != null) {
+        if (value !is null) {
             loggingNode.put(name, LoggingSessionUtil.formatDate(value));
         }
     }

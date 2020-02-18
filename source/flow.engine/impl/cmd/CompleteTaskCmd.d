@@ -48,11 +48,11 @@ class CompleteTaskCmd extends NeedsActiveTaskCmd<Void> {
     @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         // Backwards compatibility
-        if (task.getProcessDefinitionId() != null) {
+        if (task.getProcessDefinitionId() !is null) {
             if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
                 Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
 
-                if (transientVariables == null) {
+                if (transientVariables is null) {
                     compatibilityHandler.completeTask(task, variables, localScope);
                 } else {
                     compatibilityHandler.completeTask(task, variables, transientVariables);

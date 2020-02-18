@@ -14,7 +14,7 @@
 
 import java.util.Date;
 
-import org.flowable.common.engine.api.query.Query;
+import flow.common.api.query.Query;
 
 /**
  * Allows programmatic querying of {@link HistoricTaskLogEntry}s;

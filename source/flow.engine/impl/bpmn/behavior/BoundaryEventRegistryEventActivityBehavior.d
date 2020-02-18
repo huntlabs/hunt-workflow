@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import org.flowable.bpmn.model.BoundaryEvent;
 import flow.common.api.FlowableException;
-import flow.common.api.delegate.Expression;
+import flow.common.api.deleg.Expression;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
@@ -119,7 +119,7 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
         }
 
         EventModel eventModel = getEventModel(executionEntity);
-        if (eventModel == null) {
+        if (eventModel is null) {
             throw new FlowableException("Could not find event model for key " +key);
         }
         return eventModel;

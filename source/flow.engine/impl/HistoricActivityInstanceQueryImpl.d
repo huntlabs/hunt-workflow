@@ -173,7 +173,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
 
     @Override
     public HistoricActivityInstanceQueryImpl activityTenantId(string tenantId) {
-        if (tenantId == null) {
+        if (tenantId is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
         }
         this.tenantId = tenantId;
@@ -186,7 +186,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
 
     @Override
     public HistoricActivityInstanceQueryImpl activityTenantIdLike(string tenantIdLike) {
-        if (tenantIdLike == null) {
+        if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
         }
         this.tenantIdLike = tenantIdLike;
@@ -290,7 +290,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
 
     @Override
     public void delete() {
-        if (commandExecutor != null) {
+        if (commandExecutor !is null) {
             commandExecutor.execute(new DeleteHistoricActivityInstancesCmd(this));
         } else {
             new DeleteHistoricActivityInstancesCmd(this).execute(Context.getCommandContext());

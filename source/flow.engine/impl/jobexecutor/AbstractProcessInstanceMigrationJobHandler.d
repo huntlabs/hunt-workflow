@@ -66,7 +66,7 @@ abstract class AbstractProcessInstanceMigrationJobHandler implements JobHandler 
     }
 
     protected static ObjectMapper getObjectMapper() {
-        if (CommandContextUtil.getCommandContext() != null) {
+        if (CommandContextUtil.getCommandContext() !is null) {
             return CommandContextUtil.getProcessEngineConfiguration().getObjectMapper();
         } else {
             return new ObjectMapper();

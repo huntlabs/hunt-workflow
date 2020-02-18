@@ -52,7 +52,7 @@ class ErrorEventDefinition implements Serializable {
 
     public Integer getPrecedence() {
         // handlers with error code take precedence over catchall-handlers
-        return precedence + (errorCode != null ? 1 : 0);
+        return precedence + (errorCode !is null ? 1 : 0);
     }
 
     public void setPrecedence(Integer precedence) {
@@ -60,7 +60,7 @@ class ErrorEventDefinition implements Serializable {
     }
 
     public bool catches(string errorCode) {
-        return errorCode == null || this.errorCode == null || this.errorCode.equals(errorCode);
+        return errorCode is null || this.errorCode is null || this.errorCode.equals(errorCode);
     }
 
 }

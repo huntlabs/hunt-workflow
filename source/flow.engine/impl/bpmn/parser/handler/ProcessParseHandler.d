@@ -19,7 +19,7 @@ import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.EventListener;
 import org.flowable.bpmn.model.ImplementationType;
 import org.flowable.bpmn.model.Process;
-import flow.common.api.delegate.event.FlowableEngineEventType;
+import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.event.FlowableEventSupport;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
@@ -63,7 +63,7 @@ class ProcessParseHandler extends AbstractBpmnParseHandler<Process> {
         currentProcessDefinition.setDescription(process.getDocumentation());
         currentProcessDefinition.setDeploymentId(bpmnParse.getDeployment().getId());
 
-        if (bpmnParse.getDeployment().getEngineVersion() != null) {
+        if (bpmnParse.getDeployment().getEngineVersion() !is null) {
             currentProcessDefinition.setEngineVersion(bpmnParse.getDeployment().getEngineVersion());
         }
 
@@ -81,7 +81,7 @@ class ProcessParseHandler extends AbstractBpmnParseHandler<Process> {
 
     protected void createEventListeners(BpmnParse bpmnParse, List<EventListener> eventListeners) {
 
-        if (eventListeners != null && !eventListeners.isEmpty()) {
+        if (eventListeners !is null && !eventListeners.isEmpty()) {
             for (EventListener eventListener : eventListeners) {
                 // Extract specific event-types (if any)
                 FlowableEngineEventType[] types = FlowableEngineEventType.getTypesFromString(eventListener.getEvents());

@@ -33,7 +33,7 @@ class DeleteModelCmd implements Command<Void>, Serializable {
 
     @Override
     public Void execute(CommandContext commandContext) {
-        if (modelId == null) {
+        if (modelId is null) {
             throw new FlowableIllegalArgumentException("modelId is null");
         }
         CommandContextUtil.getModelEntityManager(commandContext).delete(modelId);

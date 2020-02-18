@@ -64,7 +64,7 @@ class ExtensionElement extends BaseElement {
     }
 
     public void addChildElement(ExtensionElement childElement) {
-        if (childElement != null && StringUtils.isNotEmpty(childElement.getName())) {
+        if (childElement !is null && StringUtils.isNotEmpty(childElement.getName())) {
             List<ExtensionElement> elementList = null;
             if (!this.childElements.containsKey(childElement.getName())) {
                 elementList = new ArrayList<>();
@@ -93,10 +93,10 @@ class ExtensionElement extends BaseElement {
         setAttributes(otherElement.getAttributes());
 
         childElements = new LinkedHashMap<>();
-        if (otherElement.getChildElements() != null && !otherElement.getChildElements().isEmpty()) {
+        if (otherElement.getChildElements() !is null && !otherElement.getChildElements().isEmpty()) {
             for (string key : otherElement.getChildElements().keySet()) {
                 List<ExtensionElement> otherElementList = otherElement.getChildElements().get(key);
-                if (otherElementList != null && !otherElementList.isEmpty()) {
+                if (otherElementList !is null && !otherElementList.isEmpty()) {
                     List<ExtensionElement> elementList = new ArrayList<>();
                     for (ExtensionElement extensionElement : otherElementList) {
                         elementList.add(extensionElement.clone());

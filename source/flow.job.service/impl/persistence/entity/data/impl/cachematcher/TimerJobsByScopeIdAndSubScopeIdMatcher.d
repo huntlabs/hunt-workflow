@@ -27,8 +27,8 @@ class TimerJobsByScopeIdAndSubScopeIdMatcher extends CachedEntityMatcherAdapter<
         Map<string, string> paramMap = (Map<string, string>) param;
         string scopeId = paramMap.get("scopeId");
         string subScopeId = paramMap.get("subScopeId");
-        return timerJobEntity.getScopeId() != null && timerJobEntity.getScopeId().equals(scopeId)
-            && timerJobEntity.getSubScopeId() != null && timerJobEntity.getSubScopeId().equals(subScopeId);
+        return timerJobEntity.getScopeId() !is null && timerJobEntity.getScopeId().equals(scopeId)
+            && timerJobEntity.getSubScopeId() !is null && timerJobEntity.getSubScopeId().equals(subScopeId);
     }
 
 }

@@ -50,9 +50,9 @@ abstract class AbstractOperation implements Runnable {
      * Helper method to match the activityId of an execution with a FlowElement of the process definition referenced by the execution.
      */
     protected FlowElement getCurrentFlowElement(final ExecutionEntity execution) {
-        if (execution.getCurrentFlowElement() != null) {
+        if (execution.getCurrentFlowElement() !is null) {
             return execution.getCurrentFlowElement();
-        } else if (execution.getCurrentActivityId() != null) {
+        } else if (execution.getCurrentActivityId() !is null) {
             string processDefinitionId = execution.getProcessDefinitionId();
             org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
             string activityId = execution.getCurrentActivityId();
@@ -85,7 +85,7 @@ abstract class AbstractOperation implements Runnable {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity parentScopeExecution = null;
         ExecutionEntity currentlyExaminedExecution = executionEntityManager.findById(executionEntity.getParentId());
-        while (currentlyExaminedExecution != null && parentScopeExecution == null) {
+        while (currentlyExaminedExecution !is null && parentScopeExecution is null) {
             if (currentlyExaminedExecution.isScope()) {
                 parentScopeExecution = currentlyExaminedExecution;
             } else {

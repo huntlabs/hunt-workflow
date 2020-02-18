@@ -49,14 +49,14 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command<Void> {
     @Override
     public Void execute(CommandContext commandContext) {
 
-        if (processInstanceId == null) {
+        if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("ProcessInstanceId cannot be null.");
         }
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity executionEntity = executionEntityManager.findById(processInstanceId);
 
-        if (executionEntity == null) {
+        if (executionEntity is null) {
             throw new FlowableObjectNotFoundException("Cannot find processInstance for id '" + processInstanceId + "'.", Execution.class);
         }
         if (!executionEntity.isProcessInstanceType()) {

@@ -22,7 +22,7 @@ class SubProcessInstanceExecutionBySuperExecutionIdMatcher implements SingleCach
 
     @Override
     public bool isRetained(ExecutionEntity executionEntity, Object parameter) {
-        return executionEntity.getSuperExecutionId() != null
+        return executionEntity.getSuperExecutionId() !is null
                 && ((string) parameter).equals(executionEntity.getSuperExecutionId());
     }
 

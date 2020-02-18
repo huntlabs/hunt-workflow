@@ -38,7 +38,7 @@ class ClassDelegateUtil {
     }
 
     public static void applyFieldDeclaration(List<FieldDeclaration> fieldDeclarations, Object target) {
-        if (fieldDeclarations != null) {
+        if (fieldDeclarations !is null) {
             for (FieldDeclaration declaration : fieldDeclarations) {
                 applyFieldDeclaration(declaration, target);
             }
@@ -48,7 +48,7 @@ class ClassDelegateUtil {
     public static void applyFieldDeclaration(FieldDeclaration declaration, Object target) {
         Method setterMethod = ReflectUtil.getSetter(declaration.getName(), target.getClass(), declaration.getValue().getClass());
 
-        if (setterMethod != null) {
+        if (setterMethod !is null) {
             try {
                 setterMethod.invoke(target, declaration.getValue());
             } catch (IllegalArgumentException e) {
@@ -60,7 +60,7 @@ class ClassDelegateUtil {
             }
         } else {
             Field field = ReflectUtil.getField(declaration.getName(), target);
-            if (field == null) {
+            if (field is null) {
                 throw new FlowableIllegalArgumentException("Field definition uses non-existing field '" + declaration.getName() + "' on class " + target.getClass().getName());
             }
             // Check if the delegate field's type is correct
@@ -73,7 +73,7 @@ class ClassDelegateUtil {
     }
 
     public static bool fieldTypeCompatible(FieldDeclaration declaration, Field field) {
-        if (declaration.getValue() != null) {
+        if (declaration.getValue() !is null) {
             return field.getType().isAssignableFrom(declaration.getValue().getClass());
         } else {
             // Null can be set any field type

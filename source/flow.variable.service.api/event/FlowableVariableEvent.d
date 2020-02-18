@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.common.engine.api.delegate.event.FlowableEngineEvent;
-import org.flowable.common.engine.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import org.flowable.variable.api.types.VariableType;
 
 /**
@@ -22,7 +22,7 @@ import org.flowable.variable.api.types.VariableType;
  * @author Frederik Heremans
  * @author Joram Barrez
  */
-public interface FlowableVariableEvent extends FlowableEngineEvent {
+interface FlowableVariableEvent extends FlowableEngineEvent {
 
     /**
      * @return the name of the variable involved.

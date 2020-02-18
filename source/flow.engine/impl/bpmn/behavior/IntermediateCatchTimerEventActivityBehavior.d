@@ -42,7 +42,7 @@ class IntermediateCatchTimerEventActivityBehavior extends IntermediateCatchEvent
         TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, (ExecutionEntity) execution, TriggerTimerEventJobHandler.TYPE,
                 TimerEventHandler.createConfiguration(execution.getCurrentActivityId(), null, timerEventDefinition.getCalendarName()));
 
-        if (timerJob != null) {
+        if (timerJob !is null) {
             CommandContextUtil.getTimerJobService().scheduleTimerJob(timerJob);
         }
     }

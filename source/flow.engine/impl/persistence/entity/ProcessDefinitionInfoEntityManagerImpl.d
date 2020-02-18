@@ -42,7 +42,7 @@ class ProcessDefinitionInfoEntityManagerImpl
     @Override
     public void deleteProcessDefinitionInfo(string processDefinitionId) {
         ProcessDefinitionInfoEntity processDefinitionInfo = findProcessDefinitionInfoByProcessDefinitionId(processDefinitionId);
-        if (processDefinitionInfo != null) {
+        if (processDefinitionInfo !is null) {
             delete(processDefinitionInfo);
             deleteInfoJson(processDefinitionInfo);
         }
@@ -51,11 +51,11 @@ class ProcessDefinitionInfoEntityManagerImpl
     @Override
     public void updateInfoJson(string id, byte[] json) {
         ProcessDefinitionInfoEntity processDefinitionInfo = findById(id);
-        if (processDefinitionInfo != null) {
+        if (processDefinitionInfo !is null) {
             ByteArrayRef ref = new ByteArrayRef(processDefinitionInfo.getInfoJsonId());
             ref.setValue("json", json);
 
-            if (processDefinitionInfo.getInfoJsonId() == null) {
+            if (processDefinitionInfo.getInfoJsonId() is null) {
                 processDefinitionInfo.setInfoJsonId(ref.getId());
             }
             
@@ -65,7 +65,7 @@ class ProcessDefinitionInfoEntityManagerImpl
 
     @Override
     public void deleteInfoJson(ProcessDefinitionInfoEntity processDefinitionInfo) {
-        if (processDefinitionInfo.getInfoJsonId() != null) {
+        if (processDefinitionInfo.getInfoJsonId() !is null) {
             ByteArrayRef ref = new ByteArrayRef(processDefinitionInfo.getInfoJsonId());
             ref.delete();
         }

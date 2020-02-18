@@ -74,19 +74,19 @@ class RedeployV5ProcessDefinitionsCmd implements Command<Void> {
 
             for (Deployment deployment : deployments) {
                 DeploymentBuilder deploymentBuilder = repositoryService.createDeployment();
-                if (deployment.getName() != null) {
+                if (deployment.getName() !is null) {
                     deploymentBuilder.name(deployment.getName());
                 }
 
-                if (deployment.getCategory() != null) {
+                if (deployment.getCategory() !is null) {
                     deploymentBuilder.category(deployment.getCategory());
                 }
 
-                if (deployment.getKey() != null) {
+                if (deployment.getKey() !is null) {
                     deploymentBuilder.key(deployment.getKey());
                 }
 
-                if (deployment.getTenantId() != null) {
+                if (deployment.getTenantId() !is null) {
                     deploymentBuilder.tenantId(deployment.getTenantId());
                 }
 

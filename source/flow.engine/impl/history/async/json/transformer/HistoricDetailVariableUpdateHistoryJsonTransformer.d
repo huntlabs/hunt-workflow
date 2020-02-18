@@ -55,7 +55,7 @@ class HistoricDetailVariableUpdateHistoryJsonTransformer extends AbstractHistory
         if (!isMiRootExecution && StringUtils.isNotEmpty(activityId)) {
             HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext, 
                     getStringFromJson(historicalData, HistoryJsonConstants.SOURCE_EXECUTION_ID), activityId);
-            if (activityInstance == null) {
+            if (activityInstance is null) {
                 return false;
             }
         }
@@ -84,7 +84,7 @@ class HistoricDetailVariableUpdateHistoryJsonTransformer extends AbstractHistory
                     HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext,
                         getStringFromJson(historicalData, HistoryJsonConstants.SOURCE_EXECUTION_ID), activityId);
 
-                    if (activityInstance != null) {
+                    if (activityInstance !is null) {
                         historicDetailEntity.setActivityInstanceId(activityInstance.getId());
                     }
                 }

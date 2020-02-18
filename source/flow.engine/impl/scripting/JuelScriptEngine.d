@@ -98,7 +98,7 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
     @Override
     public ScriptEngineFactory getFactory() {
         synchronized (this) {
-            if (scriptEngineFactory == null) {
+            if (scriptEngineFactory is null) {
                 scriptEngineFactory = new JuelScriptEngineFactory();
             }
         }
@@ -166,7 +166,7 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
         scriptCtx.setAttribute("out:print", getPrintMethod(), ScriptContext.ENGINE_SCOPE);
 
         SecurityManager securityManager = System.getSecurityManager();
-        if (securityManager == null) {
+        if (securityManager is null) {
             scriptCtx.setAttribute("lang:import", getImportMethod(), ScriptContext.ENGINE_SCOPE);
         }
 

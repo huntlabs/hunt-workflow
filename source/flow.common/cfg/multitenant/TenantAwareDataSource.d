@@ -72,7 +72,7 @@ module flow.common.cfg.multitenant.TenantAwareDataSource;
 //    protected DataSource getCurrentDataSource() {
 //        string tenantId = tenantInfoHolder.getCurrentTenantId();
 //        DataSource dataSource = dataSources.get(tenantId);
-//        if (dataSource == null) {
+//        if (dataSource is null) {
 //            throw new FlowableException("Could not find a dataSource for tenant " + tenantId);
 //        }
 //        return dataSource;

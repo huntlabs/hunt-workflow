@@ -40,7 +40,7 @@ class DefaultStartFormHandler extends DefaultFormHandler implements StartFormHan
     @Override
     public StartFormData createStartFormData(ProcessDefinition processDefinition) {
         StartFormDataImpl startFormData = new StartFormDataImpl();
-        if (formKey != null) {
+        if (formKey !is null) {
             startFormData.setFormKey(formKey.getExpressionText());
         }
         startFormData.setDeploymentId(deploymentId);

@@ -41,7 +41,7 @@ class LockExclusiveJobCmd implements Command<Object>, Serializable {
     @Override
     public Object execute(CommandContext commandContext) {
 
-        if (job == null) {
+        if (job is null) {
             throw new FlowableIllegalArgumentException("job is null");
         }
 
@@ -50,9 +50,9 @@ class LockExclusiveJobCmd implements Command<Object>, Serializable {
         }
 
         if (job.isExclusive()) {
-            if (job.getExecutionId() != null || job.getScopeId() != null) {
+            if (job.getExecutionId() !is null || job.getScopeId() !is null) {
                 InternalJobManager internalJobManager = CommandContextUtil.getJobServiceConfiguration().getInternalJobManager();
-                if (internalJobManager != null) {
+                if (internalJobManager !is null) {
                     internalJobManager.lockJobScope(job);
                 }
             }

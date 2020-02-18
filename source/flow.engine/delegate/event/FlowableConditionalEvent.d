@@ -22,7 +22,7 @@ module flow.engine.delegate.event.FlowableConditionalEvent;
  
 
 
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 
 /**
  * An {@link FlowableEvent} related to a conditional being sent to an activity.

@@ -22,7 +22,7 @@ module flow.engine.delegate.event.FlowableErrorEvent;
  
 
 
-import flow.common.api.delegate.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEvent;
 import flow.engine.delegate.event.FlowableActivityEvent;
 
  

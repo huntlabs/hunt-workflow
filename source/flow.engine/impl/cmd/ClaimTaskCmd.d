@@ -44,11 +44,11 @@ class ClaimTaskCmd extends NeedsActiveTaskCmd<Void> {
             return null;
         }
 
-        if (userId != null) {
+        if (userId !is null) {
             Clock clock = CommandContextUtil.getProcessEngineConfiguration(commandContext).getClock();
             task.setClaimTime(clock.getCurrentTime());
 
-            if (task.getAssignee() != null) {
+            if (task.getAssignee() !is null) {
                 if (!task.getAssignee().equals(userId)) {
                     // When the task is already claimed by another user, throw
                     // exception. Otherwise, ignore this, post-conditions of method already met.
@@ -63,7 +63,7 @@ class ClaimTaskCmd extends NeedsActiveTaskCmd<Void> {
             CommandContextUtil.getHistoryManager().createUserIdentityLinkComment(task, userId, IdentityLinkType.ASSIGNEE, true);
             
         } else {
-            if (task.getAssignee() != null) {
+            if (task.getAssignee() !is null) {
                 // Task claim time should be null
                 task.setClaimTime(null);
                 

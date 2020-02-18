@@ -64,7 +64,7 @@ abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
         Object object = ReflectUtil.instantiate(className);
         applyFieldDeclaration(fieldDeclarations, object);
         
-        if (serviceTask != null) {
+        if (serviceTask !is null) {
             ReflectUtil.invokeSetterOrField(object, "serviceTask", serviceTask, false);
         }
         
@@ -80,7 +80,7 @@ abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
     }
 
     public static void applyFieldDeclaration(List<FieldDeclaration> fieldDeclarations, Object target, bool throwExceptionOnMissingField) {
-        if (fieldDeclarations != null) {
+        if (fieldDeclarations !is null) {
             for (FieldDeclaration declaration : fieldDeclarations) {
                 applyFieldDeclaration(declaration, target, throwExceptionOnMissingField);
             }

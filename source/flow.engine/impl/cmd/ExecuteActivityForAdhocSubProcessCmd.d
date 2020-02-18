@@ -43,7 +43,7 @@ class ExecuteActivityForAdhocSubProcessCmd implements Command<Execution>, Serial
     @Override
     public Execution execute(CommandContext commandContext) {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
-        if (execution == null) {
+        if (execution is null) {
             throw new FlowableObjectNotFoundException("No execution found for id '" + executionId + "'", ExecutionEntity.class);
         }
 
@@ -70,7 +70,7 @@ class ExecuteActivityForAdhocSubProcessCmd implements Command<Execution>, Serial
             }
         }
 
-        if (foundNode == null) {
+        if (foundNode is null) {
             throw new FlowableException("The requested activity with id " + activityId + " can not be enabled");
         }
 

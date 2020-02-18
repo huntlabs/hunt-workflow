@@ -107,8 +107,8 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
 
     @Override
     public void recordActivityStart(ActivityInstance activityInstance) {
-        if (activityInstance != null && isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
-            if (activityInstance.getActivityId() != null) {
+        if (activityInstance !is null && isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
+            if (activityInstance.getActivityId() !is null) {
 
                 ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
                 addCommonActivityInstanceFields(activityInstance, data);
@@ -132,12 +132,12 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
                 putIfNotNull(data, HistoryJsonConstants.EXECUTION_ID, executionEntity.getId());
                 putIfNotNull(data, HistoryJsonConstants.ACTIVITY_ID, activityId);
 
-                if (executionEntity.getCurrentFlowElement() != null) {
+                if (executionEntity.getCurrentFlowElement() !is null) {
                     putIfNotNull(data, HistoryJsonConstants.ACTIVITY_NAME, executionEntity.getCurrentFlowElement().getName());
                     putIfNotNull(data, HistoryJsonConstants.ACTIVITY_TYPE, parseActivityType(executionEntity.getCurrentFlowElement()));
                 }
 
-                if (executionEntity.getTenantId() != null) {
+                if (executionEntity.getTenantId() !is null) {
                     putIfNotNull(data, HistoryJsonConstants.TENANT_ID, executionEntity.getTenantId());
                 }
 
@@ -145,7 +145,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
                 putIfNotNull(data, HistoryJsonConstants.END_TIME, endTime);
 
                 ObjectNode correspondingActivityStartData = getActivityStart(executionEntity.getId(), activityId, true);
-                if (correspondingActivityStartData == null) {
+                if (correspondingActivityStartData is null) {
                     getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_ACTIVITY_END, data);
                 } else {
                     data.put(HistoryJsonConstants.START_TIME, getStringFromJson(correspondingActivityStartData, HistoryJsonConstants.START_TIME));
@@ -168,7 +168,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
                 putIfNotNull(data, HistoryJsonConstants.START_TIME, activityInstance.getStartTime());
 
                 ObjectNode correspondingActivityStartData = getActivityStart(activityInstance.getId(), true);
-                if (correspondingActivityStartData == null) {
+                if (correspondingActivityStartData is null) {
                     getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_ACTIVITY_END, data);
                 } else {
                     getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_ACTIVITY_FULL, data);
@@ -191,7 +191,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     @Override
     public void recordTaskCreated(TaskEntity task, ExecutionEntity execution) {
         string processDefinitionId = null;
-        if (execution != null) {
+        if (execution !is null) {
             processDefinitionId = execution.getProcessDefinitionId();
         } else {
             processDefinitionId = task.getProcessDefinitionId();
@@ -207,9 +207,9 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     @Override
     public void recordTaskEnd(TaskEntity task, ExecutionEntity execution, string deleteReason, Date endTime) {
         string processDefinitionId = null;
-        if (execution != null) {
+        if (execution !is null) {
             processDefinitionId = execution.getProcessDefinitionId();
-        } else if (task != null) {
+        } else if (task !is null) {
             processDefinitionId = task.getProcessDefinitionId();
         }
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId)) {
@@ -234,14 +234,14 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             
         Map<string, Object> originalPersistentState = (Map<string, Object>) taskEntity.getOriginalPersistentState();
         
-        if ((originalPersistentState == null && taskEntity.getAssignee() != null) || 
-                (originalPersistentState != null && !Objects.equals(originalPersistentState.get("assignee"), taskEntity.getAssignee()))) {
+        if ((originalPersistentState is null && taskEntity.getAssignee() !is null) ||
+                (originalPersistentState !is null && !Objects.equals(originalPersistentState.get("assignee"), taskEntity.getAssignee()))) {
             
             handleTaskAssigneeChange(taskEntity, runtimeActivityInstanceId, changeTime);
         }
         
-        if ((originalPersistentState == null && taskEntity.getOwner() != null) ||
-                (originalPersistentState != null && !Objects.equals(originalPersistentState.get("owner"), taskEntity.getOwner()))) {
+        if ((originalPersistentState is null && taskEntity.getOwner() !is null) ||
+                (originalPersistentState !is null && !Objects.equals(originalPersistentState.get("owner"), taskEntity.getOwner()))) {
             
             handleTaskOwnerChange(taskEntity, runtimeActivityInstanceId, changeTime);
         }
@@ -252,7 +252,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             putIfNotNull(data, HistoryJsonConstants.ASSIGNEE, taskEntity.getAssignee());
 
-            if (taskEntity.getExecutionId() != null) {
+            if (taskEntity.getExecutionId() !is null) {
                 ExecutionEntity executionEntity = CommandContextUtil.getExecutionEntityManager().findById(taskEntity.getExecutionId());
                 putIfNotNull(data, HistoryJsonConstants.EXECUTION_ID, executionEntity.getId());
                 string activityId = getActivityIdForExecution(executionEntity);
@@ -261,7 +261,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
 
                 if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, taskEntity.getProcessDefinitionId())) {
                     ObjectNode activityStartData = getActivityStart(executionEntity.getId(), activityId, false);
-                    if (activityStartData != null) {
+                    if (activityStartData !is null) {
                         putIfNotNull(activityStartData, HistoryJsonConstants.ASSIGNEE, taskEntity.getAssignee());
                         data.put(HistoryJsonConstants.ACTIVITY_ASSIGNEE_HANDLED, string.valueOf(true));
                     }
@@ -294,7 +294,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     @Override
     public void recordVariableCreate(VariableInstanceEntity variable, Date createTime) {
         string processDefinitionId = null;
-        if (enableProcessDefinitionHistoryLevel && variable.getProcessInstanceId() != null) {
+        if (enableProcessDefinitionHistoryLevel && variable.getProcessInstanceId() !is null) {
             ExecutionEntity processInstanceExecution = CommandContextUtil.getExecutionEntityManager().findById(variable.getProcessInstanceId());
             processDefinitionId = processInstanceExecution.getProcessDefinitionId();
         }
@@ -319,16 +319,16 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonVariableFields(variable, data);
             
-            if (sourceActivityExecution != null && sourceActivityExecution.isMultiInstanceRoot()) {
+            if (sourceActivityExecution !is null && sourceActivityExecution.isMultiInstanceRoot()) {
                 putIfNotNull(data, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, true);
             }
            
             putIfNotNull(data, HistoryJsonConstants.CREATE_TIME, createTime);
 
             putIfNotNull(data, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID, activityInstanceId);
-            if (useActivityId && sourceActivityExecution != null) {
+            if (useActivityId && sourceActivityExecution !is null) {
                 string activityId = getActivityIdForExecution(sourceActivityExecution);
-                if (activityId != null) {
+                if (activityId !is null) {
                     putIfNotNull(data, HistoryJsonConstants.ACTIVITY_ID, activityId);
                     putIfNotNull(data, HistoryJsonConstants.SOURCE_EXECUTION_ID, sourceActivityExecution.getId());
                 }
@@ -341,7 +341,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     @Override
     public void recordVariableUpdate(VariableInstanceEntity variable, Date updateTime) {
         string processDefinitionId = null;
-        if (enableProcessDefinitionHistoryLevel && variable.getProcessInstanceId() != null) {
+        if (enableProcessDefinitionHistoryLevel && variable.getProcessInstanceId() !is null) {
             ExecutionEntity processInstanceExecution = CommandContextUtil.getExecutionEntityManager().findById(variable.getProcessInstanceId());
             processDefinitionId = processInstanceExecution.getProcessDefinitionId();
         }
@@ -359,7 +359,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     @Override
     public void recordVariableRemoved(VariableInstanceEntity variable) {
         string processDefinitionId = null;
-        if (enableProcessDefinitionHistoryLevel && variable.getProcessInstanceId() != null) {
+        if (enableProcessDefinitionHistoryLevel && variable.getProcessInstanceId() !is null) {
             ExecutionEntity processInstanceExecution = CommandContextUtil.getExecutionEntityManager().findById(variable.getProcessInstanceId());
             processDefinitionId = processInstanceExecution.getProcessDefinitionId();
         }
@@ -405,7 +405,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
         
         // It makes no sense storing historic counterpart for an identity-link that is related
         // to a process-definition only as this is never kept in history
-        if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId) && (identityLink.getProcessInstanceId() != null || identityLink.getTaskId() != null)) {
+        if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId) && (identityLink.getProcessInstanceId() !is null || identityLink.getTaskId() !is null)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonIdentityLinkFields(identityLink, data);
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_IDENTITY_LINK_CREATED, data);
@@ -470,7 +470,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     public void updateHistoricActivityInstance(ActivityInstance activityInstance) {
         // the update (in the new job) synchronizes changes with runtime activityInstance
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
-            if (activityInstance.getExecutionId() != null) {
+            if (activityInstance.getExecutionId() !is null) {
                 ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
                 putIfNotNull(data, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID, activityInstance.getId());
                 putIfNotNull(data, HistoryJsonConstants.TASK_ID, activityInstance.getTaskId());
@@ -485,7 +485,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     public void createHistoricActivityInstance(ActivityInstance activityInstance) {
         // create (in the new job) new historic activity instance from runtime activityInstance template
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
-            if (activityInstance.getExecutionId() != null) {
+            if (activityInstance.getExecutionId() !is null) {
                 ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
                 addCommonActivityInstanceFields(activityInstance, data);
                 putIfNotNull(data, HistoryJsonConstants.START_TIME, activityInstance.getStartTime());
@@ -521,11 +521,11 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
 
     protected ObjectNode getActivityStart(string executionId, string activityId, bool removeFromAsyncHistorySession) {
         Map<JobServiceConfiguration, AsyncHistorySessionData> sessionData = getAsyncHistorySession().getSessionData();
-        if (sessionData != null) {
+        if (sessionData !is null) {
             AsyncHistorySessionData asyncHistorySessionData = sessionData.get(getJobServiceConfiguration());
-            if (asyncHistorySessionData != null) {
+            if (asyncHistorySessionData !is null) {
                 Map<string, List<ObjectNode>> jobData = asyncHistorySessionData.getJobData();
-                if (jobData != null && jobData.containsKey(HistoryJsonConstants.TYPE_ACTIVITY_START)) {
+                if (jobData !is null && jobData.containsKey(HistoryJsonConstants.TYPE_ACTIVITY_START)) {
                     List<ObjectNode> activityStartDataList = jobData.get(HistoryJsonConstants.TYPE_ACTIVITY_START);
                     Iterator<ObjectNode> activityStartDataIterator = activityStartDataList.iterator();
                     while (activityStartDataIterator.hasNext()) {
@@ -546,11 +546,11 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
 
     protected ObjectNode getActivityStart(string runtimeActivityInstanceId, bool removeFromAsyncHistorySession) {
         Map<JobServiceConfiguration, AsyncHistorySessionData> sessionData = getAsyncHistorySession().getSessionData();
-        if (sessionData != null) {
+        if (sessionData !is null) {
             AsyncHistorySessionData asyncHistorySessionData = sessionData.get(getJobServiceConfiguration());
-            if (asyncHistorySessionData != null) {
+            if (asyncHistorySessionData !is null) {
                 Map<string, List<ObjectNode>> jobData = asyncHistorySessionData.getJobData();
-                if (jobData != null && jobData.containsKey(HistoryJsonConstants.TYPE_ACTIVITY_START)) {
+                if (jobData !is null && jobData.containsKey(HistoryJsonConstants.TYPE_ACTIVITY_START)) {
                     List<ObjectNode> activityStartDataList = jobData.get(HistoryJsonConstants.TYPE_ACTIVITY_START);
                     Iterator<ObjectNode> activityStartDataIterator = activityStartDataList.iterator();
                     while (activityStartDataIterator.hasNext()) {

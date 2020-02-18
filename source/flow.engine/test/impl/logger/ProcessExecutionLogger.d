@@ -67,7 +67,7 @@ class ProcessExecutionLogger {
 
         for (ExecutionEntity executionEntity : createdExecutions.values()) {
             if (!deletedExecutions.containsKey(executionEntity.getId())) {
-                if (executionEntity.getParentId() == null) {
+                if (executionEntity.getParentId() is null) {
                     processInstances.add(executionEntity);
                 } else {
                     if (!parentMapping.containsKey(executionEntity.getParentId())) {
@@ -100,8 +100,8 @@ class ProcessExecutionLogger {
             for (ExecutionEntity childExecutionEntity : parentMapping.get(parentNode.getId())) {
                 DebugInfoExecutionTreeNode childNode = new DebugInfoExecutionTreeNode();
                 childNode.setId(childExecutionEntity.getId());
-                childNode.setActivityId(childExecutionEntity.getCurrentFlowElement() != null ? childExecutionEntity.getCurrentFlowElement().getId() : null);
-                childNode.setActivityName(childExecutionEntity.getCurrentFlowElement() != null ? childExecutionEntity.getCurrentFlowElement().getName() : null);
+                childNode.setActivityId(childExecutionEntity.getCurrentFlowElement() !is null ? childExecutionEntity.getCurrentFlowElement().getId() : null);
+                childNode.setActivityName(childExecutionEntity.getCurrentFlowElement() !is null ? childExecutionEntity.getCurrentFlowElement().getName() : null);
                 childNode.setProcessDefinitionId(childExecutionEntity.getProcessDefinitionId());
 
                 childNode.setParentNode(childNode);

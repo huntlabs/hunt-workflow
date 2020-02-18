@@ -90,7 +90,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
             return null;
         }
 
-        if (executionDate != null) { // Process definition state change is delayed
+        if (executionDate !is null) { // Process definition state change is delayed
             createTimerForDelayedExecution(commandContext, processDefinitions);
         } else { // Process definition state is changed now
             changeProcessDefinitionState(commandContext, processDefinitions);
@@ -103,22 +103,22 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
 
         // If process definition is already provided (eg. when command is called through the DeployCmd)
         // we don't need to do an extra database fetch and we can simply return it, wrapped in a list
-        if (processDefinitionEntity != null) {
+        if (processDefinitionEntity !is null) {
             return Collections.singletonList(processDefinitionEntity);
         }
 
         // Validation of input parameters
-        if (processDefinitionId == null && processDefinitionKey == null) {
+        if (processDefinitionId is null && processDefinitionKey is null) {
             throw new FlowableIllegalArgumentException("Process definition id or key cannot be null");
         }
 
         List<ProcessDefinitionEntity> processDefinitionEntities = new ArrayList<>();
         ProcessDefinitionEntityManager processDefinitionManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
 
-        if (processDefinitionId != null) {
+        if (processDefinitionId !is null) {
 
             ProcessDefinitionEntity processDefinitionEntity = processDefinitionManager.findById(processDefinitionId);
-            if (processDefinitionEntity == null) {
+            if (processDefinitionEntity is null) {
                 throw new FlowableObjectNotFoundException("Cannot find process definition for id '" + processDefinitionId + "'", ProcessDefinition.class);
             }
             processDefinitionEntities.add(processDefinitionEntity);
@@ -127,7 +127,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
 
             ProcessDefinitionQueryImpl query = new ProcessDefinitionQueryImpl(commandContext).processDefinitionKey(processDefinitionKey);
 
-            if (tenantId == null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+            if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
                 query.processDefinitionWithoutTenantId();
             } else {
                 query.processDefinitionTenantId(tenantId);
@@ -158,7 +158,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
             timer.setProcessDefinitionId(processDefinition.getId());
 
             // Inherit tenant identifier (if applicable)
-            if (processDefinition.getTenantId() != null) {
+            if (processDefinition.getTenantId() !is null) {
                 timer.setTenantId(processDefinition.getTenantId());
             }
 

@@ -42,7 +42,7 @@ class ActivityUpdateHistoryJsonTransformer extends AbstractHistoryJsonTransforme
         string activityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (StringUtils.isNotEmpty(activityInstanceId)) {
             HistoricActivityInstanceEntity historicActivityInstance = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findById(activityInstanceId);
-            if (historicActivityInstance == null) {
+            if (historicActivityInstance is null) {
                 return false;
             }
         }
@@ -57,7 +57,7 @@ class ActivityUpdateHistoryJsonTransformer extends AbstractHistoryJsonTransforme
             HistoricActivityInstanceEntityManager historicActivityInstanceEntityManager = CommandContextUtil.getProcessEngineConfiguration(commandContext)
                 .getHistoricActivityInstanceEntityManager();
             HistoricActivityInstanceEntity historicActivityInstance = historicActivityInstanceEntityManager.findById(activityInstanceId);
-            if (historicActivityInstance != null) {
+            if (historicActivityInstance !is null) {
                 string taskId = getStringFromJson(historicalData, HistoryJsonConstants.TASK_ID);
                 string assigneeId = getStringFromJson(historicalData, HistoryJsonConstants.ASSIGNEE);
                 string calledProcessInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.CALLED_PROCESS_INSTANCE_ID);

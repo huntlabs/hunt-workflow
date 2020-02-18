@@ -15,9 +15,9 @@
 import java.util.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.api.delegate.event.FlowableEngineEvent;
-import flow.common.api.delegate.event.FlowableEvent;
-import flow.common.api.delegate.event.FlowableEventListener;
+import flow.common.api.deleg.event.FlowableEngineEvent;
+import flow.common.api.deleg.event.FlowableEvent;
+import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
@@ -43,7 +43,7 @@ class SignalThrowingEventListener extends BaseDelegateEventListener {
 
             FlowableEngineEvent engineEvent = (FlowableEngineEvent) event;
 
-            if (engineEvent.getProcessInstanceId() == null && processInstanceScope) {
+            if (engineEvent.getProcessInstanceId() is null && processInstanceScope) {
                 throw new FlowableIllegalArgumentException("Cannot throw process-instance scoped signal, since the dispatched event is not part of an ongoing process instance");
             }
 
@@ -54,7 +54,7 @@ class SignalThrowingEventListener extends BaseDelegateEventListener {
                 subscriptionEntities = eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(engineEvent.getProcessInstanceId(), signalName);
             } else {
                 string tenantId = null;
-                if (engineEvent.getProcessDefinitionId() != null) {
+                if (engineEvent.getProcessDefinitionId() !is null) {
                     ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext)
                             .getDeploymentManager()
                             .findDeployedProcessDefinitionById(engineEvent.getProcessDefinitionId());
