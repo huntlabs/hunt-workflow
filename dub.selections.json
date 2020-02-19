@@ -1,6 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"hunt": {"path":"../Dlang/hunt"}
+		"hunt": {"path":"../Dlang/hunt"},
+		"hunt-time": {"path":"../Dlang/hunt-time"}
 	}
 }

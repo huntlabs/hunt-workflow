@@ -39,7 +39,7 @@ import flow.common.api.deleg.Expression;
 import flow.common.cfg.mail.MailServerInfo;
 import flow.common.interceptor.CommandContext;
 import org.flowable.content.api.ContentItem;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.helper.SkipExpressionUtil;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;

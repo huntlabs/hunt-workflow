@@ -29,8 +29,8 @@ import flow.common.identity.Authentication;
 import flow.common.interceptor.CommandContext;
 import flow.common.logging.LoggingSessionConstants;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
-import flow.engine.delegate.TaskListener;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.TaskListener;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.CountingExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -433,7 +433,7 @@ class TaskHelper {
 
                 ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(task.getExecutionId());
                 eventDispatcher
-                        .dispatchEvent(flow.engine.delegate.event.impl.FlowableEventBuilder
+                        .dispatchEvent(flow.engine.deleg.event.impl.FlowableEventBuilder
                                 .createActivityCancelledEvent(execution.getActivityId(), task.getName(),
                                         task.getExecutionId(), task.getProcessInstanceId(),
                                         task.getProcessDefinitionId(), "userTask", deleteReason));

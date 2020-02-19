@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.task.service.delegate.DelegateTask;
-import org.flowable.task.service.delegate.TaskListener;
+import flow.task.service.deleg.DelegateTask;
+import flow.task.service.deleg.TaskListener;
 
 /**
  * Class handling invocations of {@link TaskListener TaskListeners}

@@ -14,7 +14,7 @@
 
 import java.io.Serializable;
 
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * @author Tom Baeyens

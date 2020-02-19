@@ -16,8 +16,8 @@ import java.util.Map;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
-import flow.engine.delegate.CustomPropertiesResolver;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.CustomPropertiesResolver;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * @author Yvo Swillens

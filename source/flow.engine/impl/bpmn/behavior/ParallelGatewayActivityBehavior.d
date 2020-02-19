@@ -22,7 +22,7 @@ import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.FlowNode;
 import org.flowable.bpmn.model.ParallelGateway;
 import flow.common.api.FlowableException;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;

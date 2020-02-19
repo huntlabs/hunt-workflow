@@ -28,7 +28,7 @@ import org.flowable.bpmn.model.ThrowEvent;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.helper.ScopeUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;

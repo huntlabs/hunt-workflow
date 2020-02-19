@@ -15,7 +15,7 @@
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.CountingExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.eventsubscription.api.EventSubscription;

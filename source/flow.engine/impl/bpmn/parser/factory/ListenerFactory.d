@@ -15,14 +15,14 @@
 import org.flowable.bpmn.model.EventListener;
 import org.flowable.bpmn.model.FlowableListener;
 import flow.common.api.deleg.event.FlowableEventListener;
-import flow.engine.delegate.CustomPropertiesResolver;
-import flow.engine.delegate.ExecutionListener;
-import flow.engine.delegate.TransactionDependentExecutionListener;
-import flow.engine.delegate.TransactionDependentTaskListener;
+import flow.engine.deleg.CustomPropertiesResolver;
+import flow.engine.deleg.ExecutionListener;
+import flow.engine.deleg.TransactionDependentExecutionListener;
+import flow.engine.deleg.TransactionDependentTaskListener;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.bpmn.parser.BpmnParser;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.flowable.task.service.delegate.TaskListener;
+import flow.task.service.deleg.TaskListener;
 
 /**
  * Factory class used by the {@link BpmnParser} and {@link BpmnParse} to instantiate the behaviour classes for {@link TaskListener} and {@link ExecutionListener} usages.

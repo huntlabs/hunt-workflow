@@ -12,7 +12,7 @@
  */
 
 
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.delegate.invocation.DelegateInvocation;
 
 /**

@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import flow.common.util.CollectionUtil;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;

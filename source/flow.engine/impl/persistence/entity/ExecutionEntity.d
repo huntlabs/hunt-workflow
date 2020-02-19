@@ -23,7 +23,7 @@ import org.flowable.bpmn.model.FlowElement;
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.AlwaysUpdatedPersistentObject;
 import flow.common.persistence.entity.Entity;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.runtime.Execution;
 import flow.engine.runtime.ProcessInstance;
 import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;

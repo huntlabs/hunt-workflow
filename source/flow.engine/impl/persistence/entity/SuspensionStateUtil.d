@@ -19,7 +19,7 @@ import flow.common.context.Context;
 import flow.common.db.SuspensionState;
 import flow.common.identity.Authentication;
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.util.CommandContextUtil;
 import org.flowable.task.api.history.HistoricTaskLogEntryType;
 import org.flowable.task.service.TaskServiceConfiguration;

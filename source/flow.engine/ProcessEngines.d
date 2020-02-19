@@ -38,11 +38,13 @@ module flow.engine.ProcessEngines;
 import hunt.collection.Map;
 import hunt.collection.HashMap;
 import hunt.collection.ArrayList;
+import hunt.collection.List;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.EngineInfo;
 import std.concurrency : initOnce;
 import flow.engine.ProcessEngine;
+import hunt.Exceptions;
 
 /**
  * Helper for initializing and closing process engines in server environments. <br>
@@ -64,80 +66,92 @@ abstract class ProcessEngines {
 
     public static string NAME_DEFAULT = "default";
 
-    protected static bool isInitialized;
-    protected static Map<string, ProcessEngine> processEngines = new HashMap<>();
-    protected static Map<string, EngineInfo> processEngineInfosByName = new HashMap<>();
-    protected static Map<string, EngineInfo> processEngineInfosByResourceUrl = new HashMap<>();
-    protected static List<EngineInfo> processEngineInfos = new ArrayList<>();
+    protected static bool isInitialized = false;
+   // protected static Map!(string, ProcessEngine) processEngines = new HashMap<>();
+  //  protected static Map!(string, EngineInfo) processEngineInfosByName = new HashMap<>();
+    //protected static Map!(string, EngineInfo) processEngineInfosByResourceUrl = new HashMap<>();
+   // protected static List!EngineInfo processEngineInfos = new ArrayList<>();
 
 
      static Map!(string, ProcessEngine) processEngines() {
          __gshared Map!(string, ProcessEngine) inst;
-         return initOnce!inst(new HashMap!(string, ProcessEngine));
+         return initOnce!inst(inst = new HashMap!(string, ProcessEngine));
      }
-
+     static Map!(string, EngineInfo) processEngineInfosByName() {
+        __gshared Map!(string, EngineInfo) inst;
+        return initOnce!inst(inst = new HashMap!(string, EngineInfo));
+    }
+     static List!EngineInfo processEngineInfos() {
+         __gshared List!EngineInfo inst;
+         return initOnce!inst(inst = new List!EngineInfo);
+     }
+     static Map!(string, EngineInfo) processEngineInfosByResourceUrl() {
+         __gshared Map!(string, EngineInfo) inst;
+         return initOnce!inst(inst = new HashMap!(string, EngineInfo));
+     }
     /**
      * Initializes all process engines that can be found on the classpath for resources <code>flowable.cfg.xml</code> (plain Flowable style configuration) and for resources
      * <code>flowable-context.xml</code> (Spring style configuration).
      */
     public static synchronized void init() {
-        if (!isInitialized()) {
-            if (processEngines is null) {
-                // Create new map to store process-engines if current map is null
-                processEngines = new HashMap<>();
-            }
-            ClassLoader classLoader = ReflectUtil.getClassLoader();
-            Enumeration<URL> resources = null;
-            try {
-                resources = classLoader.getResources("flowable.cfg.xml");
-            } catch (IOException e) {
-                throw new FlowableIllegalArgumentException("problem retrieving flowable.cfg.xml resources on the classpath: " + System.getProperty("java.class.path"), e);
-            }
-
-            // Remove duplicated configuration URL's using set. Some
-            // classloaders may return identical URL's twice, causing duplicate
-            // startups
-            Set<URL> configUrls = new HashSet<>();
-            while (resources.hasMoreElements()) {
-                configUrls.add(resources.nextElement());
-            }
-            for (URL resource : configUrls) {
-                LOGGER.info("Initializing process engine using configuration '{}'", resource);
-                initProcessEngineFromResource(resource);
-            }
-
-            try {
-                resources = classLoader.getResources("flowable-context.xml");
-            } catch (IOException e) {
-                throw new FlowableIllegalArgumentException("problem retrieving flowable-context.xml resources on the classpath: " + System.getProperty("java.class.path"), e);
-            }
-            while (resources.hasMoreElements()) {
-                URL resource = resources.nextElement();
-                LOGGER.info("Initializing process engine using Spring configuration '{}'", resource);
-                initProcessEngineFromSpringResource(resource);
-            }
-
-            setInitialized(true);
-        } else {
-            LOGGER.info("Process engines already initialized");
-        }
+        implementationMissing(false);
+        //if (!isInitialized()) {
+        //    //if (processEngines is null) {
+        //    //    // Create new map to store process-engines if current map is null
+        //    //    processEngines = new HashMap<>();
+        //    //}
+        //    ClassLoader classLoader = ReflectUtil.getClassLoader();
+        //    Enumeration<URL> resources = null;
+        //    try {
+        //        resources = classLoader.getResources("flowable.cfg.xml");
+        //    } catch (IOException e) {
+        //        throw new FlowableIllegalArgumentException("problem retrieving flowable.cfg.xml resources on the classpath: " + System.getProperty("java.class.path"), e);
+        //    }
+        //
+        //    // Remove duplicated configuration URL's using set. Some
+        //    // classloaders may return identical URL's twice, causing duplicate
+        //    // startups
+        //    Set<URL> configUrls = new HashSet<>();
+        //    while (resources.hasMoreElements()) {
+        //        configUrls.add(resources.nextElement());
+        //    }
+        //    for (URL resource : configUrls) {
+        //        LOGGER.info("Initializing process engine using configuration '{}'", resource);
+        //        initProcessEngineFromResource(resource);
+        //    }
+        //
+        //    try {
+        //        resources = classLoader.getResources("flowable-context.xml");
+        //    } catch (IOException e) {
+        //        throw new FlowableIllegalArgumentException("problem retrieving flowable-context.xml resources on the classpath: " + System.getProperty("java.class.path"), e);
+        //    }
+        //    while (resources.hasMoreElements()) {
+        //        URL resource = resources.nextElement();
+        //        LOGGER.info("Initializing process engine using Spring configuration '{}'", resource);
+        //        initProcessEngineFromSpringResource(resource);
+        //    }
+        //
+        //    setInitialized(true);
+        //} else {
+        //    LOGGER.info("Process engines already initialized");
+        //}
     }
 
-    protected static void initProcessEngineFromSpringResource(URL resource) {
-        try {
-            Class<?> springConfigurationHelperClass = ReflectUtil.loadClass("org.flowable.spring.SpringConfigurationHelper");
-            Method method = springConfigurationHelperClass.getDeclaredMethod("buildProcessEngine", new Class<?>[] { URL.class });
-            ProcessEngine processEngine = (ProcessEngine) method.invoke(null, new Object[] { resource });
-
-            string processEngineName = processEngine.getName();
-            EngineInfo processEngineInfo = new EngineInfo(processEngineName, resource.toString(), null);
-            processEngineInfosByName.put(processEngineName, processEngineInfo);
-            processEngineInfosByResourceUrl.put(resource.toString(), processEngineInfo);
-
-        } catch (Exception e) {
-            throw new FlowableException("couldn't initialize process engine from spring configuration resource " + resource + ": " + e.getMessage(), e);
-        }
-    }
+    //protected static void initProcessEngineFromSpringResource(URL resource) {
+    //    try {
+    //        Class<?> springConfigurationHelperClass = ReflectUtil.loadClass("org.flowable.spring.SpringConfigurationHelper");
+    //        Method method = springConfigurationHelperClass.getDeclaredMethod("buildProcessEngine", new Class<?>[] { URL.class });
+    //        ProcessEngine processEngine = (ProcessEngine) method.invoke(null, new Object[] { resource });
+    //
+    //        string processEngineName = processEngine.getName();
+    //        EngineInfo processEngineInfo = new EngineInfo(processEngineName, resource.toString(), null);
+    //        processEngineInfosByName.put(processEngineName, processEngineInfo);
+    //        processEngineInfosByResourceUrl.put(resource.toString(), processEngineInfo);
+    //
+    //    } catch (Exception e) {
+    //        throw new FlowableException("couldn't initialize process engine from spring configuration resource " + resource + ": " + e.getMessage(), e);
+    //    }
+    //}
 
     /**
      * Registers the given process engine. No {@link EngineInfo} will be available for this process engine. An engine that is registered will be closed when the {@link ProcessEngines#destroy()} is
@@ -154,54 +168,54 @@ abstract class ProcessEngines {
         processEngines.remove(processEngine.getName());
     }
 
-    private static EngineInfo initProcessEngineFromResource(URL resourceUrl) {
-        EngineInfo processEngineInfo = processEngineInfosByResourceUrl.get(resourceUrl.toString());
-        // if there is an existing process engine info
-        if (processEngineInfo !is null) {
-            // remove that process engine from the member fields
-            processEngineInfos.remove(processEngineInfo);
-            if (processEngineInfo.getException() is null) {
-                string processEngineName = processEngineInfo.getName();
-                processEngines.remove(processEngineName);
-                processEngineInfosByName.remove(processEngineName);
-            }
-            processEngineInfosByResourceUrl.remove(processEngineInfo.getResourceUrl());
-        }
+    //private static EngineInfo initProcessEngineFromResource(URL resourceUrl) {
+    //    EngineInfo processEngineInfo = processEngineInfosByResourceUrl.get(resourceUrl.toString());
+    //    // if there is an existing process engine info
+    //    if (processEngineInfo !is null) {
+    //        // remove that process engine from the member fields
+    //        processEngineInfos.remove(processEngineInfo);
+    //        if (processEngineInfo.getException() is null) {
+    //            string processEngineName = processEngineInfo.getName();
+    //            processEngines.remove(processEngineName);
+    //            processEngineInfosByName.remove(processEngineName);
+    //        }
+    //        processEngineInfosByResourceUrl.remove(processEngineInfo.getResourceUrl());
+    //    }
+    //
+    //    string resourceUrlString = resourceUrl.toString();
+    //    try {
+    //        LOGGER.info("initializing process engine for resource {}", resourceUrl);
+    //        ProcessEngine processEngine = buildProcessEngine(resourceUrl);
+    //        string processEngineName = processEngine.getName();
+    //        LOGGER.info("initialised process engine {}", processEngineName);
+    //        processEngineInfo = new EngineInfo(processEngineName, resourceUrlString, null);
+    //        processEngines.put(processEngineName, processEngine);
+    //        processEngineInfosByName.put(processEngineName, processEngineInfo);
+    //    } catch (Throwable e) {
+    //        LOGGER.error("Exception while initializing process engine: {}", e.getMessage(), e);
+    //        processEngineInfo = new EngineInfo(null, resourceUrlString, ExceptionUtils.getStackTrace(e));
+    //    }
+    //    processEngineInfosByResourceUrl.put(resourceUrlString, processEngineInfo);
+    //    processEngineInfos.add(processEngineInfo);
+    //    return processEngineInfo;
+    //}
 
-        string resourceUrlString = resourceUrl.toString();
-        try {
-            LOGGER.info("initializing process engine for resource {}", resourceUrl);
-            ProcessEngine processEngine = buildProcessEngine(resourceUrl);
-            string processEngineName = processEngine.getName();
-            LOGGER.info("initialised process engine {}", processEngineName);
-            processEngineInfo = new EngineInfo(processEngineName, resourceUrlString, null);
-            processEngines.put(processEngineName, processEngine);
-            processEngineInfosByName.put(processEngineName, processEngineInfo);
-        } catch (Throwable e) {
-            LOGGER.error("Exception while initializing process engine: {}", e.getMessage(), e);
-            processEngineInfo = new EngineInfo(null, resourceUrlString, ExceptionUtils.getStackTrace(e));
-        }
-        processEngineInfosByResourceUrl.put(resourceUrlString, processEngineInfo);
-        processEngineInfos.add(processEngineInfo);
-        return processEngineInfo;
-    }
-
-    private static ProcessEngine buildProcessEngine(URL resource) {
-        InputStream inputStream = null;
-        try {
-            inputStream = resource.openStream();
-            ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromInputStream(inputStream);
-            return processEngineConfiguration.buildProcessEngine();
-
-        } catch (IOException e) {
-            throw new FlowableIllegalArgumentException("couldn't open resource stream: " + e.getMessage(), e);
-        } finally {
-            IoUtil.closeSilently(inputStream);
-        }
-    }
+    //private static ProcessEngine buildProcessEngine(URL resource) {
+    //    InputStream inputStream = null;
+    //    try {
+    //        inputStream = resource.openStream();
+    //        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromInputStream(inputStream);
+    //        return processEngineConfiguration.buildProcessEngine();
+    //
+    //    } catch (IOException e) {
+    //        throw new FlowableIllegalArgumentException("couldn't open resource stream: " + e.getMessage(), e);
+    //    } finally {
+    //        IoUtil.closeSilently(inputStream);
+    //    }
+    //}
 
     /** Get initialization results. */
-    public static List<EngineInfo> getProcessEngineInfos() {
+    public static List!EngineInfo getProcessEngineInfos() {
         return processEngineInfos;
     }
 
@@ -234,18 +248,20 @@ abstract class ProcessEngines {
      * retries to initialize a process engine that previously failed.
      */
     public static EngineInfo retry(string resourceUrl) {
-        LOGGER.debug("retying initializing of resource {}", resourceUrl);
-        try {
-            return initProcessEngineFromResource(new URL(resourceUrl));
-        } catch (MalformedURLException e) {
-            throw new FlowableIllegalArgumentException("invalid url: " + resourceUrl, e);
-        }
+        implementationMissing(false);
+        return null;
+        //LOGGER.debug("retying initializing of resource {}", resourceUrl);
+        //try {
+        //    return initProcessEngineFromResource(new URL(resourceUrl));
+        //} catch (MalformedURLException e) {
+        //    throw new FlowableIllegalArgumentException("invalid url: " + resourceUrl, e);
+        //}
     }
 
     /**
      * provides access to process engine to application clients in a managed server environment.
      */
-    public static Map<string, ProcessEngine> getProcessEngines() {
+    public static Map!(string, ProcessEngine) getProcessEngines() {
         return processEngines;
     }
 
@@ -253,25 +269,27 @@ abstract class ProcessEngines {
      * closes all process engines. This method should be called when the server shuts down.
      */
     public static synchronized void destroy() {
-        if (isInitialized()) {
-            Map<string, ProcessEngine> engines = new HashMap<>(processEngines);
-            processEngines = new HashMap<>();
-
-            for (string processEngineName : engines.keySet()) {
-                ProcessEngine processEngine = engines.get(processEngineName);
-                try {
-                    processEngine.close();
-                } catch (Exception e) {
-                    LOGGER.error("exception while closing {}", (processEngineName is null ? "the default process engine" : "process engine " + processEngineName), e);
-                }
-            }
-
-            processEngineInfosByName.clear();
-            processEngineInfosByResourceUrl.clear();
-            processEngineInfos.clear();
-
-            setInitialized(false);
-        }
+        implementationMissing(false);
+        return null;
+        //if (isInitialized()) {
+        //    Map<string, ProcessEngine> engines = new HashMap<>(processEngines);
+        //    processEngines = new HashMap<>();
+        //
+        //    for (string processEngineName : engines.keySet()) {
+        //        ProcessEngine processEngine = engines.get(processEngineName);
+        //        try {
+        //            processEngine.close();
+        //        } catch (Exception e) {
+        //            LOGGER.error("exception while closing {}", (processEngineName is null ? "the default process engine" : "process engine " + processEngineName), e);
+        //        }
+        //    }
+        //
+        //    processEngineInfosByName.clear();
+        //    processEngineInfosByResourceUrl.clear();
+        //    processEngineInfos.clear();
+        //
+        //    setInitialized(false);
+        //}
     }
 
     public static bool isInitialized() {

@@ -20,9 +20,9 @@ import org.flowable.bpmn.model.FlowableListener;
 import org.flowable.bpmn.model.ImplementationType;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEventListener;
-import flow.engine.delegate.CustomPropertiesResolver;
-import flow.engine.delegate.ExecutionListener;
-import flow.engine.delegate.TransactionDependentTaskListener;
+import flow.engine.deleg.CustomPropertiesResolver;
+import flow.engine.deleg.ExecutionListener;
+import flow.engine.deleg.TransactionDependentTaskListener;
 import flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
 import flow.engine.impl.bpmn.helper.ClassDelegateFactory;
 import flow.engine.impl.bpmn.helper.DefaultClassDelegateFactory;
@@ -48,7 +48,7 @@ import flow.engine.task.Comment;
 import org.flowable.identitylink.api.IdentityLink;
 import org.flowable.job.api.Job;
 import org.flowable.task.api.Task;
-import org.flowable.task.service.delegate.TaskListener;
+import flow.task.service.deleg.TaskListener;
 
 /**
  * Default implementation of the {@link ListenerFactory}. Used when no custom {@link ListenerFactory} is injected on the {@link ProcessEngineConfigurationImpl}.

@@ -17,7 +17,7 @@ import org.flowable.bpmn.model.ConditionalEventDefinition;
 import flow.common.api.deleg.Expression;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 

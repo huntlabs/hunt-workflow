@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import flow.common.api.deleg.Expression;
-import flow.engine.delegate.DelegateExecution;
-import flow.engine.delegate.JavaDelegate;
+import flow.engine.deleg.DelegateExecution;
+import flow.engine.deleg.JavaDelegate;
 
 /**
  * @author Joram Barrez

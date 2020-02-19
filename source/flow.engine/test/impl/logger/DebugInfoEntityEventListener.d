@@ -14,7 +14,7 @@
 
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
-import flow.engine.delegate.event.BaseEntityEventListener;
+import flow.engine.deleg.event.BaseEntityEventListener;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 
 /**

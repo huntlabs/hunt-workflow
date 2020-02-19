@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import flow.common.api.deleg.Expression;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * A simple data input association between a source and a target with assignments

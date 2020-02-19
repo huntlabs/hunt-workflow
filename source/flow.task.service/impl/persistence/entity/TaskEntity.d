@@ -10,17 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.task.service.impl.persistence.TaskEntity;
+ 
+ 
+ 
 
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.task.api.Task;
-import org.flowable.task.service.delegate.DelegateTask;
+import flow.task.service.deleg.DelegateTask;
 import org.flowable.variable.api.delegate.VariableScope;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
 

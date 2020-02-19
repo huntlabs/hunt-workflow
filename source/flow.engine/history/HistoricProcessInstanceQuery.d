@@ -11,18 +11,26 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.history.HistoricProcessInstanceQuery;
+ 
+ 
+ 
 
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 import flow.common.api.query.DeleteQuery;
 import flow.common.api.query.Query;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.runtime.ProcessInstanceQuery;
-
+import flow.engine.history.HistoricProcessInstance;
 /**
  * Allows programmatic querying of {@link HistoricProcessInstance}s.
  * 
@@ -31,7 +39,7 @@ import flow.engine.runtime.ProcessInstanceQuery;
  * @author Tijs Rademakers
  * @author Falko Menge
  */
-interface HistoricProcessInstanceQuery extends Query<HistoricProcessInstanceQuery, HistoricProcessInstance>, DeleteQuery<HistoricProcessInstanceQuery, HistoricProcessInstance> {
+interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, HistoricProcessInstance), DeleteQuery<HistoricProcessInstanceQuery, HistoricProcessInstance> {
 
     /**
      * Only select historic process instances with the given process instance. {@link ProcessInstance) ids and {@link HistoricProcessInstance} ids match.

@@ -20,7 +20,7 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.AttachmentEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;

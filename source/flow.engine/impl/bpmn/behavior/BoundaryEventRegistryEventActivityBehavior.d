@@ -24,7 +24,7 @@ import flow.common.api.scope.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.ProcessEngineConfiguration;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;

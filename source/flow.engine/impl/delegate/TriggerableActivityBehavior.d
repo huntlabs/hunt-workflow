@@ -12,7 +12,7 @@
  */
 
 
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * @author Joram Barrez

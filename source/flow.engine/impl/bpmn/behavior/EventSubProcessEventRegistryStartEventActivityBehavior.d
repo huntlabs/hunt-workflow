@@ -25,7 +25,7 @@ import org.flowable.bpmn.model.SubProcess;
 import org.flowable.bpmn.model.ValuedDataObject;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.history.DeleteReason;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;

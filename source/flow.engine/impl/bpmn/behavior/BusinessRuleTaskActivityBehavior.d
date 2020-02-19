@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import flow.common.api.deleg.Expression;
-import flow.engine.delegate.BusinessRuleTaskDelegate;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.BusinessRuleTaskDelegate;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.rules.RulesAgendaFilter;
 import flow.engine.impl.rules.RulesHelper;
 import flow.engine.impl.util.ProcessDefinitionUtil;

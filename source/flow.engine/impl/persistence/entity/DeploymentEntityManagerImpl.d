@@ -28,7 +28,7 @@ import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.repository.EngineResource;
 import flow.common.util.CollectionUtil;
 import flow.engine.ProcessEngineConfiguration;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.DeploymentQueryImpl;
 import flow.engine.impl.ModelQueryImpl;
 import flow.engine.impl.ProcessDefinitionQueryImpl;

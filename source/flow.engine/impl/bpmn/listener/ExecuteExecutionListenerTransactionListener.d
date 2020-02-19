@@ -18,8 +18,8 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-import flow.engine.delegate.ExecutionListener;
-import flow.engine.delegate.TransactionDependentExecutionListener;
+import flow.engine.deleg.ExecutionListener;
+import flow.engine.deleg.TransactionDependentExecutionListener;
 
 /**
  * A {@link TransactionListener} that invokes an {@link ExecutionListener}.

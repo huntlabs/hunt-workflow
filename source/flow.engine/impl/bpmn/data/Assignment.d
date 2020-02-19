@@ -13,7 +13,7 @@
 
 
 import flow.common.api.deleg.Expression;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import org.flowable.variable.api.delegate.VariableScope;
 
 /**

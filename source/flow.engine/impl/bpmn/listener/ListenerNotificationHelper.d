@@ -26,19 +26,19 @@ import flow.common.cfg.TransactionContext;
 import flow.common.cfg.TransactionListener;
 import flow.common.cfg.TransactionState;
 import flow.common.context.Context;
-import flow.engine.delegate.BaseExecutionListener;
-import flow.engine.delegate.CustomPropertiesResolver;
-import flow.engine.delegate.DelegateExecution;
-import flow.engine.delegate.ExecutionListener;
-import flow.engine.delegate.TransactionDependentExecutionListener;
-import flow.engine.delegate.TransactionDependentTaskListener;
+import flow.engine.deleg.BaseExecutionListener;
+import flow.engine.deleg.CustomPropertiesResolver;
+import flow.engine.deleg.DelegateExecution;
+import flow.engine.deleg.ExecutionListener;
+import flow.engine.deleg.TransactionDependentExecutionListener;
+import flow.engine.deleg.TransactionDependentTaskListener;
 import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
 import flow.engine.impl.delegate.invocation.TaskListenerInvocation;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ExecutionHelper;
 import flow.engine.impl.util.ProcessDefinitionUtil;
-import org.flowable.task.service.delegate.BaseTaskListener;
-import org.flowable.task.service.delegate.TaskListener;
+import flow.task.service.deleg.BaseTaskListener;
+import flow.task.service.deleg.TaskListener;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**

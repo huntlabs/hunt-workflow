@@ -11,27 +11,35 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.ProcessEngineLifecycleListener;
+ 
+ 
+ 
 
 
 import flow.common.api.Engine;
 import flow.common.api.engine.EngineLifecycleListener;
+import flow.engine.ProcessEngine;
 
 /**
  * Interface describing a listener that gets notified when certain event occurs, related to the process-engine lifecycle it is attached to.
  * 
  * @author Frederik Heremans
  */
-interface ProcessEngineLifecycleListener extends EngineLifecycleListener {
+interface ProcessEngineLifecycleListener { //: EngineLifecycleListener {
 
-    @Override
-    default void onEngineBuilt(Engine engine) {
-        onProcessEngineBuilt((ProcessEngine) engine);
-    }
-
-    @Override
-    default void onEngineClosed(Engine engine) {
-        onProcessEngineClosed((ProcessEngine) engine);
-    }
+    //default void onEngineBuilt(Engine engine) {
+    //    onProcessEngineBuilt((ProcessEngine) engine);
+    //}
+    //
+    //default void onEngineClosed(Engine engine) {
+    //    onProcessEngineClosed((ProcessEngine) engine);
+    //}
 
     /**
      * Called right after the process-engine has been built.

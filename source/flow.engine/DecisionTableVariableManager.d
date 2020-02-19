@@ -15,7 +15,7 @@
 import java.util.List;
 import java.util.Map;
 
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

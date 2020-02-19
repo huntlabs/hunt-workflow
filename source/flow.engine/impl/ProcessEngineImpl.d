@@ -11,8 +11,18 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.impl.ProcessEngineImpl;
+ 
+ 
+ 
 
-import java.util.Map;
+
+import hunt.collection.Map;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.engine.EngineLifecycleListener;
@@ -30,19 +40,15 @@ import flow.engine.ProcessMigrationService;
 import flow.engine.RepositoryService;
 import flow.engine.RuntimeService;
 import flow.engine.TaskService;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+import hunt.logging;
 
 /**
  * @author Tom Baeyens
  */
-class ProcessEngineImpl implements ProcessEngine {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessEngineImpl.class);
-
+class ProcessEngineImpl : ProcessEngine {
     protected string name;
     protected RepositoryService repositoryService;
     protected RuntimeService runtimeService;
@@ -51,16 +57,16 @@ class ProcessEngineImpl implements ProcessEngine {
     protected TaskService taskService;
     protected FormService formService;
     protected ManagementService managementService;
-    protected DynamicBpmnService dynamicBpmnService;
-    protected ProcessMigrationService processInstanceMigrationService;
+    //protected DynamicBpmnService dynamicBpmnService;
+   // protected ProcessMigrationService processInstanceMigrationService;
     protected AsyncExecutor asyncExecutor;
     protected AsyncExecutor asyncHistoryExecutor;
     protected CommandExecutor commandExecutor;
-    protected Map<Class<?>, SessionFactory> sessionFactories;
+    //protected Map<Class<?>, SessionFactory> sessionFactories;
     protected TransactionContextFactory transactionContextFactory;
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public ProcessEngineImpl(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
         this.name = processEngineConfiguration.getEngineName();
         this.repositoryService = processEngineConfiguration.getRepositoryService();
@@ -83,20 +89,31 @@ class ProcessEngineImpl implements ProcessEngine {
         }
 
         if (name is null) {
-            LOGGER.info("default ProcessEngine created");
+            logInfo("default ProcessEngine created");
         } else {
-            LOGGER.info("ProcessEngine {} created", name);
+            logInfof("ProcessEngine {} created %s",name);
         }
 
         ProcessEngines.registerProcessEngine(this);
-
-        if (processEngineConfiguration.getEngineLifecycleListeners() !is null) {
-            for (EngineLifecycleListener engineLifecycleListener : processEngineConfiguration.getEngineLifecycleListeners()) {
-                engineLifecycleListener.onEngineBuilt(this);
-            }
+        if (processEngineConfiguration.getProcessEngineLifecycleListener() !is null) {
+            processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineBuilt(this);
         }
 
         processEngineConfiguration.getEventDispatcher().dispatchEvent(FlowableEventBuilder.createGlobalEvent(FlowableEngineEventType.ENGINE_CREATED));
+
+        if (asyncExecutor != null && asyncExecutor.isAutoActivate()) {
+            asyncExecutor.start();
+        }
+        if (asyncHistoryExecutor != null && asyncHistoryExecutor.isAutoActivate()) {
+            asyncHistoryExecutor.start();
+        }
+        //if (processEngineConfiguration.getEngineLifecycleListeners() !is null) {
+        //    for (EngineLifecycleListener engineLifecycleListener : processEngineConfiguration.getEngineLifecycleListeners()) {
+        //        engineLifecycleListener.onEngineBuilt(this);
+        //    }
+        //}
+        //
+        //processEngineConfiguration.getEventDispatcher().dispatchEvent(FlowableEventBuilder.createGlobalEvent(FlowableEngineEventType.ENGINE_CREATED));
     }
 
     @Override

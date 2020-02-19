@@ -26,7 +26,7 @@ import flow.common.api.scope.ScopeTypes;
 import flow.common.api.variable.VariableContainer;
 import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.cmmn.CaseInstanceService;
 import flow.engine.impl.delegate.SubProcessActivityBehavior;

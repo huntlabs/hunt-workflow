@@ -14,7 +14,7 @@
 
 import flow.common.api.FlowableException;
 import flow.common.scripting.ScriptingEngines;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.Condition;
 import flow.engine.impl.util.CommandContextUtil;
 

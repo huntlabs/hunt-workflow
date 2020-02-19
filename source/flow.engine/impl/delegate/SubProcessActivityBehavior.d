@@ -13,7 +13,7 @@
 
 
 
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * behavior for activities that delegate to a complete separate execution of a process definition. In BPMN terminology this can be used to implement a reusable subprocess.

@@ -12,8 +12,8 @@
  */
 
 
-import flow.engine.delegate.DelegateExecution;
-import flow.engine.delegate.JavaDelegate;
+import flow.engine.deleg.DelegateExecution;
+import flow.engine.deleg.JavaDelegate;
 
 /**
  * Class handling invocations of JavaDelegates

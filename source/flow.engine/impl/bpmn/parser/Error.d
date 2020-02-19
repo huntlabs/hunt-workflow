@@ -12,7 +12,7 @@
  */
 
 
-import flow.engine.delegate.BpmnError;
+import flow.engine.deleg.BpmnError;
 
 /**
  * Represents a BPMN Error definition, whereas {@link BpmnError} represents an actual instance of an Error.

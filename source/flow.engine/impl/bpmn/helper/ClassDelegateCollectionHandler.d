@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.delegate.FlowableCollectionHandler;
 

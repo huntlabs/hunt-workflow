@@ -12,14 +12,14 @@
  */
 
 
-import flow.engine.delegate.DelegateHelper;
+import flow.engine.deleg.DelegateHelper;
 
 public enum DelegateExpressionFieldInjectionMode {
 
     /**
      * This is the pre version 5.21 mode: field expressions are allowed and the only way to inject values.
      * 
-     * Using the {@link DelegateHelper#getField(flow.engine.delegate.DelegateExecution, string)} method is not possible when using this mode, unless the Expressions are still defined as
+     * Using the {@link DelegateHelper#getField(flow.engine.deleg.DelegateExecution, string)} method is not possible when using this mode, unless the Expressions are still defined as
      * members of the delegate (otherwise an exception will be thrown). In that case, they should not be used, but rather the DelegateHelper methods should be used.
      */
     COMPATIBILITY,

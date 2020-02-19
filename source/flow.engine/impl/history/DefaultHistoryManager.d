@@ -23,7 +23,7 @@ import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.history.HistoryLevel;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.history.HistoricActivityInstance;
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.impl.HistoricActivityInstanceQueryImpl;

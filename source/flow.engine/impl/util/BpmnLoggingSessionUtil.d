@@ -33,7 +33,7 @@ import org.flowable.bpmn.model.TimerEventDefinition;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.logging.LoggingSessionConstants;
 import flow.common.logging.LoggingSessionUtil;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.behavior.ServiceTaskDelegateExpressionActivityBehavior;
 import flow.engine.impl.bpmn.behavior.ServiceTaskExpressionActivityBehavior;
 import flow.engine.impl.bpmn.helper.ClassDelegate;

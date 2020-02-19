@@ -16,9 +16,9 @@
 import flow.common.api.deleg.Expression;
 import flow.common.interceptor.CommandContext;
 import flow.common.logging.LoggingSessionConstants;
-import flow.engine.delegate.DelegateExecution;
-import flow.engine.delegate.ExecutionListener;
-import flow.engine.delegate.JavaDelegate;
+import flow.engine.deleg.DelegateExecution;
+import flow.engine.deleg.ExecutionListener;
+import flow.engine.deleg.JavaDelegate;
 import flow.engine.impl.bpmn.helper.SkipExpressionUtil;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.delegate.ActivityBehavior;

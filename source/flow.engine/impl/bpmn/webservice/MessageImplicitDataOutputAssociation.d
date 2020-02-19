@@ -13,7 +13,7 @@
 
 
 import flow.common.api.deleg.Expression;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.behavior.WebServiceActivityBehavior;
 import flow.engine.impl.bpmn.data.AbstractDataAssociation;
 import flow.engine.impl.bpmn.data.FieldBaseStructureInstance;

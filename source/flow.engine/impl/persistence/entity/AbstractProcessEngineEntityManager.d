@@ -17,7 +17,7 @@ import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.persistence.entity.AbstractEngineEntityManager;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.data.DataManager;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 
 /**

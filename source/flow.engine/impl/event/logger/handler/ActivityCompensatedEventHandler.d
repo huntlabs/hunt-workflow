@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.event.FlowableActivityEvent;
+import flow.engine.deleg.event.FlowableActivityEvent;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
 
 /**

@@ -21,8 +21,8 @@ import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.delegate.invocation.TaskListenerInvocation;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.task.service.delegate.DelegateTask;
-import org.flowable.task.service.delegate.TaskListener;
+import flow.task.service.deleg.DelegateTask;
+import flow.task.service.deleg.TaskListener;
 
 /**
  * @author Joram Barrez

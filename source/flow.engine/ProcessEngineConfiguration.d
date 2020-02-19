@@ -30,10 +30,20 @@ import flow.engine.cfg.HttpClientConfig;
 import flow.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import flow.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 //import org.flowable.image.ProcessDiagramGenerator;
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 import org.flowable.task.service.TaskPostProcessor;
 import flow.engine.ProcessEngines;
 import flow.engine.ProcessEngine;
+import hunt.Exceptions;
+import hunt.io.Common;
+import flow.engine.RepositoryService;
+import flow.engine.RuntimeService;
+import flow.engine.FormService;
+import flow.engine.TaskService;
+import flow.engine.ManagementService;
+import flow.engine.IdentityService;
+import flow.engine.HistoryService;
+import flow.engine.ProcessEngineLifecycleListener;
 /**
  * Configuration information from which a process engine can be build.
  * 
@@ -81,7 +91,7 @@ import flow.engine.ProcessEngine;
  * @see ProcessEngines
  * @author Tom Baeyens
  */
-abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
+ class ProcessEngineConfiguration : AbstractEngineConfiguration {
 
     protected string processEngineName = ProcessEngines.NAME_DEFAULT;
     protected int idBlockSize = 2500;
@@ -110,12 +120,15 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     protected string jpaPersistenceUnitName;
     protected Object jpaEntityManagerFactory;
     protected bool jpaHandleTransaction;
-    protected bool jpaCloseEntityManager;
+    protected bool jpaCloseEntityManager;cycleListener;
+    /**
+     * Define the default lock time for an async job in seconds.
 
     protected AsyncExecutor asyncExecutor;
     protected AsyncExecutor asyncHistoryExecutor;
-    /**
-     * Define the default lock time for an async job in seconds. The lock time is used when creating an async job and when it expires the async executor assumes that the job has failed. It will be
+
+
+    protected ProcessEngineLifecycleListener processEngineLife The lock time is used when creating an async job and when it expires the async executor assumes that the job has failed. It will be
      * retried again.
      */
     protected int lockTimeAsyncJobWaitTime = 60;
@@ -127,7 +140,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     /**
      * Process diagram generator. Default value is DefaultProcessDiagramGenerator
      */
-    protected ProcessDiagramGenerator processDiagramGenerator;
+   // protected ProcessDiagramGenerator processDiagramGenerator;
 
     protected bool isCreateDiagramOnDeploy = true;
     
@@ -148,11 +161,11 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     protected bool enableHistoryCleaning = false;
     protected string historyCleaningTimeCycleConfig = "0 0 1 * * ?";
     protected int cleanInstancesEndedAfterNumberOfDays = 365;
-    protected HistoryCleaningManager historyCleaningManager;
-
+   // protected HistoryCleaningManager historyCleaningManager;
+    protected ProcessEngineLifecycleListener processEngineLifecycleListener;
 
     /** postprocessor for a task builder */
-    protected TaskPostProcessor taskPostProcessor = null;
+    //protected TaskPostProcessor taskPostProcessor = null;
 
     /** use one of the static createXxxx methods instead */
     this() {
@@ -171,7 +184,9 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     }
 
     public static ProcessEngineConfiguration createProcessEngineConfigurationFromResource(string resource, string beanName) {
-        return (ProcessEngineConfiguration) BeansConfigurationHelper.parseEngineConfigurationFromResource(resource, beanName);
+      //  return cast(ProcessEngineConfiguration) BeansConfigurationHelper.parseEngineConfigurationFromResource(resource, beanName);
+        implementationMissing(false);
+        return null;
     }
 
     public static ProcessEngineConfiguration createProcessEngineConfigurationFromInputStream(InputStream inputStream) {
@@ -179,7 +194,9 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     }
 
     public static ProcessEngineConfiguration createProcessEngineConfigurationFromInputStream(InputStream inputStream, string beanName) {
-        return (ProcessEngineConfiguration) BeansConfigurationHelper.parseEngineConfigurationFromInputStream(inputStream, beanName);
+        //return (ProcessEngineConfiguration) BeansConfigurationHelper.parseEngineConfigurationFromInputStream(inputStream, beanName);
+        implementationMissing(false);
+        return null;
     }
 
     public static ProcessEngineConfiguration createStandaloneProcessEngineConfiguration() {
@@ -188,6 +205,15 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
 
     public static ProcessEngineConfiguration createStandaloneInMemProcessEngineConfiguration() {
         return new StandaloneInMemProcessEngineConfiguration();
+    }
+
+    public ProcessEngineConfiguration setProcessEngineLifecycleListener(ProcessEngineLifecycleListener processEngineLifecycleListener) {
+        this.processEngineLifecycleListener = processEngineLifecycleListener;
+        return this;
+    }
+
+    public ProcessEngineLifecycleListener getProcessEngineLifecycleListener() {
+        return this.processEngineLifecycleListener;
     }
 
     // TODO add later when we have test coverage for this
@@ -215,7 +241,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    @Override
+    override
     public string getEngineName() {
         return processEngineName;
     }
@@ -324,31 +350,31 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public MailServerInfo getMailServer(string tenantId) {
-        return mailServers.get(tenantId);
-    }
-
-    public Map<string, MailServerInfo> getMailServers() {
-        return mailServers;
-    }
-
-    public ProcessEngineConfiguration setMailServers(Map<string, MailServerInfo> mailServers) {
-        this.mailServers.putAll(mailServers);
-        return this;
-    }
-
-    public string getMailSessionJndi(string tenantId) {
-        return mailSessionsJndi.get(tenantId);
-    }
-
-    public Map<string, string> getMailSessionsJndi() {
-        return mailSessionsJndi;
-    }
-
-    public ProcessEngineConfiguration setMailSessionsJndi(Map<string, string> mailSessionsJndi) {
-        this.mailSessionsJndi.putAll(mailSessionsJndi);
-        return this;
-    }
+    //public MailServerInfo getMailServer(string tenantId) {
+    //    return mailServers.get(tenantId);
+    //}
+    //
+    //public Map<string, MailServerInfo> getMailServers() {
+    //    return mailServers;
+    //}
+    //
+    //public ProcessEngineConfiguration setMailServers(Map<string, MailServerInfo> mailServers) {
+    //    this.mailServers.putAll(mailServers);
+    //    return this;
+    //}
+    //
+    //public string getMailSessionJndi(string tenantId) {
+    //    return mailSessionsJndi.get(tenantId);
+    //}
+    //
+    //public Map<string, string> getMailSessionsJndi() {
+    //    return mailSessionsJndi;
+    //}
+    //
+    //public ProcessEngineConfiguration setMailSessionsJndi(Map<string, string> mailSessionsJndi) {
+    //    this.mailSessionsJndi.putAll(mailSessionsJndi);
+    //    return this;
+    //}
 
     public HttpClientConfig getHttpClientConfig() {
         return httpClientConfig;
@@ -358,49 +384,49 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         this.httpClientConfig.merge(httpClientConfig);
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDatabaseType(string databaseType) {
         this.databaseType = databaseType;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDatabaseSchemaUpdate(string databaseSchemaUpdate) {
         this.databaseSchemaUpdate = databaseSchemaUpdate;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcDriver(string jdbcDriver) {
         this.jdbcDriver = jdbcDriver;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcUrl(string jdbcUrl) {
         this.jdbcUrl = jdbcUrl;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcUsername(string jdbcUsername) {
         this.jdbcUsername = jdbcUsername;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcPassword(string jdbcPassword) {
         this.jdbcPassword = jdbcPassword;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setTransactionsExternallyManaged(bool transactionsExternallyManaged) {
         this.transactionsExternallyManaged = transactionsExternallyManaged;
         return this;
@@ -424,49 +450,49 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcMaxActiveConnections(int jdbcMaxActiveConnections) {
         this.jdbcMaxActiveConnections = jdbcMaxActiveConnections;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcMaxIdleConnections(int jdbcMaxIdleConnections) {
         this.jdbcMaxIdleConnections = jdbcMaxIdleConnections;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcMaxCheckoutTime(int jdbcMaxCheckoutTime) {
         this.jdbcMaxCheckoutTime = jdbcMaxCheckoutTime;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcMaxWaitTime(int jdbcMaxWaitTime) {
         this.jdbcMaxWaitTime = jdbcMaxWaitTime;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcPingEnabled(bool jdbcPingEnabled) {
         this.jdbcPingEnabled = jdbcPingEnabled;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcPingQuery(string jdbcPingQuery) {
         this.jdbcPingQuery = jdbcPingQuery;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcPingConnectionNotUsedFor(int jdbcPingNotUsedFor) {
         this.jdbcPingConnectionNotUsedFor = jdbcPingNotUsedFor;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setJdbcDefaultTransactionIsolationLevel(int jdbcDefaultTransactionIsolationLevel) {
         this.jdbcDefaultTransactionIsolationLevel = jdbcDefaultTransactionIsolationLevel;
         return this;
@@ -490,13 +516,13 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setUseClassForNameClassLoading(bool useClassForNameClassLoading) {
         this.useClassForNameClassLoading = useClassForNameClassLoading;
         return this;
@@ -538,7 +564,7 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDataSourceJndiName(string dataSourceJndiName) {
         this.dataSourceJndiName = dataSourceJndiName;
         return this;
@@ -583,47 +609,47 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
     /**
      * @deprecated Use {@link #setEngineLifecycleListeners(List)}.
      */
-    @Deprecated
-    public ProcessEngineConfiguration setProcessEngineLifecycleListener(ProcessEngineLifecycleListener processEngineLifecycleListener) {
-        // Backwards compatibility (when there was only one typed engine listener)
-        if (engineLifecycleListeners is null || engineLifecycleListeners.isEmpty()) {
-            List<EngineLifecycleListener> engineLifecycleListeners = new ArrayList<>(1);
-            engineLifecycleListeners.add(processEngineLifecycleListener);
-            super.setEngineLifecycleListeners(engineLifecycleListeners);
-
-        } else {
-            ProcessEngineLifecycleListener originalEngineLifecycleListener = (ProcessEngineLifecycleListener) engineLifecycleListeners.get(0);
-
-            ProcessEngineLifecycleListener wrappingEngineLifecycleListener = new ProcessEngineLifecycleListener() {
-
-                @Override
-                public void onProcessEngineBuilt(ProcessEngine processEngine) {
-                    originalEngineLifecycleListener.onProcessEngineBuilt(processEngine);
-                }
-                @Override
-                public void onProcessEngineClosed(ProcessEngine processEngine) {
-                    originalEngineLifecycleListener.onProcessEngineClosed(processEngine);
-                }
-            };
-
-            engineLifecycleListeners.set(0, wrappingEngineLifecycleListener);
-
-        }
-
-        return this;
-    }
-
-    /**
-     * @deprecated Use {@link #getEngineLifecycleListeners()}.
-     */
-    @Deprecated
-    public ProcessEngineLifecycleListener getProcessEngineLifecycleListener() {
-        // Backwards compatibility (when there was only one typed engine listener)
-        if (engineLifecycleListeners !is null && !engineLifecycleListeners.isEmpty()) {
-            return (ProcessEngineLifecycleListener) engineLifecycleListeners.get(0);
-        }
-        return null;
-    }
+    //@Deprecated
+    //public ProcessEngineConfiguration setProcessEngineLifecycleListener(ProcessEngineLifecycleListener processEngineLifecycleListener) {
+    //    // Backwards compatibility (when there was only one typed engine listener)
+    //    if (engineLifecycleListeners is null || engineLifecycleListeners.isEmpty()) {
+    //        List<EngineLifecycleListener> engineLifecycleListeners = new ArrayList<>(1);
+    //        engineLifecycleListeners.add(processEngineLifecycleListener);
+    //        super.setEngineLifecycleListeners(engineLifecycleListeners);
+    //
+    //    } else {
+    //        ProcessEngineLifecycleListener originalEngineLifecycleListener = (ProcessEngineLifecycleListener) engineLifecycleListeners.get(0);
+    //
+    //        ProcessEngineLifecycleListener wrappingEngineLifecycleListener = new ProcessEngineLifecycleListener() {
+    //
+    //            override
+    //            public void onProcessEngineBuilt(ProcessEngine processEngine) {
+    //                originalEngineLifecycleListener.onProcessEngineBuilt(processEngine);
+    //            }
+    //            override
+    //            public void onProcessEngineClosed(ProcessEngine processEngine) {
+    //                originalEngineLifecycleListener.onProcessEngineClosed(processEngine);
+    //            }
+    //        };
+    //
+    //        engineLifecycleListeners.set(0, wrappingEngineLifecycleListener);
+    //
+    //    }
+    //
+    //    return this;
+    //}
+    //
+    ///**
+    // * @deprecated Use {@link #getEngineLifecycleListeners()}.
+    // */
+    //@Deprecated
+    //public ProcessEngineLifecycleListener getProcessEngineLifecycleListener() {
+    //    // Backwards compatibility (when there was only one typed engine listener)
+    //    if (engineLifecycleListeners !is null && !engineLifecycleListeners.isEmpty()) {
+    //        return (ProcessEngineLifecycleListener) engineLifecycleListeners.get(0);
+    //    }
+    //    return null;
+    //}
 
     public string getLabelFontName() {
         return labelFontName;
@@ -643,56 +669,56 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDatabaseTablePrefix(string databaseTablePrefix) {
         this.databaseTablePrefix = databaseTablePrefix;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setTablePrefixIsSchema(bool tablePrefixIsSchema) {
         this.tablePrefixIsSchema = tablePrefixIsSchema;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDatabaseWildcardEscapeCharacter(string databaseWildcardEscapeCharacter) {
         this.databaseWildcardEscapeCharacter = databaseWildcardEscapeCharacter;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDatabaseCatalog(string databaseCatalog) {
         this.databaseCatalog = databaseCatalog;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setDatabaseSchema(string databaseSchema) {
         this.databaseSchema = databaseSchema;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setXmlEncoding(string xmlEncoding) {
         this.xmlEncoding = xmlEncoding;
         return this;
     }
 
-    @Override
+    override
     public ProcessEngineConfiguration setClock(Clock clock) {
         this.clock = clock;
         return this;
     }
 
-    public ProcessDiagramGenerator getProcessDiagramGenerator() {
-        return this.processDiagramGenerator;
-    }
-
-    public ProcessEngineConfiguration setProcessDiagramGenerator(ProcessDiagramGenerator processDiagramGenerator) {
-        this.processDiagramGenerator = processDiagramGenerator;
-        return this;
-    }
+    //public ProcessDiagramGenerator getProcessDiagramGenerator() {
+    //    return this.processDiagramGenerator;
+    //}
+    //
+    //public ProcessEngineConfiguration setProcessDiagramGenerator(ProcessDiagramGenerator processDiagramGenerator) {
+    //    this.processDiagramGenerator = processDiagramGenerator;
+    //    return this;
+    //}
 
     public AsyncExecutor getAsyncExecutor() {
         return asyncExecutor;
@@ -748,13 +774,13 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public TaskPostProcessor getTaskPostProcessor() {
-        return taskPostProcessor;
-    }
-
-    public void setTaskPostProcessor(TaskPostProcessor processor) {
-        this.taskPostProcessor = processor;
-    }
+    //public TaskPostProcessor getTaskPostProcessor() {
+    //    return taskPostProcessor;
+    //}
+    //
+    //public void setTaskPostProcessor(TaskPostProcessor processor) {
+    //    this.taskPostProcessor = processor;
+    //}
 
 
     public bool isEnableHistoryCleaning() {
@@ -784,12 +810,12 @@ abstract class ProcessEngineConfiguration : AbstractEngineConfiguration {
         return this;
     }
 
-    public HistoryCleaningManager getHistoryCleaningManager() {
-        return historyCleaningManager;
-    }
-
-    public ProcessEngineConfiguration setHistoryCleaningManager(HistoryCleaningManager historyCleaningManager) {
-        this.historyCleaningManager = historyCleaningManager;
-        return this;
-    }
+    //public HistoryCleaningManager getHistoryCleaningManager() {
+    //    return historyCleaningManager;
+    //}
+    //
+    //public ProcessEngineConfiguration setHistoryCleaningManager(HistoryCleaningManager historyCleaningManager) {
+    //    this.historyCleaningManager = historyCleaningManager;
+    //    return this;
+    //}
 }

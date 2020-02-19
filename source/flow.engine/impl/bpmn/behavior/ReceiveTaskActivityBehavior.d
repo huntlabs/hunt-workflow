@@ -14,7 +14,7 @@
 
 
 import flow.engine.RuntimeService;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * A receive task is a wait state that waits for the receival of some message.

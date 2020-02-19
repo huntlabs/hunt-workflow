@@ -14,8 +14,8 @@
 
 
 import flow.common.api.deleg.Expression;
-import flow.engine.delegate.TaskListener;
-import org.flowable.task.service.delegate.DelegateTask;
+import flow.engine.deleg.TaskListener;
+import flow.task.service.deleg.DelegateTask;
 
 /**
  * @author Joram Barrez

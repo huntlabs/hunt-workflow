@@ -19,41 +19,40 @@
 module flow.common.AbstractEngineConfiguration; 
 
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ServiceLoader;
-import java.util.Set;
+import hunt.io.Common;
+//import hunt.io.InputStreamReader;
+//import java.io.Reader;
+//import java.sql.Connection;
+//import java.sql.DatabaseMetaData;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.time.Duration;
+import hunt.collection.ArrayList;
+import hunt.collection;
+//import java.util.Comparator;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
+//import java.util.Properties;
+//import java.util.ServiceLoader;
+import hunt.collection.Set;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.builder.xml.XMLConfigBuilder;
-import org.apache.ibatis.builder.xml.XMLMapperBuilder;
-import org.apache.ibatis.datasource.pooled.PooledDataSource;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.session.Configuration;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
-import org.apache.ibatis.transaction.TransactionFactory;
-import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
+//import org.apache.commons.lang3.StringUtils;
+//import org.apache.ibatis.builder.xml.XMLConfigBuilder;
+//import org.apache.ibatis.builder.xml.XMLMapperBuilder;
+//import org.apache.ibatis.datasource.pooled.PooledDataSource;
+//import org.apache.ibatis.mapping.Environment;
+//import org.apache.ibatis.plugin.Interceptor;
+//import org.apache.ibatis.session.Configuration;
+//import org.apache.ibatis.session.SqlSessionFactory;
+//import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
+//import org.apache.ibatis.transaction.TransactionFactory;
+//import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+//import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -102,10 +101,10 @@ import flow.common.util.DefaultClockImpl;
 import flow.common.util.IoUtil;
 import flow.common.util.ReflectUtil;
 import org.flowable.eventregistry.api.EventRegistryEventConsumer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 abstract class AbstractEngineConfiguration {
 
@@ -173,8 +172,8 @@ abstract class AbstractEngineConfiguration {
     protected List<CommandInterceptor> customPostCommandInterceptors;
     protected List<CommandInterceptor> commandInterceptors;
 
-    protected Map<string, AbstractEngineConfiguration> engineConfigurations = new HashMap<>();
-    protected Map<string, AbstractServiceConfiguration> serviceConfigurations = new HashMap<>();
+    protected Map!(string, AbstractEngineConfiguration) engineConfigurations;// = new HashMap<>();
+    protected Map!(string, AbstractServiceConfiguration) serviceConfigurations;// = new HashMap<>();
 
     protected ClassLoader classLoader;
     /**
@@ -399,7 +398,12 @@ abstract class AbstractEngineConfiguration {
      * Define a max length for storing string variable types in the database. Mainly used for the Oracle NVARCHAR2 limit of 2000 characters
      */
     protected int maxLengthStringVariableType = -1;
-    
+
+    this()
+    {
+        engineConfigurations = new HashMap!(string, AbstractEngineConfiguration);
+        serviceConfigurations = new HashMap!(string, AbstractServiceConfiguration);
+    }
     protected void initEngineConfigurations() {
         engineConfigurations.put(getEngineCfgKey(), this);
     }

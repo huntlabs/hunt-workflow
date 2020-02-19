@@ -17,7 +17,7 @@ import java.util.Map;
 
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.interceptor.CommandContext;
-import flow.engine.delegate.event.FlowableEntityWithVariablesEvent;
+import flow.engine.deleg.event.FlowableEntityWithVariablesEvent;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 

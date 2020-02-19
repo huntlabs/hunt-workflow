@@ -19,7 +19,7 @@ import java.util.List;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import org.flowable.job.service.impl.persistence.entity.JobEntity;

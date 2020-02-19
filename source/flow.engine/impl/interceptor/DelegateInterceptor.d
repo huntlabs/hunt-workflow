@@ -18,10 +18,10 @@ import flow.engine.impl.delegate.invocation.DelegateInvocation;
  * Interceptor responsible for handling calls to 'user code'. User code represents external Java code (e.g. services and listeners) invoked by the process engine. The following is a list of classes
  * that represent user code:
  * <ul>
- * <li>{@link flow.engine.delegate.JavaDelegate}</li>
- * <li>{@link flow.engine.delegate.ExecutionListener}</li>
- * <li>{@link flow.engine.delegate.Expression}</li>
- * <li>{@link flow.engine.delegate.TaskListener}</li>
+ * <li>{@link flow.engine.deleg.JavaDelegate}</li>
+ * <li>{@link flow.engine.deleg.ExecutionListener}</li>
+ * <li>{@link flow.engine.deleg.Expression}</li>
+ * <li>{@link flow.engine.deleg.TaskListener}</li>
  * </ul>
  * 
  * The interceptor is passed in an instance of {@link DelegateInvocation}. Implementations are responsible for calling {@link DelegateInvocation#proceed()}.

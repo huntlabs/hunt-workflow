@@ -20,7 +20,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.persistence.deploy.DeploymentCache;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
-import flow.engine.delegate.event.impl.FlowableEventBuilder;
+import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;

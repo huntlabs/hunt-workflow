@@ -48,7 +48,7 @@ import flow.common.el.ExpressionManager;
 import flow.common.history.HistoryLevel;
 import flow.common.interceptor.CommandContext;
 import flow.common.scripting.ScriptingEngines;
-import flow.engine.delegate.JavaDelegate;
+import flow.engine.deleg.JavaDelegate;
 import flow.engine.impl.ProcessInstanceQueryImpl;
 import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;

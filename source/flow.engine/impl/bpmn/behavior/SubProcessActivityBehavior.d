@@ -25,7 +25,7 @@ import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.util.CollectionUtil;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;

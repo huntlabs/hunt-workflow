@@ -15,7 +15,7 @@
 import org.flowable.bpmn.model.BoundaryEvent;
 import org.flowable.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableException;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.jobexecutor.TimerEventHandler;
 import flow.engine.impl.jobexecutor.TriggerTimerEventJobHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;

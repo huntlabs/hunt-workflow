@@ -22,7 +22,7 @@ import flow.common.history.HistoryLevel;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
-import flow.engine.delegate.TaskListener;
+import flow.engine.deleg.TaskListener;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;

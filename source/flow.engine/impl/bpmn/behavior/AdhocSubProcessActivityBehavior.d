@@ -21,7 +21,7 @@ import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.SubProcess;
 import org.flowable.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableException;
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * Implementation of the BPMN 2.0 ad-hoc subprocess.

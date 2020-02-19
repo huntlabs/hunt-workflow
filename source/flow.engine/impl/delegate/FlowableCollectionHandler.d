@@ -16,7 +16,7 @@
 import java.io.Serializable;
 import java.util.Collection;
 
-import flow.engine.delegate.DelegateExecution;
+import flow.engine.deleg.DelegateExecution;
 
 /**
  * @author Lori Small
