@@ -36,11 +36,11 @@ interface CommandExecutor {
     /**
      * Execute a command with the specified {@link CommandConfig}.
      */
-   // <T> T execute(CommandConfig config, Command<T> command);
+    Object execute(CommandConfig config, CommandAbstract command);
 
     /**
      * Execute a command with the default {@link CommandConfig}.
      */
-  //  <T> T execute(Command<T> command);
+    Object execute(CommandAbstract command);
 
 }

@@ -120,7 +120,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     protected string jpaPersistenceUnitName;
     protected Object jpaEntityManagerFactory;
     protected bool jpaHandleTransaction;
-    protected bool jpaCloseEntityManager;cycleListener;
+    protected bool jpaCloseEntityManager;
     /**
      * Define the default lock time for an async job in seconds.
 

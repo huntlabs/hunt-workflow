@@ -11,16 +11,25 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.impl.repository.DeploymentBuilderImpl;
+ 
+ 
+ 
 
-import java.io.InputStream;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+
+import hunt.io.Common;
+//import java.io.Serializable;
+//import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
+//import java.util.zip.ZipEntry;
+//import java.util.zip.ZipInputStream;
 
 import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.BpmnModel;
@@ -40,25 +49,26 @@ import flow.engine.repository.DeploymentBuilder;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class DeploymentBuilderImpl implements DeploymentBuilder, Serializable {
+class DeploymentBuilderImpl : DeploymentBuilder {
 
-    private static final long serialVersionUID = 1L;
-    protected static final string DEFAULT_ENCODING = "UTF-8";
+    private static  long serialVersionUID = 1L;
+    protected  final string DEFAULT_ENCODING = "UTF-8";
 
-    protected transient RepositoryServiceImpl repositoryService;
-    protected transient ResourceEntityManager resourceEntityManager;
+    protected  RepositoryServiceImpl repositoryService;
+    protected  ResourceEntityManager resourceEntityManager;
 
     protected DeploymentEntity deployment;
     protected bool isBpmn20XsdValidationEnabled = true;
     protected bool isProcessValidationEnabled = true;
     protected bool isDuplicateFilterEnabled;
     protected Date processDefinitionsActivationDate;
-    protected Map<string, Object> deploymentProperties = new HashMap<>();
+    protected Map!(string, Object) deploymentProperties ;//= new HashMap<>();
 
-    public DeploymentBuilderImpl(RepositoryServiceImpl repositoryService) {
+    this(RepositoryServiceImpl repositoryService) {
         this.repositoryService = repositoryService;
         this.deployment = CommandContextUtil.getProcessEngineConfiguration().getDeploymentEntityManager().create();
         this.resourceEntityManager = CommandContextUtil.getProcessEngineConfiguration().getResourceEntityManager();
+        this.deploymentProperties = new HashMap!(string, Object);
     }
 
     @Override

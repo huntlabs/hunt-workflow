@@ -11,27 +11,14 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.common.interceptor.SessionFactory;
- 
- 
-import flow.common.interceptor.CommandContext;
-import flow.common.interceptor.Session;
+
+import java.util.List;
 
 /**
- * A session factory produces a {@link Session} instance that has the lifespan of one {@link Command}.
- * 
- * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface SessionFactory {
+interface PropertyEntityManager extends EntityManager<PropertyEntity> {
 
-    TypeInfo getSessionType();
-
-    Session openSession(CommandContext commandContext);
+    List<PropertyEntity> findAll();
 
 }

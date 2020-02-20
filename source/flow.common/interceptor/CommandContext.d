@@ -27,6 +27,16 @@ module flow.common.interceptor.CommandContext;
 
 import flow.common.AbstractEngineConfiguration;
 import flow.common.interceptor.Command;
+import hunt.collection.Map;
+import hunt.collection.List;
+import hunt.collection.LinkedList;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.logging;
+import flow.common.interceptor.SessionFactory;
+import flow.common.interceptor.Session;
+import flow.common.interceptor.CommandContextCloseListener;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Agim Emruli
@@ -34,26 +44,27 @@ import flow.common.interceptor.Command;
  */
 class CommandContext {
 
-    protected Map<string, AbstractEngineConfiguration> engineConfigurations;
+    protected Map!(string, AbstractEngineConfiguration) engineConfigurations;
     protected AbstractEngineConfiguration currentEngineConfiguration;
-    protected Command<?> command;
-    protected Map<Class<?>, SessionFactory> sessionFactories;
-    protected Map<Class<?>, Session> sessions = new HashMap<>();
+    protected CommandAbstract command;
+    protected Map!(TypeInfo, SessionFactory) sessionFactories;
+    protected Map!(TypeInfo, Session) sessions ;// = new HashMap<>();
     protected Throwable exception;
-    protected List<CommandContextCloseListener> closeListeners;
-    protected Map<string, Object> attributes; // General-purpose storing of anything during the lifetime of a command context
+    protected List!CommandContextCloseListener closeListeners;
+    protected Map!(string, Object) attributes; // General-purpose storing of anything during the lifetime of a command context
     protected bool reused;
-    protected LinkedList<Object> resultStack = new LinkedList<>(); // needs to be a stack, as JavaDelegates can do api calls again
+    protected LinkedList!Object resultStack ;//= new LinkedList<>(); // needs to be a stack, as JavaDelegates can do api calls again
 
-    public CommandContext(Command<?> command) {
+    this(CommandAbstract command) {
         this.command = command;
+        sessions =  new HashMap!(TypeInfo, Session);
+        resultStack = new LinkedList!Object;
     }
 
     public void close() {
 
         // The intention of this method is that all resources are closed properly, even if exceptions occur
         // in close or flush methods of the sessions or the transaction context.
-
         try {
             try {
                 try {
@@ -96,54 +107,55 @@ class CommandContext {
         }
 
         if (exception !is null) {
-            rethrowExceptionIfNeeded();
+           // rethrowExceptionIfNeeded();
         }
     }
 
     protected void logException() {
-        if (exception instanceof FlowableException && !((FlowableException) exception).isLogged()) {
-            return;
-        }
-        
-        if (exception instanceof FlowableOptimisticLockingException) {
-            // reduce log level, as normally we're not interested in logging this exception
-            LOGGER.debug("Optimistic locking exception : {}", exception.getMessage(), exception);
-            
-        } else if (exception instanceof FlowableException && ((FlowableException) exception).isReduceLogLevel()) {
-            // reduce log level, because this may have been caused because of job deletion due to cancelActiviti="true"
-            LOGGER.info("Error while closing command context", exception);
-            
-        } else {
-            LOGGER.error("Error while closing command context", exception);
-            
-        }
+        implementationMissing(false);
+        //if (exception instanceof FlowableException && !((FlowableException) exception).isLogged()) {
+        //    return;
+        //}
+        //
+        //if (exception instanceof FlowableOptimisticLockingException) {
+        //    // reduce log level, as normally we're not interested in logging this exception
+        //    LOGGER.debug("Optimistic locking exception : {}", exception.getMessage(), exception);
+        //
+        //} else if (exception instanceof FlowableException && ((FlowableException) exception).isReduceLogLevel()) {
+        //    // reduce log level, because this may have been caused because of job deletion due to cancelActiviti="true"
+        //    LOGGER.info("Error while closing command context", exception);
+        //
+        //} else {
+        //    LOGGER.error("Error while closing command context", exception);
+        //
+        //}
     }
 
-    protected void rethrowExceptionIfNeeded() throws Error {
-        if (exception instanceof Error) {
-            throw (Error) exception;
-        } else if (exception instanceof RuntimeException) {
-            throw (RuntimeException) exception;
-        } else {
-            throw new FlowableException("exception while executing command " + command, exception);
-        }
-    }
+    //protected void rethrowExceptionIfNeeded() throws Error {
+    //    if (exception instanceof Error) {
+    //        throw (Error) exception;
+    //    } else if (exception instanceof RuntimeException) {
+    //        throw (RuntimeException) exception;
+    //    } else {
+    //        throw new FlowableException("exception while executing command " + command, exception);
+    //    }
+    //}
 
     public void addCloseListener(CommandContextCloseListener commandContextCloseListener) {
         if (closeListeners is null) {
-            closeListeners = new ArrayList<>();
+            closeListeners = new ArrayList!CommandContextCloseListener();
         }
         closeListeners.add(commandContextCloseListener);
     }
 
-    public List<CommandContextCloseListener> getCloseListeners() {
+    public List!CommandContextCloseListener getCloseListeners() {
         return closeListeners;
     }
 
     protected void executeCloseListenersClosing() {
         if (closeListeners !is null) {
             try {
-                for (CommandContextCloseListener listener : closeListeners) {
+                foreach (CommandContextCloseListener listener ; closeListeners) {
                     listener.closing(this);
                 }
             } catch (Throwable exception) {
@@ -155,7 +167,7 @@ class CommandContext {
     protected void executeCloseListenersAfterSessionFlushed() {
         if (closeListeners !is null) {
             try {
-                for (CommandContextCloseListener listener : closeListeners) {
+                foreach (CommandContextCloseListener listener ; closeListeners) {
                     listener.afterSessionsFlush(this);
                 }
             } catch (Throwable exception) {
@@ -167,7 +179,7 @@ class CommandContext {
     protected void executeCloseListenersClosed() {
         if (closeListeners !is null) {
             try {
-                for (CommandContextCloseListener listener : closeListeners) {
+                foreach (CommandContextCloseListener listener ; closeListeners) {
                     listener.closed(this);
                 }
             } catch (Throwable exception) {
@@ -179,7 +191,7 @@ class CommandContext {
     protected void executeCloseListenersCloseFailure() {
         if (closeListeners !is null) {
             try {
-                for (CommandContextCloseListener listener : closeListeners) {
+                foreach (CommandContextCloseListener listener ; closeListeners) {
                     listener.closeFailure(this);
                 }
             } catch (Throwable exception) {
@@ -189,13 +201,13 @@ class CommandContext {
     }
 
     protected void flushSessions() {
-        for (Session session : sessions.values()) {
+        foreach (Session session ; sessions.values()) {
             session.flush();
         }
     }
 
     protected void closeSessions() {
-        for (Session session : sessions.values()) {
+        foreach (Session session ; sessions.values()) {
             try {
                 session.close();
             } catch (Throwable exception) {
@@ -214,7 +226,7 @@ class CommandContext {
             this.exception = exception;
 
         } else {
-            LOGGER.error("masked exception in command context. for root cause, see below as it will be rethrown later.", exception);
+            logError("masked exception in command context. for root cause, see below as it will be rethrown later.");
         }
     }
 
@@ -236,26 +248,26 @@ class CommandContext {
         return null;
     }
     
-    @SuppressWarnings({ "unchecked" })
-    public <T> T getSession(Class<T> sessionClass) {
+    public Session getSession(TypeInfo sessionClass) {
         Session session = sessions.get(sessionClass);
         if (session is null) {
             SessionFactory sessionFactory = sessionFactories.get(sessionClass);
             if (sessionFactory is null) {
-                throw new FlowableException("no session factory configured for " + sessionClass.getName());
+                //throw new FlowableException("no session factory configured for " + sessionClass.getName());
+                logError("no session factory configured for %s",sessionClass);
             }
             session = sessionFactory.openSession(this);
             sessions.put(sessionClass, session);
         }
 
-        return (T) session;
+        return session;
     }
 
-    public Map<Class<?>, SessionFactory> getSessionFactories() {
+    public Map!(TypeInfo, SessionFactory) getSessionFactories() {
         return sessionFactories;
     }
     
-    public void setSessionFactories(Map<Class<?>, SessionFactory> sessionFactories) {
+    public void setSessionFactories(Map!(TypeInfo, SessionFactory) sessionFactories) {
         this.sessionFactories = sessionFactories;
     }   
 
@@ -267,17 +279,17 @@ class CommandContext {
         this.currentEngineConfiguration = currentEngineConfiguration;
     }
 
-    public Map<string, AbstractEngineConfiguration> getEngineConfigurations() {
+    public Map!(string, AbstractEngineConfiguration) getEngineConfigurations() {
         return engineConfigurations;
     }
 
-    public void setEngineConfigurations(Map<string, AbstractEngineConfiguration> engineConfigurations) {
+    public void setEngineConfigurations(Map!(string, AbstractEngineConfiguration) engineConfigurations) {
         this.engineConfigurations = engineConfigurations;
     }
     
     public void addEngineConfiguration(string engineKey, AbstractEngineConfiguration engineConfiguration) {
         if (engineConfigurations is null) {
-            engineConfigurations = new HashMap<>();
+            engineConfigurations = new HashMap!(string,AbstractEngineConfiguration);
         }
         engineConfigurations.put(engineKey, engineConfiguration);
     }
@@ -285,11 +297,11 @@ class CommandContext {
     // getters and setters
     // //////////////////////////////////////////////////////
     
-    public Command<?> getCommand() {
+    public CommandAbstract getCommand() {
         return command;
     }
 
-    public Map<Class<?>, Session> getSessions() {
+    public Map!(TypeInfo, Session>)getSessions() {
         return sessions;
     }
 

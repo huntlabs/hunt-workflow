@@ -17,11 +17,15 @@
  
 module flow.common.interceptor.Command;
  
- 
- 
+import flow.common.interceptor.CommandContext;
+
+interface CommandAbstract
+{
+
+}
 
 
-interface Command<T> {
-
+interface Command(T) : CommandAbstract
+{
     T execute(CommandContext commandContext);
 }

@@ -95,25 +95,25 @@ class ProcessEngineImpl : ProcessEngine {
         }
 
         ProcessEngines.registerProcessEngine(this);
-        if (processEngineConfiguration.getProcessEngineLifecycleListener() !is null) {
-            processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineBuilt(this);
-        }
-
-        processEngineConfiguration.getEventDispatcher().dispatchEvent(FlowableEventBuilder.createGlobalEvent(FlowableEngineEventType.ENGINE_CREATED));
-
-        if (asyncExecutor != null && asyncExecutor.isAutoActivate()) {
-            asyncExecutor.start();
-        }
-        if (asyncHistoryExecutor != null && asyncHistoryExecutor.isAutoActivate()) {
-            asyncHistoryExecutor.start();
-        }
-        //if (processEngineConfiguration.getEngineLifecycleListeners() !is null) {
-        //    for (EngineLifecycleListener engineLifecycleListener : processEngineConfiguration.getEngineLifecycleListeners()) {
-        //        engineLifecycleListener.onEngineBuilt(this);
-        //    }
+        //if (processEngineConfiguration.getProcessEngineLifecycleListener() !is null) {
+        //    processEngineConfiguration.getProcessEngineLifecycleListener().onProcessEngineBuilt(this);
         //}
         //
         //processEngineConfiguration.getEventDispatcher().dispatchEvent(FlowableEventBuilder.createGlobalEvent(FlowableEngineEventType.ENGINE_CREATED));
+        //
+        //if (asyncExecutor != null && asyncExecutor.isAutoActivate()) {
+        //    asyncExecutor.start();
+        //}
+        //if (asyncHistoryExecutor != null && asyncHistoryExecutor.isAutoActivate()) {
+        //    asyncHistoryExecutor.start();
+        //}
+        if (processEngineConfiguration.getEngineLifecycleListeners() !is null) {
+            foreach (EngineLifecycleListener engineLifecycleListener ; processEngineConfiguration.getEngineLifecycleListeners()) {
+                engineLifecycleListener.onEngineBuilt(this);
+            }
+        }
+
+        processEngineConfiguration.getEventDispatcher().dispatchEvent(FlowableEventBuilder.createGlobalEvent(FlowableEngineEventType.ENGINE_CREATED));
     }
 
     @Override

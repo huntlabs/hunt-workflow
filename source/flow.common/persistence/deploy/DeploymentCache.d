@@ -11,27 +11,27 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.common.interceptor.SessionFactory;
- 
- 
-import flow.common.interceptor.CommandContext;
-import flow.common.interceptor.Session;
+
+import java.util.Collection;
 
 /**
- * A session factory produces a {@link Session} instance that has the lifespan of one {@link Command}.
+ * Interface for cache implementations.
  * 
- * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface SessionFactory {
+interface DeploymentCache<T> {
 
-    TypeInfo getSessionType();
+    T get(string id);
 
-    Session openSession(CommandContext commandContext);
+    bool contains(string id);
 
+    void add(string id, T object);
+
+    void remove(string id);
+
+    void clear();
+    
+    Collection<T> getAll();
+
+    int size();
 }

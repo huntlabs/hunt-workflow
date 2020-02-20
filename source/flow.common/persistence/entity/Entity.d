@@ -16,25 +16,42 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.engine.impl.persistence.entity.ResourceEntityManager;
+module flow.common.persistence.entity.Entity;
  
  
  
-
-import flow.engine.impl.persistence.entity.ResourceEntity;
-import hunt.collection.List;
-
-import flow.common.persistence.entity.EntityManager;
 
 /**
+ * @author Tom Baeyens
  * @author Joram Barrez
+ * @author Tijs Rademakers
  */
-interface ResourceEntityManager : EntityManager<ResourceEntity> {
+interface Entity {
 
-    List<ResourceEntity> findResourcesByDeploymentId(string deploymentId);
+    string getId();
 
-    ResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName);
+    void setId(string id);
+    
+    string getIdPrefix();
 
-    void deleteResourcesByDeploymentId(string deploymentId);
+    bool isInserted();
 
+    void setInserted(bool inserted);
+
+    bool isUpdated();
+
+    void setUpdated(bool updated);
+
+    bool isDeleted();
+
+    void setDeleted(bool deleted);
+
+    /**
+     * Returns a representation of the object, as would be stored in the database. Used when deciding if updates have occurred to the object or not since it was last loaded.
+     */
+    Object getPersistentState();
+    
+    Object getOriginalPersistentState();
+    
+    void setOriginalPersistentState(Object persistentState);
 }

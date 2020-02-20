@@ -11,26 +11,7 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.engine.impl.persistence.entity.ResourceEntity;
- 
- 
- 
 
+interface AlwaysUpdatedPersistentObject {
 
-import flow.common.api.repository.EngineResource;
-import flow.common.persistence.entity.Entity;
-
-/**
- * @author Tom Baeyens
- */
-interface ResourceEntity : Entity, EngineResource {
-
-    Object getPersistentState();
-
-    void setGenerated(bool generated);
 }

@@ -11,27 +11,37 @@
  * limitations under the License.
  */
 
+//          Copyright linse 2020. 
+// Distributed under the Boost Software License, Version 1.0. 
+//    (See accompanying file LICENSE_1_0.txt or copy at 
+//          http://www.boost.org/LICENSE_1_0.txt)} 
+ 
+module flow.engine.impl.persistence.entity.DeploymentEntity;
+ 
+ 
+ 
 
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import hunt.collection.List;
+import hunt.collection.Map;
 import flow.common.api.repository.EngineResource;
 import flow.common.persistence.entity.Entity;
 import flow.engine.repository.Deployment;
-
+import flow.engine.impl.persistence.entity.ResourceEntity;
+import hunt.time.LocalDateTime;
+alias Date = LocalDateTime;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface DeploymentEntity extends Deployment, Entity {
+interface DeploymentEntity : Deployment, Entity {
 
     void addResource(ResourceEntity resource);
 
     void addDeployedArtifact(Object deployedArtifact);
 
-    <T> List<T> getDeployedArtifacts(Class<T> clazz);
+   // <T> List<T> getDeployedArtifacts(Class<T> clazz);
 
     void setName(string name);
 
@@ -41,11 +51,10 @@ interface DeploymentEntity extends Deployment, Entity {
 
     void setTenantId(string tenantId);
 
-    void setResources(Map<string, EngineResource> resources);
+    void setResources(Map!(string, EngineResource) resources);
 
     void setDeploymentTime(Date deploymentTime);
 
-    @Override
     bool isNew();
 
     void setNew(bool isNew);

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,25 +16,27 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.engine.impl.persistence.entity.ResourceEntityManager;
+module flow.common.service.CommonServiceImpl;
  
  
  
-
-import flow.engine.impl.persistence.entity.ResourceEntity;
-import hunt.collection.List;
-
-import flow.common.persistence.entity.EntityManager;
 
 /**
- * @author Joram Barrez
+ * @author Filip Hrisafov
  */
-interface ResourceEntityManager : EntityManager<ResourceEntity> {
+ abstract class CommonServiceImpl(C) {
 
-    List<ResourceEntity> findResourcesByDeploymentId(string deploymentId);
+    protected C configuration;
 
-    ResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName);
+    this() {
 
-    void deleteResourcesByDeploymentId(string deploymentId);
+    }
 
+    this(C configuration) {
+        this.configuration = configuration;
+    }
+
+    public C getConfiguration() {
+        return configuration;
+    }
 }

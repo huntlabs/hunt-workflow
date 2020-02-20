@@ -181,7 +181,7 @@ abstract class AbstractEngineConfiguration {
      */
     protected bool useClassForNameClassLoading = true;
 
-    protected List<EngineLifecycleListener> engineLifecycleListeners;
+    protected List!EngineLifecycleListener engineLifecycleListeners;
 
     // Event Registry //////////////////////////////////////////////////
     protected Map<string, EventRegistryEventConsumer> eventRegistryEventConsumers = new HashMap<>();

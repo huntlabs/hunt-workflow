@@ -23,9 +23,9 @@ module flow.engine.RepositoryService;
 
 
 
-import java.io.InputStream;
-import java.util.Date;
-import java.util.List;
+import hunt.io.Common;
+import hunt.collection.List;
+import hunt.time.LocalDateTime;
 
 import org.flowable.bpmn.model.BpmnModel;
 import flow.common.api.FlowableException;
@@ -44,10 +44,10 @@ import flow.engine.repository.NativeModelQuery;
 import flow.engine.repository.NativeProcessDefinitionQuery;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.repository.ProcessDefinitionQuery;
-import org.flowable.form.api.FormDefinition;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.validation.ValidationError;
-
+//import org.flowable.form.api.FormDefinition;
+//import org.flowable.identitylink.api.IdentityLink;
+//import org.flowable.validation.ValidationError;
+alias Date = LocalDateTime;
 /**
  * Service providing access to the repository of process definitions and deployments.
  * 
@@ -103,7 +103,7 @@ interface RepositoryService {
      * @param deploymentId
      *            id of the deployment, cannot be null.
      */
-    List<string> getDeploymentResourceNames(string deploymentId);
+    List!string getDeploymentResourceNames(string deploymentId);
 
     /**
      * Gives access to a deployment resource through a stream of bytes.
@@ -372,7 +372,7 @@ interface RepositoryService {
      * Returns the {@link BpmnModel} corresponding with the process definition with the provided process definition id. The {@link BpmnModel} is a pojo versions of the BPMN 2.0 xml and can be used to
      * introspect the process definition using regular Java.
      */
-    BpmnModel getBpmnModel(string processDefinitionId);
+    //BpmnModel getBpmnModel(string processDefinitionId);
 
     /**
      * Provides positions and dimensions of elements in a process diagram as provided by {@link RepositoryService#getProcessDiagram(string)}.
@@ -385,7 +385,7 @@ interface RepositoryService {
      * @throws FlowableObjectNotFoundException
      *             when the process model or diagram doesn't exist.
      */
-    DiagramLayout getProcessDiagramLayout(string processDefinitionId);
+    //DiagramLayout getProcessDiagramLayout(string processDefinitionId);
 
     /**
      * Returns the app resource object (.app file) for a deployment.
@@ -516,7 +516,7 @@ interface RepositoryService {
      * Retrieves the {@link IdentityLink}s associated with the given process definition. Such an {@link IdentityLink} informs how a certain identity (eg. group or user) is authorized for a certain
      * process definition
      */
-    List<IdentityLink> getIdentityLinksForProcessDefinition(string processDefinitionId);
+    //List<IdentityLink> getIdentityLinksForProcessDefinition(string processDefinitionId);
 
     /**
      * Validates the given process definition against the rules for executing a process definition on the process engine.
@@ -527,7 +527,7 @@ interface RepositoryService {
      * from classpath XMLStreamReader xtr = xif.createXMLStreamReader(in); bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
      * 
      */
-    List<ValidationError> validateProcess(BpmnModel bpmnModel);
+    //List<ValidationError> validateProcess(BpmnModel bpmnModel);
 
     /**
      * Retrieves the {@link DmnDecisionTable}s associated with the given process definition.
@@ -536,7 +536,7 @@ interface RepositoryService {
      *            id of the process definition, cannot be null.
      *
      */
-    List<DmnDecisionTable> getDecisionTablesForProcessDefinition(string processDefinitionId);
+    //List<DmnDecisionTable> getDecisionTablesForProcessDefinition(string processDefinitionId);
 
     /**
      * Retrieves the {@link FormDefinition}s associated with the given process definition.
@@ -545,6 +545,6 @@ interface RepositoryService {
      *            id of the process definition, cannot be null.
      *
      */
-    List<FormDefinition> getFormDefinitionsForProcessDefinition(string processDefinitionId);
+    //List<FormDefinition> getFormDefinitionsForProcessDefinition(string processDefinitionId);
 
 }
