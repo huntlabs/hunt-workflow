@@ -23,28 +23,30 @@ module flow.common.interceptor.CommandContextFactory;
  
 
 
-//import java.util.Map;
-
+import hunt.collection.Map;
+import flow.common.interceptor.SessionFactory;
+import flow.common.interceptor.CommandContext;
+import flow.common.interceptor.Command;
 /**
  * @author Tom Baeyens
- * @author Joram 
+ * @author Joram
  */
-//class CommandContextFactory {
-//
-//    protected Map<Class<?>, SessionFactory> sessionFactories;
-//
-//    public CommandContext createCommandContext(Command<?> cmd) {
-//        CommandContext commandContext = new CommandContext(cmd);
-//        commandContext.setSessionFactories(sessionFactories);
-//        return commandContext;
-//    }
-//
-//    public Map<Class<?>, SessionFactory> getSessionFactories() {
-//        return sessionFactories;
-//    }
-//
-//    public void setSessionFactories(Map<Class<?>, SessionFactory> sessionFactories) {
-//        this.sessionFactories = sessionFactories;
-//    }
-//
-//}
+class CommandContextFactory {
+
+    protected Map!(TypeInfo, SessionFactory) sessionFactories;
+
+    public CommandContext createCommandContext(CommandAbstract cmd) {
+        CommandContext commandContext = new CommandContext(cmd);
+        commandContext.setSessionFactories(sessionFactories);
+        return commandContext;
+    }
+
+    public Map!(TypeInfo, SessionFactory) getSessionFactories() {
+        return sessionFactories;
+    }
+
+    public void setSessionFactories(Map!(TypeInfo, SessionFactory) sessionFactories) {
+        this.sessionFactories = sessionFactories;
+    }
+
+}

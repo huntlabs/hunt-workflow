@@ -16,7 +16,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
+module flow.engine.cfg.ProcessEngineConfigurationImpl;
  
  
  
@@ -24,6 +24,7 @@ module flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 
 import hunt.io.Common;
 //import java.net.URL;
+import flow.common.EngineConfigurator;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.collection.HashMap;
@@ -45,7 +46,7 @@ import hunt.collection.Set;
 //import org.apache.ibatis.type.JdbcType;
 //import org.flowable.batch.service.BatchServiceConfiguration;
 //import org.flowable.batch.service.impl.db.BatchDbSchemaManager;
-import flow.engine.impl.ProcessEngineImpl;
+import flow.engine.ProcessEngineImpl;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.FlowableExpressionEnhancer;
 import flow.common.api.deleg.FlowableFunctionDelegate;
@@ -129,223 +130,223 @@ import flow.engine.compatibility.Flowable5CompatibilityHandlerFactory;
 import flow.engine.deleg.event.impl.BpmnModelEventDispatchAction;
 import flow.engine.dynamic.DynamicStateManager;
 import flow.engine.form.AbstractFormType;
-import flow.engine.impl.DefaultProcessJobParentStateResolver;
-import flow.engine.impl.DefaultProcessLocalizationManager;
-import flow.engine.impl.DynamicBpmnServiceImpl;
-import flow.engine.impl.FormServiceImpl;
-import flow.engine.impl.HistoryServiceImpl;
-import flow.engine.impl.IdentityServiceImpl;
-import flow.engine.impl.ManagementServiceImpl;
-import flow.engine.impl.ProcessEngineImpl;
-import flow.engine.impl.ProcessMigrationServiceImpl;
-import flow.engine.impl.RepositoryServiceImpl;
-import flow.engine.impl.RuntimeServiceImpl;
-import flow.engine.impl.SchemaOperationProcessEngineClose;
-import flow.engine.impl.SchemaOperationsProcessEngineBuild;
-import flow.engine.impl.TaskServiceImpl;
-import flow.engine.impl.agenda.AgendaSessionFactory;
-import flow.engine.impl.agenda.DefaultFlowableEngineAgendaFactory;
-import flow.engine.impl.app.AppDeployer;
-import flow.engine.impl.app.AppResourceConverterImpl;
-import flow.engine.impl.bpmn.deployer.BpmnDeployer;
-import flow.engine.impl.bpmn.deployer.BpmnDeploymentHelper;
-import flow.engine.impl.bpmn.deployer.CachingAndArtifactsManager;
-import flow.engine.impl.bpmn.deployer.EventSubscriptionManager;
-import flow.engine.impl.bpmn.deployer.ParsedDeploymentBuilderFactory;
-import flow.engine.impl.bpmn.deployer.ProcessDefinitionDiagramHelper;
-import flow.engine.impl.bpmn.deployer.TimerManager;
-import flow.engine.impl.bpmn.listener.ListenerNotificationHelper;
-import flow.engine.impl.bpmn.parser.BpmnParseHandlers;
-import flow.engine.impl.bpmn.parser.BpmnParser;
-import flow.engine.impl.bpmn.parser.factory.AbstractBehaviorFactory;
-import flow.engine.impl.bpmn.parser.factory.ActivityBehaviorFactory;
-import flow.engine.impl.bpmn.parser.factory.DefaultActivityBehaviorFactory;
-import flow.engine.impl.bpmn.parser.factory.DefaultListenerFactory;
-import flow.engine.impl.bpmn.parser.factory.DefaultXMLImporterFactory;
-import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
-import flow.engine.impl.bpmn.parser.factory.XMLImporterFactory;
-import flow.engine.impl.bpmn.parser.handler.AdhocSubProcessParseHandler;
-import flow.engine.impl.bpmn.parser.handler.BoundaryEventParseHandler;
-import flow.engine.impl.bpmn.parser.handler.BusinessRuleParseHandler;
-import flow.engine.impl.bpmn.parser.handler.CallActivityParseHandler;
-import flow.engine.impl.bpmn.parser.handler.CancelEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.CaseServiceTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.CompensateEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ConditionalEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.EndEventParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ErrorEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.EscalationEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.EventBasedGatewayParseHandler;
-import flow.engine.impl.bpmn.parser.handler.EventSubProcessParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ExclusiveGatewayParseHandler;
-import flow.engine.impl.bpmn.parser.handler.HttpServiceTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.InclusiveGatewayParseHandler;
-import flow.engine.impl.bpmn.parser.handler.IntermediateCatchEventParseHandler;
-import flow.engine.impl.bpmn.parser.handler.IntermediateThrowEventParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ManualTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.MessageEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ParallelGatewayParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ProcessParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ReceiveTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ScriptTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.SendEventServiceTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.SendTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.SequenceFlowParseHandler;
-import flow.engine.impl.bpmn.parser.handler.ServiceTaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.SignalEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.StartEventParseHandler;
-import flow.engine.impl.bpmn.parser.handler.SubProcessParseHandler;
-import flow.engine.impl.bpmn.parser.handler.TaskParseHandler;
-import flow.engine.impl.bpmn.parser.handler.TimerEventDefinitionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.TransactionParseHandler;
-import flow.engine.impl.bpmn.parser.handler.UserTaskParseHandler;
-import flow.engine.impl.cmd.RedeployV5ProcessDefinitionsCmd;
-import flow.engine.impl.cmd.ValidateExecutionRelatedEntityCountCfgCmd;
-import flow.engine.impl.cmd.ValidateTaskRelatedEntityCountCfgCmd;
-import flow.engine.impl.cmd.ValidateV5EntitiesCmd;
-import flow.engine.impl.cmmn.CaseInstanceService;
-import flow.engine.impl.db.DbIdGenerator;
-import flow.engine.impl.db.EntityDependencyOrder;
-import flow.engine.impl.db.ProcessDbSchemaManager;
-import flow.engine.impl.delegate.invocation.DefaultDelegateInterceptor;
-import flow.engine.impl.dynamic.DefaultDynamicStateManager;
-import flow.engine.impl.el.FlowableDateFunctionDelegate;
-import flow.engine.impl.el.ProcessExpressionManager;
-import flow.engine.impl.event.CompensationEventHandler;
-import flow.engine.impl.event.EventHandler;
-import flow.engine.impl.event.MessageEventHandler;
-import flow.engine.impl.event.SignalEventHandler;
-import flow.engine.impl.event.logger.EventLogger;
-import flow.engine.impl.eventregistry.BpmnEventRegistryEventConsumer;
-import flow.engine.impl.form.BooleanFormType;
-import flow.engine.impl.form.DateFormType;
-import flow.engine.impl.form.DoubleFormType;
-import flow.engine.impl.form.FormEngine;
-import flow.engine.impl.form.FormHandlerHelper;
-import flow.engine.impl.form.FormTypes;
-import flow.engine.impl.form.JuelFormEngine;
-import flow.engine.impl.form.LongFormType;
-import flow.engine.impl.form.StringFormType;
-import flow.engine.impl.formhandler.DefaultFormFieldHandler;
-import flow.engine.impl.history.DefaultHistoryManager;
-import flow.engine.impl.history.DefaultHistoryTaskManager;
-import flow.engine.impl.history.DefaultHistoryVariableManager;
-import flow.engine.impl.history.HistoryManager;
-import flow.engine.impl.history.async.AsyncHistoryManager;
-import flow.engine.impl.history.async.HistoryJsonConstants;
-import flow.engine.impl.history.async.json.transformer.ActivityEndHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ActivityFullHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ActivityStartHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ActivityUpdateHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.EntityLinkCreatedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.EntityLinkDeletedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.FormPropertiesSubmittedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.HistoricDetailVariableUpdateHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.HistoricUserTaskLogDeleteJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.HistoricUserTaskLogRecordJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.IdentityLinkCreatedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.IdentityLinkDeletedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ProcessInstanceDeleteHistoryByProcessDefinitionIdJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ProcessInstanceDeleteHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ProcessInstanceEndHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ProcessInstancePropertyChangedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.ProcessInstanceStartHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.SetProcessDefinitionHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.SubProcessInstanceStartHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.TaskAssigneeChangedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.TaskCreatedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.TaskEndedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.TaskOwnerChangedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.TaskPropertyChangedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.UpdateProcessDefinitionCascadeHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.VariableCreatedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.VariableRemovedHistoryJsonTransformer;
-import flow.engine.impl.history.async.json.transformer.VariableUpdatedHistoryJsonTransformer;
-import flow.engine.impl.interceptor.BpmnOverrideContextInterceptor;
-import flow.engine.impl.interceptor.CommandInvoker;
-import flow.engine.impl.interceptor.DefaultIdentityLinkInterceptor;
-import flow.engine.impl.interceptor.DelegateInterceptor;
-import flow.engine.impl.interceptor.LoggingExecutionTreeCommandInvoker;
-import flow.engine.impl.jobexecutor.AsyncCompleteCallActivityJobHandler;
-import flow.engine.impl.jobexecutor.AsyncContinuationJobHandler;
-import flow.engine.impl.jobexecutor.AsyncSendEventJobHandler;
-import flow.engine.impl.jobexecutor.AsyncTriggerJobHandler;
-import flow.engine.impl.jobexecutor.BpmnHistoryCleanupJobHandler;
-import flow.engine.impl.jobexecutor.DefaultFailedJobCommandFactory;
-import flow.engine.impl.jobexecutor.ProcessEventJobHandler;
-import flow.engine.impl.jobexecutor.ProcessInstanceMigrationJobHandler;
-import flow.engine.impl.jobexecutor.ProcessInstanceMigrationStatusJobHandler;
-import flow.engine.impl.jobexecutor.TimerActivateProcessDefinitionHandler;
-import flow.engine.impl.jobexecutor.TimerStartEventJobHandler;
-import flow.engine.impl.jobexecutor.TimerSuspendProcessDefinitionHandler;
-import flow.engine.impl.jobexecutor.TriggerTimerEventJobHandler;
-import flow.engine.impl.migration.ProcessInstanceMigrationManagerImpl;
-import flow.engine.impl.persistence.deploy.DeploymentManager;
-import flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
-import flow.engine.impl.persistence.deploy.ProcessDefinitionInfoCache;
-import flow.engine.impl.persistence.deploy.ProcessDefinitionInfoCacheObject;
-import flow.engine.impl.persistence.entity.ActivityInstanceEntityManager;
-import flow.engine.impl.persistence.entity.ActivityInstanceEntityManagerImpl;
-import flow.engine.impl.persistence.entity.AttachmentEntityManager;
-import flow.engine.impl.persistence.entity.AttachmentEntityManagerImpl;
-import flow.engine.impl.persistence.entity.ByteArrayEntityManager;
-import flow.engine.impl.persistence.entity.ByteArrayEntityManagerImpl;
-import flow.engine.impl.persistence.entity.CommentEntityManager;
-import flow.engine.impl.persistence.entity.CommentEntityManagerImpl;
-import flow.engine.impl.persistence.entity.DeploymentEntityManager;
-import flow.engine.impl.persistence.entity.DeploymentEntityManagerImpl;
-import flow.engine.impl.persistence.entity.EventLogEntryEntityImpl;
-import flow.engine.impl.persistence.entity.EventLogEntryEntityManager;
-import flow.engine.impl.persistence.entity.EventLogEntryEntityManagerImpl;
-import flow.engine.impl.persistence.entity.ExecutionEntityManager;
-import flow.engine.impl.persistence.entity.ExecutionEntityManagerImpl;
-import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntityManager;
-import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntityManagerImpl;
-import flow.engine.impl.persistence.entity.HistoricDetailEntityManager;
-import flow.engine.impl.persistence.entity.HistoricDetailEntityManagerImpl;
-import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntityManager;
-import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntityManagerImpl;
-import flow.engine.impl.persistence.entity.ModelEntityManager;
-import flow.engine.impl.persistence.entity.ModelEntityManagerImpl;
-import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
-import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManagerImpl;
-import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntityManager;
-import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntityManagerImpl;
-import flow.engine.impl.persistence.entity.ResourceEntityManager;
-import flow.engine.impl.persistence.entity.ResourceEntityManagerImpl;
-import flow.engine.impl.persistence.entity.TableDataManager;
-import flow.engine.impl.persistence.entity.TableDataManagerImpl;
-import flow.engine.impl.persistence.entity.data.ActivityInstanceDataManager;
-import flow.engine.impl.persistence.entity.data.AttachmentDataManager;
-import flow.engine.impl.persistence.entity.data.ByteArrayDataManager;
-import flow.engine.impl.persistence.entity.data.CommentDataManager;
-import flow.engine.impl.persistence.entity.data.DeploymentDataManager;
-import flow.engine.impl.persistence.entity.data.EventLogEntryDataManager;
-import flow.engine.impl.persistence.entity.data.ExecutionDataManager;
-import flow.engine.impl.persistence.entity.data.HistoricActivityInstanceDataManager;
-import flow.engine.impl.persistence.entity.data.HistoricDetailDataManager;
-import flow.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager;
-import flow.engine.impl.persistence.entity.data.ModelDataManager;
-import flow.engine.impl.persistence.entity.data.ProcessDefinitionDataManager;
-import flow.engine.impl.persistence.entity.data.ProcessDefinitionInfoDataManager;
-import flow.engine.impl.persistence.entity.data.ResourceDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisActivityInstanceDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisAttachmentDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisByteArrayDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisCommentDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisDeploymentDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisEventLogEntryDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisExecutionDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisHistoricActivityInstanceDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisHistoricDetailDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisHistoricProcessInstanceDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisModelDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisProcessDefinitionDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisProcessDefinitionInfoDataManager;
-import flow.engine.impl.persistence.entity.data.impl.MybatisResourceDataManager;
-import flow.engine.impl.repository.DefaultProcessDefinitionLocalizationManager;
-import flow.engine.impl.scripting.VariableScopeResolverFactory;
-import flow.engine.impl.util.ProcessInstanceHelper;
+import flow.engine.DefaultProcessJobParentStateResolver;
+import flow.engine.DefaultProcessLocalizationManager;
+import flow.engine.DynamicBpmnServiceImpl;
+import flow.engine.FormServiceImpl;
+import flow.engine.HistoryServiceImpl;
+import flow.engine.IdentityServiceImpl;
+import flow.engine.ManagementServiceImpl;
+import flow.engine.ProcessEngineImpl;
+import flow.engine.ProcessMigrationServiceImpl;
+import flow.engine.RepositoryServiceImpl;
+import flow.engine.RuntimeServiceImpl;
+import flow.engine.SchemaOperationProcessEngineClose;
+import flow.engine.SchemaOperationsProcessEngineBuild;
+import flow.engine.TaskServiceImpl;
+import flow.engine.agenda.AgendaSessionFactory;
+import flow.engine.agenda.DefaultFlowableEngineAgendaFactory;
+import flow.engine.app.AppDeployer;
+import flow.engine.app.AppResourceConverterImpl;
+import flow.engine.bpmn.deployer.BpmnDeployer;
+import flow.engine.bpmn.deployer.BpmnDeploymentHelper;
+import flow.engine.bpmn.deployer.CachingAndArtifactsManager;
+import flow.engine.bpmn.deployer.EventSubscriptionManager;
+import flow.engine.bpmn.deployer.ParsedDeploymentBuilderFactory;
+import flow.engine.bpmn.deployer.ProcessDefinitionDiagramHelper;
+import flow.engine.bpmn.deployer.TimerManager;
+import flow.engine.bpmn.listener.ListenerNotificationHelper;
+import flow.engine.bpmn.parser.BpmnParseHandlers;
+import flow.engine.bpmn.parser.BpmnParser;
+import flow.engine.bpmn.parser.factory.AbstractBehaviorFactory;
+import flow.engine.bpmn.parser.factory.ActivityBehaviorFactory;
+import flow.engine.bpmn.parser.factory.DefaultActivityBehaviorFactory;
+import flow.engine.bpmn.parser.factory.DefaultListenerFactory;
+import flow.engine.bpmn.parser.factory.DefaultXMLImporterFactory;
+import flow.engine.bpmn.parser.factory.ListenerFactory;
+import flow.engine.bpmn.parser.factory.XMLImporterFactory;
+import flow.engine.bpmn.parser.handler.AdhocSubProcessParseHandler;
+import flow.engine.bpmn.parser.handler.BoundaryEventParseHandler;
+import flow.engine.bpmn.parser.handler.BusinessRuleParseHandler;
+import flow.engine.bpmn.parser.handler.CallActivityParseHandler;
+import flow.engine.bpmn.parser.handler.CancelEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.CaseServiceTaskParseHandler;
+import flow.engine.bpmn.parser.handler.CompensateEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.ConditionalEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.EndEventParseHandler;
+import flow.engine.bpmn.parser.handler.ErrorEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.EscalationEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.EventBasedGatewayParseHandler;
+import flow.engine.bpmn.parser.handler.EventSubProcessParseHandler;
+import flow.engine.bpmn.parser.handler.ExclusiveGatewayParseHandler;
+import flow.engine.bpmn.parser.handler.HttpServiceTaskParseHandler;
+import flow.engine.bpmn.parser.handler.InclusiveGatewayParseHandler;
+import flow.engine.bpmn.parser.handler.IntermediateCatchEventParseHandler;
+import flow.engine.bpmn.parser.handler.IntermediateThrowEventParseHandler;
+import flow.engine.bpmn.parser.handler.ManualTaskParseHandler;
+import flow.engine.bpmn.parser.handler.MessageEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.ParallelGatewayParseHandler;
+import flow.engine.bpmn.parser.handler.ProcessParseHandler;
+import flow.engine.bpmn.parser.handler.ReceiveTaskParseHandler;
+import flow.engine.bpmn.parser.handler.ScriptTaskParseHandler;
+import flow.engine.bpmn.parser.handler.SendEventServiceTaskParseHandler;
+import flow.engine.bpmn.parser.handler.SendTaskParseHandler;
+import flow.engine.bpmn.parser.handler.SequenceFlowParseHandler;
+import flow.engine.bpmn.parser.handler.ServiceTaskParseHandler;
+import flow.engine.bpmn.parser.handler.SignalEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.StartEventParseHandler;
+import flow.engine.bpmn.parser.handler.SubProcessParseHandler;
+import flow.engine.bpmn.parser.handler.TaskParseHandler;
+import flow.engine.bpmn.parser.handler.TimerEventDefinitionParseHandler;
+import flow.engine.bpmn.parser.handler.TransactionParseHandler;
+import flow.engine.bpmn.parser.handler.UserTaskParseHandler;
+import flow.engine.cmd.RedeployV5ProcessDefinitionsCmd;
+import flow.engine.cmd.ValidateExecutionRelatedEntityCountCfgCmd;
+import flow.engine.cmd.ValidateTaskRelatedEntityCountCfgCmd;
+import flow.engine.cmd.ValidateV5EntitiesCmd;
+import flow.engine.cmmn.CaseInstanceService;
+import flow.engine.db.DbIdGenerator;
+import flow.engine.db.EntityDependencyOrder;
+import flow.engine.db.ProcessDbSchemaManager;
+import flow.engine.delegate.invocation.DefaultDelegateInterceptor;
+import flow.engine.dynamic.DefaultDynamicStateManager;
+import flow.engine.el.FlowableDateFunctionDelegate;
+import flow.engine.el.ProcessExpressionManager;
+import flow.engine.event.CompensationEventHandler;
+import flow.engine.event.EventHandler;
+import flow.engine.event.MessageEventHandler;
+import flow.engine.event.SignalEventHandler;
+import flow.engine.event.logger.EventLogger;
+import flow.engine.eventregistry.BpmnEventRegistryEventConsumer;
+import flow.engine.form.BooleanFormType;
+import flow.engine.form.DateFormType;
+import flow.engine.form.DoubleFormType;
+import flow.engine.form.FormEngine;
+import flow.engine.form.FormHandlerHelper;
+import flow.engine.form.FormTypes;
+import flow.engine.form.JuelFormEngine;
+import flow.engine.form.LongFormType;
+import flow.engine.form.StringFormType;
+import flow.engine.formhandler.DefaultFormFieldHandler;
+import flow.engine.history.DefaultHistoryManager;
+import flow.engine.history.DefaultHistoryTaskManager;
+import flow.engine.history.DefaultHistoryVariableManager;
+import flow.engine.history.HistoryManager;
+import flow.engine.history.async.AsyncHistoryManager;
+import flow.engine.history.async.HistoryJsonConstants;
+import flow.engine.history.async.json.transformer.ActivityEndHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.ActivityFullHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.ActivityStartHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.ActivityUpdateHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.EntityLinkCreatedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.EntityLinkDeletedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.FormPropertiesSubmittedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.HistoricDetailVariableUpdateHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.HistoricUserTaskLogDeleteJsonTransformer;
+import flow.engine.history.async.json.transformer.HistoricUserTaskLogRecordJsonTransformer;
+import flow.engine.history.async.json.transformer.IdentityLinkCreatedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.IdentityLinkDeletedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.ProcessInstanceDeleteHistoryByProcessDefinitionIdJsonTransformer;
+import flow.engine.history.async.json.transformer.ProcessInstanceDeleteHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.ProcessInstanceEndHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.ProcessInstancePropertyChangedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.ProcessInstanceStartHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.SetProcessDefinitionHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.SubProcessInstanceStartHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.TaskAssigneeChangedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.TaskCreatedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.TaskEndedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.TaskOwnerChangedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.TaskPropertyChangedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.UpdateProcessDefinitionCascadeHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.VariableCreatedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.VariableRemovedHistoryJsonTransformer;
+import flow.engine.history.async.json.transformer.VariableUpdatedHistoryJsonTransformer;
+import flow.engine.interceptor.BpmnOverrideContextInterceptor;
+import flow.engine.interceptor.CommandInvoker;
+import flow.engine.interceptor.DefaultIdentityLinkInterceptor;
+import flow.engine.interceptor.DelegateInterceptor;
+import flow.engine.interceptor.LoggingExecutionTreeCommandInvoker;
+import flow.engine.jobexecutor.AsyncCompleteCallActivityJobHandler;
+import flow.engine.jobexecutor.AsyncContinuationJobHandler;
+import flow.engine.jobexecutor.AsyncSendEventJobHandler;
+import flow.engine.jobexecutor.AsyncTriggerJobHandler;
+import flow.engine.jobexecutor.BpmnHistoryCleanupJobHandler;
+import flow.engine.jobexecutor.DefaultFailedJobCommandFactory;
+import flow.engine.jobexecutor.ProcessEventJobHandler;
+import flow.engine.jobexecutor.ProcessInstanceMigrationJobHandler;
+import flow.engine.jobexecutor.ProcessInstanceMigrationStatusJobHandler;
+import flow.engine.jobexecutor.TimerActivateProcessDefinitionHandler;
+import flow.engine.jobexecutor.TimerStartEventJobHandler;
+import flow.engine.jobexecutor.TimerSuspendProcessDefinitionHandler;
+import flow.engine.jobexecutor.TriggerTimerEventJobHandler;
+import flow.engine.migration.ProcessInstanceMigrationManagerImpl;
+import flow.engine.persistence.deploy.DeploymentManager;
+import flow.engine.persistence.deploy.ProcessDefinitionCacheEntry;
+import flow.engine.persistence.deploy.ProcessDefinitionInfoCache;
+import flow.engine.persistence.deploy.ProcessDefinitionInfoCacheObject;
+import flow.engine.persistence.entity.ActivityInstanceEntityManager;
+import flow.engine.persistence.entity.ActivityInstanceEntityManagerImpl;
+import flow.engine.persistence.entity.AttachmentEntityManager;
+import flow.engine.persistence.entity.AttachmentEntityManagerImpl;
+import flow.engine.persistence.entity.ByteArrayEntityManager;
+import flow.engine.persistence.entity.ByteArrayEntityManagerImpl;
+import flow.engine.persistence.entity.CommentEntityManager;
+import flow.engine.persistence.entity.CommentEntityManagerImpl;
+import flow.engine.persistence.entity.DeploymentEntityManager;
+import flow.engine.persistence.entity.DeploymentEntityManagerImpl;
+import flow.engine.persistence.entity.EventLogEntryEntityImpl;
+import flow.engine.persistence.entity.EventLogEntryEntityManager;
+import flow.engine.persistence.entity.EventLogEntryEntityManagerImpl;
+import flow.engine.persistence.entity.ExecutionEntityManager;
+import flow.engine.persistence.entity.ExecutionEntityManagerImpl;
+import flow.engine.persistence.entity.HistoricActivityInstanceEntityManager;
+import flow.engine.persistence.entity.HistoricActivityInstanceEntityManagerImpl;
+import flow.engine.persistence.entity.HistoricDetailEntityManager;
+import flow.engine.persistence.entity.HistoricDetailEntityManagerImpl;
+import flow.engine.persistence.entity.HistoricProcessInstanceEntityManager;
+import flow.engine.persistence.entity.HistoricProcessInstanceEntityManagerImpl;
+import flow.engine.persistence.entity.ModelEntityManager;
+import flow.engine.persistence.entity.ModelEntityManagerImpl;
+import flow.engine.persistence.entity.ProcessDefinitionEntityManager;
+import flow.engine.persistence.entity.ProcessDefinitionEntityManagerImpl;
+import flow.engine.persistence.entity.ProcessDefinitionInfoEntityManager;
+import flow.engine.persistence.entity.ProcessDefinitionInfoEntityManagerImpl;
+import flow.engine.persistence.entity.ResourceEntityManager;
+import flow.engine.persistence.entity.ResourceEntityManagerImpl;
+import flow.engine.persistence.entity.TableDataManager;
+import flow.engine.persistence.entity.TableDataManagerImpl;
+import flow.engine.persistence.entity.data.ActivityInstanceDataManager;
+import flow.engine.persistence.entity.data.AttachmentDataManager;
+import flow.engine.persistence.entity.data.ByteArrayDataManager;
+import flow.engine.persistence.entity.data.CommentDataManager;
+import flow.engine.persistence.entity.data.DeploymentDataManager;
+import flow.engine.persistence.entity.data.EventLogEntryDataManager;
+import flow.engine.persistence.entity.data.ExecutionDataManager;
+import flow.engine.persistence.entity.data.HistoricActivityInstanceDataManager;
+import flow.engine.persistence.entity.data.HistoricDetailDataManager;
+import flow.engine.persistence.entity.data.HistoricProcessInstanceDataManager;
+import flow.engine.persistence.entity.data.ModelDataManager;
+import flow.engine.persistence.entity.data.ProcessDefinitionDataManager;
+import flow.engine.persistence.entity.data.ProcessDefinitionInfoDataManager;
+import flow.engine.persistence.entity.data.ResourceDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisActivityInstanceDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisAttachmentDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisByteArrayDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisCommentDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisDeploymentDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisEventLogEntryDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisExecutionDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisHistoricActivityInstanceDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisHistoricDetailDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisHistoricProcessInstanceDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisModelDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisProcessDefinitionDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisProcessDefinitionInfoDataManager;
+import flow.engine.persistence.entity.data.impl.MybatisResourceDataManager;
+import flow.engine.repository.DefaultProcessDefinitionLocalizationManager;
+import flow.engine.scripting.VariableScopeResolverFactory;
+import flow.engine.util.ProcessInstanceHelper;
 import flow.engine.interceptor.CreateUserTaskInterceptor;
 import flow.engine.interceptor.ExecutionQueryInterceptor;
 import flow.engine.interceptor.HistoricProcessInstanceQueryInterceptor;
@@ -433,7 +434,7 @@ import org.flowable.variable.service.impl.types.SerializableType;
 import org.flowable.variable.service.impl.types.ShortType;
 import org.flowable.variable.service.impl.types.StringType;
 import org.flowable.variable.service.impl.types.UUIDType;
-import flow.engine.impl.RepositoryServiceImpl;
+import flow.engine.RepositoryServiceImpl;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -441,9 +442,9 @@ import flow.engine.impl.RepositoryServiceImpl;
 abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         ScriptingEngineAwareEngineConfiguration, HasExpressionManagerEngineConfiguration, HasVariableTypes {
 
-    public static  string DEFAULT_WS_SYNC_FACTORY = "flow.engine.impl.webservice.CxfWebServiceClientFactory";
+    public static  string DEFAULT_WS_SYNC_FACTORY = "flow.engine.webservice.CxfWebServiceClientFactory";
 
-    public static  string DEFAULT_WS_IMPORTER = "flow.engine.impl.webservice.CxfWSDLImporter";
+    public static  string DEFAULT_WS_IMPORTER = "flow.engine.webservice.CxfWSDLImporter";
 
     public static  string DEFAULT_MYBATIS_MAPPING_FILE = "org/flowable/db/mapping/mappings.xml";
 
@@ -758,7 +759,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected int asyncHistoryExecutorMaxPoolSize = 8;
     protected long asyncHistoryExecutorThreadKeepAliveTime = 5000L;
     protected int asyncHistoryExecutorThreadPoolQueueSize = 100;
-    protected BlockingQueue<Runnable> asyncHistoryExecutorThreadPoolQueue;
+    protected BlockingQueue!Runnable asyncHistoryExecutorThreadPoolQueue;
     protected long asyncHistoryExecutorSecondsToWaitOnShutdown = 60L;
     protected int asyncHistoryExecutorDefaultAsyncJobAcquireWaitTime = 10 * 1000;
     protected int asyncHistoryExecutorDefaultQueueSizeFullWaitTime;
@@ -828,7 +829,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected InternalJobManager internalJobManager;
     protected InternalJobCompatibilityManager internalJobCompatibilityManager;
 
-    protected Map<string, List<RuntimeInstanceStateChangeCallback>> processInstanceStateChangedCallbacks;
+    protected Map!(string, List!RuntimeInstanceStateChangeCallback) processInstanceStateChangedCallbacks;
 
     /**
      * This flag determines whether variables of the type 'serializable' will be tracked. This means that, when true, in a JavaDelegate you can write
@@ -842,7 +843,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected bool serializableVariableTypeTrackDeserializedObjects = true;
 
     protected ExpressionManager expressionManager;
-    protected List<string> customScriptingEngineClasses;
+    protected List!string customScriptingEngineClasses;
     protected ScriptingEngines scriptingEngines;
     protected List<ResolverFactory> resolverFactories;
 
@@ -1117,8 +1118,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    public List<CommandInterceptor> getAdditionalDefaultCommandInterceptors() {
-        return Collections.<CommandInterceptor>singletonList(new BpmnOverrideContextInterceptor());
+    public List!CommandInterceptor getAdditionalDefaultCommandInterceptors() {
+        return Collections.singletonList!CommandInterceptor(new BpmnOverrideContextInterceptor());
     }
     // services
     // /////////////////////////////////////////////////////////////////
@@ -2631,10 +2632,18 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    protected List<EngineConfigurator> getEngineSpecificEngineConfigurators() {
+    protected List!EngineConfigurator getEngineSpecificEngineConfigurators() {
         if (!disableIdmEngine || !disableEventRegistry) {
-            List<EngineConfigurator> specificConfigurators = new ArrayList<>();
-            
+
+            List!EngineConfigurator specificConfigurators = new ArrayList!EngineConfigurator();
+
+           if (!disableEventRegistry) {
+                if (eventRegistryConfiurator !is null) {
+                    specificConfigurators.add(eventRegistryConfigurator);
+                    } else {
+                    specificConfigurators.add(new EventRegistryEngineConfigurator());
+                }
+            }
             if (!disableIdmEngine) {
                 if (idmEngineConfigurator !is null) {
                     specificConfigurators.add(idmEngineConfigurator);
@@ -2642,15 +2651,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
                     specificConfigurators.add(new IdmEngineConfigurator());
                 }
             }
-            
-            if (!disableEventRegistry) {
-                if (eventRegistryConfigurator !is null) {
-                    specificConfigurators.add(eventRegistryConfigurator);
-                } else {
-                    specificConfigurators.add(new EventRegistryEngineConfigurator());
-                }
-            }
-            
+
             return specificConfigurators;
         }
         return Collections.emptyList();

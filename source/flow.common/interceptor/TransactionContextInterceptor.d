@@ -22,59 +22,65 @@ module flow.common.interceptor.TransactionContextInterceptor;
  
 
 
-//import flow.common.cfg.TransactionContext;
-//import flow.common.cfg.TransactionContextFactory;
-//import flow.common.cfg.TransactionPropagation;
-//import flow.common.context.Context;
-//
-///**
-// * @author Joram Barrez
-// */
-//class TransactionContextInterceptor extends AbstractCommandInterceptor {
-//
-//    protected TransactionContextFactory transactionContextFactory;
-//
-//    public TransactionContextInterceptor() {
-//    }
-//
-//    public TransactionContextInterceptor(TransactionContextFactory transactionContextFactory) {
-//        this.transactionContextFactory = transactionContextFactory;
-//    }
-//
-//    @Override
-//    public <T> T execute(CommandConfig config, Command<T> command) {
-//
-//        CommandContext commandContext = Context.getCommandContext();
-//        // Storing it in a variable, to reference later (it can change during command execution)
-//        bool openTransaction = !config.getTransactionPropagation().equals(TransactionPropagation.NOT_SUPPORTED)
-//                && transactionContextFactory !is null && !commandContext.isReused();
-//        bool isContextSet = false;
-//
-//        try {
-//
-//            if (openTransaction) {
-//                TransactionContext transactionContext = (TransactionContext) transactionContextFactory.openTransactionContext(commandContext);
-//                Context.setTransactionContext(transactionContext);
-//                isContextSet = true;
-//                commandContext.addCloseListener(new TransactionCommandContextCloseListener(transactionContext));
-//            }
-//
-//            return next.execute(config, command);
-//
-//        } finally {
-//            if (openTransaction && isContextSet) {
-//                Context.removeTransactionContext();
-//            }
-//        }
-//
-//    }
-//
-//    public TransactionContextFactory getTransactionContextFactory() {
-//        return transactionContextFactory;
-//    }
-//
-//    public void setTransactionContextFactory(TransactionContextFactory transactionContextFactory) {
-//        this.transactionContextFactory = transactionContextFactory;
-//    }
-//
-//}
+import flow.common.cfg.TransactionContext;
+import flow.common.cfg.TransactionContextFactory;
+import flow.common.cfg.TransactionPropagation;
+import flow.common.context.Context;
+import flow.common.interceptor.AbstractCommandInterceptor;
+import flow.common.interceptor.CommandConfig;
+import flow.common.interceptor.Command;
+import flow.common.interceptor.CommandContext;
+import flow.common.interceptor.TransactionCommandContextCloseListener;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import hunt.logging;
+/**
+ * @author Joram Barrez
+ */
+class TransactionContextInterceptor : AbstractCommandInterceptor {
+
+    protected TransactionContextFactory transactionContextFactory;
+
+    this() {
+    }
+
+    this(TransactionContextFactory transactionContextFactory) {
+        this.transactionContextFactory = transactionContextFactory;
+    }
+
+    public Object execute(CommandConfig config, CommandAbstract command) {
+
+        CommandContext commandContext = Context.getCommandContext();
+        // Storing it in a variable, to reference later (it can change during command execution)
+        bool openTransaction = !config.getTransactionPropagation().equals(TransactionPropagation.NOT_SUPPORTED)
+                && transactionContextFactory !is null && !commandContext.isReused();
+        bool isContextSet = false;
+
+        try {
+
+            if (openTransaction) {
+                TransactionContext transactionContext = cast(TransactionContext) transactionContextFactory.openTransactionContext(commandContext);
+                Context.setTransactionContext(transactionContext);
+                isContextSet = true;
+                commandContext.addCloseListener(new TransactionCommandContextCloseListener(transactionContext));
+            }
+
+            return next.execute(config, command);
+
+        } finally {
+            if (openTransaction && isContextSet) {
+                Context.removeTransactionContext();
+            }
+        }
+
+    }
+
+    public TransactionContextFactory getTransactionContextFactory() {
+        return transactionContextFactory;
+    }
+
+    public void setTransactionContextFactory(TransactionContextFactory transactionContextFactory) {
+        this.transactionContextFactory = transactionContextFactory;
+    }
+
+}

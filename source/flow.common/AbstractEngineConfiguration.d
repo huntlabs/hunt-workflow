@@ -37,10 +37,11 @@ import hunt.collection.Map;
 //import java.util.Properties;
 //import java.util.ServiceLoader;
 import hunt.collection.Set;
-
+import hunt.collection.ArrayList;
+import flow.common.EngineConfigurator;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-
+import hunt.Exceptions;
 //import org.apache.commons.lang3.StringUtils;
 //import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 //import org.apache.ibatis.builder.xml.XMLMapperBuilder;
@@ -131,7 +132,7 @@ abstract class AbstractEngineConfiguration {
 
     protected bool forceCloseMybatisConnectionPool = true;
 
-    protected string databaseType;
+    protected string databaseType = "mysql";
     protected string jdbcDriver = "org.h2.Driver";
     protected string jdbcUrl = "jdbc:h2:tcp://localhost/~/flowable";
     protected string jdbcUsername = "sa";
@@ -162,20 +163,20 @@ abstract class AbstractEngineConfiguration {
     // COMMAND EXECUTORS ///////////////////////////////////////////////
 
     protected CommandExecutor commandExecutor;
-    protected Collection<? extends CommandInterceptor> defaultCommandInterceptors;
+    protected Collection!CommandInterceptor defaultCommandInterceptors;
     protected CommandConfig defaultCommandConfig;
     protected CommandConfig schemaCommandConfig;
     protected CommandContextFactory commandContextFactory;
     protected CommandInterceptor commandInvoker;
 
-    protected List<CommandInterceptor> customPreCommandInterceptors;
-    protected List<CommandInterceptor> customPostCommandInterceptors;
-    protected List<CommandInterceptor> commandInterceptors;
+    protected List!CommandInterceptor customPreCommandInterceptors;
+    protected List!CommandInterceptor customPostCommandInterceptors;
+    protected List!CommandInterceptor commandInterceptors;
 
     protected Map!(string, AbstractEngineConfiguration) engineConfigurations;// = new HashMap<>();
     protected Map!(string, AbstractServiceConfiguration) serviceConfigurations;// = new HashMap<>();
 
-    protected ClassLoader classLoader;
+    //protected ClassLoader classLoader;
     /**
      * Either use Class.forName or ClassLoader.loadClass for class loading. See http://forums.activiti.org/content/reflectutilloadclass-and-custom- classloader
      */
@@ -184,7 +185,7 @@ abstract class AbstractEngineConfiguration {
     protected List!EngineLifecycleListener engineLifecycleListeners;
 
     // Event Registry //////////////////////////////////////////////////
-    protected Map<string, EventRegistryEventConsumer> eventRegistryEventConsumers = new HashMap<>();
+    protected Map!(string, EventRegistryEventConsumer) eventRegistryEventConsumers = new HashMap<>();
 
     // MYBATIS SQL SESSION FACTORY /////////////////////////////////////
 
@@ -211,23 +212,23 @@ abstract class AbstractEngineConfiguration {
     public int DEFAULT_MAX_NR_OF_STATEMENTS_BULK_INSERT_SQL_SERVER = 60; // currently Execution has most params (31). 2000 / 31 = 64.
 
     protected string mybatisMappingFile;
-    protected Set<Class<?>> customMybatisMappers;
-    protected Set<string> customMybatisXMLMappers;
-    protected List<Interceptor> customMybatisInterceptors;
+    protected Set!TypeInfo customMybatisMappers;
+    protected Set!string customMybatisXMLMappers;
+    protected List!Interceptor customMybatisInterceptors;
 
-    protected Set<string> dependentEngineMyBatisXmlMappers;
-    protected List<MybatisTypeAliasConfigurator> dependentEngineMybatisTypeAliasConfigs;
-    protected List<MybatisTypeHandlerConfigurator> dependentEngineMybatisTypeHandlerConfigs;
+    protected Set!string dependentEngineMyBatisXmlMappers;
+    protected List!MybatisTypeAliasConfigurator dependentEngineMybatisTypeAliasConfigs;
+    protected List!MybatisTypeHandlerConfigurator dependentEngineMybatisTypeHandlerConfigs;
 
     // SESSION FACTORIES ///////////////////////////////////////////////
-    protected List<SessionFactory> customSessionFactories;
-    protected Map<Class<?>, SessionFactory> sessionFactories;
+    protected List!SessionFactory customSessionFactories;
+    protected Map!(TypeInfo, SessionFactory) sessionFactories;
 
     protected bool enableEventDispatcher = true;
     protected FlowableEventDispatcher eventDispatcher;
-    protected List<FlowableEventListener> eventListeners;
-    protected Map<string, List<FlowableEventListener>> typedEventListeners;
-    protected List<EventDispatchAction> additionalEventDispatchActions;
+    protected List!FlowableEventListener eventListeners;
+    protected Map!(string, List!FlowableEventListener) typedEventListeners;
+    protected List!EventDispatchAction additionalEventDispatchActions;
 
     protected LoggingListener loggingListener;
 
@@ -323,15 +324,15 @@ abstract class AbstractEngineConfiguration {
 
     protected PropertyEntityManager propertyEntityManager;
 
-    protected List<EngineDeployer> customPreDeployers;
-    protected List<EngineDeployer> customPostDeployers;
-    protected List<EngineDeployer> deployers;
+    protected List!EngineDeployer customPreDeployers;
+    protected List!EngineDeployer customPostDeployers;
+    protected List!EngineDeployer deployers;
     
     // CONFIGURATORS ////////////////////////////////////////////////////////////
 
     protected bool enableConfiguratorServiceLoader = true; // Enabled by default. In certain environments this should be set to false (eg osgi)
-    protected List<EngineConfigurator> configurators; // The injected configurators
-    protected List<EngineConfigurator> allConfigurators; // Including auto-discovered configurators
+    protected List!EngineConfigurator configurators; // The injected configurators
+    protected List!EngineConfigurator allConfigurators; // Including auto-discovered configurators
     protected EngineConfigurator idmEngineConfigurator;
     protected EngineConfigurator eventRegistryConfigurator;
 
@@ -381,7 +382,7 @@ abstract class AbstractEngineConfiguration {
         return databaseTypeMappings;
     }
 
-    protected Map<Object, Object> beans;
+    protected Map!(Object, Object) beans;
 
     protected IdGenerator idGenerator;
     protected bool usePrefixId;
@@ -581,13 +582,14 @@ abstract class AbstractEngineConfiguration {
         }
     }
 
-    public Collection<? extends CommandInterceptor> getDefaultCommandInterceptors() {
+    public Collection!CommandInterceptor getDefaultCommandInterceptors() {
         if (defaultCommandInterceptors is null) {
-            List<CommandInterceptor> interceptors = new ArrayList<>();
+            List!CommandInterceptor interceptors = new ArrayList!CommandInterceptor();
             interceptors.add(new LogInterceptor());
 
             if (DATABASE_TYPE_COCKROACHDB.equals(databaseType)) {
-                interceptors.add(new CrDbRetryInterceptor());
+                implementationMissing(false);
+              //  interceptors.add(new CrDbRetryInterceptor());
             }
 
             CommandInterceptor transactionInterceptor = createTransactionInterceptor();
@@ -621,7 +623,7 @@ abstract class AbstractEngineConfiguration {
 
     abstract string getEngineCfgKey();
 
-    public List<CommandInterceptor> getAdditionalDefaultCommandInterceptors() {
+    public List!CommandInterceptor getAdditionalDefaultCommandInterceptors() {
         return null;
     }
 
@@ -632,9 +634,9 @@ abstract class AbstractEngineConfiguration {
         }
     }
 
-    public CommandInterceptor initInterceptorChain(List<CommandInterceptor> chain) {
+    public CommandInterceptor initInterceptorChain(List!CommandInterceptor chain) {
         if (chain is null || chain.isEmpty()) {
-            throw new FlowableException("invalid command interceptor chain configuration: " + chain);
+            throw new FlowableException("invalid command interceptor chain configuration: " );
         }
         for (int i = 0; i < chain.size() - 1; i++) {
             chain.get(i).setNext(chain.get(i + 1));
@@ -647,7 +649,7 @@ abstract class AbstractEngineConfiguration {
 
     public void initBeans() {
         if (beans is null) {
-            beans = new HashMap<>();
+            beans = new HashMap!(Object, Object)();
         }
     }
 
@@ -931,7 +933,7 @@ abstract class AbstractEngineConfiguration {
     
     public void initConfigurators() {
 
-        allConfigurators = new ArrayList<>();
+        allConfigurators = new ArrayList!EngineConfigurator;
         allConfigurators.addAll(getEngineSpecificEngineConfigurators());
 
         // Configurators that are explicitly added to the config
@@ -941,43 +943,43 @@ abstract class AbstractEngineConfiguration {
 
         // Auto discovery through ServiceLoader
         if (enableConfiguratorServiceLoader) {
-            ClassLoader classLoader = getClassLoader();
-            if (classLoader is null) {
-                classLoader = ReflectUtil.getClassLoader();
-            }
-
-            ServiceLoader<EngineConfigurator> configuratorServiceLoader = ServiceLoader.load(EngineConfigurator.class, classLoader);
-            int nrOfServiceLoadedConfigurators = 0;
-            for (EngineConfigurator configurator : configuratorServiceLoader) {
-                allConfigurators.add(configurator);
-                nrOfServiceLoadedConfigurators++;
-            }
-
-            if (nrOfServiceLoadedConfigurators > 0) {
-                logger.info("Found {} auto-discoverable Process Engine Configurator{}", nrOfServiceLoadedConfigurators, nrOfServiceLoadedConfigurators > 1 ? "s" : "");
-            }
+            //ClassLoader classLoader = getClassLoader();
+            //if (classLoader is null) {
+            //    classLoader = ReflectUtil.getClassLoader();
+            //}
+            //
+            //ServiceLoader<EngineConfigurator> configuratorServiceLoader = ServiceLoader.load(EngineConfigurator.class, classLoader);
+            //int nrOfServiceLoadedConfigurators = 0;
+            //for (EngineConfigurator configurator : configuratorServiceLoader) {
+            //    allConfigurators.add(configurator);
+            //    nrOfServiceLoadedConfigurators++;
+            //}
+            //
+            //if (nrOfServiceLoadedConfigurators > 0) {
+            //    logger.info("Found {} auto-discoverable Process Engine Configurator{}", nrOfServiceLoadedConfigurators, nrOfServiceLoadedConfigurators > 1 ? "s" : "");
+            //}
 
             if (!allConfigurators.isEmpty()) {
 
                 // Order them according to the priorities (useful for dependent
                 // configurator)
-                Collections.sort(allConfigurators, new Comparator<EngineConfigurator>() {
-                    @Override
-                    public int compare(EngineConfigurator configurator1, EngineConfigurator configurator2) {
-                        int priority1 = configurator1.getPriority();
-                        int priority2 = configurator2.getPriority();
-
-                        if (priority1 < priority2) {
-                            return -1;
-                        } else if (priority1 > priority2) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
+                //Collections.sort(allConfigurators, new Comparator<EngineConfigurator>() {
+                //    @Override
+                //    public int compare(EngineConfigurator configurator1, EngineConfigurator configurator2) {
+                //        int priority1 = configurator1.getPriority();
+                //        int priority2 = configurator2.getPriority();
+                //
+                //        if (priority1 < priority2) {
+                //            return -1;
+                //        } else if (priority1 > priority2) {
+                //            return 1;
+                //        }
+                //        return 0;
+                //    }
+                //});
 
                 // Execute the configurators
-                logger.info("Found {} Engine Configurators in total:", allConfigurators.size());
+                logInfo.info("Found {} Engine Configurators in total:", allConfigurators.size());
                 for (EngineConfigurator configurator : allConfigurators) {
                     logger.info("{} (priority:{})", configurator.getClass(), configurator.getPriority());
                 }
@@ -998,7 +1000,7 @@ abstract class AbstractEngineConfiguration {
         }
     }
 
-    protected List<EngineConfigurator> getEngineSpecificEngineConfigurators() {
+    protected List!EngineConfigurator getEngineSpecificEngineConfigurators() {
         // meant to be overridden if needed
         return Collections.emptyList();
     }

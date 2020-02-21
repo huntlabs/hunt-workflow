@@ -27,7 +27,7 @@ import flow.common.interceptor.Command;
  */
 interface CommandInterceptor {
 
-    //<T> T execute(CommandConfig config, Command<T> command);
+    Object execute(CommandConfig config, CommandAbstract command);
 
     CommandInterceptor getNext();
 

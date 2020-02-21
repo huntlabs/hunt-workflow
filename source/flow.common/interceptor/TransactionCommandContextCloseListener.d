@@ -19,40 +19,36 @@
 module flow.common.interceptor.TransactionCommandContextCloseListener; 
  
  
- 
+ import flow.common.interceptor.CommandContextCloseListener;
 
+import flow.common.interceptor.CommandContext;
+import flow.common.cfg.TransactionContext;
 
-//import flow.common.cfg.TransactionContext;
-//
-///**
-// * @author Joram Barrez
-// */
-//class TransactionCommandContextCloseListener implements CommandContextCloseListener {
-//
-//    protected TransactionContext transactionContext;
-//
-//    public TransactionCommandContextCloseListener(TransactionContext transactionContext) {
-//        this.transactionContext = transactionContext;
-//    }
-//
-//    @Override
-//    public void closing(CommandContext commandContext) {
-//
-//    }
-//
-//    @Override
-//    public void afterSessionsFlush(CommandContext commandContext) {
-//        transactionContext.commit();
-//    }
-//
-//    @Override
-//    public void closed(CommandContext commandContext) {
-//
-//    }
-//
-//    @Override
-//    public void closeFailure(CommandContext commandContext) {
-//        transactionContext.rollback();
-//    }
-//
-//}
+/**
+ * @author Joram Barrez
+ */
+class TransactionCommandContextCloseListener : CommandContextCloseListener {
+
+    protected TransactionContext transactionContext;
+
+    this(TransactionContext transactionContext) {
+        this.transactionContext = transactionContext;
+    }
+
+    public void closing(CommandContext commandContext) {
+
+    }
+
+    public void afterSessionsFlush(CommandContext commandContext) {
+        transactionContext.commit();
+    }
+
+    public void closed(CommandContext commandContext) {
+
+    }
+
+    public void closeFailure(CommandContext commandContext) {
+        transactionContext.rollback();
+    }
+
+}

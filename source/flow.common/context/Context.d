@@ -16,18 +16,17 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.engine.Context.Context;
+module flow.common.context.Context;
  
  
  
 
 
-import java.util.Stack;
-
-import org.flowable.common.engine.impl.cfg.TransactionContext;
-import org.flowable.common.engine.impl.interceptor.CommandContext;
-import org.flowable.common.engine.impl.transaction.TransactionContextHolder;
-
+import hunt.collection.List;
+import hunt.collection.ArrayList;
+import flow.common.cfg.TransactionContext;
+import flow.common.interceptor.CommandContext;
+import flow.common.transaction.TransactionContextHolder;
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
@@ -35,22 +34,31 @@ import org.flowable.common.engine.impl.transaction.TransactionContextHolder;
  */
 class Context {
 
-    protected static ThreadLocal<Stack<CommandContext>> commandContextThreadLocal = new ThreadLocal<>();
-
+    //protected static ThreadLocal<Stack<CommandContext>> commandContextThreadLocal = new ThreadLocal<>();
+    List!CommandContext commandContextThreadLocal;
+    static shared this()
+    {
+        List!CommandContext commandContextThreadLocal = new ArrayList!CommandContext;
+    }
     public static CommandContext getCommandContext() {
-        Stack<CommandContext> stack = getStack(commandContextThreadLocal);
-        if (stack.isEmpty()) {
+       // Stack<CommandContext> stack = getStack(commandContextThreadLocal);
+        if (commandContextThreadLocal.isEmpty()) {
             return null;
         }
-        return stack.peek();
+        return  commandContextThreadLocal.get(commandContextThreadLocal.size()-1);
+        //return stack.peek();
     }
 
     public static void setCommandContext(CommandContext commandContext) {
-        getStack(commandContextThreadLocal).push(commandContext);
+        commandContextThreadLocal.add(commandContext);
     }
 
     public static void removeCommandContext() {
-        getStack(commandContextThreadLocal).pop();
+        int s = commandContextThreadLocal.size();
+        if (s != 0)
+        {
+            commandContextThreadLocal.removeAt(s-1);
+        }
     }
 
     public static TransactionContext getTransactionContext() {
@@ -65,13 +73,13 @@ class Context {
         TransactionContextHolder.removeTransactionContext();
     }
 
-    protected static <T> Stack<T> getStack(ThreadLocal<Stack<T>> threadLocal) {
-        Stack<T> stack = threadLocal.get();
-        if (stack == null) {
-            stack = new Stack<>();
-            threadLocal.set(stack);
-        }
-        return stack;
-    }
+    //protected static <T> Stack<T> getStack(ThreadLocal<Stack<T>> threadLocal) {
+    //    Stack<T> stack = threadLocal.get();
+    //    if (stack == null) {
+    //        stack = new Stack<>();
+    //        threadLocal.set(stack);
+    //    }
+    //    return stack;
+    //}
 
 }

@@ -16,35 +16,34 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at 
 //          http://www.boost.org/LICENSE_1_0.txt)} 
  
-module flow.common.cfg.interceptor.LogInterceptor;
+module flow.common.interceptor.LogInterceptor;
  
  
  
-
-
+import  flow.common.interceptor.AbstractCommandInterceptor;
+import flow.common.interceptor.CommandConfig;
+import flow.common.interceptor.Command;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import hunt.logging;
 //
 ///**
 // * @author Tom Baeyens
 // */
-//class LogInterceptor extends AbstractCommandInterceptor {
-//
-//    private static final Logger LOGGER = LoggerFactory.getLogger(LogInterceptor.class);
-//
-//    @Override
-//    public <T> T execute(CommandConfig config, Command<T> command) {
-//        if (!LOGGER.isDebugEnabled()) {
-//            // do nothing here if we cannot log
-//            return next.execute(config, command);
-//        }
-//        LOGGER.debug("--- starting {} --------------------------------------------------------", command.getClass().getSimpleName());
-//        try {
-//
-//            return next.execute(config, command);
-//
-//        } finally {
-//            LOGGER.debug("--- {} finished --------------------------------------------------------", command.getClass().getSimpleName());
-//        }
-//    }
-//}
+class LogInterceptor : AbstractCommandInterceptor {
+
+    public Object execute(CommandConfig config, CommandAbstract command) {
+        //if (!LOGGER.isDebugEnabled()) {
+        //    // do nothing here if we cannot log
+        //    return next.execute(config, command);
+        //}
+        logInfo("--- starting {} --------------------------------------------------------");
+        try {
+
+            return next.execute(config, command);
+
+        } finally {
+            logInfo("--- {} finished --------------------------------------------------------");
+        }
+    }
+}
