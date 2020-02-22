@@ -995,7 +995,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         initEngineConfigurations();
         initConfigurators();
         configuratorsBeforeInit();
-        initProcessDiagramGenerator();
+        //initProcessDiagramGenerator();
         initHistoryLevel();
         initShortHandExpressionFunctions();
         initFunctionDelegates();

@@ -55,6 +55,7 @@ import hunt.Exceptions;
 //import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 //import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import flow.common.api.FlowableException;
+import flow.common.EngineDeployer;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.deleg.event.FlowableEventListener;
@@ -104,6 +105,7 @@ import flow.common.util.ReflectUtil;
 import org.flowable.eventregistry.api.EventRegistryEventConsumer;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import hunt.logging;
 
 //import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -213,11 +215,11 @@ abstract class AbstractEngineConfiguration {
 
     protected string mybatisMappingFile;
     protected Set!TypeInfo customMybatisMappers;
-    protected Set!string customMybatisXMLMappers;
+    protected Set!string customMybatisXMLMappers; //org.flowable.eventregistory.db.mapping.mapping.xml; 加载7个xml resources org.flowable.idm.db.mapping.mappings.xml
     protected List!Interceptor customMybatisInterceptors;
 
     protected Set!string dependentEngineMyBatisXmlMappers;
-    protected List!MybatisTypeAliasConfigurator dependentEngineMybatisTypeAliasConfigs;
+    protected List!MybatisTypeAliasConfigurator dependentEngineMybatisTypeAliasConfigs; // 已经被注释；
     protected List!MybatisTypeHandlerConfigurator dependentEngineMybatisTypeHandlerConfigs;
 
     // SESSION FACTORIES ///////////////////////////////////////////////
@@ -777,7 +779,6 @@ abstract class AbstractEngineConfiguration {
             } else {
                 transactionFactory = new JdbcTransactionFactory();
             }
-        }
     }
 
     public void initSqlSessionFactory() {
@@ -1006,8 +1007,8 @@ abstract class AbstractEngineConfiguration {
     }
 
     public void configuratorsBeforeInit() {
-        for (EngineConfigurator configurator : allConfigurators) {
-            logger.info("Executing beforeInit() of {} (priority:{})", configurator.getClass(), configurator.getPriority());
+        foreach (EngineConfigurator configurator ; allConfigurators) {
+            logInfo("Executing beforeInit() of {} (priority:{ %d})", configurator.getPriority());
             configurator.beforeInit(this);
         }
     }
@@ -1838,29 +1839,29 @@ abstract class AbstractEngineConfiguration {
         return this;
     }
 
-    public List<EngineDeployer> getDeployers() {
+    public List!EngineDeployer getDeployers() {
         return deployers;
     }
 
-    public AbstractEngineConfiguration setDeployers(List<EngineDeployer> deployers) {
+    public AbstractEngineConfiguration setDeployers(List!EngineDeployer deployers) {
         this.deployers = deployers;
         return this;
     }
 
-    public List<EngineDeployer> getCustomPreDeployers() {
+    public List!EngineDeployer getCustomPreDeployers() {
         return customPreDeployers;
     }
 
-    public AbstractEngineConfiguration setCustomPreDeployers(List<EngineDeployer> customPreDeployers) {
+    public AbstractEngineConfiguration setCustomPreDeployers(List!EngineDeployer customPreDeployers) {
         this.customPreDeployers = customPreDeployers;
         return this;
     }
 
-    public List<EngineDeployer> getCustomPostDeployers() {
+    public List!EngineDeployer getCustomPostDeployers() {
         return customPostDeployers;
     }
 
-    public AbstractEngineConfiguration setCustomPostDeployers(List<EngineDeployer> customPostDeployers) {
+    public AbstractEngineConfiguration setCustomPostDeployers(List!EngineDeployer customPostDeployers) {
         this.customPostDeployers = customPostDeployers;
         return this;
     }
