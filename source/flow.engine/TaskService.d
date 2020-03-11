@@ -1,32 +1,32 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.TaskService;
- 
- 
- 
 
 
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+
+
+import hunt.io.Common;
+import hunt.collection;
+import hunt.time.LocalDateTime;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -35,19 +35,19 @@ import flow.engine.runtime.DataObject;
 import flow.engine.task.Attachment;
 import flow.engine.task.Comment;
 import flow.engine.task.Event;
-import org.flowable.form.api.FormInfo;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.IdentityLinkType;
-import org.flowable.task.api.DelegationState;
-import org.flowable.task.api.NativeTaskQuery;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskBuilder;
-import org.flowable.task.api.TaskQuery;
-import org.flowable.variable.api.persistence.entity.VariableInstance;
+import flow.form.api.FormInfo;
+import flow.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLinkType;
+import flow.task.api.DelegationState;
+import flow.task.api.NativeTaskQuery;
+import flow.task.api.Task;
+import flow.task.api.TaskBuilder;
+import flow.task.api.TaskQuery;
+import flow.variable.service.api.persistence.entity.VariableInstance;
 
 /**
  * Service which provides access to {@link Task} and form related operations.
- * 
+ *
  * @author Tom Baeyens
  * @author Joram Barrez
  */
@@ -55,7 +55,7 @@ interface TaskService {
 
     /**
      * Creates a new task that is not related to any process instance.
-     * 
+     *
      * The returned task is transient and must be saved with {@link #saveTask(Task)} 'manually'.
      */
     Task newTask();
@@ -65,15 +65,15 @@ interface TaskService {
 
     /**
      * Create a builder for the task
-     * 
+     *
      * @return task builder
      */
     TaskBuilder createTaskBuilder();
-    
+
     /**
      * Saves the given task to the persistent data store. If the task is already present in the persistent store, it is updated. After a new task has been saved, the task instance passed into this
      * method is updated with the id of the newly created task.
-     * 
+     *
      * @param task
      *            the task, cannot be null.
      */
@@ -81,7 +81,7 @@ interface TaskService {
 
     /**
      * Deletes the given task, not deleting historic information that is related to this task.
-     * 
+     *
      * @param taskId
      *            The id of the task that will be deleted, cannot be null. If no task exists with the given taskId, the operation is ignored.
      * @throws FlowableObjectNotFoundException
@@ -93,7 +93,7 @@ interface TaskService {
 
     /**
      * Deletes all tasks of the given collection, not deleting historic information that is related to these tasks.
-     * 
+     *
      * @param taskIds
      *            The id's of the tasks that will be deleted, cannot be null. All id's in the list that don't have an existing task will be ignored.
      * @throws FlowableObjectNotFoundException
@@ -101,11 +101,11 @@ interface TaskService {
      * @throws FlowableException
      *             when an error occurs while deleting the tasks or in case one of the tasks is part of a running process.
      */
-    void deleteTasks(Collection<string> taskIds);
+    void deleteTasks(Collection!string taskIds);
 
     /**
      * Deletes the given task.
-     * 
+     *
      * @param taskId
      *            The id of the task that will be deleted, cannot be null. If no task exists with the given taskId, the operation is ignored.
      * @param cascade
@@ -119,7 +119,7 @@ interface TaskService {
 
     /**
      * Deletes all tasks of the given collection.
-     * 
+     *
      * @param taskIds
      *            The id's of the tasks that will be deleted, cannot be null. All id's in the list that don't have an existing task will be ignored.
      * @param cascade
@@ -129,11 +129,11 @@ interface TaskService {
      * @throws FlowableException
      *             when an error occurs while deleting the tasks or in case one of the tasks is part of a running process.
      */
-    void deleteTasks(Collection<string> taskIds, bool cascade);
+    void deleteTasks(Collection!string taskIds, bool cascade);
 
     /**
      * Deletes the given task, not deleting historic information that is related to this task..
-     * 
+     *
      * @param taskId
      *            The id of the task that will be deleted, cannot be null. If no task exists with the given taskId, the operation is ignored.
      * @param deleteReason
@@ -147,7 +147,7 @@ interface TaskService {
 
     /**
      * Deletes all tasks of the given collection, not deleting historic information that is related to these tasks.
-     * 
+     *
      * @param taskIds
      *            The id's of the tasks that will be deleted, cannot be null. All id's in the list that don't have an existing task will be ignored.
      * @param deleteReason
@@ -157,12 +157,12 @@ interface TaskService {
      * @throws FlowableException
      *             when an error occurs while deleting the tasks or in case one of the tasks is part of a running process.
      */
-    void deleteTasks(Collection<string> taskIds, string deleteReason);
+    void deleteTasks(Collection!string taskIds, string deleteReason);
 
     /**
      * Claim responsibility for a task: the given user is made assignee for the task. The difference with {@link #setAssignee(string, string)} is that here a check is done if the task already has a
      * user assigned to it. No check is done whether the user is known by the identity component.
-     * 
+     *
      * @param taskId
      *            task to claim, cannot be null.
      * @param userId
@@ -176,7 +176,7 @@ interface TaskService {
 
     /**
      * A shortcut to {@link #claim} with null user in order to unclaim the task
-     * 
+     *
      * @param taskId
      *            task to unclaim, cannot be null.
      * @throws FlowableObjectNotFoundException
@@ -186,7 +186,7 @@ interface TaskService {
 
     /**
      * Called when the task is successfully executed.
-     * 
+     *
      * @param taskId
      *            the id of the task to complete, cannot be null.
      * @throws FlowableObjectNotFoundException
@@ -199,7 +199,7 @@ interface TaskService {
     /**
      * Delegates the task to another user. This means that the assignee is set and the delegation state is set to {@link DelegationState#PENDING}. If no owner is set on the task, the owner is set to
      * the current assignee of the task.
-     * 
+     *
      * @param taskId
      *            The id of the task that will be delegated.
      * @param userId
@@ -212,7 +212,7 @@ interface TaskService {
     /**
      * Marks that the assignee is done with this task and that it can be send back to the owner. Can only be called when this task is {@link DelegationState#PENDING} delegation. After this method
      * returns, the {@link Task#getDelegationState() delegationState} is set to {@link DelegationState#RESOLVED}.
-     * 
+     *
      * @param taskId
      *            the id of the task to resolve, cannot be null.
      * @throws FlowableObjectNotFoundException
@@ -223,22 +223,22 @@ interface TaskService {
     /**
      * Marks that the assignee is done with this task providing the required variables and that it can be sent back to the owner. Can only be called when this task is {@link DelegationState#PENDING}
      * delegation. After this method returns, the {@link Task#getDelegationState() delegationState} is set to {@link DelegationState#RESOLVED}.
-     * 
+     *
      * @param taskId
      * @param variables
      * @throws ProcessEngineException
      *             When no task exists with the given id.
      */
-    void resolveTask(string taskId, Map<string, Object> variables);
+    void resolveTask(string taskId, Map!(string, Object) variables);
 
     /**
      * Similar to {@link #resolveTask(string, Map)}, but allows to set transient variables too.
      */
-    void resolveTask(string taskId, Map<string, Object> variables, Map<string, Object> transientVariables);
+    void resolveTask(string taskId, Map!(string, Object) variables, Map!(string, Object) transientVariables);
 
     /**
      * Called when the task is successfully executed, and the required task parameters are given by the end-user.
-     * 
+     *
      * @param taskId
      *            the id of the task to complete, cannot be null.
      * @param variables
@@ -246,16 +246,16 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task exists with the given id.
      */
-    void complete(string taskId, Map<string, Object> variables);
+    void complete(string taskId, Map!(string, Object) variables);
 
     /**
      * Similar to {@link #complete(string, Map)}, but allows to set transient variables too.
      */
-    void complete(string taskId, Map<string, Object> variables, Map<string, Object> transientVariables);
+    void complete(string taskId, Map!(string, Object) variables, Map!(string, Object) transientVariables);
 
     /**
      * Called when the task is successfully executed, and the required task parameters are given by the end-user.
-     * 
+     *
      * @param taskId
      *            the id of the task to complete, cannot be null.
      * @param variables
@@ -265,11 +265,11 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task exists with the given id.
      */
-    void complete(string taskId, Map<string, Object> variables, bool localScope);
+    void complete(string taskId, Map!(string, Object) variables, bool localScope);
 
     /**
      * Called when the task is successfully executed, and the task form has been submitted.
-     * 
+     *
      * @param taskId
      *            the id of the task to complete, cannot be null.
      * @param formDefinitionId
@@ -281,11 +281,11 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task exists with the given id.
      */
-    void completeTaskWithForm(string taskId, string formDefinitionId, string outcome, Map<string, Object> variables);
+    void completeTaskWithForm(string taskId, string formDefinitionId, string outcome, Map!(string, Object) variables);
 
     /**
      * Called when the task is successfully executed, and the task form has been submitted.
-     * 
+     *
      * @param taskId
      *            the id of the task to complete, cannot be null.
      * @param formDefinitionId
@@ -300,11 +300,11 @@ interface TaskService {
      *             when no task exists with the given id.
      */
     void completeTaskWithForm(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, Map<string, Object> transientVariables);
+            Map!(string, Object) variables, Map!(string, Object) transientVariables);
 
     /**
      * Called when the task is successfully executed, and the task form has been submitted.
-     * 
+     *
      * @param taskId
      *            the id of the task to complete, cannot be null.
      * @param formDefinitionId
@@ -319,21 +319,21 @@ interface TaskService {
      *             when no task exists with the given id.
      */
     void completeTaskWithForm(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, bool localScope);
+            Map!(string, Object) variables, bool localScope);
 
     /**
      * Gets a Form model instance of the task form of a specific task
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @throws FlowableObjectNotFoundException
      *             when the task or form definition doesn't exist.
      */
     FormInfo getTaskFormModel(string taskId);
-    
+
     /**
      * Gets a Form model instance of the task form of a specific task without any variable handling
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param ignoreVariables
@@ -345,7 +345,7 @@ interface TaskService {
 
     /**
      * Changes the assignee of the given task to the given userId. No check is done whether the user is known by the identity component.
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param userId
@@ -357,7 +357,7 @@ interface TaskService {
 
     /**
      * Transfers ownership of this task to another user. No check is done whether the user is known by the identity component.
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param userId
@@ -371,11 +371,11 @@ interface TaskService {
      * Retrieves the {@link IdentityLink}s associated with the given task. Such an {@link IdentityLink} informs how a certain identity (eg. group or user) is associated with a certain task (eg. as
      * candidate, assignee, etc.)
      */
-    List<IdentityLink> getIdentityLinksForTask(string taskId);
+    List!IdentityLink getIdentityLinksForTask(string taskId);
 
     /**
      * Convenience shorthand for {@link #addUserIdentityLink(string, string, string)}; with type {@link IdentityLinkType#CANDIDATE}
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param userId
@@ -387,7 +387,7 @@ interface TaskService {
 
     /**
      * Convenience shorthand for {@link #addGroupIdentityLink(string, string, string)}; with type {@link IdentityLinkType#CANDIDATE}
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param groupId
@@ -399,7 +399,7 @@ interface TaskService {
 
     /**
      * Involves a user with a task. The type of identity link is defined by the given identityLinkType.
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param userId
@@ -413,7 +413,7 @@ interface TaskService {
 
     /**
      * Involves a group with a task. The type of identityLink is defined by the given identityLink.
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param groupId
@@ -427,7 +427,7 @@ interface TaskService {
 
     /**
      * Convenience shorthand for {@link #deleteUserIdentityLink(string, string, string)}; with type {@link IdentityLinkType#CANDIDATE}
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param userId
@@ -439,7 +439,7 @@ interface TaskService {
 
     /**
      * Convenience shorthand for {@link #deleteGroupIdentityLink(string, string, string)}; with type {@link IdentityLinkType#CANDIDATE}
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param groupId
@@ -451,7 +451,7 @@ interface TaskService {
 
     /**
      * Removes the association between a user and a task for the given identityLinkType.
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param userId
@@ -465,7 +465,7 @@ interface TaskService {
 
     /**
      * Removes the association between a group and a task for the given identityLinkType.
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param groupId
@@ -479,9 +479,9 @@ interface TaskService {
 
     /**
      * Changes the priority of the task.
-     * 
+     *
      * Authorization: actual owner / business admin
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param priority
@@ -493,7 +493,7 @@ interface TaskService {
 
     /**
      * Changes the due date of the task
-     * 
+     *
      * @param taskId
      *            id of the task, cannot be null.
      * @param dueDate
@@ -521,7 +521,7 @@ interface TaskService {
     /**
      * set variables on a task. If the variable is not already existing, it will be created in the most outer scope. This means the process instance in case this task is related to an execution.
      */
-    void setVariables(string taskId, Map<string, ? extends Object> variables);
+    void setVariables(string taskId, Map!(string,Object) variables);
 
     /**
      * set variable on a task. If the variable is not already existing, it will be created in the task.
@@ -531,7 +531,7 @@ interface TaskService {
     /**
      * set variables on a task. If the variable is not already existing, it will be created in the task.
      */
-    void setVariablesLocal(string taskId, Map<string, ? extends Object> variables);
+    void setVariablesLocal(string taskId, Map!(string,Object) variables);
 
     /**
      * get a variables and search in the task scope and if available also the execution scopes.
@@ -541,7 +541,7 @@ interface TaskService {
     /**
      * get a variables and search in the task scope and if available also the execution scopes.
      */
-    <T> T getVariable(string taskId, string variableName, Class<T> variableClass);
+    Object getVariable(string taskId, string variableName, TypeInfo variableClass);
 
     /**
      * The variable. Searching for the variable is done in all scopes that are visible to the given task (including parent scopes). Returns null when no variable value is found with the given name.
@@ -569,7 +569,7 @@ interface TaskService {
     /**
      * checks whether or not the task has a variable defined with the given name.
      */
-    <T> T getVariableLocal(string taskId, string variableName, Class<T> variableClass);
+    Object getVariableLocal(string taskId, string variableName, TypeInfo variableClass);
 
     /**
      * The variable for a task. Returns the variable when it is set for the task (and not searching parent scopes). Returns null when no variable is found with the given name.
@@ -593,7 +593,7 @@ interface TaskService {
      * get all variables and search in the task scope and if available also the execution scopes. If you have many variables and you only need a few, consider using
      * {@link #getVariables(string, Collection)} for better performance.
      */
-    Map<string, Object> getVariables(string taskId);
+    Map!(string, Object) getVariables(string taskId);
 
     /**
      * All variables visible from the given task scope (including parent scopes).
@@ -604,7 +604,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given taskId.
      */
-    Map<string, VariableInstance> getVariableInstances(string taskId);
+    Map!(string, VariableInstance) getVariableInstances(string taskId);
 
     /**
      * The variable values for all given variableNames, takes all variables into account which are visible from the given task scope (including parent scopes).
@@ -617,24 +617,24 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no taskId is found for the given taskId.
      */
-    Map<string, VariableInstance> getVariableInstances(string taskId, Collection<string> variableNames);
+    Map!(string, VariableInstance) getVariableInstances(string taskId, Collection!string variableNames);
 
     /**
      * get all variables and search only in the task scope. If you have many task local variables and you only need a few, consider using {@link #getVariablesLocal(string, Collection)} for better
      * performance.
      */
-    Map<string, Object> getVariablesLocal(string taskId);
+    Map!(string, Object) getVariablesLocal(string taskId);
 
     /**
      * get values for all given variableNames and search only in the task scope.
      */
-    Map<string, Object> getVariables(string taskId, Collection<string> variableNames);
+    Map!(string, Object) getVariables(string taskId, Collection!string variableNames);
 
     /** get a variable on a task */
-    Map<string, Object> getVariablesLocal(string taskId, Collection<string> variableNames);
+    Map!(string, Object) getVariablesLocal(string taskId, Collection!string variableNames);
 
     /** get all variables and search only in the task scope. */
-    List<VariableInstance> getVariableInstancesLocalByTaskIds(Set<string> taskIds);
+    List!VariableInstance getVariableInstancesLocalByTaskIds(Set!string taskIds);
 
     /**
      * All variable values that are defined in the task scope, without taking outer scopes into account. If you have many task local variables and you only need a few, consider using
@@ -646,7 +646,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given taskId.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal(string taskId);
+    Map!(string, VariableInstance) getVariableInstancesLocal(string taskId);
 
     /**
      * The variable values for all given variableNames that are defined in the given task's scope. (Does not searching parent scopes).
@@ -659,7 +659,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no taskId is found for the given taskId.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal(string taskId, Collection<string> variableNames);
+    Map!(string, VariableInstance) getVariableInstancesLocal(string taskId, Collection!string variableNames);
 
     /**
      * Removes the variable from the task. When the variable does not exist, nothing happens.
@@ -674,12 +674,12 @@ interface TaskService {
     /**
      * Removes all variables in the given collection from the task. Non existing variable names are simply ignored.
      */
-    void removeVariables(string taskId, Collection<string> variableNames);
+    void removeVariables(string taskId, Collection!string variableNames);
 
     /**
      * Removes all variables in the given collection from the task (not considering parent scopes). Non existing variable names are simply ignored.
      */
-    void removeVariablesLocal(string taskId, Collection<string> variableNames);
+    void removeVariablesLocal(string taskId, Collection!string variableNames);
 
     /**
      * All DataObjects visible from the given execution scope (including parent scopes).
@@ -690,7 +690,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given taskId.
      */
-    Map<string, DataObject> getDataObjects(string taskId);
+    Map!(string, DataObject) getDataObjects(string taskId);
 
     /**
      * All DataObjects visible from the given task scope (including parent scopes).
@@ -705,11 +705,11 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given task.
      */
-    Map<string, DataObject> getDataObjects(string taskId, string locale, bool withLocalizationFallback);
+    Map!(string, DataObject) getDataObjects(string taskId, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObjects for all given dataObjectNames, takes all dataObjects into account which are visible from the given task scope (including parent scopes).
-     * 
+     *
      * @param taskId
      *            id of task, cannot be null.
      * @param dataObjectNames
@@ -718,11 +718,11 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given taskId.
      */
-    Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames);
+    Map!(string, DataObject) getDataObjects(string taskId, Collection!string dataObjectNames);
 
     /**
      * The DataObjects for all given dataObjectNames, takes all dataObjects into account which are visible from the given task scope (including parent scopes).
-     * 
+     *
      * @param taskId
      *            id of task, cannot be null.
      * @param dataObjectNames
@@ -735,7 +735,7 @@ interface TaskService {
      * @throws FlowableObjectNotFoundException
      *             when no task is found for the given task.
      */
-    Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback);
+    Map!(string, DataObject) getDataObjects(string taskId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObject. Searching for the DataObject is done in all scopes that are visible to the given task (including parent scopes). Returns null when no DataObject value is found with the given
@@ -774,7 +774,7 @@ interface TaskService {
 
     /** Add a comment to a task and/or process instance with a custom type. */
     Comment addComment(string taskId, string processInstanceId, string type, string message);
-    
+
     /** Update a comment to a task and/or process instance. */
     void saveComment(Comment comment);
 
@@ -788,23 +788,23 @@ interface TaskService {
 
     /**
      * Removes an individual comment with the given id.
-     * 
+     *
      * @throws FlowableObjectNotFoundException
      *             when no comment exists with the given id.
      */
     void deleteComment(string commentId);
 
     /** The comments related to the given task. */
-    List<Comment> getTaskComments(string taskId);
+    List!Comment getTaskComments(string taskId);
 
     /** The comments related to the given task of the given type. */
-    List<Comment> getTaskComments(string taskId, string type);
+    List!Comment getTaskComments(string taskId, string type);
 
     /** All comments of a given type. */
-    List<Comment> getCommentsByType(string type);
+    List!Comment getCommentsByType(string type);
 
     /** The all events related to the given task. */
-    List<Event> getTaskEvents(string taskId);
+    List!Event getTaskEvents(string taskId);
 
     /**
      * Returns an individual event with the given id. Returns null if no event exists with the given id.
@@ -812,10 +812,10 @@ interface TaskService {
     Event getEvent(string eventId);
 
     /** The comments related to the given process instance. */
-    List<Comment> getProcessInstanceComments(string processInstanceId);
+    List!Comment getProcessInstanceComments(string processInstanceId);
 
     /** The comments related to the given process instance. */
-    List<Comment> getProcessInstanceComments(string processInstanceId, string type);
+    List!Comment getProcessInstanceComments(string processInstanceId, string type);
 
     /**
      * Add a new attachment to a task and/or a process instance and use an input stream to provide the content
@@ -837,14 +837,14 @@ interface TaskService {
     InputStream getAttachmentContent(string attachmentId);
 
     /** The list of attachments associated to a task */
-    List<Attachment> getTaskAttachments(string taskId);
+    List!Attachment getTaskAttachments(string taskId);
 
     /** The list of attachments associated to a process instance */
-    List<Attachment> getProcessInstanceAttachments(string processInstanceId);
+    List!Attachment getProcessInstanceAttachments(string processInstanceId);
 
     /** Delete an attachment */
     void deleteAttachment(string attachmentId);
 
     /** The list of subtasks for this parent task */
-    List<Task> getSubTasks(string parentTaskId);
+    List!Task getSubTasks(string parentTaskId);
 }

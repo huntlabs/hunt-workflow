@@ -11,24 +11,34 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.DoubleDataObject;
 
-import org.apache.commons.lang3.StringUtils;
+
+import flow.bpmn.model.ValuedDataObject;
+import hunt.String;
+import hunt.Double;
+import std.string;
+//import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Lori Small
  */
-class DoubleDataObject extends ValuedDataObject {
 
-    @Override
+    //String s = cast(String)value; //strip
+    //  if (s !is null && strip(s.value).length != 0) {
+class DoubleDataObject : ValuedDataObject {
+
+    override
     public void setValue(Object value) {
-    	if (value instanceof string && !StringUtils.isEmpty(((string) value).trim())) {
-    		this.value = Double.valueOf(value.toString());
-    	} else if (value instanceof Number) {
-    		this.value = (Double) value;
+      String s = cast(String)value;
+    	if (s !is null && strip(s.value).length != 0) {
+    		this.value = Double.valueOf(s.value);
+    	} else if (cast(Double) value !is null) {
+    		this.value = cast(Double) value;
     	}
     }
 
-    @Override
+    override
     public DoubleDataObject clone() {
         DoubleDataObject clone = new DoubleDataObject();
         clone.setValues(this);

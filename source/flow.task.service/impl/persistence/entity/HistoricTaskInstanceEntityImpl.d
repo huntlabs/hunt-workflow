@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,12 +13,12 @@
 
 
 
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import hunt.collection.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.context.Context;
 import org.flowable.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
@@ -106,7 +106,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("name", name);
         persistentState.put("owner", owner);
         persistentState.put("assignee", assignee);
@@ -132,7 +132,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
         persistentState.put("lastUpdateTime", lastUpdateTime);
         return persistentState;
     }
-    
+
     @Override
     public void markEnded(string deleteReason, Date endTime) {
         if (this.endTime is null) {
@@ -159,7 +159,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     public void setExecutionId(string executionId) {
         this.executionId = executionId;
     }
-    
+
     @Override
     public string getProcessInstanceId() {
         return processInstanceId;
@@ -442,8 +442,8 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     }
 
     @Override
-    public Map<string, Object> getTaskLocalVariables() {
-        Map<string, Object> variables = new HashMap<>();
+    public Map!(string, Object) getTaskLocalVariables() {
+        Map!(string, Object) variables = new HashMap<>();
         if (queryVariables !is null) {
             for (HistoricVariableInstanceEntity variableInstance : queryVariables) {
                 if (variableInstance.getId() !is null && variableInstance.getTaskId() !is null) {
@@ -455,8 +455,8 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     }
 
     @Override
-    public Map<string, Object> getProcessVariables() {
-        Map<string, Object> variables = new HashMap<>();
+    public Map!(string, Object) getProcessVariables() {
+        Map!(string, Object) variables = new HashMap<>();
         if (queryVariables !is null) {
             for (HistoricVariableInstanceEntity variableInstance : queryVariables) {
                 if (variableInstance.getId() !is null && variableInstance.getTaskId() is null) {
@@ -504,7 +504,7 @@ class HistoricTaskInstanceEntityImpl extends AbstractTaskServiceEntity implement
     public void setQueryIdentityLinks(List<HistoricIdentityLinkEntity> identityLinks) {
         queryIdentityLinks = identityLinks;
     }
-    
+
     @Override
     public string toString() {
         return "HistoricTaskInstanceEntity[id=" + id + "]";

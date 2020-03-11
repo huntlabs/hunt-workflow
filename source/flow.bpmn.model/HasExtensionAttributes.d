@@ -11,22 +11,23 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.HasExtensionAttributes;
 
-import java.util.List;
-import java.util.Map;
-
+import hunt.collection.List;
+import hunt.collection.Map;
+import flow.bpmn.model.ExtensionAttribute;
 /**
  * Interface for accessing Element attributes.
- * 
+ *
  * @author Martin Grofcik
  */
 interface HasExtensionAttributes {
     /** get element's attributes */
-    Map<string, List<ExtensionAttribute>> getAttributes();
+    Map!(string, List!ExtensionAttribute) getAttributes();
 
     /**
      * return value of the attribute from given namespace with given name.
-     * 
+     *
      * @param namespace
      * @param name
      * @return attribute value or null in case when attribute was not found
@@ -37,5 +38,5 @@ interface HasExtensionAttributes {
     void addAttribute(ExtensionAttribute attribute);
 
     /** set all object's attributes */
-    void setAttributes(Map<string, List<ExtensionAttribute>> attributes);
+    void setAttributes(Map!(string, List!ExtensionAttribute) attributes);
 }

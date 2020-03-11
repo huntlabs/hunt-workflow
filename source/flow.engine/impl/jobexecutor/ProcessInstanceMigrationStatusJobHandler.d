@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.flowable.batch.api.Batch;
 import org.flowable.batch.api.BatchPart;
@@ -36,39 +36,39 @@ class ProcessInstanceMigrationStatusJobHandler extends AbstractProcessInstanceMi
     @Override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
-        
+
         string batchId = getBatchIdFromHandlerCfg(configuration);
         Batch batch = batchService.getBatch(batchId);
-        
+
         List<BatchPart> batchParts = batchService.findBatchPartsByBatchId(batchId);
         int completedBatchParts = 0;
         int failedBatchParts = 0;
         for (BatchPart batchPart : batchParts) {
             if (batchPart.getCompleteTime() !is null) {
                 completedBatchParts++;
-                
+
                 if (ProcessInstanceBatchMigrationResult.RESULT_FAIL.equals(batchPart.getStatus())) {
                     failedBatchParts++;
                 }
             }
         }
-        
+
         if (completedBatchParts == batchParts.size()) {
             updateBatchStatus(batch, ProcessInstanceBatchMigrationResult.STATUS_COMPLETED, batchService);
             job.setRepeat(null);
-        
+
         } else {
             if (batchParts.size() == 0) {
                 updateBatchStatus(batch, "No batch parts", batchService);
                 job.setRepeat(null);
-            
+
             } else {
                 int completedPercentage = completedBatchParts / batchParts.size() * 100;
                 updateBatchStatus(batch, completedPercentage + "% completed, " + failedBatchParts + " failed", batchService);
             }
         }
     }
-    
+
     protected void updateBatchStatus(Batch batch, string status, BatchService batchService) {
         ((BatchEntity) batch).setStatus(ProcessInstanceBatchMigrationResult.STATUS_COMPLETED);
         batchService.updateBatch(batch);

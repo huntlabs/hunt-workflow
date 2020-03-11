@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,13 +12,13 @@
  */
 
 
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.ConditionalEventDefinition;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.IntermediateCatchEvent;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.ConditionalEventDefinition;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.IntermediateCatchEvent;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.TimerEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ class IntermediateCatchEventParseHandler extends AbstractFlowNodeBpmnParseHandle
             event.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateCatchEventActivityBehavior(event));
 
         } else {
-            if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof SignalEventDefinition || 
+            if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof SignalEventDefinition ||
                             eventDefinition instanceof MessageEventDefinition || eventDefinition instanceof ConditionalEventDefinition) {
 
                 bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse, eventDefinition);

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,15 +13,15 @@
 
 
 
-import java.util.ArrayList;
-import java.util.Collection;
+import hunt.collection.ArrayList;
+import hunt.collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowableListener;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowableListener;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.db.SuspensionState;
@@ -61,7 +61,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     protected FlowElement currentFlowElement;
     protected FlowableListener currentListener; // Only set when executing an execution listener
-    
+
     protected FlowElement originatingCurrentFlowElement;
 
     /**
@@ -134,10 +134,10 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     protected int deadLetterJobCount;
     protected int variableCount;
     protected int identityLinkCount;
-    
+
     /**
      * Persisted reference to the processDefinition.
-     * 
+     *
      * @see #processDefinition
      * @see #setProcessDefinition(ProcessDefinitionImpl)
      * @see #getProcessDefinition()
@@ -166,7 +166,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     /**
      * Persisted reference to the current position in the diagram within the {@link #processDefinition}.
-     * 
+     *
      * @see #activity
      * @see #setActivity(ActivityImpl)
      * @see #getActivity()
@@ -180,7 +180,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     /**
      * Persisted reference to the process instance.
-     * 
+     *
      * @see #getProcessInstance()
      */
     protected string processInstanceId;
@@ -192,7 +192,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     /**
      * Persisted reference to the parent of this execution.
-     * 
+     *
      * @see #getParent()
      * @see #setParentId(string)
      */
@@ -200,7 +200,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     /**
      * Persisted reference to the super execution of this execution
-     * 
+     *
      * @see #getSuperExecution()
      * @see #setSuperExecution(ExecutionEntityImpl)
      */
@@ -212,7 +212,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     protected bool forcedUpdate;
 
     protected List<VariableInstanceEntity> queryVariables;
-    
+
     // Callback
     protected string callbackId;
     protected string callbackType;
@@ -251,7 +251,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("processDefinitionId", this.processDefinitionId);
         persistentState.put("businessKey", this.businessKey);
         persistentState.put("activityId", this.activityId);
@@ -296,7 +296,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
         if (currentFlowElement is null) {
             string processDefinitionId = getProcessDefinitionId();
             if (processDefinitionId !is null) {
-                org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
+                flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
                 currentFlowElement = process.getFlowElement(getCurrentActivityId(), true);
             }
         }
@@ -324,12 +324,12 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     public void setCurrentFlowableListener(FlowableListener currentListener) {
         this.currentListener = currentListener;
     }
-    
+
     @Override
     public FlowElement getOriginatingCurrentFlowElement() {
         return originatingCurrentFlowElement;
     }
-    
+
     @Override
     public void setOriginatingCurrentFlowElement(FlowElement flowElement) {
         this.originatingCurrentFlowElement = flowElement;
@@ -487,7 +487,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     public string getSuperExecutionId() {
         return superExecutionId;
     }
-    
+
     public void setSuperExecutionId(string superExecutionId) {
         this.superExecutionId = superExecutionId;
     }
@@ -613,12 +613,12 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     protected VariableScopeImpl getParentVariableScope() {
         return getParent();
     }
-    
+
     @Override
     public void setVariable(string variableName, Object value, bool fetchAllVariables) {
         setVariable(variableName, value, this, fetchAllVariables);
     }
-    
+
     @Override
     public void setVariable(string variableName, Object value, ExecutionEntity sourceExecution, bool fetchAllVariables) {
 
@@ -642,7 +642,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
                 if (localFlowElement !is null) {
                     ((ExecutionEntity) parentVariableScope).setOriginatingCurrentFlowElement(localFlowElement);
                 }
-                
+
                 if (sourceExecution is null) {
                     parentVariableScope.setVariable(variableName, value);
                 } else {
@@ -698,7 +698,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
         }
 
     }
-    
+
     @Override
     public Object setVariableLocal(string variableName, Object value, bool fetchAllVariables) {
         return setVariableLocal(variableName, value, this, fetchAllVariables);
@@ -750,17 +750,17 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
         }
     }
-    
+
     @Override
     protected VariableInstanceEntity createVariableInstance(string variableName, Object value) {
         return createVariableInstance(variableName, value, this);
     }
-    
+
     protected VariableInstanceEntity createVariableInstance(string variableName, Object value, ExecutionEntity sourceExecution) {
         VariableInstanceEntity variableInstance = super.createVariableInstance(variableName, value);
-        
+
         CountingEntityUtil.handleInsertVariableInstanceEntityCount(variableInstance);
-        
+
         Clock clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
         // Record historic variable
         CommandContextUtil.getHistoryManager().recordVariableCreate(variableInstance, clock.getCurrentTime());
@@ -771,7 +771,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
         return variableInstance;
     }
-    
+
     protected void createVariableLocal(string variableName, Object value, ExecutionEntity sourceActivityExecution) {
         ensureVariableInstancesInitialized();
 
@@ -781,7 +781,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
 
         createVariableInstance(variableName, value, sourceActivityExecution);
     }
-    
+
     @Override
     protected void updateVariableInstance(VariableInstanceEntity variableInstance, Object value) {
         updateVariableInstance(variableInstance, value, this);
@@ -800,9 +800,9 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     @Override
     protected void deleteVariableInstanceForExplicitUserCall(VariableInstanceEntity variableInstance) {
         super.deleteVariableInstanceForExplicitUserCall(variableInstance);
-        
+
         CountingEntityUtil.handleDeleteVariableInstanceEntityCount(variableInstance, true);
-        
+
         Clock clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
         // Record historic variable deletion
         CommandContextUtil.getHistoryManager().recordVariableRemoved(variableInstance);
@@ -811,7 +811,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
         CommandContextUtil.getHistoryManager().recordHistoricDetailVariableCreate(variableInstance, this, true,
             getRelatedActivityInstanceId(this), clock.getCurrentTime());
     }
-    
+
     @Override
     protected bool isPropagateToHistoricVariable() {
         return false;
@@ -830,7 +830,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     @Override
-    protected List<VariableInstanceEntity> getSpecificVariables(Collection<string> variableNames) {
+    protected List<VariableInstanceEntity> getSpecificVariables(Collection!string variableNames) {
         CommandContext commandContext = Context.getCommandContext();
         if (commandContext is null) {
             throw new FlowableException("lazy loading outside command context");
@@ -932,7 +932,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     public string getActivityId() {
         return activityId;
     }
-    
+
     public void setActivityId(string activityId) {
         this.activityId = activityId;
     }
@@ -1111,8 +1111,8 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     }
 
     @Override
-    public Map<string, Object> getProcessVariables() {
-        Map<string, Object> variables = new HashMap<>();
+    public Map!(string, Object) getProcessVariables() {
+        Map!(string, Object) variables = new HashMap<>();
 
         if (queryVariables !is null) {
             for (VariableInstanceEntity variableInstance : queryVariables) {
@@ -1261,7 +1261,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     public void setIdentityLinkCount(int identityLinkCount) {
         this.identityLinkCount = identityLinkCount;
     }
-    
+
     @Override
     public string getCallbackId() {
         return callbackId;
@@ -1340,7 +1340,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
                 strb.append("Execution[ id '").append(getId());
             }
             strb.append("' ]");
-            
+
             if (activityId !is null) {
                 strb.append(" - activity '").append(activityId).append("'");
             }

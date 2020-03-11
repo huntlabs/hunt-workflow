@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,22 +12,22 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.ErrorEventDefinition;
-import org.flowable.bpmn.model.EscalationEventDefinition;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.EventSubProcess;
-import org.flowable.bpmn.model.ExtensionElement;
-import org.flowable.bpmn.model.Message;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.ErrorEventDefinition;
+import flow.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.EventSubProcess;
+import flow.bpmn.model.ExtensionElement;
+import flow.bpmn.model.Message;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.TimerEventDefinition;
 import flow.common.util.CollectionUtil;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 
@@ -68,11 +68,11 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
 
                 } else if (eventDefinition instanceof ErrorEventDefinition) {
                     element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessErrorStartEventActivityBehavior(element));
-                
+
                 } else if (eventDefinition instanceof EscalationEventDefinition) {
                     element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessEscalationStartEventActivityBehavior(element));
                 }
-                
+
             } else {
                 List<ExtensionElement> eventTypeElements = element.getExtensionElements().get("eventType");
                 if (eventTypeElements !is null && !eventTypeElements.isEmpty()) {
@@ -85,7 +85,7 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
 
         } else if (CollectionUtil.isEmpty(element.getEventDefinitions())) {
             element.setBehavior(bpmnParse.getActivityBehaviorFactory().createNoneStartEventActivityBehavior(element));
-        
+
         } else if (CollectionUtil.isNotEmpty(element.getEventDefinitions())) {
             EventDefinition eventDefinition = element.getEventDefinitions().get(0);
             if (eventDefinition instanceof MessageEventDefinition) {
@@ -95,11 +95,11 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
 
         if (element.getSubProcess() is null && (CollectionUtil.isEmpty(element.getEventDefinitions()) ||
                 bpmnParse.getCurrentProcess().getInitialFlowElement() is null)) {
-            
+
             bpmnParse.getCurrentProcess().setInitialFlowElement(element);
         }
     }
-    
+
     protected MessageEventDefinition fillMessageRef(BpmnParse bpmnParse, EventDefinition eventDefinition) {
         MessageEventDefinition messageDefinition = (MessageEventDefinition) eventDefinition;
         BpmnModel bpmnModel = bpmnParse.getBpmnModel();
@@ -109,7 +109,7 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
             messageDefinition.setMessageRef(message.getName());
             messageDefinition.setExtensionElements(message.getExtensionElements());
         }
-        
+
         return messageDefinition;
     }
 

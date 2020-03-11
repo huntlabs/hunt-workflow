@@ -11,9 +11,10 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.parse.Problem;
 
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.GraphicInfo;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.GraphicInfo;
 
 class Problem {
 
@@ -22,28 +23,28 @@ class Problem {
     protected int line;
     protected int column;
 
-    public Problem(string errorMessage, string localName, int lineNumber, int columnNumber) {
+    this(string errorMessage, string localName, int lineNumber, int columnNumber) {
         this.errorMessage = errorMessage;
         this.resource = localName;
         this.line = lineNumber;
         this.column = columnNumber;
     }
 
-    public Problem(string errorMessage, BaseElement element) {
+    this(string errorMessage, BaseElement element) {
         this.errorMessage = errorMessage;
         this.resource = element.getId();
         this.line = element.getXmlRowNumber();
         this.column = element.getXmlColumnNumber();
     }
 
-    public Problem(string errorMessage, GraphicInfo graphicInfo) {
-        this.errorMessage = errorMessage;
-        this.line = graphicInfo.getXmlRowNumber();
-        this.column = graphicInfo.getXmlColumnNumber();
-    }
+    //this(string errorMessage, GraphicInfo graphicInfo) {
+    //    this.errorMessage = errorMessage;
+    //    this.line = graphicInfo.getXmlRowNumber();
+    //    this.column = graphicInfo.getXmlColumnNumber();
+    //}
 
-    @Override
+    override
     public string toString() {
-        return errorMessage + (resource !is null ? " | " + resource : "") + " | line " + line + " | column " + column;
+        return errorMessage ~= (resource !is null ? " | " ~= resource : "") ~= " | line " ~= line ~= " | column " ~= column;
     }
 }

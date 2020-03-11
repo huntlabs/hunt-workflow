@@ -12,8 +12,8 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.query.AbstractNativeQuery;
 import flow.common.interceptor.CommandContext;
@@ -37,12 +37,12 @@ class NativeModelQueryImpl extends AbstractNativeQuery<NativeModelQuery, Model> 
     // results ////////////////////////////////////////////////////////////////
 
     @Override
-    public List<Model> executeList(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public List<Model> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelsByNativeQuery(parameterMap);
     }
 
     @Override
-    public long executeCount(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelCountByNativeQuery(parameterMap);
     }
 

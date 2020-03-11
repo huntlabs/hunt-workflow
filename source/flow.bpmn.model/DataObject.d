@@ -11,11 +11,14 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.DataObject;
 
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.ItemDefinition;
 /**
  * @author Lori Small
  */
-class DataObject extends FlowElement {
+class DataObject : FlowElement {
 
     protected ItemDefinition itemSubjectRef;
 
@@ -27,7 +30,7 @@ class DataObject extends FlowElement {
         this.itemSubjectRef = itemSubjectRef;
     }
 
-    @Override
+    override
     public DataObject clone() {
         DataObject clone = new DataObject();
         clone.setValues(this);

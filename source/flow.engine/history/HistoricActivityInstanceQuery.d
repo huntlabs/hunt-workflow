@@ -1,33 +1,35 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.history.HistoricActivityInstanceQuery;
 
 
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import hunt.time.LocalDateTime;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 import flow.common.api.query.DeleteQuery;
 import flow.common.api.query.Query;
 
+alias Date = LocalDateTime;
+
 /**
  * Programmatic querying for {@link HistoricActivityInstance}s.
- * 
+ *
  * @author Tom Baeyens
  * @author Joram Barrez
  * @author Zheng Ji
  */
-interface HistoricActivityInstanceQuery extends Query<HistoricActivityInstanceQuery, HistoricActivityInstance>, DeleteQuery<HistoricActivityInstanceQuery, HistoricActivityInstance> {
+interface HistoricActivityInstanceQuery : Query!(HistoricActivityInstanceQuery, HistoricActivityInstance), DeleteQuery!(HistoricActivityInstanceQuery, HistoricActivityInstance) {
 
     /**
      * Only select historic activity instances with the given id (primary key within history tables).
@@ -63,7 +65,7 @@ interface HistoricActivityInstanceQuery extends Query<HistoricActivityInstanceQu
     /**
      * Only select historic activity instances whose activity type is in the given set of activity types.
      */
-    HistoricActivityInstanceQuery activityTypes(Set<string>  activityTypes);
+    HistoricActivityInstanceQuery activityTypes(Set!string  activityTypes);
 
     /**
      * Only select historic activity instances for userTask activities assigned to the given user
@@ -98,7 +100,7 @@ interface HistoricActivityInstanceQuery extends Query<HistoricActivityInstanceQu
     HistoricActivityInstanceQuery activityTenantId(string tenantId);
 
     /** Only select historic activity instances with one of the given tenant ids. */
-    HistoricActivityInstanceQuery tenantIdIn(List<string> tenantIds);
+    HistoricActivityInstanceQuery tenantIdIn(List!string tenantIds);
 
     /**
      * Only select historic activity instances with a tenant id like the given one.

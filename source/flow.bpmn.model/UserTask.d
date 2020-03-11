@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,18 +11,23 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.UserTask;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.HashSet;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.collection.Set;
+import flow.bpmn.model.FormProperty;
+import flow.bpmn.model.FlowableListener;
+import flow.bpmn.model.CustomProperty;
+import flow.bpmn.model.Task;
 
 /**
  * @author Tijs Rademakers
  */
-class UserTask extends Task {
+class UserTask : Task {
 
     protected string assignee;
     protected string owner;
@@ -32,17 +37,17 @@ class UserTask extends Task {
     protected string businessCalendarName;
     protected string category;
     protected string extensionId;
-    protected List<string> candidateUsers = new ArrayList<>();
-    protected List<string> candidateGroups = new ArrayList<>();
-    protected List<FormProperty> formProperties = new ArrayList<>();
-    protected List<FlowableListener> taskListeners = new ArrayList<>();
+    protected List!string candidateUsers ;//= new ArrayList<>();
+    protected List!string candidateGroups ;//= new ArrayList<>();
+    protected List!FormProperty formProperties;// = new ArrayList<>();
+    protected List!FlowableListener taskListeners;// = new ArrayList<>();
     protected string skipExpression;
     protected string validateFormFields;
 
-    protected Map<string, Set<string>> customUserIdentityLinks = new HashMap<>();
-    protected Map<string, Set<string>> customGroupIdentityLinks = new HashMap<>();
+    protected Map!(string, Set!string) customUserIdentityLinks ;//= new HashMap<>();
+    protected Map!(string, Set!string) customGroupIdentityLinks;// = new HashMap<>();
 
-    protected List<CustomProperty> customProperties = new ArrayList<>();
+    protected List!CustomProperty customProperties ;//= new ArrayList<>();
 
     public string getAssignee() {
         return assignee;
@@ -112,43 +117,43 @@ class UserTask extends Task {
         return extensionId !is null && !extensionId.isEmpty();
     }
 
-    public List<string> getCandidateUsers() {
+    public List!string getCandidateUsers() {
         return candidateUsers;
     }
 
-    public void setCandidateUsers(List<string> candidateUsers) {
+    public void setCandidateUsers(List!string candidateUsers) {
         this.candidateUsers = candidateUsers;
     }
 
-    public List<string> getCandidateGroups() {
+    public List!string getCandidateGroups() {
         return candidateGroups;
     }
 
-    public void setCandidateGroups(List<string> candidateGroups) {
+    public void setCandidateGroups(List!string candidateGroups) {
         this.candidateGroups = candidateGroups;
     }
 
-    public List<FormProperty> getFormProperties() {
+    public List!FormProperty getFormProperties() {
         return formProperties;
     }
 
-    public void setFormProperties(List<FormProperty> formProperties) {
+    public void setFormProperties(List!FormProperty formProperties) {
         this.formProperties = formProperties;
     }
 
-    public List<FlowableListener> getTaskListeners() {
+    public List!FlowableListener getTaskListeners() {
         return taskListeners;
     }
 
-    public void setTaskListeners(List<FlowableListener> taskListeners) {
+    public void setTaskListeners(List!FlowableListener taskListeners) {
         this.taskListeners = taskListeners;
     }
 
     public void addCustomUserIdentityLink(string userId, string type) {
-        Set<string> userIdentitySet = customUserIdentityLinks.get(type);
+        Set!string userIdentitySet = customUserIdentityLinks.get(type);
 
         if (userIdentitySet is null) {
-            userIdentitySet = new HashSet<>();
+            userIdentitySet = new HashSet!string();
             customUserIdentityLinks.put(type, userIdentitySet);
         }
 
@@ -156,37 +161,37 @@ class UserTask extends Task {
     }
 
     public void addCustomGroupIdentityLink(string groupId, string type) {
-        Set<string> groupIdentitySet = customGroupIdentityLinks.get(type);
+        Set!string groupIdentitySet = customGroupIdentityLinks.get(type);
 
         if (groupIdentitySet is null) {
-            groupIdentitySet = new HashSet<>();
+            groupIdentitySet = new HashSet!string();
             customGroupIdentityLinks.put(type, groupIdentitySet);
         }
 
         groupIdentitySet.add(groupId);
     }
 
-    public Map<string, Set<string>> getCustomUserIdentityLinks() {
+    public Map!(string, Set!string) getCustomUserIdentityLinks() {
         return customUserIdentityLinks;
     }
 
-    public void setCustomUserIdentityLinks(Map<string, Set<string>> customUserIdentityLinks) {
+    public void setCustomUserIdentityLinks(Map!(string, Set!string) customUserIdentityLinks) {
         this.customUserIdentityLinks = customUserIdentityLinks;
     }
 
-    public Map<string, Set<string>> getCustomGroupIdentityLinks() {
+    public Map!(string, Set!string) getCustomGroupIdentityLinks() {
         return customGroupIdentityLinks;
     }
 
-    public void setCustomGroupIdentityLinks(Map<string, Set<string>> customGroupIdentityLinks) {
+    public void setCustomGroupIdentityLinks(Map!(string, Set!string) customGroupIdentityLinks) {
         this.customGroupIdentityLinks = customGroupIdentityLinks;
     }
 
-    public List<CustomProperty> getCustomProperties() {
+    public List!CustomProperty getCustomProperties() {
         return customProperties;
     }
 
-    public void setCustomProperties(List<CustomProperty> customProperties) {
+    public void setCustomProperties(List!CustomProperty customProperties) {
         this.customProperties = customProperties;
     }
 
@@ -206,7 +211,7 @@ class UserTask extends Task {
         this.validateFormFields = validateFormFields;
     }
 
-    @Override
+    override
     public UserTask clone() {
         UserTask clone = new UserTask();
         clone.setValues(this);
@@ -225,22 +230,22 @@ class UserTask extends Task {
         setSkipExpression(otherElement.getSkipExpression());
         setValidateFormFields(otherElement.getValidateFormFields());
 
-        setCandidateGroups(new ArrayList<>(otherElement.getCandidateGroups()));
-        setCandidateUsers(new ArrayList<>(otherElement.getCandidateUsers()));
+        setCandidateGroups(new ArrayList!string(otherElement.getCandidateGroups()));
+        setCandidateUsers(new ArrayList!string(otherElement.getCandidateUsers()));
 
         setCustomGroupIdentityLinks(otherElement.customGroupIdentityLinks);
         setCustomUserIdentityLinks(otherElement.customUserIdentityLinks);
 
-        formProperties = new ArrayList<>();
+        formProperties = new ArrayList!FormProperty();
         if (otherElement.getFormProperties() !is null && !otherElement.getFormProperties().isEmpty()) {
-            for (FormProperty property : otherElement.getFormProperties()) {
+            foreach (FormProperty property ; otherElement.getFormProperties()) {
                 formProperties.add(property.clone());
             }
         }
 
-        taskListeners = new ArrayList<>();
+        taskListeners = new ArrayList!FlowableListener();
         if (otherElement.getTaskListeners() !is null && !otherElement.getTaskListeners().isEmpty()) {
-            for (FlowableListener listener : otherElement.getTaskListeners()) {
+            foreach (FlowableListener listener ; otherElement.getTaskListeners()) {
                 taskListeners.add(listener.clone());
             }
         }

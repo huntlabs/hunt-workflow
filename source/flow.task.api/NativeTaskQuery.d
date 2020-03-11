@@ -11,24 +11,24 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.task.api.NativeTaskQuery;
- 
- 
- 
+
+
+
 
 
 import flow.common.api.query.NativeQuery;
 import flow.task.api.Task;
 /**
  * Allows querying of {@link Task}s via native (SQL) queries
- * 
+ *
  * @author Bernd Ruecker (camunda)
  */
-interface NativeTaskQuery : NativeQuery<NativeTaskQuery, Task> {
+interface NativeTaskQuery : NativeQuery!(NativeTaskQuery, Task) {
 
 }

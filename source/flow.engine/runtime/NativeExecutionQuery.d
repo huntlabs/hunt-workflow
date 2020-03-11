@@ -12,13 +12,15 @@
  */
 
 
-import flow.common.api.query.NativeQuery;
+module flow.engine.runtime.NativeExecutionQuery;
 
+import flow.common.api.query.NativeQuery;
+import  flow.engine.runtime.Execution;
 /**
  * Allows querying of {@link Execution}s via native (SQL) queries
- * 
+ *
  * @author Bernd Ruecker (camunda)
  */
-interface NativeExecutionQuery extends NativeQuery<NativeExecutionQuery, Execution> {
+interface NativeExecutionQuery : NativeQuery!(NativeExecutionQuery, Execution) {
 
 }

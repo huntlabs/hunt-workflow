@@ -12,13 +12,13 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.identity.Authentication;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.api.history.HistoricTaskLogEntryType;
+import flow.task.api.history.HistoricTaskLogEntryType;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
 import org.flowable.task.service.impl.persistence.CountingTaskEntity;
@@ -35,17 +35,17 @@ class IdentityLinkUtil {
     public static IdentityLinkEntity createProcessInstanceIdentityLink(ExecutionEntity processInstanceExecution, string userId, string groupId, string type) {
         IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createProcessInstanceIdentityLink(
                         processInstanceExecution.getId(), userId, groupId, type);
-        
+
         CommandContextUtil.getHistoryManager().recordIdentityLinkCreated(identityLinkEntity);
         processInstanceExecution.getIdentityLinks().add(identityLinkEntity);
-        
+
         return identityLinkEntity;
     }
-    
+
     public static void deleteTaskIdentityLinks(TaskEntity taskEntity, string userId, string groupId, string type) {
         List<IdentityLinkEntity> removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteTaskIdentityLink(
                         taskEntity.getId(), taskEntity.getIdentityLinks(), userId, groupId, type);
-        
+
         handleTaskIdentityLinkDeletions(taskEntity, removedIdentityLinkEntities, true, true);
     }
 
@@ -77,7 +77,7 @@ class IdentityLinkUtil {
         logTaskIdentityLinkEvent(HistoricTaskLogEntryType.USER_TASK_IDENTITY_LINK_ADDED.name(), taskEntity, identityLinkEntity);
 
         taskEntity.getIdentityLinks().add(identityLinkEntity);
-        
+
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         if (processEngineConfiguration.getIdentityLinkInterceptor() !is null) {
             processEngineConfiguration.getIdentityLinkInterceptor().handleAddIdentityLinkToTask(taskEntity, identityLinkEntity);
@@ -94,7 +94,7 @@ class IdentityLinkUtil {
             }
             logTaskIdentityLinkEvent(HistoricTaskLogEntryType.USER_TASK_IDENTITY_LINK_REMOVED.name(), taskEntity, identityLinkEntity);
         }
-        
+
         taskEntity.getIdentityLinks().removeAll(identityLinks);
     }
 
@@ -103,7 +103,7 @@ class IdentityLinkUtil {
             CountingTaskEntity countingTaskEntity = (CountingTaskEntity) taskEntity;
             if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setIdentityLinkCount(countingTaskEntity.getIdentityLinkCount() - 1);
-            }   
+            }
         }
     }
 

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,12 +12,12 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.EventListener;
-import org.flowable.bpmn.model.FlowableListener;
-import org.flowable.bpmn.model.ImplementationType;
+import flow.bpmn.model.EventListener;
+import flow.bpmn.model.FlowableListener;
+import flow.bpmn.model.ImplementationType;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEventListener;
 import flow.engine.deleg.CustomPropertiesResolver;
@@ -45,14 +45,14 @@ import flow.engine.runtime.Execution;
 import flow.engine.runtime.ProcessInstance;
 import flow.engine.task.Attachment;
 import flow.engine.task.Comment;
-import org.flowable.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLink;
 import org.flowable.job.api.Job;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 import flow.task.service.deleg.TaskListener;
 
 /**
  * Default implementation of the {@link ListenerFactory}. Used when no custom {@link ListenerFactory} is injected on the {@link ProcessEngineConfigurationImpl}.
- * 
+ *
  * @author Joram Barrez
  */
 class DefaultListenerFactory extends AbstractBehaviorFactory implements ListenerFactory {

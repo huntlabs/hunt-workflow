@@ -11,8 +11,11 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.ItemDefinition;
 
-class ItemDefinition extends BaseElement {
+import flow.bpmn.model.BaseElement;
+
+class ItemDefinition : BaseElement {
 
     protected string structureRef;
     protected string itemKind;
@@ -33,7 +36,7 @@ class ItemDefinition extends BaseElement {
         this.itemKind = itemKind;
     }
 
-    @Override
+    override
     public ItemDefinition clone() {
         ItemDefinition clone = new ItemDefinition();
         clone.setValues(this);

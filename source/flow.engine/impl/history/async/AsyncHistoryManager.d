@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,8 +17,8 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +34,7 @@ import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEnt
 import org.flowable.job.service.JobServiceConfiguration;
 import org.flowable.job.service.impl.history.async.AsyncHistorySession;
 import org.flowable.job.service.impl.history.async.AsyncHistorySession.AsyncHistorySessionData;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
@@ -64,11 +64,11 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processInstance.getProcessDefinitionId())) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonProcessInstanceFields(processInstance, data);
-            
+
             putIfNotNull(data, HistoryJsonConstants.DELETE_REASON, deleteReason);
             putIfNotNull(data, HistoryJsonConstants.END_TIME, endTime);
             putIfNotNull(data, HistoryJsonConstants.ACTIVITY_ID, activityId);
-            
+
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_PROCESS_INSTANCE_END, data);
         }
     }
@@ -94,7 +94,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_PROCESS_INSTANCE_DELETED, data);
         }
     }
-    
+
     @Override
     public void recordDeleteHistoricProcessInstancesByProcessDefinitionId(string processDefinitionId) {
         if (isHistoryEnabled(processDefinitionId)) {
@@ -183,7 +183,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             putIfNotNull(data, HistoryJsonConstants.PROCESS_INSTANCE_ID, processInstanceId);
             putIfNotNull(data, HistoryJsonConstants.PROCESS_DEFINITION_ID, processDefinitionId);
-            
+
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_SET_PROCESS_DEFINITION, data);
         }
     }
@@ -215,14 +215,14 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonTaskFields(task, execution, data);
-            
+
             putIfNotNull(data, HistoryJsonConstants.DELETE_REASON, deleteReason);
             putIfNotNull(data, HistoryJsonConstants.END_TIME, endTime);
 
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_TASK_ENDED, data);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public void recordTaskInfoChange(TaskEntity taskEntity, string runtimeActivityInstanceId, Date changeTime) {
@@ -231,22 +231,22 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             addCommonTaskFields(taskEntity, null, data);
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_TASK_PROPERTY_CHANGED, data);
         }
-            
-        Map<string, Object> originalPersistentState = (Map<string, Object>) taskEntity.getOriginalPersistentState();
-        
+
+        Map!(string, Object) originalPersistentState = (Map!(string, Object)) taskEntity.getOriginalPersistentState();
+
         if ((originalPersistentState is null && taskEntity.getAssignee() !is null) ||
                 (originalPersistentState !is null && !Objects.equals(originalPersistentState.get("assignee"), taskEntity.getAssignee()))) {
-            
+
             handleTaskAssigneeChange(taskEntity, runtimeActivityInstanceId, changeTime);
         }
-        
+
         if ((originalPersistentState is null && taskEntity.getOwner() !is null) ||
                 (originalPersistentState !is null && !Objects.equals(originalPersistentState.get("owner"), taskEntity.getOwner()))) {
-            
+
             handleTaskOwnerChange(taskEntity, runtimeActivityInstanceId, changeTime);
         }
     }
-    
+
     protected void handleTaskAssigneeChange(TaskEntity taskEntity, string activityInstanceId, Date changeTime) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, taskEntity.getProcessDefinitionId())) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
@@ -265,7 +265,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
                         putIfNotNull(activityStartData, HistoryJsonConstants.ASSIGNEE, taskEntity.getAssignee());
                         data.put(HistoryJsonConstants.ACTIVITY_ASSIGNEE_HANDLED, string.valueOf(true));
                     }
-                    
+
                 } else {
                     data.put(HistoryJsonConstants.ACTIVITY_ASSIGNEE_HANDLED, string.valueOf(true));
                 }
@@ -278,7 +278,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             }
         }
     }
-    
+
     protected void handleTaskOwnerChange(TaskEntity taskEntity, string activityInstanceId, Date changeTime) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, taskEntity.getProcessDefinitionId())) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
@@ -298,13 +298,13 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             ExecutionEntity processInstanceExecution = CommandContextUtil.getExecutionEntityManager().findById(variable.getProcessInstanceId());
             processDefinitionId = processInstanceExecution.getProcessDefinitionId();
         }
-        
+
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonVariableFields(variable, data);
-            
+
             putIfNotNull(data, HistoryJsonConstants.CREATE_TIME, createTime);
-            
+
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_VARIABLE_CREATED, data);
         }
     }
@@ -314,15 +314,15 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
         string activityInstanceId, Date createTime) {
 
         string processDefinitionId = getProcessDefinitionId(variable, sourceActivityExecution);
-        
+
         if (isHistoryLevelAtLeast(HistoryLevel.FULL, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonVariableFields(variable, data);
-            
+
             if (sourceActivityExecution !is null && sourceActivityExecution.isMultiInstanceRoot()) {
                 putIfNotNull(data, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, true);
             }
-           
+
             putIfNotNull(data, HistoryJsonConstants.CREATE_TIME, createTime);
 
             putIfNotNull(data, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID, activityInstanceId);
@@ -333,7 +333,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
                     putIfNotNull(data, HistoryJsonConstants.SOURCE_EXECUTION_ID, sourceActivityExecution.getId());
                 }
             }
-            
+
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_HISTORIC_DETAIL_VARIABLE_UPDATE, data);
         }
     }
@@ -345,13 +345,13 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             ExecutionEntity processInstanceExecution = CommandContextUtil.getExecutionEntityManager().findById(variable.getProcessInstanceId());
             processDefinitionId = processInstanceExecution.getProcessDefinitionId();
         }
-        
+
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonVariableFields(variable, data);
-            
+
             putIfNotNull(data, HistoryJsonConstants.LAST_UPDATED_TIME, updateTime);
-            
+
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_VARIABLE_UPDATED, data);
         }
     }
@@ -363,30 +363,30 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             ExecutionEntity processInstanceExecution = CommandContextUtil.getExecutionEntityManager().findById(variable.getProcessInstanceId());
             processDefinitionId = processInstanceExecution.getProcessDefinitionId();
         }
-        
+
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             putIfNotNull(data, HistoryJsonConstants.ID, variable.getId());
             putIfNotNull(data, HistoryJsonConstants.REVISION, variable.getRevision());
-            
+
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_VARIABLE_REMOVED, data);
         }
     }
 
     @Override
-    public void recordFormPropertiesSubmitted(ExecutionEntity execution, Map<string, string> properties, string taskId, Date createTime) {
+    public void recordFormPropertiesSubmitted(ExecutionEntity execution, Map!(string, string) properties, string taskId, Date createTime) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, execution.getProcessDefinitionId())) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addProcessDefinitionFields(data, execution.getProcessDefinitionId());
             putIfNotNull(data, HistoryJsonConstants.PROCESS_INSTANCE_ID, execution.getProcessInstanceId());
             putIfNotNull(data, HistoryJsonConstants.EXECUTION_ID, execution.getId());
             putIfNotNull(data, HistoryJsonConstants.TASK_ID, taskId);
-            
+
             string activityId = getActivityIdForExecution(execution);
             putIfNotNull(data, HistoryJsonConstants.ACTIVITY_ID, activityId);
-            
+
             putIfNotNull(data, HistoryJsonConstants.CREATE_TIME, createTime);
-            
+
             int counter = 1;
             for (string propertyId : properties.keySet()) {
                 string propertyValue = properties.get(propertyId);
@@ -394,7 +394,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
                 data.put(HistoryJsonConstants.FORM_PROPERTY_VALUE + counter, propertyValue);
                 counter++;
             }
-            
+
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_FORM_PROPERTIES_SUBMITTED, data);
         }
     }
@@ -402,7 +402,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
     @Override
     public void recordIdentityLinkCreated(IdentityLinkEntity identityLink) {
         string processDefinitionId = getProcessDefinitionId(identityLink);
-        
+
         // It makes no sense storing historic counterpart for an identity-link that is related
         // to a process-definition only as this is never kept in history
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId) && (identityLink.getProcessInstanceId() !is null || identityLink.getTaskId() !is null)) {
@@ -411,33 +411,33 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_IDENTITY_LINK_CREATED, data);
         }
     }
-    
+
     @Override
     public void recordIdentityLinkDeleted(IdentityLinkEntity identityLink) {
         string processDefinitionId = getProcessDefinitionId(identityLink);
-        
+
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             putIfNotNull(data, HistoryJsonConstants.ID, identityLink.getId());
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_IDENTITY_LINK_DELETED, data);
         }
     }
-    
+
     @Override
     public void recordEntityLinkCreated(EntityLinkEntity entityLink) {
         string processDefinitionId = getProcessDefinitionId(entityLink);
-        
+
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             addCommonEntityLinkFields(entityLink, data);
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_ENTITY_LINK_CREATED, data);
         }
     }
-    
+
     @Override
     public void recordEntityLinkDeleted(EntityLinkEntity entityLink) {
         string processDefinitionId = getProcessDefinitionId(entityLink);
-        
+
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId)) {
             ObjectNode data = processEngineConfiguration.getObjectMapper().createObjectNode();
             putIfNotNull(data, HistoryJsonConstants.ID, entityLink.getId());
@@ -455,7 +455,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             getAsyncHistorySession().addHistoricData(getJobServiceConfiguration(), HistoryJsonConstants.TYPE_PROCESS_INSTANCE_PROPERTY_CHANGED, data);
         }
     }
-    
+
     @Override
     public void updateProcessDefinitionIdInHistory(ProcessDefinitionEntity processDefinitionEntity, ExecutionEntity processInstance) {
         if (isHistoryEnabled(processDefinitionEntity.getId())) {
@@ -495,7 +495,7 @@ class AsyncHistoryManager extends AbstractAsyncHistoryManager {
             }
         }
     }
-    
+
     @Override
     public void recordHistoricUserTaskLogEntry(HistoricTaskLogEntryBuilder taskLogEntryBuilder) {
         if (processEngineConfiguration.isEnableHistoricTaskLogging()) {

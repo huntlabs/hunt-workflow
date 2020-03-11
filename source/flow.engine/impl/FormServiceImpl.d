@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,7 +13,7 @@
 
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.service.CommonEngineServiceImpl;
 import flow.engine.FormService;
@@ -66,17 +66,17 @@ class FormServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public ProcessInstance submitStartFormData(string processDefinitionId, Map<string, string> properties) {
+    public ProcessInstance submitStartFormData(string processDefinitionId, Map!(string, string) properties) {
         return commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, null, properties));
     }
 
     @Override
-    public ProcessInstance submitStartFormData(string processDefinitionId, string businessKey, Map<string, string> properties) {
+    public ProcessInstance submitStartFormData(string processDefinitionId, string businessKey, Map!(string, string) properties) {
         return commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, businessKey, properties));
     }
 
     @Override
-    public void submitTaskFormData(string taskId, Map<string, string> properties) {
+    public void submitTaskFormData(string taskId, Map!(string, string) properties) {
         commandExecutor.execute(new SubmitTaskFormCmd(taskId, properties, true));
     }
 
@@ -91,7 +91,7 @@ class FormServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void saveFormData(string taskId, Map<string, string> properties) {
+    public void saveFormData(string taskId, Map!(string, string) properties) {
         commandExecutor.execute(new SubmitTaskFormCmd(taskId, properties, false));
     }
 }

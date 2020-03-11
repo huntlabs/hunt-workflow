@@ -15,7 +15,7 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.scope.ScopeTypes;
@@ -56,7 +56,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
-    
+
     protected bool retriesLeft;
     protected bool noRetriesLeft;
 
@@ -97,7 +97,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         this.processDefinitionId = processDefinitionId;
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl elementId(string elementId) {
         if (elementId is null) {
@@ -106,7 +106,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         this.elementId = elementId;
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl elementName(string elementName) {
         if (elementName is null) {
@@ -115,7 +115,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         this.elementName = elementName;
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
@@ -124,7 +124,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         this.scopeId = scopeId;
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl subScopeId(string subScopeId) {
         if (scopeId is null) {
@@ -133,7 +133,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         this.subScopeId = subScopeId;
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
@@ -142,7 +142,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         this.scopeType = scopeType;
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
@@ -151,7 +151,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         this.scopeDefinitionId = scopeDefinitionId;
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
@@ -161,7 +161,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
@@ -171,7 +171,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public SuspendedJobQueryImpl planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
@@ -418,7 +418,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     public string getProcessDefinitionId() {
         return processDefinitionId;
     }
-    
+
     public string getScopeId() {
         return scopeId;
     }

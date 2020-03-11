@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,21 +12,21 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collections;
+import hunt.collection.HashSet;
+import hunt.collection.List;
+import hunt.collection.Set;
 
-import org.flowable.bpmn.model.EventSubProcess;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowElementsContainer;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.SequenceFlow;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.EventSubProcess;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElementsContainer;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.SequenceFlow;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 
@@ -39,7 +39,7 @@ class ExecutionGraphUtil {
         List<ExecutionEntity> orderedList = new ArrayList<>(executions.size());
 
         // Root elements
-        HashSet<string> previousIds = new HashSet<>();
+        HashSet!string previousIds = new HashSet<>();
         for (ExecutionEntity execution : executions) {
             if (execution.getParentId() is null) {
                 orderedList.add(execution);
@@ -97,12 +97,12 @@ class ExecutionGraphUtil {
             throw new FlowableException("Invalid targetElementId '" + targetElementId + "': no element found for this id n process definition '" + processDefinitionId + "'");
         }
 
-        Set<string> visitedElements = new HashSet<>();
+        Set!string visitedElements = new HashSet<>();
         return isReachable(process, sourceElement, targetElement, visitedElements);
     }
 
-    public static bool isReachable(Process process, FlowNode sourceElement, FlowNode targetElement, Set<string> visitedElements) {
-        
+    public static bool isReachable(Process process, FlowNode sourceElement, FlowNode targetElement, Set!string visitedElements) {
+
         // Special case: start events in an event subprocess might exist as an execution and are most likely be able to reach the target
         // when the target is in the event subprocess, but should be ignored as they are not 'real' runtime executions (but rather waiting for a trigger)
         if (sourceElement instanceof StartEvent && isInEventSubprocess(sourceElement)) {
@@ -154,7 +154,7 @@ class ExecutionGraphUtil {
             if (flowElementsContainer instanceof EventSubProcess) {
                 return true;
             }
-            
+
             if (flowElementsContainer instanceof FlowElement) {
                 flowElementsContainer = ((FlowElement) flowElementsContainer).getParentContainer();
             } else {

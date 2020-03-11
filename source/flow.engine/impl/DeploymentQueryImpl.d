@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
 
 
 import java.io.Serializable;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.CommandContext;
@@ -32,7 +32,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     private static final long serialVersionUID = 1L;
     protected string deploymentId;
-    protected List<string> deploymentIds;
+    protected List!string deploymentIds;
     protected string name;
     protected string nameLike;
     protected string category;
@@ -47,7 +47,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
     protected string derivedFrom;
     protected string parentDeploymentId;
     protected string parentDeploymentIdLike;
-    protected List<string> parentDeploymentIds;
+    protected List!string parentDeploymentIds;
     protected string processDefinitionKey;
     protected string processDefinitionKeyLike;
     protected bool latest;
@@ -73,7 +73,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
     }
 
     @Override
-    public DeploymentQueryImpl deploymentIds(List<string> deploymentIds) {
+    public DeploymentQueryImpl deploymentIds(List!string deploymentIds) {
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("Deployment ids is null");
         }
@@ -173,27 +173,27 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         this.engineVersion = engineVersion;
         return this;
     }
-    
+
     @Override
     public DeploymentQuery deploymentDerivedFrom(string deploymentId) {
         this.derivedFrom = deploymentId;
         return this;
     }
-    
+
     @Override
     public DeploymentQuery parentDeploymentId(string parentDeploymentId) {
         this.parentDeploymentId = parentDeploymentId;
         return this;
     }
-    
+
     @Override
     public DeploymentQuery parentDeploymentIdLike(string parentDeploymentIdLike) {
         this.parentDeploymentIdLike = parentDeploymentIdLike;
         return this;
     }
-    
+
     @Override
-    public DeploymentQuery parentDeploymentIds(List<string> parentDeploymentIds) {
+    public DeploymentQuery parentDeploymentIds(List!string parentDeploymentIds) {
         if (parentDeploymentIds is null) {
             throw new FlowableIllegalArgumentException("parentDeploymentIds is null");
         }
@@ -269,7 +269,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return deploymentId;
     }
 
-    public List<string> getDeploymentIds() {
+    public List!string getDeploymentIds() {
         return deploymentIds;
     }
 
@@ -304,11 +304,11 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
     public string getEngineVersion() {
         return engineVersion;
     }
-    
+
     public string getDerivedFrom() {
         return derivedFrom;
     }
-    
+
     public string getParentDeploymentId() {
         return parentDeploymentId;
     }

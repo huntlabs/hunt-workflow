@@ -12,8 +12,8 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.interceptor.CommandContext;
@@ -32,7 +32,7 @@ class TaskCompletedEventHandler extends AbstractTaskEventHandler {
         FlowableEntityEvent entityEvent = (FlowableEntityEvent) event;
 
         TaskEntity task = (TaskEntity) entityEvent.getEntity();
-        Map<string, Object> data = handleCommonTaskFields(task);
+        Map!(string, Object) data = handleCommonTaskFields(task);
 
         long duration = timeStamp.getTime() - task.getCreateTime().getTime();
         putInMapIfNotNull(data, Fields.DURATION, duration);
@@ -40,7 +40,7 @@ class TaskCompletedEventHandler extends AbstractTaskEventHandler {
         if (event instanceof FlowableEntityWithVariablesEvent) {
             FlowableEntityWithVariablesEvent activitiEntityWithVariablesEvent = (FlowableEntityWithVariablesEvent) event;
             if (activitiEntityWithVariablesEvent.getVariables() !is null && !activitiEntityWithVariablesEvent.getVariables().isEmpty()) {
-                Map<string, Object> variableMap = new HashMap<>();
+                Map!(string, Object) variableMap = new HashMap<>();
                 for (Object variableName : activitiEntityWithVariablesEvent.getVariables().keySet()) {
                     putInMapIfNotNull(variableMap, (string) variableName, activitiEntityWithVariablesEvent.getVariables().get(variableName));
                 }

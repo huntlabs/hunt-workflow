@@ -11,23 +11,38 @@
  * limitations under the License.
  */
 
+//          Copyright linsen 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+module flow.bpmn.model.AbstractFlowableHttpHandler;
 
-import java.util.ArrayList;
-import java.util.List;
 
+
+
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
+import flow.bpmn.model.BaseElement;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.FieldExtension;
 /**
  * @author Tijs Rademakers
  */
-public abstract class AbstractFlowableHttpHandler extends BaseElement {
+abstract class AbstractFlowableHttpHandler : BaseElement {
 
     protected string implementationType;
     protected string implementation;
-    protected List<FieldExtension> fieldExtensions = new ArrayList<>();
+    protected List!FieldExtension fieldExtensions ;//= new ArrayList<>();
 
-    @JsonIgnore
+   // @JsonIgnore
     protected Object instance; // Can be used to set an instance of the listener directly. That instance will then always be reused.
+
+    this()
+    {
+      fieldExtensions = new ArrayList!FieldExtension;
+    }
 
     public string getImplementationType() {
         return implementationType;
@@ -45,11 +60,11 @@ public abstract class AbstractFlowableHttpHandler extends BaseElement {
         this.implementation = implementation;
     }
 
-    public List<FieldExtension> getFieldExtensions() {
+    public List!FieldExtension getFieldExtensions() {
         return fieldExtensions;
     }
 
-    public void setFieldExtensions(List<FieldExtension> fieldExtensions) {
+    public void setFieldExtensions(List!FieldExtension fieldExtensions) {
         this.fieldExtensions = fieldExtensions;
     }
 
@@ -61,16 +76,19 @@ public abstract class AbstractFlowableHttpHandler extends BaseElement {
         this.instance = instance;
     }
 
-    @Override
-    public abstract AbstractFlowableHttpHandler clone();
+    override
+     AbstractFlowableHttpHandler clone()
+     {
+
+     }
 
     public void setValues(AbstractFlowableHttpHandler otherHandler) {
         setImplementation(otherHandler.getImplementation());
         setImplementationType(otherHandler.getImplementationType());
 
-        fieldExtensions = new ArrayList<>();
+        fieldExtensions = new ArrayList!FieldExtension();
         if (otherHandler.getFieldExtensions() !is null && !otherHandler.getFieldExtensions().isEmpty()) {
-            for (FieldExtension extension : otherHandler.getFieldExtensions()) {
+            foreach (FieldExtension extension ; otherHandler.getFieldExtensions()) {
                 fieldExtensions.add(extension.clone());
             }
         }

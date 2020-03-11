@@ -11,21 +11,21 @@
  * limitations under the License.
  */
 
-
-import java.util.Collection;
-
-import org.flowable.common.engine.impl.persistence.entity.Entity;
-
-/**
- * @author Joram Barrez
- */
-public abstract class CachedEntityMatcherAdapter<EntityImpl extends Entity> implements CachedEntityMatcher<EntityImpl> {
-
-    @Override
-    public bool isRetained(Collection<EntityImpl> databaseEntities, Collection<CachedEntity> cachedEntities, EntityImpl entity, Object param) {
-        return isRetained(entity, param);
-    }
-
-    public abstract bool isRetained(EntityImpl entity, Object param);
-
-}
+//
+//import hunt.collection;
+//
+//import flow.common.persistence.entity.Entity;
+//
+///**
+// * @author Joram Barrez
+// */
+//abstract class CachedEntityMatcherAdapter<EntityImpl extends Entity> implements CachedEntityMatcher<EntityImpl> {
+//
+//    @Override
+//    public bool isRetained(Collection<EntityImpl> databaseEntities, Collection<CachedEntity> cachedEntities, EntityImpl entity, Object param) {
+//        return isRetained(entity, param);
+//    }
+//
+//    abstract bool isRetained(EntityImpl entity, Object param);
+//
+//}

@@ -1,47 +1,47 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.IdentityService;
- 
- 
- 
+
+
+
 
 
 import hunt.collection.List;
 
 import flow.common.api.FlowableObjectNotFoundException;
-import org.flowable.idm.api.Group;
-import org.flowable.idm.api.GroupQuery;
-import org.flowable.idm.api.NativeGroupQuery;
-import org.flowable.idm.api.NativeUserQuery;
-import org.flowable.idm.api.Picture;
-import org.flowable.idm.api.User;
-import org.flowable.idm.api.UserQuery;
+import flow.idm.api.Group;
+import flow.idm.api.GroupQuery;
+import flow.idm.api.NativeGroupQuery;
+import flow.idm.api.NativeUserQuery;
+import flow.idm.api.Picture;
+import flow.idm.api.User;
+import flow.idm.api.UserQuery;
 
 /**
  * Service to manage {@link User}s and {@link Group}s.
- * 
+ *
  * @author Tom Baeyens
  */
 interface IdentityService {
 
     /**
      * Creates a new user. The user is transient and must be saved using {@link #saveUser(User)}.
-     * 
+     *
      * @param userId
      *            id for the new user, cannot be null.
      */
@@ -50,7 +50,7 @@ interface IdentityService {
     /**
      * Saves the user. If the user already existed, the user is updated except user password.
      * Use {@link #updateUserPassword(User)} to update existing user password.
-     * 
+     *
      * @param user
      *            user to save, cannot be null.
      * @throws RuntimeException
@@ -85,7 +85,7 @@ interface IdentityService {
 
     /**
      * Creates a new group. The group is transient and must be saved using {@link #saveGroup(Group)}.
-     * 
+     *
      * @param groupId
      *            id for the new group, cannot be null.
      */
@@ -103,7 +103,7 @@ interface IdentityService {
 
     /**
      * Returns the potential starter groups for a given process definition.
-     * 
+     *
      * @param processDefinitionId
      *            process definition identifier
      * @return list of potential starter groups
@@ -112,7 +112,7 @@ interface IdentityService {
 
     /**
      * Returns the potential starter users for a given process definition.
-     * 
+     *
      * @param processDefinitionId
      *            process definition identifier
      * @return list of potential starter users
@@ -121,7 +121,7 @@ interface IdentityService {
 
     /**
      * Saves the group. If the group already existed, the group is updated.
-     * 
+     *
      * @param group
      *            group to save. Cannot be null.
      * @throws RuntimeException
@@ -131,7 +131,7 @@ interface IdentityService {
 
     /**
      * Deletes the group. When no group exists with the given id, this operation is ignored.
-     * 
+     *
      * @param groupId
      *            id of the group that should be deleted, cannot be null.
      */
@@ -149,7 +149,7 @@ interface IdentityService {
 
     /**
      * Delete the membership of the user in the group. When the group or user don't exist or when the user is not a member of the group, this operation is ignored.
-     * 
+     *
      * @param userId
      *            the user's id, cannot be null.
      * @param groupId
@@ -194,7 +194,7 @@ interface IdentityService {
     string getUserInfo(string userId, string key);
 
     /** Generic extensibility keys associated with a user */
-    List<string> getUserInfoKeys(string userId);
+    List!string getUserInfoKeys(string userId);
 
     /**
      * Delete an entry of the generic extensibility key-value pairs associated with a user

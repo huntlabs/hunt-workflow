@@ -13,14 +13,14 @@
 
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
-import org.flowable.bpmn.model.FlowNode;
+import flow.bpmn.model.FlowNode;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEvent;
@@ -87,12 +87,12 @@ import flow.engine.runtime.ProcessInstanceBuilder;
 import flow.engine.runtime.ProcessInstanceQuery;
 import flow.engine.task.Event;
 import org.flowable.entitylink.api.EntityLink;
-import org.flowable.eventregistry.api.EventRegistryEventConsumer;
+import flow.event.registry.api.EventRegistryEventConsumer;
 import org.flowable.eventsubscription.api.EventSubscriptionQuery;
 import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryImpl;
-import org.flowable.form.api.FormInfo;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.IdentityLinkType;
+import flow.form.api.FormInfo;
+import flow.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLinkType;
 import org.flowable.variable.api.persistence.entity.VariableInstance;
 
 /**
@@ -112,12 +112,12 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, Map<string, Object> variables) {
+    public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, Map!(string, Object) variables) {
         return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, null, variables));
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, string businessKey, Map<string, Object> variables) {
+    public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, string businessKey, Map!(string, Object) variables) {
         return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, businessKey, variables));
     }
 
@@ -132,12 +132,12 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, Map<string, Object> variables, string tenantId) {
+    public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, Map!(string, Object) variables, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, null, variables, tenantId));
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string businessKey, Map<string, Object> variables, string tenantId) {
+    public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string businessKey, Map!(string, Object) variables, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, businessKey, variables, tenantId));
     }
 
@@ -152,17 +152,17 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public ProcessInstance startProcessInstanceById(string processDefinitionId, Map<string, Object> variables) {
+    public ProcessInstance startProcessInstanceById(string processDefinitionId, Map!(string, Object) variables) {
         return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(null, processDefinitionId, null, variables));
     }
 
     @Override
-    public ProcessInstance startProcessInstanceById(string processDefinitionId, string businessKey, Map<string, Object> variables) {
+    public ProcessInstance startProcessInstanceById(string processDefinitionId, string businessKey, Map!(string, Object) variables) {
         return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(null, processDefinitionId, businessKey, variables));
     }
 
     @Override
-    public ProcessInstance startProcessInstanceWithForm(string processDefinitionId, string outcome, Map<string, Object> variables, string processInstanceName) {
+    public ProcessInstance startProcessInstanceWithForm(string processDefinitionId, string outcome, Map!(string, Object) variables, string processInstanceName) {
         ProcessInstanceBuilder processInstanceBuilder = createProcessInstanceBuilder()
             .processDefinitionId(processDefinitionId)
             .outcome(outcome)
@@ -212,7 +212,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Map<string, Object> getVariables(string executionId) {
+    public Map!(string, Object) getVariables(string executionId) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, false));
     }
 
@@ -222,12 +222,12 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public List<VariableInstance> getVariableInstancesByExecutionIds(Set<string> executionIds) {
+    public List<VariableInstance> getVariableInstancesByExecutionIds(Set!string executionIds) {
         return commandExecutor.execute(new GetExecutionsVariablesCmd(executionIds));
     }
 
     @Override
-    public Map<string, Object> getVariablesLocal(string executionId) {
+    public Map!(string, Object) getVariablesLocal(string executionId) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, true));
     }
 
@@ -237,22 +237,22 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Map<string, Object> getVariables(string executionId, Collection<string> variableNames) {
+    public Map!(string, Object) getVariables(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, false));
     }
 
     @Override
-    public Map<string, VariableInstance> getVariableInstances(string executionId, Collection<string> variableNames) {
+    public Map<string, VariableInstance> getVariableInstances(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, false));
     }
 
     @Override
-    public Map<string, Object> getVariablesLocal(string executionId, Collection<string> variableNames) {
+    public Map!(string, Object) getVariablesLocal(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, true));
     }
 
     @Override
-    public Map<string, VariableInstance> getVariableInstancesLocal(string executionId, Collection<string> variableNames) {
+    public Map<string, VariableInstance> getVariableInstancesLocal(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, true));
     }
 
@@ -301,7 +301,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
-        Map<string, Object> variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap<>();
         variables.put(variableName, value);
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, false));
     }
@@ -311,7 +311,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
-        Map<string, Object> variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap<>();
         variables.put(variableName, value);
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, true));
     }
@@ -328,25 +328,25 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
 
     @Override
     public void removeVariable(string executionId, string variableName) {
-        Collection<string> variableNames = new ArrayList<>(1);
+        Collection!string variableNames = new ArrayList<>(1);
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, false));
     }
 
     @Override
     public void removeVariableLocal(string executionId, string variableName) {
-        Collection<string> variableNames = new ArrayList<>();
+        Collection!string variableNames = new ArrayList<>();
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, true));
     }
 
     @Override
-    public void removeVariables(string executionId, Collection<string> variableNames) {
+    public void removeVariables(string executionId, Collection!string variableNames) {
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, false));
     }
 
     @Override
-    public void removeVariablesLocal(string executionId, Collection<string> variableNames) {
+    public void removeVariablesLocal(string executionId, Collection!string variableNames) {
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, true));
     }
 
@@ -371,22 +371,22 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string executionId, Collection<string> dataObjectNames) {
+    public Map<string, DataObject> getDataObjects(string executionId, Collection!string dataObjectNames) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false));
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string executionId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjects(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false, locale, withLocalizationFallback));
     }
 
     @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection<string> dataObjects) {
+    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection!string dataObjects) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjects, true));
     }
 
     @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, true, locale, withLocalizationFallback));
     }
 
@@ -424,32 +424,32 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         commandExecutor.execute(new TriggerCmd(executionId, null, true));
     }
 
-    public void signal(string executionId, Map<string, Object> processVariables) {
+    public void signal(string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new TriggerCmd(executionId, processVariables));
     }
 
     @Override
-    public void trigger(string executionId, Map<string, Object> processVariables) {
+    public void trigger(string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new TriggerCmd(executionId, processVariables));
     }
 
     @Override
-    public void triggerAsync(string executionId, Map<string, Object> processVariables) {
+    public void triggerAsync(string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new TriggerCmd(executionId, processVariables, true));
     }
 
     @Override
-    public void trigger(string executionId, Map<string, Object> processVariables, Map<string, Object> transientVariables) {
+    public void trigger(string executionId, Map!(string, Object) processVariables, Map!(string, Object) transientVariables) {
         commandExecutor.execute(new TriggerCmd(executionId, processVariables, transientVariables));
     }
-    
+
     @Override
     public void evaluateConditionalEvents(string processInstanceId) {
         commandExecutor.execute(new EvaluateConditionalEventsCmd(processInstanceId, null));
     }
 
     @Override
-    public void evaluateConditionalEvents(string processInstanceId, Map<string, Object> processVariables) {
+    public void evaluateConditionalEvents(string processInstanceId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new EvaluateConditionalEventsCmd(processInstanceId, processVariables));
     }
 
@@ -494,7 +494,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public List<IdentityLink> getIdentityLinksForProcessInstance(string processInstanceId) {
+    public List!IdentityLink getIdentityLinksForProcessInstance(string processInstanceId) {
         return commandExecutor.execute(new GetIdentityLinksForProcessInstanceCmd(processInstanceId));
     }
 
@@ -529,7 +529,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public List<string> getActiveActivityIds(string executionId) {
+    public List!string getActiveActivityIds(string executionId) {
         return commandExecutor.execute(new FindActiveActivityIdsCmd(executionId));
     }
 
@@ -568,22 +568,22 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByMessage(string messageName, Map<string, Object> processVariables) {
+    public ProcessInstance startProcessInstanceByMessage(string messageName, Map!(string, Object) processVariables) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, null));
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, Map<string, Object> processVariables, string tenantId) {
+    public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, Map!(string, Object) processVariables, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, tenantId));
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByMessage(string messageName, string businessKey, Map<string, Object> processVariables) {
+    public ProcessInstance startProcessInstanceByMessage(string messageName, string businessKey, Map!(string, Object) processVariables) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, null));
     }
 
     @Override
-    public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string businessKey, Map<string, Object> processVariables, string tenantId) {
+    public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string businessKey, Map!(string, Object) processVariables, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, tenantId));
     }
 
@@ -608,12 +608,12 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public void signalEventReceived(string signalName, Map<string, Object> processVariables) {
+    public void signalEventReceived(string signalName, Map!(string, Object) processVariables) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, processVariables, null));
     }
 
     @Override
-    public void signalEventReceivedWithTenantId(string signalName, Map<string, Object> processVariables, string tenantId) {
+    public void signalEventReceivedWithTenantId(string signalName, Map!(string, Object) processVariables, string tenantId) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, processVariables, tenantId));
     }
 
@@ -623,7 +623,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public void signalEventReceived(string signalName, string executionId, Map<string, Object> processVariables) {
+    public void signalEventReceived(string signalName, string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, executionId, processVariables, null));
     }
 
@@ -638,7 +638,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public void messageEventReceived(string messageName, string executionId, Map<string, Object> processVariables) {
+    public void messageEventReceived(string messageName, string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new MessageEventReceivedCmd(messageName, executionId, processVariables));
     }
 
@@ -666,12 +666,12 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     public void dispatchEvent(FlowableEvent event) {
         commandExecutor.execute(new DispatchEventCommand(event));
     }
-    
+
     @Override
     public void addEventRegistryConsumer(EventRegistryEventConsumer eventConsumer) {
         commandExecutor.execute(new AddEventConsumerCommand(eventConsumer));
     }
-    
+
     @Override
     public void removeEventRegistryConsumer(EventRegistryEventConsumer eventConsumer) {
         commandExecutor.execute(new RemoveEventConsumerCommand(eventConsumer));
@@ -718,7 +718,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
     }
 
     @Override
-    public Execution addMultiInstanceExecution(string activityId, string parentExecutionId, Map<string, Object> executionVariables) {
+    public Execution addMultiInstanceExecution(string activityId, string parentExecutionId, Map!(string, Object) executionVariables) {
         return commandExecutor.execute(new AddMultiInstanceExecutionCmd(activityId, parentExecutionId, executionVariables));
     }
 

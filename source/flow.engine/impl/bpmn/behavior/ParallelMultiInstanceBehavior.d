@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,18 +12,18 @@
  */
 
 
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.CallActivity;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.Transaction;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.CallActivity;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.Transaction;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.util.CollectionUtil;
 import flow.engine.deleg.DelegateExecution;
@@ -69,7 +69,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
 
             concurrentExecutions.add(concurrentExecution);
             logLoopDetails(concurrentExecution, "initialized", loopCounter, 0, nrOfInstances, nrOfInstances);
-            
+
             //CommandContextUtil.getHistoryManager().recordActivityStart(concurrentExecution);
         }
 
@@ -80,11 +80,11 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
             ExecutionEntity concurrentExecution = concurrentExecutions.get(loopCounter);
             // executions can be inactive, if instances are all automatics
             // (no-waitstate) and completionCondition has been met in the meantime
-            if (concurrentExecution.isActive() 
-                    && !concurrentExecution.isEnded() 
+            if (concurrentExecution.isActive()
+                    && !concurrentExecution.isEnded()
                     && !concurrentExecution.getParent().isEnded()) {
                 executeOriginalBehavior(concurrentExecution, (ExecutionEntity) multiInstanceRootExecution, loopCounter);
-            } 
+            }
         }
 
         // See ACT-1586: ExecutionQuery returns wrong results when using multi
@@ -115,7 +115,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
         int nrOfInstances = getLoopVariable(execution, NUMBER_OF_INSTANCES);
         int nrOfCompletedInstances = getLoopVariable(execution, NUMBER_OF_COMPLETED_INSTANCES) + 1;
         int nrOfActiveInstances = getLoopVariable(execution, NUMBER_OF_ACTIVE_INSTANCES) - 1;
-        
+
         DelegateExecution miRootExecution = getMultiInstanceRootExecution(execution);
         if (miRootExecution !is null) { // will be null in case of empty collection
             setLoopVariable(miRootExecution, NUMBER_OF_COMPLETED_INSTANCES, nrOfCompletedInstances);
@@ -124,7 +124,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
 
         CommandContextUtil.getActivityInstanceEntityManager().recordActivityEnd((ExecutionEntity) execution, null);
         callActivityEndListeners(execution);
-        
+
         logLoopDetails(execution, "instance completed", loopCounter, nrOfCompletedInstances, nrOfActiveInstances, nrOfInstances);
 
         if (zeroNrOfInstances) {
@@ -151,7 +151,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
                 Activity activity = (Activity) execution.getCurrentFlowElement();
                 verifyCompensation(execution, leavingExecution, activity);
                 verifyCallActivity(leavingExecution, activity);
-                
+
                 if (isCompletionConditionSatisfied) {
                     LinkedList<DelegateExecution> toVerify = new LinkedList<>(miRootExecution.getExecutions());
                     while (!toVerify.isEmpty()) {
@@ -159,7 +159,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
                         if (((ExecutionEntity) childExecution).isInserted()) {
                             childExecution.inactivate();
                         }
-                        
+
                         List<DelegateExecution> childExecutions = (List<DelegateExecution>) childExecution.getExecutions();
                         if (childExecutions !is null && !childExecutions.isEmpty()) {
                             toVerify.addAll(childExecutions);
@@ -213,7 +213,7 @@ class ParallelMultiInstanceBehavior extends MultiInstanceActivityBehavior {
         if (activity instanceof CallActivity) {
             ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
             if (executionToUse !is null) {
-                List<string> callActivityExecutionIds = new ArrayList<>();
+                List!string callActivityExecutionIds = new ArrayList<>();
 
                 // Find all execution entities that are at the call activity
                 List<ExecutionEntity> childExecutions = executionEntityManager.collectChildren(executionToUse);

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,25 +15,25 @@
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.exceptions.XMLException;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.Event;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.GraphicInfo;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.SequenceFlow;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.Event;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.GraphicInfo;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.SequenceFlow;
+import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.repository.EngineDeployment;
@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Specific parsing of one BPMN 2.0 XML file, created by the {@link BpmnParser}.
- * 
+ *
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
@@ -108,10 +108,10 @@ class BpmnParse implements BpmnXMLConstants {
 
     /**
      * Mapping containing values stored during the first phase of parsing since other elements can reference these messages.
-     * 
+     *
      * All the map's elements are defined outside the process definition(s), which means that this map doesn't need to be re-initialized for each new process definition.
      */
-    protected Map<string, string> prefixs = new HashMap<>();
+    protected Map!(string, string) prefixs = new HashMap<>();
 
     // Factories
     protected ActivityBehaviorFactory activityBehaviorFactory;

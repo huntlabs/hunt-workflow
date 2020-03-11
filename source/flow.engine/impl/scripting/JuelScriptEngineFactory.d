@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,23 +13,23 @@
 
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collections;
+import hunt.collection.List;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 
 /**
  * Factory to create {@link JuelScriptEngine}s.
- * 
+ *
  * @author Frederik Heremans
  */
 class JuelScriptEngineFactory implements ScriptEngineFactory {
 
-    private static List<string> names;
-    private static List<string> extensions;
-    private static List<string> mimeTypes;
+    private static List!string names;
+    private static List!string extensions;
+    private static List!string mimeTypes;
 
     static {
         names = Collections.unmodifiableList(Collections.singletonList("juel"));
@@ -48,7 +48,7 @@ class JuelScriptEngineFactory implements ScriptEngineFactory {
     }
 
     @Override
-    public List<string> getExtensions() {
+    public List!string getExtensions() {
         return extensions;
     }
 
@@ -68,12 +68,12 @@ class JuelScriptEngineFactory implements ScriptEngineFactory {
     }
 
     @Override
-    public List<string> getMimeTypes() {
+    public List!string getMimeTypes() {
         return mimeTypes;
     }
 
     @Override
-    public List<string> getNames() {
+    public List!string getNames() {
         return names;
     }
 

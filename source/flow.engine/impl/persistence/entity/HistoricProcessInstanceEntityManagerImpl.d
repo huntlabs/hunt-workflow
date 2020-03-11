@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,9 +13,9 @@
 
 
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import hunt.collections;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.impl.HistoricProcessInstanceQueryImpl;
@@ -67,25 +67,25 @@ class HistoricProcessInstanceEntityManagerImpl
     }
 
     @Override
-    public List<HistoricProcessInstance> findHistoricProcessInstancesByNativeQuery(Map<string, Object> parameterMap) {
+    public List<HistoricProcessInstance> findHistoricProcessInstancesByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricProcessInstancesByNativeQuery(parameterMap);
     }
-    
+
     @Override
     public List<HistoricProcessInstance> findHistoricProcessInstancesBySuperProcessInstanceId(string historicProcessInstanceId) {
         return dataManager.findHistoricProcessInstancesBySuperProcessInstanceId(historicProcessInstanceId);
     }
-    
+
     @Override
-    public List<string> findHistoricProcessInstanceIdsByProcessDefinitionId(string processDefinitionId) {
+    public List!string findHistoricProcessInstanceIdsByProcessDefinitionId(string processDefinitionId) {
         return dataManager.findHistoricProcessInstanceIdsByProcessDefinitionId(processDefinitionId);
     }
 
     @Override
-    public long findHistoricProcessInstanceCountByNativeQuery(Map<string, Object> parameterMap) {
+    public long findHistoricProcessInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricProcessInstanceCountByNativeQuery(parameterMap);
     }
-    
+
     @Override
     public void deleteHistoricProcessInstances(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery) {
         dataManager.deleteHistoricProcessInstances(historicProcessInstanceQuery);

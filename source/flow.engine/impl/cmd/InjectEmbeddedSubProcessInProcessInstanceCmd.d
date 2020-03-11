@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,13 +12,13 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -52,7 +52,7 @@ class InjectEmbeddedSubProcessInProcessInstanceCmd extends AbstractDynamicInject
     protected void updateBpmnProcess(CommandContext commandContext, Process process,
             BpmnModel bpmnModel, ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity) {
 
-        DynamicSubProcessParallelInjectUtil.injectParallelSubProcess(process, bpmnModel, dynamicEmbeddedSubProcessBuilder, 
+        DynamicSubProcessParallelInjectUtil.injectParallelSubProcess(process, bpmnModel, dynamicEmbeddedSubProcessBuilder,
                         originalProcessDefinitionEntity, newDeploymentEntity, commandContext);
     }
 
@@ -61,16 +61,16 @@ class InjectEmbeddedSubProcessInProcessInstanceCmd extends AbstractDynamicInject
                                     ExecutionEntity processInstance, List<ExecutionEntity> childExecutions) {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-        
+
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionEntity.getId());
         SubProcess subProcess = (SubProcess) bpmnModel.getFlowElement(dynamicEmbeddedSubProcessBuilder.getDynamicSubProcessId());
         ExecutionEntity subProcessExecution = executionEntityManager.createChildExecution(processInstance);
         subProcessExecution.setScope(true);
         subProcessExecution.setCurrentFlowElement(subProcess);
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(subProcessExecution);
-        
+
         ExecutionEntity childExecution = executionEntityManager.createChildExecution(subProcessExecution);
-        
+
         StartEvent initialEvent = null;
         for (FlowElement subElement : subProcess.getFlowElements()) {
             if (subElement instanceof StartEvent) {
@@ -81,13 +81,13 @@ class InjectEmbeddedSubProcessInProcessInstanceCmd extends AbstractDynamicInject
                 }
             }
         }
-        
+
         if (initialEvent is null) {
             throw new FlowableException("Could not find a none start event in dynamic sub process");
         }
-        
+
         childExecution.setCurrentFlowElement(initialEvent);
-        
+
         Context.getAgenda().planContinueProcessOperation(childExecution);
     }
 

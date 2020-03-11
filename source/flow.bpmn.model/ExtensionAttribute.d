@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.ExtensionAttribute;
 
 class ExtensionAttribute {
 
@@ -19,10 +20,10 @@ class ExtensionAttribute {
     protected string namespacePrefix;
     protected string namespace;
 
-    public ExtensionAttribute() {
+    this() {
     }
 
-    public ExtensionAttribute(string name) {
+    this(string name) {
         this.name = name;
     }
 
@@ -58,21 +59,20 @@ class ExtensionAttribute {
         this.namespace = namespace;
     }
 
-    @Override
+    override
     public string toString() {
-        StringBuilder sb = new StringBuilder();
+        string sb;
         if (namespacePrefix !is null) {
-            sb.append(namespacePrefix);
+            sb ~= (namespacePrefix);
             if (name !is null)
-                sb.append(":").append(name);
+                sb ~= (":") ~= (name);
         } else
-            sb.append(name);
+            sb ~= name;
         if (value !is null)
-            sb.append("=").append(value);
+            sb ~= ("=") ~= (value);
         return sb.toString();
     }
 
-    @Override
     public ExtensionAttribute clone() {
         ExtensionAttribute clone = new ExtensionAttribute();
         clone.setValues(this);

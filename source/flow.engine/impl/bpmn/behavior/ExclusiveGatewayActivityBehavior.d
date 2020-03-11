@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,8 +14,8 @@
 
 import java.util.Iterator;
 
-import org.flowable.bpmn.model.ExclusiveGateway;
-import org.flowable.bpmn.model.SequenceFlow;
+import flow.bpmn.model.ExclusiveGateway;
+import flow.bpmn.model.SequenceFlow;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of the Exclusive Gateway/XOR gateway/exclusive data-based gateway as defined in the BPMN specification.
- * 
+ *
  * @author Joram Barrez
  */
 class ExclusiveGatewayActivityBehavior extends GatewayActivityBehavior {
@@ -43,10 +43,10 @@ class ExclusiveGatewayActivityBehavior extends GatewayActivityBehavior {
 
     /**
      * The default behaviour of BPMN, taking every outgoing sequence flow (where the condition evaluates to true), is not valid for an exclusive gateway.
-     * 
+     *
      * Hence, this behaviour is overridden and replaced by the correct behavior: selecting the first sequence flow which condition evaluates to true (or which hasn't got a condition) and leaving the
      * activity through that sequence flow.
-     * 
+     *
      * If no sequence flow is selected (ie all conditions evaluate to false), then the default sequence flow is taken (if defined).
      */
     @Override
@@ -88,7 +88,7 @@ class ExclusiveGatewayActivityBehavior extends GatewayActivityBehavior {
                     }
                     outgoingSequenceFlow = sequenceFlow;
                 }
-                
+
             } else if (SkipExpressionUtil.shouldSkipFlowElement(skipExpressionString, sequenceFlow.getId(), execution, Context.getCommandContext())) {
                 outgoingSequenceFlow = sequenceFlow;
             }

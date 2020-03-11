@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,18 +11,19 @@
  * limitations under the License.
  */
 
+module flow.idm.api.PrivilegeQuery;
 
-
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.query.Query;
+import flow.idm.api.Privilege;
 
 /**
  * Allows programmatic querying of {@link Privilege}
- * 
+ *
  * @author Joram Barrez
  */
-interface PrivilegeQuery extends Query<PrivilegeQuery, Privilege> {
+interface PrivilegeQuery : Query!(PrivilegeQuery, Privilege) {
 
     /** Only select {@link Privilege}s with the given id/ */
     PrivilegeQuery privilegeId(string id);
@@ -37,6 +38,6 @@ interface PrivilegeQuery extends Query<PrivilegeQuery, Privilege> {
     PrivilegeQuery groupId(string groupId);
 
     /** Only select {@link Privilege}s with the given group ids. */
-    PrivilegeQuery groupIds(List<string> groupIds);
+    PrivilegeQuery groupIds(List!string groupIds);
 
 }

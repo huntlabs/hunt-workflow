@@ -21,8 +21,8 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.DeploymentMergeStrategy;
 import flow.engine.repository.ProcessDefinition;
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -59,7 +59,7 @@ class MergeByDateDeploymentMergeStrategy implements DeploymentMergeStrategy {
     }
 
     protected List<ProcessDefinition> sortProcessDefinitionsByDeploymentTime(List<ProcessDefinition> allProcessDefinitionsWithKey) {
-        List<string> deploymentIds = extractDeploymentIds(allProcessDefinitionsWithKey);
+        List!string deploymentIds = extractDeploymentIds(allProcessDefinitionsWithKey);
         Map<string, ProcessDefinition> processDefinitionLookupTable = allProcessDefinitionsWithKey
                 .stream()
                 .collect(Collectors.toMap(ProcessDefinition::getDeploymentId, Function.identity()));
@@ -74,7 +74,7 @@ class MergeByDateDeploymentMergeStrategy implements DeploymentMergeStrategy {
                 .collect(Collectors.toList());
     }
 
-    protected List<string> extractDeploymentIds(List<ProcessDefinition> allProcessDefinitionsWithKey) {
+    protected List!string extractDeploymentIds(List<ProcessDefinition> allProcessDefinitionsWithKey) {
         return allProcessDefinitionsWithKey
                 .stream()
                 .map(ProcessDefinition::getDeploymentId)

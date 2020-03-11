@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,9 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
-import java.util.Collections;
+import hunt.collections;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.interceptor.CommandContext;
@@ -32,11 +32,11 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class TaskPropertyChangedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransformer {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskPropertyChangedHistoryJsonTransformer.class);
 
     @Override
-    public List<string> getTypes() {
+    public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_TASK_PROPERTY_CHANGED);
     }
 
@@ -62,7 +62,7 @@ class TaskPropertyChangedHistoryJsonTransformer extends AbstractNeedsTaskHistory
                 historicTaskInstance.setTaskDefinitionId(getStringFromJson(historicalData, HistoryJsonConstants.TASK_DEFINITION_ID));
                 historicTaskInstance.setProcessDefinitionId(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_ID));
                 historicTaskInstance.setLastUpdateTime(lastUpdateTime);
-            
+
             } else {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug("History job (id={}) has expired and will be ignored.", job.getId());

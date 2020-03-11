@@ -13,14 +13,14 @@
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.ArrayList;
+import hunt.collection.HashSet;
+import hunt.collection.List;
+import hunt.collection.Set;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.FieldExtension;
-import org.flowable.bpmn.model.ServiceTask;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.FieldExtension;
+import flow.bpmn.model.ServiceTask;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
@@ -72,7 +72,7 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
     }
 
     protected List<DmnDecisionTable> getDecisionTablesFromModel(BpmnModel bpmnModel, ProcessDefinition processDefinition) {
-        Set<string> decisionTableKeys = new HashSet<>();
+        Set!string decisionTableKeys = new HashSet<>();
         List<DmnDecisionTable> decisionTables = new ArrayList<>();
         List<ServiceTask> serviceTasks = bpmnModel.getMainProcess().findFlowElementsOfType(ServiceTask.class, true);
 
@@ -101,19 +101,19 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(processDefinition.getDeploymentId());
         if (deployment.getParentDeploymentId() !is null) {
             List<DmnDeployment> dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
-            
+
             if (dmnDeployments !is null && dmnDeployments.size() > 0) {
                 decisionTableQuery.deploymentId(dmnDeployments.get(0).getId());
             } else {
                 decisionTableQuery.latestVersion();
             }
-            
+
         } else {
             decisionTableQuery.latestVersion();
         }
-        
+
         DmnDecisionTable decisionTable = decisionTableQuery.singleResult();
-        
+
         if (decisionTable !is null) {
             decisionTables.add(decisionTable);
         }

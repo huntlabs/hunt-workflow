@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,15 +13,15 @@
 
 
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.ExtensionElement;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.SequenceFlow;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.ExtensionElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.SequenceFlow;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.history.HistoryLevel;
 import flow.common.identity.Authentication;
@@ -58,7 +58,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
         this.enableProcessDefinitionHistoryLevel = processEngineConfiguration.isEnableProcessDefinitionHistoryLevel();
         this.usePrefixId = usePrefixId;
     }
-    
+
     @Override
     public bool isHistoryLevelAtLeast(HistoryLevel level) {
         return isHistoryLevelAtLeast(level, null);
@@ -79,12 +79,12 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
                 }
                 return historyLevel.isAtLeast(level);
             }
-            
+
         } else {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Current history level: {}, level required: {}", historyLevel, level);
             }
-            
+
             // Comparing enums actually compares the location of values declared in the enum
             return historyLevel.isAtLeast(level);
         }
@@ -97,7 +97,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
         }
         return historyLevel != HistoryLevel.NONE;
     }
-    
+
     @Override
     public bool isHistoryEnabled(string processDefinitionId) {
         if (enableProcessDefinitionHistoryLevel && processDefinitionId !is null) {
@@ -113,7 +113,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
                 }
                 return !historyLevel.equals(HistoryLevel.NONE);
             }
-           
+
         } else {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Current history level: {}", historyLevel);
@@ -144,7 +144,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see flow.engine.impl.history.HistoryManagerInterface# createIdentityLinkComment(java.lang.string, java.lang.string, java.lang.string, java.lang.string, bool, bool)
      */
     @Override
@@ -211,7 +211,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see flow.engine.impl.history.HistoryManagerInterface# createAttachmentComment(java.lang.string, java.lang.string, java.lang.string, bool)
      */
     @Override
@@ -284,7 +284,7 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
             string activityId = getActivityIdForExecution(execution);
             return activityId !is null ? findHistoricActivityInstance(execution, activityId, endTimeMustBeNull) : null;
         }
-        
+
         return null;
     }
 
@@ -336,9 +336,9 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
 
         try {
             ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
-            
+
             BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionId);
-    
+
             Process process = bpmnModel.getProcessById(processDefinition.getKey());
             if (process.getExtensionElements().containsKey("historyLevel")) {
                 ExtensionElement historyLevelElement = process.getExtensionElements().get("historyLevel").iterator().next();
@@ -346,11 +346,11 @@ abstract class AbstractHistoryManager extends AbstractManager implements History
                 if (StringUtils.isNotEmpty(historyLevelValue)) {
                     try {
                         processDefinitionHistoryLevel = HistoryLevel.getHistoryLevelForKey(historyLevelValue);
-    
+
                     } catch (Exception e) {}
                 }
             }
-    
+
             if (processDefinitionHistoryLevel is null) {
                 processDefinitionHistoryLevel = this.historyLevel;
             }

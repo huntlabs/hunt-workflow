@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.job.service.JobServiceConfiguration;
- 
- 
- 
 
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+
+
+import hunt.collections;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.AbstractServiceConfiguration;
 import flow.common.calendar.BusinessCalendarManager;
@@ -71,7 +71,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * This service configuration contains all settings and instances around job execution and management.
  * Note that a {@link JobServiceConfiguration} is not shared between engines and instantiated for each engine.
- * 
+ *
  * @author Tijs Rademakers
  */
 class JobServiceConfiguration : AbstractServiceConfiguration {
@@ -118,28 +118,28 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
     protected AsyncExecutor asyncExecutor;
     protected int asyncExecutorNumberOfRetries;
     protected int asyncExecutorResetExpiredJobsMaxTimeout;
-    
+
     protected string jobExecutionScope;
     protected Map<string, JobHandler> jobHandlers;
     protected FailedJobCommandFactory failedJobCommandFactory;
     protected List<AsyncRunnableExecutionExceptionHandler> asyncRunnableExecutionExceptionHandlers;
     protected List<JobProcessor> jobProcessors;
-    
+
     protected AsyncExecutor asyncHistoryExecutor;
     protected int asyncHistoryExecutorNumberOfRetries;
     protected string historyJobExecutionScope;
-    
+
     protected Map<string, HistoryJobHandler> historyJobHandlers;
     protected List<HistoryJobProcessor> historyJobProcessors;
-    
+
     protected string jobTypeAsyncHistory;
     protected string jobTypeAsyncHistoryZipped;
-    
+
     protected bool asyncHistoryJsonGzipCompressionEnabled;
     protected bool asyncHistoryJsonGroupingEnabled;
     protected bool asyncHistoryExecutorMessageQueueMode;
     protected int asyncHistoryJsonGroupingThreshold = 10;
-    
+
     public JobServiceConfiguration(string engineName) {
         super(engineName);
     }
@@ -390,7 +390,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
     public void setInternalJobManager(InternalJobManager internalJobManager) {
         this.internalJobManager = internalJobManager;
     }
-    
+
     public InternalJobCompatibilityManager getInternalJobCompatibilityManager() {
         return internalJobCompatibilityManager;
     }
@@ -407,7 +407,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         this.asyncExecutor = asyncExecutor;
         return this;
     }
-    
+
     public AsyncExecutor getAsyncHistoryExecutor() {
         return asyncHistoryExecutor;
     }
@@ -416,7 +416,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         this.asyncHistoryExecutor = asyncHistoryExecutor;
         return this;
     }
-    
+
     public int getAsyncHistoryExecutorNumberOfRetries() {
         return asyncHistoryExecutorNumberOfRetries;
     }
@@ -434,7 +434,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         this.jobExecutionScope = jobExecutionScope;
         return this;
     }
-    
+
     public string getHistoryJobExecutionScope() {
         return historyJobExecutionScope;
     }
@@ -470,7 +470,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         this.jobHandlers = jobHandlers;
         return this;
     }
-    
+
     public JobServiceConfiguration addJobHandler(string type, JobHandler jobHandler) {
         if (this.jobHandlers is null) {
             this.jobHandlers = new HashMap<>();
@@ -505,7 +505,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         this.historyJobHandlers = historyJobHandlers;
         return this;
     }
-    
+
     public JobServiceConfiguration addHistoryJobHandler(string type, HistoryJobHandler historyJobHandler) {
         if (this.historyJobHandlers is null) {
             this.historyJobHandlers = new HashMap<>();
@@ -513,18 +513,18 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         this.historyJobHandlers.put(type, historyJobHandler);
         return this;
     }
-    
+
     /**
-     * Registers the given {@link HistoryJobHandler} under the provided type and checks for 
+     * Registers the given {@link HistoryJobHandler} under the provided type and checks for
      * existing <b>default and internal</b> {@link HistoryJobHandler} instances to be of the same class.
-     * 
+     *
      * If no such instances are found, a {@link #addHistoryJobHandler(string, HistoryJobHandler)} is done.
-     * 
-     * If such instances are found, they are merged, meaning the {@link HistoryJsonTransformer} instances of the provided {@link HistoryJobHandler} 
+     *
+     * If such instances are found, they are merged, meaning the {@link HistoryJsonTransformer} instances of the provided {@link HistoryJobHandler}
      * are copied into the already registered {@link HistoryJobHandler} and vice versa.
-     * 
+     *
      * If a type is already registered, the provided history job handler is simply ignored.
-     * 
+     *
      * This is especially useful when multiple engines (e.g. bpmn and cmmn) share an async history executor.
      * In this case, both {@link AsyncHistoryJobHandler} instances should be able to handle history jobs from any engine.
      */
@@ -607,7 +607,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
     public InternalJobParentStateResolver getJobParentStateResolver() {
         return jobParentStateResolver;
     }
-    
+
     public string getJobTypeAsyncHistory() {
         return jobTypeAsyncHistory;
     }
@@ -655,5 +655,5 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
     public void setAsyncHistoryJsonGroupingThreshold(int asyncHistoryJsonGroupingThreshold) {
         this.asyncHistoryJsonGroupingThreshold = asyncHistoryJsonGroupingThreshold;
     }
-    
+
 }

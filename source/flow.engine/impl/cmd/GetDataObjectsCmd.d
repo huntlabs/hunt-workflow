@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,14 +13,14 @@
 
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 import java.util.Map.Entry;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.ValuedDataObject;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
@@ -44,18 +44,18 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
-    protected Collection<string> dataObjectNames;
+    protected Collection!string dataObjectNames;
     protected bool isLocal;
     protected string locale;
     protected bool withLocalizationFallback;
 
-    public GetDataObjectsCmd(string executionId, Collection<string> dataObjectNames, bool isLocal) {
+    public GetDataObjectsCmd(string executionId, Collection!string dataObjectNames, bool isLocal) {
         this.executionId = executionId;
         this.dataObjectNames = dataObjectNames;
         this.isLocal = isLocal;
     }
 
-    public GetDataObjectsCmd(string executionId, Collection<string> dataObjectNames, bool isLocal, string locale, bool withLocalizationFallback) {
+    public GetDataObjectsCmd(string executionId, Collection!string dataObjectNames, bool isLocal, string locale, bool withLocalizationFallback) {
         this.executionId = executionId;
         this.dataObjectNames = dataObjectNames;
         this.isLocal = isLocal;

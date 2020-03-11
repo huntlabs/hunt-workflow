@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableException;
 import flow.common.identity.Authentication;
@@ -22,14 +22,14 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.cmd.GetPotentialStarterGroupsCmd;
 import flow.engine.impl.cmd.GetPotentialStarterUsersCmd;
 import flow.engine.impl.util.EngineServiceUtil;
-import org.flowable.idm.api.Group;
-import org.flowable.idm.api.GroupQuery;
-import org.flowable.idm.api.IdmIdentityService;
-import org.flowable.idm.api.NativeGroupQuery;
-import org.flowable.idm.api.NativeUserQuery;
-import org.flowable.idm.api.Picture;
-import org.flowable.idm.api.User;
-import org.flowable.idm.api.UserQuery;
+import flow.idm.api.Group;
+import flow.idm.api.GroupQuery;
+import flow.idm.api.IdmIdentityService;
+import flow.idm.api.NativeGroupQuery;
+import flow.idm.api.NativeUserQuery;
+import flow.idm.api.Picture;
+import flow.idm.api.User;
+import flow.idm.api.UserQuery;
 
 /**
  * @author Tom Baeyens
@@ -141,7 +141,7 @@ class IdentityServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigura
     }
 
     @Override
-    public List<string> getUserInfoKeys(string userId) {
+    public List!string getUserInfoKeys(string userId) {
         return getIdmIdentityService().getUserInfoKeys(userId);
     }
 
@@ -154,7 +154,7 @@ class IdentityServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigura
     public void deleteUserInfo(string userId, string key) {
         getIdmIdentityService().deleteUserInfo(userId, key);
     }
-    
+
     protected IdmIdentityService getIdmIdentityService() {
         IdmIdentityService idmIdentityService = EngineServiceUtil.getIdmIdentityService(configuration);
         if (idmIdentityService is null) {

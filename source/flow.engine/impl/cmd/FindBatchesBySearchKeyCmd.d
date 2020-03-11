@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.flowable.batch.api.Batch;
 import flow.common.interceptor.Command;
@@ -20,13 +20,13 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
 class FindBatchesBySearchKeyCmd implements Command<List<Batch>> {
-    
+
     protected string searchKey;
-    
+
     public FindBatchesBySearchKeyCmd(string searchKey) {
         this.searchKey = searchKey;
     }
-    
+
     @Override
     public List<Batch> execute(CommandContext commandContext) {
         return CommandContextUtil.getBatchService(commandContext).findBatchesBySearchKey(searchKey);

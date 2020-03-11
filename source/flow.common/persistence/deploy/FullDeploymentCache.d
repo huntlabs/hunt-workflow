@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,56 +12,56 @@
  */
 
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Default cache: keep everything in memory, without a limit.
- */
-public class FullDeploymentCache<T> implements DeploymentCache<T> {
-
-    protected Map<string, T> cache;
-
-    /** Cache with no limit */
-    public FullDeploymentCache() {
-        this.cache = Collections.synchronizedMap(new HashMap<>());
-    }
-
-    @Override
-    public T get(string id) {
-        return cache.get(id);
-    }
-
-    @Override
-    public void add(string id, T obj) {
-        cache.put(id, obj);
-    }
-
-    @Override
-    public void remove(string id) {
-        cache.remove(id);
-    }
-
-    @Override
-    public bool contains(string id) {
-        return cache.containsKey(id);
-    }
-
-    @Override
-    public void clear() {
-        cache.clear();
-    }
-
-    @Override
-    public Collection<T> getAll() {
-        return cache.values();
-    }
-
-    @Override
-    public int size() {
-        return cache.size();
-    }
-
-}
+//import hunt.collection;
+//import hunt.collections;
+//import hunt.collection.HashMap;
+//import hunt.collection.Map;
+//
+///**
+// * Default cache: keep everything in memory, without a limit.
+// */
+//class FullDeploymentCache<T> implements DeploymentCache<T> {
+//
+//    protected Map<string, T> cache;
+//
+//    /** Cache with no limit */
+//    public FullDeploymentCache() {
+//        this.cache = Collections.synchronizedMap(new HashMap<>());
+//    }
+//
+//    @Override
+//    public T get(string id) {
+//        return cache.get(id);
+//    }
+//
+//    @Override
+//    public void add(string id, T obj) {
+//        cache.put(id, obj);
+//    }
+//
+//    @Override
+//    public void remove(string id) {
+//        cache.remove(id);
+//    }
+//
+//    @Override
+//    public bool contains(string id) {
+//        return cache.containsKey(id);
+//    }
+//
+//    @Override
+//    public void clear() {
+//        cache.clear();
+//    }
+//
+//    @Override
+//    public Collection<T> getAll() {
+//        return cache.values();
+//    }
+//
+//    @Override
+//    public int size() {
+//        return cache.size();
+//    }
+//
+//}

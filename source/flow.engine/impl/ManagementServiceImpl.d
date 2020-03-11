@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,8 +13,8 @@
 
 
 import java.sql.Connection;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.flowable.batch.api.Batch;
 import org.flowable.batch.api.BatchBuilder;
@@ -89,7 +89,7 @@ import org.flowable.job.service.impl.cmd.SetTimerJobRetriesCmd;
  * @author Saeid Mizaei
  */
 class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurationImpl> implements ManagementService {
-    
+
     public ManagementServiceImpl(ProcessEngineConfigurationImpl processEngineConfiguration) {
         super(processEngineConfiguration);
     }
@@ -127,7 +127,7 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
             }
         }
     }
-    
+
     @Override
     public void executeHistoryJob(string historyJobId) {
         commandExecutor.execute(new ExecuteHistoryJobCmd(historyJobId));
@@ -162,7 +162,7 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     public void deleteTimerJob(string jobId) {
         commandExecutor.execute(new DeleteTimerJobCmd(jobId));
     }
-    
+
     @Override
     public void deleteSuspendedJob(string jobId) {
         commandExecutor.execute(new DeleteSuspendedJobCmd(jobId));
@@ -172,7 +172,7 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     public void deleteDeadLetterJob(string jobId) {
         commandExecutor.execute(new DeleteDeadLetterJobCmd(jobId));
     }
-    
+
     @Override
     public void deleteHistoryJob(string jobId) {
         commandExecutor.execute(new DeleteHistoryJobCmd(jobId));
@@ -232,7 +232,7 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     public DeadLetterJobQuery createDeadLetterJobQuery() {
         return new DeadLetterJobQueryImpl(commandExecutor);
     }
-    
+
     @Override
     public HistoryJobQuery createHistoryJobQuery() {
         return new HistoryJobQueryImpl(commandExecutor);
@@ -257,71 +257,71 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
     public string getDeadLetterJobExceptionStacktrace(string jobId) {
         return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.DEADLETTER));
     }
-    
+
     @Override
     public void handleHistoryCleanupTimerJob() {
         commandExecutor.execute(new HandleHistoryCleanupTimerJobCmd());
     }
-    
+
     @Override
     public List<Batch> getAllBatches() {
         return commandExecutor.execute(new GetAllBatchesCmd());
     }
-    
+
     @Override
     public List<Batch> findBatchesBySearchKey(string searchKey) {
         return commandExecutor.execute(new FindBatchesBySearchKeyCmd(searchKey));
     }
-    
+
     @Override
     public string getBatchDocument(string batchId) {
         return commandExecutor.execute(new GetBatchDocumentCmd(batchId));
     }
-    
+
     @Override
     public BatchPart getBatchPart(string batchPartId) {
         return commandExecutor.execute(new GetBatchPartCmd(batchPartId));
     }
-    
+
     @Override
     public List<BatchPart> findBatchPartsByBatchId(string batchId) {
         return commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId));
     }
-    
+
     @Override
     public List<BatchPart> findBatchPartsByBatchIdAndStatus(string batchId, string status) {
         return commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId, status));
     }
-    
+
     @Override
     public string getBatchPartDocument(string batchPartId) {
         return commandExecutor.execute(new GetBatchPartDocumentCmd(batchPartId));
     }
-    
+
     @Override
     public BatchQuery createBatchQuery() {
         return new BatchQueryImpl(commandExecutor);
     }
-    
+
     @Override
     public BatchBuilder createBatchBuilder() {
         return new BatchBuilderImpl(commandExecutor);
     }
-    
+
     @Override
     public void deleteBatch(string batchId) {
         commandExecutor.execute(new DeleteBatchCmd(batchId));
     }
 
     @Override
-    public Map<string, string> getProperties() {
+    public Map!(string, string) getProperties() {
         return commandExecutor.execute(new GetPropertiesCmd());
     }
 
     @Override
     public string databaseSchemaUpgrade(final Connection connection, final string catalog, final string schema) {
         CommandConfig config = commandExecutor.getDefaultConfig().transactionNotSupported();
-        return commandExecutor.execute(config, new Command<string>() {
+        return commandExecutor.execute(config, new Command!string() {
             @Override
             public string execute(CommandContext commandContext) {
                 DbSqlSessionFactory dbSqlSessionFactory = (DbSqlSessionFactory) commandContext.getSessionFactories().get(DbSqlSession.class);

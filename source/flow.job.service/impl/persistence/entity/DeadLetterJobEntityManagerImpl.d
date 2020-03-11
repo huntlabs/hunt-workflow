@@ -13,7 +13,7 @@
 
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import org.flowable.job.api.Job;
@@ -37,7 +37,7 @@ class DeadLetterJobEntityManagerImpl
     public List<DeadLetterJobEntity> findJobsByExecutionId(string id) {
         return dataManager.findJobsByExecutionId(id);
     }
-    
+
     @Override
     public List<DeadLetterJobEntity> findJobsByProcessInstanceId(string id) {
         return dataManager.findJobsByProcessInstanceId(id);
@@ -89,7 +89,7 @@ class DeadLetterJobEntityManagerImpl
             getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, jobEntity));
         }
     }
-    
+
     protected DeadLetterJobEntity createDeadLetterJob(AbstractRuntimeJobEntity job) {
         DeadLetterJobEntity newJobEntity = create();
         newJobEntity.setJobHandlerConfiguration(job.getJobHandlerConfiguration());

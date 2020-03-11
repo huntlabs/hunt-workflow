@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.runtime.NativeActivityInstanceQuery;
 
 import flow.common.api.query.NativeQuery;
-
+import flow.engine.runtime.ActivityInstance;
 /**
  * Allows querying of {@link ActivityInstanceQuery}s via native (SQL) queries
- * 
+ *
  * @author martin.grofcik
  */
-interface NativeActivityInstanceQuery extends NativeQuery<NativeActivityInstanceQuery, ActivityInstance> {
+interface NativeActivityInstanceQuery : NativeQuery!(NativeActivityInstanceQuery, ActivityInstance) {
 
 }

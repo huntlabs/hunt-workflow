@@ -12,8 +12,8 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableOptimisticLockingException;
@@ -52,14 +52,14 @@ class ExecuteAsyncRunnable implements Runnable {
     public ExecuteAsyncRunnable(string jobId, JobServiceConfiguration jobServiceConfiguration,
             JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager,
             AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler) {
-        
+
         initialize(jobId, null, jobServiceConfiguration, jobEntityManager, asyncRunnableExecutionExceptionHandler);
     }
 
     public ExecuteAsyncRunnable(JobInfo job, JobServiceConfiguration jobServiceConfiguration,
                                 JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager,
                                 AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler) {
-        
+
         initialize(job.getId(), job, jobServiceConfiguration, jobEntityManager, asyncRunnableExecutionExceptionHandler);
     }
 
@@ -76,11 +76,11 @@ class ExecuteAsyncRunnable implements Runnable {
         if (asyncRunnableExecutionExceptionHandler !is null) {
             asyncRunnableExecutionExceptionHandlers.add(asyncRunnableExecutionExceptionHandler);
         }
-        
+
         if (jobServiceConfiguration.getAsyncRunnableExecutionExceptionHandlers() !is null) {
             asyncRunnableExecutionExceptionHandlers.addAll(jobServiceConfiguration.getAsyncRunnableExecutionExceptionHandlers());
         }
-        
+
         return asyncRunnableExecutionExceptionHandlers;
     }
 
@@ -131,8 +131,8 @@ class ExecuteAsyncRunnable implements Runnable {
                     new ExecuteAsyncJobCmd(jobId, jobEntityManager).execute(commandContext);
                     if (unlock) {
                         // Part of the same transaction to avoid a race condition with the
-                        // potentially new jobs (wrt process instance locking) that are created 
-                        // during the execution of the original job 
+                        // potentially new jobs (wrt process instance locking) that are created
+                        // during the execution of the original job
                         new UnlockExclusiveJobCmd((Job) job).execute(commandContext);
                     }
                     return null;
@@ -164,7 +164,7 @@ class ExecuteAsyncRunnable implements Runnable {
             return;
             // no unlocking needed for history job
         }
-        
+
         Job job = (Job) this.job; // This method is only called for a regular Job
         try {
             if (job.isExclusive()) {
@@ -221,14 +221,14 @@ class ExecuteAsyncRunnable implements Runnable {
     protected void handleFailedJob(final Throwable exception) {
         for (AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler : asyncRunnableExecutionExceptionHandlers) {
             if (asyncRunnableExecutionExceptionHandler.handleException(this.jobServiceConfiguration, this.job, exception)) {
-                
+
                 // Needs to run in a separate transaction as the original transaction has been marked for rollback
                 unlockJobIfNeeded();
-                
+
                 return;
             }
         }
-        
+
         LOGGER.error("Unable to handle exception {} for job {}.", exception, job);
         throw new FlowableException("Unable to handle exception " + exception.getMessage() + " for job " + job.getId() + ".", exception);
     }

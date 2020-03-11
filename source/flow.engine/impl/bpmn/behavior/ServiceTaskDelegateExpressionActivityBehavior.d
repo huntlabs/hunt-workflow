@@ -12,10 +12,10 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.MapExceptionEntry;
+import flow.bpmn.model.MapExceptionEntry;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;

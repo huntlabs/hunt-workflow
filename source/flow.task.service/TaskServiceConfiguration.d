@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,15 +12,15 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.AbstractServiceConfiguration;
-import org.flowable.idm.api.IdmIdentityService;
-import org.flowable.task.api.TaskQueryInterceptor;
-import org.flowable.task.api.history.HistoricTaskQueryInterceptor;
+import flow.idm.api.IdmIdentityService;
+import flow.task.api.TaskQueryInterceptor;
+import flow.task.api.history.HistoricTaskQueryInterceptor;
 import org.flowable.task.service.history.InternalHistoryTaskManager;
 import org.flowable.task.service.impl.HistoricTaskServiceImpl;
 import org.flowable.task.service.impl.TaskServiceImpl;
@@ -46,7 +46,7 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
 
     protected TaskService taskService = new TaskServiceImpl(this);
     protected HistoricTaskService historicTaskService = new HistoricTaskServiceImpl(this);
-    
+
     protected IdmIdentityService idmIdentityService;
 
     // DATA MANAGERS ///////////////////////////////////////////////////
@@ -64,10 +64,10 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
     protected InternalHistoryTaskManager internalHistoryTaskManager;
     protected InternalTaskLocalizationManager internalTaskLocalizationManager;
     protected InternalTaskAssignmentManager internalTaskAssignmentManager;
-    
+
     protected bool enableTaskRelationshipCounts;
     protected bool enableLocalization;
-    
+
     protected TaskQueryInterceptor taskQueryInterceptor;
     protected HistoricTaskQueryInterceptor historicTaskQueryInterceptor;
     protected int taskQueryLimit;
@@ -77,7 +77,7 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
 
     // Events
     protected bool enableHistoricTaskLogging;
-    
+
     public TaskServiceConfiguration(string engineName) {
         super(engineName);
     }
@@ -132,7 +132,7 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
         this.taskService = taskService;
         return this;
     }
-    
+
     public HistoricTaskService getHistoricTaskService() {
         return historicTaskService;
     }

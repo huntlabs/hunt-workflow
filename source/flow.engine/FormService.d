@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,29 +11,29 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.FormService;
- 
- 
- 
 
 
-import java.util.Map;
+
+
+
+import hunt.collection.Map;
 
 import flow.engine.form.StartFormData;
 import flow.engine.form.TaskFormData;
 import flow.engine.runtime.ProcessInstance;
 import flow.engine.runtime.ProcessInstanceQuery;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskQuery;
+import flow.task.api.Task;
+import flow.task.api.TaskQuery;
 
 /**
  * Access to form data and rendered forms for starting new process instances and completing tasks.
- * 
+ *
  * @author Tom Baeyens
  * @author Falko Menge (camunda)
  */
@@ -57,15 +57,15 @@ interface FormService {
     /**
      * Start a new process instance with the user data that was entered as properties in a start form.
      */
-    ProcessInstance submitStartFormData(string processDefinitionId, Map<string, string> properties);
+    ProcessInstance submitStartFormData(string processDefinitionId, Map!(string, string) properties);
 
     /**
      * Start a new process instance with the user data that was entered as properties in a start form.
-     * 
+     *
      * A business key can be provided to associate the process instance with a certain identifier that has a clear business meaning. For example in an order process, the business key could be an order
      * id. This business key can then be used to easily look up that process instance , see {@link ProcessInstanceQuery#processInstanceBusinessKey(string)}. Providing such a business key is definitely
      * a best practice.
-     * 
+     *
      * @param processDefinitionId
      *            the id of the process definition, cannot be null.
      * @param businessKey
@@ -73,7 +73,7 @@ interface FormService {
      * @param properties
      *            the properties to pass, can be null.
      */
-    ProcessInstance submitStartFormData(string processDefinitionId, string businessKey, Map<string, string> properties);
+    ProcessInstance submitStartFormData(string processDefinitionId, string businessKey, Map!(string, string) properties);
 
     /**
      * Retrieves all data necessary for rendering a form to complete a task. This can be used to perform rendering of the forms outside of the process engine.
@@ -93,23 +93,23 @@ interface FormService {
     /**
      * Completes a task with the user data that was entered as properties in a task form.
      */
-    void submitTaskFormData(string taskId, Map<string, string> properties);
+    void submitTaskFormData(string taskId, Map!(string, string) properties);
 
     /** Save the data that was entered as properties in a task form. */
-    void saveFormData(string taskId, Map<string, string> properties);
+    void saveFormData(string taskId, Map!(string, string) properties);
 
     /**
      * Retrieves a user defined reference to a start form.
-     * 
+     *
      * In the Explorer app, it is assumed that the form key specifies a resource in the deployment, which is the template for the form. But users are free to use this property differently.
      */
     string getStartFormKey(string processDefinitionId);
 
     /**
      * Retrieves a user defined reference to a task form.
-     * 
+     *
      * In the Explorer app, it is assumed that the form key specifies a resource in the deployment, which is the template for the form. But users are free to use this property differently.
-     * 
+     *
      * Both arguments can be obtained from {@link Task} instances returned by any {@link TaskQuery}.
      */
     string getTaskFormKey(string processDefinitionId, string taskDefinitionKey);

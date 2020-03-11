@@ -15,7 +15,7 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.query.AbstractQuery;
@@ -88,11 +88,11 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
         this.exceptionMessage = exceptionMessage;
         return this;
     }
-    
+
     @Override
     public HistoryJobQuery scopeType(string scopeType) {
         if (scopeType is null) {
-            throw new FlowableIllegalArgumentException("Provided scope type is null"); 
+            throw new FlowableIllegalArgumentException("Provided scope type is null");
         }
         this.scopeType = scopeType;
         return this;
@@ -201,7 +201,7 @@ class HistoryJobQueryImpl extends AbstractQuery<HistoryJobQuery, HistoryJob> imp
     public string getExceptionMessage() {
         return exceptionMessage;
     }
-    
+
     public string getScopeType() {
         return scopeType;
     }

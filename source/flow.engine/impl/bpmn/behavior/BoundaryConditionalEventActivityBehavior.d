@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.bpmn.model.ConditionalEventDefinition;
+import flow.bpmn.model.ConditionalEventDefinition;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -46,11 +46,11 @@ class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBeha
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_WAITING, executionEntity.getActivityId(), 
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_WAITING, executionEntity.getActivityId(),
                             conditionExpression, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
         }
     }
-    
+
     @Override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         CommandContext commandContext = Context.getCommandContext();
@@ -60,13 +60,13 @@ class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBeha
         Object result = expression.getValue(execution);
         if (result !is null && result instanceof bool && (bool) result) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(executionEntity);
-            
+
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-                eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_RECEIVED, executionEntity.getActivityId(), 
+                eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_RECEIVED, executionEntity.getActivityId(),
                                 conditionExpression, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
             }
-            
+
             if (interrupting) {
                 executeInterruptingBehavior(executionEntity, commandContext);
             } else {

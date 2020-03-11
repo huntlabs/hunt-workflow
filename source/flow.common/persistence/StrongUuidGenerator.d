@@ -10,42 +10,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.common.persistence.StrongUuidGenerator;
 
 
-import com.fasterxml.uuid.EthernetAddress;
-import com.fasterxml.uuid.Generators;
-import com.fasterxml.uuid.impl.TimeBasedGenerator;
+//import com.fasterxml.uuid.EthernetAddress;
+//import com.fasterxml.uuid.Generators;
+//import com.fasterxml.uuid.impl.TimeBasedGenerator;
 
-import org.flowable.common.engine.impl.cfg.IdGenerator;
-
+import flow.common.cfg.IdGenerator;
+import std.uuid;
 /**
  * {@link IdGenerator} implementation based on the current time and the ethernet address of the machine it is running on.
- * 
+ *
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-public class StrongUuidGenerator implements IdGenerator {
+class StrongUuidGenerator : IdGenerator {
 
     // different ProcessEngines on the same classloader share one generator.
-    protected static volatile TimeBasedGenerator timeBasedGenerator;
+    //protected static  TimeBasedGenerator timeBasedGenerator;
 
-    public StrongUuidGenerator() {
-        ensureGeneratorInitialized();
+
+    this() {
+        //ensureGeneratorInitialized();
     }
 
-    protected void ensureGeneratorInitialized() {
-        if (timeBasedGenerator == null) {
-            synchronized (StrongUuidGenerator.class) {
-                if (timeBasedGenerator == null) {
-                    timeBasedGenerator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
-                }
-            }
-        }
-    }
+    //protected void ensureGeneratorInitialized() {
+    //    if (timeBasedGenerator is null) {
+    //        synchronized (StrongUuidGenerator.class) {
+    //            if (timeBasedGenerator is null) {
+    //                timeBasedGenerator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());
+    //            }
+    //        }
+    //    }
+    //}
 
-    @Override
     public string getNextId() {
-        return timeBasedGenerator.generate().toString();
+        return randomUUID().toString();
     }
 
 }

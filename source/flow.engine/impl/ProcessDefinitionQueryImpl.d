@@ -24,9 +24,9 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.repository.ProcessDefinitionQuery;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import hunt.collection;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 /**
  * @author Tom Baeyens
@@ -38,14 +38,14 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
 
     private static final long serialVersionUID = 1L;
     protected string id;
-    protected Set<string> ids;
+    protected Set!string ids;
     protected string category;
     protected string categoryLike;
     protected string categoryNotEquals;
     protected string name;
     protected string nameLike;
     protected string deploymentId;
-    protected Set<string> deploymentIds;
+    protected Set!string deploymentIds;
     protected string key;
     protected string keyLike;
     protected string resourceName;
@@ -58,7 +58,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     protected bool latest;
     protected SuspensionState suspensionState;
     protected string authorizationUserId;
-    protected Collection<string> authorizationGroups;
+    protected Collection!string authorizationGroups;
     protected bool authorizationGroupsSet;
     protected string procDefId;
     protected string tenantId;
@@ -89,7 +89,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     }
 
     @Override
-    public ProcessDefinitionQuery processDefinitionIds(Set<string> processDefinitionIds) {
+    public ProcessDefinitionQuery processDefinitionIds(Set!string processDefinitionIds) {
         this.ids = processDefinitionIds;
         return this;
     }
@@ -149,7 +149,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     }
 
     @Override
-    public ProcessDefinitionQueryImpl deploymentIds(Set<string> deploymentIds) {
+    public ProcessDefinitionQueryImpl deploymentIds(Set!string deploymentIds) {
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("ids are null");
         }
@@ -322,7 +322,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
         return this;
     }
 
-    public Collection<string> getAuthorizationGroups() {
+    public Collection!string getAuthorizationGroups() {
         if (authorizationGroupsSet) {
             // if authorizationGroupsSet is true then startableByUserOrGroups was called
             // and the groups passed in that methods have precedence
@@ -343,7 +343,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
     }
 
     @Override
-    public ProcessDefinitionQuery startableByUserOrGroups(string userId, Collection<string> groups) {
+    public ProcessDefinitionQuery startableByUserOrGroups(string userId, Collection!string groups) {
         if (userId is null && (groups is null || groups.isEmpty())) {
             throw new FlowableIllegalArgumentException("userId is null and groups are null or empty");
         }
@@ -418,7 +418,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
         return deploymentId;
     }
 
-    public Set<string> getDeploymentIds() {
+    public Set!string getDeploymentIds() {
         return deploymentIds;
     }
 
@@ -426,7 +426,7 @@ class ProcessDefinitionQueryImpl extends AbstractQuery<ProcessDefinitionQuery, P
         return id;
     }
 
-    public Set<string> getIds() {
+    public Set!string getIds() {
         return ids;
     }
 

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,43 +11,64 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.Process;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.LinkedHashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElementsContainer;
+import flow.bpmn.model.HasExecutionListeners;
+import flow.bpmn.model.IOSpecification;
+import flow.bpmn.model.FlowableListener;
+import flow.bpmn.model.Lane;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.ValuedDataObject;
+import flow.bpmn.model.Artifact;
+import flow.bpmn.model.EventListener;
+import flow.bpmn.model.Association;
+import flow.bpmn.model.SubProcess;
 
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class Process extends BaseElement implements FlowElementsContainer, HasExecutionListeners {
+class Process : BaseElement , FlowElementsContainer, HasExecutionListeners {
 
     protected string name;
     protected bool executable = true;
     protected string documentation;
     protected IOSpecification ioSpecification;
-    protected List<FlowableListener> executionListeners = new ArrayList<>();
-    protected List<Lane> lanes = new ArrayList<>();
-    protected List<FlowElement> flowElementList = new ArrayList<>();
-    protected List<ValuedDataObject> dataObjects = new ArrayList<>();
-    protected List<Artifact> artifactList = new ArrayList<>();
-    protected List<string> candidateStarterUsers = new ArrayList<>();
-    protected List<string> candidateStarterGroups = new ArrayList<>();
-    protected List<EventListener> eventListeners = new ArrayList<>();
-    protected Map<string, FlowElement> flowElementMap = new LinkedHashMap<>();
+    protected List!FlowableListener executionListeners ;//= new ArrayList<>();
+    protected List!Lane lanes ;//= new ArrayList<>();
+    protected List!FlowElement flowElementList ;//= new ArrayList<>();
+    protected List!ValuedDataObject dataObjects ;//= new ArrayList<>();
+    protected List!Artifact artifactList ;//= new ArrayList<>();
+    protected List!string candidateStarterUsers;// = new ArrayList<>();
+    protected List!string candidateStarterGroups ;//= new ArrayList<>();
+    protected List!EventListener eventListeners;// = new ArrayList<>();
+    protected Map!(string, FlowElement) flowElementMap;// = new LinkedHashMap<>();
 
     // Added during process definition parsing
     protected FlowElement initialFlowElement;
-    
+
     // Performance settings
     protected bool enableEagerExecutionTreeFetching;
 
-    public Process() {
-
+    this() {
+        executionListeners = new ArrayList!FlowableListener;
+        lanes = new ArrayList!Lane;
+        flowElementList = new ArrayList!FlowElement;
+        dataObjects = new  ArrayList!ValuedDataObject;
+        artifactList = new ArrayList!Artifact;
+        candidateStarterUsers = new ArrayList!string;
+        candidateStarterGroups = new ArrayList!string;
+        eventListeners = new ArrayList!EventListener;
+        flowElementMap = new LinkedHashMap!(string, FlowElement);
     }
 
     public string getDocumentation() {
@@ -82,30 +103,27 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         this.ioSpecification = ioSpecification;
     }
 
-    @Override
-    public List<FlowableListener> getExecutionListeners() {
+    public List!FlowableListener getExecutionListeners() {
         return executionListeners;
     }
 
-    @Override
-    public void setExecutionListeners(List<FlowableListener> executionListeners) {
+    public void setExecutionListeners(List!FlowableListener executionListeners) {
         this.executionListeners = executionListeners;
     }
 
-    public List<Lane> getLanes() {
+    public List!Lane getLanes() {
         return lanes;
     }
 
-    public void setLanes(List<Lane> lanes) {
+    public void setLanes(List!Lane lanes) {
         this.lanes = lanes;
     }
 
-    @Override
-    public Map<string, FlowElement> getFlowElementMap() {
+    public Map!(string, FlowElement) getFlowElementMap() {
         return flowElementMap;
     }
 
-    public void setFlowElementMap(Map<string, FlowElement> flowElementMap) {
+    public void setFlowElementMap(Map!(string, FlowElement) flowElementMap) {
         this.flowElementMap = flowElementMap;
     }
 
@@ -113,7 +131,6 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         return flowElementMap.containsKey(id);
     }
 
-    @Override
     public FlowElement getFlowElement(string flowElementId) {
         return getFlowElement(flowElementId, false);
     }
@@ -130,47 +147,49 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         }
     }
 
-    public List<Association> findAssociationsWithSourceRefRecursive(string sourceRef) {
+    public List!Association findAssociationsWithSourceRefRecursive(string sourceRef) {
         return findAssociationsWithSourceRefRecursive(this, sourceRef);
     }
 
-    protected List<Association> findAssociationsWithSourceRefRecursive(FlowElementsContainer flowElementsContainer, string sourceRef) {
-        List<Association> associations = new ArrayList<>();
-        for (Artifact artifact : flowElementsContainer.getArtifacts()) {
-            if (artifact instanceof Association) {
-                Association association = (Association) artifact;
-                if (association.getSourceRef() !is null && association.getTargetRef() !is null && association.getSourceRef().equals(sourceRef)) {
+    protected List!Association findAssociationsWithSourceRefRecursive(FlowElementsContainer flowElementsContainer, string sourceRef) {
+        List!Association associations = new ArrayList!Association();
+        foreach (Artifact artifact ; flowElementsContainer.getArtifacts()) {
+            Association association = cast(Association) artifact;
+            if (association !is null) {
+                if (association.getSourceRef() !is null && association.getTargetRef() !is null && association.getSourceRef() == (sourceRef)) {
                     associations.add(association);
                 }
             }
         }
 
-        for (FlowElement flowElement : flowElementsContainer.getFlowElements()) {
-            if (flowElement instanceof FlowElementsContainer) {
-                associations.addAll(findAssociationsWithSourceRefRecursive((FlowElementsContainer) flowElement, sourceRef));
+        foreach (FlowElement flowElement ; flowElementsContainer.getFlowElements()) {
+            FlowElementsContainer f = cast(FlowElementsContainer) flowElement;
+            if (f !is null) {
+                associations.addAll(findAssociationsWithSourceRefRecursive(f, sourceRef));
             }
         }
         return associations;
     }
 
-    public List<Association> findAssociationsWithTargetRefRecursive(string targetRef) {
+    public List!Association findAssociationsWithTargetRefRecursive(string targetRef) {
         return findAssociationsWithTargetRefRecursive(this, targetRef);
     }
 
-    protected List<Association> findAssociationsWithTargetRefRecursive(FlowElementsContainer flowElementsContainer, string targetRef) {
-        List<Association> associations = new ArrayList<>();
-        for (Artifact artifact : flowElementsContainer.getArtifacts()) {
-            if (artifact instanceof Association) {
-                Association association = (Association) artifact;
-                if (association.getTargetRef() !is null && association.getTargetRef().equals(targetRef)) {
+    protected List!Association findAssociationsWithTargetRefRecursive(FlowElementsContainer flowElementsContainer, string targetRef) {
+        List!Association associations = new ArrayList!Association();
+        foreach (Artifact artifact ; flowElementsContainer.getArtifacts()) {
+             Association association = cast(Association) artifact;
+            if (association !is null) {
+                if (association.getTargetRef() !is null && association.getTargetRef() == (targetRef)) {
                     associations.add(association);
                 }
             }
         }
 
-        for (FlowElement flowElement : flowElementsContainer.getFlowElements()) {
-            if (flowElement instanceof FlowElementsContainer) {
-                associations.addAll(findAssociationsWithTargetRefRecursive((FlowElementsContainer) flowElement, targetRef));
+        foreach (FlowElement flowElement ; flowElementsContainer.getFlowElements()) {
+            FlowElementsContainer f = cast(FlowElementsContainer) flowElement;
+            if (f !is null) {
+                associations.addAll(findAssociationsWithTargetRefRecursive(f, targetRef));
             }
         }
         return associations;
@@ -184,11 +203,12 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
     }
 
     protected FlowElementsContainer getFlowElementsContainer(FlowElementsContainer flowElementsContainer, string flowElementId) {
-        for (FlowElement flowElement : flowElementsContainer.getFlowElements()) {
-            if (flowElement.getId() !is null && flowElement.getId().equals(flowElementId)) {
+        foreach (FlowElement flowElement ; flowElementsContainer.getFlowElements()) {
+            FlowElementsContainer f = cast(FlowElementsContainer) flowElement;
+            if (flowElement.getId() !is null && flowElement.getId() == (flowElementId)) {
                 return flowElementsContainer;
-            } else if (flowElement instanceof FlowElementsContainer) {
-                FlowElementsContainer result = getFlowElementsContainer((FlowElementsContainer) flowElement, flowElementId);
+            } else if (f !is null) {
+                FlowElementsContainer result = getFlowElementsContainer(f, flowElementId);
                 if (result !is null) {
                     return result;
                 }
@@ -198,34 +218,30 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
     }
 
     protected FlowElement findFlowElementInList(string flowElementId) {
-        for (FlowElement f : flowElementList) {
-            if (f.getId() !is null && f.getId().equals(flowElementId)) {
+        foreach (FlowElement f ; flowElementList) {
+            if (f.getId() !is null && f.getId() == (flowElementId)) {
                 return f;
             }
         }
         return null;
     }
 
-    @Override
-    public Collection<FlowElement> getFlowElements() {
+    public Collection!FlowElement getFlowElements() {
         return flowElementList;
     }
 
-    @Override
     public void addFlowElement(FlowElement element) {
         flowElementList.add(element);
         element.setParentContainer(this);
         addFlowElementToMap(element);
     }
 
-    @Override
     public void addFlowElementToMap(FlowElement element) {
-        if (element !is null && StringUtils.isNotEmpty(element.getId())) {
+        if (element !is null && (element.getId()!is null && element.getId().length != 0)) {
             flowElementMap.put(element.getId(), element);
         }
     }
 
-    @Override
     public void removeFlowElement(string elementId) {
         FlowElement element = flowElementMap.get(elementId);
         if (element !is null) {
@@ -234,18 +250,16 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         }
     }
 
-    @Override
     public void removeFlowElementFromMap(string elementId) {
-        if (StringUtils.isNotEmpty(elementId)) {
+        if (elementId !is null && elementId.length != 0) {
             flowElementMap.remove(elementId);
         }
     }
 
-    @Override
     public Artifact getArtifact(string id) {
         Artifact foundArtifact = null;
-        for (Artifact artifact : artifactList) {
-            if (id.equals(artifact.getId())) {
+        foreach (Artifact artifact ; artifactList) {
+            if (id == (artifact.getId())) {
                 foundArtifact = artifact;
                 break;
             }
@@ -253,17 +267,14 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         return foundArtifact;
     }
 
-    @Override
-    public Collection<Artifact> getArtifacts() {
+    public Collection!Artifact getArtifacts() {
         return artifactList;
     }
 
-    @Override
     public void addArtifact(Artifact artifact) {
         artifactList.add(artifact);
     }
 
-    @Override
     public void removeArtifact(string artifactId) {
         Artifact artifact = getArtifact(artifactId);
         if (artifact !is null) {
@@ -271,66 +282,90 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         }
     }
 
-    public List<string> getCandidateStarterUsers() {
+    public List!string getCandidateStarterUsers() {
         return candidateStarterUsers;
     }
 
-    public void setCandidateStarterUsers(List<string> candidateStarterUsers) {
+    public void setCandidateStarterUsers(List!string candidateStarterUsers) {
         this.candidateStarterUsers = candidateStarterUsers;
     }
 
-    public List<string> getCandidateStarterGroups() {
+    public List!string getCandidateStarterGroups() {
         return candidateStarterGroups;
     }
 
-    public void setCandidateStarterGroups(List<string> candidateStarterGroups) {
+    public void setCandidateStarterGroups(List!string candidateStarterGroups) {
         this.candidateStarterGroups = candidateStarterGroups;
     }
 
-    public List<EventListener> getEventListeners() {
+    public List!EventListener getEventListeners() {
         return eventListeners;
     }
 
-    public void setEventListeners(List<EventListener> eventListeners) {
+    public void setEventListeners(List!EventListener eventListeners) {
         this.eventListeners = eventListeners;
     }
 
-    public <FlowElementType extends FlowElement> List<FlowElementType> findFlowElementsOfType(Class<FlowElementType> type) {
-        return findFlowElementsOfType(type, true);
+    //public <FlowElementType extends FlowElement> List<FlowElementType> findFlowElementsOfType(Class<FlowElementType> type) {
+    //    return findFlowElementsOfType(type, true);
+    //}
+
+    public List!T findFlowElementsOfType(T)(TypeInfo type) {
+        return findFlowElementsOfType!T(type, true);
     }
 
-    @SuppressWarnings("unchecked")
-    public <FlowElementType extends FlowElement> List<FlowElementType> findFlowElementsOfType(Class<FlowElementType> type, bool goIntoSubprocesses) {
-        List<FlowElementType> foundFlowElements = new ArrayList<>();
-        for (FlowElement flowElement : this.getFlowElements()) {
-            if (type.isInstance(flowElement)) {
-                foundFlowElements.add((FlowElementType) flowElement);
+    //@SuppressWarnings("unchecked")
+    //public <FlowElementType extends FlowElement> List<FlowElementType> findFlowElementsOfType(Class<FlowElementType> type, bool goIntoSubprocesses) {
+    //    List<FlowElementType> foundFlowElements = new ArrayList<>();
+    //    for (FlowElement flowElement : this.getFlowElements()) {
+    //        if (type.isInstance(flowElement)) {
+    //            foundFlowElements.add((FlowElementType) flowElement);
+    //        }
+    //
+    //        if (flowElement instanceof SubProcess) {
+    //            if (goIntoSubprocesses) {
+    //                foundFlowElements.addAll(findFlowElementsInSubProcessOfType((SubProcess) flowElement, type));
+    //            }
+    //        }
+    //    }
+    //    return foundFlowElements;
+    //}
+
+    public List!T findFlowElementsOfType(T)(TypeInfo type, bool goIntoSubprocesses) {
+        List!T foundFlowElements = new ArrayList!T;
+        foreach (FlowElement flowElement ; this.getFlowElements()) {
+            T obj = cast(T)flowElement;
+            if (obj !is null) {
+                foundFlowElements.add(obj);
             }
 
-            if (flowElement instanceof SubProcess) {
+            SubProcess s = cast(SubProcess)flowElement;
+            if (s !is null) {
                 if (goIntoSubprocesses) {
-                    foundFlowElements.addAll(findFlowElementsInSubProcessOfType((SubProcess) flowElement, type));
+                    foundFlowElements.addAll(findFlowElementsInSubProcessOfType!T(s, type));
                 }
             }
         }
         return foundFlowElements;
     }
 
-    public <FlowElementType extends FlowElement> List<FlowElementType> findFlowElementsInSubProcessOfType(SubProcess subProcess, Class<FlowElementType> type) {
-        return findFlowElementsInSubProcessOfType(subProcess, type, true);
+    public List!T findFlowElementsInSubProcessOfType(T)(SubProcess subProcess, TypeInfo type) {
+        return findFlowElementsInSubProcessOfType!T(subProcess, type, true);
     }
 
-    @SuppressWarnings("unchecked")
-    public <FlowElementType extends FlowElement> List<FlowElementType> findFlowElementsInSubProcessOfType(SubProcess subProcess, Class<FlowElementType> type, bool goIntoSubprocesses) {
+    //@SuppressWarnings("unchecked")
+    public List!T findFlowElementsInSubProcessOfType(T)(SubProcess subProcess, TypeInfo type, bool goIntoSubprocesses) {
 
-        List<FlowElementType> foundFlowElements = new ArrayList<>();
-        for (FlowElement flowElement : subProcess.getFlowElements()) {
-            if (type.isInstance(flowElement)) {
-                foundFlowElements.add((FlowElementType) flowElement);
+        List!T foundFlowElements = new ArrayList!T();
+        foreach (FlowElement flowElement ; subProcess.getFlowElements()) {
+            T obj = cast(T)flowElement;
+            if (obj !is null) {
+                foundFlowElements.add(obj);
             }
-            if (flowElement instanceof SubProcess) {
+            SubProcess s = cast(SubProcess) flowElement;
+            if (s !is null) {
                 if (goIntoSubprocesses) {
-                    foundFlowElements.addAll(findFlowElementsInSubProcessOfType((SubProcess) flowElement, type));
+                    foundFlowElements.addAll(findFlowElementsInSubProcessOfType(s, type));
                 }
             }
         }
@@ -342,12 +377,13 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
     }
 
     public FlowElementsContainer findParent(FlowElement childElement, FlowElementsContainer flowElementsContainer) {
-        for (FlowElement flowElement : flowElementsContainer.getFlowElements()) {
-            if (childElement.getId() !is null && childElement.getId().equals(flowElement.getId())) {
+        foreach (FlowElement flowElement ; flowElementsContainer.getFlowElements()) {
+            if (childElement.getId() !is null && childElement.getId() == (flowElement.getId())) {
                 return flowElementsContainer;
             }
-            if (flowElement instanceof FlowElementsContainer) {
-                FlowElementsContainer result = findParent(childElement, (FlowElementsContainer) flowElement);
+            FlowElementsContainer f = cast(FlowElementsContainer) flowElement;
+            if (f !is null) {
+                FlowElementsContainer result = findParent(childElement, f);
                 if (result !is null) {
                     return result;
                 }
@@ -356,7 +392,7 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         return null;
     }
 
-    @Override
+    override
     public Process clone() {
         Process clone = new Process();
         clone.setValues(this);
@@ -374,41 +410,41 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
             setIoSpecification(otherElement.getIoSpecification().clone());
         }
 
-        executionListeners = new ArrayList<>();
+        executionListeners = new ArrayList!FlowableListener();
         if (otherElement.getExecutionListeners() !is null && !otherElement.getExecutionListeners().isEmpty()) {
-            for (FlowableListener listener : otherElement.getExecutionListeners()) {
+            foreach (FlowableListener listener ; otherElement.getExecutionListeners()) {
                 executionListeners.add(listener.clone());
             }
         }
 
-        candidateStarterUsers = new ArrayList<>();
+        candidateStarterUsers = new ArrayList!string();
         if (otherElement.getCandidateStarterUsers() !is null && !otherElement.getCandidateStarterUsers().isEmpty()) {
             candidateStarterUsers.addAll(otherElement.getCandidateStarterUsers());
         }
 
-        candidateStarterGroups = new ArrayList<>();
+        candidateStarterGroups = new ArrayList!string();
         if (otherElement.getCandidateStarterGroups() !is null && !otherElement.getCandidateStarterGroups().isEmpty()) {
             candidateStarterGroups.addAll(otherElement.getCandidateStarterGroups());
         }
-        
+
         enableEagerExecutionTreeFetching = otherElement.enableEagerExecutionTreeFetching;
 
-        eventListeners = new ArrayList<>();
+        eventListeners = new ArrayList!EventListener();
         if (otherElement.getEventListeners() !is null && !otherElement.getEventListeners().isEmpty()) {
-            for (EventListener listener : otherElement.getEventListeners()) {
+            foreach (EventListener listener ; otherElement.getEventListeners()) {
                 eventListeners.add(listener.clone());
             }
         }
 
         /*
          * This is required because data objects in Designer have no DI info and are added as properties, not flow elements
-         * 
+         *
          * Determine the differences between the 2 elements' data object
          */
-        for (ValuedDataObject thisObject : getDataObjects()) {
+        foreach (ValuedDataObject thisObject ; getDataObjects()) {
             bool exists = false;
-            for (ValuedDataObject otherObject : otherElement.getDataObjects()) {
-                if (thisObject.getId().equals(otherObject.getId())) {
+            foreach (ValuedDataObject otherObject ; otherElement.getDataObjects()) {
+                if (thisObject.getId() == (otherObject.getId())) {
                     exists = true;
                     break;
                 }
@@ -419,9 +455,9 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
             }
         }
 
-        dataObjects = new ArrayList<>();
+        dataObjects = new ArrayList!ValuedDataObject();
         if (otherElement.getDataObjects() !is null && !otherElement.getDataObjects().isEmpty()) {
-            for (ValuedDataObject dataObject : otherElement.getDataObjects()) {
+            foreach (ValuedDataObject dataObject ; otherElement.getDataObjects()) {
                 ValuedDataObject clone = dataObject.clone();
                 dataObjects.add(clone);
                 // add it to the list of FlowElements
@@ -433,11 +469,11 @@ class Process extends BaseElement implements FlowElementsContainer, HasExecution
         }
     }
 
-    public List<ValuedDataObject> getDataObjects() {
+    public List!ValuedDataObject getDataObjects() {
         return dataObjects;
     }
 
-    public void setDataObjects(List<ValuedDataObject> dataObjects) {
+    public void setDataObjects(List!ValuedDataObject dataObjects) {
         this.dataObjects = dataObjects;
     }
 

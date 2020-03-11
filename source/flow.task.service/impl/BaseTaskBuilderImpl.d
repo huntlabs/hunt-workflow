@@ -13,20 +13,20 @@
 
 
 import flow.common.interceptor.CommandExecutor;
-import org.flowable.identitylink.api.IdentityLinkInfo;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskBuilder;
+import flow.identitylink.api.IdentityLinkInfo;
+import flow.task.api.Task;
+import flow.task.api.TaskBuilder;
 
-import java.util.Collections;
+import hunt.collections;
 import java.util.Date;
-import java.util.Set;
+import hunt.collection.Set;
 
 /**
  * Base implementation of the {@link TaskBuilder} interface
  *
  * @author martin.grofcik
  */
-public abstract class BaseTaskBuilderImpl implements TaskBuilder {
+abstract class BaseTaskBuilderImpl implements TaskBuilder {
     protected CommandExecutor commandExecutor;
     protected string id;
     protected string name;
@@ -50,7 +50,7 @@ public abstract class BaseTaskBuilderImpl implements TaskBuilder {
     }
 
     @Override
-    public abstract Task create();
+    abstract Task create();
 
     @Override
     public TaskBuilder id(string id) {

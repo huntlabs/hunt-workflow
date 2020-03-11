@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,8 +13,8 @@
 
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Map;
+import hunt.collection;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -34,17 +34,17 @@ class GetExecutionVariablesCmd implements Command<Map<string, Object>>, Serializ
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
-    protected Collection<string> variableNames;
+    protected Collection!string variableNames;
     protected bool isLocal;
 
-    public GetExecutionVariablesCmd(string executionId, Collection<string> variableNames, bool isLocal) {
+    public GetExecutionVariablesCmd(string executionId, Collection!string variableNames, bool isLocal) {
         this.executionId = executionId;
         this.variableNames = variableNames;
         this.isLocal = isLocal;
     }
 
     @Override
-    public Map<string, Object> execute(CommandContext commandContext) {
+    public Map!(string, Object) execute(CommandContext commandContext) {
 
         // Verify existence of execution
         if (executionId is null) {

@@ -12,18 +12,18 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.HistoryService;
- 
- 
- 
 
 
-import java.util.List;
+
+
+
+import hunt.collection.List;
 
 import flow.engine.history.HistoricActivityInstance;
 import flow.engine.history.HistoricActivityInstanceQuery;
@@ -36,25 +36,25 @@ import flow.engine.history.NativeHistoricDetailQuery;
 import flow.engine.history.NativeHistoricProcessInstanceQuery;
 import flow.engine.history.ProcessInstanceHistoryLog;
 import flow.engine.history.ProcessInstanceHistoryLogQuery;
-import org.flowable.entitylink.api.history.HistoricEntityLink;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.history.HistoricIdentityLink;
-import org.flowable.task.api.TaskInfo;
-import org.flowable.task.api.history.HistoricTaskInstance;
-import org.flowable.task.api.history.HistoricTaskInstanceQuery;
-import org.flowable.task.api.history.HistoricTaskLogEntry;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.api.history.HistoricTaskLogEntryQuery;
-import org.flowable.task.api.history.NativeHistoricTaskLogEntryQuery;
+//import org.flowable.entitylink.api.history.HistoricEntityLink;
+import flow.identitylink.api.IdentityLink;
+//import flow.identitylink.api.history.HistoricIdentityLink;
+import flow.task.api.TaskInfo;
+import flow.task.api.history.HistoricTaskInstance;
+import flow.task.api.history.HistoricTaskInstanceQuery;
+import flow.task.api.history.HistoricTaskLogEntry;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntryQuery;
+import flow.task.api.history.NativeHistoricTaskLogEntryQuery;
 import org.flowable.task.service.history.NativeHistoricTaskInstanceQuery;
-import org.flowable.variable.api.history.HistoricVariableInstance;
-import org.flowable.variable.api.history.HistoricVariableInstanceQuery;
-import org.flowable.variable.api.history.NativeHistoricVariableInstanceQuery;
+import flow.variable.service.api.history.HistoricVariableInstance;
+import flow.variable.service.api.history.HistoricVariableInstanceQuery;
+import flow.variable.service.api.history.NativeHistoricVariableInstanceQuery;
 
 /**
  * Service exposing information about ongoing and past process instances. This is different from the runtime information in the sense that this runtime information only contains the actual runtime
  * state at any given moment and it is optimized for runtime process execution performance. The history information is optimized for easy querying and remains permanent in the persistent storage.
- * 
+ *
  * @author Christian Stettler
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -104,12 +104,12 @@ interface HistoryService {
      * Deletes historic process instance. All historic activities, historic task and historic details (variable updates, form properties) are deleted as well.
      */
     void deleteHistoricProcessInstance(string processInstanceId);
-    
+
     /**
      * Deletes historic task and activity data for removed process instances
      */
     void deleteTaskAndActivityDataOfRemovedHistoricProcessInstances();
-    
+
     /**
      * Deletes historic identity links, detail info, variable data and entity links for removed process instances
      */
@@ -134,33 +134,33 @@ interface HistoryService {
      * Retrieves the {@link HistoricIdentityLink}s associated with the given task. Such an {@link IdentityLink} informs how a certain identity (eg. group or user) is associated with a certain task
      * (eg. as candidate, assignee, etc.), even if the task is completed as opposed to {@link IdentityLink}s which only exist for active tasks.
      */
-    List<HistoricIdentityLink> getHistoricIdentityLinksForTask(string taskId);
+   // List<HistoricIdentityLink> getHistoricIdentityLinksForTask(string taskId);
 
     /**
      * Retrieves the {@link HistoricIdentityLink}s associated with the given process instance. Such an {@link IdentityLink} informs how a certain identity (eg. group or user) is associated with a
      * certain process instance, even if the instance is completed as opposed to {@link IdentityLink}s which only exist for active instances.
      */
-    List<HistoricIdentityLink> getHistoricIdentityLinksForProcessInstance(string processInstanceId);
-    
+   // List<HistoricIdentityLink> getHistoricIdentityLinksForProcessInstance(string processInstanceId);
+
     /**
      * Retrieves the {@link HistoricEntityLink}s associated with the given process instance.
      */
-    List<HistoricEntityLink> getHistoricEntityLinkChildrenForProcessInstance(string processInstanceId);
+  //  List<HistoricEntityLink> getHistoricEntityLinkChildrenForProcessInstance(string processInstanceId);
 
     /**
      * Retrieves the {@link HistoricEntityLink}s associated with the given task.
      */
-    List<HistoricEntityLink> getHistoricEntityLinkChildrenForTask(string taskId);
+   // List<HistoricEntityLink> getHistoricEntityLinkChildrenForTask(string taskId);
 
     /**
      * Retrieves the {@link HistoricEntityLink}s where the given process instance is referenced.
      */
-    List<HistoricEntityLink> getHistoricEntityLinkParentsForProcessInstance(string processInstanceId);
+   // List<HistoricEntityLink> getHistoricEntityLinkParentsForProcessInstance(string processInstanceId);
 
     /**
      * Retrieves the {@link HistoricEntityLink}s where the given task is referenced.
      */
-    List<HistoricEntityLink> getHistoricEntityLinkParentsForTask(string taskId);
+   // List<HistoricEntityLink> getHistoricEntityLinkParentsForTask(string taskId);
 
     /**
      * Allows to retrieve the {@link ProcessInstanceHistoryLog} for one process instance.

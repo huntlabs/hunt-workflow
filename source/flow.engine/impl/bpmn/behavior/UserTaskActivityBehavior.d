@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,15 +12,15 @@
  */
 
 
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import hunt.collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
@@ -89,8 +89,8 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
         string activeTaskSkipExpression = null;
         string activeTaskAssignee = null;
         string activeTaskOwner = null;
-        List<string> activeTaskCandidateUsers = null;
-        List<string> activeTaskCandidateGroups = null;
+        List!string activeTaskCandidateUsers = null;
+        List!string activeTaskCandidateGroups = null;
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
@@ -122,11 +122,11 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             activeTaskCandidateUsers = userTask.getCandidateUsers();
             activeTaskCandidateGroups = userTask.getCandidateGroups();
         }
-        
-        CreateUserTaskBeforeContext beforeContext = new CreateUserTaskBeforeContext(userTask, execution, activeTaskName, activeTaskDescription, activeTaskDueDate, 
-                        activeTaskPriority, activeTaskCategory, activeTaskFormKey, activeTaskSkipExpression, activeTaskAssignee, activeTaskOwner, 
+
+        CreateUserTaskBeforeContext beforeContext = new CreateUserTaskBeforeContext(userTask, execution, activeTaskName, activeTaskDescription, activeTaskDueDate,
+                        activeTaskPriority, activeTaskCategory, activeTaskFormKey, activeTaskSkipExpression, activeTaskAssignee, activeTaskOwner,
                         activeTaskCandidateUsers, activeTaskCandidateGroups);
-        
+
         if (processEngineConfiguration.getCreateUserTaskInterceptor() !is null) {
             processEngineConfiguration.getCreateUserTaskInterceptor().beforeCreateUserTask(beforeContext);
         }
@@ -226,7 +226,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
             }
             task.setFormKey(formKey);
         }
-        
+
         bool skipUserTask = SkipExpressionUtil.isSkipExpressionEnabled(beforeContext.getSkipExpression(), userTask.getId(), execution, commandContext)
                     && SkipExpressionUtil.shouldSkipFlowElement(beforeContext.getSkipExpression(), userTask.getId(), execution, commandContext);
 
@@ -235,13 +235,13 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
         // Handling assignments need to be done after the task is inserted, to have an id
         if (!skipUserTask) {
             if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_USER_TASK_CREATE, "User task '" + 
+                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_USER_TASK_CREATE, "User task '" +
                                 task.getName() + "' created", task, execution);
             }
-            
-            handleAssignments(taskService, beforeContext.getAssignee(), beforeContext.getOwner(), beforeContext.getCandidateUsers(), 
+
+            handleAssignments(taskService, beforeContext.getAssignee(), beforeContext.getOwner(), beforeContext.getCandidateUsers(),
                             beforeContext.getCandidateGroups(), task, expressionManager, execution, processEngineConfiguration);
-            
+
             if (processEngineConfiguration.getCreateUserTaskInterceptor() !is null) {
                 CreateUserTaskAfterContext afterContext = new CreateUserTaskAfterContext(userTask, task, execution);
                 processEngineConfiguration.getCreateUserTaskInterceptor().afterCreateUserTask(afterContext);
@@ -255,7 +255,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                 eventDispatcher.dispatchEvent(
                         FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_CREATED, task));
             }
-            
+
         } else {
             TaskHelper.deleteTask(task, null, false, false, false); // false: no events fired for skipped user task
             leave(execution);
@@ -276,8 +276,8 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected void handleAssignments(TaskService taskService, string assignee, string owner, List<string> candidateUsers,
-            List<string> candidateGroups, TaskEntity task, ExpressionManager expressionManager, DelegateExecution execution,
+    protected void handleAssignments(TaskService taskService, string assignee, string owner, List!string candidateUsers,
+            List!string candidateGroups, TaskEntity task, ExpressionManager expressionManager, DelegateExecution execution,
             ProcessEngineConfigurationImpl processEngineConfiguration) {
 
         if (StringUtils.isNotEmpty(assignee)) {
@@ -323,25 +323,25 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                     List<IdentityLinkEntity> identityLinkEntities = null;
                     if (value instanceof Collection) {
                         identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), (Collection) value);
-                        
+
                     } else {
                         string strValue = value.toString();
                         if (StringUtils.isNotEmpty(strValue)) {
-                            List<string> candidates = extractCandidates(strValue);
+                            List!string candidates = extractCandidates(strValue);
                             identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), candidates);
                         }
                     }
-                    
+
                     if (identityLinkEntities !is null && !identityLinkEntities.isEmpty()) {
                         IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
                         allIdentityLinkEntities.addAll(identityLinkEntities);
                     }
                 }
             }
-            
+
             if (!allIdentityLinkEntities.isEmpty()) {
                 if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_GROUP_IDENTITY_LINKS, 
+                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_GROUP_IDENTITY_LINKS,
                                     "Added " + allIdentityLinkEntities.size() + " candidate group identity links to task", false,
                                     allIdentityLinkEntities, task, execution);
                 }
@@ -361,21 +361,21 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                     } else {
                         string strValue = value.toString();
                         if (StringUtils.isNotEmpty(strValue)) {
-                            List<string> candidates = extractCandidates(strValue);
+                            List!string candidates = extractCandidates(strValue);
                             identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateUsers(task.getId(), candidates);
                         }
                     }
-                    
+
                     if (identityLinkEntities !is null && !identityLinkEntities.isEmpty()) {
                         IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
                         allIdentityLinkEntities.addAll(identityLinkEntities);
                     }
                 }
             }
-            
+
             if (!allIdentityLinkEntities.isEmpty()) {
                 if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_USER_IDENTITY_LINKS, 
+                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_USER_IDENTITY_LINKS,
                                     "Added " + allIdentityLinkEntities.size() + " candidate user identity links to task", true,
                                     allIdentityLinkEntities, task, execution);
                 }
@@ -389,7 +389,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                 for (string userIdentityLink : userTask.getCustomUserIdentityLinks().get(customUserIdentityLinkType)) {
                     Expression idExpression = expressionManager.createExpression(userIdentityLink);
                     Object value = idExpression.getValue(execution);
-                    
+
                     if (value instanceof Collection) {
                         Iterator userIdSet = ((Collection) value).iterator();
                         while (userIdSet.hasNext()) {
@@ -398,9 +398,9 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                             customIdentityLinkEntities.add(identityLinkEntity);
                         }
-                        
+
                     } else {
-                        List<string> userIds = extractCandidates(value.toString());
+                        List!string userIds = extractCandidates(value.toString());
                         for (string userId : userIds) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), userId, null, customUserIdentityLinkType);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
@@ -412,7 +412,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
 
             if (!customIdentityLinkEntities.isEmpty()) {
                 if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_USER_IDENTITY_LINKS, 
+                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_USER_IDENTITY_LINKS,
                                     "Added " + customIdentityLinkEntities.size() + " custom user identity links to task", true,
                                     customIdentityLinkEntities, task, execution);
                 }
@@ -427,7 +427,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
 
                     Expression idExpression = expressionManager.createExpression(groupIdentityLink);
                     Object value = idExpression.getValue(execution);
-                    
+
                     if (value instanceof Collection) {
                         Iterator groupIdSet = ((Collection) value).iterator();
                         while (groupIdSet.hasNext()) {
@@ -436,9 +436,9 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                             customIdentityLinkEntities.add(identityLinkEntity);
                         }
-                        
+
                     } else {
-                        List<string> groupIds = extractCandidates(value.toString());
+                        List!string groupIds = extractCandidates(value.toString());
                         for (string groupId : groupIds) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
                                             task.getId(), null, groupId, customGroupIdentityLinkType);
@@ -451,7 +451,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
 
             if (!customIdentityLinkEntities.isEmpty()) {
                 if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_GROUP_IDENTITY_LINKS, 
+                    BpmnLoggingSessionUtil.addTaskIdentityLinkData(LoggingSessionConstants.TYPE_USER_TASK_SET_GROUP_IDENTITY_LINKS,
                                     "Added " + customIdentityLinkEntities.size() + " custom group identity links to task", false,
                                     customIdentityLinkEntities, task, execution);
                 }
@@ -466,7 +466,7 @@ class UserTaskActivityBehavior extends TaskActivityBehavior {
      * @param str
      * @return
      */
-    protected List<string> extractCandidates(string str) {
+    protected List!string extractCandidates(string str) {
         return Arrays.asList(str.split("[\\s]*,[\\s]*"));
     }
 }

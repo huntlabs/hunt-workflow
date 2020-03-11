@@ -11,17 +11,17 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.engine.cfg.ProcessEngineConfigurationImpl;
- 
- 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
+module flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 
 
+
+
+import  hunt.util.Common;
 import hunt.io.Common;
 //import java.net.URL;
 import flow.common.EngineConfigurator;
@@ -358,15 +358,15 @@ import flow.engine.parse.BpmnParseHandler;
 import flow.engine.repository.InternalProcessDefinitionLocalizationManager;
 import org.flowable.entitylink.service.EntityLinkServiceConfiguration;
 import org.flowable.entitylink.service.impl.db.EntityLinkDbSchemaManager;
-import org.flowable.eventregistry.api.EventRegistryEventConsumer;
-import org.flowable.eventregistry.impl.configurator.EventRegistryEngineConfigurator;
+import flow.event.registry.api.EventRegistryEventConsumer;
+import flow.event.registry.configurator.EventRegistryEngineConfigurator;
 import org.flowable.eventsubscription.service.EventSubscriptionServiceConfiguration;
 import org.flowable.eventsubscription.service.impl.db.EventSubscriptionDbSchemaManager;
-import org.flowable.form.api.FormFieldHandler;
+import flow.form.api.FormFieldHandler;
 import org.flowable.identitylink.service.IdentityLinkEventHandler;
 import org.flowable.identitylink.service.IdentityLinkServiceConfiguration;
 import org.flowable.identitylink.service.impl.db.IdentityLinkDbSchemaManager;
-import org.flowable.idm.api.IdmEngineConfigurationApi;
+import flow.idm.api.IdmEngineConfigurationApi;
 import org.flowable.idm.engine.configurator.IdmEngineConfigurator;
 import org.flowable.image.impl.DefaultProcessDiagramGenerator;
 import org.flowable.job.service.HistoryJobHandler;
@@ -393,8 +393,8 @@ import org.flowable.job.service.impl.history.async.AsyncHistorySession;
 import org.flowable.job.service.impl.history.async.AsyncHistorySessionFactory;
 import org.flowable.job.service.impl.history.async.DefaultAsyncHistoryJobProducer;
 import org.flowable.job.service.impl.history.async.transformer.HistoryJsonTransformer;
-import org.flowable.task.api.TaskQueryInterceptor;
-import org.flowable.task.api.history.HistoricTaskQueryInterceptor;
+import flow.task.api.TaskQueryInterceptor;
+import flow.task.api.history.HistoricTaskQueryInterceptor;
 import org.flowable.task.service.InternalTaskAssignmentManager;
 import org.flowable.task.service.InternalTaskLocalizationManager;
 import org.flowable.task.service.InternalTaskVariableScopeResolver;
@@ -450,19 +450,19 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     // SERVICES /////////////////////////////////////////////////////////////////
 
-    protected RepositoryService repositoryService = new RepositoryServiceImpl();
-    protected RuntimeService runtimeService = new RuntimeServiceImpl();
-    protected HistoryService historyService = new HistoryServiceImpl(this);
-    protected IdentityService identityService = new IdentityServiceImpl(this);
-    protected TaskService taskService = new TaskServiceImpl(this);
-    protected FormService formService = new FormServiceImpl();
-    protected ManagementService managementService = new ManagementServiceImpl(this);
-    protected DynamicBpmnService dynamicBpmnService = new DynamicBpmnServiceImpl(this);
-    protected ProcessMigrationService processInstanceMigrationService = new ProcessMigrationServiceImpl(this);
+    protected RepositoryService repositoryService ;// = new RepositoryServiceImpl();
+    protected RuntimeService runtimeService ;// = new RuntimeServiceImpl();
+    protected HistoryService historyService ;//= new HistoryServiceImpl(this);
+    protected IdentityService identityService;// = new IdentityServiceImpl(this);
+    protected TaskService taskService ;//= new TaskServiceImpl(this);
+    protected FormService formService ;//= new FormServiceImpl();
+    protected ManagementService managementService ;//= new ManagementServiceImpl(this);
+    protected DynamicBpmnService dynamicBpmnService;// = new DynamicBpmnServiceImpl(this);
+    protected ProcessMigrationService processInstanceMigrationService ;//= new ProcessMigrationServiceImpl(this);
 
     // IDM ENGINE /////////////////////////////////////////////////////
     protected bool disableIdmEngine;
-    
+
     // EVENT REGISTRY /////////////////////////////////////////////////////
     protected bool disableEventRegistry;
 
@@ -524,9 +524,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected DynamicStateManager dynamicStateManager;
 
     protected ProcessInstanceMigrationManager processInstanceMigrationManager;
-    
+
     // Decision table variable manager
-    
+
     protected DecisionTableVariableManager decisionTableVariableManager;
 
     protected VariableServiceConfiguration variableServiceConfiguration;
@@ -553,35 +553,35 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected DeploymentManager deploymentManager;
 
     protected int processDefinitionCacheLimit = -1; // By default, no limit
-    protected DeploymentCache<ProcessDefinitionCacheEntry> processDefinitionCache;
+    protected DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache;
 
     protected int processDefinitionInfoCacheLimit = -1; // By default, no limit
-    protected DeploymentCache<ProcessDefinitionInfoCacheObject> processDefinitionInfoCache;
+    protected DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache;
 
     protected int knowledgeBaseCacheLimit = -1;
-    protected DeploymentCache<Object> knowledgeBaseCache;
+    protected DeploymentCache!Object knowledgeBaseCache;
 
     protected int appResourceCacheLimit = -1;
-    protected DeploymentCache<Object> appResourceCache;
+    protected DeploymentCache!Object appResourceCache;
 
     protected AppResourceConverter appResourceConverter;
 
     // JOB EXECUTOR /////////////////////////////////////////////////////////////
 
-    protected List<JobHandler> customJobHandlers;
-    protected Map<string, JobHandler> jobHandlers;
-    protected List<AsyncRunnableExecutionExceptionHandler> customAsyncRunnableExecutionExceptionHandlers;
+    protected List!JobHandler customJobHandlers;
+    protected Map!(string, JobHandler) jobHandlers;
+    protected List!AsyncRunnableExecutionExceptionHandler customAsyncRunnableExecutionExceptionHandlers;
     protected bool addDefaultExceptionHandler = true;
 
-    protected Map<string, HistoryJobHandler> historyJobHandlers;
-    protected List<HistoryJobHandler> customHistoryJobHandlers;
-    protected List<HistoryJsonTransformer> customHistoryJsonTransformers;
+    protected Map!(string, HistoryJobHandler) historyJobHandlers;
+    protected List!HistoryJobHandler customHistoryJobHandlers;
+    protected List!HistoryJsonTransformer customHistoryJsonTransformers;
 
     // HELPERS //////////////////////////////////////////////////////////////////
     protected ProcessInstanceHelper processInstanceHelper;
     protected ListenerNotificationHelper listenerNotificationHelper;
     protected FormHandlerHelper formHandlerHelper;
-    
+
     protected CaseInstanceService caseInstanceService;
 
     // ASYNC EXECUTOR ///////////////////////////////////////////////////////////
@@ -773,9 +773,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     protected string jobExecutionScope;
     protected string historyJobExecutionScope;
-    
+
     protected string asyncExecutorTenantId = AbstractEngineConfiguration.NO_TENANT_ID;
-    
+
     protected string batchStatusTimeCycleConfig = "30 * * * * ?";
 
     /**
@@ -787,17 +787,17 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected InternalJobParentStateResolver internalJobParentStateResolver;
 
     // JUEL functions ///////////////////////////////////////////////////////////
-    protected List<FlowableFunctionDelegate> flowableFunctionDelegates;
-    protected List<FlowableFunctionDelegate> customFlowableFunctionDelegates;
-    protected List<FlowableExpressionEnhancer> expressionEnhancers;
-    protected List<FlowableExpressionEnhancer> customExpressionEnhancers;
-    protected List<FlowableShortHandExpressionFunction> shortHandExpressionFunctions;
+    protected List!FlowableFunctionDelegate flowableFunctionDelegates;
+    protected List!FlowableFunctionDelegate customFlowableFunctionDelegates;
+    protected List!FlowableExpressionEnhancer expressionEnhancers;
+    protected List!FlowableExpressionEnhancer customExpressionEnhancers;
+    protected List!FlowableShortHandExpressionFunction shortHandExpressionFunctions;
 
     // BPMN PARSER //////////////////////////////////////////////////////////////
 
-    protected List<BpmnParseHandler> preBpmnParseHandlers;
-    protected List<BpmnParseHandler> postBpmnParseHandlers;
-    protected List<BpmnParseHandler> customDefaultBpmnParseHandlers;
+    protected List!BpmnParseHandler preBpmnParseHandlers;
+    protected List!BpmnParseHandler postBpmnParseHandlers;
+    protected List!BpmnParseHandler customDefaultBpmnParseHandlers;
     protected ActivityBehaviorFactory activityBehaviorFactory;
     protected ListenerFactory listenerFactory;
     protected BpmnParseFactory bpmnParseFactory;
@@ -808,14 +808,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     // OTHER ////////////////////////////////////////////////////////////////////
 
-    protected List<FormEngine> customFormEngines;
-    protected Map<string, FormEngine> formEngines;
+    protected List!FormEngine customFormEngines;
+    protected Map!(string, FormEngine) formEngines;
 
-    protected List<AbstractFormType> customFormTypes;
+    protected List!AbstractFormType customFormTypes;
     protected FormTypes formTypes;
 
-    protected List<VariableType> customPreVariableTypes;
-    protected List<VariableType> customPostVariableTypes;
+    protected List!VariableType customPreVariableTypes;
+    protected List!VariableType customPostVariableTypes;
     protected VariableTypes variableTypes;
 
     protected InternalHistoryVariableManager internalHistoryVariableManager;
@@ -845,7 +845,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected ExpressionManager expressionManager;
     protected List!string customScriptingEngineClasses;
     protected ScriptingEngines scriptingEngines;
-    protected List<ResolverFactory> resolverFactories;
+    protected List!ResolverFactory resolverFactories;
 
     protected bool isExpressionCacheEnabled = true;
     protected int expressionCacheSize = 4096;
@@ -867,19 +867,19 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected int historicProcessInstancesQueryLimit = 20000;
 
     protected string wsSyncFactoryClassName = DEFAULT_WS_SYNC_FACTORY;
-    protected XMLImporterFactory wsWsdlImporterFactory;
-    protected ConcurrentMap<QName, URL> wsOverridenEndpointAddresses = new ConcurrentHashMap<>();
+    //protected XMLImporterFactory wsWsdlImporterFactory;
+    //protected ConcurrentMap<QName, URL> wsOverridenEndpointAddresses = new ConcurrentHashMap<>();
 
     protected DelegateInterceptor delegateInterceptor;
 
-    protected Map<string, EventHandler> eventHandlers;
-    protected List<EventHandler> customEventHandlers;
+    protected Map!(string, EventHandler) eventHandlers;
+    protected List!EventHandler customEventHandlers;
 
     protected FailedJobCommandFactory failedJobCommandFactory;
 
     protected FormFieldHandler formFieldHandler;
     protected bool isFormFieldValidationEnabled;
-    
+
     protected EventRegistryEventConsumer eventRegistryEventConsumer;
 
     /**
@@ -913,9 +913,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      */
     protected DelegateExpressionFieldInjectionMode delegateExpressionFieldInjectionMode = DelegateExpressionFieldInjectionMode.MIXED;
 
-    protected List<Object> flowable5JobProcessors = Collections.emptyList();
-    protected List<JobProcessor> jobProcessors = Collections.emptyList();
-    protected List<HistoryJobProcessor> historyJobProcessors = Collections.emptyList();
+    protected List!Object flowable5JobProcessors = Collections.emptyList();
+    protected List!JobProcessor jobProcessors = Collections.emptyList();
+    protected List!HistoryJobProcessor historyJobProcessors = Collections.emptyList();
 
     /**
      * Enabled a very verbose debug output of the execution tree whilst executing operations. Most useful for core engine developers or people fiddling around with the execution tree.
@@ -948,11 +948,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     // Can't have a dependency on the Flowable5-engine module
     protected Object flowable5ActivityBehaviorFactory;
     protected Object flowable5ListenerFactory;
-    protected List<Object> flowable5PreBpmnParseHandlers;
-    protected List<Object> flowable5PostBpmnParseHandlers;
-    protected List<Object> flowable5CustomDefaultBpmnParseHandlers;
-    protected Set<Class<?>> flowable5CustomMybatisMappers;
-    protected Set<string> flowable5CustomMybatisXMLMappers;
+    protected List!Object flowable5PreBpmnParseHandlers;
+    protected List!Object flowable5PostBpmnParseHandlers;
+    protected List!Object flowable5CustomDefaultBpmnParseHandlers;
+    protected Set!TypeInfo flowable5CustomMybatisMappers;
+    protected Set!string flowable5CustomMybatisXMLMappers;
     protected Object flowable5ExpressionManager;
 
     this() {
@@ -1075,7 +1075,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         configuratorsAfterInit();
         afterInitTaskServiceConfiguration();
         afterInitEventRegistryEventBusConsumer();
-        
+
         initHistoryCleaningManager();
         initLocalizationManagers();
     }
@@ -1183,7 +1183,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.entityLinkSchemaManager = new EntityLinkDbSchemaManager();
         }
     }
-    
+
     protected void initEventSubscriptionSchemaManager() {
         if (this.eventSubscriptionSchemaManager is null) {
             this.eventSubscriptionSchemaManager = new EventSubscriptionDbSchemaManager();
@@ -1195,7 +1195,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.jobSchemaManager = new JobDbSchemaManager();
         }
     }
-    
+
     protected void initBatchSchemaManager() {
         if (this.batchSchemaManager is null) {
             this.batchSchemaManager = new BatchDbSchemaManager();
@@ -1227,7 +1227,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    public ProcessEngineConfigurationImpl setCustomMybatisXMLMappers(Set<string> customMybatisXMLMappers) {
+    public ProcessEngineConfigurationImpl setCustomMybatisXMLMappers(Set!string customMybatisXMLMappers) {
         this.customMybatisXMLMappers = customMybatisXMLMappers;
         return this;
     }
@@ -1370,7 +1370,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             processInstanceMigrationManager = new ProcessInstanceMigrationManagerImpl();
         }
     }
-    
+
     // identity link interceptor ///////////////////////////////////////////////
     public void initIdentityLinkInterceptor() {
         if (identityLinkInterceptor is null) {
@@ -1414,7 +1414,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
                 }
             }
         }
-        
+
         if (isLoggingSessionEnabled()) {
             if (!sessionFactories.containsKey(LoggingSession.class)) {
                 LoggingSessionFactory loggingSessionFactory = new LoggingSessionFactory();
@@ -1521,18 +1521,18 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected EntityLinkServiceConfiguration instantiateEntityLinkServiceConfiguration() {
         return new EntityLinkServiceConfiguration(ScopeTypes.BPMN);
     }
-    
+
     public void initEventSubscriptionServiceConfiguration() {
         this.eventSubscriptionServiceConfiguration = instantiateEventSubscriptionServiceConfiguration();
         this.eventSubscriptionServiceConfiguration.setClock(this.clock);
         this.eventSubscriptionServiceConfiguration.setObjectMapper(this.objectMapper);
         this.eventSubscriptionServiceConfiguration.setEventDispatcher(this.eventDispatcher);
-        
+
         this.eventSubscriptionServiceConfiguration.init();
-        
+
         addServiceConfiguration(EngineConfigurationConstants.KEY_EVENT_SUBSCRIPTION_SERVICE_CONFIG, this.eventSubscriptionServiceConfiguration);
     }
-    
+
     protected EventSubscriptionServiceConfiguration instantiateEventSubscriptionServiceConfiguration() {
         return new EventSubscriptionServiceConfiguration(ScopeTypes.BPMN);
     }
@@ -1608,7 +1608,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
             this.jobServiceConfiguration.setFailedJobCommandFactory(this.failedJobCommandFactory);
 
-            List<AsyncRunnableExecutionExceptionHandler> exceptionHandlers = new ArrayList<>();
+            List!AsyncRunnableExecutionExceptionHandler exceptionHandlers = new ArrayList<>();
             if (customAsyncRunnableExecutionExceptionHandlers !is null) {
                 exceptionHandlers.addAll(customAsyncRunnableExecutionExceptionHandlers);
             }
@@ -1699,7 +1699,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.jobServiceConfiguration.addHistoryJobHandler(historyJobHandler.getType(), historyJobHandler);
         }
     }
-    
+
     public void initBatchServiceConfiguration() {
         if (batchServiceConfiguration is null) {
             this.batchServiceConfiguration = instantiateBatchServiceConfiguration();
@@ -1712,7 +1712,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
         addServiceConfiguration(EngineConfigurationConstants.KEY_BATCH_SERVICE_CONFIG, this.batchServiceConfiguration);
     }
-    
+
     protected BatchServiceConfiguration instantiateBatchServiceConfiguration() {
         return new BatchServiceConfiguration(ScopeTypes.BPMN);
     }
@@ -1723,7 +1723,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.taskServiceConfiguration.setIdmIdentityService(idmEngineConfiguration.getIdmIdentityService());
         }
     }
-    
+
     public void afterInitEventRegistryEventBusConsumer() {
         EventRegistryEventConsumer bpmnEventRegistryEventConsumer = null;
         if (eventRegistryEventConsumer !is null) {
@@ -1731,10 +1731,10 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         } else {
             bpmnEventRegistryEventConsumer = new BpmnEventRegistryEventConsumer(this);
         }
-        
+
         addEventRegistryEventConsumer(bpmnEventRegistryEventConsumer.getConsumerKey(), bpmnEventRegistryEventConsumer);
     }
-    
+
     public void initHistoryCleaningManager() {
         if (historyCleaningManager is null) {
             historyCleaningManager = new DefaultHistoryCleaningManager(this);
@@ -1924,7 +1924,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         bpmnParser.setActivityBehaviorFactory(activityBehaviorFactory);
         bpmnParser.setListenerFactory(listenerFactory);
 
-        List<BpmnParseHandler> parseHandlers = new ArrayList<>();
+        List!BpmnParseHandler parseHandlers = new ArrayList<>();
         if (getPreBpmnParseHandlers() !is null) {
             parseHandlers.addAll(getPreBpmnParseHandlers());
         }
@@ -1938,10 +1938,10 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         bpmnParser.setBpmnParserHandlers(bpmnParseHandlers);
     }
 
-    public List<BpmnParseHandler> getDefaultBpmnParseHandlers() {
+    public List!BpmnParseHandler getDefaultBpmnParseHandlers() {
 
         // Alphabetic list of default parse handler classes
-        List<BpmnParseHandler> bpmnParserHandlers = new ArrayList<>();
+        List!BpmnParseHandler bpmnParserHandlers = new ArrayList<>();
         bpmnParserHandlers.add(new BoundaryEventParseHandler());
         bpmnParserHandlers.add(new BusinessRuleParseHandler());
         bpmnParserHandlers.add(new CallActivityParseHandler());
@@ -2044,16 +2044,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
         AsyncCompleteCallActivityJobHandler asyncCompleteCallActivityJobHandler = new AsyncCompleteCallActivityJobHandler();
         jobHandlers.put(asyncCompleteCallActivityJobHandler.getType(), asyncCompleteCallActivityJobHandler);
-        
+
         AsyncSendEventJobHandler asyncSendEventJobHandler = new AsyncSendEventJobHandler();
         jobHandlers.put(asyncSendEventJobHandler.getType(), asyncSendEventJobHandler);
-        
+
         BpmnHistoryCleanupJobHandler bpmnHistoryCleanupJobHandler = new BpmnHistoryCleanupJobHandler();
         jobHandlers.put(bpmnHistoryCleanupJobHandler.getType(), bpmnHistoryCleanupJobHandler);
 
         ProcessInstanceMigrationJobHandler processInstanceMigrationJobHandler = new ProcessInstanceMigrationJobHandler();
         jobHandlers.put(processInstanceMigrationJobHandler.getType(), processInstanceMigrationJobHandler);
-        
+
         ProcessInstanceMigrationStatusJobHandler processInstanceMigrationStatusJobHandler = new ProcessInstanceMigrationStatusJobHandler();
         jobHandlers.put(processInstanceMigrationStatusJobHandler.getType(), processInstanceMigrationStatusJobHandler);
 
@@ -2069,7 +2069,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (isAsyncHistoryEnabled) {
             historyJobHandlers = new HashMap<>();
 
-            List<HistoryJsonTransformer> allHistoryJsonTransformers = new ArrayList<>(initDefaultHistoryJsonTransformers());
+            List!HistoryJsonTransformer allHistoryJsonTransformers = new ArrayList<>(initDefaultHistoryJsonTransformers());
             if (customHistoryJsonTransformers !is null) {
                 allHistoryJsonTransformers.addAll(customHistoryJsonTransformers);
             }
@@ -2092,8 +2092,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
     }
 
-    protected List<HistoryJsonTransformer> initDefaultHistoryJsonTransformers() {
-        List<HistoryJsonTransformer> historyJsonTransformers = new ArrayList<>();
+    protected List!HistoryJsonTransformer initDefaultHistoryJsonTransformers() {
+        List!HistoryJsonTransformer historyJsonTransformers = new ArrayList<>();
         historyJsonTransformers.add(new ProcessInstanceStartHistoryJsonTransformer());
         historyJsonTransformers.add(new ProcessInstanceEndHistoryJsonTransformer());
         historyJsonTransformers.add(new ProcessInstanceDeleteHistoryJsonTransformer());
@@ -2187,7 +2187,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
             // Tenant
             defaultAsyncExecutor.setTenantId(asyncExecutorTenantId);
-            
+
             asyncExecutor = defaultAsyncExecutor;
         }
 
@@ -2247,7 +2247,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
                 asyncHistoryExecutor.setAutoActivate(asyncHistoryExecutorActivate);
 
             } else {
-                // In case an async history executor was injected, only the job handlers are set. 
+                // In case an async history executor was injected, only the job handlers are set.
                 // In the normal case, these are set on the jobServiceConfiguration, but these are not shared between instances
                 if (historyJobHandlers !is null) {
                     if (asyncHistoryExecutor.getJobServiceConfiguration() is null) {
@@ -2622,13 +2622,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public Runnable getProcessEngineCloseRunnable() {
-        return new Runnable() {
-
-            override
-            public void run() {
+        return new class Runnable {
+             void run() {
                 commandExecutor.execute(getSchemaCommandConfig(), new SchemaOperationProcessEngineClose());
             }
-        };
+        }
     }
 
     override
@@ -2840,7 +2838,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.disableIdmEngine = disableIdmEngine;
         return this;
     }
-    
+
     public bool isDisableEventRegistry() {
         return disableEventRegistry;
     }
@@ -2982,11 +2980,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public Map<string, FormEngine> getFormEngines() {
+    public Map!(string, FormEngine) getFormEngines() {
         return formEngines;
     }
 
-    public ProcessEngineConfigurationImpl setFormEngines(Map<string, FormEngine> formEngines) {
+    public ProcessEngineConfigurationImpl setFormEngines(Map!(string, FormEngine) formEngines) {
         this.formEngines = formEngines;
         return this;
     }
@@ -3175,7 +3173,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.startProcessInstanceInterceptor = startProcessInstanceInterceptor;
         return this;
     }
-    
+
     public CreateUserTaskInterceptor getCreateUserTaskInterceptor() {
         return createUserTaskInterceptor;
     }
@@ -3275,20 +3273,20 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public Map<string, JobHandler> getJobHandlers() {
+    public Map!(string, JobHandler) getJobHandlers() {
         return jobHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setJobHandlers(Map<string, JobHandler> jobHandlers) {
+    public ProcessEngineConfigurationImpl setJobHandlers(Map!(string, JobHandler) jobHandlers) {
         this.jobHandlers = jobHandlers;
         return this;
     }
 
-    public Map<string, HistoryJobHandler> getHistoryJobHandlers() {
+    public Map!(string, HistoryJobHandler) getHistoryJobHandlers() {
         return historyJobHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setHistoryJobHandlers(Map<string, HistoryJobHandler> historyJobHandlers) {
+    public ProcessEngineConfigurationImpl setHistoryJobHandlers(Map!(string, HistoryJobHandler) historyJobHandlers) {
         this.historyJobHandlers = historyJobHandlers;
         return this;
     }
@@ -3348,16 +3346,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    public ProcessEngineConfigurationImpl setCustomSessionFactories(List<SessionFactory> customSessionFactories) {
+    public ProcessEngineConfigurationImpl setCustomSessionFactories(List!SessionFactory customSessionFactories) {
         this.customSessionFactories = customSessionFactories;
         return this;
     }
 
-    public List<JobHandler> getCustomJobHandlers() {
+    public List!JobHandler getCustomJobHandlers() {
         return customJobHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setCustomJobHandlers(List<JobHandler> customJobHandlers) {
+    public ProcessEngineConfigurationImpl setCustomJobHandlers(List!JobHandler customJobHandlers) {
         this.customJobHandlers = customJobHandlers;
         return this;
     }
@@ -3370,92 +3368,92 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List<HistoryJobHandler> getCustomHistoryJobHandlers() {
+    public List!HistoryJobHandler getCustomHistoryJobHandlers() {
         return customHistoryJobHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setCustomHistoryJobHandlers(List<HistoryJobHandler> customHistoryJobHandlers) {
+    public ProcessEngineConfigurationImpl setCustomHistoryJobHandlers(List!HistoryJobHandler customHistoryJobHandlers) {
         this.customHistoryJobHandlers = customHistoryJobHandlers;
         return this;
     }
 
-    public List<HistoryJsonTransformer> getCustomHistoryJsonTransformers() {
+    public List!HistoryJsonTransformer getCustomHistoryJsonTransformers() {
         return customHistoryJsonTransformers;
     }
 
-    public ProcessEngineConfigurationImpl setCustomHistoryJsonTransformers(List<HistoryJsonTransformer> customHistoryJsonTransformers) {
+    public ProcessEngineConfigurationImpl setCustomHistoryJsonTransformers(List!HistoryJsonTransformer customHistoryJsonTransformers) {
         this.customHistoryJsonTransformers = customHistoryJsonTransformers;
         return this;
     }
 
-    public List<FormEngine> getCustomFormEngines() {
+    public List!FormEngine getCustomFormEngines() {
         return customFormEngines;
     }
 
-    public ProcessEngineConfigurationImpl setCustomFormEngines(List<FormEngine> customFormEngines) {
+    public ProcessEngineConfigurationImpl setCustomFormEngines(List!FormEngine customFormEngines) {
         this.customFormEngines = customFormEngines;
         return this;
     }
 
-    public List<AbstractFormType> getCustomFormTypes() {
+    public List!AbstractFormType getCustomFormTypes() {
         return customFormTypes;
     }
 
-    public ProcessEngineConfigurationImpl setCustomFormTypes(List<AbstractFormType> customFormTypes) {
+    public ProcessEngineConfigurationImpl setCustomFormTypes(List!AbstractFormType customFormTypes) {
         this.customFormTypes = customFormTypes;
         return this;
     }
 
-    public List<string> getCustomScriptingEngineClasses() {
+    public List!string getCustomScriptingEngineClasses() {
         return customScriptingEngineClasses;
     }
 
-    public ProcessEngineConfigurationImpl setCustomScriptingEngineClasses(List<string> customScriptingEngineClasses) {
+    public ProcessEngineConfigurationImpl setCustomScriptingEngineClasses(List!string customScriptingEngineClasses) {
         this.customScriptingEngineClasses = customScriptingEngineClasses;
         return this;
     }
 
-    public List<VariableType> getCustomPreVariableTypes() {
+    public List!VariableType getCustomPreVariableTypes() {
         return customPreVariableTypes;
     }
 
-    public ProcessEngineConfigurationImpl setCustomPreVariableTypes(List<VariableType> customPreVariableTypes) {
+    public ProcessEngineConfigurationImpl setCustomPreVariableTypes(List!VariableType customPreVariableTypes) {
         this.customPreVariableTypes = customPreVariableTypes;
         return this;
     }
 
-    public List<VariableType> getCustomPostVariableTypes() {
+    public List!VariableType getCustomPostVariableTypes() {
         return customPostVariableTypes;
     }
 
-    public ProcessEngineConfigurationImpl setCustomPostVariableTypes(List<VariableType> customPostVariableTypes) {
+    public ProcessEngineConfigurationImpl setCustomPostVariableTypes(List!VariableType customPostVariableTypes) {
         this.customPostVariableTypes = customPostVariableTypes;
         return this;
     }
 
-    public List<BpmnParseHandler> getPreBpmnParseHandlers() {
+    public List!BpmnParseHandler getPreBpmnParseHandlers() {
         return preBpmnParseHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setPreBpmnParseHandlers(List<BpmnParseHandler> preBpmnParseHandlers) {
+    public ProcessEngineConfigurationImpl setPreBpmnParseHandlers(List!BpmnParseHandler preBpmnParseHandlers) {
         this.preBpmnParseHandlers = preBpmnParseHandlers;
         return this;
     }
 
-    public List<BpmnParseHandler> getCustomDefaultBpmnParseHandlers() {
+    public List!BpmnParseHandler getCustomDefaultBpmnParseHandlers() {
         return customDefaultBpmnParseHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setCustomDefaultBpmnParseHandlers(List<BpmnParseHandler> customDefaultBpmnParseHandlers) {
+    public ProcessEngineConfigurationImpl setCustomDefaultBpmnParseHandlers(List!BpmnParseHandler customDefaultBpmnParseHandlers) {
         this.customDefaultBpmnParseHandlers = customDefaultBpmnParseHandlers;
         return this;
     }
 
-    public List<BpmnParseHandler> getPostBpmnParseHandlers() {
+    public List!BpmnParseHandler getPostBpmnParseHandlers() {
         return postBpmnParseHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setPostBpmnParseHandlers(List<BpmnParseHandler> postBpmnParseHandlers) {
+    public ProcessEngineConfigurationImpl setPostBpmnParseHandlers(List!BpmnParseHandler postBpmnParseHandlers) {
         this.postBpmnParseHandlers = postBpmnParseHandlers;
         return this;
     }
@@ -3487,11 +3485,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List<ResolverFactory> getResolverFactories() {
+    public List!ResolverFactory getResolverFactories() {
         return resolverFactories;
     }
 
-    public ProcessEngineConfigurationImpl setResolverFactories(List<ResolverFactory> resolverFactories) {
+    public ProcessEngineConfigurationImpl setResolverFactories(List!ResolverFactory resolverFactories) {
         this.resolverFactories = resolverFactories;
         return this;
     }
@@ -3518,20 +3516,20 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return eventHandlers.get(eventType);
     }
 
-    public ProcessEngineConfigurationImpl setEventHandlers(Map<string, EventHandler> eventHandlers) {
+    public ProcessEngineConfigurationImpl setEventHandlers(Map!(string, EventHandler) eventHandlers) {
         this.eventHandlers = eventHandlers;
         return this;
     }
 
-    public Map<string, EventHandler> getEventHandlers() {
+    public Map!(string, EventHandler) getEventHandlers() {
         return eventHandlers;
     }
 
-    public List<EventHandler> getCustomEventHandlers() {
+    public List!EventHandler getCustomEventHandlers() {
         return customEventHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setCustomEventHandlers(List<EventHandler> customEventHandlers) {
+    public ProcessEngineConfigurationImpl setCustomEventHandlers(List!EventHandler customEventHandlers) {
         this.customEventHandlers = customEventHandlers;
         return this;
     }
@@ -3572,21 +3570,21 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public DeploymentCache<ProcessDefinitionCacheEntry> getProcessDefinitionCache() {
+    public DeploymentCache!ProcessDefinitionCacheEntry getProcessDefinitionCache() {
         return processDefinitionCache;
     }
 
-    public ProcessEngineConfigurationImpl setProcessDefinitionCache(DeploymentCache<ProcessDefinitionCacheEntry> processDefinitionCache) {
+    public ProcessEngineConfigurationImpl setProcessDefinitionCache(DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache) {
         this.processDefinitionCache = processDefinitionCache;
         return this;
     }
 
-    public ProcessEngineConfigurationImpl setProcessDefinitionInfoCache(DeploymentCache<ProcessDefinitionInfoCacheObject> processDefinitionInfoCache){
+    public ProcessEngineConfigurationImpl setProcessDefinitionInfoCache(DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache){
         this.processDefinitionInfoCache = processDefinitionInfoCache;
         return this;
     }
 
-    public DeploymentCache<ProcessDefinitionInfoCacheObject> getProcessDefinitionInfoCache() {
+    public DeploymentCache!ProcessDefinitionInfoCacheObject getProcessDefinitionInfoCache() {
         return processDefinitionInfoCache;
     }
 
@@ -3599,20 +3597,20 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public DeploymentCache<Object> getKnowledgeBaseCache() {
+    public DeploymentCache!Object getKnowledgeBaseCache() {
         return knowledgeBaseCache;
     }
 
-    public ProcessEngineConfigurationImpl setKnowledgeBaseCache(DeploymentCache<Object> knowledgeBaseCache) {
+    public ProcessEngineConfigurationImpl setKnowledgeBaseCache(DeploymentCache!Object knowledgeBaseCache) {
         this.knowledgeBaseCache = knowledgeBaseCache;
         return this;
     }
 
-    public DeploymentCache<Object> getAppResourceCache() {
+    public DeploymentCache!Object getAppResourceCache() {
         return appResourceCache;
     }
 
-    public ProcessEngineConfigurationImpl setAppResourceCache(DeploymentCache<Object> appResourceCache) {
+    public ProcessEngineConfigurationImpl setAppResourceCache(DeploymentCache!Object appResourceCache) {
         this.appResourceCache = appResourceCache;
         return this;
     }
@@ -3657,13 +3655,13 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    public ProcessEngineConfigurationImpl setTypedEventListeners(Map<string, List<FlowableEventListener>> typedListeners) {
+    public ProcessEngineConfigurationImpl setTypedEventListeners(Map!(string, List!FlowableEventListener) typedListeners) {
         this.typedEventListeners = typedListeners;
         return this;
     }
 
     override
-    public ProcessEngineConfigurationImpl setEventListeners(List<FlowableEventListener> eventListeners) {
+    public ProcessEngineConfigurationImpl setEventListeners(List!FlowableEventListener eventListeners) {
         this.eventListeners = eventListeners;
         return this;
     }
@@ -3704,47 +3702,47 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List<FlowableFunctionDelegate> getFlowableFunctionDelegates() {
+    public List!FlowableFunctionDelegate getFlowableFunctionDelegates() {
         return flowableFunctionDelegates;
     }
 
-    public ProcessEngineConfigurationImpl setFlowableFunctionDelegates(List<FlowableFunctionDelegate> flowableFunctionDelegates) {
+    public ProcessEngineConfigurationImpl setFlowableFunctionDelegates(List!FlowableFunctionDelegate flowableFunctionDelegates) {
         this.flowableFunctionDelegates = flowableFunctionDelegates;
         return this;
     }
 
-    public List<FlowableFunctionDelegate> getCustomFlowableFunctionDelegates() {
+    public List!FlowableFunctionDelegate getCustomFlowableFunctionDelegates() {
         return customFlowableFunctionDelegates;
     }
 
-    public ProcessEngineConfigurationImpl setCustomFlowableFunctionDelegates(List<FlowableFunctionDelegate> customFlowableFunctionDelegates) {
+    public ProcessEngineConfigurationImpl setCustomFlowableFunctionDelegates(List!FlowableFunctionDelegate customFlowableFunctionDelegates) {
         this.customFlowableFunctionDelegates = customFlowableFunctionDelegates;
         return this;
     }
 
-    public List<FlowableExpressionEnhancer> getExpressionEnhancers() {
+    public List!FlowableExpressionEnhancer getExpressionEnhancers() {
         return expressionEnhancers;
     }
 
-    public ProcessEngineConfigurationImpl setExpressionEnhancers(List<FlowableExpressionEnhancer> expressionEnhancers) {
+    public ProcessEngineConfigurationImpl setExpressionEnhancers(List!FlowableExpressionEnhancer expressionEnhancers) {
         this.expressionEnhancers = expressionEnhancers;
         return this;
     }
 
-    public List<FlowableExpressionEnhancer> getCustomExpressionEnhancers() {
+    public List!FlowableExpressionEnhancer getCustomExpressionEnhancers() {
         return customExpressionEnhancers;
     }
 
-    public ProcessEngineConfigurationImpl setCustomExpressionEnhancers(List<FlowableExpressionEnhancer> customExpressionEnhancers) {
+    public ProcessEngineConfigurationImpl setCustomExpressionEnhancers(List!FlowableExpressionEnhancer customExpressionEnhancers) {
         this.customExpressionEnhancers = customExpressionEnhancers;
         return this;
     }
 
-    public List<FlowableShortHandExpressionFunction> getShortHandExpressionFunctions() {
+    public List!FlowableShortHandExpressionFunction getShortHandExpressionFunctions() {
         return shortHandExpressionFunctions;
     }
 
-    public ProcessEngineConfigurationImpl setShortHandExpressionFunctions(List<FlowableShortHandExpressionFunction> shortHandExpressionFunctions) {
+    public ProcessEngineConfigurationImpl setShortHandExpressionFunctions(List!FlowableShortHandExpressionFunction shortHandExpressionFunctions) {
         this.shortHandExpressionFunctions = shortHandExpressionFunctions;
         return this;
     }
@@ -4091,12 +4089,12 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.candidateManager = candidateManager;
     }
 
-    public List<AsyncRunnableExecutionExceptionHandler> getCustomAsyncRunnableExecutionExceptionHandlers() {
+    public List!AsyncRunnableExecutionExceptionHandler getCustomAsyncRunnableExecutionExceptionHandlers() {
         return customAsyncRunnableExecutionExceptionHandlers;
     }
 
     public ProcessEngineConfigurationImpl setCustomAsyncRunnableExecutionExceptionHandlers(
-        List<AsyncRunnableExecutionExceptionHandler> customAsyncRunnableExecutionExceptionHandlers) {
+        List!AsyncRunnableExecutionExceptionHandler customAsyncRunnableExecutionExceptionHandlers) {
 
         this.customAsyncRunnableExecutionExceptionHandlers = customAsyncRunnableExecutionExceptionHandlers;
         return this;
@@ -4190,7 +4188,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.processInstanceMigrationManager = processInstanceMigrationValidationMananger;
         return this;
     }
-    
+
     public DecisionTableVariableManager getDecisionTableVariableManager() {
         return decisionTableVariableManager;
     }
@@ -4241,38 +4239,38 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List<Object> getFlowable5JobProcessors() {
+    public List!Object getFlowable5JobProcessors() {
         return flowable5JobProcessors;
     }
 
-    public ProcessEngineConfigurationImpl setFlowable5JobProcessors(List<Object> jobProcessors) {
+    public ProcessEngineConfigurationImpl setFlowable5JobProcessors(List!Object jobProcessors) {
         this.flowable5JobProcessors = jobProcessors;
         return this;
     }
 
-    public List<JobProcessor> getJobProcessors() {
+    public List!JobProcessor getJobProcessors() {
         return jobProcessors;
     }
 
-    public ProcessEngineConfigurationImpl setJobProcessors(List<JobProcessor> jobProcessors) {
+    public ProcessEngineConfigurationImpl setJobProcessors(List!JobProcessor jobProcessors) {
         this.jobProcessors = jobProcessors;
         return this;
     }
 
-    public List<HistoryJobProcessor> getHistoryJobProcessors() {
+    public List!HistoryJobProcessor getHistoryJobProcessors() {
         return historyJobProcessors;
     }
 
-    public ProcessEngineConfigurationImpl setHistoryJobProcessors(List<HistoryJobProcessor> historyJobProcessors) {
+    public ProcessEngineConfigurationImpl setHistoryJobProcessors(List!HistoryJobProcessor historyJobProcessors) {
         this.historyJobProcessors = historyJobProcessors;
         return this;
     }
 
-    public Map<string, List<RuntimeInstanceStateChangeCallback>> getProcessInstanceStateChangedCallbacks() {
+    public Map!(string, List!RuntimeInstanceStateChangeCallback) getProcessInstanceStateChangedCallbacks() {
         return processInstanceStateChangedCallbacks;
     }
 
-    public ProcessEngineConfigurationImpl setProcessInstanceStateChangedCallbacks(Map<string, List<RuntimeInstanceStateChangeCallback>> processInstanceStateChangedCallbacks) {
+    public ProcessEngineConfigurationImpl setProcessInstanceStateChangedCallbacks(Map!(string, List!RuntimeInstanceStateChangeCallback) processInstanceStateChangedCallbacks) {
         this.processInstanceStateChangedCallbacks = processInstanceStateChangedCallbacks;
         return this;
     }
@@ -4330,7 +4328,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.jobSchemaManager = jobSchemaManager;
         return this;
     }
-    
+
     public SchemaManager getBatchSchemaManager() {
         return batchSchemaManager;
     }
@@ -4431,29 +4429,29 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List<Object> getFlowable5PreBpmnParseHandlers() {
+    public List!Object getFlowable5PreBpmnParseHandlers() {
         return flowable5PreBpmnParseHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setFlowable5PreBpmnParseHandlers(List<Object> flowable5PreBpmnParseHandlers) {
+    public ProcessEngineConfigurationImpl setFlowable5PreBpmnParseHandlers(List!Object flowable5PreBpmnParseHandlers) {
         this.flowable5PreBpmnParseHandlers = flowable5PreBpmnParseHandlers;
         return this;
     }
 
-    public List<Object> getFlowable5PostBpmnParseHandlers() {
+    public List!Object getFlowable5PostBpmnParseHandlers() {
         return flowable5PostBpmnParseHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setFlowable5PostBpmnParseHandlers(List<Object> flowable5PostBpmnParseHandlers) {
+    public ProcessEngineConfigurationImpl setFlowable5PostBpmnParseHandlers(List!Object flowable5PostBpmnParseHandlers) {
         this.flowable5PostBpmnParseHandlers = flowable5PostBpmnParseHandlers;
         return this;
     }
 
-    public List<Object> getFlowable5CustomDefaultBpmnParseHandlers() {
+    public List!Object getFlowable5CustomDefaultBpmnParseHandlers() {
         return flowable5CustomDefaultBpmnParseHandlers;
     }
 
-    public ProcessEngineConfigurationImpl setFlowable5CustomDefaultBpmnParseHandlers(List<Object> flowable5CustomDefaultBpmnParseHandlers) {
+    public ProcessEngineConfigurationImpl setFlowable5CustomDefaultBpmnParseHandlers(List!Object flowable5CustomDefaultBpmnParseHandlers) {
         this.flowable5CustomDefaultBpmnParseHandlers = flowable5CustomDefaultBpmnParseHandlers;
         return this;
     }
@@ -4467,11 +4465,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public Set<string> getFlowable5CustomMybatisXMLMappers() {
+    public Set!string getFlowable5CustomMybatisXMLMappers() {
         return flowable5CustomMybatisXMLMappers;
     }
 
-    public ProcessEngineConfigurationImpl setFlowable5CustomMybatisXMLMappers(Set<string> flowable5CustomMybatisXMLMappers) {
+    public ProcessEngineConfigurationImpl setFlowable5CustomMybatisXMLMappers(Set!string flowable5CustomMybatisXMLMappers) {
         this.flowable5CustomMybatisXMLMappers = flowable5CustomMybatisXMLMappers;
         return this;
     }

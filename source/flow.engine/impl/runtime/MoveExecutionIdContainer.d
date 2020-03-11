@@ -12,8 +12,8 @@
  */
 
 
-import java.util.Collections;
-import java.util.List;
+import hunt.collections;
+import hunt.collection.List;
 import java.util.Optional;
 
 /**
@@ -21,9 +21,9 @@ import java.util.Optional;
  */
 class MoveExecutionIdContainer {
 
-    protected List<string> executionIds;
-    protected List<string> moveToActivityIds;
-    protected Optional<string> newAssigneeId;
+    protected List!string executionIds;
+    protected List!string moveToActivityIds;
+    protected Optional!string newAssigneeId;
 
     public MoveExecutionIdContainer(string singleExecutionId, string moveToActivityId) {
         this(singleExecutionId, moveToActivityId, null);
@@ -35,36 +35,36 @@ class MoveExecutionIdContainer {
         this.newAssigneeId = Optional.ofNullable(newAssigneeId);
     }
 
-    public MoveExecutionIdContainer(List<string> executionIds, string moveToActivityId) {
+    public MoveExecutionIdContainer(List!string executionIds, string moveToActivityId) {
         this(executionIds, moveToActivityId, null);
 
     }
 
-    public MoveExecutionIdContainer(List<string> executionIds, string moveToActivityId, string newAssigneeId) {
+    public MoveExecutionIdContainer(List!string executionIds, string moveToActivityId, string newAssigneeId) {
         this.executionIds = executionIds;
         this.moveToActivityIds = Collections.singletonList(moveToActivityId);
         this.newAssigneeId = Optional.ofNullable(newAssigneeId);
     }
 
-    public MoveExecutionIdContainer(string singleExecutionId, List<string> moveToActivityIds) {
+    public MoveExecutionIdContainer(string singleExecutionId, List!string moveToActivityIds) {
         this(singleExecutionId, moveToActivityIds, null);
     }
 
-    public MoveExecutionIdContainer(string singleExecutionId, List<string> moveToActivityIds, string newAssigneeId) {
+    public MoveExecutionIdContainer(string singleExecutionId, List!string moveToActivityIds, string newAssigneeId) {
         this.executionIds = Collections.singletonList(singleExecutionId);
         this.moveToActivityIds = moveToActivityIds;
         this.newAssigneeId = Optional.ofNullable(newAssigneeId);
     }
 
-    public List<string> getExecutionIds() {
+    public List!string getExecutionIds() {
         return Optional.ofNullable(executionIds).orElse(Collections.emptyList());
     }
 
-    public List<string> getMoveToActivityIds() {
+    public List!string getMoveToActivityIds() {
         return Optional.ofNullable(moveToActivityIds).orElse(Collections.emptyList());
     }
 
-    public Optional<string> getNewAssigneeId() {
+    public Optional!string getNewAssigneeId() {
         return newAssigneeId;
     }
 }

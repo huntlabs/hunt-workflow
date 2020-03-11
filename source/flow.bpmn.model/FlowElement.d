@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,21 +11,32 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.FlowElement;
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.HasExecutionListeners;
+import flow.bpmn.model.FlowableListener;
+import flow.bpmn.model.FlowElementsContainer;
+import flow.bpmn.model.SubProcess;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Tijs Rademakers
  */
-public abstract class FlowElement extends BaseElement implements HasExecutionListeners {
+abstract class FlowElement : BaseElement , HasExecutionListeners {
 
     protected string name;
     protected string documentation;
-    protected List<FlowableListener> executionListeners = new ArrayList<>();
+    protected List!FlowableListener executionListeners ;// = new ArrayList<>();
     protected FlowElementsContainer parentContainer;
+
+    this()
+    {
+      executionListeners = new ArrayList!FlowableListener;
+    }
 
     public string getName() {
         return name;
@@ -43,27 +54,27 @@ public abstract class FlowElement extends BaseElement implements HasExecutionLis
         this.documentation = documentation;
     }
 
-    @Override
-    public List<FlowableListener> getExecutionListeners() {
+    //@Override
+    public List!FlowableListener getExecutionListeners() {
         return executionListeners;
     }
 
-    @Override
-    public void setExecutionListeners(List<FlowableListener> executionListeners) {
+    //@Override
+    public void setExecutionListeners(List!FlowableListener executionListeners) {
         this.executionListeners = executionListeners;
     }
 
-    @JsonIgnore
+   // @JsonIgnore
     public FlowElementsContainer getParentContainer() {
         return parentContainer;
     }
 
-    @JsonIgnore
+   // @JsonIgnore
     public SubProcess getSubProcess() {
         SubProcess subProcess = null;
-        if (parentContainer instanceof SubProcess) {
-            subProcess = (SubProcess) parentContainer;
-        }
+        //if (parentContainer instanceof SubProcess) {
+        subProcess = cast(SubProcess) parentContainer;
+        //}
 
         return subProcess;
     }
@@ -72,17 +83,20 @@ public abstract class FlowElement extends BaseElement implements HasExecutionLis
         this.parentContainer = parentContainer;
     }
 
-    @Override
-    public abstract FlowElement clone();
+    override
+     FlowElement clone()
+    {
+
+    }
 
     public void setValues(FlowElement otherElement) {
         super.setValues(otherElement);
         setName(otherElement.getName());
         setDocumentation(otherElement.getDocumentation());
 
-        executionListeners = new ArrayList<>();
+        executionListeners = new ArrayList!FlowableListener();
         if (otherElement.getExecutionListeners() !is null && !otherElement.getExecutionListeners().isEmpty()) {
-            for (FlowableListener listener : otherElement.getExecutionListeners()) {
+            foreach (FlowableListener listener ; otherElement.getExecutionListeners()) {
                 executionListeners.add(listener.clone());
             }
         }

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,8 +14,8 @@
 
 
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.query.AbstractQuery;
@@ -41,7 +41,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
     protected string activityId;
     protected string activityName;
     protected string activityType;
-    protected Set<string> activityTypes;
+    protected Set!string activityTypes;
     protected string assignee;
     protected string tenantId;
     protected string tenantIdLike;
@@ -54,7 +54,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
     protected Date startedAfter;
     protected Date finishedBefore;
     protected Date finishedAfter;
-    protected List<string> tenantIds;
+    protected List!string tenantIds;
 
     public HistoricActivityInstanceQueryImpl() {
     }
@@ -134,7 +134,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
     }
 
     @Override
-    public HistoricActivityInstanceQuery activityTypes(Set<string> activityTypes) {
+    public HistoricActivityInstanceQuery activityTypes(Set!string activityTypes) {
         this.activityTypes=activityTypes;
         return this;
     }
@@ -194,7 +194,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
     }
 
     @Override
-    public HistoricActivityInstanceQuery tenantIdIn(List<string> tenantIds) {
+    public HistoricActivityInstanceQuery tenantIdIn(List!string tenantIds) {
         this.tenantIds = tenantIds;
         return this;
     }
@@ -329,7 +329,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         return activityType;
     }
 
-    public Set<string> getActivityTypes() {
+    public Set!string getActivityTypes() {
         return activityTypes;
     }
 
@@ -356,24 +356,24 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
     public string getDeleteReasonLike() {
         return deleteReasonLike;
     }
-    
+
     public Date getStartedAfter() {
         return startedAfter;
     }
-    
+
     public Date getStartedBefore() {
         return startedBefore;
     }
-    
+
     public Date getFinishedAfter() {
         return finishedAfter;
     }
-    
+
     public Date getFinishedBefore() {
         return finishedBefore;
     }
-    
-    public List<string> getTenantIds() {
+
+    public List!string getTenantIds() {
         return tenantIds;
     }
 }

@@ -13,7 +13,7 @@
 
 
 import java.util.Date;
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
@@ -42,15 +42,15 @@ abstract class AbstractDatabaseEventLoggerEventHandler implements EventLoggerEve
     public AbstractDatabaseEventLoggerEventHandler() {
     }
 
-    protected EventLogEntryEntity createEventLogEntry(Map<string, Object> data) {
+    protected EventLogEntryEntity createEventLogEntry(Map!(string, Object) data) {
         return createEventLogEntry(null, null, null, null, data);
     }
 
-    protected EventLogEntryEntity createEventLogEntry(string processDefinitionId, string processInstanceId, string executionId, string taskId, Map<string, Object> data) {
+    protected EventLogEntryEntity createEventLogEntry(string processDefinitionId, string processInstanceId, string executionId, string taskId, Map!(string, Object) data) {
         return createEventLogEntry(event.getType().name(), processDefinitionId, processInstanceId, executionId, taskId, data);
     }
 
-    protected EventLogEntryEntity createEventLogEntry(string type, string processDefinitionId, string processInstanceId, string executionId, string taskId, Map<string, Object> data) {
+    protected EventLogEntryEntity createEventLogEntry(string type, string processDefinitionId, string processInstanceId, string executionId, string taskId, Map!(string, Object) data) {
 
         EventLogEntryEntity eventLogEntry = CommandContextUtil.getEventLogEntryEntityManager().create();
         eventLogEntry.setProcessDefinitionId(processDefinitionId);
@@ -108,7 +108,7 @@ abstract class AbstractDatabaseEventLoggerEventHandler implements EventLoggerEve
         return (T) ((FlowableEntityEvent) event).getEntity();
     }
 
-    public void putInMapIfNotNull(Map<string, Object> map, string key, Object value) {
+    public void putInMapIfNotNull(Map!(string, Object) map, string key, Object value) {
         if (value !is null) {
             map.put(key, value);
         }

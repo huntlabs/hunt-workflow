@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,13 +16,13 @@
 import static flow.engine.impl.util.CommandContextUtil.getEntityCache;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Objects;
 
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.SequenceFlow;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.SequenceFlow;
 import flow.common.cfg.IdGenerator;
 import flow.engine.history.HistoricActivityInstance;
 import flow.engine.impl.ActivityInstanceQueryImpl;
@@ -53,7 +53,7 @@ class ActivityInstanceEntityManagerImpl
     protected List<ActivityInstanceEntity> findUnfinishedActivityInstancesByExecutionAndActivityId(string executionId, string activityId) {
         return dataManager.findUnfinishedActivityInstancesByExecutionAndActivityId(executionId, activityId);
     }
-    
+
     @Override
     public List<ActivityInstanceEntity> findActivityInstancesByExecutionAndActivityId(string executionId, string activityId) {
         return dataManager.findActivityInstancesByExecutionIdAndActivityId(executionId, activityId);
@@ -75,12 +75,12 @@ class ActivityInstanceEntityManagerImpl
     }
 
     @Override
-    public List<ActivityInstance> findActivityInstancesByNativeQuery(Map<string, Object> parameterMap) {
+    public List<ActivityInstance> findActivityInstancesByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findActivityInstancesByNativeQuery(parameterMap);
     }
 
     @Override
-    public long findActivityInstanceCountByNativeQuery(Map<string, Object> parameterMap) {
+    public long findActivityInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findActivityInstanceCountByNativeQuery(parameterMap);
     }
 
@@ -199,7 +199,7 @@ class ActivityInstanceEntityManagerImpl
     @SuppressWarnings("unchecked")
     protected Object getOriginalAssignee(TaskEntity taskEntity) {
         if (taskEntity.getOriginalPersistentState() !is null) {
-            return ((Map<string, Object>) taskEntity.getOriginalPersistentState()).get("assignee");
+            return ((Map!(string, Object)) taskEntity.getOriginalPersistentState()).get("assignee");
         } else {
             return null;
         }

@@ -12,22 +12,22 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.CallActivity;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.EndEvent;
-import org.flowable.bpmn.model.EventSubProcess;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.Transaction;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.CallActivity;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.EndEvent;
+import flow.bpmn.model.EventSubProcess;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.Transaction;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
@@ -50,11 +50,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This operations ends an execution and follows the typical BPMN rules to continue the process (if possible).
- * 
- * This operations is typically not scheduled from an {@link ActivityBehavior}, but rather from another operation. 
+ *
+ * This operations is typically not scheduled from an {@link ActivityBehavior}, but rather from another operation.
  * This happens when the conditions are so that the process can't continue via the
  * regular ways and an execution cleanup needs to happen, potentially opening up new ways of continuing the process instance.
- * 
+ *
  * @author Joram Barrez
  */
 class EndExecutionOperation extends AbstractOperation {
@@ -62,11 +62,11 @@ class EndExecutionOperation extends AbstractOperation {
     private static final Logger LOGGER = LoggerFactory.getLogger(EndExecutionOperation.class);
 
     protected bool forceSynchronous;
-    
+
     public EndExecutionOperation(CommandContext commandContext, ExecutionEntity execution) {
         super(commandContext, execution);
     }
-    
+
     public EndExecutionOperation(CommandContext commandContext, ExecutionEntity execution, bool forceSynchronous) {
         this(commandContext, execution);
         this.forceSynchronous = forceSynchronous;
@@ -92,7 +92,7 @@ class EndExecutionOperation extends AbstractOperation {
             scheduleAsyncCompleteCallActivity(superExecution, processInstanceExecution);
             return;
         }
-        
+
         // copy variables before destroying the ended sub process instance (call activity)
         SubProcessActivityBehavior subProcessActivityBehavior = null;
         if (superExecution !is null) {
@@ -142,7 +142,7 @@ class EndExecutionOperation extends AbstractOperation {
 
         }
     }
-    
+
     protected bool isAsyncCompleteCallActivity(ExecutionEntity superExecution) {
         if (superExecution !is null) {
             FlowNode superExecutionFlowNode = (FlowNode) superExecution.getCurrentFlowElement();
@@ -153,18 +153,18 @@ class EndExecutionOperation extends AbstractOperation {
         }
         return false;
     }
-    
+
     protected void scheduleAsyncCompleteCallActivity(ExecutionEntity superExecutionEntity, ExecutionEntity childProcessInstanceExecutionEntity) {
         JobService jobService = CommandContextUtil.getJobService(commandContext);
-        
+
         JobEntity job = jobService.createJob();
-        
+
         // Needs to be the parent process instance, as the parent needs to be locked to avoid concurrency when multiple call activities are ended
-        job.setExecutionId(superExecutionEntity.getId()); 
-        
+        job.setExecutionId(superExecutionEntity.getId());
+
         // Child execution of subprocess is passed as configuration
         job.setJobHandlerConfiguration(childProcessInstanceExecutionEntity.getId());
-        
+
         string processInstanceId = superExecutionEntity.getProcessInstanceId() !is null ? superExecutionEntity.getProcessInstanceId() : superExecutionEntity.getId();
         job.setProcessInstanceId(processInstanceId);
         job.setProcessDefinitionId(childProcessInstanceExecutionEntity.getProcessDefinitionId());
@@ -172,9 +172,9 @@ class EndExecutionOperation extends AbstractOperation {
         job.setElementName(superExecutionEntity.getCurrentFlowElement().getName());
         job.setTenantId(childProcessInstanceExecutionEntity.getTenantId());
         job.setJobHandlerType(AsyncCompleteCallActivityJobHandler.TYPE);
-        
+
         superExecutionEntity.getJobs().add(job);
-        
+
         jobService.createAsyncJob(job, true); // Always exclusive to avoid concurrency problems
         jobService.scheduleAsyncJob(job);
     }
@@ -236,9 +236,9 @@ class EndExecutionOperation extends AbstractOperation {
                             agenda.planTakeOutgoingSequenceFlowsOperation(executionToContinue, true);
                             return;
                         }
-                        
+
                     }
-                    
+
                     agenda.planEndExecutionOperation(subProcessParentExecution);
                 }
 
@@ -249,8 +249,8 @@ class EndExecutionOperation extends AbstractOperation {
         // If there are no more active child executions, the process can be continued
         // If not (eg an embedded subprocess still has active elements, we cannot continue)
         List<ExecutionEntity> eventScopeExecutions = getEventScopeExecutions(executionEntityManager, parentExecution);
-        
-        // Event scoped executions need to be deleted when there are no active siblings anymore, 
+
+        // Event scoped executions need to be deleted when there are no active siblings anymore,
         // unless instances of the event subprocess itself. If there are no active siblings anymore,
         // the current scope had ended and the event subprocess start event should stop listening to any trigger.
         if (!eventScopeExecutions.isEmpty()) {
@@ -261,14 +261,14 @@ class EndExecutionOperation extends AbstractOperation {
                     activeSiblings = true;
                 }
             }
-            
+
             if (!activeSiblings) {
                 for (ExecutionEntity eventScopeExecution : eventScopeExecutions) {
-                    executionEntityManager.deleteExecutionAndRelatedData(eventScopeExecution, null, false);                    
+                    executionEntityManager.deleteExecutionAndRelatedData(eventScopeExecution, null, false);
                 }
             }
         }
-        
+
         if (getNumberOfActiveChildExecutionsForExecution(executionEntityManager, parentExecution.getId()) == 0) {
 
             ExecutionEntity executionToContinue = null;
@@ -325,7 +325,7 @@ class EndExecutionOperation extends AbstractOperation {
                         for (BoundaryEvent boundaryEvent : subActivity.getBoundaryEvents()) {
                             if (CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) &&
                                     boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition) {
-                                
+
                                 hasCompensation = true;
                                 break;
                             }
@@ -464,8 +464,8 @@ class EndExecutionOperation extends AbstractOperation {
         for (ExecutionEntity childExecution : executions) {
             if (childExecution.isEventScope()) {
                 eventScopeExecutions.add(childExecution);
-                
-            } 
+
+            }
         }
         return eventScopeExecutions;
     }
@@ -485,7 +485,7 @@ class EndExecutionOperation extends AbstractOperation {
         }
         return true;
     }
-    
+
     protected bool isInEventSubProcess(ExecutionEntity executionEntity) {
         ExecutionEntity currentExecutionEntity = executionEntity;
         while (currentExecutionEntity !is null) {
@@ -496,5 +496,5 @@ class EndExecutionOperation extends AbstractOperation {
         }
         return false;
     }
-    
+
 }

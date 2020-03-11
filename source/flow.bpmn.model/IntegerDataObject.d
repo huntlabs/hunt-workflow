@@ -12,23 +12,34 @@
  */
 
 
-import org.apache.commons.lang3.StringUtils;
+module flow.bpmn.model.IntegerDataObject;
 
+
+import flow.bpmn.model.ValuedDataObject;
+import std.string;
+import hunt.String;
+import hunt.Integer;
+//import org.apache.commons.lang3.StringUtils;
+
+
+    //String s = cast(String)value; //strip
+    //  if (s !is null && strip(s.value).length != 0) {
 /**
  * @author Lori Small
  */
-class IntegerDataObject extends ValuedDataObject {
+class IntegerDataObject : ValuedDataObject {
 
-    @Override
+    override
     public void setValue(Object value) {
-    	if (value instanceof string && !StringUtils.isEmpty(((string) value).trim())) {
-    		this.value = Integer.valueOf(value.toString());
-    	} else if (value instanceof Number) {
-    		this.value = (Integer) value;
+      String s = cast(String)value;
+    	if (s !is null && strip(s.value).length != 0) {
+    		this.value = Integer.valueOf(s.value);
+    	} else if (cast(Integer)value !is null) {
+    		this.value = cast(Integer) value;
     	}
     }
 
-    @Override
+    override
     public IntegerDataObject clone() {
         IntegerDataObject clone = new IntegerDataObject();
         clone.setValues(this);

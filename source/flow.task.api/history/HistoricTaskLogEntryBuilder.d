@@ -11,8 +11,10 @@
  * limitations under the License.
  */
 
+module flow.task.api.history.HistoricTaskLogEntryBuilder;
+import hunt.time.LocalDateTime;
 
-import java.util.Date;
+alias Date = LocalDateTime;
 
 /**
  * Interface to create and add task log entry

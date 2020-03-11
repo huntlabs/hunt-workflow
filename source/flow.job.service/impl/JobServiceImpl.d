@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import java.util.Collection;
-import java.util.List;
+import hunt.collection;
+import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -42,7 +42,7 @@ class JobServiceImpl extends ServiceImpl implements JobService {
     public JobServiceImpl(JobServiceConfiguration jobServiceConfiguration) {
         super(jobServiceConfiguration);
     }
-    
+
     @Override
     public JobQuery createJobQuery() {
         return new JobQueryImpl(getCommandExecutor());
@@ -82,17 +82,17 @@ class JobServiceImpl extends ServiceImpl implements JobService {
     public List<JobEntity> findJobsByExecutionId(string executionId) {
         return getJobEntityManager().findJobsByExecutionId(executionId);
     }
-    
+
     @Override
     public List<SuspendedJobEntity> findSuspendedJobsByExecutionId(string executionId) {
         return getSuspendedJobEntityManager().findJobsByExecutionId(executionId);
     }
-    
+
     @Override
     public List<DeadLetterJobEntity> findDeadLetterJobsByExecutionId(string executionId) {
         return getDeadLetterJobEntityManager().findJobsByExecutionId(executionId);
     }
-    
+
     @Override
     public List<JobEntity> findJobsByProcessInstanceId(string processInstanceId) {
         return getJobEntityManager().findJobsByProcessInstanceId(processInstanceId);
@@ -102,12 +102,12 @@ class JobServiceImpl extends ServiceImpl implements JobService {
     public List<SuspendedJobEntity> findSuspendedJobsByProcessInstanceId(string processInstanceId) {
         return getSuspendedJobEntityManager().findJobsByProcessInstanceId(processInstanceId);
     }
-    
+
     @Override
     public List<DeadLetterJobEntity> findDeadLetterJobsByProcessInstanceId(string processInstanceId) {
         return getDeadLetterJobEntityManager().findJobsByProcessInstanceId(processInstanceId);
     }
-    
+
     @Override
     public void updateAllJobTypesTenantIdForDeployment(string deploymentId, string newTenantId) {
         getJobEntityManager().updateJobTenantIdForDeployment(deploymentId, newTenantId);
@@ -115,7 +115,7 @@ class JobServiceImpl extends ServiceImpl implements JobService {
         getSuspendedJobEntityManager().updateJobTenantIdForDeployment(deploymentId, newTenantId);
         getDeadLetterJobEntityManager().updateJobTenantIdForDeployment(deploymentId, newTenantId);
     }
-    
+
     @Override
     public AbstractRuntimeJobEntity activateSuspendedJob(SuspendedJobEntity job) {
         if (configuration.getJobParentStateResolver().isSuspended(job)) {
@@ -138,12 +138,12 @@ class JobServiceImpl extends ServiceImpl implements JobService {
     public void unacquireWithDecrementRetries(JobInfo job) {
         getJobManager().unacquireWithDecrementRetries(job);
     }
-    
+
     @Override
     public JobEntity createJob() {
         return getJobEntityManager().create();
     }
-    
+
     @Override
     public void createAsyncJob(JobEntity job, bool isExclusive) {
         getJobManager().createAsyncJob(job, isExclusive);
@@ -190,7 +190,7 @@ class JobServiceImpl extends ServiceImpl implements JobService {
             }
         }
     }
-    
+
     @Override
     public void deleteSuspendedJobsByExecutionId(string executionId) {
         SuspendedJobEntityManager suspendedJobEntityManager = getSuspendedJobEntityManager();
@@ -202,7 +202,7 @@ class JobServiceImpl extends ServiceImpl implements JobService {
             }
         }
     }
-    
+
     @Override
     public void deleteDeadLetterJobsByExecutionId(string executionId) {
         DeadLetterJobEntityManager deadLetterJobEntityManager = getDeadLetterJobEntityManager();
@@ -214,5 +214,5 @@ class JobServiceImpl extends ServiceImpl implements JobService {
             }
         }
     }
-    
+
 }

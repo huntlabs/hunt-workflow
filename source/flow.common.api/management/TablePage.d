@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,23 +11,23 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.common.api.management.TablePage; 
- 
- 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
+module flow.common.api.management.TablePage;
 
 
-import java.util.List;
-import java.util.Map;
+
+
+
+import hunt.collection.List;
+import hunt.collection.Map;
 
 /**
  * Data structure used for retrieving database table content.
- * 
+ *
  * @author Tom Baeyens
  * @author Joram Barrez
  */
@@ -47,12 +47,12 @@ class TablePage {
 
     /**
      * The actual content of the database table, stored as a list of mappings of the form {column name, value}.
-     * 
+     *
      * This means that every map object in the list corresponds with one row in the database table.
      */
-    protected List<Map<string, Object>> rowData;
+    protected List!(Map!(string, Object)) rowData;
 
-    public TablePage() {
+    this() {
 
     }
 
@@ -75,14 +75,14 @@ class TablePage {
         this.firstResult = firstResult;
     }
 
-    public void setRows(List<Map<string, Object>> rowData) {
+    public void setRows(List!(Map!(string, Object)) rowData) {
         this.rowData = rowData;
     }
 
     /**
      * @return the actual table content.
      */
-    public List<Map<string, Object>> getRows() {
+    public List!(Map!(string, Object)) getRows() {
         return rowData;
     }
 

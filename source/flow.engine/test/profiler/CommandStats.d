@@ -12,10 +12,10 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 /**
  * @author Joram Barrez

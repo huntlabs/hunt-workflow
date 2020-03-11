@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,13 +11,16 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.SendTask;
 
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
+import flow.bpmn.model.TaskWithFieldExtensions;
+import flow.bpmn.model.FieldExtension;
 
 /**
  * @author Tijs Rademakers
  */
-class SendTask extends TaskWithFieldExtensions {
+class SendTask : TaskWithFieldExtensions {
 
     protected string type;
     protected string implementationType;
@@ -47,7 +50,7 @@ class SendTask extends TaskWithFieldExtensions {
         this.operationRef = operationRef;
     }
 
-    @Override
+    override
     public SendTask clone() {
         SendTask clone = new SendTask();
         clone.setValues(this);
@@ -60,9 +63,9 @@ class SendTask extends TaskWithFieldExtensions {
         setImplementationType(otherElement.getImplementationType());
         setOperationRef(otherElement.getOperationRef());
 
-        fieldExtensions = new ArrayList<>();
+        fieldExtensions = new ArrayList!FieldExtension();
         if (otherElement.getFieldExtensions() !is null && !otherElement.getFieldExtensions().isEmpty()) {
-            for (FieldExtension extension : otherElement.getFieldExtensions()) {
+            foreach (FieldExtension extension ; otherElement.getFieldExtensions()) {
                 fieldExtensions.add(extension.clone());
             }
         }

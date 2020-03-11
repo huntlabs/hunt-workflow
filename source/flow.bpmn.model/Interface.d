@@ -11,15 +11,18 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.Interface;
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.Operation;
 
-class Interface extends BaseElement {
+class Interface : BaseElement {
 
     protected string name;
     protected string implementationRef;
-    protected List<Operation> operations = new ArrayList<>();
+    protected List!Operation operations ;//= new ArrayList<>();
 
     public string getName() {
         return name;
@@ -37,16 +40,16 @@ class Interface extends BaseElement {
         this.implementationRef = implementationRef;
     }
 
-    public List<Operation> getOperations() {
+    public List!Operation getOperations() {
         return operations;
     }
 
-    public void setOperations(List<Operation> operations) {
+    public void setOperations(List!Operation operations) {
         this.operations = operations;
     }
 
-    @Override
-    interface clone() {
+    override
+    Interface clone() {
         Interface clone = new Interface();
         clone.setValues(this);
         return clone;
@@ -57,9 +60,9 @@ class Interface extends BaseElement {
         setName(otherElement.getName());
         setImplementationRef(otherElement.getImplementationRef());
 
-        operations = new ArrayList<>();
+        operations = new ArrayList!Operation();
         if (otherElement.getOperations() !is null && !otherElement.getOperations().isEmpty()) {
-            for (Operation operation : otherElement.getOperations()) {
+            foreach (Operation operation ; otherElement.getOperations()) {
                 operations.add(operation.clone());
             }
         }

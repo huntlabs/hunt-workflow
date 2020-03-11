@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,13 +11,14 @@
  * limitations under the License.
  */
 
+module flow.common.persistence.entity.data.DataManager;
 
-import org.flowable.common.engine.impl.persistence.entity.Entity;
+import flow.common.persistence.entity.Entity;
 
 /**
  * @author Joram Barrez
  */
-interface DataManager<EntityImpl extends Entity> {
+interface DataManager(EntityImpl) {
 
     EntityImpl create();
 
@@ -27,8 +28,8 @@ interface DataManager<EntityImpl extends Entity> {
 
     EntityImpl update(EntityImpl entity);
 
-    void delete(string id);
+    void dele(string id);
 
-    void delete(EntityImpl entity);
+    void dele(EntityImpl entity);
 
 }

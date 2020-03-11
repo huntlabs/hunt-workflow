@@ -12,11 +12,11 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.LinkedHashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 /**
  * @author Dennis
@@ -27,9 +27,9 @@ abstract class ActivityMigrationMapping {
     protected Integer callActivityProcessDefinitionVersion;
     protected string fromCallActivityId;
 
-    abstract List<string> getFromActivityIds();
+    abstract List!string getFromActivityIds();
 
-    abstract List<string> getToActivityIds();
+    abstract List!string getToActivityIds();
 
     public bool isToParentProcess() {
         return this.fromCallActivityId !is null;
@@ -55,11 +55,11 @@ abstract class ActivityMigrationMapping {
         return new OneToOneMapping(fromActivityId, toActivityId);
     }
 
-    public static ActivityMigrationMapping.OneToManyMapping createMappingFor(string fromActivityId, List<string> toActivityIds) {
+    public static ActivityMigrationMapping.OneToManyMapping createMappingFor(string fromActivityId, List!string toActivityIds) {
         return new OneToManyMapping(fromActivityId, toActivityIds);
     }
 
-    public static ActivityMigrationMapping.ManyToOneMapping createMappingFor(List<string> fromActivityIds, string toActivityId) {
+    public static ActivityMigrationMapping.ManyToOneMapping createMappingFor(List!string fromActivityIds, string toActivityId) {
         return new ManyToOneMapping(fromActivityIds, toActivityId);
     }
 
@@ -68,7 +68,7 @@ abstract class ActivityMigrationMapping {
         public string fromActivityId;
         public string toActivityId;
         protected string withNewAssignee;
-        protected Map<string, Object> withLocalVariables = new LinkedHashMap<>();
+        protected Map!(string, Object) withLocalVariables = new LinkedHashMap<>();
 
         public OneToOneMapping(string fromActivityId, string toActivityId) {
             this.fromActivityId = fromActivityId;
@@ -76,15 +76,15 @@ abstract class ActivityMigrationMapping {
         }
 
         @Override
-        public List<string> getFromActivityIds() {
-            ArrayList<string> list = new ArrayList<>();
+        public List!string getFromActivityIds() {
+            ArrayList!string list = new ArrayList<>();
             list.add(fromActivityId);
             return list;
         }
 
         @Override
-        public List<string> getToActivityIds() {
-            ArrayList<string> list = new ArrayList<>();
+        public List!string getToActivityIds() {
+            ArrayList!string list = new ArrayList<>();
             list.add(toActivityId);
             return list;
         }
@@ -139,13 +139,13 @@ abstract class ActivityMigrationMapping {
         }
 
         @Override
-        public OneToOneMapping withLocalVariables(Map<string, Object> variables) {
+        public OneToOneMapping withLocalVariables(Map!(string, Object) variables) {
             withLocalVariables.putAll(variables);
             return this;
         }
 
         @Override
-        public Map<string, Object> getActivityLocalVariables() {
+        public Map!(string, Object) getActivityLocalVariables() {
             return withLocalVariables;
         }
 
@@ -158,23 +158,23 @@ abstract class ActivityMigrationMapping {
     public static class OneToManyMapping extends ActivityMigrationMapping implements ActivityMigrationMappingOptions.MultipleToActivityOptions<OneToManyMapping> {
 
         public string fromActivityId;
-        public List<string> toActivityIds;
+        public List!string toActivityIds;
         protected Map<string, Map<string, Object>> withLocalVariables = new LinkedHashMap<>();
 
-        public OneToManyMapping(string fromActivityId, List<string> toActivityIds) {
+        public OneToManyMapping(string fromActivityId, List!string toActivityIds) {
             this.fromActivityId = fromActivityId;
             this.toActivityIds = toActivityIds;
         }
 
         @Override
-        public List<string> getFromActivityIds() {
-            ArrayList<string> list = new ArrayList<>();
+        public List!string getFromActivityIds() {
+            ArrayList!string list = new ArrayList<>();
             list.add(fromActivityId);
             return list;
         }
 
         @Override
-        public List<string> getToActivityIds() {
+        public List!string getToActivityIds() {
             return new ArrayList<>(toActivityIds);
         }
 
@@ -208,14 +208,14 @@ abstract class ActivityMigrationMapping {
 
         @Override
         public OneToManyMapping withLocalVariableForActivity(string toActivity, string variableName, Object variableValue) {
-            Map<string, Object> activityVariables = withLocalVariables.computeIfAbsent(toActivity, key -> new HashMap<>());
+            Map!(string, Object) activityVariables = withLocalVariables.computeIfAbsent(toActivity, key -> new HashMap<>());
             activityVariables.put(variableName, variableValue);
             return this;
         }
 
         @Override
-        public OneToManyMapping withLocalVariablesForActivity(string toActivity, Map<string, Object> variables) {
-            Map<string, Object> activityVariables = withLocalVariables.computeIfAbsent(toActivity, key -> new HashMap<>());
+        public OneToManyMapping withLocalVariablesForActivity(string toActivity, Map!(string, Object) variables) {
+            Map!(string, Object) activityVariables = withLocalVariables.computeIfAbsent(toActivity, key -> new HashMap<>());
             activityVariables.putAll(variables);
             return this;
         }
@@ -227,7 +227,7 @@ abstract class ActivityMigrationMapping {
         }
 
         @Override
-        public OneToManyMapping withLocalVariablesForAllActivities(Map<string, Object> variables) {
+        public OneToManyMapping withLocalVariablesForAllActivities(Map!(string, Object) variables) {
             toActivityIds.forEach(id -> withLocalVariablesForActivity(id, variables));
             return this;
         }
@@ -251,24 +251,24 @@ abstract class ActivityMigrationMapping {
 
     public static class ManyToOneMapping extends ActivityMigrationMapping implements ActivityMigrationMappingOptions.SingleToActivityOptions<ManyToOneMapping> {
 
-        public List<string> fromActivityIds;
+        public List!string fromActivityIds;
         public string toActivityId;
         protected string withNewAssignee;
-        protected Map<string, Object> withLocalVariables = new LinkedHashMap<>();
+        protected Map!(string, Object) withLocalVariables = new LinkedHashMap<>();
 
-        public ManyToOneMapping(List<string> fromActivityIds, string toActivityId) {
+        public ManyToOneMapping(List!string fromActivityIds, string toActivityId) {
             this.fromActivityIds = fromActivityIds;
             this.toActivityId = toActivityId;
         }
 
         @Override
-        public List<string> getFromActivityIds() {
+        public List!string getFromActivityIds() {
             return new ArrayList<>(fromActivityIds);
         }
 
         @Override
-        public List<string> getToActivityIds() {
-            ArrayList<string> list = new ArrayList<>();
+        public List!string getToActivityIds() {
+            ArrayList!string list = new ArrayList<>();
             list.add(toActivityId);
             return list;
         }
@@ -319,13 +319,13 @@ abstract class ActivityMigrationMapping {
         }
 
         @Override
-        public ManyToOneMapping withLocalVariables(Map<string, Object> variables) {
+        public ManyToOneMapping withLocalVariables(Map!(string, Object) variables) {
             withLocalVariables.putAll(variables);
             return this;
         }
 
         @Override
-        public Map<string, Object> getActivityLocalVariables() {
+        public Map!(string, Object) getActivityLocalVariables() {
             return withLocalVariables;
         }
 

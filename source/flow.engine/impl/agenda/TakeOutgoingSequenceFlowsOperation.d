@@ -12,21 +12,21 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.AdhocSubProcess;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.CancelEventDefinition;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.Gateway;
-import org.flowable.bpmn.model.InclusiveGateway;
-import org.flowable.bpmn.model.ParallelGateway;
-import org.flowable.bpmn.model.SequenceFlow;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.AdhocSubProcess;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.CancelEventDefinition;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Gateway;
+import flow.bpmn.model.InclusiveGateway;
+import flow.bpmn.model.ParallelGateway;
+import flow.bpmn.model.SequenceFlow;
+import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Operation that leaves the {@link FlowElement} where the {@link ExecutionEntity} is currently at and leaves it following the sequence flow.
- * 
+ *
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
@@ -115,7 +115,7 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
                     && !(flowNode instanceof InclusiveGateway) // Inclusive gw takes care of its own history
                     && !(flowNode instanceof SubProcess) // Subprocess handling creates and destroys scoped execution. The execution taking the seq flow is different from the one entering
                     && (!(flowNode instanceof Activity) || ((Activity) flowNode).getLoopCharacteristics() is null) // Multi instance root execution leaving the node isn't stored in history
-                    ) {  
+                    ) {
                 // If no sequence flow: will be handled by the deletion of executions
                 CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityEnd(execution, null);
             }
@@ -128,7 +128,7 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
             }
         }
     }
-    
+
     protected void leaveFlowNode(FlowNode flowNode) {
 
         LOGGER.debug("Leaving flow node {} with id '{}' by following it's {} outgoing sequenceflow",
@@ -156,7 +156,7 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
 
             } else if (flowNode.getOutgoingFlows().size() == 1 || SkipExpressionUtil.shouldSkipFlowElement(
                             skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {
-                
+
                 // The 'skip' for a sequence flow means that we skip the condition, not the sequence flow.
                 outgoingSequenceFlows.add(sequenceFlow);
             }
@@ -312,7 +312,7 @@ class TakeOutgoingSequenceFlowsOperation extends AbstractOperation {
             if (CollectionUtil.isNotEmpty(activity.getBoundaryEvents())) {
 
                 // Cancel events are not removed
-                List<string> notToDeleteEvents = new ArrayList<>();
+                List!string notToDeleteEvents = new ArrayList<>();
                 for (BoundaryEvent event : activity.getBoundaryEvents()) {
                     if (CollectionUtil.isNotEmpty(event.getEventDefinitions()) &&
                             event.getEventDefinitions().get(0) instanceof CancelEventDefinition) {

@@ -12,12 +12,12 @@
  */
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Optional;
 
-import org.flowable.bpmn.model.StartEvent;
+import flow.bpmn.model.StartEvent;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
 
@@ -29,7 +29,7 @@ class ProcessInstanceChangeState {
 
     protected string processInstanceId;
     protected ProcessDefinition processDefinitionToMigrateTo;
-    protected Map<string, Object> processVariables = new HashMap<>();
+    protected Map!(string, Object) processVariables = new HashMap<>();
     protected Map<string, Map<string, Object>> localVariables = new HashMap<>();
     protected Map<string, List<ExecutionEntity>> processInstanceActiveEmbeddedExecutions;
     protected List<MoveExecutionEntityContainer> moveExecutionEntityContainers;
@@ -61,11 +61,11 @@ class ProcessInstanceChangeState {
         return getProcessDefinitionToMigrateTo().isPresent();
     }
 
-    public Map<string, Object> getProcessInstanceVariables() {
+    public Map!(string, Object) getProcessInstanceVariables() {
         return processVariables;
     }
 
-    public ProcessInstanceChangeState setProcessInstanceVariables(Map<string, Object> processVariables) {
+    public ProcessInstanceChangeState setProcessInstanceVariables(Map!(string, Object) processVariables) {
         this.processVariables = processVariables;
         return this;
     }

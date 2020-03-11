@@ -11,21 +11,24 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.ServiceTask;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.TaskWithFieldExtensions;
+import flow.bpmn.model.CustomProperty;
+import flow.bpmn.model.FieldExtension;
 /**
  * @author Tijs Rademakers
  */
-class ServiceTask extends TaskWithFieldExtensions {
+class ServiceTask : TaskWithFieldExtensions {
 
-    public static final string DMN_TASK = "dmn";
-    public static final string MAIL_TASK = "mail";
-    public static final string HTTP_TASK = "http";
-    public static final string SHELL_TASK = "shell";
-    public static final string CASE_TASK = "case";
-    public static final string SEND_EVENT_TASK = "send-event";
+    public static  string DMN_TASK = "dmn";
+    public static  string MAIL_TASK = "mail";
+    public static  string HTTP_TASK = "http";
+    public static  string SHELL_TASK = "shell";
+    public static  string CASE_TASK = "case";
+    public static  string SEND_EVENT_TASK = "send-event";
 
     protected string implementation;
     protected string implementationType;
@@ -33,10 +36,15 @@ class ServiceTask extends TaskWithFieldExtensions {
     protected string type;
     protected string operationRef;
     protected string extensionId;
-    protected List<CustomProperty> customProperties = new ArrayList<>();
+    protected List!CustomProperty customProperties ;//= new ArrayList<>();
     protected string skipExpression;
     protected bool useLocalScopeForResultVariable;
     protected bool triggerable;
+
+    this()
+    {
+      customProperties = new ArrayList!CustomProperty;
+    }
 
     public string getImplementation() {
         return implementation;
@@ -70,11 +78,11 @@ class ServiceTask extends TaskWithFieldExtensions {
         this.type = type;
     }
 
-    public List<CustomProperty> getCustomProperties() {
+    public List!CustomProperty getCustomProperties() {
         return customProperties;
     }
 
-    public void setCustomProperties(List<CustomProperty> customProperties) {
+    public void setCustomProperties(List!CustomProperty customProperties) {
         this.customProperties = customProperties;
     }
 
@@ -122,7 +130,7 @@ class ServiceTask extends TaskWithFieldExtensions {
         this.triggerable = triggerable;
     }
 
-    @Override
+    override
     public ServiceTask clone() {
         ServiceTask clone = new ServiceTask();
         clone.setValues(this);
@@ -141,16 +149,16 @@ class ServiceTask extends TaskWithFieldExtensions {
         setUseLocalScopeForResultVariable(otherElement.isUseLocalScopeForResultVariable());
         setTriggerable(otherElement.isTriggerable());
 
-        fieldExtensions = new ArrayList<>();
+        fieldExtensions = new ArrayList!FieldExtension();
         if (otherElement.getFieldExtensions() !is null && !otherElement.getFieldExtensions().isEmpty()) {
-            for (FieldExtension extension : otherElement.getFieldExtensions()) {
+            foreach (FieldExtension extension ; otherElement.getFieldExtensions()) {
                 fieldExtensions.add(extension.clone());
             }
         }
 
-        customProperties = new ArrayList<>();
+        customProperties = new ArrayList!CustomProperty();
         if (otherElement.getCustomProperties() !is null && !otherElement.getCustomProperties().isEmpty()) {
-            for (CustomProperty property : otherElement.getCustomProperties()) {
+            foreach (CustomProperty property ; otherElement.getCustomProperties()) {
                 customProperties.add(property.clone());
             }
         }

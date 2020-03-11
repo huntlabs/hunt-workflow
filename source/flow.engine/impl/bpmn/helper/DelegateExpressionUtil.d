@@ -19,7 +19,7 @@ import flow.engine.impl.cfg.DelegateExpressionFieldInjectionMode;
 import flow.engine.impl.util.CommandContextUtil;
 import org.flowable.variable.api.delegate.VariableScope;
 
-import java.util.List;
+import hunt.collection.List;
 
 /**
  * @author Joram Barrez

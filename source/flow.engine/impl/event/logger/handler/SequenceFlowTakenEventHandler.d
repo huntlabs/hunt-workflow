@@ -12,8 +12,8 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.event.FlowableSequenceFlowTakenEvent;
@@ -28,7 +28,7 @@ class SequenceFlowTakenEventHandler extends AbstractDatabaseEventLoggerEventHand
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         FlowableSequenceFlowTakenEvent sequenceFlowTakenEvent = (FlowableSequenceFlowTakenEvent) event;
 
-        Map<string, Object> data = new HashMap<>();
+        Map!(string, Object) data = new HashMap<>();
         putInMapIfNotNull(data, Fields.ID, sequenceFlowTakenEvent.getId());
 
         putInMapIfNotNull(data, Fields.SOURCE_ACTIVITY_ID, sequenceFlowTakenEvent.getSourceActivityId());

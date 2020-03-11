@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,17 +13,17 @@
 
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.Message;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.Message;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.TimerEventDefinition;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.repository.EngineResource;
 import flow.common.util.CollectionUtil;
@@ -162,7 +162,7 @@ class DeploymentEntityManagerImpl
             if (previousProcessDefinition !is null) {
 
                 BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(previousProcessDefinition.getId());
-                org.flowable.bpmn.model.Process previousProcess = ProcessDefinitionUtil.getProcess(previousProcessDefinition.getId());
+                flow.bpmn.model.Process previousProcess = ProcessDefinitionUtil.getProcess(previousProcessDefinition.getId());
                 if (CollectionUtil.isNotEmpty(previousProcess.getFlowElements())) {
 
                     List<StartEvent> startEvents = previousProcess.findFlowElementsOfType(StartEvent.class);
@@ -197,9 +197,9 @@ class DeploymentEntityManagerImpl
                 TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
 
         if (timer !is null) {
-            TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE, 
+            TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE,
                             TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
-            
+
             timerJob.setProcessDefinitionId(previousProcessDefinition.getId());
 
             if (previousProcessDefinition.getTenantId() !is null) {
@@ -302,17 +302,17 @@ class DeploymentEntityManagerImpl
     }
 
     @Override
-    public List<string> getDeploymentResourceNames(string deploymentId) {
+    public List!string getDeploymentResourceNames(string deploymentId) {
         return dataManager.getDeploymentResourceNames(deploymentId);
     }
 
     @Override
-    public List<Deployment> findDeploymentsByNativeQuery(Map<string, Object> parameterMap) {
+    public List<Deployment> findDeploymentsByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findDeploymentsByNativeQuery(parameterMap);
     }
 
     @Override
-    public long findDeploymentCountByNativeQuery(Map<string, Object> parameterMap) {
+    public long findDeploymentCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findDeploymentCountByNativeQuery(parameterMap);
     }
 

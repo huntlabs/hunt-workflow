@@ -11,9 +11,9 @@
  * limitations under the License.
  */
 
+module flow.idm.api.UserBaseQuery;
 
-
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.query.Query;
 
@@ -23,7 +23,7 @@ import flow.common.api.query.Query;
  * @author Joram Barrez
  * @author Filip Hrisafov
  */
-interface UserBaseQuery<T extends UserBaseQuery<T, U>, U extends User> extends Query<T, U> {
+interface UserBaseQuery(T,U) : Query!(T, U) {
 
     /**
      * Only select {@link User}s with the given id/
@@ -33,7 +33,7 @@ interface UserBaseQuery<T extends UserBaseQuery<T, U>, U extends User> extends Q
     /**
      * Only select {@link User}s with the given ids/
      */
-    T userIds(List<string> ids);
+    T userIds(List!string ids);
 
     /**
      * Only select {@link User}s with the given id (ignoring case) /
@@ -114,7 +114,7 @@ interface UserBaseQuery<T extends UserBaseQuery<T, U>, U extends User> extends Q
     /**
      * Only select {@link User}s that belong to the given groups.
      */
-    T memberOfGroups(List<string> groupIds);
+    T memberOfGroups(List!string groupIds);
 
     /**
      * Only select {@link User}s that belong to the given tenant.

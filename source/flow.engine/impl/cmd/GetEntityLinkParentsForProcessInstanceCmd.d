@@ -13,7 +13,7 @@
 
 
 import java.io.Serializable;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.api.scope.ScopeTypes;

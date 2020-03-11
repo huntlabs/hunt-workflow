@@ -15,7 +15,7 @@
 import java.util.Date;
 
 import flow.common.persistence.entity.Entity;
-import org.flowable.task.api.history.HistoricTaskLogEntry;
+import flow.task.api.history.HistoricTaskLogEntry;
 
 /**
  * @author martin.grofcik

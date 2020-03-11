@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import java.util.Collection;
-import java.util.List;
+import hunt.collection;
+import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import org.flowable.job.service.JobServiceConfiguration;
@@ -32,7 +32,7 @@ class TimerJobServiceImpl extends ServiceImpl implements TimerJobService {
     public TimerJobServiceImpl(JobServiceConfiguration jobServiceConfiguration) {
         super(jobServiceConfiguration);
     }
-    
+
     @Override
     public TimerJobEntity findTimerJobById(string jobId) {
         return getTimerJobEntityManager().findById(jobId);
@@ -62,17 +62,17 @@ class TimerJobServiceImpl extends ServiceImpl implements TimerJobService {
     public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyAndTenantId(string type, string processDefinitionKey, string tenantId) {
         return getTimerJobEntityManager().findJobsByTypeAndProcessDefinitionKeyAndTenantId(type, processDefinitionKey, tenantId);
     }
-    
+
     @Override
     public void scheduleTimerJob(TimerJobEntity timerJob) {
         getJobManager().scheduleTimerJob(timerJob);
     }
-    
+
     @Override
     public AbstractRuntimeJobEntity moveJobToTimerJob(JobEntity job) {
         return getJobManager().moveJobToTimerJob(job);
     }
-    
+
     @Override
     public TimerJobEntity createTimerJob() {
         return getTimerJobEntityManager().create();

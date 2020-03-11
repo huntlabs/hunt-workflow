@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,8 +13,8 @@
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
@@ -23,8 +23,8 @@ import flow.engine.IdentityService;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.idm.api.User;
+import flow.identitylink.api.IdentityLink;
+import flow.idm.api.User;
 
 /**
  * @author Tijs Rademakers
@@ -50,8 +50,8 @@ class GetPotentialStarterUsersCmd implements Command<List<User>>, Serializable {
 
         IdentityService identityService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getIdentityService();
 
-        List<string> userIds = new ArrayList<>();
-        List<IdentityLink> identityLinks = (List) processDefinition.getIdentityLinks();
+        List!string userIds = new ArrayList<>();
+        List!IdentityLink identityLinks = (List) processDefinition.getIdentityLinks();
         for (IdentityLink identityLink : identityLinks) {
             if (identityLink.getUserId() !is null && identityLink.getUserId().length() > 0) {
 

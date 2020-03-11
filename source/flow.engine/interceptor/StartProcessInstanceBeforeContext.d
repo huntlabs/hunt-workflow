@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,10 +12,10 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.Process;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.Process;
 import flow.engine.repository.ProcessDefinition;
 
 class StartProcessInstanceBeforeContext extends AbstractStartProcessInstanceBeforeContext {
@@ -24,24 +24,24 @@ class StartProcessInstanceBeforeContext extends AbstractStartProcessInstanceBefo
     protected string callbackType;
     protected string referenceId;
     protected string referenceType;
-    protected Map<string, Object> transientVariables;
+    protected Map!(string, Object) transientVariables;
     protected string tenantId;
     protected string initiatorVariableName;
     protected string overrideDefinitionTenantId;
     protected string predefinedProcessInstanceId;
-    
+
     public StartProcessInstanceBeforeContext() {
-        
+
     }
-    
+
     public StartProcessInstanceBeforeContext(string businessKey, string processInstanceName,
                     string callbackId, string callbackType, string referenceId, string referenceType,
-                    Map<string, Object> variables, Map<string, Object> transientVariables, string tenantId,
+                    Map!(string, Object) variables, Map!(string, Object) transientVariables, string tenantId,
                     string initiatorVariableName, string initialActivityId, FlowElement initialFlowElement, Process process,
                     ProcessDefinition processDefinition, string overrideDefinitionTenantId, string predefinedProcessInstanceId) {
-        
+
         super(businessKey, processInstanceName, variables, initialActivityId, initialFlowElement, process, processDefinition);
-        
+
         this.callbackId = callbackId;
         this.callbackType = callbackType;
         this.referenceId = referenceId;
@@ -85,11 +85,11 @@ class StartProcessInstanceBeforeContext extends AbstractStartProcessInstanceBefo
         this.referenceType = referenceType;
     }
 
-    public Map<string, Object> getTransientVariables() {
+    public Map!(string, Object) getTransientVariables() {
         return transientVariables;
     }
 
-    public void setTransientVariables(Map<string, Object> transientVariables) {
+    public void setTransientVariables(Map!(string, Object) transientVariables) {
         this.transientVariables = transientVariables;
     }
 

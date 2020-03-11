@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,9 +12,9 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
+import hunt.collection.Set;
 import java.util.concurrent.ExecutorService;
 
 import flow.common.cfg.multitenant.TenantInfoHolder;
@@ -29,9 +29,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Multi tenant {@link AsyncExecutor}.
- * 
+ *
  * For each tenant, there will be acquire threads, but only one {@link ExecutorService} will be used once the jobs are acquired.
- * 
+ *
  * @author Joram Barrez
  */
 class SharedExecutorServiceAsyncExecutor extends DefaultAsyncJobExecutor implements TenantAwareAsyncExecutor {
@@ -69,7 +69,7 @@ class SharedExecutorServiceAsyncExecutor extends DefaultAsyncJobExecutor impleme
     }
 
     @Override
-    public Set<string> getTenantIds() {
+    public Set!string getTenantIds() {
         return timerJobAcquisitionRunnables.keySet();
     }
 
@@ -94,7 +94,7 @@ class SharedExecutorServiceAsyncExecutor extends DefaultAsyncJobExecutor impleme
             startResetExpiredJobsForTenant(tenantId);
         }
     }
-    
+
     @Override
     public AsyncExecutor getTenantAsyncExecutor(string tenantId) {
         return this;

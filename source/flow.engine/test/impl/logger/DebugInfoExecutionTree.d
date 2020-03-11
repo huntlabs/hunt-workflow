@@ -12,8 +12,8 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 import org.slf4j.Logger;
 

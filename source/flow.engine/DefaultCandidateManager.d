@@ -12,12 +12,12 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.AbstractManager;
-import org.flowable.idm.api.Group;
+import flow.idm.api.Group;
 
 class DefaultCandidateManager extends AbstractManager implements CandidateManager {
 
@@ -26,10 +26,10 @@ class DefaultCandidateManager extends AbstractManager implements CandidateManage
     }
 
     @Override
-    public List<string> getGroupsForCandidateUser(string candidateUser) {
+    public List!string getGroupsForCandidateUser(string candidateUser) {
         IdentityService identityService = getProcessEngineConfiguration().getIdentityService();
         List<Group> groups = identityService.createGroupQuery().groupMember(candidateUser).list();
-        List<string> groupIds = new ArrayList<>();
+        List!string groupIds = new ArrayList<>();
         for (Group group : groups) {
             groupIds.add(group.getId());
         }

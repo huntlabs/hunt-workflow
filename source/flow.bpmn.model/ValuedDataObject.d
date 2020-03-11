@@ -12,10 +12,13 @@
  */
 
 
+module flow.bpmn.model.ValuedDataObject;
+
+import flow.bpmn.model.DataObject;
 /**
  * @author Lori Small
  */
-public abstract class ValuedDataObject extends DataObject {
+abstract class ValuedDataObject : DataObject {
 
     protected Object value;
 
@@ -23,10 +26,16 @@ public abstract class ValuedDataObject extends DataObject {
         return value;
     }
 
-    public abstract void setValue(Object value);
+    void setValue(Object value)
+    {
 
-    @Override
-    public abstract ValuedDataObject clone();
+    }
+
+    override
+     ValuedDataObject clone()
+     {
+
+     }
 
     public void setValues(ValuedDataObject otherElement) {
         super.setValues(otherElement);
@@ -39,32 +48,32 @@ public abstract class ValuedDataObject extends DataObject {
         string structureRef = itemSubjectRef.getStructureRef();
         return structureRef.substring(structureRef.indexOf(':') + 1);
     }
-
-    @Override
-    public int hashCode() {
-        int result = 0;
-        result = 31 * result + (itemSubjectRef.getStructureRef() !is null ? itemSubjectRef.getStructureRef().hashCode() : 0);
-        result = 31 * result + (id !is null ? id.hashCode() : 0);
-        result = 31 * result + (name !is null ? name.hashCode() : 0);
-        result = 31 * result + (value !is null ? value.hashCode() : 0);
+//override size_t toHash() @safe nothrow
+    override
+     size_t toHash() {
+        size_t result = 0;
+        result = 31 * result + (itemSubjectRef.getStructureRef() !is null ? hashOf(itemSubjectRef.getStructureRef()) : 0);
+        result = 31 * result + (id !is null ? hashOf(id) : 0);
+        result = 31 * result + (name !is null ? hashOf(name) : 0);
+        result = 31 * result + (value !is null ? hashOf(value) : 0);
         return result;
     }
-    
-    @Override
-    public bool equals(Object o) {
+
+    override
+     bool opEquals(Object o) {
         if (this == o)
             return true;
-        if (o is null || getClass() != o.getClass())
+        if (o is null )
             return false;
 
-        ValuedDataObject otherObject = (ValuedDataObject) o;
+        ValuedDataObject otherObject = cast(ValuedDataObject) o;
 
-        if (!otherObject.getItemSubjectRef().getStructureRef().equals(this.itemSubjectRef.getStructureRef()))
+        if (otherObject.getItemSubjectRef().getStructureRef() != (this.itemSubjectRef.getStructureRef()))
             return false;
-        if (!otherObject.getId().equals(this.id))
+        if (otherObject.getId() != (this.id))
             return false;
-        if (!otherObject.getName().equals(this.name))
+        if (otherObject.getName() != (this.name))
             return false;
-        return otherObject.getValue().equals(this.value.toString());
+        return otherObject.getValue() == (this.value.toString());
     }
 }

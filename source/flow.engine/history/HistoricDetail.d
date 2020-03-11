@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,18 +11,22 @@
  * limitations under the License.
  */
 
+module flow.engine.history.HistoricDetail;
+
+import hunt.time.LocalDateTime;
 
 
-import java.util.Date;
 
 import flow.common.api.history.HistoricData;
 
+alias Date = LocalDateTime;
+
 /**
  * Base class for all kinds of information that is related to either a {@link HistoricProcessInstance} or a {@link HistoricActivityInstance}.
- * 
+ *
  * @author Tom Baeyens
  */
-interface HistoricDetail extends HistoricData {
+interface HistoricDetail : HistoricData {
 
     /** The unique DB id for this historic detail */
     string getId();
@@ -42,6 +46,5 @@ interface HistoricDetail extends HistoricData {
     string getTaskId();
 
     /** The time when this detail occurred */
-    @Override
     Date getTime();
 }

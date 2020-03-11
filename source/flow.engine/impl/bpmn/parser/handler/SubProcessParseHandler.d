@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.SubProcess;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 
 /**
@@ -36,11 +36,11 @@ class SubProcessParseHandler extends AbstractActivityBpmnParseHandler<SubProcess
 
         // no data objects for event subprocesses
         /*
-         * if (!(subProcess instanceof EventSubProcess)) { // parse out any data objects from the template in order to set up the necessary process variables Map<string, Object> variables =
+         * if (!(subProcess instanceof EventSubProcess)) { // parse out any data objects from the template in order to set up the necessary process variables Map!(string, Object) variables =
          * processDataObjects(bpmnParse, subProcess.getDataObjects(), activity); activity.setVariables(variables); }
-         * 
+         *
          * bpmnParse.removeCurrentScope(); bpmnParse.removeCurrentSubProcess();
-         * 
+         *
          * if (subProcess.getIoSpecification() !is null) { IOSpecification ioSpecification = createIOSpecification(bpmnParse, subProcess.getIoSpecification());
          * activity.setIoSpecification(ioSpecification); }
          */

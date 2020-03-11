@@ -12,10 +12,10 @@
  */
 
 
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.ServiceTask;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.ServiceTask;
 import flow.common.api.FlowableException;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.delegate.ActivityBehavior;
@@ -28,14 +28,14 @@ import org.flowable.job.service.impl.persistence.entity.JobEntity;
 
 /**
  * Operation that triggers a wait state and continues the process, leaving that activity.
- * 
+ *
  * The {@link ExecutionEntity} for this operations should be in a wait state (receive task for example) and have a {@link FlowElement} that has a behaviour that implements the
  * {@link TriggerableActivityBehavior}.
- * 
+ *
  * @author Joram Barrez
  */
 class TriggerExecutionOperation extends AbstractOperation {
-    
+
     protected bool triggerAsync;
 
     public TriggerExecutionOperation(CommandContext commandContext, ExecutionEntity execution) {
@@ -57,13 +57,13 @@ class TriggerExecutionOperation extends AbstractOperation {
 
                 if (currentFlowElement instanceof BoundaryEvent
                         || currentFlowElement instanceof ServiceTask) { // custom service task with no automatic leave (will not have a activity-start history entry in ContinueProcessOperation)
-                    
+
                     CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(execution);
                 }
 
                 if (!triggerAsync) {
                     ((TriggerableActivityBehavior) activityBehavior).trigger(execution, null, null);
-                    
+
                 } else {
                     JobService jobService = CommandContextUtil.getJobService();
                     JobEntity job = jobService.createJob();
@@ -73,7 +73,7 @@ class TriggerExecutionOperation extends AbstractOperation {
                     job.setElementId(currentFlowElement.getId());
                     job.setElementName(currentFlowElement.getName());
                     job.setJobHandlerType(AsyncTriggerJobHandler.TYPE);
-                    
+
                     // Inherit tenant id (if applicable)
                     if(execution.getTenantId() !is null) {
                         job.setTenantId(execution.getTenantId());

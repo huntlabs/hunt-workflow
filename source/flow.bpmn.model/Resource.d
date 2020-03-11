@@ -11,18 +11,20 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.Resource;
 
+import flow.bpmn.model.BaseElement;
 /**
  * The Resource class is used to specify resources that can be referenced by Activities. These Resources can be Human Resources as well as any other resource
  * assigned to Activities during Process execution time.
- * 
+ *
  * @author Tim Stephenson
  */
-class Resource extends BaseElement {
+class Resource : BaseElement {
 
     protected string name;
 
-    public Resource(string resourceId, string resourceName) {
+    this(string resourceId, string resourceName) {
         super();
         setId(resourceId);
         setName(resourceName);
@@ -36,7 +38,7 @@ class Resource extends BaseElement {
         this.name = name;
     }
 
-    @Override
+    override
     public BaseElement clone() {
         return new Resource(getId(), getName());
     }

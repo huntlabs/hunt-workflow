@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,20 +11,28 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.BusinessRuleTask;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.Task;
 /**
  * @author Tijs Rademakers
  */
-class BusinessRuleTask extends Task {
+class BusinessRuleTask : Task {
 
     protected string resultVariableName;
     protected bool exclude;
-    protected List<string> ruleNames = new ArrayList<>();
-    protected List<string> inputVariables = new ArrayList<>();
+    protected List!string ruleNames ;// = new ArrayList<>();
+    protected List!string inputVariables ;//= new ArrayList<>();
     protected string className;
+
+    this()
+    {
+      ruleNames = new ArrayList!string;
+      inputVariables = new ArrayList!string;
+    }
 
     public bool isExclude() {
         return exclude;
@@ -42,19 +50,19 @@ class BusinessRuleTask extends Task {
         this.resultVariableName = resultVariableName;
     }
 
-    public List<string> getRuleNames() {
+    public List!string getRuleNames() {
         return ruleNames;
     }
 
-    public void setRuleNames(List<string> ruleNames) {
+    public void setRuleNames(List!string ruleNames) {
         this.ruleNames = ruleNames;
     }
 
-    public List<string> getInputVariables() {
+    public List!string getInputVariables() {
         return inputVariables;
     }
 
-    public void setInputVariables(List<string> inputVariables) {
+    public void setInputVariables(List!string inputVariables) {
         this.inputVariables = inputVariables;
     }
 
@@ -66,7 +74,7 @@ class BusinessRuleTask extends Task {
         this.className = className;
     }
 
-    @Override
+    override
     public BusinessRuleTask clone() {
         BusinessRuleTask clone = new BusinessRuleTask();
         clone.setValues(this);
@@ -78,7 +86,7 @@ class BusinessRuleTask extends Task {
         setResultVariableName(otherElement.getResultVariableName());
         setExclude(otherElement.isExclude());
         setClassName(otherElement.getClassName());
-        ruleNames = new ArrayList<>(otherElement.getRuleNames());
-        inputVariables = new ArrayList<>(otherElement.getInputVariables());
+        ruleNames = new ArrayList!string(otherElement.getRuleNames());
+        inputVariables = new ArrayList!string(otherElement.getInputVariables());
     }
 }

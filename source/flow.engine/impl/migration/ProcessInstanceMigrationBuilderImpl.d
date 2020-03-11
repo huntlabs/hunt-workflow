@@ -13,7 +13,7 @@
 
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 import org.flowable.batch.api.Batch;
 import flow.common.api.FlowableException;
@@ -122,7 +122,7 @@ class ProcessInstanceMigrationBuilderImpl implements ProcessInstanceMigrationBui
     }
 
     @Override
-    public ProcessInstanceMigrationBuilder withProcessInstanceVariables(Map<string, Object> variables) {
+    public ProcessInstanceMigrationBuilder withProcessInstanceVariables(Map!(string, Object) variables) {
         this.migrationDocumentBuilder.processInstanceVariables.putAll(variables);
         return this;
     }

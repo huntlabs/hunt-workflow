@@ -12,15 +12,15 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
-import org.flowable.task.api.TaskQuery;
+import flow.task.api.TaskQuery;
 
 /**
  * Contains the possible properties that can be used in a {@link TaskQuery}.
- * 
+ *
  * @author Joram Barrez
  */
 class TaskQueryProperty implements QueryProperty {

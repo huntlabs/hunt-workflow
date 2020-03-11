@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,7 +15,7 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.scope.ScopeTypes;
@@ -94,7 +94,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.processDefinitionId = processDefinitionId;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl elementId(string elementId) {
         if (elementId is null) {
@@ -103,7 +103,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.elementId = elementId;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl elementName(string elementName) {
         if (elementName is null) {
@@ -112,7 +112,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.elementName = elementName;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
@@ -121,7 +121,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.scopeId = scopeId;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl subScopeId(string subScopeId) {
         if (scopeId is null) {
@@ -130,7 +130,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.subScopeId = subScopeId;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
@@ -139,7 +139,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.scopeType = scopeType;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
@@ -148,7 +148,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.scopeDefinitionId = scopeDefinitionId;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
@@ -158,7 +158,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
@@ -168,7 +168,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
@@ -187,7 +187,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         this.executionId = executionId;
         return this;
     }
-    
+
     @Override
     public TimerJobQueryImpl handlerType(string handlerType) {
         if (handlerType is null) {
@@ -331,7 +331,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
     public string getExecutionId() {
         return executionId;
     }
-    
+
     public string getHandlerType() {
         return handlerType;
     }
@@ -375,7 +375,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
     public string getProcessDefinitionId() {
         return processDefinitionId;
     }
-    
+
     public string getScopeId() {
         return scopeId;
     }

@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.history.ProcessInstanceHistoryLog;
 
 
-import java.util.Date;
-import java.util.List;
+import hunt.time.LocalDateTime;
+import hunt.collection.List;
 
 import flow.common.api.history.HistoricData;
 import flow.engine.IdentityService;
@@ -21,7 +22,7 @@ import flow.engine.runtime.ProcessInstance;
 
 /**
  * A trail of data for a given process instance.
- * 
+ *
  * @author Joram Barrez
  */
 interface ProcessInstanceHistoryLog {
@@ -46,11 +47,11 @@ interface ProcessInstanceHistoryLog {
     /**
      * The difference between {@link #getEndTime()} and {@link #getStartTime()} .
      */
-    Long getDurationInMillis();
+    long getDurationInMillis();
 
     /**
      * The authenticated user that started this process instance.
-     * 
+     *
      * @see IdentityService#setAuthenticatedUserId(string)
      */
     string getStartUserId();
@@ -74,6 +75,6 @@ interface ProcessInstanceHistoryLog {
     /**
      * The trail of data, ordered by date (ascending). Gives a replay of the process instance.
      */
-    List<HistoricData> getHistoricData();
+    List!HistoricData getHistoricData();
 
 }

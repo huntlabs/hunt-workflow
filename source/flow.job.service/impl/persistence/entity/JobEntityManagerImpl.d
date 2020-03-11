@@ -13,7 +13,7 @@
 
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -88,7 +88,7 @@ class JobEntityManagerImpl
         if (serviceConfiguration.getInternalJobManager() !is null) {
             serviceConfiguration.getInternalJobManager().handleJobDelete(entity);
         }
-        
+
         super.delete(entity, fireDeleteEvent);
     }
 

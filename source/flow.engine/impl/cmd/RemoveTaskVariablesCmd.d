@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Collection;
+import hunt.collection;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
@@ -27,10 +27,10 @@ class RemoveTaskVariablesCmd extends NeedsActiveTaskCmd<Void> {
 
     private static final long serialVersionUID = 1L;
 
-    private final Collection<string> variableNames;
+    private final Collection!string variableNames;
     private final bool isLocal;
 
-    public RemoveTaskVariablesCmd(string taskId, Collection<string> variableNames, bool isLocal) {
+    public RemoveTaskVariablesCmd(string taskId, Collection!string variableNames, bool isLocal) {
         super(taskId);
         this.variableNames = variableNames;
         this.isLocal = isLocal;

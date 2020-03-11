@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,15 +11,15 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.AbstractServiceConfiguration;
- 
- 
- 
+
+
+
 
 
 import hunt.collection.List;
@@ -29,10 +29,8 @@ import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.event.EventDispatchAction;
 import flow.common.history.HistoryLevel;
 import flow.common.runtime.Clock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Tijs Rademakers
@@ -45,32 +43,32 @@ abstract class AbstractServiceConfiguration {
     protected string engineName;
     protected bool enableEventDispatcher = true;
     protected FlowableEventDispatcher eventDispatcher;
-    protected List<FlowableEventListener> eventListeners;
-    protected Map<string, List<FlowableEventListener>> typedEventListeners;
-    protected List<EventDispatchAction> additionalEventDispatchActions;
-    
+    protected List!FlowableEventListener eventListeners;
+    protected Map!(string, List!FlowableEventListener) typedEventListeners;
+    protected List!EventDispatchAction additionalEventDispatchActions;
+
     protected HistoryLevel historyLevel;
-    
-    protected ObjectMapper objectMapper;
+
+   // protected ObjectMapper objectMapper;
 
     protected Clock clock;
-    
-    public AbstractServiceConfiguration(string engineName) {
+
+    this(string engineName) {
         this.engineName = engineName;
     }
-    
+
     public bool isHistoryLevelAtLeast(HistoryLevel level) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Current history level: {}, level required: {}", historyLevel, level);
-        }
+        //if (logger.isDebugEnabled()) {
+        //    logger.debug("Current history level: {}, level required: {}", historyLevel, level);
+        //}
         // Comparing enums actually compares the location of values declared in the enum
         return historyLevel.isAtLeast(level);
     }
 
     public bool isHistoryEnabled() {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Current history level: {}", historyLevel);
-        }
+        //if (logger.isDebugEnabled()) {
+        //    logger.debug("Current history level: {}", historyLevel);
+        //}
         return historyLevel != HistoryLevel.NONE;
     }
 
@@ -81,7 +79,7 @@ abstract class AbstractServiceConfiguration {
     public void setEngineName(string engineName) {
         this.engineName = engineName;
     }
-    
+
     public bool isEventDispatcherEnabled() {
         return getEventDispatcher() !is null && getEventDispatcher().isEnabled();
     }
@@ -104,29 +102,29 @@ abstract class AbstractServiceConfiguration {
         return this;
     }
 
-    public List<FlowableEventListener> getEventListeners() {
+    public List!FlowableEventListener getEventListeners() {
         return eventListeners;
     }
 
-    public AbstractServiceConfiguration setEventListeners(List<FlowableEventListener> eventListeners) {
+    public AbstractServiceConfiguration setEventListeners(List!FlowableEventListener eventListeners) {
         this.eventListeners = eventListeners;
         return this;
     }
 
-    public Map<string, List<FlowableEventListener>> getTypedEventListeners() {
+    public Map!(string, List!FlowableEventListener) getTypedEventListeners() {
         return typedEventListeners;
     }
 
-    public AbstractServiceConfiguration setTypedEventListeners(Map<string, List<FlowableEventListener>> typedEventListeners) {
+    public AbstractServiceConfiguration setTypedEventListeners(Map!(string, List!FlowableEventListener) typedEventListeners) {
         this.typedEventListeners = typedEventListeners;
         return this;
     }
-    
-    public List<EventDispatchAction> getAdditionalEventDispatchActions() {
+
+    public List!EventDispatchAction getAdditionalEventDispatchActions() {
         return additionalEventDispatchActions;
     }
 
-    public AbstractServiceConfiguration setAdditionalEventDispatchActions(List<EventDispatchAction> additionalEventDispatchActions) {
+    public AbstractServiceConfiguration setAdditionalEventDispatchActions(List!EventDispatchAction additionalEventDispatchActions) {
         this.additionalEventDispatchActions = additionalEventDispatchActions;
         return this;
     }
@@ -134,20 +132,20 @@ abstract class AbstractServiceConfiguration {
     public HistoryLevel getHistoryLevel() {
         return historyLevel;
     }
-    
+
     public AbstractServiceConfiguration setHistoryLevel(HistoryLevel historyLevel) {
         this.historyLevel = historyLevel;
         return this;
     }
-    
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
-    }
 
-    public AbstractServiceConfiguration setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-        return this;
-    }
+    //public ObjectMapper getObjectMapper() {
+    //    return objectMapper;
+    //}
+    //
+    //public AbstractServiceConfiguration setObjectMapper(ObjectMapper objectMapper) {
+    //    this.objectMapper = objectMapper;
+    //    return this;
+    //}
 
     public Clock getClock() {
         return clock;

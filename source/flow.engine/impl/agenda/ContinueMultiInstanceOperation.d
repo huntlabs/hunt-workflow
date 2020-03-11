@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -37,14 +37,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Special operation when executing an instance of a multi-instance. It's similar to the {@link ContinueProcessOperation}, but simpler, as it doesn't need to cater for as many use cases.
- * 
+ *
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
 class ContinueMultiInstanceOperation extends AbstractOperation {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ContinueMultiInstanceOperation.class);
-    
+
     protected ExecutionEntity multiInstanceRootExecution;
     protected int loopCounter;
 
@@ -75,12 +75,12 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
 
     protected void executeSynchronous(FlowNode flowNode) {
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(execution);
-        
+
         // Execution listener
         if (CollectionUtil.isNotEmpty(flowNode.getExecutionListeners())) {
             executeExecutionListeners(flowNode, ExecutionListener.EVENTNAME_START);
         }
-        
+
         // Execute actual behavior
         ActivityBehavior activityBehavior = (ActivityBehavior) flowNode.getBehavior();
         LOGGER.debug("Executing activityBehavior {} on activity '{}' with execution {}", activityBehavior.getClass(), flowNode.getId(), execution.getId());
@@ -111,7 +111,7 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
 
     protected void executeAsynchronous(FlowNode flowNode) {
         JobService jobService = CommandContextUtil.getJobService(commandContext);
-        
+
         JobEntity job = jobService.createJob();
         job.setExecutionId(execution.getId());
         job.setProcessInstanceId(execution.getProcessInstanceId());
@@ -124,13 +124,13 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
         if (execution.getTenantId() !is null) {
             job.setTenantId(execution.getTenantId());
         }
-        
+
         execution.getJobs().add(job);
-        
+
         jobService.createAsyncJob(job, flowNode.isExclusive());
         jobService.scheduleAsyncJob(job);
     }
-    
+
     protected ActivityBehavior setLoopCounterVariable(FlowNode flowNode) {
         ActivityBehavior activityBehavior = (ActivityBehavior) flowNode.getBehavior();
         if (!(activityBehavior instanceof MultiInstanceActivityBehavior)) {
@@ -145,5 +145,5 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
         }
         return activityBehavior;
     }
-    
+
 }

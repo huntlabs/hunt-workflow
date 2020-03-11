@@ -12,14 +12,14 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.query.AbstractNativeQuery;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-import org.flowable.task.api.NativeTaskQuery;
-import org.flowable.task.api.Task;
+import flow.task.api.NativeTaskQuery;
+import flow.task.api.Task;
 import org.flowable.task.service.impl.util.CommandContextUtil;
 
 class NativeTaskQueryImpl extends AbstractNativeQuery<NativeTaskQuery, Task> implements NativeTaskQuery {
@@ -37,12 +37,12 @@ class NativeTaskQueryImpl extends AbstractNativeQuery<NativeTaskQuery, Task> imp
     // results ////////////////////////////////////////////////////////////////
 
     @Override
-    public List<Task> executeList(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public List<Task> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getTaskEntityManager(commandContext).findTasksByNativeQuery(parameterMap);
     }
 
     @Override
-    public long executeCount(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getTaskEntityManager(commandContext).findTaskCountByNativeQuery(parameterMap);
     }
 

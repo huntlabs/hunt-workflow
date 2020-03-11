@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,15 +11,15 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.impl.repository.DeploymentBuilderImpl;
- 
- 
- 
+
+
+
 
 
 import hunt.io.Common;
@@ -32,7 +32,7 @@ import hunt.collection.Map;
 //import java.util.zip.ZipInputStream;
 
 import org.flowable.bpmn.converter.BpmnXMLConverter;
-import org.flowable.bpmn.model.BpmnModel;
+import flow.bpmn.model.BpmnModel;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.util.IoUtil;
@@ -168,7 +168,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         deployment.setKey(key);
         return this;
     }
-    
+
     @Override
     public DeploymentBuilder parentDeploymentId(string parentDeploymentId) {
         deployment.setParentDeploymentId(parentDeploymentId);
@@ -239,7 +239,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return processDefinitionsActivationDate;
     }
 
-    public Map<string, Object> getDeploymentProperties() {
+    public Map!(string, Object) getDeploymentProperties() {
         return deploymentProperties;
     }
 

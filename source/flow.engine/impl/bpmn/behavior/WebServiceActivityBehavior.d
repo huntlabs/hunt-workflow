@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,21 +12,21 @@
  */
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.DataAssociation;
-import org.flowable.bpmn.model.DataSpec;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.IOSpecification;
-import org.flowable.bpmn.model.Import;
-import org.flowable.bpmn.model.Interface;
-import org.flowable.bpmn.model.Message;
-import org.flowable.bpmn.model.SendTask;
-import org.flowable.bpmn.model.ServiceTask;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.DataAssociation;
+import flow.bpmn.model.DataSpec;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.IOSpecification;
+import flow.bpmn.model.Import;
+import flow.bpmn.model.Interface;
+import flow.bpmn.model.Message;
+import flow.bpmn.model.SendTask;
+import flow.bpmn.model.ServiceTask;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
@@ -58,7 +58,7 @@ import flow.engine.impl.webservice.WSService;
 
 /**
  * An activity behavior that allows calling Web services
- * 
+ *
  * @author Esteban Robles Luna
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -196,7 +196,7 @@ class WebServiceActivityBehavior extends AbstractBpmnActivityBehavior {
 
     protected void createItemDefinitions(BpmnModel bpmnModel) {
 
-        for (org.flowable.bpmn.model.ItemDefinition itemDefinitionElement : bpmnModel.getItemDefinitions().values()) {
+        for (flow.bpmn.model.ItemDefinition itemDefinitionElement : bpmnModel.getItemDefinitions().values()) {
 
             if (!itemDefinitionMap.containsKey(itemDefinitionElement.getId())) {
                 StructureDefinition structure = null;
@@ -241,7 +241,7 @@ class WebServiceActivityBehavior extends AbstractBpmnActivityBehavior {
             BpmnInterface bpmnInterface = new BpmnInterface(interfaceObject.getId(), interfaceObject.getName());
             bpmnInterface.setImplementation(wsServiceMap.get(interfaceObject.getImplementationRef()));
 
-            for (org.flowable.bpmn.model.Operation operationObject : interfaceObject.getOperations()) {
+            for (flow.bpmn.model.Operation operationObject : interfaceObject.getOperations()) {
 
                 if (!operationMap.containsKey(operationObject.getId())) {
                     MessageDefinition inMessage = messageDefinitionMap.get(operationObject.getInMessageRef());
@@ -311,7 +311,7 @@ class WebServiceActivityBehavior extends AbstractBpmnActivityBehavior {
             SimpleDataInputAssociation dataAssociation = new SimpleDataInputAssociation(dataAssociationElement.getSourceRef(), dataAssociationElement.getTargetRef());
             ExpressionManager expressionManager = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager();
 
-            for (org.flowable.bpmn.model.Assignment assignmentElement : dataAssociationElement.getAssignments()) {
+            for (flow.bpmn.model.Assignment assignmentElement : dataAssociationElement.getAssignments()) {
                 if (StringUtils.isNotEmpty(assignmentElement.getFrom()) && StringUtils.isNotEmpty(assignmentElement.getTo())) {
                     Expression from = expressionManager.createExpression(assignmentElement.getFrom());
                     Expression to = expressionManager.createExpression(assignmentElement.getTo());

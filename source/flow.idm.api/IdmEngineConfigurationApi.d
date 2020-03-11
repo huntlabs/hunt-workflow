@@ -11,7 +11,9 @@
  * limitations under the License.
  */
 
-
+module flow.idm.api.IdmEngineConfigurationApi;
+import flow.idm.api.IdmIdentityService;
+import flow.idm.api.IdmManagementService;
 /**
  * @author Filip Hrisafov
  */

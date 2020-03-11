@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.Page;
 import flow.common.interceptor.Command;
@@ -33,7 +33,7 @@ class AcquireJobsCmd implements Command<AcquiredJobEntities> {
     private final AsyncExecutor asyncExecutor;
     private final int remainingCapacity;
     private final JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
-    
+
     public AcquireJobsCmd(AsyncExecutor asyncExecutor) {
         this.asyncExecutor = asyncExecutor;
         this.remainingCapacity = Integer.MAX_VALUE;
@@ -50,7 +50,7 @@ class AcquireJobsCmd implements Command<AcquiredJobEntities> {
     public AcquiredJobEntities execute(CommandContext commandContext) {
         int maxResults = Math.min(remainingCapacity, asyncExecutor.getMaxAsyncJobsDuePerAcquisition());
 
-        List<? extends JobInfoEntity> jobs = jobEntityManager.findJobsToExecute(new Page(0, maxResults)); 
+        List<? extends JobInfoEntity> jobs = jobEntityManager.findJobsToExecute(new Page(0, maxResults));
         AcquiredJobEntities acquiredJobs = new AcquiredJobEntities();
 
         for (JobInfoEntity job : jobs) {

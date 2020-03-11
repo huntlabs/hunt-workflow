@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,10 +13,10 @@
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.db.SuspensionState;
 import flow.engine.ProcessEngineConfiguration;
@@ -45,7 +45,7 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
     protected Integer historyLevel;
     protected string diagramResourceName;
     protected bool isGraphicalNotationDefined;
-    protected Map<string, Object> variables;
+    protected Map!(string, Object) variables;
     protected bool hasStartFormKey;
     protected int suspensionState = SuspensionState.ACTIVE.getStateCode();
     protected bool isIdentityLinksInitialized;
@@ -60,7 +60,7 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("suspensionState", this.suspensionState);
         persistentState.put("category", this.category);
         return persistentState;
@@ -183,11 +183,11 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
         this.historyLevel = historyLevel;
     }
 
-    public Map<string, Object> getVariables() {
+    public Map!(string, Object) getVariables() {
         return variables;
     }
 
-    public void setVariables(Map<string, Object> variables) {
+    public void setVariables(Map!(string, Object) variables) {
         this.variables = variables;
     }
 
@@ -260,7 +260,7 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
     public bool isSuspended() {
         return suspensionState == SuspensionState.SUSPENDED.getStateCode();
     }
-    
+
     @Override
     public string getDerivedFrom() {
         return derivedFrom;

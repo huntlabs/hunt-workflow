@@ -14,14 +14,14 @@
 
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 import java.util.Map.Entry;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.ValuedDataObject;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
@@ -33,7 +33,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.runtime.DataObject;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.api.persistence.entity.VariableInstance;
 
@@ -44,16 +44,16 @@ class GetTaskDataObjectsCmd implements Command<Map<string, DataObject>>, Seriali
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
-    protected Collection<string> variableNames;
+    protected Collection!string variableNames;
     protected string locale;
     protected bool withLocalizationFallback;
 
-    public GetTaskDataObjectsCmd(string taskId, Collection<string> variableNames) {
+    public GetTaskDataObjectsCmd(string taskId, Collection!string variableNames) {
         this.taskId = taskId;
         this.variableNames = variableNames;
     }
 
-    public GetTaskDataObjectsCmd(string taskId, Collection<string> variableNames, string locale, bool withLocalizationFallback) {
+    public GetTaskDataObjectsCmd(string taskId, Collection!string variableNames, string locale, bool withLocalizationFallback) {
         this.taskId = taskId;
         this.variableNames = variableNames;
         this.locale = locale;

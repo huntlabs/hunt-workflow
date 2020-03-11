@@ -11,36 +11,43 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.interceptor.DefaultCommandInvoker;
- 
- 
- 
 
 
-//import flow.common.context.Context;
-//
-//class DefaultCommandInvoker extends AbstractCommandInterceptor {
-//
-//    @Override
-//    public <T> T execute(final CommandConfig config, final Command<T> command) {
-//        final CommandContext commandContext = Context.getCommandContext();
-//        T result = command.execute(commandContext);
-//        return result;
-//    }
-//
-//    @Override
-//    public CommandInterceptor getNext() {
-//        return null;
-//    }
-//
-//    @Override
-//    public void setNext(CommandInterceptor next) {
-//        throw new UnsupportedOperationException("CommandInvoker must be the last interceptor in the chain");
-//    }
-//
-//}
+
+
+import flow.common.interceptor.AbstractCommandInterceptor;
+import flow.common.context.Context;
+import flow.common.interceptor.CommandConfig;
+import flow.common.interceptor.CommandContext;
+import flow.common.interceptor.Command;
+
+class DefaultCommandInvoker : AbstractCommandInterceptor {
+
+  //  Object execute(CommandConfig config, CommandAbstract command);
+   // @Override
+    public Object execute(CommandConfig config,  CommandAbstract command) {
+        CommandContext commandContext = Context.getCommandContext();
+
+
+
+        T result = command.execute(commandContext);
+        return result;
+    }
+
+    override
+    public CommandInterceptor getNext() {
+        return null;
+    }
+
+    override
+    public void setNext(CommandInterceptor next) {
+        throw new UnsupportedOperationException("CommandInvoker must be the last interceptor in the chain");
+    }
+
+}

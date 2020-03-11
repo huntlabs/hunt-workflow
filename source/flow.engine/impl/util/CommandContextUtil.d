@@ -21,8 +21,8 @@ module flow.engine.impl.util.CommandContextUtil;
 //
 //
 //
-//import java.util.HashMap;
-//import java.util.Map;
+//import hunt.collection.HashMap;
+//import hunt.collection.Map;
 //
 //import org.flowable.batch.api.BatchService;
 //import org.flowable.batch.service.BatchServiceConfiguration;
@@ -61,20 +61,20 @@ module flow.engine.impl.util.CommandContextUtil;
 //import org.flowable.entitylink.api.EntityLinkService;
 //import org.flowable.entitylink.api.history.HistoricEntityLinkService;
 //import org.flowable.entitylink.service.EntityLinkServiceConfiguration;
-//import org.flowable.eventregistry.api.EventRegistry;
-//import org.flowable.eventregistry.api.EventRepositoryService;
-//import org.flowable.eventregistry.impl.EventRegistryEngineConfiguration;
+//import flow.event.registry.api.EventRegistry;
+//import flow.event.registry.api.EventRepositoryService;
+//import flow.event.registry.EventRegistryEngineConfiguration;
 //import org.flowable.eventsubscription.service.EventSubscriptionService;
 //import org.flowable.eventsubscription.service.EventSubscriptionServiceConfiguration;
-//import org.flowable.form.api.FormEngineConfigurationApi;
-//import org.flowable.form.api.FormManagementService;
-//import org.flowable.form.api.FormRepositoryService;
-//import org.flowable.form.api.FormService;
+//import flow.form.api.FormEngineConfigurationApi;
+//import flow.form.api.FormManagementService;
+//import flow.form.api.FormRepositoryService;
+//import flow.form.api.FormService;
 //import org.flowable.identitylink.service.HistoricIdentityLinkService;
 //import org.flowable.identitylink.service.IdentityLinkService;
 //import org.flowable.identitylink.service.IdentityLinkServiceConfiguration;
-//import org.flowable.idm.api.IdmEngineConfigurationApi;
-//import org.flowable.idm.api.IdmIdentityService;
+//import flow.idm.api.IdmEngineConfigurationApi;
+//import flow.idm.api.IdmIdentityService;
 //import org.flowable.job.service.HistoryJobService;
 //import org.flowable.job.service.JobService;
 //import org.flowable.job.service.JobServiceConfiguration;

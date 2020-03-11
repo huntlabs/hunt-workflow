@@ -12,11 +12,11 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
+import hunt.collection.ArrayList;
+import hunt.collection;
 
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.Process;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Process;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.delegate.InactiveActivityBehavior;
@@ -28,9 +28,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Operation that usually gets scheduled as last operation of handling a {@link Command}.
- * 
+ *
  * Executes 'background' behaviours of executions that currently are in an activity that implements the {@link InactiveActivityBehavior} interface.
- * 
+ *
  * @author Joram Barrez
  */
 class ExecuteInactiveBehaviorsOperation extends AbstractOperation {
@@ -49,16 +49,16 @@ class ExecuteInactiveBehaviorsOperation extends AbstractOperation {
 
         /*
          * Algorithm: for each execution that is involved in this command context,
-         * 
+         *
          * 1) Get its process definition 2) Verify if its process definitions has any InactiveActivityBehavior behaviours. 3) If so, verify if there are any executions inactive in those activities 4)
          * Execute the inactivated behavior
-         * 
+         *
          */
 
         for (ExecutionEntity executionEntity : involvedExecutions) {
 
             Process process = ProcessDefinitionUtil.getProcess(executionEntity.getProcessDefinitionId());
-            Collection<string> flowNodeIdsWithInactivatedBehavior = new ArrayList<>();
+            Collection!string flowNodeIdsWithInactivatedBehavior = new ArrayList<>();
             for (FlowNode flowNode : process.findFlowElementsOfType(FlowNode.class)) {
                 if (flowNode.getBehavior() instanceof InactiveActivityBehavior) {
                     flowNodeIdsWithInactivatedBehavior.add(flowNode.getId());

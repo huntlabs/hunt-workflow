@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,20 +12,25 @@
  */
 
 
+module flow.engine.runtime.ProcessInstance;
+
 import java.util.Date;
-import java.util.Map;
-
+import hunt.collection.Map;
+import hunt.time.LocalDateTime;
 import flow.engine.repository.ProcessDefinition;
+import flow.engine.runtime.Execution;
 
+
+alias Date = LocalDateTime;
 /**
  * Represents one execution of a {@link ProcessDefinition}.
- * 
+ *
  * @author Tom Baeyens
  * @author Joram Barrez
  * @author Daniel Meyer
  * @author Tijs Rademakers
  */
-interface ProcessInstance extends Execution {
+interface ProcessInstance : Execution {
 
     /**
      * The id of the process definition of the process instance.
@@ -60,30 +65,30 @@ interface ProcessInstance extends Execution {
     /**
      * returns true if the process instance is suspended
      */
-    @Override
+
     bool isSuspended();
 
     /**
      * Returns the process variables if requested in the process instance query
      */
-    Map<string, Object> getProcessVariables();
+    Map!(string, Object) getProcessVariables();
 
     /**
      * The tenant identifier of this process instance
      */
-    @Override
+
     string getTenantId();
 
     /**
      * Returns the name of this process instance.
      */
-    @Override
+
     string getName();
 
     /**
      * Returns the description of this process instance.
      */
-    @Override
+
     string getDescription();
 
     /**
@@ -105,14 +110,14 @@ interface ProcessInstance extends Execution {
      * Returns the user id of this process instance.
      */
     string getStartUserId();
-    
+
     /**
      * Returns the callback id of this process instance.
      */
     string getCallbackId();
-    
+
     /**
-     * Returns the callback type of this process instance. 
+     * Returns the callback type of this process instance.
      */
     string getCallbackType();
 }

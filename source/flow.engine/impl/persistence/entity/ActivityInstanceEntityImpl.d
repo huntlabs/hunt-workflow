@@ -16,8 +16,8 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.util.CommandContextUtil;
@@ -51,7 +51,7 @@ class ActivityInstanceEntityImpl extends AbstractBpmnEngineEntity implements Act
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("endTime", endTime);
         persistentState.put("durationInMillis", durationInMillis);
         persistentState.put("deleteReason", deleteReason);

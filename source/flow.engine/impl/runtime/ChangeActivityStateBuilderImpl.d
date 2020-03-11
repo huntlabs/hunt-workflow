@@ -12,10 +12,10 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
 import flow.engine.impl.RuntimeServiceImpl;
@@ -31,7 +31,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
     protected string processInstanceId;
     protected List<MoveExecutionIdContainer> moveExecutionIdList = new ArrayList<>();
     protected List<MoveActivityIdContainer> moveActivityIdList = new ArrayList<>();
-    protected Map<string, Object> processVariables = new HashMap<>();
+    protected Map!(string, Object) processVariables = new HashMap<>();
     protected Map<string, Map<string, Object>> localVariables = new HashMap<>();
 
     public ChangeActivityStateBuilderImpl() {
@@ -58,21 +58,21 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
     }
 
     @Override
-    public ChangeActivityStateBuilder moveExecutionsToSingleActivityId(List<string> executionIds, string activityId) {
+    public ChangeActivityStateBuilder moveExecutionsToSingleActivityId(List!string executionIds, string activityId) {
         return moveExecutionsToSingleActivityId(executionIds, activityId, null);
     }
 
-    public ChangeActivityStateBuilder moveExecutionsToSingleActivityId(List<string> executionIds, string activityId, string newAssigneeId) {
+    public ChangeActivityStateBuilder moveExecutionsToSingleActivityId(List!string executionIds, string activityId, string newAssigneeId) {
         moveExecutionIdList.add(new MoveExecutionIdContainer(executionIds, activityId, newAssigneeId));
         return this;
     }
 
     @Override
-    public ChangeActivityStateBuilder moveSingleExecutionToActivityIds(string executionId, List<string> activityIds) {
+    public ChangeActivityStateBuilder moveSingleExecutionToActivityIds(string executionId, List!string activityIds) {
         return moveSingleExecutionToActivityIds(executionId, activityIds, null);
     }
 
-    public ChangeActivityStateBuilder moveSingleExecutionToActivityIds(string executionId, List<string> activityIds, string newAssigneeId) {
+    public ChangeActivityStateBuilder moveSingleExecutionToActivityIds(string executionId, List!string activityIds, string newAssigneeId) {
         moveExecutionIdList.add(new MoveExecutionIdContainer(executionId, activityIds, newAssigneeId));
         return this;
     }
@@ -88,21 +88,21 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
     }
 
     @Override
-    public ChangeActivityStateBuilder moveActivityIdsToSingleActivityId(List<string> activityIds, string activityId) {
+    public ChangeActivityStateBuilder moveActivityIdsToSingleActivityId(List!string activityIds, string activityId) {
         return moveActivityIdsToSingleActivityId(activityIds, activityId, null);
     }
 
-    public ChangeActivityStateBuilder moveActivityIdsToSingleActivityId(List<string> activityIds, string activityId, string newAssigneeId) {
+    public ChangeActivityStateBuilder moveActivityIdsToSingleActivityId(List!string activityIds, string activityId, string newAssigneeId) {
         moveActivityIdList.add(new MoveActivityIdContainer(activityIds, activityId, newAssigneeId));
         return this;
     }
 
     @Override
-    public ChangeActivityStateBuilder moveSingleActivityIdToActivityIds(string currentActivityId, List<string> newActivityIds) {
+    public ChangeActivityStateBuilder moveSingleActivityIdToActivityIds(string currentActivityId, List!string newActivityIds) {
         return moveSingleActivityIdToActivityIds(currentActivityId, newActivityIds, null);
     }
 
-    public ChangeActivityStateBuilder moveSingleActivityIdToActivityIds(string currentActivityId, List<string> newActivityIds, string newAssigneeId) {
+    public ChangeActivityStateBuilder moveSingleActivityIdToActivityIds(string currentActivityId, List!string newActivityIds, string newAssigneeId) {
         moveActivityIdList.add(new MoveActivityIdContainer(currentActivityId, newActivityIds, newAssigneeId));
         return this;
     }
@@ -119,14 +119,14 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    public ChangeActivityStateBuilder moveActivityIdsToParentActivityId(List<string> currentActivityIds, string newActivityId, string newAssigneeId) {
+    public ChangeActivityStateBuilder moveActivityIdsToParentActivityId(List!string currentActivityIds, string newActivityId, string newAssigneeId) {
         MoveActivityIdContainer moveActivityIdContainer = new MoveActivityIdContainer(currentActivityIds, newActivityId, newAssigneeId);
         moveActivityIdContainer.setMoveToParentProcess(true);
         moveActivityIdList.add(moveActivityIdContainer);
         return this;
     }
 
-    public ChangeActivityStateBuilder moveSingleActivityIdToParentActivityIds(string currentActivityId, List<string> newActivityIds) {
+    public ChangeActivityStateBuilder moveSingleActivityIdToParentActivityIds(string currentActivityId, List!string newActivityIds) {
         MoveActivityIdContainer moveActivityIdContainer = new MoveActivityIdContainer(currentActivityId, newActivityIds);
         moveActivityIdContainer.setMoveToParentProcess(true);
         moveActivityIdList.add(moveActivityIdContainer);
@@ -152,7 +152,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    public ChangeActivityStateBuilder moveActivityIdsToSubProcessInstanceActivityId(List<string> activityIds, string newActivityId, string callActivityId, Integer callActivitySubProcessVersion, string newAssigneeId) {
+    public ChangeActivityStateBuilder moveActivityIdsToSubProcessInstanceActivityId(List!string activityIds, string newActivityId, string callActivityId, Integer callActivitySubProcessVersion, string newAssigneeId) {
         MoveActivityIdContainer moveActivityIdsContainer = new MoveActivityIdContainer(activityIds, newActivityId, newAssigneeId);
         moveActivityIdsContainer.setMoveToSubProcessInstance(true);
         moveActivityIdsContainer.setCallActivityId(callActivityId);
@@ -161,7 +161,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    public ChangeActivityStateBuilder moveSingleActivityIdToSubProcessInstanceActivityIds(string currentActivityId, List<string> newActivityIds, string callActivityId, Integer callActivitySubProcessVersion) {
+    public ChangeActivityStateBuilder moveSingleActivityIdToSubProcessInstanceActivityIds(string currentActivityId, List!string newActivityIds, string callActivityId, Integer callActivitySubProcessVersion) {
         MoveActivityIdContainer moveActivityIdsContainer = new MoveActivityIdContainer(currentActivityId, newActivityIds);
         moveActivityIdsContainer.setMoveToSubProcessInstance(true);
         moveActivityIdsContainer.setCallActivityId(callActivityId);
@@ -181,7 +181,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
     }
 
     @Override
-    public ChangeActivityStateBuilder processVariables(Map<string, Object> processVariables) {
+    public ChangeActivityStateBuilder processVariables(Map!(string, Object) processVariables) {
         this.processVariables = processVariables;
         return this;
     }
@@ -192,7 +192,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
             this.localVariables = new HashMap<>();
         }
 
-        Map<string, Object> localVariableMap = null;
+        Map!(string, Object) localVariableMap = null;
         if (localVariables.containsKey(startActivityId)) {
             localVariableMap = localVariables.get(startActivityId);
         } else {
@@ -207,7 +207,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
     }
 
     @Override
-    public ChangeActivityStateBuilder localVariables(string startActivityId, Map<string, Object> localVariables) {
+    public ChangeActivityStateBuilder localVariables(string startActivityId, Map!(string, Object) localVariables) {
         if (this.localVariables is null) {
             this.localVariables = new HashMap<>();
         }
@@ -237,7 +237,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return moveActivityIdList;
     }
 
-    public Map<string, Object> getProcessInstanceVariables() {
+    public Map!(string, Object) getProcessInstanceVariables() {
         return processVariables;
     }
 

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,10 +12,10 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableException;
@@ -36,10 +36,10 @@ import flow.engine.impl.persistence.CountingExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.identitylink.service.event.impl.FlowableIdentityLinkEventBuilder;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.api.DelegationState;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.history.HistoricTaskInstance;
-import org.flowable.task.api.history.HistoricTaskLogEntryType;
+import flow.task.api.DelegationState;
+import flow.task.api.Task;
+import flow.task.api.history.HistoricTaskInstance;
+import flow.task.api.history.HistoricTaskLogEntryType;
 import org.flowable.task.service.HistoricTaskService;
 import org.flowable.task.service.TaskService;
 import org.flowable.task.service.TaskServiceConfiguration;
@@ -59,8 +59,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 class TaskHelper {
 
-    public static void completeTask(TaskEntity taskEntity, Map<string, Object> variables,
-            Map<string, Object> transientVariables, bool localScope, CommandContext commandContext) {
+    public static void completeTask(TaskEntity taskEntity, Map!(string, Object) variables,
+            Map!(string, Object) transientVariables, bool localScope, CommandContext commandContext) {
 
         // Task complete logic
 
@@ -93,7 +93,7 @@ class TaskHelper {
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         processEngineConfiguration.getListenerNotificationHelper().executeTaskListeners(taskEntity, TaskListener.EVENTNAME_COMPLETE);
-        
+
         if (processEngineConfiguration.getIdentityLinkInterceptor() !is null) {
             processEngineConfiguration.getIdentityLinkInterceptor().handleCompleteTask(taskEntity);
         }
@@ -110,7 +110,7 @@ class TaskHelper {
                         FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_COMPLETED, taskEntity));
             }
         }
-        
+
         if (processEngineConfiguration.isLoggingSessionEnabled() && taskEntity.getExecutionId() !is null) {
             string taskLabel = null;
             if (StringUtils.isNotEmpty(taskEntity.getName())) {
@@ -118,10 +118,10 @@ class TaskHelper {
             } else {
                 taskLabel = taskEntity.getId();
             }
-        
+
             ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(taskEntity.getExecutionId());
             if (execution !is null) {
-                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_USER_TASK_COMPLETE, 
+                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_USER_TASK_COMPLETE,
                                 "User task '" + taskLabel + "' completed", taskEntity, execution);
             }
         }
@@ -234,31 +234,31 @@ class TaskHelper {
         if (owner is null && taskEntity.getOwner() is null) {
             return;
         }
-        
+
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         if (processEngineConfiguration.getIdentityLinkInterceptor() !is null) {
             processEngineConfiguration.getIdentityLinkInterceptor().handleAddOwnerIdentityLinkToTask(taskEntity, owner);
         }
     }
-    
+
     /**
      * Deletes all tasks that relate to the same execution.
-     *  
+     *
      * @param executionEntity The {@link ExecutionEntity} to which the {@link TaskEntity} relate to.
      * @param taskEntities Tasks to be deleted. It is assumed that all {@link TaskEntity} instances need to be related to the same execution.
      */
     public static void deleteTasksForExecution(ExecutionEntity executionEntity, Collection<TaskEntity> taskEntities, string deleteReason) {
-        
+
         CommandContext commandContext = CommandContextUtil.getCommandContext();
-        
+
         // Delete all entities related to the task entities
         for (TaskEntity taskEntity : taskEntities) {
             internalDeleteTask(taskEntity, deleteReason, false, false, true, true);
         }
-        
+
         // Delete the task entities itself
         CommandContextUtil.getTaskService(commandContext).deleteTasksByExecutionId(executionEntity.getId());
-        
+
     }
 
     /**
@@ -278,12 +278,12 @@ class TaskHelper {
     public static void deleteTask(TaskEntity task, string deleteReason, bool cascade, bool fireTaskListener, bool fireEvents) {
         internalDeleteTask(task, deleteReason, cascade, true, fireTaskListener, fireEvents);
     }
-        
+
     protected static void internalDeleteTask(TaskEntity task, string deleteReason,
             bool cascade, bool executeTaskDelete, bool fireTaskListener, bool fireEvents) {
-        
+
         if (!task.isDeleted()) {
-            
+
             CommandContext commandContext = CommandContextUtil.getCommandContext();
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
             fireEvents = fireEvents && eventDispatcher !is null && eventDispatcher.isEnabled();
@@ -311,9 +311,9 @@ class TaskHelper {
 
     protected static void handleRelatedEntities(CommandContext commandContext, TaskEntity task, string deleteReason, bool cascade,
             bool fireTaskListener, bool fireEvents, FlowableEventDispatcher eventDispatcher) {
-        
+
         bool isTaskRelatedEntityCountEnabled = CountingEntityUtil.isTaskRelatedEntityCountEnabled(task);
-        
+
         if (!isTaskRelatedEntityCountEnabled
                 || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getSubTaskCount() > 0)) {
             TaskService taskService = CommandContextUtil.getTaskService(commandContext);
@@ -322,10 +322,10 @@ class TaskHelper {
                 internalDeleteTask((TaskEntity) subTask, deleteReason, cascade, true, fireTaskListener, fireEvents); // Sub tasks are always immediately deleted
             }
         }
-        
+
         if (!isTaskRelatedEntityCountEnabled
                 || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getIdentityLinkCount() > 0)) {
-            
+
             bool deleteIdentityLinks = true;
             if (fireEvents) {
                 List<IdentityLinkEntity> identityLinks = CommandContextUtil.getIdentityLinkService(commandContext).findIdentityLinksByTaskId(task.getId());
@@ -334,16 +334,16 @@ class TaskHelper {
                 }
                 deleteIdentityLinks = !identityLinks.isEmpty();
             }
-            
+
             if (deleteIdentityLinks) {
                 CommandContextUtil.getIdentityLinkService(commandContext).deleteIdentityLinksByTaskId(task.getId());
             }
-            
+
         }
-        
+
         if (!isTaskRelatedEntityCountEnabled
                 || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getVariableCount() > 0)) {
-            
+
             Map<string, VariableInstanceEntity> taskVariables = task.getVariableInstanceEntities();
             ArrayList<VariableByteArrayRef> variableByteArrayRefs = new ArrayList<>();
             for (VariableInstanceEntity variableInstanceEntity : taskVariables.values()) {
@@ -354,11 +354,11 @@ class TaskHelper {
                     variableByteArrayRefs.add(variableInstanceEntity.getByteArrayRef());
                 }
             }
-            
+
             for (VariableByteArrayRef variableByteArrayRef : variableByteArrayRefs) {
                 CommandContextUtil.getByteArrayEntityManager(commandContext).deleteByteArrayById(variableByteArrayRef.getId());
             }
-            
+
             if (!taskVariables.isEmpty()) {
                 CommandContextUtil.getVariableService(commandContext).deleteVariablesByTaskId(task.getId());
             }
@@ -381,7 +381,7 @@ class TaskHelper {
 
     protected static void executeTaskDelete(TaskEntity task, CommandContext commandContext) {
         CommandContextUtil.getTaskService(commandContext).deleteTask(task, false); // false: event will be sent out later
-   
+
         if (task.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity countingExecutionEntity = (CountingExecutionEntity) CommandContextUtil
                     .getExecutionEntityManager(commandContext).findById(task.getExecutionId());

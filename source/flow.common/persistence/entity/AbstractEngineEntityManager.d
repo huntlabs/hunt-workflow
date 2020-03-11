@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,23 +11,25 @@
  * limitations under the License.
  */
 
+module flow.common.persistence.entity.AbstractEngineEntityManager;
 
-import org.flowable.common.engine.api.delegate.event.FlowableEventDispatcher;
-import org.flowable.common.engine.impl.AbstractEngineConfiguration;
-import org.flowable.common.engine.impl.interceptor.CommandExecutor;
-import org.flowable.common.engine.impl.persistence.entity.data.DataManager;
-import org.flowable.common.engine.impl.runtime.Clock;
+import flow.common.api.deleg.event.FlowableEventDispatcher;
+import flow.common.AbstractEngineConfiguration;
+import flow.common.interceptor.CommandExecutor;
+import flow.common.persistence.entity.data.DataManager;
+import flow.common.runtime.Clock;
+import flow.common.persistence.entity.AbstractEntityManager;
 
 /**
  * @author Joram Barrez
  * @author Filip Hrisafov
  */
-public abstract class AbstractEngineEntityManager<T extends AbstractEngineConfiguration, EntityImpl extends Entity, DM extends DataManager<EntityImpl>>
-    extends AbstractEntityManager<EntityImpl, DM> {
+abstract class AbstractEngineEntityManager(T, EntityImpl, DM)
+    : AbstractEntityManager!(EntityImpl, DM) {
 
     protected T engineConfiguration;
 
-    public AbstractEngineEntityManager(T engineConfiguration, DM dataManager) {
+    this(T engineConfiguration, DM dataManager) {
         super(dataManager);
         this.engineConfiguration = engineConfiguration;
     }
@@ -36,7 +38,7 @@ public abstract class AbstractEngineEntityManager<T extends AbstractEngineConfig
         return engineConfiguration;
     }
 
-    @Override
+    override
     protected FlowableEventDispatcher getEventDispatcher() {
         return engineConfiguration.getEventDispatcher();
     }

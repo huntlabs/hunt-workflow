@@ -14,7 +14,7 @@
 
 import java.util.Date;
 
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 interface InternalHistoryTaskManager {

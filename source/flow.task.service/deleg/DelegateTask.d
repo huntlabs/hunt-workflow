@@ -11,24 +11,24 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.task.service.delegate.DelegateTask;
- 
- 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
 
-import java.util.Collection;
+module flow.task.service.delegate.DelegateTask;
+
+
+
+
+import hunt.collection;
 import java.util.Date;
-import java.util.Set;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableObjectNotFoundException;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.IdentityLinkType;
-import org.flowable.task.api.DelegationState;
+import flow.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLinkType;
+import flow.task.api.DelegationState;
 import org.flowable.variable.api.delegate.VariableScope;
 
 /**
@@ -103,12 +103,12 @@ interface DelegateTask : VariableScope {
      * Returns the event name which triggered the task listener to fire for this task.
      */
     string getEventName();
-    
+
     /**
-     * Returns the event handler identifier which triggered the task listener to fire for this task. 
+     * Returns the event handler identifier which triggered the task listener to fire for this task.
      */
     string getEventHandlerId();
-    
+
     /**
      * The current {@link org.flowable.engine.task.DelegationState} for this task.
      */
@@ -118,13 +118,13 @@ interface DelegateTask : VariableScope {
     void addCandidateUser(string userId);
 
     /** Adds multiple users as candidate user to this task. */
-    void addCandidateUsers(Collection<string> candidateUsers);
+    void addCandidateUsers(Collection!string candidateUsers);
 
     /** Adds the given group as candidate group to this task */
     void addCandidateGroup(string groupId);
 
     /** Adds multiple groups as candidate group to this task. */
-    void addCandidateGroups(Collection<string> candidateGroups);
+    void addCandidateGroups(Collection!string candidateGroups);
 
     /** The {@link User.getId() userId} of the person responsible for this task. */
     string getOwner();
@@ -231,6 +231,6 @@ interface DelegateTask : VariableScope {
      *
      * @return set of {@link IdentityLink}s of type {@link IdentityLinkType#CANDIDATE}.
      */
-    Set<IdentityLink> getCandidates();
-    
+    Set!IdentityLink getCandidates();
+
 }

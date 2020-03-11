@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,9 +12,9 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 
 class DynamicEmbeddedSubProcessBuilder {
 
@@ -68,27 +68,27 @@ class DynamicEmbeddedSubProcessBuilder {
     public string nextSubProcessId(Map<string, FlowElement> flowElementMap) {
         return nextId("dynamicSubProcess", flowElementMap);
     }
-    
+
     public string nextTaskId(Map<string, FlowElement> flowElementMap) {
         return nextId("dynamicTask", flowElementMap);
     }
-    
+
     public string nextFlowId(Map<string, FlowElement> flowElementMap) {
         return nextId("dynamicFlow", flowElementMap);
     }
-    
+
     public string nextForkGatewayId(Map<string, FlowElement> flowElementMap) {
         return nextId("dynamicForkGateway", flowElementMap);
     }
-    
+
     public string nextJoinGatewayId(Map<string, FlowElement> flowElementMap) {
         return nextId("dynamicJoinGateway", flowElementMap);
     }
-    
+
     public string nextStartEventId(Map<string, FlowElement> flowElementMap) {
         return nextId("startEvent", flowElementMap);
     }
-    
+
     public string nextEndEventId(Map<string, FlowElement> flowElementMap) {
         return nextId("endEvent", flowElementMap);
     }
@@ -101,10 +101,10 @@ class DynamicEmbeddedSubProcessBuilder {
                 nextId = prefix + counter;
                 nextIdNotFound = false;
             }
-            
+
             counter++;
         }
-        
+
         return nextId;
     }
 }

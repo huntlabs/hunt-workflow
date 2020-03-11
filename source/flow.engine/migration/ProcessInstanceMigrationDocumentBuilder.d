@@ -13,8 +13,8 @@
 
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 /**
  * @author Dennis Federico
@@ -46,7 +46,7 @@ interface ProcessInstanceMigrationDocumentBuilder {
 
     ProcessInstanceMigrationDocumentBuilder addProcessInstanceVariable(string variableName, Object variableValue);
 
-    ProcessInstanceMigrationDocumentBuilder addProcessInstanceVariables(Map<string, Object> processInstanceVariables);
+    ProcessInstanceMigrationDocumentBuilder addProcessInstanceVariables(Map!(string, Object) processInstanceVariables);
 
     ProcessInstanceMigrationDocument build();
 

@@ -12,8 +12,8 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.query.AbstractNativeQuery;
 import flow.common.interceptor.CommandContext;
@@ -37,12 +37,12 @@ class NativeProcessDefinitionQueryImpl extends AbstractNativeQuery<NativeProcess
     // results ////////////////////////////////////////////////////////////////
 
     @Override
-    public List<ProcessDefinition> executeList(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public List<ProcessDefinition> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findProcessDefinitionsByNativeQuery(parameterMap);
     }
 
     @Override
-    public long executeCount(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findProcessDefinitionCountByNativeQuery(parameterMap);
     }
 

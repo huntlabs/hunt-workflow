@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,23 +11,24 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.task.api.TaskInfo;
- 
- 
- 
 
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+
+
+
+import hunt.time.LocalDateTime;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.identitylink.api.IdentityLinkInfo;
 
+alias Date = LocalDateTime;
 /**
  * @author Joram Barrez
  */
@@ -52,12 +53,12 @@ interface TaskInfo {
     int getPriority();
 
     /**
-     * The {@link org.flowable.idm.api.User userId} of the person that is responsible for this task.
+     * The {@link flow.idm.api.User userId} of the person that is responsible for this task.
      */
     string getOwner();
 
     /**
-     * The {@link org.flowable.idm.api.User userId} of the person to which this task is delegated.
+     * The {@link flow.idm.api.User userId} of the person to which this task is delegated.
      */
     string getAssignee();
 
@@ -80,22 +81,22 @@ interface TaskInfo {
      * Reference to the process definition or null if it is not related to a process.
      */
     string getProcessDefinitionId();
-    
+
     /**
      * Reference to a scope identifier or null if none is set (e.g. for bpmn process task it is null)
      */
     string getScopeId();
-    
+
     /**
      * Reference to a sub scope identifier or null if none is set (e.g. for bpmn process task it is null)
      */
     string getSubScopeId();
-    
+
     /**
      * Reference to a scope type or null if none is set (e.g. for bpmn process task it is null)
      */
     string getScopeType();
-    
+
     /**
      * Reference to a scope definition identifier or null if none is set (e.g. for bpmn process task it is null)
      */
@@ -146,17 +147,17 @@ interface TaskInfo {
     /**
      * Returns the local task variables if requested in the task query
      */
-    Map<string, Object> getTaskLocalVariables();
+    Map!(string, Object) getTaskLocalVariables();
 
     /**
      * Returns the process variables if requested in the task query
      */
-    Map<string, Object> getProcessVariables();
+    Map!(string, Object) getProcessVariables();
 
     /**
      * Returns the identity links.
      */
-    List<? extends IdentityLinkInfo> getIdentityLinks();
+    List!IdentityLinkInfo getIdentityLinks();
 
     /**
      * The claim time of this task

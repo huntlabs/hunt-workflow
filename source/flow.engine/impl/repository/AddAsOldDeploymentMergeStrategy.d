@@ -20,7 +20,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.DeploymentMergeStrategy;
 import flow.engine.repository.ProcessDefinition;
 
-import java.util.List;
+import hunt.collection.List;
 
 /**
  * @author Valentin Zickner

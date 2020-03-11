@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,9 +11,11 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.DataGridRow;
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.DataGridField;
 
 /**
  * @author Tijs Rademakers
@@ -21,7 +23,12 @@ import java.util.List;
 class DataGridRow {
 
     protected int index;
-    protected List<DataGridField> fields = new ArrayList<>();
+    protected List!DataGridField fields ;//= new ArrayList<>();
+
+    this()
+    {
+        fields = new ArrayList!DataGridField;
+    }
 
     public int getIndex() {
         return index;
@@ -31,15 +38,15 @@ class DataGridRow {
         this.index = index;
     }
 
-    public List<DataGridField> getFields() {
+    public List!DataGridField getFields() {
         return fields;
     }
 
-    public void setFields(List<DataGridField> fields) {
+    public void setFields(List!DataGridField fields) {
         this.fields = fields;
     }
 
-    @Override
+    override
     public DataGridRow clone() {
         DataGridRow clone = new DataGridRow();
         clone.setValues(this);
@@ -49,9 +56,9 @@ class DataGridRow {
     public void setValues(DataGridRow otherRow) {
         setIndex(otherRow.getIndex());
 
-        fields = new ArrayList<>();
+        fields = new ArrayList!DataGridField();
         if (otherRow.getFields() !is null && !otherRow.getFields().isEmpty()) {
-            for (DataGridField field : otherRow.getFields()) {
+            foreach (DataGridField field ; otherRow.getFields()) {
                 fields.add(field.clone());
             }
         }

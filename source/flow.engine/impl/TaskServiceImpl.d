@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,13 +13,13 @@
 
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
+import hunt.collection.ArrayList;
+import hunt.collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.service.CommonEngineServiceImpl;
@@ -72,13 +72,13 @@ import flow.engine.runtime.DataObject;
 import flow.engine.task.Attachment;
 import flow.engine.task.Comment;
 import flow.engine.task.Event;
-import org.flowable.form.api.FormInfo;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.IdentityLinkType;
-import org.flowable.task.api.NativeTaskQuery;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskBuilder;
-import org.flowable.task.api.TaskQuery;
+import flow.form.api.FormInfo;
+import flow.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLinkType;
+import flow.task.api.NativeTaskQuery;
+import flow.task.api.Task;
+import flow.task.api.TaskBuilder;
+import flow.task.api.TaskQuery;
 import org.flowable.task.service.impl.NativeTaskQueryImpl;
 import org.flowable.task.service.impl.TaskQueryImpl;
 import org.flowable.variable.api.persistence.entity.VariableInstance;
@@ -114,7 +114,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void deleteTasks(Collection<string> taskIds) {
+    public void deleteTasks(Collection!string taskIds) {
         commandExecutor.execute(new DeleteTaskCmd(taskIds, null, false));
     }
 
@@ -124,7 +124,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void deleteTasks(Collection<string> taskIds, bool cascade) {
+    public void deleteTasks(Collection!string taskIds, bool cascade) {
         commandExecutor.execute(new DeleteTaskCmd(taskIds, null, cascade));
     }
 
@@ -134,7 +134,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void deleteTasks(Collection<string> taskIds, string deleteReason) {
+    public void deleteTasks(Collection!string taskIds, string deleteReason) {
         commandExecutor.execute(new DeleteTaskCmd(taskIds, deleteReason, false));
     }
 
@@ -189,7 +189,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public List<IdentityLink> getIdentityLinksForTask(string taskId) {
+    public List!IdentityLink getIdentityLinksForTask(string taskId) {
         return commandExecutor.execute(new GetIdentityLinksForTaskCmd(taskId));
     }
 
@@ -209,35 +209,35 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void complete(string taskId, Map<string, Object> variables) {
+    public void complete(string taskId, Map!(string, Object) variables) {
         commandExecutor.execute(new CompleteTaskCmd(taskId, variables));
     }
 
     @Override
-    public void complete(string taskId, Map<string, Object> variables, Map<string, Object> transientVariables) {
+    public void complete(string taskId, Map!(string, Object) variables, Map!(string, Object) transientVariables) {
         commandExecutor.execute(new CompleteTaskCmd(taskId, variables, transientVariables));
     }
 
     @Override
-    public void complete(string taskId, Map<string, Object> variables, bool localScope) {
+    public void complete(string taskId, Map!(string, Object) variables, bool localScope) {
         commandExecutor.execute(new CompleteTaskCmd(taskId, variables, localScope));
     }
 
     @Override
-    public void completeTaskWithForm(string taskId, string formDefinitionId, string outcome, Map<string, Object> variables) {
+    public void completeTaskWithForm(string taskId, string formDefinitionId, string outcome, Map!(string, Object) variables) {
         commandExecutor.execute(new CompleteTaskWithFormCmd(taskId, formDefinitionId, outcome, variables));
     }
 
     @Override
     public void completeTaskWithForm(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, Map<string, Object> transientVariables) {
+            Map!(string, Object) variables, Map!(string, Object) transientVariables) {
 
         commandExecutor.execute(new CompleteTaskWithFormCmd(taskId, formDefinitionId, outcome, variables, transientVariables));
     }
 
     @Override
     public void completeTaskWithForm(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, bool localScope) {
+            Map!(string, Object) variables, bool localScope) {
 
         commandExecutor.execute(new CompleteTaskWithFormCmd(taskId, formDefinitionId, outcome, variables, localScope));
     }
@@ -246,7 +246,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     public FormInfo getTaskFormModel(string taskId) {
         return commandExecutor.execute(new GetTaskFormModelCmd(taskId, false));
     }
-    
+
     @Override
     public FormInfo getTaskFormModel(string taskId, bool ignoreVariables) {
         return commandExecutor.execute(new GetTaskFormModelCmd(taskId, ignoreVariables));
@@ -263,12 +263,12 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public void resolveTask(string taskId, Map<string, Object> variables) {
+    public void resolveTask(string taskId, Map!(string, Object) variables) {
         commandExecutor.execute(new ResolveTaskCmd(taskId, variables));
     }
 
     @Override
-    public void resolveTask(string taskId, Map<string, Object> variables, Map<string, Object> transientVariables) {
+    public void resolveTask(string taskId, Map!(string, Object) variables, Map!(string, Object) transientVariables) {
         commandExecutor.execute(new ResolveTaskCmd(taskId, variables, transientVariables));
     }
 
@@ -293,22 +293,22 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public Map<string, Object> getVariables(string taskId) {
+    public Map!(string, Object) getVariables(string taskId) {
         return commandExecutor.execute(new GetTaskVariablesCmd(taskId, null, false));
     }
 
     @Override
-    public Map<string, Object> getVariablesLocal(string taskId) {
+    public Map!(string, Object) getVariablesLocal(string taskId) {
         return commandExecutor.execute(new GetTaskVariablesCmd(taskId, null, true));
     }
 
     @Override
-    public Map<string, Object> getVariables(string taskId, Collection<string> variableNames) {
+    public Map!(string, Object) getVariables(string taskId, Collection!string variableNames) {
         return commandExecutor.execute(new GetTaskVariablesCmd(taskId, variableNames, false));
     }
 
     @Override
-    public Map<string, Object> getVariablesLocal(string taskId, Collection<string> variableNames) {
+    public Map!(string, Object) getVariablesLocal(string taskId, Collection!string variableNames) {
         return commandExecutor.execute(new GetTaskVariablesCmd(taskId, variableNames, true));
     }
 
@@ -338,7 +338,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public List<VariableInstance> getVariableInstancesLocalByTaskIds(Set<string> taskIds) {
+    public List<VariableInstance> getVariableInstancesLocalByTaskIds(Set!string taskIds) {
         return commandExecutor.execute(new GetTasksLocalVariablesCmd(taskIds));
     }
 
@@ -352,7 +352,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
-        Map<string, Object> variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap<>();
         variables.put(variableName, value);
         commandExecutor.execute(new SetTaskVariablesCmd(taskId, variables, false));
     }
@@ -362,7 +362,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
-        Map<string, Object> variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap<>();
         variables.put(variableName, value);
         commandExecutor.execute(new SetTaskVariablesCmd(taskId, variables, true));
     }
@@ -379,25 +379,25 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
 
     @Override
     public void removeVariable(string taskId, string variableName) {
-        Collection<string> variableNames = new ArrayList<>();
+        Collection!string variableNames = new ArrayList<>();
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveTaskVariablesCmd(taskId, variableNames, false));
     }
 
     @Override
     public void removeVariableLocal(string taskId, string variableName) {
-        Collection<string> variableNames = new ArrayList<>(1);
+        Collection!string variableNames = new ArrayList<>(1);
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveTaskVariablesCmd(taskId, variableNames, true));
     }
 
     @Override
-    public void removeVariables(string taskId, Collection<string> variableNames) {
+    public void removeVariables(string taskId, Collection!string variableNames) {
         commandExecutor.execute(new RemoveTaskVariablesCmd(taskId, variableNames, false));
     }
 
     @Override
-    public void removeVariablesLocal(string taskId, Collection<string> variableNames) {
+    public void removeVariablesLocal(string taskId, Collection!string variableNames) {
         commandExecutor.execute(new RemoveTaskVariablesCmd(taskId, variableNames, true));
     }
 
@@ -410,7 +410,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     public Comment addComment(string taskId, string processInstance, string type, string message) {
         return commandExecutor.execute(new AddCommentCmd(taskId, processInstance, type, message));
     }
-    
+
     @Override
     public void saveComment(Comment comment) {
         commandExecutor.execute(new SaveCommentCmd((CommentEntity) comment));
@@ -529,7 +529,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public Map<string, VariableInstance> getVariableInstances(string taskId, Collection<string> variableNames) {
+    public Map<string, VariableInstance> getVariableInstances(string taskId, Collection!string variableNames) {
         return commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, variableNames, false));
     }
 
@@ -539,7 +539,7 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public Map<string, VariableInstance> getVariableInstancesLocal(string taskId, Collection<string> variableNames) {
+    public Map<string, VariableInstance> getVariableInstancesLocal(string taskId, Collection!string variableNames) {
         return commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, variableNames, true));
     }
 
@@ -554,12 +554,12 @@ class TaskServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfiguration
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames) {
+    public Map<string, DataObject> getDataObjects(string taskId, Collection!string dataObjectNames) {
         return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, dataObjectNames));
     }
 
     @Override
-    public Map<string, DataObject> getDataObjects(string taskId, Collection<string> dataObjectNames, string locale, bool withLocalizationFallback) {
+    public Map<string, DataObject> getDataObjects(string taskId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, dataObjectNames, locale, withLocalizationFallback));
     }
 

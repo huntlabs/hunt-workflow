@@ -12,11 +12,11 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
-import org.flowable.task.api.history.HistoricTaskLogEntry;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntry;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
@@ -43,11 +43,11 @@ class HistoricTaskLogEntryEntityManagerImpl
     }
 
     @Override
-    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map<string, Object> nativeHistoricTaskLogEntryQuery) {
+    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
         return getDataManager().findHistoricTaskLogEntriesByNativeQueryCriteria(nativeHistoricTaskLogEntryQuery);
     }
     @Override
-    public long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map<string, Object> nativeHistoricTaskLogEntryQuery) {
+    public long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
         return getDataManager().findHistoricTaskLogEntriesCountByNativeQueryCriteria(nativeHistoricTaskLogEntryQuery);
     }
 
@@ -70,12 +70,12 @@ class HistoricTaskLogEntryEntityManagerImpl
     public void deleteHistoricTaskLogEntriesForTaskId(string taskId) {
         getDataManager().deleteHistoricTaskLogEntriesByTaskId(taskId);
     }
-    
+
     @Override
     public void deleteHistoricTaskLogEntriesForNonExistingProcessInstances() {
         getDataManager().deleteHistoricTaskLogEntriesForNonExistingProcessInstances();
     }
-    
+
     @Override
     public void deleteHistoricTaskLogEntriesForNonExistingCaseInstances() {
         getDataManager().deleteHistoricTaskLogEntriesForNonExistingCaseInstances();

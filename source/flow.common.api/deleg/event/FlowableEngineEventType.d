@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,15 +11,15 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.api.deleg.event.FlowableEngineEventType;
- 
- 
- 
+
+
+
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
@@ -29,22 +29,93 @@ import flow.common.api.deleg.event.FlowableEventType;
 
  import hunt.Enum;
 import std.concurrency : initOnce;
+
 /**
 
  * Enumeration containing all possible types of {@link FlowableEvent}s.
- * 
+ *
  * @author Frederik Heremans
- * 
+ *
  */
 class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEventType {
 
     /**
      * New entity is created.
      */
+    static FlowableEngineEventType[] vs;
+
     this(string name, int val)
     {
         super(name,val);
     }
+
+     static FlowableEngineEventType[]  values() {
+        if (vs is null)
+        {
+           vs = new  FlowableEngineEventType[];
+        }
+
+        if(FlowableEngineEventType.vs.length == 0)
+        {
+            vs ~= ENTITY_CREATED;
+            vs ~= ENTITY_INITIALIZED;
+            vs ~= ENTITY_UPDATED;
+            vs ~= ENTITY_DELETED;
+            vs ~= ENTITY_SUSPENDED;
+            vs ~= ENTITY_ACTIVATED;
+            vs ~= TIMER_SCHEDULED;
+            vs ~= TIMER_FIRED;
+            vs ~= JOB_CANCELED;
+            vs ~= JOB_EXECUTION_SUCCESS;
+            vs ~= JOB_EXECUTION_FAILURE;
+            vs ~= JOB_RETRIES_DECREMENTED;
+            vs ~= JOB_RESCHEDULED;
+            vs ~= CUSTOM;
+            vs ~= ENGINE_CREATED;
+            vs ~= ENGINE_CLOSED;
+            vs ~= ACTIVITY_STARTED;
+            vs ~= ACTIVITY_COMPLETED;
+            vs ~= ACTIVITY_CANCELLED;
+            vs ~= MULTI_INSTANCE_ACTIVITY_STARTED;
+            vs ~= MULTI_INSTANCE_ACTIVITY_COMPLETED;
+            vs ~= MULTI_INSTANCE_ACTIVITY_COMPLETED_WITH_CONDITION;
+            vs ~= MULTI_INSTANCE_ACTIVITY_CANCELLED;
+            vs ~= ACTIVITY_SIGNAL_WAITING;
+            vs ~= ACTIVITY_SIGNALED;
+            vs ~= ACTIVITY_COMPENSATE;
+            vs ~= ACTIVITY_CONDITIONAL_WAITING;
+            vs ~= ACTIVITY_CONDITIONAL_RECEIVED;
+            vs ~= ACTIVITY_ESCALATION_WAITING;
+            vs ~= ACTIVITY_ESCALATION_RECEIVED;
+            vs ~= ACTIVITY_MESSAGE_WAITING;
+            vs ~= ACTIVITY_MESSAGE_RECEIVED;
+            vs ~= ACTIVITY_MESSAGE_CANCELLED;
+            vs ~= ACTIVITY_ERROR_RECEIVED;
+            vs ~= HISTORIC_ACTIVITY_INSTANCE_CREATED;
+            vs ~= HISTORIC_ACTIVITY_INSTANCE_ENDED;
+            vs ~= SEQUENCEFLOW_TAKEN;
+            vs ~= VARIABLE_CREATED;
+            vs ~= VARIABLE_UPDATED;
+            vs ~= VARIABLE_DELETED;
+            vs ~= TASK_CREATED;
+            vs ~= TASK_ASSIGNED;
+            vs ~= TASK_COMPLETED;
+            vs ~= TASK_OWNER_CHANGED;
+            vs ~= TASK_PRIORITY_CHANGED;
+            vs ~= TASK_DUEDATE_CHANGED;
+            vs ~= TASK_NAME_CHANGED;
+            vs ~= PROCESS_CREATED;
+            vs ~= PROCESS_STARTED;
+            vs ~= PROCESS_COMPLETED;
+            vs ~= PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT;
+            vs ~= PROCESS_COMPLETED_WITH_ERROR_END_EVENT;
+            vs ~= PROCESS_COMPLETED_WITH_ESCALATION_END_EVENT;
+            vs ~= PROCESS_CANCELLED;
+            vs ~= HISTORIC_PROCESS_INSTANCE_CREATED;
+            vs ~= HISTORIC_PROCESS_INSTANCE_ENDED;
+        }
+        return vs;
+     }
 
     static FlowableEngineEventType  ENTITY_CREATED() {
       __gshared FlowableEngineEventType  inst;
@@ -289,9 +360,9 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
     /**
      * A event dispatched when a {@link HistoricActivityInstance} is created. This is a specialized version of the {@link FlowableEngineEventType#ENTITY_CREATED} and
      * {@link FlowableEngineEventType#ENTITY_INITIALIZED} event, with the same use case as the {@link FlowableEngineEventType#ACTIVITY_STARTED}, but containing slightly different data.
-     * 
+     *
      * Note this will be an {@link FlowableEngineEventType}, where the entity is the {@link HistoricActivityInstance}.
-     * 
+     *
      * Note that history (minimum level ACTIVITY) must be enabled to receive this event.
      */
     static FlowableEngineEventType  HISTORIC_ACTIVITY_INSTANCE_CREATED() {
@@ -301,7 +372,7 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
     /**
      * A event dispatched when a {@link HistoricActivityInstance} is marked as ended. his is a specialized version of the {@link FlowableEngineEventType#ENTITY_UPDATED} event, with the same use case
      * as the {@link FlowableEngineEventType#ACTIVITY_COMPLETED}, but containing slightly different data (e.g. the end time, the duration, etc.).
-     * 
+     *
      * Note that history (minimum level ACTIVITY) must be enabled to receive this event.
      */
     static FlowableEngineEventType  HISTORIC_ACTIVITY_INSTANCE_ENDED() {
@@ -432,7 +503,7 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
     }
     /**
      * A process has been cancelled. Dispatched when process instance is deleted by
-     * 
+     *
      * @see org.flowable.engine.impl.RuntimeServiceImpl#deleteProcessInstance(java.lang.string, java.lang.string), before DB delete.
      */
     static FlowableEngineEventType  PROCESS_CANCELLED() {
@@ -443,9 +514,9 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
      * A event dispatched when a {@link HistoricProcessInstance} is created. This is a specialized version of the {@link FlowableEngineEventType#ENTITY_CREATED} and
      * {@link FlowableEngineEventType#ENTITY_INITIALIZED} event, with the same use case as the {@link FlowableEngineEventType#PROCESS_STARTED}, but containing slightly different data (e.g. the start
      * time, the start user id, etc.).
-     * 
+     *
      * Note this will be an {@link FlowableEngineEventType}, where the entity is the {@link HistoricProcessInstance}.
-     * 
+     *
      * Note that history (minimum level ACTIVITY) must be enabled to receive this event.
      */
     static FlowableEngineEventType  HISTORIC_PROCESS_INSTANCE_CREATED() {
@@ -455,14 +526,14 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
     /**
      * A event dispatched when a {@link HistoricProcessInstance} is marked as ended. his is a specialized version of the {@link FlowableEngineEventType#ENTITY_UPDATED} event, with the same use case as
      * the {@link FlowableEngineEventType#PROCESS_COMPLETED}, but containing slightly different data (e.g. the end time, the duration, etc.).
-     * 
+     *
      * Note that history (minimum level ACTIVITY) must be enabled to receive this event.
      */
     static FlowableEngineEventType  HISTORIC_PROCESS_INSTANCE_ENDED() {
         __gshared FlowableEngineEventType  inst;
         return initOnce!inst(new FlowableEngineEventType("HISTORIC_PROCESS_INSTANCE_ENDED" , 55));
     }
-    public static final FlowableEngineEventType[] EMPTY_ARRAY = new FlowableEngineEventType[] {};
+   // public static final FlowableEngineEventType[] EMPTY_ARRAY = new FlowableEngineEventType[] {};
 
        static FlowableEngineEventType[]  EMPTY_ARRAY() {
            __gshared  FlowableEngineEventType[]  inst;
@@ -476,25 +547,25 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
      *             when one of the given string is not a valid type name
      */
     public static FlowableEngineEventType[] getTypesFromString(string str) {
-        implementationMissing(false);
-        //List!FlowableEngineEventType result = new ArrayList!FlowableEngineEventType;
-        //if (str !is null && !string.isEmpty()) {
-        //    string[] split = str.split( ",");
-        //    foreach (string typeName ; split) {
-        //        bool found = false;
-        //        for (FlowableEngineEventType type : values()) {
-        //            if (typeName.equals(type.name())) {
-        //                result.add(type);
-        //                found = true;
-        //                break;
-        //            }
-        //        }
-        //        if (!found) {
-        //            throw new FlowableIllegalArgumentException("Invalid event-type: " + typeName);
-        //        }
-        //    }
-        //}
-        //
+        //implementationMissing(false);
+        List!FlowableEngineEventType result = new ArrayList!FlowableEngineEventType;
+        if (str !is null && !str.isEmpty()) {
+            string[] split = str.split( ",");
+            foreach (string typeName ; split) {
+                bool found = false;
+                foreach (FlowableEngineEventType type ; values()) {
+                    if (typeName == (type.name())) {
+                        result.add(type);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    throw new FlowableIllegalArgumentException("Invalid event-type: " ~ typeName);
+                }
+            }
+        }
+        return result.toArray();
         //return result.toArray(EMPTY_ARRAY);
     }
 }

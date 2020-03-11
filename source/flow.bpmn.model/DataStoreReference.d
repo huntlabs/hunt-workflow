@@ -10,9 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.model.DataStoreReference;
 
+import flow.bpmn.model.FlowElement;
 
-class DataStoreReference extends FlowElement {
+class DataStoreReference : FlowElement {
 
     protected string dataState;
     protected string itemSubjectRef;
@@ -42,7 +44,7 @@ class DataStoreReference extends FlowElement {
         this.dataStoreRef = dataStoreRef;
     }
 
-    @Override
+    override
     public DataStoreReference clone() {
         DataStoreReference clone = new DataStoreReference();
         clone.setValues(this);

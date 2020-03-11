@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;

@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.runtime.NativeProcessInstanceQuery;
 
 import flow.common.api.query.NativeQuery;
-
+import flow.engine.runtime.ProcessInstance;
 /**
  * Allows querying of {@link ProcessInstance}s via native (SQL) queries
- * 
+ *
  * @author Bernd Ruecker (camunda)
  */
-interface NativeProcessInstanceQuery extends NativeQuery<NativeProcessInstanceQuery, ProcessInstance> {
+interface NativeProcessInstanceQuery : NativeQuery!(NativeProcessInstanceQuery, ProcessInstance) {
 
 }

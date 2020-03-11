@@ -11,18 +11,20 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.api.history.HistoricData;
- 
- 
- 
 
 
-import java.util.Date;
+
+import hunt.time.LocalDateTime;
+
+
+alias Date = LocalDateTime;
+
 
 /**
  * @author Joram Barrez

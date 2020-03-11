@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,17 +13,17 @@
 
 
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.EventSubProcess;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.ValuedDataObject;
+import flow.bpmn.model.EventSubProcess;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.ValuedDataObject;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.DelegateExecution;
@@ -38,7 +38,7 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEven
 
 /**
  * Implementation of the BPMN 2.0 event subprocess signal start event.
- * 
+ *
  * @author Tijs Rademakers
  */
 class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivityBehavior {
@@ -61,7 +61,7 @@ class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivi
         execution.setScope(true);
 
         // initialize the template-defined data objects as variables
-        Map<string, Object> dataObjectVars = processDataObjects(eventSubProcess.getDataObjects());
+        Map!(string, Object) dataObjectVars = processDataObjects(eventSubProcess.getDataObjects());
         if (dataObjectVars !is null) {
             execution.setVariablesLocal(dataObjectVars);
         }
@@ -102,7 +102,7 @@ class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivi
                 }
             }
         }
-        
+
         ExecutionEntity newSubProcessExecution = executionEntityManager.createChildExecution(executionEntity.getParent());
         newSubProcessExecution.setCurrentFlowElement((SubProcess) executionEntity.getCurrentFlowElement().getParentContainer());
         newSubProcessExecution.setEventScope(false);
@@ -116,8 +116,8 @@ class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivi
         leave(outgoingFlowExecution);
     }
 
-    protected Map<string, Object> processDataObjects(Collection<ValuedDataObject> dataObjects) {
-        Map<string, Object> variablesMap = new HashMap<>();
+    protected Map!(string, Object) processDataObjects(Collection<ValuedDataObject> dataObjects) {
+        Map!(string, Object) variablesMap = new HashMap<>();
         // convert data objects to process variables
         if (dataObjects !is null) {
             for (ValuedDataObject dataObject : dataObjects) {

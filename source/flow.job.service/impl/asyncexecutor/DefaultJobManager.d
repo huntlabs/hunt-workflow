@@ -15,7 +15,7 @@
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Map;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableException;
@@ -297,7 +297,7 @@ class DefaultJobManager implements JobManager {
                 newHistoryJobEntity.setRetries(newHistoryJobEntity.getRetries() - 1);
                 jobServiceConfiguration.getHistoryJobEntityManager().insert(newHistoryJobEntity);
                 jobServiceConfiguration.getHistoryJobEntityManager().deleteNoCascade(historyJobEntity);
-            
+
             } else {
                 jobServiceConfiguration.getHistoryJobEntityManager().delete(historyJobEntity);
             }
@@ -380,39 +380,39 @@ class DefaultJobManager implements JobManager {
                 if (jobServiceConfiguration.getInternalJobManager() !is null) {
                     jobServiceConfiguration.getInternalJobManager().preRepeatedTimerSchedule(newTimerJobEntity, variableScope);
                 }
-                
+
                 scheduleTimerJob(newTimerJobEntity);
             }
         }
     }
-    
+
     protected void executeJobHandler(JobEntity jobEntity) {
         VariableScope variableScope = null;
         if (jobServiceConfiguration.getInternalJobManager() !is null) {
             variableScope = jobServiceConfiguration.getInternalJobManager().resolveVariableScope(jobEntity);
         }
-        
+
         if (variableScope is null) {
             variableScope = NoExecutionVariableScope.getSharedInstance();
         }
 
         Map<string, JobHandler> jobHandlers = jobServiceConfiguration.getJobHandlers();
         if (jobEntity.getJobHandlerType() !is null) {
-            
+
             if (jobHandlers !is null) {
                 JobHandler jobHandler = jobHandlers.get(jobEntity.getJobHandlerType());
                 if (jobHandler !is null) {
                     jobHandler.execute(jobEntity, jobEntity.getJobHandlerConfiguration(), variableScope, getCommandContext());
                 } else {
-                    throw new FlowableException("No job handler registered for type " + jobEntity.getJobHandlerType() + 
+                    throw new FlowableException("No job handler registered for type " + jobEntity.getJobHandlerType() +
                                     " in job config for engine: " + jobServiceConfiguration.getEngineName());
                 }
-                
+
             } else {
                 throw new FlowableException("No job handler registered for type " + jobEntity.getJobHandlerType() +
                                 " in job config for engine: " + jobServiceConfiguration.getEngineName());
             }
-            
+
         } else {
             throw new FlowableException("Job has no job handler type in job config for engine: " + jobServiceConfiguration.getEngineName());
         }
@@ -429,12 +429,12 @@ class DefaultJobManager implements JobManager {
                     throw new FlowableException("No history job handler registered for type " + historyJobEntity.getJobHandlerType() +
                                     " in job config for engine: " + jobServiceConfiguration.getEngineName());
                 }
-                
+
             } else {
-                throw new FlowableException("No history job handler registered for type " + historyJobEntity.getJobHandlerType() + 
+                throw new FlowableException("No history job handler registered for type " + historyJobEntity.getJobHandlerType() +
                                 " in job config for engine: " + jobServiceConfiguration.getEngineName());
             }
-            
+
         } else {
             throw new FlowableException("Async history job has no job handler type in job config for engine: " + jobServiceConfiguration.getEngineName());
         }
@@ -460,11 +460,11 @@ class DefaultJobManager implements JobManager {
             JobAddedTransactionListener jobAddedTransactionListener = new JobAddedTransactionListener(job, asyncExecutor,
                             CommandContextUtil.getJobServiceConfiguration(commandContext).getCommandExecutor());
             Context.getTransactionContext().addTransactionListener(TransactionState.COMMITTED, jobAddedTransactionListener);
-            
+
         } else {
             AsyncJobAddedNotification jobAddedNotification = new AsyncJobAddedNotification(job, asyncExecutor);
             commandContext.addCloseListener(jobAddedNotification);
-            
+
         }
     }
 
@@ -503,7 +503,7 @@ class DefaultJobManager implements JobManager {
         triggerAsyncHistoryExecutorIfNeeded(historyJobEntity);
         return historyJobEntity;
     }
-    
+
     protected void triggerAsyncHistoryExecutorIfNeeded(HistoryJobEntity historyJobEntity) {
         if (isAsyncHistoryExecutorActive()) {
             hintAsyncHistoryExecutor(historyJobEntity);
@@ -523,11 +523,11 @@ class DefaultJobManager implements JobManager {
         if (asyncHistorySession !is null) {
             TransactionContext transactionContext = asyncHistorySession.getTransactionContext();
             if (transactionContext !is null) {
-                transactionContext.addTransactionListener(TransactionState.COMMITTED, new TriggerAsyncHistoryExecutorTransactionListener(commandContext, historyJobEntity)); 
+                transactionContext.addTransactionListener(TransactionState.COMMITTED, new TriggerAsyncHistoryExecutorTransactionListener(commandContext, historyJobEntity));
             }
         }
     }
-    
+
     protected void internalCreateAsyncJob(JobEntity jobEntity, bool exclusive) {
         fillDefaultAsyncJobInfo(jobEntity, exclusive);
     }
@@ -658,11 +658,11 @@ class DefaultJobManager implements JobManager {
     protected bool isAsyncExecutorActive() {
         return isExecutorActive(jobServiceConfiguration.getAsyncExecutor());
     }
-    
+
     protected bool isAsyncHistoryExecutorActive() {
         return isExecutorActive(jobServiceConfiguration.getAsyncHistoryExecutor());
     }
-    
+
     protected bool isExecutorActive(AsyncExecutor asyncExecutor) {
         return asyncExecutor !is null && asyncExecutor.isActive();
     }
@@ -674,7 +674,7 @@ class DefaultJobManager implements JobManager {
     protected AsyncExecutor getAsyncExecutor() {
         return jobServiceConfiguration.getAsyncExecutor();
     }
-    
+
     protected AsyncExecutor getAsyncHistoryExecutor() {
         return jobServiceConfiguration.getAsyncHistoryExecutor();
     }

@@ -12,13 +12,13 @@
  */
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.ExtensionElement;
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.ExtensionElement;
+import flow.bpmn.model.FlowElement;
 import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -29,7 +29,7 @@ class CorrelationUtil {
     public static string getCorrelationKey(string elementName, CommandContext commandContext, ExecutionEntity executionEntity) {
         return getCorrelationKey(elementName, commandContext, executionEntity.getCurrentFlowElement(), executionEntity);
     }
-    
+
     public static string getCorrelationKey(string elementName, CommandContext commandContext, FlowElement flowElement, ExecutionEntity executionEntity) {
         string correlationKey = null;
         if (flowElement !is null) {
@@ -38,7 +38,7 @@ class CorrelationUtil {
                 ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
                 ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
 
-                Map<string, Object> correlationParameters = new HashMap<>();
+                Map!(string, Object) correlationParameters = new HashMap<>();
                 for (ExtensionElement eventCorrelation : eventCorrelations) {
                     string name = eventCorrelation.getAttributeValue(null, "name");
                     string valueExpression = eventCorrelation.getAttributeValue(null, "value");
@@ -49,7 +49,7 @@ class CorrelationUtil {
                         } else {
                             correlationParameters.put(name, valueExpression);
                         }
-                        
+
                     } else {
                         correlationParameters.put(name, null);
                     }
@@ -58,8 +58,8 @@ class CorrelationUtil {
                 correlationKey = CommandContextUtil.getEventRegistry().generateKey(correlationParameters);
             }
         }
-        
+
         return correlationKey;
     }
-    
+
 }

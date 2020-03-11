@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.task.api.history.HistoricTaskInstanceQuery;
 
-
-
-import java.util.Date;
+import flow.task.api.history.HistoricTaskInstance;
+import hunt.time.LocalDateTime;
 
 import flow.common.api.query.DeleteQuery;
-import org.flowable.task.api.TaskInfoQuery;
+import flow.task.api.TaskInfoQuery;
+
+alias Date = LocalDateTime;
 
 /**
  * Allows programmatic querying for {@link HistoricTaskInstance}s.
@@ -24,7 +26,7 @@ import org.flowable.task.api.TaskInfoQuery;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface HistoricTaskInstanceQuery extends TaskInfoQuery<HistoricTaskInstanceQuery, HistoricTaskInstance>, DeleteQuery<HistoricTaskInstanceQuery, HistoricTaskInstance> {
+interface HistoricTaskInstanceQuery : TaskInfoQuery!(HistoricTaskInstanceQuery, HistoricTaskInstance), DeleteQuery!(HistoricTaskInstanceQuery, HistoricTaskInstance) {
 
     /** Only select historic task instances with the given task delete reason. */
     HistoricTaskInstanceQuery taskDeleteReason(string taskDeleteReason);

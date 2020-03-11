@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,13 +15,13 @@
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.Event;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.Event;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
 import flow.common.calendar.BusinessCalendar;
@@ -50,13 +50,13 @@ import org.flowable.variable.api.delegate.VariableScope;
  * @author Tijs Rademakers
  */
 class DefaultInternalJobManager implements InternalJobManager {
-    
+
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
     public DefaultInternalJobManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
-    
+
     @Override
     public VariableScope resolveVariableScope(Job job) {
         if (job.getExecutionId() !is null) {
@@ -71,22 +71,22 @@ class DefaultInternalJobManager implements InternalJobManager {
         if (job.getExecutionId() !is null) {
             ExecutionEntity execution = getExecutionEntityManager().findById(job.getExecutionId());
             if (execution !is null) {
-                
+
                 // Inherit tenant if (if applicable)
                 if (execution.getTenantId() !is null) {
                     ((AbstractRuntimeJobEntity) job).setTenantId(execution.getTenantId());
                 }
-                
+
                 CountingExecutionEntity countingExecutionEntity = (CountingExecutionEntity) execution;
-                
+
                 if (job instanceof TimerJobEntity) {
                     TimerJobEntity timerJobEntity = (TimerJobEntity) job;
                     execution.getTimerJobs().add(timerJobEntity);
-    
+
                     if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(execution)) {
                         countingExecutionEntity.setTimerJobCount(countingExecutionEntity.getTimerJobCount() + 1);
                     }
-                    
+
                 } else if (job instanceof JobEntity) {
                     JobEntity jobEntity = (JobEntity) job;
                     execution.getJobs().add(jobEntity);
@@ -94,7 +94,7 @@ class DefaultInternalJobManager implements InternalJobManager {
                     if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(execution)) {
                         countingExecutionEntity.setJobCount(countingExecutionEntity.getJobCount() + 1);
                     }
-                
+
                 } else {
                     if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(execution)) {
                         if (job instanceof SuspendedJobEntity) {
@@ -112,7 +112,7 @@ class DefaultInternalJobManager implements InternalJobManager {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -125,14 +125,14 @@ class DefaultInternalJobManager implements InternalJobManager {
                 if (job instanceof JobEntity) {
                     executionEntity.getJobs().remove(job);
                     countingExecutionEntity.setJobCount(countingExecutionEntity.getJobCount() - 1);
-                
+
                 } else if (job instanceof TimerJobEntity) {
                     executionEntity.getTimerJobs().remove(job);
                     countingExecutionEntity.setTimerJobCount(countingExecutionEntity.getTimerJobCount() - 1);
-                
+
                 } else if (job instanceof SuspendedJobEntity) {
                     countingExecutionEntity.setSuspendedJobCount(countingExecutionEntity.getSuspendedJobCount() - 1);
-                
+
                 } else if (job instanceof DeadLetterJobEntity) {
                     countingExecutionEntity.setDeadLetterJobCount(countingExecutionEntity.getDeadLetterJobCount() - 1);
                 }
@@ -147,7 +147,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         if (execution !is null) {
             executionEntityManager.updateProcessInstanceLockTime(execution.getProcessInstanceId());
         }
-        
+
         if (processEngineConfiguration.isLoggingSessionEnabled()) {
             FlowElement flowElement = execution.getCurrentFlowElement();
             BpmnLoggingSessionUtil.addAsyncActivityLoggingData("Locking job for " + flowElement.getId() + ", with job id " + job.getId(),
@@ -162,7 +162,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         if (execution !is null) {
             executionEntityManager.clearProcessInstanceLockTime(execution.getId());
         }
-        
+
         if (processEngineConfiguration.isLoggingSessionEnabled()) {
             ExecutionEntity localExecution = executionEntityManager.findById(job.getExecutionId());
             FlowElement flowElement = localExecution.getCurrentFlowElement();
@@ -209,7 +209,7 @@ class DefaultInternalJobManager implements InternalJobManager {
 
         int maxIterations = 1;
         if (jobEntity.getProcessDefinitionId() !is null) {
-            org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(jobEntity.getProcessDefinitionId());
+            flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(jobEntity.getProcessDefinitionId());
             maxIterations = getMaxIterations(process, activityId);
             if (maxIterations <= 1) {
                 maxIterations = getMaxIterations(process, activityId);
@@ -217,13 +217,13 @@ class DefaultInternalJobManager implements InternalJobManager {
         }
         jobEntity.setMaxIterations(maxIterations);
     }
-    
+
     @Override
     public void preRepeatedTimerSchedule(TimerJobEntity ti, VariableScope variableScope) {
         // Nothing to do
     }
 
-    protected int getMaxIterations(org.flowable.bpmn.model.Process process, string activityId) {
+    protected int getMaxIterations(flow.bpmn.model.Process process, string activityId) {
         FlowElement flowElement = process.getFlowElement(activityId, true);
         if (flowElement !is null) {
             if (flowElement instanceof Event) {
@@ -248,20 +248,20 @@ class DefaultInternalJobManager implements InternalJobManager {
         }
         return -1;
     }
-    
+
     protected int calculateMaxIterationsValue(string originalExpression) {
         int times = Integer.MAX_VALUE;
-        List<string> expression = Arrays.asList(originalExpression.split("/"));
+        List!string expression = Arrays.asList(originalExpression.split("/"));
         if (expression.size() > 1 && expression.get(0).startsWith("R")) {
             times = Integer.MAX_VALUE;
             if (expression.get(0).length() > 1) {
                 times = Integer.parseInt(expression.get(0).substring(1));
             }
         }
-        
+
         return times;
     }
-    
+
     protected string getBusinessCalendarName(string calendarName, VariableScope variableScope) {
         string businessCalendarName = CycleBusinessCalendar.NAME;
         if (StringUtils.isNotEmpty(calendarName)) {

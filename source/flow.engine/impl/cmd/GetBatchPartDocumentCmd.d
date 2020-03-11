@@ -18,21 +18,21 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetBatchPartDocumentCmd implements Command<string> {
-    
+class GetBatchPartDocumentCmd implements Command!string {
+
     protected string batchPartId;
-    
+
     public GetBatchPartDocumentCmd(string batchPartId) {
         this.batchPartId = batchPartId;
     }
-    
+
     @Override
     public string execute(CommandContext commandContext) {
         BatchPart batchPart = CommandContextUtil.getBatchService(commandContext).getBatchPart(batchPartId);
         if (batchPart is null) {
             throw new FlowableObjectNotFoundException("No batch part found for id " + batchPartId);
         }
-        
+
         return batchPart.getResultDocumentJson();
     }
 }

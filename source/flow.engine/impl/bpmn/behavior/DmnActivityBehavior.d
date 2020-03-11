@@ -12,12 +12,12 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.FieldExtension;
-import org.flowable.bpmn.model.Task;
+import flow.bpmn.model.FieldExtension;
+import flow.bpmn.model.Task;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
@@ -122,19 +122,19 @@ class DmnActivityBehavior extends TaskActivityBehavior {
             string throwErrorString = null;
             if (StringUtils.isNotEmpty(throwErrorFieldExtension.getStringValue())) {
                 throwErrorString = throwErrorFieldExtension.getStringValue();
-                
+
             } else if (StringUtils.isNotEmpty(throwErrorFieldExtension.getExpression())) {
                 throwErrorString = throwErrorFieldExtension.getExpression();
             }
-            
+
             if (decisionExecutionAuditContainer.getDecisionResult().isEmpty() && throwErrorString !is null) {
                 if ("true".equalsIgnoreCase(throwErrorString)) {
                     throw new FlowableException("DMN decision table with key " + finaldecisionTableKeyValue + " did not hit any rules for the provided input.");
-                    
+
                 } else if (!"false".equalsIgnoreCase(throwErrorString)) {
                     Expression expression = expressionManager.createExpression(throwErrorString);
                     Object expressionValue = expression.getValue(execution);
-                    
+
                     if (expressionValue instanceof bool && ((bool) expressionValue)) {
                         throw new FlowableException("DMN decision table with key " + finaldecisionTableKeyValue + " did not hit any rules for the provided input.");
                     }
@@ -143,11 +143,11 @@ class DmnActivityBehavior extends TaskActivityBehavior {
         }
 
         if (processEngineConfiguration.getDecisionTableVariableManager() !is null) {
-            processEngineConfiguration.getDecisionTableVariableManager().setVariablesOnExecution(decisionExecutionAuditContainer.getDecisionResult(), 
+            processEngineConfiguration.getDecisionTableVariableManager().setVariablesOnExecution(decisionExecutionAuditContainer.getDecisionResult(),
                             finaldecisionTableKeyValue, execution, processEngineConfiguration.getObjectMapper());
-            
+
         } else {
-            setVariablesOnExecution(decisionExecutionAuditContainer.getDecisionResult(), finaldecisionTableKeyValue, 
+            setVariablesOnExecution(decisionExecutionAuditContainer.getDecisionResult(), finaldecisionTableKeyValue,
                             execution, processEngineConfiguration.getObjectMapper());
         }
 
@@ -174,10 +174,10 @@ class DmnActivityBehavior extends TaskActivityBehavior {
         if (executionResult.size() > 1) {
             ArrayNode ruleResultNode = objectMapper.createArrayNode();
 
-            for (Map<string, Object> ruleResult : executionResult) {
+            for (Map!(string, Object) ruleResult : executionResult) {
                 ObjectNode outputResultNode = objectMapper.createObjectNode();
 
-                for (Map.Entry<string, Object> outputResult : ruleResult.entrySet()) {
+                for (Map.Entry!(string, Object) outputResult : ruleResult.entrySet()) {
                     outputResultNode.set(outputResult.getKey(), objectMapper.convertValue(outputResult.getValue(), JsonNode.class));
                 }
 
@@ -188,9 +188,9 @@ class DmnActivityBehavior extends TaskActivityBehavior {
         } else {
             // single rule result
             // put on execution output id (key) and output value (value)
-            Map<string, Object> ruleResult = executionResult.get(0);
+            Map!(string, Object) ruleResult = executionResult.get(0);
 
-            for (Map.Entry<string, Object> outputResult : ruleResult.entrySet()) {
+            for (Map.Entry!(string, Object) outputResult : ruleResult.entrySet()) {
                 execution.setVariable(outputResult.getKey(), outputResult.getValue());
             }
         }

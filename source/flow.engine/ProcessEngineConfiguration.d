@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,10 +14,10 @@
 module flow.engine.ProcessEngineConfiguration;
 
 //import java.io.InputStream;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
+//import hunt.collection.ArrayList;
+//import hunt.collection.HashMap;
+//import hunt.collection.List;
+//import hunt.collection.Map;
 //
 //import javax.sql.DataSource;
 import hunt.collection.Map;
@@ -46,48 +46,48 @@ import flow.engine.HistoryService;
 import flow.engine.ProcessEngineLifecycleListener;
 /**
  * Configuration information from which a process engine can be build.
- * 
+ *
  * <p>
  * Most common is to create a process engine based on the default configuration file:
- * 
+ *
  * <pre>
  * ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault().buildProcessEngine();
  * </pre>
- * 
+ *
  * </p>
- * 
+ *
  * <p>
  * To create a process engine programmatic, without a configuration file, the first option is {@link #createStandaloneProcessEngineConfiguration()}
- * 
+ *
  * <pre>
  * ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneProcessEngineConfiguration().buildProcessEngine();
  * </pre>
- * 
+ *
  * This creates a new process engine with all the defaults to connect to a remote h2 database (jdbc:h2:tcp://localhost/flowable) in standalone mode. Standalone mode means that the process engine will
  * manage the transactions on the JDBC connections that it creates. One transaction per service method. For a description of how to write the configuration files, see the userguide.
  * </p>
- * 
+ *
  * <p>
  * The second option is great for testing: {@link #createStandaloneInMemProcessEngineConfiguration()}
- * 
+ *
  * <pre>
  * ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneInMemProcessEngineConfiguration().buildProcessEngine();
  * </pre>
- * 
+ *
  * This creates a new process engine with all the defaults to connect to an memory h2 database (jdbc:h2:tcp://localhost/flowable) in standalone mode. The DB schema strategy default is in this case
  * <code>create-drop</code>. Standalone mode means that Flowable will manage the transactions on the JDBC connections that it creates. One transaction per service method.
  * </p>
- * 
+ *
  * <p>
  * On all forms of creating a process engine, you can first customize the configuration before calling the {@link #buildProcessEngine()} method by calling any of the setters like this:
- * 
+ *
  * <pre>
  * ProcessEngine processEngine = ProcessEngineConfiguration.createProcessEngineConfigurationFromResourceDefault().setMailServerHost(&quot;gmail.com&quot;).setJdbcUsername(&quot;mickey&quot;).setJdbcPassword(&quot;mouse&quot;)
  *         .buildProcessEngine();
  * </pre>
- * 
+ *
  * </p>
- * 
+ *
  * @see ProcessEngines
  * @author Tom Baeyens
  */
@@ -109,7 +109,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     protected string mailServerForceTo;
     protected string mailSessionJndi;
     //protected Map<string, MailServerInfo> mailServers = new HashMap<>();
-    //protected Map<string, string> mailSessionsJndi = new HashMap<>();
+    //protected Map!(string, string) mailSessionsJndi = new HashMap<>();
 
     // Set Http Client config defaults
     protected HttpClientConfig httpClientConfig;// = new HttpClientConfig();
@@ -143,12 +143,12 @@ import flow.engine.ProcessEngineLifecycleListener;
    // protected ProcessDiagramGenerator processDiagramGenerator;
 
     protected bool isCreateDiagramOnDeploy = true;
-    
+
     /**
-     *  include the sequence flow name in case there's no Label DI, 
+     *  include the sequence flow name in case there's no Label DI,
      */
     protected bool drawSequenceFlowNameWithNoLabelDI = false;
-    
+
     protected string defaultCamelContext = "camelContext";
 
     protected string activityFontName = "Arial";
@@ -367,11 +367,11 @@ import flow.engine.ProcessEngineLifecycleListener;
     //    return mailSessionsJndi.get(tenantId);
     //}
     //
-    //public Map<string, string> getMailSessionsJndi() {
+    //public Map!(string, string) getMailSessionsJndi() {
     //    return mailSessionsJndi;
     //}
     //
-    //public ProcessEngineConfiguration setMailSessionsJndi(Map<string, string> mailSessionsJndi) {
+    //public ProcessEngineConfiguration setMailSessionsJndi(Map!(string, string) mailSessionsJndi) {
     //    this.mailSessionsJndi.putAll(mailSessionsJndi);
     //    return this;
     //}
@@ -506,7 +506,7 @@ import flow.engine.ProcessEngineLifecycleListener;
         this.asyncExecutorActivate = asyncExecutorActivate;
         return this;
     }
-    
+
     public bool isAsyncHistoryExecutorActivate() {
         return asyncHistoryExecutorActivate;
     }
@@ -587,16 +587,16 @@ import flow.engine.ProcessEngineLifecycleListener;
         this.isCreateDiagramOnDeploy = createDiagramOnDeploy;
         return this;
     }
-    
+
     public bool isDrawSequenceFlowNameWithNoLabelDI() {
         return drawSequenceFlowNameWithNoLabelDI;
     }
-    
+
     public ProcessEngineConfiguration setDrawSequenceFlowNameWithNoLabelDI(bool drawSequenceFlowNameWithNoLabelDI) {
         this.drawSequenceFlowNameWithNoLabelDI = drawSequenceFlowNameWithNoLabelDI;
         return this;
     }
-    
+
     public string getActivityFontName() {
         return activityFontName;
     }
@@ -728,7 +728,7 @@ import flow.engine.ProcessEngineLifecycleListener;
         this.asyncExecutor = asyncExecutor;
         return this;
     }
-    
+
     public AsyncExecutor getAsyncHistoryExecutor() {
         return asyncHistoryExecutor;
     }

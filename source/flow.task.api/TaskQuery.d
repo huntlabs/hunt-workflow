@@ -11,18 +11,21 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.task.api.TaskQuery;
- 
- 
- 
 
 
-import java.util.Collection;
+
+
+
+import hunt.collection;
+import flow.task.api.TaskInfoQuery;
+import flow.task.api.Task;
+import flow.task.api.DelegationState;
 
 /**
  * Allows programmatic querying of {@link Task}s;
@@ -31,7 +34,7 @@ import java.util.Collection;
  * @author Falko Menge
  * @author Tijs Rademakers
  */
-interface TaskQuery : TaskInfoQuery<TaskQuery, Task> {
+interface TaskQuery : TaskInfoQuery!(TaskQuery, Task) {
 
     /** Only select tasks which don't have an assignee. */
     TaskQuery taskUnassigned();

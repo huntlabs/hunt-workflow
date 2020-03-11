@@ -13,19 +13,19 @@
 
 
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.CallActivity;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.IOParameter;
-import org.flowable.bpmn.model.MapExceptionEntry;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.ValuedDataObject;
+import flow.bpmn.model.CallActivity;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.IOParameter;
+import flow.bpmn.model.MapExceptionEntry;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.api.deleg.Expression;
@@ -90,7 +90,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
 
         ExecutionEntity executionEntity = (ExecutionEntity) execution;
         CallActivity callActivity = (CallActivity) executionEntity.getCurrentFlowElement();
-        
+
         CommandContext commandContext = CommandContextUtil.getCommandContext();
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
@@ -125,19 +125,19 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
             ExecutionEntity processInstance = executionEntityManager.findById(execution.getProcessInstanceId());
             businessKey = processInstance.getBusinessKey();
         }
-        
-        Map<string, Object> variables = new HashMap<>();
-        
-        StartSubProcessInstanceBeforeContext instanceBeforeContext = new StartSubProcessInstanceBeforeContext(businessKey, callActivity.getProcessInstanceName(), 
-                        variables, executionEntity, callActivity.getInParameters(), callActivity.isInheritVariables(), 
+
+        Map!(string, Object) variables = new HashMap<>();
+
+        StartSubProcessInstanceBeforeContext instanceBeforeContext = new StartSubProcessInstanceBeforeContext(businessKey, callActivity.getProcessInstanceName(),
+                        variables, executionEntity, callActivity.getInParameters(), callActivity.isInheritVariables(),
                         initialFlowElement.getId(), initialFlowElement, subProcess, processDefinition);
-        
+
         if (processEngineConfiguration.getStartProcessInstanceInterceptor() !is null) {
             processEngineConfiguration.getStartProcessInstanceInterceptor().beforeStartSubProcessInstance(instanceBeforeContext);
         }
 
         ExecutionEntity subProcessInstance = CommandContextUtil.getExecutionEntityManager(commandContext).createSubprocessInstance(
-                        instanceBeforeContext.getProcessDefinition(), instanceBeforeContext.getCallActivityExecution(), 
+                        instanceBeforeContext.getProcessDefinition(), instanceBeforeContext.getCallActivityExecution(),
                         instanceBeforeContext.getBusinessKey(), instanceBeforeContext.getInitialActivityId());
 
         FlowableEventDispatcher eventDispatcher = processEngineConfiguration.getEventDispatcher();
@@ -150,12 +150,12 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
         subProcessInstance.setVariables(processDataObjects(subProcess.getDataObjects()));
 
         if (instanceBeforeContext.isInheritVariables()) {
-            Map<string, Object> executionVariables = execution.getVariables();
-            for (Map.Entry<string, Object> entry : executionVariables.entrySet()) {
+            Map!(string, Object) executionVariables = execution.getVariables();
+            for (Map.Entry!(string, Object) entry : executionVariables.entrySet()) {
                 instanceBeforeContext.getVariables().put(entry.getKey(), entry.getValue());
             }
         }
-        
+
         // copy process variables
         for (IOParameter inParameter : instanceBeforeContext.getInParameters()) {
 
@@ -190,7 +190,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
         if (!instanceBeforeContext.getVariables().isEmpty()) {
             initializeVariables(subProcessInstance, instanceBeforeContext.getVariables());
         }
-        
+
         // Process instance name is resolved after setting the variables on the process instance, so they can be used in the expression
         string processInstanceName = null;
         if (StringUtils.isNotEmpty(instanceBeforeContext.getProcessInstanceName())) {
@@ -202,7 +202,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, subProcessInstance));
         }
-        
+
         if (processEngineConfiguration.isEnableEntityLinks()) {
             EntityLinkUtil.copyExistingEntityLinks(execution.getProcessInstanceId(), subProcessInstance.getId(), ScopeTypes.BPMN);
             EntityLinkUtil.createNewEntityLink(execution.getProcessInstanceId(), subProcessInstance.getId(), ScopeTypes.BPMN);
@@ -235,7 +235,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(subProcessInitialExecution, instanceBeforeContext.getVariables(), false));
         }
-        
+
     }
 
     protected ProcessDefinition getProcessDefinition(DelegateExecution execution, CallActivity callActivity, ProcessEngineConfigurationImpl processEngineConfiguration) {
@@ -366,8 +366,8 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
         return calledElementValue;
     }
 
-    protected Map<string, Object> processDataObjects(Collection<ValuedDataObject> dataObjects) {
-        Map<string, Object> variablesMap = new HashMap<>();
+    protected Map!(string, Object) processDataObjects(Collection<ValuedDataObject> dataObjects) {
+        Map!(string, Object) variablesMap = new HashMap<>();
         // convert data objects to process variables
         if (dataObjects !is null) {
             variablesMap = new HashMap<>(dataObjects.size());
@@ -379,7 +379,7 @@ class CallActivityBehavior extends AbstractBpmnActivityBehavior implements SubPr
     }
 
     // Allow a subclass to override how variables are initialized.
-    protected void initializeVariables(ExecutionEntity subProcessInstance, Map<string, Object> variables) {
+    protected void initializeVariables(ExecutionEntity subProcessInstance, Map!(string, Object) variables) {
         subProcessInstance.setVariables(variables);
     }
 }

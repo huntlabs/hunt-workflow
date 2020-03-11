@@ -1,35 +1,34 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.idm.api.TokenQuery;
 
 
-
-import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.query.Query;
-
+import flow.idm.api.Token;
 /**
  * Allows programmatic querying of {@link Token}
- * 
+ *
  * @author Tijs Rademakers
  */
-interface TokenQuery extends Query<TokenQuery, Token> {
+interface TokenQuery : Query!(TokenQuery, Token) {
 
     /** Only select {@link Token}s with the given id/ */
     TokenQuery tokenId(string id);
 
     /** Only select {@link Token}s with the given ids/ */
-    TokenQuery tokenIds(List<string> ids);
+    TokenQuery tokenIds(List!string ids);
 
     /** Only select {@link Token}s with the given token value. */
     TokenQuery tokenValue(string tokenValue);

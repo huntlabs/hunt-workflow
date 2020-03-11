@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import java.util.Collection;
-import java.util.Map;
+import hunt.collection;
+import hunt.collection.Map;
 
 import flow.common.persistence.cache.CachedEntityMatcherAdapter;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -25,9 +25,9 @@ class ExecutionsByParentExecutionIdAndActivityIdEntityMatcher extends CachedEnti
 
     @Override
     public bool isRetained(ExecutionEntity executionEntity, Object parameter) {
-        Map<string, Object> paramMap = (Map<string, Object>) parameter;
+        Map!(string, Object) paramMap = (Map!(string, Object)) parameter;
         string parentExecutionId = (string) paramMap.get("parentExecutionId");
-        Collection<string> activityIds = (Collection<string>) paramMap.get("activityIds");
+        Collection!string activityIds = (Collection!string) paramMap.get("activityIds");
 
         return executionEntity.getParentId() !is null && executionEntity.getParentId().equals(parentExecutionId)
                 && executionEntity.getActivityId() !is null && activityIds.contains(executionEntity.getActivityId());

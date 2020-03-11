@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,10 +14,10 @@
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -49,21 +49,21 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     protected string businessKeyLike;
     protected bool includeChildExecutionsWithBusinessKeyQuery;
     protected string processDefinitionId;
-    protected Set<string> processDefinitionIds;
+    protected Set!string processDefinitionIds;
     protected string processDefinitionCategory;
     protected string processDefinitionName;
     protected Integer processDefinitionVersion;
-    protected Set<string> processInstanceIds;
+    protected Set!string processInstanceIds;
     protected string processDefinitionKey;
-    protected Set<string> processDefinitionKeys;
+    protected Set!string processDefinitionKeys;
     protected string processDefinitionEngineVersion;
     protected string deploymentId;
-    protected List<string> deploymentIds;
+    protected List!string deploymentIds;
     protected string superProcessInstanceId;
     protected string subProcessInstanceId;
     protected bool excludeSubprocesses;
     protected string involvedUser;
-    protected Set<string> involvedGroups;
+    protected Set!string involvedGroups;
     protected SuspensionState suspensionState;
     protected bool includeProcessVariables;
     protected Integer processInstanceVariablesLimit;
@@ -123,7 +123,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     }
 
     @Override
-    public ProcessInstanceQuery processInstanceIds(Set<string> processInstanceIds) {
+    public ProcessInstanceQuery processInstanceIds(Set!string processInstanceIds) {
         if (processInstanceIds is null) {
             throw new FlowableIllegalArgumentException("Set of process instance ids is null");
         }
@@ -269,7 +269,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     }
 
     @Override
-    public ProcessInstanceQuery processDefinitionIds(Set<string> processDefinitionIds) {
+    public ProcessInstanceQuery processDefinitionIds(Set!string processDefinitionIds) {
         if (processDefinitionIds is null) {
             throw new FlowableIllegalArgumentException("Set of process definition ids is null");
         }
@@ -300,7 +300,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     }
 
     @Override
-    public ProcessInstanceQuery processDefinitionKeys(Set<string> processDefinitionKeys) {
+    public ProcessInstanceQuery processDefinitionKeys(Set!string processDefinitionKeys) {
         if (processDefinitionKeys is null) {
             throw new FlowableIllegalArgumentException("Set of process definition keys is null");
         }
@@ -337,7 +337,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     }
 
     @Override
-    public ProcessInstanceQueryImpl deploymentIdIn(List<string> deploymentIds) {
+    public ProcessInstanceQueryImpl deploymentIdIn(List!string deploymentIds) {
         if (inOrStatement) {
             this.currentOrQueryObject.deploymentIds = deploymentIds;
         } else {
@@ -391,7 +391,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     }
 
     @Override
-    public ProcessInstanceQuery involvedGroups(Set<string> involvedGroups) {
+    public ProcessInstanceQuery involvedGroups(Set!string involvedGroups) {
         if (involvedGroups is null) {
             throw new FlowableIllegalArgumentException("Involved groups are null");
         }
@@ -478,7 +478,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
         return this;
     }
-    
+
     @Override
     public ProcessInstanceQuery processInstanceCallbackId(string callbackId) {
         if (inOrStatement) {
@@ -488,7 +488,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
         return this;
     }
-    
+
     @Override
     public ProcessInstanceQuery processInstanceCallbackType(string callbackType) {
         if (inOrStatement) {
@@ -651,7 +651,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
             return variableValueLikeIgnoreCase(name, value, false);
         }
     }
-    
+
     @Override
     public ProcessInstanceQuery variableExists(string name) {
         if (inOrStatement) {
@@ -661,7 +661,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
             return variableExists(name, false);
         }
     }
-    
+
     @Override
     public ProcessInstanceQuery variableNotExists(string name) {
         if (inOrStatement) {
@@ -758,12 +758,12 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     @Override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
-        
+
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         if (processEngineConfiguration.getProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getProcessInstanceQueryInterceptor().beforeProcessInstanceQueryExecute(this);
         }
-        
+
         return CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceCountByQueryCriteria(this);
     }
 
@@ -771,12 +771,12 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     public List<ProcessInstance> executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
         List<ProcessInstance> processInstances = null;
-        
+
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         if (processEngineConfiguration.getProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getProcessInstanceQueryInterceptor().beforeProcessInstanceQueryExecute(this);
         }
-        
+
         if (includeProcessVariables) {
             processInstances = CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceAndVariablesByQueryCriteria(this);
         } else {
@@ -788,7 +788,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
                 processEngineConfiguration.getInternalProcessLocalizationManager().localize(processInstance, locale, withLocalizationFallback);
             }
         }
-        
+
         if (processEngineConfiguration.getProcessInstanceQueryInterceptor() !is null) {
             processEngineConfiguration.getProcessInstanceQueryInterceptor().afterProcessInstanceQueryExecute(this, processInstances);
         }
@@ -814,7 +814,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     public string getProcessInstanceId() {
         return executionId;
     }
-    
+
     @Override
     public string getId() {
         return executionId;
@@ -824,7 +824,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return rootProcessInstanceId;
     }
 
-    public Set<string> getProcessInstanceIds() {
+    public Set!string getProcessInstanceIds() {
         return processInstanceIds;
     }
 
@@ -844,7 +844,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return processDefinitionId;
     }
 
-    public Set<string> getProcessDefinitionIds() {
+    public Set!string getProcessDefinitionIds() {
         return processDefinitionIds;
     }
 
@@ -864,7 +864,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return processDefinitionKey;
     }
 
-    public Set<string> getProcessDefinitionKeys() {
+    public Set!string getProcessDefinitionKeys() {
         return processDefinitionKeys;
     }
 
@@ -892,7 +892,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return involvedUser;
     }
 
-    public Set<string> getInvolvedGroups() {
+    public Set!string getInvolvedGroups() {
         return involvedGroups;
     }
 
@@ -948,7 +948,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return deploymentId;
     }
 
-    public List<string> getDeploymentIds() {
+    public List!string getDeploymentIds() {
         return deploymentIds;
     }
 
@@ -963,7 +963,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     public string getNameLikeIgnoreCase() {
         return nameLikeIgnoreCase;
     }
-    
+
     public string getCallbackId() {
         return callbackId;
     }

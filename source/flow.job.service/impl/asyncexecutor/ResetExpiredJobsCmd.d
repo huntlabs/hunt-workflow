@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Collection;
+import hunt.collection;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -25,10 +25,10 @@ import org.flowable.job.service.impl.util.CommandContextUtil;
  */
 class ResetExpiredJobsCmd implements Command<Void> {
 
-    protected Collection<string> jobIds;
+    protected Collection!string jobIds;
     protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
-    
-    public ResetExpiredJobsCmd(Collection<string> jobsIds, JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager) {
+
+    public ResetExpiredJobsCmd(Collection!string jobsIds, JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager) {
         this.jobIds = jobsIds;
         this.jobEntityManager = jobEntityManager;
     }

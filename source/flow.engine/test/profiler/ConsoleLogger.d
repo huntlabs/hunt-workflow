@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 /**
  * @author Joram Barrez

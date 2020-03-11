@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.runtime.ProcessDebugger;
 
-
+import flow.engine.runtime.Execution;
 /**
  * @author martin.grofcik
  */

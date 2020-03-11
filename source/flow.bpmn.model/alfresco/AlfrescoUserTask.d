@@ -11,12 +11,15 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.alfresco.AlfrescoUserTask;
 
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.UserTask;
 
-class AlfrescoUserTask extends UserTask {
+import flow.bpmn.model.UserTask;
 
-    public static final string ALFRESCO_SCRIPT_TASK_LISTENER = "org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener";
+class AlfrescoUserTask : UserTask {
+
+    public static  string ALFRESCO_SCRIPT_TASK_LISTENER = "org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener";
 
     protected string runAs;
     protected string scriptProcessor;
@@ -37,7 +40,7 @@ class AlfrescoUserTask extends UserTask {
         this.scriptProcessor = scriptProcessor;
     }
 
-    @Override
+    override
     public AlfrescoUserTask clone() {
         AlfrescoUserTask clone = new AlfrescoUserTask();
         clone.setValues(this);

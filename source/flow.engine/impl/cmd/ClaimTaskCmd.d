@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.TaskHelper;
-import org.flowable.identitylink.api.IdentityLinkType;
+import flow.identitylink.api.IdentityLinkType;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**
@@ -55,23 +55,23 @@ class ClaimTaskCmd extends NeedsActiveTaskCmd<Void> {
                     throw new FlowableTaskAlreadyClaimedException(task.getId(), task.getAssignee());
                 }
                 CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordTaskInfoChange(task, clock.getCurrentTime());
-                
+
             } else {
                 TaskHelper.changeTaskAssignee(task, userId);
             }
-            
+
             CommandContextUtil.getHistoryManager().createUserIdentityLinkComment(task, userId, IdentityLinkType.ASSIGNEE, true);
-            
+
         } else {
             if (task.getAssignee() !is null) {
                 // Task claim time should be null
                 task.setClaimTime(null);
-                
+
                 string oldAssigneeId = task.getAssignee();
-    
+
                 // Task should be assigned to no one
                 TaskHelper.changeTaskAssignee(task, null);
-                
+
                 CommandContextUtil.getHistoryManager().createUserIdentityLinkComment(task, oldAssigneeId, IdentityLinkType.ASSIGNEE, true, true);
             }
         }

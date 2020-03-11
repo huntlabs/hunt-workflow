@@ -13,8 +13,8 @@
 
 
 import java.sql.Connection;
-import java.util.Collection;
-import java.util.List;
+import hunt.collection;
+import hunt.collection.List;
 
 import flow.common.db.BulkDeleteOperation;
 import flow.common.db.DbSqlSession;

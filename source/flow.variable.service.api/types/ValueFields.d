@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,11 +11,12 @@
  * limitations under the License.
  */
 
+module flow.variable.service.api.types.ValueFields;
 
 
 /**
  * Common interface for regular and historic variable entities.
- * 
+ *
  * @author Tom Baeyens
  */
 interface ValueFields {
@@ -34,17 +35,17 @@ interface ValueFields {
      * @return the execution id of the variable
      */
     string getExecutionId();
-    
+
     /**
      * @return the scope id of the variable
      */
     string getScopeId();
-    
+
     /**
      * @return the sub scope id of the variable
      */
     string getSubScopeId();
-    
+
     /**
      * @return the scope type of the variable
      */
@@ -78,22 +79,22 @@ interface ValueFields {
     /**
      * @return the long value, if any, or null.
      */
-    Long getLongValue();
+    long getLongValue();
 
     /**
      * Sets the long value. A value of null is allowed.
      */
-    void setLongValue(Long longValue);
+    void setLongValue(long longValue);
 
     /**
      * @return the double value, if any, or null.
      */
-    Double getDoubleValue();
+    double getDoubleValue();
 
     /**
      * Sets the double value. A value of null is allowed.
      */
-    void setDoubleValue(Double doubleValue);
+    void setDoubleValue(double doubleValue);
 
     /**
      * @return the byte array value, if any, or null.

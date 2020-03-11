@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,8 +13,8 @@
 
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.history.HistoryLevel;
 import flow.engine.history.HistoricActivityInstance;
@@ -39,7 +39,7 @@ class HistoricActivityInstanceEntityManagerImpl
     public List<HistoricActivityInstanceEntity> findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(string executionId, string activityId) {
         return dataManager.findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(executionId, activityId);
     }
-    
+
     @Override
     public List<HistoricActivityInstanceEntity> findHistoricActivityInstancesByExecutionAndActivityId(string executionId, string activityId) {
         return dataManager.findHistoricActivityInstancesByExecutionIdAndActivityId(executionId, activityId);
@@ -68,20 +68,20 @@ class HistoricActivityInstanceEntityManagerImpl
     }
 
     @Override
-    public List<HistoricActivityInstance> findHistoricActivityInstancesByNativeQuery(Map<string, Object> parameterMap) {
+    public List<HistoricActivityInstance> findHistoricActivityInstancesByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricActivityInstancesByNativeQuery(parameterMap);
     }
 
     @Override
-    public long findHistoricActivityInstanceCountByNativeQuery(Map<string, Object> parameterMap) {
+    public long findHistoricActivityInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricActivityInstanceCountByNativeQuery(parameterMap);
     }
-    
+
     @Override
     public void deleteHistoricActivityInstances(HistoricActivityInstanceQueryImpl historicActivityInstanceQuery) {
         dataManager.deleteHistoricActivityInstances(historicActivityInstanceQuery);
     }
-    
+
     @Override
     public void deleteHistoricActivityInstancesForNonExistingProcessInstances() {
         dataManager.deleteHistoricActivityInstancesForNonExistingProcessInstances();

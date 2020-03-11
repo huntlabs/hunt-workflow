@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,18 +13,18 @@
 
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.Association;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowElementsContainer;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.ThrowEvent;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.Association;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElementsContainer;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.ThrowEvent;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
@@ -55,9 +55,9 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
 
         /*
          * From the BPMN 2.0 spec:
-         * 
+         *
          * The Activity to be compensated MAY be supplied.
-         * 
+         *
          * If an Activity is not supplied, then the compensation is broadcast to all completed Activities in the current Sub- Process (if present), or the entire Process instance (if at the global
          * level). This “throws” the compensation.
          */
@@ -68,14 +68,14 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
 
         List<CompensateEventSubscriptionEntity> eventSubscriptions = new ArrayList<>();
         if (StringUtils.isNotEmpty(activityRef)) {
-            
+
             // If an activity ref is provided, only that activity is compensated
             List<CompensateEventSubscriptionEntity> compensationEvents = eventSubscriptionService
                     .findCompensateEventSubscriptionsByProcessInstanceIdAndActivityId(execution.getProcessInstanceId(), activityRef);
-            
+
             if (compensationEvents is null || compensationEvents.size() == 0) {
                 // check if compensation activity was referenced directly (backwards compatibility pre 6.4.0)
-                
+
                 string processDefinitionId = execution.getProcessDefinitionId();
                 Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
                 if (process is null) {
@@ -100,7 +100,7 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
                         }
                     }
                 }
-                
+
                 if (compensationActivityId !is null) {
                     compensationEvents = eventSubscriptionService
                             .findCompensateEventSubscriptionsByProcessInstanceIdAndActivityId(execution.getProcessInstanceId(), compensationActivityId);

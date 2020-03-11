@@ -14,8 +14,8 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.job.api.JobInfo;
@@ -26,7 +26,7 @@ import org.flowable.job.service.JobServiceConfiguration;
  *
  * @author Tijs Rademakers
  */
-public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity implements AbstractRuntimeJobEntity, Serializable {
+abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity implements AbstractRuntimeJobEntity, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,10 +36,10 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
     protected string executionId;
     protected string processInstanceId;
     protected string processDefinitionId;
-    
+
     protected string elementId;
     protected string elementName;
-    
+
     protected string scopeId;
     protected string subScopeId;
     protected string scopeType;
@@ -65,7 +65,7 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("retries", retries);
         persistentState.put("createTime", createTime);
         persistentState.put("duedate", duedate);
@@ -74,7 +74,7 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
         persistentState.put("processDefinitionId", processDefinitionId);
         persistentState.put("elementId", elementId);
         persistentState.put("elementName", elementName);
-        
+
         if (customValuesByteArrayRef !is null) {
             persistentState.put("customValuesByteArrayRef", customValuesByteArrayRef);
         }
@@ -157,7 +157,7 @@ public abstract class AbstractJobEntityImpl extends AbstractJobServiceEntity imp
     public void setProcessDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
-    
+
     @Override
     public string getElementId() {
         return elementId;

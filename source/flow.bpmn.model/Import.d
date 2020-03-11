@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.model.Import;
+import flow.bpmn.model.BaseElement;
 
-
-class Import extends BaseElement {
+class Import : BaseElement {
 
     protected string importType;
     protected string location;
@@ -42,7 +43,7 @@ class Import extends BaseElement {
         this.namespace = namespace;
     }
 
-    @Override
+    override
     public Import clone() {
         Import clone = new Import();
         clone.setValues(this);

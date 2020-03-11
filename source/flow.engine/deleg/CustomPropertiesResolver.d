@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.deleg.CustomPropertiesResolver;
- 
- 
- 
 
 
-import java.util.Map;
+
+
+
+import hunt.collection.Map;
 
 /**
  * Can be used to pass a custom properties {@link java.util.HashMap} to a {@link TransactionDependentExecutionListener} or to a {@link TransactionDependentTaskListener}
@@ -30,5 +30,5 @@ import java.util.Map;
  */
 interface CustomPropertiesResolver {
 
-    Map<string, Object> getCustomPropertiesMap(DelegateExecution execution);
+    Map!(string, Object) getCustomPropertiesMap(DelegateExecution execution);
 }

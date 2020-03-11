@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,15 +12,15 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowableListener;
-import org.flowable.bpmn.model.HasExecutionListeners;
-import org.flowable.bpmn.model.ImplementationType;
-import org.flowable.bpmn.model.Task;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowableListener;
+import flow.bpmn.model.HasExecutionListeners;
+import flow.bpmn.model.ImplementationType;
+import flow.bpmn.model.Task;
+import flow.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
 import flow.common.cfg.TransactionContext;
 import flow.common.cfg.TransactionListener;
@@ -86,23 +86,23 @@ class ListenerNotificationHelper {
         }
     }
 
-    protected void planTransactionDependentExecutionListener(ListenerFactory listenerFactory, DelegateExecution execution, 
+    protected void planTransactionDependentExecutionListener(ListenerFactory listenerFactory, DelegateExecution execution,
                     TransactionDependentExecutionListener executionListener, FlowableListener listener) {
-        
-        Map<string, Object> executionVariablesToUse = execution.getVariables();
+
+        Map!(string, Object) executionVariablesToUse = execution.getVariables();
         CustomPropertiesResolver customPropertiesResolver = createCustomPropertiesResolver(listener);
-        Map<string, Object> customPropertiesMapToUse = invokeCustomPropertiesResolver(execution, customPropertiesResolver);
+        Map!(string, Object) customPropertiesMapToUse = invokeCustomPropertiesResolver(execution, customPropertiesResolver);
 
         TransactionDependentExecutionListenerExecutionScope scope = new TransactionDependentExecutionListenerExecutionScope(
                 execution.getProcessInstanceId(), execution.getId(), execution.getCurrentFlowElement(), executionVariablesToUse, customPropertiesMapToUse);
 
-        addTransactionListener(listener, new ExecuteExecutionListenerTransactionListener(executionListener, scope, 
+        addTransactionListener(listener, new ExecuteExecutionListenerTransactionListener(executionListener, scope,
                         CommandContextUtil.getProcessEngineConfiguration().getCommandExecutor()));
     }
 
     public void executeTaskListeners(TaskEntity taskEntity, string eventType) {
         if (taskEntity.getProcessDefinitionId() !is null) {
-            org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(taskEntity.getProcessDefinitionId());
+            flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(taskEntity.getProcessDefinitionId());
             FlowElement flowElement = process.getFlowElement(taskEntity.getTaskDefinitionKey(), true);
             if (flowElement instanceof UserTask) {
                 UserTask userTask = (UserTask) flowElement;
@@ -122,7 +122,7 @@ class ListenerNotificationHelper {
                 } else {
                     taskEntity.setEventName(eventType);
                     taskEntity.setEventHandlerId(listener.getId());
-                    
+
                     try {
                         CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor()
                                 .handleInvocation(new TaskListenerInvocation((TaskListener) taskListener, taskEntity));
@@ -157,9 +157,9 @@ class ListenerNotificationHelper {
     }
 
     protected void planTransactionDependentTaskListener(DelegateExecution execution, TransactionDependentTaskListener taskListener, FlowableListener listener) {
-        Map<string, Object> executionVariablesToUse = execution.getVariables();
+        Map!(string, Object) executionVariablesToUse = execution.getVariables();
         CustomPropertiesResolver customPropertiesResolver = createCustomPropertiesResolver(listener);
-        Map<string, Object> customPropertiesMapToUse = invokeCustomPropertiesResolver(execution, customPropertiesResolver);
+        Map!(string, Object) customPropertiesMapToUse = invokeCustomPropertiesResolver(execution, customPropertiesResolver);
 
         TransactionDependentTaskListenerExecutionScope scope = new TransactionDependentTaskListenerExecutionScope(
                 execution.getProcessInstanceId(), execution.getId(), (Task) execution.getCurrentFlowElement(), executionVariablesToUse, customPropertiesMapToUse);
@@ -180,8 +180,8 @@ class ListenerNotificationHelper {
         return customPropertiesResolver;
     }
 
-    protected Map<string, Object> invokeCustomPropertiesResolver(DelegateExecution execution, CustomPropertiesResolver customPropertiesResolver) {
-        Map<string, Object> customPropertiesMapToUse = null;
+    protected Map!(string, Object) invokeCustomPropertiesResolver(DelegateExecution execution, CustomPropertiesResolver customPropertiesResolver) {
+        Map!(string, Object) customPropertiesMapToUse = null;
         if (customPropertiesResolver !is null) {
             customPropertiesMapToUse = customPropertiesResolver.getCustomPropertiesMap(execution);
         }

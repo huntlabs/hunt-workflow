@@ -10,9 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.model.DataSpec;
 
+import flow.bpmn.model.BaseElement;
 
-class DataSpec extends BaseElement {
+class DataSpec : BaseElement {
 
     protected string name;
     protected string itemSubjectRef;
@@ -42,7 +44,7 @@ class DataSpec extends BaseElement {
         this.isCollection = isCollection;
     }
 
-    @Override
+    override
     public DataSpec clone() {
         DataSpec clone = new DataSpec();
         clone.setValues(this);

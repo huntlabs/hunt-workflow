@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,9 +13,9 @@
 
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
 import flow.common.cfg.multitenant.TenantInfoHolder;
 import org.flowable.job.api.JobInfo;
@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An {@link AsyncExecutor} that has one {@link AsyncExecutor} per tenant. So each tenant has its own acquiring threads and it's own threadpool for executing jobs.
- * 
+ *
  * @author Joram Barrez
  */
 class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor {
@@ -55,7 +55,7 @@ class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor {
     }
 
     @Override
-    public Set<string> getTenantIds() {
+    public Set!string getTenantIds() {
         return tenantExecutors.keySet();
     }
 
@@ -85,7 +85,7 @@ class ExecutorPerTenantAsyncExecutor implements TenantAwareAsyncExecutor {
             startTenantExecutor(tenantId);
         }
     }
-    
+
     @Override
     public AsyncExecutor getTenantAsyncExecutor(string tenantId) {
         return tenantExecutors.get(tenantId);

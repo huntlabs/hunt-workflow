@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 import flow.common.interceptor.CommandContext;
 import flow.common.logging.LoggingSessionConstants;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -23,7 +23,7 @@ import org.flowable.job.service.impl.persistence.entity.JobEntity;
 import org.flowable.variable.api.delegate.VariableScope;
 
 /**
- * 
+ *
  * @author Tijs Rademakers
  */
 class AsyncContinuationJobHandler implements JobHandler {
@@ -38,7 +38,7 @@ class AsyncContinuationJobHandler implements JobHandler {
     @Override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
-        
+
         if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isLoggingSessionEnabled()) {
             FlowElement flowElement = executionEntity.getCurrentFlowElement();
             BpmnLoggingSessionUtil.addAsyncActivityLoggingData("Executing async job for " + flowElement.getId() + ", with job id " + job.getId(),

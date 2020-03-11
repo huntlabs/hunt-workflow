@@ -13,12 +13,12 @@
 
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 class ProcessInstanceMigrationValidationResult {
 
-    protected List<string> validationMessages = new ArrayList<>();
+    protected List!string validationMessages = new ArrayList<>();
 
     public ProcessInstanceMigrationValidationResult addValidationMessage(string message) {
         validationMessages.add(message);
@@ -40,7 +40,7 @@ class ProcessInstanceMigrationValidationResult {
         return validationMessages.isEmpty();
     }
 
-    public List<string> getValidationMessages() {
+    public List!string getValidationMessages() {
         return validationMessages;
     }
 }

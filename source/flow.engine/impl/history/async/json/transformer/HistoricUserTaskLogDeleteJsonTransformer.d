@@ -14,8 +14,8 @@
 
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getLongFromJson;
 
-import java.util.Collections;
-import java.util.List;
+import hunt.collections;
+import hunt.collection.List;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.history.async.HistoryJsonConstants;
@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 class HistoricUserTaskLogDeleteJsonTransformer extends AbstractHistoryJsonTransformer {
 
     @Override
-    public List<string> getTypes() {
+    public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_HISTORIC_TASK_LOG_DELETE);
     }
 

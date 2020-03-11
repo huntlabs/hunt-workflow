@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.bpmn.model.FlowNode;
+import flow.bpmn.model.FlowNode;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;

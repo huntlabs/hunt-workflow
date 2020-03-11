@@ -37,9 +37,9 @@ import static flow.engine.migration.ProcessInstanceMigrationDocumentConstants.TO
 import static flow.engine.migration.ProcessInstanceMigrationDocumentConstants.TO_PROCESS_DEFINITION_VERSION_JSON_PROPERTY;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -237,7 +237,7 @@ class ProcessInstanceMigrationDocumentConverter {
 
             JsonNode processInstanceVariablesNode = rootNode.get(PROCESS_INSTANCE_VARIABLES_JSON_SECTION);
             if (processInstanceVariablesNode !is null) {
-                Map<string, Object> processInstanceVariables = ProcessInstanceMigrationDocumentConverter.convertFromJsonNodeToObject(processInstanceVariablesNode, objectMapper);
+                Map!(string, Object) processInstanceVariables = ProcessInstanceMigrationDocumentConverter.convertFromJsonNodeToObject(processInstanceVariablesNode, objectMapper);
                 documentBuilder.addProcessInstanceVariables(processInstanceVariables);
             }
             return documentBuilder.build();
@@ -249,7 +249,7 @@ class ProcessInstanceMigrationDocumentConverter {
     }
 
     protected static JsonNode convertToJsonProcessInstanceVariables(ProcessInstanceMigrationDocument processInstanceMigrationDocument, ObjectMapper objectMapper) {
-        Map<string, Object> processInstanceVariables = processInstanceMigrationDocument.getProcessInstanceVariables();
+        Map!(string, Object) processInstanceVariables = processInstanceMigrationDocument.getProcessInstanceVariables();
         if (processInstanceVariables !is null && !processInstanceVariables.isEmpty()) {
             return objectMapper.valueToTree(processInstanceVariables);
         }
@@ -350,7 +350,7 @@ class ProcessInstanceMigrationDocumentConverter {
 
         @Override
         public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.OneToOneMapping mapping, ObjectMapper objectMapper) {
-            Map<string, Object> activityLocalVariables = mapping.getActivityLocalVariables();
+            Map!(string, Object) activityLocalVariables = mapping.getActivityLocalVariables();
             if (activityLocalVariables !is null && !activityLocalVariables.isEmpty()) {
                 return objectMapper.valueToTree(activityLocalVariables);
             }
@@ -373,7 +373,7 @@ class ProcessInstanceMigrationDocumentConverter {
             Optional.ofNullable(getNewAssigneeFromJson(jsonNode))
                 .ifPresent(oneToOneMapping::withNewAssignee);
 
-            Map<string, Object> localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
+            Map!(string, Object) localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
             if (localVariables !is null) {
                 oneToOneMapping.withLocalVariables(localVariables);
             }
@@ -397,7 +397,7 @@ class ProcessInstanceMigrationDocumentConverter {
 
         @Override
         public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.ManyToOneMapping mapping, ObjectMapper objectMapper) {
-            Map<string, Object> activityLocalVariables = mapping.getActivityLocalVariables();
+            Map!(string, Object) activityLocalVariables = mapping.getActivityLocalVariables();
             if (activityLocalVariables !is null && !activityLocalVariables.isEmpty()) {
                 return objectMapper.valueToTree(activityLocalVariables);
             }
@@ -412,7 +412,7 @@ class ProcessInstanceMigrationDocumentConverter {
         @Override
         public ActivityMigrationMapping.ManyToOneMapping convertFromJson(JsonNode jsonNode, ObjectMapper objectMapper) {
             JsonNode fromActivityIdsNode = jsonNode.get(FROM_ACTIVITY_IDS_JSON_PROPERTY);
-            List<string> fromActivityIds = objectMapper.convertValue(fromActivityIdsNode, new TypeReference<List<string>>() {
+            List!string fromActivityIds = objectMapper.convertValue(fromActivityIdsNode, new TypeReference<List<string>>() {
 
             });
             string toActivityId = jsonNode.get(TO_ACTIVITY_ID_JSON_PROPERTY).textValue();
@@ -423,7 +423,7 @@ class ProcessInstanceMigrationDocumentConverter {
             Optional.ofNullable(getNewAssigneeFromJson(jsonNode))
                 .ifPresent(manyToOneMapping::withNewAssignee);
 
-            Map<string, Object> localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
+            Map!(string, Object) localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
             if (localVariables !is null) {
                 manyToOneMapping.withLocalVariables(localVariables);
             }
@@ -462,7 +462,7 @@ class ProcessInstanceMigrationDocumentConverter {
         public ActivityMigrationMapping.OneToManyMapping convertFromJson(JsonNode jsonNode, ObjectMapper objectMapper) {
             string fromActivityId = jsonNode.get(FROM_ACTIVITY_ID_JSON_PROPERTY).textValue();
             JsonNode toActivityIdsNode = jsonNode.get(TO_ACTIVITY_IDS_JSON_PROPERTY);
-            List<string> toActivityIds = objectMapper.convertValue(toActivityIdsNode, new TypeReference<List<string>>() {
+            List!string toActivityIds = objectMapper.convertValue(toActivityIdsNode, new TypeReference<List<string>>() {
 
             });
 

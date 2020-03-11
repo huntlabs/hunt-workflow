@@ -12,10 +12,10 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 interface CandidateManager {
 
-    List<string> getGroupsForCandidateUser(string candidateUser);
+    List!string getGroupsForCandidateUser(string candidateUser);
 
 }

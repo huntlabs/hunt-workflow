@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,11 +12,11 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.Process;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.Process;
 import flow.common.api.repository.EngineResource;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.persistence.entity.DeploymentEntity;
@@ -25,7 +25,7 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 /**
  * An intermediate representation of a DeploymentEntity which keeps track of all of the entity's ProcessDefinitionEntities and resources, and BPMN parses, models, and processes associated with each
  * ProcessDefinitionEntity - all produced by parsing the deployment.
- * 
+ *
  * The ProcessDefinitionEntities are expected to be "not fully set-up" - they may be inconsistent with the DeploymentEntity and/or the persisted versions, and if the deployment is new, they will not
  * yet be persisted.
  */

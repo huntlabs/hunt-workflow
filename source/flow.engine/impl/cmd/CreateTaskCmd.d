@@ -17,14 +17,14 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskBuilder;
+import flow.task.api.Task;
+import flow.task.api.TaskBuilder;
 import org.flowable.task.service.impl.persistence.CountingTaskEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.task.service.impl.util.CountingTaskUtil;
 
 /**
- * Creates new task by {@link org.flowable.task.api.TaskBuilder}
+ * Creates new task by {@link flow.task.api.TaskBuilder}
  *
  * @author martin.grofcik
  */

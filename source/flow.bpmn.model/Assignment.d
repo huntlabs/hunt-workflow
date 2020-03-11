@@ -11,8 +11,11 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.Assignment;
 
-class Assignment extends BaseElement {
+import flow.bpmn.model.BaseElement;
+
+class Assignment : BaseElement {
 
     protected string from;
     protected string to;
@@ -33,7 +36,7 @@ class Assignment extends BaseElement {
         this.to = to;
     }
 
-    @Override
+    override
     public Assignment clone() {
         Assignment clone = new Assignment();
         clone.setValues(this);

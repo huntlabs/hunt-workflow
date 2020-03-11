@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,9 +12,9 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.UserTask;
 import flow.engine.deleg.DelegateExecution;
 
 
@@ -31,16 +31,16 @@ class CreateUserTaskBeforeContext {
     protected string skipExpression;
     protected string assignee;
     protected string owner;
-    protected List<string> candidateUsers;
-    protected List<string> candidateGroups;
-    
+    protected List!string candidateUsers;
+    protected List!string candidateGroups;
+
     public CreateUserTaskBeforeContext() {
-        
+
     }
 
     public CreateUserTaskBeforeContext(UserTask userTask, DelegateExecution execution, string name, string description, string dueDate,
                     string priority, string category, string formKey, string skipExpression, string assignee, string owner,
-                    List<string> candidateUsers, List<string> candidateGroups) {
+                    List!string candidateUsers, List!string candidateGroups) {
 
         this.userTask = userTask;
         this.execution = execution;
@@ -145,19 +145,19 @@ class CreateUserTaskBeforeContext {
         this.owner = owner;
     }
 
-    public List<string> getCandidateUsers() {
+    public List!string getCandidateUsers() {
         return candidateUsers;
     }
 
-    public void setCandidateUsers(List<string> candidateUsers) {
+    public void setCandidateUsers(List!string candidateUsers) {
         this.candidateUsers = candidateUsers;
     }
 
-    public List<string> getCandidateGroups() {
+    public List!string getCandidateGroups() {
         return candidateGroups;
     }
 
-    public void setCandidateGroups(List<string> candidateGroups) {
+    public void setCandidateGroups(List!string candidateGroups) {
         this.candidateGroups = candidateGroups;
     }
 }

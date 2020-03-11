@@ -11,14 +11,16 @@
  * limitations under the License.
  */
 
-
-/**
- * @author faizal-manan
- */
-interface PasswordEncoder {
-
-    string encode(CharSequence rawPassword, PasswordSalt passwordSalt);
-
-    bool isMatches(CharSequence rawPassword, string encodedPassword, PasswordSalt salt);
-
-}
+module flow.idm.api.PasswordEncoder;
+//import flow.idm.api.CharSequence;
+//import flow.idm.api.PasswordSalt;
+///**
+// * @author faizal-manan
+// */
+//interface PasswordEncoder {
+//
+//    string encode(CharSequence rawPassword, PasswordSalt passwordSalt);
+//
+//    bool isMatches(CharSequence rawPassword, string encodedPassword, PasswordSalt salt);
+//
+//}

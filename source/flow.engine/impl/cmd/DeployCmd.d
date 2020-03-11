@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,11 +13,11 @@
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -86,7 +86,7 @@ class DeployCmd<T> implements Command<Deployment>, Serializable {
                 if (!deploymentEntities.isEmpty()) {
                     existingDeployments.add(deploymentEntities.get(0));
                 }
-                
+
             } else {
                 List<Deployment> deploymentList = processEngineConfiguration.getRepositoryService().createDeploymentQuery().deploymentName(deployment.getName())
                         .deploymentTenantId(deployment.getTenantId()).orderByDeploymentTime().desc().list();
@@ -118,7 +118,7 @@ class DeployCmd<T> implements Command<Deployment>, Serializable {
         }
 
         // Deployment settings
-        Map<string, Object> deploymentSettings = new HashMap<>();
+        Map!(string, Object) deploymentSettings = new HashMap<>();
         deploymentSettings.put(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED, deploymentBuilder.isBpmn20XsdValidationEnabled());
         deploymentSettings.put(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED, deploymentBuilder.isProcessValidationEnabled());
 

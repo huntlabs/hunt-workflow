@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,20 +11,27 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.Lane;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.Process;
+//import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * @author Tijs Rademakers
  */
-class Lane extends BaseElement {
+class Lane : BaseElement {
 
     protected string name;
     protected Process parentProcess;
-    protected List<string> flowReferences = new ArrayList<>();
+    protected List!string flowReferences ;//= new ArrayList<>();
+
+    this()
+    {
+      flowReferences = new ArrayList!string;
+    }
 
     public string getName() {
         return name;
@@ -34,7 +41,7 @@ class Lane extends BaseElement {
         this.name = name;
     }
 
-    @JsonBackReference
+    //@JsonBackReference
     public Process getParentProcess() {
         return parentProcess;
     }
@@ -43,15 +50,15 @@ class Lane extends BaseElement {
         this.parentProcess = parentProcess;
     }
 
-    public List<string> getFlowReferences() {
+    public List!string getFlowReferences() {
         return flowReferences;
     }
 
-    public void setFlowReferences(List<string> flowReferences) {
+    public void setFlowReferences(List!string flowReferences) {
         this.flowReferences = flowReferences;
     }
 
-    @Override
+    override
     public Lane clone() {
         Lane clone = new Lane();
         clone.setValues(this);
@@ -63,7 +70,7 @@ class Lane extends BaseElement {
         setName(otherElement.getName());
         setParentProcess(otherElement.getParentProcess());
 
-        flowReferences = new ArrayList<>();
+        flowReferences = new ArrayList!string();
         if (otherElement.getFlowReferences() !is null && !otherElement.getFlowReferences().isEmpty()) {
             flowReferences.addAll(otherElement.getFlowReferences());
         }

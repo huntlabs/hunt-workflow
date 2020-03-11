@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,11 +11,11 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.MultiInstanceLoopCharacteristics;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.CollectionHandler;
 
-/**
- * @author Tijs Rademakers
- */
-class MultiInstanceLoopCharacteristics extends BaseElement {
+class MultiInstanceLoopCharacteristics : BaseElement {
 
     protected string inputDataItem;
     protected string collectionString;
@@ -90,7 +90,7 @@ class MultiInstanceLoopCharacteristics extends BaseElement {
         this.sequential = sequential;
     }
 
-    @Override
+    override
     public MultiInstanceLoopCharacteristics clone() {
         MultiInstanceLoopCharacteristics clone = new MultiInstanceLoopCharacteristics();
         clone.setValues(this);

@@ -15,8 +15,8 @@
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import hunt.collection.HashSet;
+import hunt.collection.Set;
 
 import flow.engine.FormService;
 import flow.engine.HistoryService;

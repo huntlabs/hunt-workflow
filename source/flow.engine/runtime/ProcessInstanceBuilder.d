@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,20 +11,21 @@
  * limitations under the License.
  */
 
+module flow.engine.runtime.ProcessInstanceBuilder;
 
-import java.util.Map;
-
+import hunt.collection.Map;
+import flow.engine.runtime.ProcessInstance;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 
 /**
  * Helper for starting new ProcessInstance.
- * 
+ *
  * An instance can be obtained through {@link flow.engine.RuntimeService#createProcessInstanceBuilder()}.
- * 
+ *
  * processDefinitionId or processDefinitionKey should be set before calling {@link #start()} to start a process instance.
- * 
- * 
+ *
+ *
  * @author Bassam Al-Sarori
  * @author Joram Barrez
  */
@@ -54,12 +55,12 @@ interface ProcessInstanceBuilder {
      * Set the businessKey of process instance
      **/
     ProcessInstanceBuilder businessKey(string businessKey);
-    
+
     /**
      * Sets the callback identifier of the process instance.
      */
     ProcessInstanceBuilder callbackId(string callbackId);
-    
+
     /**
      * Sets the callback type of the process instance.
      */
@@ -84,13 +85,13 @@ interface ProcessInstanceBuilder {
      * Set the tenantId of to lookup the process definition
      **/
     ProcessInstanceBuilder tenantId(string tenantId);
-    
+
     /**
      * Indicator to override the tenant id of the process definition with the provided value.
      * The tenantId to lookup the process definition should still be provided if needed.
      */
     ProcessInstanceBuilder overrideProcessDefinitionTenantId(string tenantId);
-    
+
     /**
      * When starting a process instance from the CMMN engine process task, the process instance id needs to be known beforehand
      * to store entity links and callback references before the process instance is started.
@@ -100,7 +101,7 @@ interface ProcessInstanceBuilder {
     /**
      * Sets the process variables
      */
-    ProcessInstanceBuilder variables(Map<string, Object> variables);
+    ProcessInstanceBuilder variables(Map!(string, Object) variables);
 
     /**
      * Adds a variable to the process instance
@@ -110,7 +111,7 @@ interface ProcessInstanceBuilder {
     /**
      * Sets the transient variables
      */
-    ProcessInstanceBuilder transientVariables(Map<string, Object> transientVariables);
+    ProcessInstanceBuilder transientVariables(Map!(string, Object) transientVariables);
 
     /**
      * Adds a transient variable to the process instance
@@ -120,7 +121,7 @@ interface ProcessInstanceBuilder {
     /**
      * Adds variables from a start form to the process instance.
      */
-    ProcessInstanceBuilder startFormVariables(Map<string, Object> startFormVariables);
+    ProcessInstanceBuilder startFormVariables(Map!(string, Object) startFormVariables);
 
     /**
      * Adds one variable from a start form to the process instance.
@@ -139,7 +140,7 @@ interface ProcessInstanceBuilder {
 
     /**
      * Start the process instance
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             if processDefinitionKey and processDefinitionId are null
      * @throws FlowableObjectNotFoundException

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,9 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
-import java.util.Collections;
+import hunt.collections;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.interceptor.CommandContext;
@@ -32,23 +32,23 @@ import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEnt
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class TaskEndedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransformer {
-    
+
     @Override
-    public List<string> getTypes() {
+    public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_TASK_ENDED);
     }
-    
+
     @Override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string taskId = getStringFromJson(historicalData, HistoryJsonConstants.ID);
         HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
         HistoricTaskInstanceEntity historicTaskInstance = historicTaskService.getHistoricTask(taskId);
-        
+
         if (historicTaskInstance !is null) {
             Date lastUpdateTime = getDateFromJson(historicalData, HistoryJsonConstants.TIMESTAMP);
             if (historicTaskInstance.getLastUpdateTime() is null || !historicTaskInstance.getLastUpdateTime().after(lastUpdateTime)) {
                 historicTaskInstance.setLastUpdateTime(lastUpdateTime);
-                
+
                 historicTaskInstance.setName(getStringFromJson(historicalData, HistoryJsonConstants.NAME));
                 historicTaskInstance.setParentTaskId(getStringFromJson(historicalData, HistoryJsonConstants.PARENT_TASK_ID));
                 historicTaskInstance.setDescription(getStringFromJson(historicalData, HistoryJsonConstants.DESCRIPTION));
@@ -68,21 +68,21 @@ class TaskEndedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransf
                 historicTaskInstance.setFormKey(getStringFromJson(historicalData, HistoryJsonConstants.FORM_KEY));
                 historicTaskInstance.setClaimTime(getDateFromJson(historicalData, HistoryJsonConstants.CLAIM_TIME));
                 historicTaskInstance.setTenantId(getStringFromJson(historicalData, HistoryJsonConstants.TENANT_ID));
-                
+
             }
-            
+
             Date endTime = getDateFromJson(historicalData, HistoryJsonConstants.END_TIME);
             historicTaskInstance.setEndTime(endTime);
             historicTaskInstance.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
-    
+
             Date startTime = historicTaskInstance.getStartTime();
             if (startTime !is null && endTime !is null) {
                 historicTaskInstance.setDurationInMillis(endTime.getTime() - startTime.getTime());
             }
-            
+
         } else {
             string executionId = getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID);
-            
+
             historicTaskInstance = historicTaskService.createHistoricTask();
             historicTaskInstance.setId(taskId);
             historicTaskInstance.setProcessDefinitionId(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_ID));
@@ -108,16 +108,16 @@ class TaskEndedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransf
             historicTaskInstance.setClaimTime(getDateFromJson(historicalData, HistoryJsonConstants.CLAIM_TIME));
             historicTaskInstance.setTenantId(getStringFromJson(historicalData, HistoryJsonConstants.TENANT_ID));
             historicTaskInstance.setLastUpdateTime(getDateFromJson(historicalData, HistoryJsonConstants.TIMESTAMP));
-    
+
             Date endTime = getDateFromJson(historicalData, HistoryJsonConstants.END_TIME);
             historicTaskInstance.setEndTime(endTime);
             historicTaskInstance.setDeleteReason(getStringFromJson(historicalData, HistoryJsonConstants.DELETE_REASON));
-    
+
             Date startTime = historicTaskInstance.getStartTime();
             if (startTime !is null && endTime !is null) {
                 historicTaskInstance.setDurationInMillis(endTime.getTime() - startTime.getTime());
             }
-            
+
             historicTaskService.insertHistoricTask(historicTaskInstance, true);
 
             if (StringUtils.isNotEmpty(executionId)) {

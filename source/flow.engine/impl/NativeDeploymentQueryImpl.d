@@ -12,8 +12,8 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.query.AbstractNativeQuery;
 import flow.common.interceptor.CommandContext;
@@ -37,12 +37,12 @@ class NativeDeploymentQueryImpl extends AbstractNativeQuery<NativeDeploymentQuer
     // results ////////////////////////////////////////////////////////////////
 
     @Override
-    public List<Deployment> executeList(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public List<Deployment> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentsByNativeQuery(parameterMap);
     }
 
     @Override
-    public long executeCount(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentCountByNativeQuery(parameterMap);
     }
 

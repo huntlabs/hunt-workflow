@@ -10,17 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.model.DataAssociation;
 
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.Assignment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-class DataAssociation extends BaseElement {
+class DataAssociation : BaseElement {
 
     protected string sourceRef;
     protected string targetRef;
     protected string transformation;
-    protected List<Assignment> assignments = new ArrayList<>();
+    protected List!Assignment assignments ;// = new ArrayList<>();
+
+    this()
+    {
+        assignments = new ArrayList!Assignment;
+    }
 
     public string getSourceRef() {
         return sourceRef;
@@ -46,15 +53,15 @@ class DataAssociation extends BaseElement {
         this.transformation = transformation;
     }
 
-    public List<Assignment> getAssignments() {
+    public List!Assignment getAssignments() {
         return assignments;
     }
 
-    public void setAssignments(List<Assignment> assignments) {
+    public void setAssignments(List!Assignment assignments) {
         this.assignments = assignments;
     }
 
-    @Override
+    override
     public DataAssociation clone() {
         DataAssociation clone = new DataAssociation();
         clone.setValues(this);
@@ -66,9 +73,9 @@ class DataAssociation extends BaseElement {
         setTargetRef(otherAssociation.getTargetRef());
         setTransformation(otherAssociation.getTransformation());
 
-        assignments = new ArrayList<>();
+        assignments = new ArrayList!Assignment();
         if (otherAssociation.getAssignments() !is null && !otherAssociation.getAssignments().isEmpty()) {
-            for (Assignment assignment : otherAssociation.getAssignments()) {
+            foreach (Assignment assignment ; otherAssociation.getAssignments()) {
                 assignments.add(assignment.clone());
             }
         }

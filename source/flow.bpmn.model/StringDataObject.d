@@ -11,18 +11,20 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.StringDataObject;
 
+import flow.bpmn.model.ValuedDataObject;
 /**
  * @author Lori Small
  */
-class StringDataObject extends ValuedDataObject {
+class StringDataObject : ValuedDataObject {
 
-    @Override
+    override
     public void setValue(Object value) {
         this.value = value.toString();
     }
 
-    @Override
+    override
     public StringDataObject clone() {
         StringDataObject clone = new StringDataObject();
         clone.setValues(this);

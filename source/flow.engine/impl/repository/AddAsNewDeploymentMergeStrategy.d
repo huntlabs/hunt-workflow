@@ -20,8 +20,8 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.DeploymentMergeStrategy;
 import flow.engine.repository.ProcessDefinition;
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.stream.Collectors;
 
 /**

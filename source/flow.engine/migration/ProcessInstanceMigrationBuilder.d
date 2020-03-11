@@ -13,7 +13,7 @@
 
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 import org.flowable.batch.api.Batch;
 
@@ -138,7 +138,7 @@ interface ProcessInstanceMigrationBuilder {
      * @param variables
      * @return
      */
-    ProcessInstanceMigrationBuilder withProcessInstanceVariables(Map<string, Object> variables);
+    ProcessInstanceMigrationBuilder withProcessInstanceVariables(Map!(string, Object) variables);
 
     /**
      * Builds a ProcessInstanceMigrationDocument

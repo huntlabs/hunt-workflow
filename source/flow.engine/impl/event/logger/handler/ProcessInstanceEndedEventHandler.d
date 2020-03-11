@@ -12,8 +12,8 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
@@ -30,7 +30,7 @@ class ProcessInstanceEndedEventHandler extends AbstractDatabaseEventLoggerEventH
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         ExecutionEntity processInstanceEntity = getEntityFromEvent();
 
-        Map<string, Object> data = new HashMap<>();
+        Map!(string, Object) data = new HashMap<>();
         putInMapIfNotNull(data, Fields.ID, processInstanceEntity.getId());
         putInMapIfNotNull(data, Fields.BUSINESS_KEY, processInstanceEntity.getBusinessKey());
         putInMapIfNotNull(data, Fields.PROCESS_DEFINITION_ID, processInstanceEntity.getProcessDefinitionId());

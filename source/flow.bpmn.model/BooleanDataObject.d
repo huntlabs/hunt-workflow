@@ -11,24 +11,34 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.BooleanDataObject;
 
-import org.apache.commons.lang3.StringUtils;
+import flow.bpmn.model.ValuedDataObject;
+import hunt.String;
+import std.string;
+import hunt.Boolean;
+//import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Lori Small
  */
-class BooleanDataObject extends ValuedDataObject {
 
-    @Override
+    //String s = cast(String)value; //strip
+    //  if (s !is null && strip(s.value).length != 0) {
+
+class BooleanDataObject : ValuedDataObject {
+
+    override
     public void setValue(Object value) {
-    	if (value instanceof string && !StringUtils.isEmpty(((string) value).trim())) {
-    		this.value = bool.valueOf(value.toString());
-    	} else if (value instanceof bool) {
+      String s = cast(String)value;
+    	if (s !is null &&  strip(s.value).length != 0) {
+    		this.value = Boolean.valueOf(s.value);
+    	} else if (cast(Boolean)value !is null) {
     		this.value = value;
     	}
     }
 
-    @Override
+    override
     public BooleanDataObject clone() {
         BooleanDataObject clone = new BooleanDataObject();
         clone.setValues(this);

@@ -10,16 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.history.NativeHistoricProcessInstanceQuery;
 
 import flow.common.api.query.NativeQuery;
-import org.flowable.task.api.history.HistoricTaskInstanceQuery;
+import flow.task.api.history.HistoricTaskInstanceQuery;
+import flow.engine.history.HistoricProcessInstance;
 
 /**
  * Allows querying of {@link HistoricTaskInstanceQuery}s via native (SQL) queries
- * 
+ *
  * @author Bernd Ruecker (camunda)
  */
-interface NativeHistoricProcessInstanceQuery extends NativeQuery<NativeHistoricProcessInstanceQuery, HistoricProcessInstance> {
+interface NativeHistoricProcessInstanceQuery : NativeQuery!(NativeHistoricProcessInstanceQuery, HistoricProcessInstance) {
 
 }

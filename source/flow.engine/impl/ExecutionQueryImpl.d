@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,10 +12,10 @@
  */
 
 
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -81,9 +81,9 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     protected bool includeChildExecutionsWithBusinessKeyQuery;
     protected bool isActive;
     protected string involvedUser;
-    protected Set<string> involvedGroups;
-    protected Set<string> processDefinitionKeys;
-    protected Set<string> processDefinitionIds;
+    protected Set!string involvedGroups;
+    protected Set!string processDefinitionKeys;
+    protected Set!string processDefinitionIds;
 
     // Not exposed in API, but here for the ProcessInstanceQuery support, since
     // the name lives on the
@@ -92,12 +92,12 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     protected string nameLike;
     protected string nameLikeIgnoreCase;
     protected string deploymentId;
-    protected List<string> deploymentIds;
+    protected List!string deploymentIds;
     protected string callbackId;
     protected string callbackType;
     protected string referenceId;
     protected string referenceType;
-    
+
     protected List<ExecutionQueryImpl> orQueryObjects = new ArrayList<>();
     protected ExecutionQueryImpl currentOrQueryObject;
     protected bool inOrStatement;
@@ -242,7 +242,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             if (processInstanceBusinessKey is null) {
                 throw new FlowableIllegalArgumentException("Business key is null");
             }
-            
+
             if (inOrStatement) {
                 this.currentOrQueryObject.businessKey = processInstanceBusinessKey;
                 this.currentOrQueryObject.includeChildExecutionsWithBusinessKeyQuery = includeChildExecutions;
@@ -250,13 +250,13 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
                 this.businessKey = processInstanceBusinessKey;
                 this.includeChildExecutionsWithBusinessKeyQuery = includeChildExecutions;
             }
-            
+
             return this;
         }
     }
 
     @Override
-    public ExecutionQuery processDefinitionKeys(Set<string> processDefinitionKeys) {
+    public ExecutionQuery processDefinitionKeys(Set!string processDefinitionKeys) {
         if (processDefinitionKeys is null) {
             throw new FlowableIllegalArgumentException("Process definition keys is null");
         }
@@ -288,7 +288,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             if (activityId !is null) {
                 this.currentOrQueryObject.isActive = true;
             }
-            
+
         } else {
             this.activityId = activityId;
 
@@ -296,7 +296,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
                 this.isActive = true;
             }
         }
-        
+
         return this;
     }
 
@@ -376,7 +376,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         } else {
             this.withoutTenantId = true;
         }
-        
+
         return this;
     }
 
@@ -421,20 +421,20 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         if (eventType is null) {
             throw new FlowableIllegalArgumentException("event type is null");
         }
-        
+
         if (inOrStatement) {
             if (this.currentOrQueryObject.eventSubscriptions is null) {
                 this.currentOrQueryObject.eventSubscriptions = new ArrayList<>();
             }
             this.currentOrQueryObject.eventSubscriptions.add(new EventSubscriptionQueryValue(eventName, eventType));
-           
+
         } else {
             if (eventSubscriptions is null) {
                 eventSubscriptions = new ArrayList<>();
             }
             eventSubscriptions.add(new EventSubscriptionQueryValue(eventName, eventType));
         }
-        
+
         return this;
     }
 
@@ -485,7 +485,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             return this;
         } else {
             return variableValueNotEqualsIgnoreCase(name, value, false);
-        } 
+        }
     }
 
     @Override
@@ -507,7 +507,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             return variableValueLikeIgnoreCase(name, value, false);
         }
     }
-    
+
     @Override
     public ExecutionQuery processVariableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
@@ -567,7 +567,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             return variableNotExists(name, false);
         }
     }
-    
+
     @Override
     public ExecutionQuery variableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
@@ -615,7 +615,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             return this;
         } else {
             return variableValueNotEqualsIgnoreCase(name, value, true);
-        } 
+        }
     }
 
     @Override
@@ -637,7 +637,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             return variableValueLikeIgnoreCase(name, value, true);
         }
     }
-    
+
     @Override
     public ExecutionQuery variableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
@@ -705,7 +705,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         } else {
             this.locale = locale;
         }
-        
+
         return this;
     }
 
@@ -716,7 +716,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         } else {
             this.withLocalizationFallback = true;
         }
-        
+
         return this;
     }
 
@@ -725,13 +725,13 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         if (beforeTime is null) {
             throw new FlowableIllegalArgumentException("before time is null");
         }
-        
+
         if (inOrStatement) {
             currentOrQueryObject.startedBefore = beforeTime;
         } else {
             this.startedBefore = beforeTime;
         }
-        
+
         return this;
     }
 
@@ -740,7 +740,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         if (afterTime is null) {
             throw new FlowableIllegalArgumentException("after time is null");
         }
-        
+
         if (inOrStatement) {
             currentOrQueryObject.startedAfter = afterTime;
         } else {
@@ -755,7 +755,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         if (userId is null) {
             throw new FlowableIllegalArgumentException("user id is null");
         }
-        
+
         if (inOrStatement) {
             currentOrQueryObject.startedBy = userId;
         } else {
@@ -764,7 +764,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
         return this;
     }
-    
+
     @Override
     public ExecutionQuery or() {
         if (inOrStatement) {
@@ -819,12 +819,12 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     @Override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
-        
+
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
             processEngineConfiguration.getExecutionQueryInterceptor().beforeExecutionQueryExecute(this);
         }
-        
+
         return CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionCountByQueryCriteria(this);
     }
 
@@ -832,12 +832,12 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     @Override
     public List<Execution> executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
-        
+
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
             processEngineConfiguration.getExecutionQueryInterceptor().beforeExecutionQueryExecute(this);
         }
-        
+
         List<?> executions = CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionsByQueryCriteria(this);
 
         if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization()) {
@@ -860,7 +860,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
                 }
             }
         }
-        
+
         if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
             processEngineConfiguration.getExecutionQueryInterceptor().afterExecutionQueryExecute(this, (List<Execution>) executions);
         }
@@ -889,7 +889,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
             }
         }
     }
-    
+
     @Override
     protected void ensureVariablesInitialized() {
         super.ensureVariablesInitialized();
@@ -948,7 +948,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     public string getBusinessKey() {
         return businessKey;
     }
-    
+
     public string getBusinessKeyLike() {
         return businessKeyLike;
     }
@@ -956,7 +956,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     public string getExecutionId() {
         return executionId;
     }
-    
+
     @Override
     public string getId() {
         return executionId;
@@ -1006,19 +1006,19 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         this.involvedUser = involvedUser;
     }
 
-    public Set<string> getInvolvedGroups() {
+    public Set!string getInvolvedGroups() {
         return involvedGroups;
     }
 
-    public void setInvolvedGroups(Set<string> involvedGroups) {
+    public void setInvolvedGroups(Set!string involvedGroups) {
         this.involvedGroups = involvedGroups;
     }
 
-    public Set<string> getProcessDefinitionIds() {
+    public Set!string getProcessDefinitionIds() {
         return processDefinitionIds;
     }
 
-    public Set<string> getProcessDefinitionKeys() {
+    public Set!string getProcessDefinitionKeys() {
         return processDefinitionKeys;
     }
 
@@ -1090,11 +1090,11 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         this.deploymentId = deploymentId;
     }
 
-    public List<string> getDeploymentIds() {
+    public List!string getDeploymentIds() {
         return deploymentIds;
     }
 
-    public void setDeploymentIds(List<string> deploymentIds) {
+    public void setDeploymentIds(List!string deploymentIds) {
         this.deploymentIds = deploymentIds;
     }
 

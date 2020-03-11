@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,9 +14,9 @@
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collections;
+import hunt.collection.List;
 import java.util.zip.GZIPOutputStream;
 
 import flow.common.api.FlowableException;
@@ -39,9 +39,9 @@ class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
         return historyJobEntities;
     }
 
-    protected List<HistoryJobEntity> createJobsWithHistoricalData(CommandContext commandContext, 
+    protected List<HistoryJobEntity> createJobsWithHistoricalData(CommandContext commandContext,
             JobServiceConfiguration jobServiceConfiguration, List<ObjectNode> historyObjectNodes) {
-        
+
         AsyncHistorySession asyncHistorySession = commandContext.getSession(AsyncHistorySession.class);
         if (jobServiceConfiguration.isAsyncHistoryJsonGroupingEnabled() && historyObjectNodes.size() >= jobServiceConfiguration.getAsyncHistoryJsonGroupingThreshold()) {
             string jobType = getJobType(jobServiceConfiguration, true);
@@ -52,7 +52,7 @@ class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
             }
             addJsonToJob(commandContext, jobServiceConfiguration, jobEntity, arrayNode, jobServiceConfiguration.isAsyncHistoryJsonGzipCompressionEnabled());
             return Collections.singletonList(jobEntity);
-            
+
         } else {
             List<HistoryJobEntity> historyJobEntities = new ArrayList<>(historyObjectNodes.size());
             string jobType = getJobType(jobServiceConfiguration, false);
@@ -62,11 +62,11 @@ class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
                 historyJobEntities.add(jobEntity);
             }
             return historyJobEntities;
-            
+
         }
     }
-    
-    protected HistoryJobEntity createAndInsertJobEntity(CommandContext commandContext, AsyncHistorySession asyncHistorySession, 
+
+    protected HistoryJobEntity createAndInsertJobEntity(CommandContext commandContext, AsyncHistorySession asyncHistorySession,
             JobServiceConfiguration jobServiceConfiguration, string jobType) {
         HistoryJobEntity currentJobEntity = jobServiceConfiguration.getHistoryJobEntityManager().create();
         currentJobEntity.setJobHandlerType(jobType);
@@ -109,9 +109,9 @@ class DefaultAsyncHistoryJobProducer implements AsyncHistoryListener {
             return jobServiceConfiguration.getJobTypeAsyncHistory();
         }
     }
-    
+
     protected void processHistoryJobEntities(List<HistoryJobEntity> historyJobEntities) {
-        // Meant to be overidden in case something extra needs to happen with the created history job entities. 
+        // Meant to be overidden in case something extra needs to happen with the created history job entities.
     }
 
 }

@@ -11,19 +11,19 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.event.registry.configurator.EventRegistryEngineConfigurator;
- 
- 
- 
 
 
-import java.util.ArrayList;
-import java.util.List;
+
+
+
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 import flow.common.api.FlowableException;
 import flow.common.AbstractEngineConfiguration;
@@ -31,11 +31,11 @@ import flow.common.AbstractEngineConfigurator;
 import flow.common.EngineDeployer;
 import flow.common.interceptor.EngineConfigurationConstants;
 import flow.common.persistence.entity.Entity;
-import org.flowable.eventregistry.impl.EventRegistryEngine;
-import org.flowable.eventregistry.impl.EventRegistryEngineConfiguration;
-import org.flowable.eventregistry.impl.cfg.StandaloneEventRegistryEngineConfiguration;
-import org.flowable.eventregistry.impl.configurator.deployer.EventDeployer;
-import org.flowable.eventregistry.impl.db.EntityDependencyOrder;
+import flow.event.registry.EventRegistryEngine;
+import flow.event.registry.EventRegistryEngineConfiguration;
+import flow.event.registry.cfg.StandaloneEventRegistryEngineConfiguration;
+import flow.event.registry.configurator.deployer.EventDeployer;
+import flow.event.registry.db.EntityDependencyOrder;
 
 /**
  * @author Tijs Rademakers
@@ -65,7 +65,7 @@ class EventRegistryEngineConfigurator : AbstractEngineConfigurator {
 
     @Override
     public void configure(AbstractEngineConfiguration engineConfiguration) {
-        if (eventEngineConfiguration == null) {
+        if (eventEngineConfiguration is null) {
             eventEngineConfiguration = new StandaloneEventRegistryEngineConfiguration();
         }
 
@@ -90,7 +90,7 @@ class EventRegistryEngineConfigurator : AbstractEngineConfigurator {
     }
 
     protected synchronized EventRegistryEngine initEventRegistryEngine() {
-        if (eventEngineConfiguration == null) {
+        if (eventEngineConfiguration is null) {
             throw new FlowableException("EventRegistryEngineConfiguration is required");
         }
 

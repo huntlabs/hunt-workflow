@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,7 +13,7 @@
 
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.engine.dynamic.DynamicProcessDefinitionSummary;
 import flow.engine.impl.dynamic.DynamicEmbeddedSubProcessBuilder;
@@ -23,15 +23,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Service providing access to the repository of process definitions and deployments.
- * 
+ *
  * @author Tijs Rademakers
  */
 interface DynamicBpmnService {
-    
+
     void injectUserTaskInProcessInstance(string processInstanceId, DynamicUserTaskBuilder dynamicUserTaskBuilder);
 
     void injectParallelUserTask(string taskId, DynamicUserTaskBuilder dynamicUserTaskBuilder);
-    
+
     void injectEmbeddedSubProcessInProcessInstance(string processInstanceId, DynamicEmbeddedSubProcessBuilder dynamicEmbeddedSubProcessBuilder);
 
     void injectParallelEmbeddedSubProcess(string taskId, DynamicEmbeddedSubProcessBuilder dynamicEmbeddedSubProcessBuilder);
@@ -55,17 +55,17 @@ interface DynamicBpmnService {
     ObjectNode changeScriptTaskScript(string id, string script);
 
     void changeScriptTaskScript(string id, string script, ObjectNode infoNode);
-    
+
     ObjectNode changeSkipExpression(string id, string skipExpression);
 
     void changeSkipExpression(string id, string skipExpression, ObjectNode infoNode);
-    
+
     void removeSkipExpression(string id, ObjectNode infoNode);
-    
+
     ObjectNode enableSkipExpression();
-    
+
     void enableSkipExpression(ObjectNode infoNode);
-    
+
     void removeEnableSkipExpression(ObjectNode infoNode);
 
     ObjectNode changeUserTaskName(string id, string name);
@@ -121,7 +121,7 @@ interface DynamicBpmnService {
      *            the candidate users.
      * @return a new processDefinitionNode with the candidate users for the given bpmn element.
      */
-    ObjectNode changeUserTaskCandidateUsers(string id, List<string> candidateUsers);
+    ObjectNode changeUserTaskCandidateUsers(string id, List!string candidateUsers);
 
     /**
      * Updates a processDefinitionInfo's {@link DynamicBpmnConstants#USER_TASK_CANDIDATE_USERS} with the new list. Previous values for the BPMN Element with
@@ -138,7 +138,7 @@ interface DynamicBpmnService {
      * @param infoNode
      *            the current processDefinitionInfo. This object will be modified.
      */
-    void changeUserTaskCandidateUsers(string id, List<string> candidateUsers, ObjectNode infoNode);
+    void changeUserTaskCandidateUsers(string id, List!string candidateUsers, ObjectNode infoNode);
 
     /**
      * Creates a new processDefinitionInfo with {@link DynamicBpmnConstants#USER_TASK_CANDIDATE_USERS} for the given BPMN element.
@@ -153,7 +153,7 @@ interface DynamicBpmnService {
      *            the candidate groups.
      * @return a new processDefinitionNode with the candidate users for the given bpmn element.
      */
-    ObjectNode changeUserTaskCandidateGroups(string id, List<string> candidateGroups);
+    ObjectNode changeUserTaskCandidateGroups(string id, List!string candidateGroups);
 
     /**
      * Updates a processDefinitionInfo's {@link DynamicBpmnConstants#USER_TASK_CANDIDATE_USERS} with the new list. Previous values for the BPMN Element with
@@ -170,8 +170,8 @@ interface DynamicBpmnService {
      * @param infoNode
      *            the current processDefinitionInfo. This object will be modified.
      */
-    void changeUserTaskCandidateGroups(string id, List<string> candidateGroups, ObjectNode infoNode);
-    
+    void changeUserTaskCandidateGroups(string id, List!string candidateGroups, ObjectNode infoNode);
+
     ObjectNode changeMultiInstanceCompletionCondition(string id, string completionCondition);
 
     void changeMultiInstanceCompletionCondition(string id, string completionCondition, ObjectNode infoNode);
@@ -202,7 +202,7 @@ interface DynamicBpmnService {
 
     /**
      * <p>
-     * Clears the field from the infoNode. So the engine uses the {@link org.flowable.bpmn.model.BpmnModel} value On next instance.
+     * Clears the field from the infoNode. So the engine uses the {@link flow.bpmn.model.BpmnModel} value On next instance.
      * </p>
      *
      * <p color="red">
@@ -219,7 +219,7 @@ interface DynamicBpmnService {
     void resetProperty(string elementId, string property, ObjectNode infoNode);
 
     /**
-     * Gives a summary between the {@link org.flowable.bpmn.model.BpmnModel} and {@link DynamicBpmnService#getProcessDefinitionInfo(string)}
+     * Gives a summary between the {@link flow.bpmn.model.BpmnModel} and {@link DynamicBpmnService#getProcessDefinitionInfo(string)}
      *
      * @param processDefinitionId
      *            the process definition id (key:version:sequence)

@@ -12,9 +12,9 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collections;
+import hunt.collection.List;
 
 import org.flowable.batch.service.impl.persistence.entity.BatchByteArrayEntityImpl;
 import org.flowable.batch.service.impl.persistence.entity.BatchEntityImpl;
@@ -72,11 +72,11 @@ class EntityDependencyOrder {
 
         /*
          * In the comments below:
-         * 
+         *
          * 'FK to X' : X should be BELOW the entity
-         * 
+         *
          * 'FK from X': X should be ABOVE the entity
-         * 
+         *
          */
 
         /* No FK */
@@ -95,7 +95,7 @@ class EntityDependencyOrder {
          * FK to Deployment FK to ByteArray
          */
         DELETE_ORDER.add(ModelEntityImpl.class);
-        
+
         DELETE_ORDER.add(BatchPartEntityImpl.class);
         DELETE_ORDER.add(BatchEntityImpl.class);
 
@@ -106,7 +106,7 @@ class EntityDependencyOrder {
         DELETE_ORDER.add(TimerJobEntityImpl.class);
         DELETE_ORDER.add(SuspendedJobEntityImpl.class);
         DELETE_ORDER.add(DeadLetterJobEntityImpl.class);
-        
+
         /*
          * FK to ByteArray
          */
@@ -124,7 +124,7 @@ class EntityDependencyOrder {
 
         /*
          * FK from ModelEntity FK from JobEntity FK from VariableInstanceEntity
-         * 
+         *
          * FK to DeploymentEntity
          */
         DELETE_ORDER.add(ByteArrayEntityImpl.class);
@@ -134,7 +134,7 @@ class EntityDependencyOrder {
 
         /*
          * FK from ModelEntity FK from JobEntity FK from VariableInstanceEntity
-         * 
+         *
          * FK to DeploymentEntity
          */
         DELETE_ORDER.add(ResourceEntityImpl.class);
@@ -167,7 +167,7 @@ class EntityDependencyOrder {
          * FK to Execution
          */
         DELETE_ORDER.add(SignalEventSubscriptionEntityImpl.class);
-        
+
         DELETE_ORDER.add(EntityLinkEntityImpl.class);
 
         /*
@@ -177,7 +177,7 @@ class EntityDependencyOrder {
 
         /*
          * FK from IdentityLink
-         * 
+         *
          * FK to Execution FK to process definition
          */
         DELETE_ORDER.add(TaskEntityImpl.class);
@@ -200,7 +200,7 @@ class EntityDependencyOrder {
         DELETE_ORDER.add(ProcessDefinitionEntityImpl.class);
 
         // History entities have no FK's
-        
+
         DELETE_ORDER.add(HistoricEntityLinkEntityImpl.class);
 
         DELETE_ORDER.add(HistoricIdentityLinkEntityImpl.class);
@@ -221,5 +221,5 @@ class EntityDependencyOrder {
         Collections.reverse(INSERT_ORDER);
 
     }
-    
+
 }

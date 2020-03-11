@@ -11,8 +11,11 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.DataStore;
 
-class DataStore extends BaseElement {
+import flow.bpmn.model.BaseElement;
+
+class DataStore : BaseElement {
 
     protected string name;
     protected string dataState;
@@ -42,7 +45,7 @@ class DataStore extends BaseElement {
         this.itemSubjectRef = itemSubjectRef;
     }
 
-    @Override
+    override
     public DataStore clone() {
         DataStore clone = new DataStore();
         clone.setValues(this);

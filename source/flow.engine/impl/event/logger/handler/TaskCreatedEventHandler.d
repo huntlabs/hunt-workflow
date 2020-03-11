@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.interceptor.CommandContext;
@@ -27,7 +27,7 @@ class TaskCreatedEventHandler extends AbstractTaskEventHandler {
     @Override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         TaskEntity task = (TaskEntity) ((FlowableEntityEvent) event).getEntity();
-        Map<string, Object> data = handleCommonTaskFields(task);
+        Map!(string, Object) data = handleCommonTaskFields(task);
         return createEventLogEntry(task.getProcessDefinitionId(), task.getProcessInstanceId(), task.getExecutionId(), task.getId(), data);
     }
 

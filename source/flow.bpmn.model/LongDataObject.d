@@ -11,24 +11,34 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.LongDataObject;
 
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 
+import flow.bpmn.model.ValuedDataObject;
+import hunt.Long;
+import std.string;
+import hunt.String;
+import hunt.Number;
 /**
  * @author Lori Small
  */
-class LongDataObject extends ValuedDataObject {
 
-    @Override
+    //String s = cast(String)value; //strip
+    //  if (s !is null && strip(s.value).length != 0) {
+
+class LongDataObject : ValuedDataObject {
+    override
     public void setValue(Object value) {
-    	if (value instanceof string && !StringUtils.isEmpty(((string) value).trim())) {
-    		this.value = Long.valueOf(value.toString());
-    	} else if (value instanceof Number) {
-    		this.value = (Long) value;
+      String s = cast(String)value;
+    	if (s !is null && strip(s.value).length != 0) {
+    		this.value = Long.valueOf(s.value);
+    	} else if ((cast(Long) value) !is null) {
+    		this.value = cast(Long) value;
     	}
     }
 
-    @Override
+    override
     public LongDataObject clone() {
         LongDataObject clone = new LongDataObject();
         clone.setValues(this);

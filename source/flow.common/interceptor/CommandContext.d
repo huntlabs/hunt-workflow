@@ -11,19 +11,19 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.common.interceptor.CommandContext;
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
 
-//import java.util.ArrayList;
-//import java.util.HashMap;
+module flow.common.interceptor.CommandContext;
+
+
+//import hunt.collection.ArrayList;
+//import hunt.collection.HashMap;
 //import java.util.LinkedList;
-//import java.util.List;
-//import java.util.Map;
+//import hunt.collection.List;
+//import hunt.collection.Map;
 
 import flow.common.AbstractEngineConfiguration;
 import flow.common.interceptor.Command;
@@ -100,7 +100,7 @@ class CommandContext {
                 // Sessions need to be closed, regardless of exceptions/commit/rollback
                 closeSessions();
             }
-            
+
         } catch (Throwable exception) {
             // Catch exceptions during session closing
             exception(exception);
@@ -218,7 +218,7 @@ class CommandContext {
 
     /**
      * Stores the provided exception on this {@link CommandContext} instance. That exception will be rethrown at the end of closing the {@link CommandContext} instance.
-     * 
+     *
      * If there is already an exception being stored, a 'masked exception' message will be logged.
      */
     public void exception(Throwable exception) {
@@ -236,7 +236,7 @@ class CommandContext {
 
     public void addAttribute(string key, Object value) {
         if (attributes is null) {
-            attributes = new HashMap<>(1);
+            attributes = new HashMap(string, Object)(1);
         }
         attributes.put(key, value);
     }
@@ -247,7 +247,7 @@ class CommandContext {
         }
         return null;
     }
-    
+
     public Session getSession(TypeInfo sessionClass) {
         Session session = sessions.get(sessionClass);
         if (session is null) {
@@ -266,10 +266,10 @@ class CommandContext {
     public Map!(TypeInfo, SessionFactory) getSessionFactories() {
         return sessionFactories;
     }
-    
+
     public void setSessionFactories(Map!(TypeInfo, SessionFactory) sessionFactories) {
         this.sessionFactories = sessionFactories;
-    }   
+    }
 
     public AbstractEngineConfiguration getCurrentEngineConfiguration() {
         return currentEngineConfiguration;
@@ -286,22 +286,22 @@ class CommandContext {
     public void setEngineConfigurations(Map!(string, AbstractEngineConfiguration) engineConfigurations) {
         this.engineConfigurations = engineConfigurations;
     }
-    
+
     public void addEngineConfiguration(string engineKey, AbstractEngineConfiguration engineConfiguration) {
         if (engineConfigurations is null) {
             engineConfigurations = new HashMap!(string,AbstractEngineConfiguration);
         }
         engineConfigurations.put(engineKey, engineConfiguration);
     }
-    
+
     // getters and setters
     // //////////////////////////////////////////////////////
-    
+
     public CommandAbstract getCommand() {
         return command;
     }
 
-    public Map!(TypeInfo, Session>)getSessions() {
+    public Map!(TypeInfo, Session)getSessions() {
         return sessions;
     }
 
@@ -316,7 +316,7 @@ class CommandContext {
     public void setReused(bool reused) {
         this.reused = reused;
     }
-    
+
     public Object getResult() {
         return resultStack.pollLast();
     }
@@ -324,5 +324,5 @@ class CommandContext {
     public void setResult(Object result) {
         resultStack.add(result);
     }
-    
+
 }

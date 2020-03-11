@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Collection;
+import hunt.collection;
 import java.util.Iterator;
 
 import flow.common.context.Context;

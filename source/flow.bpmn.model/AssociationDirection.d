@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,17 +11,34 @@
  * limitations under the License.
  */
 
-
+module flow.bpmn.model.AssociationDirection;
+import std.concurrency : initOnce;
+import hunt.Enum;
 /**
  * @author Tijs Rademakers
  */
-public enum AssociationDirection {
-    NONE("None"), ONE("One"), BOTH("Both");
+class AssociationDirection :AbstractEnum!AssociationDirection {
+
+   static AssociationDirection NONE() {
+         __gshared AssociationDirection  inst;
+         return initOnce!inst(inst = new AssociationDirection!("None", 0));
+     }
+
+     static AssociationDirection ONE() {
+       __gshared AssociationDirection  inst;
+       return initOnce!inst(inst = new AssociationDirection!("One", 1));
+     }
+
+       static AssociationDirection BOTH() {
+         __gshared AssociationDirection  inst;
+         return initOnce!inst(inst = new AssociationDirection!("Both", 2));
+       }
 
     final string value;
 
-    AssociationDirection(final string value) {
+    this(string value ,int v) {
         this.value = value;
+        super(value,v);
     }
 
     public string getValue() {

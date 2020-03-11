@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.history.ProcessInstanceHistoryLogQuery;
 
 import flow.engine.task.Comment;
-import org.flowable.task.api.history.HistoricTaskInstance;
-import org.flowable.task.api.history.HistoricTaskInstanceQuery;
-import org.flowable.variable.api.history.HistoricVariableInstance;
+import flow.task.api.history.HistoricTaskInstance;
+import flow.task.api.history.HistoricTaskInstanceQuery;
+import flow.variable.service.api.history.HistoricVariableInstance;
 
 /**
  * Allows to fetch the {@link ProcessInstanceHistoryLog} for a process instance.
- * 
+ *
  * Note that every includeXXX() method below will lead to an additional query.
- * 
+ *
  * This class is actually a convenience on top of the other specific queries such as {@link HistoricTaskInstanceQuery}, {@link HistoricActivityInstanceQuery}, ... It will execute separate queries for
  * each included type, order the data according to the date (ascending) and wrap the results in the {@link ProcessInstanceHistoryLog}.
- * 
+ *
  * @author Joram Barrez
  */
 interface ProcessInstanceHistoryLogQuery {

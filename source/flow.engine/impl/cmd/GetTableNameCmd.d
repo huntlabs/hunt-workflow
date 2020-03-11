@@ -19,7 +19,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetTableNameCmd implements Command<string>, Serializable {
+class GetTableNameCmd implements Command!string, Serializable {
 
     private static final long serialVersionUID = 1L;
 

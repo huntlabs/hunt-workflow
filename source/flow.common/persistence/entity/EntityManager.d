@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,11 +11,14 @@
  * limitations under the License.
  */
 
+module flow.common.persistence.entity.EntityManager;
 
 /**
  * @author Joram Barrez
  */
-interface EntityManager<EntityImpl extends Entity> {
+//interface EntityManager<EntityImpl extends Entity> {
+
+interface EntityManager(EntityImpl) {
 
     EntityImpl create();
 
@@ -29,10 +32,10 @@ interface EntityManager<EntityImpl extends Entity> {
 
     EntityImpl update(EntityImpl entity, bool fireUpdateEvent);
 
-    void delete(string id);
+    void dele(string id);
 
-    void delete(EntityImpl entity);
+    void dele(EntityImpl entity);
 
-    void delete(EntityImpl entity, bool fireDeleteEvent);
+    void dele(EntityImpl entity, bool fireDeleteEvent);
 
 }

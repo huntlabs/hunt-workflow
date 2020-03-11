@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,8 +14,8 @@
 
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
+import hunt.collection;
+import hunt.collection.List;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -36,19 +36,19 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * {@link Command} that changes the process definition version of an existing process instance.
- * 
+ *
  * Warning: This command will NOT perform any migration magic and simply set the process definition version in the database, assuming that the user knows, what he or she is doing.
- * 
+ *
  * This is only useful for simple migrations. The new process definition MUST have the exact same activity id to make it still run.
- * 
+ *
  * Furthermore, activities referenced by sub-executions and jobs that belong to the process instance MUST exist in the new process definition version.
- * 
+ *
  * The command will fail, if there is already a {@link ProcessInstance} or {@link HistoricProcessInstance} using the new process definition version and the same business key as the
  * {@link ProcessInstance} that is to be migrated.
- * 
+ *
  * If the process instance is not currently waiting but actively running, then this would be a case for optimistic locking, meaning either the version update or the "real work" wins, i.e., this is a
  * race condition.
- * 
+ *
  * @see {http://forums.activiti.org/en/viewtopic.php?t=2918}
  * @author Falko Menge
  */
@@ -114,7 +114,7 @@ class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
 
     protected void validateAndSwitchVersionOfExecution(CommandContext commandContext, ExecutionEntity execution, ProcessDefinition newProcessDefinition) {
         // check that the new process definition version contains the current activity
-        org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(newProcessDefinition.getId());
+        flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(newProcessDefinition.getId());
         if (execution.getActivityId() !is null && process.getFlowElement(execution.getActivityId(), true) is null) {
             throw new FlowableException("The new process definition " + "(key = '" + newProcessDefinition.getKey() + "') " + "does not contain the current activity " + "(id = '"
                     + execution.getActivityId() + "') " + "of the process instance " + "(id = '" + processInstanceId + "').");

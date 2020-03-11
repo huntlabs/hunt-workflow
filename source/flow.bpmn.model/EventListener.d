@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,11 +14,16 @@
 
 /**
  * Element for defining an event listener to hook in to the global event-mechanism.
- * 
+ *
  * @author Frederik Heremans
  * @author Joram Barrez
  */
-class EventListener extends BaseElement {
+
+module flow.bpmn.model.EventListener;
+
+import flow.bpmn.model.BaseElement;
+
+class EventListener : BaseElement {
 
     protected string events;
     protected string implementationType;
@@ -57,7 +62,7 @@ class EventListener extends BaseElement {
     public string getEntityType() {
         return entityType;
     }
-    
+
     public string getOnTransaction() {
         return onTransaction;
     }
@@ -66,7 +71,7 @@ class EventListener extends BaseElement {
         this.onTransaction = onTransaction;
     }
 
-    @Override
+    override
     public EventListener clone() {
         EventListener clone = new EventListener();
         clone.setValues(this);

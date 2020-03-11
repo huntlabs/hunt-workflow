@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,41 +12,41 @@
  */
 
 
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.BusinessRuleTask;
-import org.flowable.bpmn.model.CallActivity;
-import org.flowable.bpmn.model.CancelEventDefinition;
-import org.flowable.bpmn.model.CaseServiceTask;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.ConditionalEventDefinition;
-import org.flowable.bpmn.model.EndEvent;
-import org.flowable.bpmn.model.ErrorEventDefinition;
-import org.flowable.bpmn.model.Escalation;
-import org.flowable.bpmn.model.EscalationEventDefinition;
-import org.flowable.bpmn.model.EventGateway;
-import org.flowable.bpmn.model.EventSubProcess;
-import org.flowable.bpmn.model.ExclusiveGateway;
-import org.flowable.bpmn.model.InclusiveGateway;
-import org.flowable.bpmn.model.IntermediateCatchEvent;
-import org.flowable.bpmn.model.ManualTask;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.ParallelGateway;
-import org.flowable.bpmn.model.ReceiveTask;
-import org.flowable.bpmn.model.ScriptTask;
-import org.flowable.bpmn.model.SendEventServiceTask;
-import org.flowable.bpmn.model.SendTask;
-import org.flowable.bpmn.model.ServiceTask;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.Task;
-import org.flowable.bpmn.model.ThrowEvent;
-import org.flowable.bpmn.model.TimerEventDefinition;
-import org.flowable.bpmn.model.Transaction;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.BusinessRuleTask;
+import flow.bpmn.model.CallActivity;
+import flow.bpmn.model.CancelEventDefinition;
+import flow.bpmn.model.CaseServiceTask;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.ConditionalEventDefinition;
+import flow.bpmn.model.EndEvent;
+import flow.bpmn.model.ErrorEventDefinition;
+import flow.bpmn.model.Escalation;
+import flow.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.EventGateway;
+import flow.bpmn.model.EventSubProcess;
+import flow.bpmn.model.ExclusiveGateway;
+import flow.bpmn.model.InclusiveGateway;
+import flow.bpmn.model.IntermediateCatchEvent;
+import flow.bpmn.model.ManualTask;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.ParallelGateway;
+import flow.bpmn.model.ReceiveTask;
+import flow.bpmn.model.ScriptTask;
+import flow.bpmn.model.SendEventServiceTask;
+import flow.bpmn.model.SendTask;
+import flow.bpmn.model.ServiceTask;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.Task;
+import flow.bpmn.model.ThrowEvent;
+import flow.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.Transaction;
+import flow.bpmn.model.UserTask;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.behavior.AdhocSubProcessActivityBehavior;
 import flow.engine.impl.bpmn.behavior.BoundaryCancelEventActivityBehavior;
@@ -111,18 +111,18 @@ import flow.engine.impl.delegate.ActivityBehavior;
 /**
  * Factory class used by the {@link BpmnParser} and {@link BpmnParse} to instantiate the behaviour classes. For example when parsing an exclusive gateway, this factory will be requested to create a
  * new {@link ActivityBehavior} that will be set on the {@link ActivityImpl} of that step of the process and will implement the spec-compliant behavior of the exclusive gateway.
- * 
+ *
  * You can provide your own implementation of this class. This way, you can give different execution semantics to a standard bpmn xml construct. Eg. you could tweak the exclusive gateway to do
  * something completely different if you would want that. Creating your own {@link ActivityBehaviorFactory} is only advisable if you want to change the default behavior of any BPMN default construct.
  * And even then, think twice, because it won't be spec compliant bpmn anymore.
- * 
+ *
  * Note that you can always express any custom step as a service task with a class delegation.
- * 
+ *
  * The easiest and advisable way to implement your own {@link ActivityBehaviorFactory} is to extend the {@link DefaultActivityBehaviorFactory} class and override the method specific to the
  * {@link ActivityBehavior} you want to change.
- * 
+ *
  * An instance of this interface can be injected in the {@link ProcessEngineConfigurationImpl} and its subclasses.
- * 
+ *
  * @author Joram Barrez
  */
 interface ActivityBehaviorFactory {
@@ -172,7 +172,7 @@ interface ActivityBehaviorFactory {
     abstract ActivityBehavior createBusinessRuleTaskActivityBehavior(BusinessRuleTask businessRuleTask);
 
     abstract ScriptTaskActivityBehavior createScriptTaskActivityBehavior(ScriptTask scriptTask);
-    
+
     abstract SendEventTaskActivityBehavior createSendEventTaskBehavior(SendEventServiceTask sendEventServiceTask);
 
     abstract ExclusiveGatewayActivityBehavior createExclusiveGatewayActivityBehavior(ExclusiveGateway exclusiveGateway);
@@ -190,12 +190,12 @@ interface ActivityBehaviorFactory {
     abstract SubProcessActivityBehavior createSubprocessActivityBehavior(SubProcess subProcess);
 
     abstract EventSubProcessActivityBehavior createEventSubprocessActivityBehavior(EventSubProcess eventSubProcess);
-    
+
     abstract EventSubProcessConditionalStartEventActivityBehavior createEventSubProcessConditionalStartEventActivityBehavior(StartEvent startEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression);
 
     abstract EventSubProcessErrorStartEventActivityBehavior createEventSubProcessErrorStartEventActivityBehavior(StartEvent startEvent);
-    
+
     abstract EventSubProcessEscalationStartEventActivityBehavior createEventSubProcessEscalationStartEventActivityBehavior(StartEvent startEvent);
 
     abstract EventSubProcessMessageStartEventActivityBehavior createEventSubProcessMessageStartEventActivityBehavior(StartEvent startEvent, MessageEventDefinition messageEventDefinition);
@@ -203,13 +203,13 @@ interface ActivityBehaviorFactory {
     abstract EventSubProcessSignalStartEventActivityBehavior createEventSubProcessSignalStartEventActivityBehavior(StartEvent startEvent, SignalEventDefinition signalEventDefinition, Signal signal);
 
     abstract EventSubProcessTimerStartEventActivityBehavior createEventSubProcessTimerStartEventActivityBehavior(StartEvent startEvent, TimerEventDefinition timerEventDefinition);
-    
+
     abstract EventSubProcessEventRegistryStartEventActivityBehavior createEventSubProcessEventRegistryStartEventActivityBehavior(StartEvent startEvent, string eventDefinitionKey);
 
     abstract AdhocSubProcessActivityBehavior createAdhocSubprocessActivityBehavior(SubProcess subProcess);
 
     abstract CallActivityBehavior createCallActivityBehavior(CallActivity callActivity);
-    
+
     abstract CaseTaskActivityBehavior createCaseTaskBehavior(CaseServiceTask caseServiceTask);
 
     abstract TransactionActivityBehavior createTransactionActivityBehavior(Transaction transaction);
@@ -218,7 +218,7 @@ interface ActivityBehaviorFactory {
 
     abstract IntermediateCatchMessageEventActivityBehavior createIntermediateCatchMessageEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
             MessageEventDefinition messageEventDefinition);
-    
+
     abstract IntermediateCatchConditionalEventActivityBehavior createIntermediateCatchConditionalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression);
 
@@ -226,11 +226,11 @@ interface ActivityBehaviorFactory {
 
     abstract IntermediateCatchSignalEventActivityBehavior createIntermediateCatchSignalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
             SignalEventDefinition signalEventDefinition, Signal signal);
-    
+
     abstract IntermediateThrowNoneEventActivityBehavior createIntermediateThrowNoneEventActivityBehavior(ThrowEvent throwEvent);
 
     abstract IntermediateThrowSignalEventActivityBehavior createIntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent, SignalEventDefinition signalEventDefinition, Signal signal);
-    
+
     abstract IntermediateThrowEscalationEventActivityBehavior createIntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation);
 
     abstract IntermediateThrowCompensationEventActivityBehavior createIntermediateThrowCompensationEventActivityBehavior(ThrowEvent throwEvent, CompensateEventDefinition compensateEventDefinition);
@@ -238,7 +238,7 @@ interface ActivityBehaviorFactory {
     abstract NoneEndEventActivityBehavior createNoneEndEventActivityBehavior(EndEvent endEvent);
 
     abstract ErrorEndEventActivityBehavior createErrorEndEventActivityBehavior(EndEvent endEvent, ErrorEventDefinition errorEventDefinition);
-    
+
     abstract EscalationEndEventActivityBehavior createEscalationEndEventActivityBehavior(EndEvent endEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation);
 
     abstract CancelEndEventActivityBehavior createCancelEndEventActivityBehavior(EndEvent endEvent);
@@ -254,13 +254,13 @@ interface ActivityBehaviorFactory {
     abstract BoundarySignalEventActivityBehavior createBoundarySignalEventActivityBehavior(BoundaryEvent boundaryEvent, SignalEventDefinition signalEventDefinition, Signal signal, bool interrupting);
 
     abstract BoundaryMessageEventActivityBehavior createBoundaryMessageEventActivityBehavior(BoundaryEvent boundaryEvent, MessageEventDefinition messageEventDefinition, bool interrupting);
-    
+
     abstract BoundaryConditionalEventActivityBehavior createBoundaryConditionalEventActivityBehavior(BoundaryEvent boundaryEvent, ConditionalEventDefinition conditionalEventDefinition,
                     string conditionExpression, bool interrupting);
-    
+
     abstract BoundaryEscalationEventActivityBehavior createBoundaryEscalationEventActivityBehavior(BoundaryEvent boundaryEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting);
 
     abstract BoundaryCompensateEventActivityBehavior createBoundaryCompensateEventActivityBehavior(BoundaryEvent boundaryEvent, CompensateEventDefinition compensateEventDefinition, bool interrupting);
-    
+
     abstract BoundaryEventRegistryEventActivityBehavior createBoundaryEventRegistryEventActivityBehavior(BoundaryEvent boundaryEvent, string eventDefinitionKey, bool interrupting);
 }

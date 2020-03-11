@@ -11,10 +11,11 @@
  * limitations under the License.
  */
 
+module flow.engine.runtime.ChangeActivityStateBuilder;
 
-import java.util.List;
-import java.util.Map;
-
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.Integer;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
 
@@ -41,13 +42,13 @@ interface ChangeActivityStateBuilder {
      * Set the ids of the executions which should be changed to a single execution with the provided activity id.
      * This can be used for parallel execution like parallel/inclusive gateways, multiinstance, event sub processes etc.
      **/
-    ChangeActivityStateBuilder moveExecutionsToSingleActivityId(List<string> executionIds, string activityId);
+    ChangeActivityStateBuilder moveExecutionsToSingleActivityId(List!string executionIds, string activityId);
 
     /**
      * Set the id of an execution which should be changed to multiple executions with the provided activity ids.
      * This can be used for parallel execution like parallel/inclusive gateways, multiinstance, event sub processes etc.
      **/
-    ChangeActivityStateBuilder moveSingleExecutionToActivityIds(string executionId, List<string> activityId);
+    ChangeActivityStateBuilder moveSingleExecutionToActivityIds(string executionId, List!string activityId);
 
     /**
      * Moves the execution with the current activity id to the provided new activity id
@@ -58,13 +59,13 @@ interface ChangeActivityStateBuilder {
      * Set the activity ids that should be changed to a single activity id.
      * This can be used for parallel execution like parallel/inclusive gateways, multiinstance, event sub processes etc.
      */
-    ChangeActivityStateBuilder moveActivityIdsToSingleActivityId(List<string> currentActivityIds, string newActivityId);
+    ChangeActivityStateBuilder moveActivityIdsToSingleActivityId(List!string currentActivityIds, string newActivityId);
 
     /**
      * Set the activity id that should be changed to multiple activity ids.
      * This can be used for parallel execution like parallel/inclusive gateways, multiinstance, event sub processes etc.
      */
-    ChangeActivityStateBuilder moveSingleActivityIdToActivityIds(string currentActivityId, List<string> newActivityIds);
+    ChangeActivityStateBuilder moveSingleActivityIdToActivityIds(string currentActivityId, List!string newActivityIds);
 
     /**
      * Moves the execution with the current activity id to an activity id in the parent process instance.
@@ -90,7 +91,7 @@ interface ChangeActivityStateBuilder {
     /**
      * Sets multiple process scope variables
      */
-    ChangeActivityStateBuilder processVariables(Map<string, Object> processVariables);
+    ChangeActivityStateBuilder processVariables(Map!(string, Object) processVariables);
 
     /**
      * Sets a local scope variable for a start activity id
@@ -100,7 +101,7 @@ interface ChangeActivityStateBuilder {
     /**
      * Sets multiple local scope variables for a start activity id
      */
-    ChangeActivityStateBuilder localVariables(string startActivityId, Map<string, Object> localVariables);
+    ChangeActivityStateBuilder localVariables(string startActivityId, Map!(string, Object) localVariables);
 
     /**
      * Start the process instance

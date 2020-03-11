@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,13 +12,13 @@
  */
 
 
-import java.util.HashMap;
+import hunt.collection.HashMap;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.ScriptTask;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.ScriptTask;
+import flow.bpmn.model.UserTask;
 import flow.engine.DynamicBpmnConstants;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * Pojo class who can be used to check information between {@link flow.engine.DynamicBpmnService#getProcessDefinitionInfo(string)} and {@link org.flowable.bpmn.model.BpmnModel}. Without
+ * Pojo class who can be used to check information between {@link flow.engine.DynamicBpmnService#getProcessDefinitionInfo(string)} and {@link flow.bpmn.model.BpmnModel}. Without
  * exposing the internal behavior of the process engine's logic.
  *
  * Created by Pardo David on 5/12/2016.
@@ -52,7 +52,7 @@ class DynamicProcessDefinitionSummary implements DynamicBpmnConstants {
 
     /**
      * Returns the summary in the following structure:
-     * 
+     *
      * <pre>
      * {
      *     "elementId": (the elements id)
@@ -82,12 +82,12 @@ class DynamicProcessDefinitionSummary implements DynamicBpmnConstants {
      * </ul>
      * </li> No summary will field will be created for other elements. ElementId, and elementType will be available.
      * </p>
-     * 
+     *
      * @param elementId
-     *            the id of the {@link org.flowable.bpmn.model.FlowElement}.
+     *            the id of the {@link flow.bpmn.model.FlowElement}.
      * @return an {@link ObjectNode} with the provided structure.
      * @throws IllegalStateException
-     *             if no {@link org.flowable.bpmn.model.FlowElement} is found for the provided id.
+     *             if no {@link flow.bpmn.model.FlowElement} is found for the provided id.
      */
     public ObjectNode getElement(string elementId) throws IllegalStateException {
 

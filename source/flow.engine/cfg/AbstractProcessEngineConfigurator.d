@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.cfg.AbstractProcessEngineConfigurator;
- 
- 
- 
+
+
+
 
 
 import flow.common.AbstractEngineConfiguration;
@@ -31,17 +31,17 @@ abstract class AbstractProcessEngineConfigurator : EngineConfigurator {
 
     public static int DEFAULT_CONFIGURATOR_PRIORITY = 10000;
 
-    @Override
+    //@Override
     public int getPriority() {
         return DEFAULT_CONFIGURATOR_PRIORITY;
     }
 
-    @Override
+    //@Override
     public void beforeInit(AbstractEngineConfiguration engineConfiguration) {
 
     }
 
-    @Override
+    //@Override
     public void configure(AbstractEngineConfiguration engineConfiguration) {
 
     }

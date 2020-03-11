@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,12 +12,12 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.SubProcess;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.dynamic.DynamicEmbeddedSubProcessBuilder;
@@ -50,7 +50,7 @@ class InjectParallelEmbeddedSubProcessCmd extends AbstractDynamicInjectionCmd im
     protected void updateBpmnProcess(CommandContext commandContext, Process process,
             BpmnModel bpmnModel, ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity) {
 
-        DynamicSubProcessJoinInjectUtil.injectSubProcessWithJoin(taskId, process, bpmnModel, dynamicEmbeddedSubProcessBuilder, 
+        DynamicSubProcessJoinInjectUtil.injectSubProcessWithJoin(taskId, process, bpmnModel, dynamicEmbeddedSubProcessBuilder,
                         originalProcessDefinitionEntity, newDeploymentEntity, commandContext);
     }
 
@@ -62,7 +62,7 @@ class InjectParallelEmbeddedSubProcessCmd extends AbstractDynamicInjectionCmd im
 
         TaskEntity taskEntity = CommandContextUtil.getTaskService().getTask(taskId);
         ExecutionEntity executionAtTask = executionEntityManager.findById(taskEntity.getExecutionId());
-        
+
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionEntity.getId());
         FlowElement taskElement = bpmnModel.getFlowElement(executionAtTask.getCurrentActivityId());
         FlowElement subProcessElement = bpmnModel.getFlowElement(((SubProcess) taskElement.getParentContainer()).getId());
@@ -70,9 +70,9 @@ class InjectParallelEmbeddedSubProcessCmd extends AbstractDynamicInjectionCmd im
         subProcessExecution.setScope(true);
         subProcessExecution.setCurrentFlowElement(subProcessElement);
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(subProcessExecution);
-        
+
         executionAtTask.setParent(subProcessExecution);
-       
+
         ExecutionEntity execution = executionEntityManager.createChildExecution(subProcessExecution);
         FlowElement newSubProcess = bpmnModel.getMainProcess().getFlowElement(dynamicEmbeddedSubProcessBuilder.getDynamicSubProcessId(), true);
         execution.setCurrentFlowElement(newSubProcess);

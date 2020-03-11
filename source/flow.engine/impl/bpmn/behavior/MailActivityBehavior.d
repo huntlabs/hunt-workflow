@@ -17,11 +17,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Collections;
+import hunt.collection;
+import hunt.collections;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import javax.activation.DataSource;
 import javax.naming.NamingException;
@@ -31,8 +31,8 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.ServiceTask;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.ServiceTask;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
@@ -86,7 +86,7 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
             skipExpressionText = serviceTask.getSkipExpression();
             isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, flowElement.getId(), execution, commandContext);
         }
-        
+
         if (!isSkipExpressionEnabled || !SkipExpressionUtil.shouldSkipFlowElement(skipExpressionText, flowElement.getId(), execution, commandContext)) {
             bool doIgnoreException = bool.parseBoolean(getStringFromField(ignoreException, execution));
             string exceptionVariable = getStringFromField(exceptionVariableName, execution);
@@ -104,7 +104,7 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
                 List<File> files = new LinkedList<>();
                 List<DataSource> dataSources = new LinkedList<>();
                 getFilesFromFields(attachments, execution, files, dataSources);
-    
+
                 email = createEmail(textStr, htmlStr, attachmentsExist(files, dataSources));
                 addHeader(email, headersStr);
                 addTo(email, toStr, execution.getTenantId());
@@ -115,9 +115,9 @@ class MailActivityBehavior extends AbstractBpmnActivityBehavior {
                 setMailServerProperties(email, execution.getTenantId());
                 setCharset(email, charSetStr);
                 attach(email, files, dataSources);
-    
+
                 email.send();
-    
+
             } catch (FlowableException e) {
                 handleException(execution, e.getMessage(), e, doIgnoreException, exceptionVariable);
             } catch (EmailException e) {

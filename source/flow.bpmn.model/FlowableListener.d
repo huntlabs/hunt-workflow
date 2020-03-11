@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,32 +11,36 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.FlowableListener;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FieldExtension;
+//import java.util.UUID;
+import std.uuid;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Tijs Rademakers
  */
-class FlowableListener extends BaseElement {
+class FlowableListener : BaseElement {
 
     protected string event;
     protected string implementationType;
     protected string implementation;
-    protected List<FieldExtension> fieldExtensions = new ArrayList<>();
+    protected List!FieldExtension fieldExtensions ;// = new ArrayList<>();
     protected string onTransaction;
     protected string customPropertiesResolverImplementationType;
     protected string customPropertiesResolverImplementation;
 
-    @JsonIgnore
+    //@JsonIgnore
     protected Object instance; // Can be used to set an instance of the listener directly. That instance will then always be reused.
-    
-    public FlowableListener() {
+
+    this() {
         // Always generate a random identifier to look up the listener while executing the logic
-        setId(UUID.randomUUID().toString());
+        fieldExtensions = new ArrayList!FieldExtension;
+        setId(randomUUID().toString());
     }
 
     public string getEvent() {
@@ -63,11 +67,11 @@ class FlowableListener extends BaseElement {
         this.implementation = implementation;
     }
 
-    public List<FieldExtension> getFieldExtensions() {
+    public List!FieldExtension getFieldExtensions() {
         return fieldExtensions;
     }
 
-    public void setFieldExtensions(List<FieldExtension> fieldExtensions) {
+    public void setFieldExtensions(List!FieldExtension fieldExtensions) {
         this.fieldExtensions = fieldExtensions;
     }
 
@@ -103,7 +107,7 @@ class FlowableListener extends BaseElement {
         this.instance = instance;
     }
 
-    @Override
+    override
     public FlowableListener clone() {
         FlowableListener clone = new FlowableListener();
         clone.setValues(this);
@@ -115,9 +119,9 @@ class FlowableListener extends BaseElement {
         setImplementation(otherListener.getImplementation());
         setImplementationType(otherListener.getImplementationType());
 
-        fieldExtensions = new ArrayList<>();
+        fieldExtensions = new ArrayList!FieldExtension;
         if (otherListener.getFieldExtensions() !is null && !otherListener.getFieldExtensions().isEmpty()) {
-            for (FieldExtension extension : otherListener.getFieldExtensions()) {
+            foreach (FieldExtension extension ; otherListener.getFieldExtensions()) {
                 fieldExtensions.add(extension.clone());
             }
         }

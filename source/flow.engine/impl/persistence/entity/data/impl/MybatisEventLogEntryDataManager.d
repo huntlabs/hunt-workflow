@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,9 +12,9 @@
  */
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.engine.event.EventLogEntry;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -51,7 +51,7 @@ class MybatisEventLogEntryDataManager extends AbstractProcessDataManager<EventLo
     @Override
     @SuppressWarnings("unchecked")
     public List<EventLogEntry> findEventLogEntries(long startLogNr, long pageSize) {
-        Map<string, Object> params = new HashMap<>(2);
+        Map!(string, Object) params = new HashMap<>(2);
         params.put("startLogNr", startLogNr);
         if (pageSize > 0) {
             params.put("endLogNr", startLogNr + pageSize + 1);
@@ -62,7 +62,7 @@ class MybatisEventLogEntryDataManager extends AbstractProcessDataManager<EventLo
     @Override
     @SuppressWarnings("unchecked")
     public List<EventLogEntry> findEventLogEntriesByProcessInstanceId(string processInstanceId) {
-        Map<string, Object> params = new HashMap<>(2);
+        Map!(string, Object) params = new HashMap<>(2);
         params.put("processInstanceId", processInstanceId);
         return getDbSqlSession().selectList("selectEventLogEntriesByProcessInstanceId", params);
     }

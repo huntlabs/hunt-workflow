@@ -14,9 +14,9 @@
 
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.context.Context;
 import flow.engine.ProcessEngineConfiguration;
@@ -83,7 +83,7 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("startTime", startTime);
         persistentState.put("endTime", endTime);
         persistentState.put("businessKey", businessKey);
@@ -251,7 +251,7 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
     public void setDeploymentId(string deploymentId) {
         this.deploymentId = deploymentId;
     }
-    
+
     @Override
     public string getCallbackId() {
         return callbackId;
@@ -293,8 +293,8 @@ class HistoricProcessInstanceEntityImpl extends HistoricScopeInstanceEntityImpl 
     }
 
     @Override
-    public Map<string, Object> getProcessVariables() {
-        Map<string, Object> variables = new HashMap<>();
+    public Map!(string, Object) getProcessVariables() {
+        Map!(string, Object) variables = new HashMap<>();
         if (queryVariables !is null) {
             for (HistoricVariableInstanceEntity variableInstance : queryVariables) {
                 if (variableInstance.getId() !is null && variableInstance.getTaskId() is null) {

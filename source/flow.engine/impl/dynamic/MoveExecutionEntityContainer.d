@@ -12,22 +12,22 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Optional;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.CallActivity;
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.CallActivity;
+import flow.bpmn.model.FlowElement;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
 
 class MoveExecutionEntityContainer {
 
     protected List<ExecutionEntity> executions;
-    protected List<string> moveToActivityIds;
+    protected List!string moveToActivityIds;
     protected bool moveToParentProcess;
     protected bool moveToSubProcessInstance;
     protected bool directExecutionMigration;
@@ -43,7 +43,7 @@ class MoveExecutionEntityContainer {
     protected Map<string, ExecutionEntity> continueParentExecutionMap = new HashMap<>();
     protected Map<string, FlowElementMoveEntry> moveToFlowElementMap = new HashMap<>();
 
-    public MoveExecutionEntityContainer(List<ExecutionEntity> executions, List<string> moveToActivityIds) {
+    public MoveExecutionEntityContainer(List<ExecutionEntity> executions, List!string moveToActivityIds) {
         this.executions = executions;
         this.moveToActivityIds = moveToActivityIds;
     }
@@ -52,7 +52,7 @@ class MoveExecutionEntityContainer {
         return executions;
     }
 
-    public List<string> getMoveToActivityIds() {
+    public List!string getMoveToActivityIds() {
         return moveToActivityIds;
     }
 
@@ -144,7 +144,7 @@ class MoveExecutionEntityContainer {
         this.newAssigneeId = newAssigneeId;
     }
 
-    public Optional<string> getNewAssigneeId() {
+    public Optional!string getNewAssigneeId() {
         return Optional.ofNullable(newAssigneeId);
     }
 

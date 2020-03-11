@@ -11,22 +11,25 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.CallActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.IOParameter;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class CallActivity extends Activity {
+class CallActivity : Activity {
 
     protected string calledElement;
     protected string calledElementType;
     protected bool inheritVariables;
     protected bool sameDeployment;
-    protected List<IOParameter> inParameters = new ArrayList<>();
-    protected List<IOParameter> outParameters = new ArrayList<>();
+    protected List!IOParameter inParameters ;// = new ArrayList<>();
+    protected List!IOParameter outParameters ;// = new ArrayList<>();
     protected string processInstanceName;
     protected string businessKey;
     protected bool inheritBusinessKey;
@@ -34,6 +37,12 @@ class CallActivity extends Activity {
     protected bool completeAsync;
     protected bool fallbackToDefaultTenant;
     protected string processInstanceIdVariableName;
+
+    this()
+    {
+        inParameters = new ArrayList!IOParameter;
+        outParameters = new ArrayList!IOParameter;
+    }
 
     public string getCalledElement() {
         return calledElement;
@@ -59,22 +68,22 @@ class CallActivity extends Activity {
         this.sameDeployment = sameDeployment;
     }
 
-    public List<IOParameter> getInParameters() {
+    public List!IOParameter getInParameters() {
         return inParameters;
     }
 
-    public void setInParameters(List<IOParameter> inParameters) {
+    public void setInParameters(List!IOParameter inParameters) {
         this.inParameters = inParameters;
     }
 
-    public List<IOParameter> getOutParameters() {
+    public List!IOParameter getOutParameters() {
         return outParameters;
     }
 
-    public void setOutParameters(List<IOParameter> outParameters) {
+    public void setOutParameters(List!IOParameter outParameters) {
         this.outParameters = outParameters;
     }
-    
+
     public string getProcessInstanceName() {
         return processInstanceName;
     }
@@ -106,7 +115,7 @@ class CallActivity extends Activity {
     public void setUseLocalScopeForOutParameters(bool useLocalScopeForOutParameters) {
         this.useLocalScopeForOutParameters = useLocalScopeForOutParameters;
     }
-    
+
     public bool isCompleteAsync() {
         return completeAsync;
     }
@@ -123,7 +132,7 @@ class CallActivity extends Activity {
         this.fallbackToDefaultTenant = fallbackToDefaultTenant;
     }
 
-    @Override
+    override
     public CallActivity clone() {
         CallActivity clone = new CallActivity();
         clone.setValues(this);
@@ -142,16 +151,16 @@ class CallActivity extends Activity {
         setCompleteAsync(otherElement.isCompleteAsync());
         setFallbackToDefaultTenant(otherElement.getFallbackToDefaultTenant());
 
-        inParameters = new ArrayList<>();
+        inParameters = new ArrayList!IOParameter();
         if (otherElement.getInParameters() !is null && !otherElement.getInParameters().isEmpty()) {
-            for (IOParameter parameter : otherElement.getInParameters()) {
+            foreach (IOParameter parameter ; otherElement.getInParameters()) {
                 inParameters.add(parameter.clone());
             }
         }
 
-        outParameters = new ArrayList<>();
+        outParameters = new ArrayList!IOParameter();
         if (otherElement.getOutParameters() !is null && !otherElement.getOutParameters().isEmpty()) {
-            for (IOParameter parameter : otherElement.getOutParameters()) {
+            foreach (IOParameter parameter ; otherElement.getOutParameters()) {
                 outParameters.add(parameter.clone());
             }
         }

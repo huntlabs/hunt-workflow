@@ -13,15 +13,15 @@
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.ArrayList;
+import hunt.collection.HashSet;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
@@ -30,10 +30,10 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.form.api.FormDefinition;
-import org.flowable.form.api.FormDefinitionQuery;
-import org.flowable.form.api.FormDeployment;
-import org.flowable.form.api.FormRepositoryService;
+import flow.form.api.FormDefinition;
+import flow.form.api.FormDefinitionQuery;
+import flow.form.api.FormDeployment;
+import flow.form.api.FormRepositoryService;
 
 /**
  * @author Yvo Swillens
@@ -73,7 +73,7 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
     }
 
     protected List<FormDefinition> getFormDefinitionsFromModel(BpmnModel bpmnModel, ProcessDefinition processDefinition) {
-        Set<string> formKeys = new HashSet<>();
+        Set!string formKeys = new HashSet<>();
         List<FormDefinition> formDefinitions = new ArrayList<>();
 
         // for all start events
@@ -106,19 +106,19 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(processDefinition.getDeploymentId());
         if (deployment.getParentDeploymentId() !is null) {
             List<FormDeployment> formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
-            
+
             if (formDeployments !is null && formDeployments.size() > 0) {
                 formDefinitionQuery.deploymentId(formDeployments.get(0).getId());
             } else {
                 formDefinitionQuery.latestVersion();
             }
-            
+
         } else {
             formDefinitionQuery.latestVersion();
         }
-        
+
         FormDefinition formDefinition = formDefinitionQuery.singleResult();
-        
+
         if (formDefinition !is null) {
             formDefinitions.add(formDefinition);
         }

@@ -20,7 +20,7 @@ import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.api.persistence.entity.VariableInstance;
 

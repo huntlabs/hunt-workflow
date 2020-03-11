@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,14 +13,14 @@
 
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.ParallelGateway;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.ParallelGateway;
 import flow.common.api.FlowableException;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -31,18 +31,18 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of the Parallel Gateway/AND gateway as defined in the BPMN 2.0 specification.
- * 
+ *
  * The Parallel Gateway can be used for splitting a path of execution into multiple paths of executions (AND-split/fork behavior), one for every outgoing sequence flow.
- * 
+ *
  * The Parallel Gateway can also be used for merging or joining paths of execution (AND-join). In this case, on every incoming sequence flow an execution needs to arrive, before leaving the Parallel
  * Gateway (and potentially then doing the fork behavior in case of multiple outgoing sequence flow).
- * 
+ *
  * Note that there is a slight difference to spec (p. 436): "The parallel gateway is activated if there is at least one Token on each incoming sequence flow." We only check the number of incoming
  * tokens to the number of sequenceflow. So if two tokens would arrive through the same sequence flow, our implementation would activate the gateway.
- * 
+ *
  * Note that a Parallel Gateway having one incoming and multiple outgoing sequence flow, is the same as having multiple outgoing sequence flow on a given activity. However, a parallel gateway does NOT
  * check conditions on the outgoing sequence flow.
- * 
+ *
  * @author Joram Barrez
  * @author Tom Baeyens
  */
@@ -92,7 +92,7 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
 
             // Fork
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("parallel gateway '{}' ({}) activates: {} of {} joined", execution.getCurrentActivityId(), 
+                LOGGER.debug("parallel gateway '{}' ({}) activates: {} of {} joined", execution.getCurrentActivityId(),
                         execution.getId(), nbrOfExecutionsCurrentlyJoined, nbrOfExecutionsToJoin);
             }
 
@@ -114,7 +114,7 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
             CommandContextUtil.getAgenda().planTakeOutgoingSequenceFlowsOperation((ExecutionEntity) execution, false); // false -> ignoring conditions on parallel gw
 
         } else if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("parallel gateway '{}' ({}) does not activate: {} of {} joined", execution.getCurrentActivityId(), 
+            LOGGER.debug("parallel gateway '{}' ({}) does not activate: {} of {} joined", execution.getCurrentActivityId(),
                     execution.getId(), nbrOfExecutionsCurrentlyJoined, nbrOfExecutionsToJoin);
         }
 

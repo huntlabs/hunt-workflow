@@ -11,14 +11,16 @@
  * limitations under the License.
  */
 
+module flow.engine.history.NativeHistoricDetailQuery;
 
 import flow.common.api.query.NativeQuery;
+import flow.engine.history.HistoricDetail;
 
 /**
  * Allows querying of {@link flow.engine.history.HistoricDetail}s via native (SQL) queries
- * 
+ *
  * @author Henry Yan(http://www.kafeitu.me)
  */
-interface NativeHistoricDetailQuery extends NativeQuery<NativeHistoricDetailQuery, HistoricDetail> {
+interface NativeHistoricDetailQuery : NativeQuery!(NativeHistoricDetailQuery, HistoricDetail) {
 
 }

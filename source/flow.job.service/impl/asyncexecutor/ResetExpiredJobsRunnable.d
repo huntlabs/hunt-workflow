@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -25,12 +25,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Runnable that checks the {@link Job} entities periodically for 'expired' jobs.
- * 
+ *
  * When a job is executed, it is first locked (lock owner and lock time is set).
  * A job is expired when this lock time is exceeded (this can for example happen when an executor goes down before completing a task)
- * 
+ *
  * This runnable will find such jobs and reset them, so they can be picked up again.
- * 
+ *
  * @author Joram Barrez
  */
 class ResetExpiredJobsRunnable implements Runnable {
@@ -97,7 +97,7 @@ class ResetExpiredJobsRunnable implements Runnable {
                 List<? extends JobInfoEntity> expiredJobs = asyncExecutor.getJobServiceConfiguration().getCommandExecutor()
                     .execute(new FindExpiredJobsCmd(asyncExecutor.getResetExpiredJobsPageSize(), jobEntityManager));
 
-                List<string> expiredJobIds = expiredJobs.stream().map(JobInfoEntity::getId).collect(Collectors.toList());
+                List!string expiredJobIds = expiredJobs.stream().map(JobInfoEntity::getId).collect(Collectors.toList());
                 if (!expiredJobIds.isEmpty()) {
                     asyncExecutor.getJobServiceConfiguration().getCommandExecutor().execute(
                         new ResetExpiredJobsCmd(expiredJobIds, jobEntityManager));
@@ -116,7 +116,7 @@ class ResetExpiredJobsRunnable implements Runnable {
                     LOGGER.debug("Optimistic lock exception while resetting locked jobs for engine {}", asyncExecutor.getJobServiceConfiguration().getEngineName(), e);
 
                 } else {
-                    LOGGER.error("exception during resetting expired jobs: {} for engine {}", e.getMessage(), 
+                    LOGGER.error("exception during resetting expired jobs: {} for engine {}", e.getMessage(),
                                     asyncExecutor.getJobServiceConfiguration().getEngineName(), e);
                     hasExpiredJobs = false; // will stop the loop
 
@@ -135,5 +135,5 @@ class ResetExpiredJobsRunnable implements Runnable {
             }
         }
     }
-    
+
 }

@@ -12,48 +12,48 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.BusinessRuleTask;
-import org.flowable.bpmn.model.CallActivity;
-import org.flowable.bpmn.model.CancelEventDefinition;
-import org.flowable.bpmn.model.CaseServiceTask;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.ConditionalEventDefinition;
-import org.flowable.bpmn.model.EndEvent;
-import org.flowable.bpmn.model.ErrorEventDefinition;
-import org.flowable.bpmn.model.Escalation;
-import org.flowable.bpmn.model.EscalationEventDefinition;
-import org.flowable.bpmn.model.EventGateway;
-import org.flowable.bpmn.model.EventSubProcess;
-import org.flowable.bpmn.model.ExclusiveGateway;
-import org.flowable.bpmn.model.FieldExtension;
-import org.flowable.bpmn.model.InclusiveGateway;
-import org.flowable.bpmn.model.IntermediateCatchEvent;
-import org.flowable.bpmn.model.ManualTask;
-import org.flowable.bpmn.model.MapExceptionEntry;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.ParallelGateway;
-import org.flowable.bpmn.model.ReceiveTask;
-import org.flowable.bpmn.model.ScriptTask;
-import org.flowable.bpmn.model.SendEventServiceTask;
-import org.flowable.bpmn.model.SendTask;
-import org.flowable.bpmn.model.ServiceTask;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.Task;
-import org.flowable.bpmn.model.TaskWithFieldExtensions;
-import org.flowable.bpmn.model.TerminateEventDefinition;
-import org.flowable.bpmn.model.ThrowEvent;
-import org.flowable.bpmn.model.TimerEventDefinition;
-import org.flowable.bpmn.model.Transaction;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.BusinessRuleTask;
+import flow.bpmn.model.CallActivity;
+import flow.bpmn.model.CancelEventDefinition;
+import flow.bpmn.model.CaseServiceTask;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.ConditionalEventDefinition;
+import flow.bpmn.model.EndEvent;
+import flow.bpmn.model.ErrorEventDefinition;
+import flow.bpmn.model.Escalation;
+import flow.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.EventGateway;
+import flow.bpmn.model.EventSubProcess;
+import flow.bpmn.model.ExclusiveGateway;
+import flow.bpmn.model.FieldExtension;
+import flow.bpmn.model.InclusiveGateway;
+import flow.bpmn.model.IntermediateCatchEvent;
+import flow.bpmn.model.ManualTask;
+import flow.bpmn.model.MapExceptionEntry;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.ParallelGateway;
+import flow.bpmn.model.ReceiveTask;
+import flow.bpmn.model.ScriptTask;
+import flow.bpmn.model.SendEventServiceTask;
+import flow.bpmn.model.SendTask;
+import flow.bpmn.model.ServiceTask;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.Task;
+import flow.bpmn.model.TaskWithFieldExtensions;
+import flow.bpmn.model.TerminateEventDefinition;
+import flow.bpmn.model.ThrowEvent;
+import flow.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.Transaction;
+import flow.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
 import flow.common.scripting.ScriptingEngines;
@@ -396,7 +396,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
         }
         return new ScriptTaskActivityBehavior(scriptTask.getId(), scriptTask.getScript(), language, scriptTask.getResultVariable(), scriptTask.isAutoStoreVariables());
     }
-    
+
     @Override
     public SendEventTaskActivityBehavior createSendEventTaskBehavior(SendEventServiceTask sendEventServiceTask) {
         return new SendEventTaskActivityBehavior(sendEventServiceTask);
@@ -447,11 +447,11 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     public EventSubProcessActivityBehavior createEventSubprocessActivityBehavior(EventSubProcess eventSubProcess) {
         return new EventSubProcessActivityBehavior();
     }
-    
+
     @Override
     public EventSubProcessConditionalStartEventActivityBehavior createEventSubProcessConditionalStartEventActivityBehavior(StartEvent startEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
-        
+
         return new EventSubProcessConditionalStartEventActivityBehavior(conditionalEventDefinition, conditionExpression);
     }
 
@@ -459,7 +459,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     public EventSubProcessErrorStartEventActivityBehavior createEventSubProcessErrorStartEventActivityBehavior(StartEvent startEvent) {
         return new EventSubProcessErrorStartEventActivityBehavior();
     }
-    
+
     @Override
     public EventSubProcessEscalationStartEventActivityBehavior createEventSubProcessEscalationStartEventActivityBehavior(StartEvent startEvent) {
         return new EventSubProcessEscalationStartEventActivityBehavior();
@@ -496,7 +496,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     public CallActivityBehavior createCallActivityBehavior(CallActivity callActivity) {
         return new CallActivityBehavior(callActivity);
     }
-    
+
     @Override
     public CaseTaskActivityBehavior createCaseTaskBehavior(CaseServiceTask caseServiceTask) {
         return new CaseTaskActivityBehavior();
@@ -515,11 +515,11 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     public IntermediateCatchEventActivityBehavior createIntermediateCatchEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent) {
         return new IntermediateCatchEventActivityBehavior();
     }
-    
+
     @Override
-    public IntermediateCatchConditionalEventActivityBehavior createIntermediateCatchConditionalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent, 
+    public IntermediateCatchConditionalEventActivityBehavior createIntermediateCatchConditionalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
-        
+
         return new IntermediateCatchConditionalEventActivityBehavior(conditionalEventDefinition, conditionExpression);
     }
 
@@ -534,28 +534,28 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     }
 
     @Override
-    public IntermediateCatchSignalEventActivityBehavior createIntermediateCatchSignalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent, 
+    public IntermediateCatchSignalEventActivityBehavior createIntermediateCatchSignalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
                     SignalEventDefinition signalEventDefinition, Signal signal) {
 
         return new IntermediateCatchSignalEventActivityBehavior(signalEventDefinition, signal);
     }
-    
+
     @Override
     public IntermediateThrowNoneEventActivityBehavior createIntermediateThrowNoneEventActivityBehavior(ThrowEvent throwEvent) {
         return new IntermediateThrowNoneEventActivityBehavior();
     }
 
     @Override
-    public IntermediateThrowSignalEventActivityBehavior createIntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent, 
+    public IntermediateThrowSignalEventActivityBehavior createIntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent,
                     SignalEventDefinition signalEventDefinition, Signal signal) {
-        
+
         return new IntermediateThrowSignalEventActivityBehavior(throwEvent, signalEventDefinition, signal);
     }
-    
+
     @Override
-    public IntermediateThrowEscalationEventActivityBehavior createIntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent, 
+    public IntermediateThrowEscalationEventActivityBehavior createIntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent,
                     EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
-        
+
         return new IntermediateThrowEscalationEventActivityBehavior(throwEvent, escalationEventDefinition, escalation);
     }
 
@@ -575,7 +575,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     public ErrorEndEventActivityBehavior createErrorEndEventActivityBehavior(EndEvent endEvent, ErrorEventDefinition errorEventDefinition) {
         return new ErrorEndEventActivityBehavior(errorEventDefinition.getErrorCode());
     }
-    
+
     @Override
     public EscalationEndEventActivityBehavior createEscalationEndEventActivityBehavior(EndEvent endEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
         return new EscalationEndEventActivityBehavior(escalationEventDefinition, escalation);
@@ -622,7 +622,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
 
         return new BoundaryCompensateEventActivityBehavior(compensateEventDefinition, interrupting);
     }
-    
+
     @Override
     public BoundaryConditionalEventActivityBehavior createBoundaryConditionalEventActivityBehavior(BoundaryEvent boundaryEvent,
             ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, bool interrupting) {
@@ -644,12 +644,12 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     public BoundaryMessageEventActivityBehavior createBoundaryMessageEventActivityBehavior(BoundaryEvent boundaryEvent, MessageEventDefinition messageEventDefinition, bool interrupting) {
         return new BoundaryMessageEventActivityBehavior(messageEventDefinition, interrupting);
     }
-    
+
     @Override
     public BoundaryEscalationEventActivityBehavior createBoundaryEscalationEventActivityBehavior(BoundaryEvent boundaryEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting) {
         return new BoundaryEscalationEventActivityBehavior(escalationEventDefinition, escalation, interrupting);
     }
-    
+
     @Override
     public BoundaryEventRegistryEventActivityBehavior createBoundaryEventRegistryEventActivityBehavior(BoundaryEvent boundaryEvent, string eventDefinitionKey, bool interrupting) {
         return new BoundaryEventRegistryEventActivityBehavior(eventDefinitionKey, interrupting);

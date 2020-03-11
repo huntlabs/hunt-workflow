@@ -14,7 +14,7 @@
 
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.db.HasRevision;
 import flow.engine.history.HistoricProcessInstance;
@@ -52,15 +52,15 @@ interface HistoricProcessInstanceEntity extends HistoricScopeInstanceEntity, His
     void setProcessDefinitionVersion(Integer processDefinitionVersion);
 
     void setDeploymentId(string deploymentId);
-    
+
     void setCallbackId(string callbackId);
-    
+
     void setCallbackType(string callbackType);
 
     void setReferenceId(string referenceId);
 
     void setReferenceType(string referenceType);
-    
+
     List<HistoricVariableInstanceEntity> getQueryVariables();
 
     void setQueryVariables(List<HistoricVariableInstanceEntity> queryVariables);

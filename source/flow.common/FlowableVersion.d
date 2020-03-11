@@ -11,40 +11,40 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.FlowableVersion;
- 
- 
- 
 
 
-import java.util.Collections;
-import java.util.List;
+
+
+
+import hunt.collections;
+import hunt.collection.List;
 
 /**
  * This class is used for auto-upgrade purposes.
- * 
+ *
  * The idea is that instances of this class are put in a sequential order, and that the current version is determined from the ACT_GE_PROPERTY table.
- * 
+ *
  * Since sometimes in the past, a version is ambiguous (eg. 5.12 => 5.12, 5.12.1, 5.12T) this class act as a wrapper with a smarter matches() method.
- * 
- * @author Joram Barrez 
+ *
+ * @author Joram Barrez
  */
 class FlowableVersion {
 
     protected string mainVersion;
-    protected List<string> alternativeVersionStrings;
+    protected List!string alternativeVersionStrings;
 
     this(string mainVersion) {
         this.mainVersion = mainVersion;
         this.alternativeVersionStrings = Collections.singletonList(mainVersion);
     }
 
-    public FlowableVersion(string mainVersion, List<string> alternativeVersionStrings) {
+    public FlowableVersion(string mainVersion, List!string alternativeVersionStrings) {
         this.mainVersion = mainVersion;
         this.alternativeVersionStrings = alternativeVersionStrings;
     }
@@ -70,7 +70,7 @@ class FlowableVersion {
         result = 31 * result + (alternativeVersionStrings !is null ? alternativeVersionStrings.hashCode() : 0);
         return result;
     }
-    
+
     @Override
     public bool equals(Object obj) {
         if (!(obj instanceof FlowableVersion)) {

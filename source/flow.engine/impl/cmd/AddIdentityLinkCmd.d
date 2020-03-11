@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.impl.util.TaskHelper;
-import org.flowable.identitylink.api.IdentityLinkType;
+import flow.identitylink.api.IdentityLinkType;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
@@ -79,27 +79,27 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
 
         string oldAssigneeId = task.getAssignee();
         string oldOwnerId = task.getOwner();
-        
+
         bool assignedToNoOne = false;
         if (IdentityLinkType.ASSIGNEE.equals(identityType)) {
-            
+
             if (oldAssigneeId is null && identityId is null) {
                 return null;
             }
-            
+
             if (oldAssigneeId !is null && oldAssigneeId.equals(identityId)) {
                 return null;
             }
-            
+
             TaskHelper.changeTaskAssignee(task, identityId);
             assignedToNoOne = identityId is null;
-            
+
         } else if (IdentityLinkType.OWNER.equals(identityType)) {
-            
+
             if (oldOwnerId is null && identityId is null) {
                 return null;
             }
-            
+
             if (oldOwnerId !is null && oldOwnerId.equals(identityId)) {
                 return null;
             }
@@ -110,7 +110,7 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
         } else if (IDENTITY_USER == identityIdType) {
             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), identityId, null, identityType);
             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
-            
+
         } else if (IDENTITY_GROUP == identityIdType) {
             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), null, identityId, identityType);
             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
@@ -122,7 +122,7 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
             // ACT-1317: Special handling when assignee is set to NULL, a
             // CommentEntity notifying of assignee-delete should be created
             forceNullUserId = true;
-            if (IdentityLinkType.ASSIGNEE.equals(identityType)) { 
+            if (IdentityLinkType.ASSIGNEE.equals(identityType)) {
                 identityId = oldAssigneeId;
             } else {
                 identityId = oldOwnerId;

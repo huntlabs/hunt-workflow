@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,19 +11,20 @@
  * limitations under the License.
  */
 
+module flow.variable.service.api.history.HistoricVariableInstanceQuery;
 
-
-import java.util.Set;
+import hunt.collection.Set;
 
 import flow.common.api.query.Query;
+import flow.variable.service.api.history.HistoricVariableInstance;
 
 /**
  * Programmatic querying for {@link HistoricVariableInstance}s.
- * 
+ *
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface HistoricVariableInstanceQuery extends Query<HistoricVariableInstanceQuery, HistoricVariableInstance> {
+interface HistoricVariableInstanceQuery : Query!(HistoricVariableInstanceQuery, HistoricVariableInstance) {
 
     /** Only select a historic variable with the given id. */
     HistoricVariableInstanceQuery id(string id);
@@ -35,13 +36,13 @@ interface HistoricVariableInstanceQuery extends Query<HistoricVariableInstanceQu
     HistoricVariableInstanceQuery executionId(string executionId);
 
     /** Only select historic process variables whose id is in the given set of ids. */
-    HistoricVariableInstanceQuery executionIds(Set<string> executionIds);
+    HistoricVariableInstanceQuery executionIds(Set!string executionIds);
 
     /** Only select historic process variables with the given task. */
     HistoricVariableInstanceQuery taskId(string taskId);
 
     /** Only select historic process variables whose id is in the given set of ids. */
-    HistoricVariableInstanceQuery taskIds(Set<string> taskIds);
+    HistoricVariableInstanceQuery taskIds(Set!string taskIds);
 
     /** Only select historic process variables with the given variable name. */
     HistoricVariableInstanceQuery variableName(string variableName);
@@ -72,17 +73,17 @@ interface HistoricVariableInstanceQuery extends Query<HistoricVariableInstanceQu
      * only select historic process variables like the given name and value (case insensitive)
      */
     HistoricVariableInstanceQuery variableValueLikeIgnoreCase(string variableName, string variableValue);
-    
+
     /**
      * Only select historic variables with the given scope id.
      */
     HistoricVariableInstanceQuery scopeId(string scopeId);
-    
+
     /**
      * Only select historic variables with the given sub scope id.
      */
     HistoricVariableInstanceQuery subScopeId(string subScopeId);
-    
+
     /**
      * Only select historic variables with the give scope type.
      */

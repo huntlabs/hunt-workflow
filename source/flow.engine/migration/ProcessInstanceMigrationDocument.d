@@ -13,8 +13,8 @@
 
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 /**
  * @author Dennis Federico
@@ -46,7 +46,7 @@ interface ProcessInstanceMigrationDocument {
 
     Map<string, Map<string, Object>> getActivitiesLocalVariables();
 
-    Map<string, Object> getProcessInstanceVariables();
+    Map!(string, Object) getProcessInstanceVariables();
 
     string asJsonString();
 

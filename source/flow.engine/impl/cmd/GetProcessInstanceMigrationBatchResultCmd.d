@@ -14,7 +14,7 @@
 
 
 import java.io.IOException;
-import java.util.List;
+import hunt.collection.List;
 
 import org.flowable.batch.api.Batch;
 import org.flowable.batch.api.BatchPart;
@@ -56,7 +56,7 @@ class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstan
             }
             return result;
         }
-        
+
         return null;
     }
 
@@ -82,7 +82,7 @@ class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstan
         if (batchPart.getCompleteTime() !is null) {
             partResult.setStatus(ProcessInstanceBatchMigrationResult.STATUS_COMPLETED);
         }
-        
+
         partResult.setResult(batchPart.getStatus());
         if (ProcessInstanceBatchMigrationResult.RESULT_FAIL.equals(batchPart.getStatus()) && batchPart.getResultDocumentJson() !is null) {
             try {
@@ -91,12 +91,12 @@ class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstan
                     string resultMessage = resultNode.get(BATCH_RESULT_MESSAGE_LABEL).asText();
                     partResult.setMigrationMessage(resultMessage);
                 }
-                
+
             } catch (IOException e) {
                 throw new FlowableException("Error reading batch part " + batchPart.getId());
             }
         }
-        
+
         return partResult;
     }
 }

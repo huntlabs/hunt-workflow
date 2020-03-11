@@ -11,32 +11,55 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.DateDataObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.Date;
+import flow.bpmn.model.ValuedDataObject;
+import hunt.time.LocalDateTime;
+import hunt.String;
+import std.datetime.systime;
+import std.string;
+//import java.text.DateFormat;
+//import java.text.ParseException;
+//import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Lori Small
  */
-class DateDataObject extends ValuedDataObject {
 
-    @Override
+    //static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute) {
+    //  LocalDate date = LocalDate.of(year, month, dayOfMonth);
+    //  LocalTime time = LocalTime.of(hour, minute);
+    //  return new LocalDateTime(date, time);
+    //}
+
+
+alias Date = LocalDateTime;
+
+class DateDataObject : ValuedDataObject {
+
+    override
     public void setValue(Object value) {
-    	if (value instanceof string && !StringUtils.isEmpty(((string) value).trim())) {
-    		try {
-				this.value = DateFormat.getDateTimeInstance().parse((string) value);
-			} catch (ParseException e) {
-				System.out.println("Error parsing Date string: " + value);
-			}
-    	} else if (value instanceof Date) {
+      String s = cast(String)value; //strip
+      if (s !is null && strip(s.value).length != 0) { //2018-01-01T10:30:00Z
+          SysTime st = SysTime.fromISOExtString(s.value);
+				  this.value = Date.of(cast(int)st.year(),st.month(),cast(int)st.daysInMonth(),cast(int)st.hour(),cast(int)st.minute());
+    	} else if (cast(Date)value !is null ) {
     		this.value = value;
     	}
+    	//if (value instanceof string && !StringUtils.isEmpty(((string) value).trim())) {
+    	//	try {
+			//	this.value = DateFormat.getDateTimeInstance().parse((string) value);
+			//} catch (ParseException e) {
+			//	System.out.println("Error parsing Date string: " + value);
+			//}
+    	//} else if (value instanceof Date) {
+    	//	this.value = value;
+    	//}
     }
 
-    @Override
+    override
     public DateDataObject clone() {
         DateDataObject clone = new DateDataObject();
         clone.setValues(this);

@@ -13,9 +13,9 @@
 
 
 import java.util.Date;
-import java.util.Map;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 import flow.common.history.HistoryLevel;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
@@ -23,9 +23,9 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.runtime.ActivityInstance;
 import org.flowable.entitylink.api.EntityLink;
 import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
-import org.flowable.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLink;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
@@ -184,7 +184,7 @@ interface HistoryManager {
     /**
      * Report form properties submitted, if audit history is enabled.
      */
-    void recordFormPropertiesSubmitted(ExecutionEntity processInstance, Map<string, string> properties, string taskId, Date createTime);
+    void recordFormPropertiesSubmitted(ExecutionEntity processInstance, Map!(string, string) properties, string taskId, Date createTime);
 
     /**
      * Record the creation of a new {@link IdentityLink}, if audit history is enabled.

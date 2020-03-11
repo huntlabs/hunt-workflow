@@ -13,14 +13,14 @@
 
 
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import hunt.collection;
+import hunt.collections;
+import hunt.collection.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
-import org.flowable.bpmn.model.SendEventServiceTask;
+import flow.bpmn.model.SendEventServiceTask;
 import flow.common.api.FlowableException;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.context.Context;
@@ -32,12 +32,12 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CorrelationUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.engine.impl.util.EventInstanceBpmnUtil;
-import org.flowable.eventregistry.api.EventRegistry;
-import org.flowable.eventregistry.api.runtime.EventInstance;
-import org.flowable.eventregistry.api.runtime.EventPayloadInstance;
-import org.flowable.eventregistry.impl.constant.EventConstants;
-import org.flowable.eventregistry.impl.runtime.EventInstanceImpl;
-import org.flowable.eventregistry.model.EventModel;
+import flow.event.registry.api.EventRegistry;
+import flow.event.registry.api.runtime.EventInstance;
+import flow.event.registry.api.runtime.EventPayloadInstance;
+import flow.event.registry.constant.EventConstants;
+import flow.event.registry.runtime.EventInstanceImpl;
+import flow.event.registry.model.EventModel;
 import org.flowable.eventsubscription.service.EventSubscriptionService;
 import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import org.flowable.job.service.JobService;
@@ -51,9 +51,9 @@ import org.flowable.job.service.impl.persistence.entity.JobEntity;
 class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
 
     private static final long serialVersionUID = 1L;
-    
+
     protected SendEventServiceTask sendEventServiceTask;
-    
+
     public SendEventTaskActivityBehavior(SendEventServiceTask sendEventServiceTask) {
         this.sendEventServiceTask = sendEventServiceTask;
     }
@@ -66,7 +66,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
         if (Objects.equals(ProcessEngineConfiguration.NO_TENANT_ID, execution.getTenantId())) {
             eventDefinition = CommandContextUtil.getEventRepositoryService().getEventModelByKey(sendEventServiceTask.getEventType());
         } else {
-            eventDefinition = CommandContextUtil.getEventRepositoryService().getEventModelByKey(sendEventServiceTask.getEventType(), 
+            eventDefinition = CommandContextUtil.getEventRepositoryService().getEventModelByKey(sendEventServiceTask.getEventType(),
                             execution.getTenantId());
         }
 
@@ -97,7 +97,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
             jobService.createAsyncJob(job, true);
             jobService.scheduleAsyncJob(job);
         } else {
-            Collection<EventPayloadInstance> eventPayloadInstances = EventInstanceBpmnUtil.createEventPayloadInstances(executionEntity,
+            Collection!EventPayloadInstance eventPayloadInstances = EventInstanceBpmnUtil.createEventPayloadInstances(executionEntity,
                 CommandContextUtil.getProcessEngineConfiguration(CommandContextUtil.getCommandContext()).getExpressionManager(),
                 execution.getCurrentFlowElement(),
                 eventDefinition);
@@ -112,14 +112,14 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
                 if (Objects.equals(ProcessEngineConfiguration.NO_TENANT_ID, execution.getTenantId())) {
                     triggerEventDefinition = CommandContextUtil.getEventRepositoryService().getEventModelByKey(sendEventServiceTask.getTriggerEventType());
                 } else {
-                    triggerEventDefinition = CommandContextUtil.getEventRepositoryService().getEventModelByKey(sendEventServiceTask.getTriggerEventType(), 
+                    triggerEventDefinition = CommandContextUtil.getEventRepositoryService().getEventModelByKey(sendEventServiceTask.getTriggerEventType(),
                                     execution.getTenantId());
                 }
 
             } else {
                 triggerEventDefinition = eventDefinition;
             }
-            
+
             EventSubscriptionEntity eventSubscription = (EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService().createEventSubscriptionBuilder()
                     .eventType(triggerEventDefinition.getKey())
                     .executionId(execution.getId())
@@ -128,10 +128,10 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
                     .processDefinitionId(execution.getProcessDefinitionId())
                     .scopeType(ScopeTypes.BPMN)
                     .tenantId(execution.getTenantId())
-                    .configuration(CorrelationUtil.getCorrelationKey(BpmnXMLConstants.ELEMENT_TRIGGER_EVENT_CORRELATION_PARAMETER, 
+                    .configuration(CorrelationUtil.getCorrelationKey(BpmnXMLConstants.ELEMENT_TRIGGER_EVENT_CORRELATION_PARAMETER,
                                     Context.getCommandContext(), executionEntity))
                     .create();
-            
+
             CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
             executionEntity.getEventSubscriptions().add(eventSubscription);
         } else if (sendSynchronously) {
@@ -139,7 +139,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
             leave(execution);
         }
     }
-    
+
     @Override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
         if (sendEventServiceTask.isTriggerable()) {
@@ -158,7 +158,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
             } else {
                 eventType = sendEventServiceTask.getEventType();
             }
-            
+
             EventModel eventModel = null;
             if (Objects.equals(ProcessEngineConfiguration.NO_TENANT_ID, execution.getTenantId())) {
                 eventModel = CommandContextUtil.getEventRepositoryService().getEventModelByKey(eventType);
@@ -171,7 +171,7 @@ class SendEventTaskActivityBehavior extends AbstractBpmnActivityBehavior {
                     eventSubscriptionService.deleteEventSubscription(eventSubscription);
                 }
             }
-            
+
             leave(execution);
         }
     }

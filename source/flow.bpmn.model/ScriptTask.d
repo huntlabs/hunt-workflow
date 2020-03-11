@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,12 +11,15 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.ScriptTask;
+
+import flow.bpmn.model.Task;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class ScriptTask extends Task {
+class ScriptTask : Task {
 
     protected string scriptFormat;
     protected string script;
@@ -55,7 +58,7 @@ class ScriptTask extends Task {
         this.autoStoreVariables = autoStoreVariables;
     }
 
-    @Override
+    override
     public ScriptTask clone() {
         ScriptTask clone = new ScriptTask();
         clone.setValues(this);

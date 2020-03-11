@@ -13,12 +13,12 @@
 
 
 import flow.common.api.query.NativeQuery;
-import org.flowable.task.api.history.HistoricTaskInstance;
-import org.flowable.task.api.history.HistoricTaskInstanceQuery;
+import flow.task.api.history.HistoricTaskInstance;
+import flow.task.api.history.HistoricTaskInstanceQuery;
 
 /**
  * Allows querying of {@link HistoricTaskInstanceQuery}s via native (SQL) queries
- * 
+ *
  * @author Bernd Ruecker (camunda)
  */
 interface NativeHistoricTaskInstanceQuery extends NativeQuery<NativeHistoricTaskInstanceQuery, HistoricTaskInstance> {

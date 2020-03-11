@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,18 +13,18 @@
 
 
 
-import java.util.List;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.ServiceTask;
+import flow.bpmn.model.ServiceTask;
 import flow.common.util.ReflectUtil;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 
 /**
  * Helper class for bpmn constructs that allow class delegation.
- * 
+ *
  * This class will lazily instantiate the referenced classes when needed at runtime.
- * 
+ *
  * @author Tijs Rademakers
  */
 abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
@@ -55,19 +55,19 @@ abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
     public static Object defaultInstantiateDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations, ServiceTask serviceTask) {
         return defaultInstantiateDelegate(clazz.getName(), fieldDeclarations, serviceTask);
     }
-    
+
     public static Object defaultInstantiateDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations) {
         return defaultInstantiateDelegate(clazz.getName(), fieldDeclarations);
     }
-    
+
     public static Object defaultInstantiateDelegate(string className, List<FieldDeclaration> fieldDeclarations, ServiceTask serviceTask) {
         Object object = ReflectUtil.instantiate(className);
         applyFieldDeclaration(fieldDeclarations, object);
-        
+
         if (serviceTask !is null) {
             ReflectUtil.invokeSetterOrField(object, "serviceTask", serviceTask, false);
         }
-        
+
         return object;
     }
 

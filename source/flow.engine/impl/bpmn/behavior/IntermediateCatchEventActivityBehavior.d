@@ -12,14 +12,14 @@
  */
 
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.HashSet;
+import hunt.collection.List;
+import hunt.collection.Set;
 
-import org.flowable.bpmn.model.EventGateway;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.IntermediateCatchEvent;
-import org.flowable.bpmn.model.SequenceFlow;
+import flow.bpmn.model.EventGateway;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.IntermediateCatchEvent;
+import flow.bpmn.model.SequenceFlow;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.DelegateExecution;
@@ -92,7 +92,7 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
 
         // Gather all activity ids for the events after the event based gateway that need to be destroyed
         List<SequenceFlow> outgoingSequenceFlows = eventGateway.getOutgoingFlows();
-        Set<string> eventActivityIds = new HashSet<>(outgoingSequenceFlows.size() - 1); // -1, the event being triggered does not need to be deleted
+        Set!string eventActivityIds = new HashSet<>(outgoingSequenceFlows.size() - 1); // -1, the event being triggered does not need to be deleted
         for (SequenceFlow outgoingSequenceFlow : outgoingSequenceFlows) {
             if (outgoingSequenceFlow.getTargetFlowElement() !is null
                     && !outgoingSequenceFlow.getTargetFlowElement().getId().equals(execution.getCurrentActivityId())) {
@@ -103,11 +103,11 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
         if (!eventActivityIds.isEmpty()) {
             CommandContext commandContext = Context.getCommandContext();
             ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-    
+
             // Find the executions
             List<ExecutionEntity> executionEntities = executionEntityManager
                     .findExecutionsByParentExecutionAndActivityIds(execution.getParentId(), eventActivityIds);
-    
+
             // Execute the cancel behaviour of the IntermediateCatchEvent
             for (ExecutionEntity executionEntity : executionEntities) {
                 if (eventActivityIds.contains(executionEntity.getActivityId()) && execution.getCurrentFlowElement() instanceof IntermediateCatchEvent) {

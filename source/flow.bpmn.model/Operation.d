@@ -11,17 +11,19 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.Operation;
 
-import java.util.ArrayList;
-import java.util.List;
+import flow.bpmn.model.BaseElement;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
-class Operation extends BaseElement {
+class Operation : BaseElement {
 
     protected string name;
     protected string implementationRef;
     protected string inMessageRef;
     protected string outMessageRef;
-    protected List<string> errorMessageRef = new ArrayList<>();
+    protected List!string errorMessageRef ;// = new ArrayList<>();
 
     public string getName() {
         return name;
@@ -55,15 +57,15 @@ class Operation extends BaseElement {
         this.outMessageRef = outMessageRef;
     }
 
-    public List<string> getErrorMessageRef() {
+    public List!string getErrorMessageRef() {
         return errorMessageRef;
     }
 
-    public void setErrorMessageRef(List<string> errorMessageRef) {
+    public void setErrorMessageRef(List!string errorMessageRef) {
         this.errorMessageRef = errorMessageRef;
     }
 
-    @Override
+    override
     public Operation clone() {
         Operation clone = new Operation();
         clone.setValues(this);
@@ -77,7 +79,7 @@ class Operation extends BaseElement {
         setInMessageRef(otherElement.getInMessageRef());
         setOutMessageRef(otherElement.getOutMessageRef());
 
-        errorMessageRef = new ArrayList<>();
+        errorMessageRef = new ArrayList!string();
         if (otherElement.getErrorMessageRef() !is null && !otherElement.getErrorMessageRef().isEmpty()) {
             errorMessageRef.addAll(otherElement.getErrorMessageRef());
         }

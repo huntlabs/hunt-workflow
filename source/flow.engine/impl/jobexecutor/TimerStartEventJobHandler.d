@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -58,7 +58,7 @@ class TimerStartEventJobHandler extends TimerEventHandler implements JobHandler 
                 }
 
                 // Find initial flow element matching the signal start event
-                org.flowable.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(job.getProcessDefinitionId());
+                flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(job.getProcessDefinitionId());
                 string activityId = TimerEventHandler.getActivityIdFromConfiguration(configuration);
                 if (activityId !is null) {
                     FlowElement flowElement = process.getFlowElement(activityId, true);

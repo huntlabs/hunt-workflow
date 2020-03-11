@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,9 +13,9 @@
 
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.Page;
 import flow.common.db.AbstractDataManager;
@@ -34,15 +34,15 @@ import org.flowable.job.service.impl.persistence.entity.data.impl.cachematcher.J
  * @author Tijs Rademakers
  */
 class MybatisJobDataManager extends AbstractDataManager<JobEntity> implements JobDataManager {
-    
+
     protected JobServiceConfiguration jobServiceConfiguration;
 
     protected CachedEntityMatcher<JobEntity> jobsByExecutionIdMatcher = new JobsByExecutionIdMatcher();
-    
+
     public MybatisJobDataManager() {
-        
+
     }
-    
+
     public MybatisJobDataManager(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
     }
@@ -60,21 +60,21 @@ class MybatisJobDataManager extends AbstractDataManager<JobEntity> implements Jo
     @Override
     @SuppressWarnings("unchecked")
     public List<JobEntity> findJobsToExecute(Page page) {
-        HashMap<string, Object> params = new HashMap<>();
+        HashMap!(string, Object) params = new HashMap<>();
         params.put("jobExecutionScope", jobServiceConfiguration.getJobExecutionScope());
-        
+
         return getDbSqlSession().selectList("selectJobsToExecute", params, page);
     }
 
     @Override
     public List<JobEntity> findJobsByExecutionId(final string executionId) {
         DbSqlSession dbSqlSession = getDbSqlSession();
-        
-        // If the execution has been inserted in the same command execution as this query, there can't be any in the database 
+
+        // If the execution has been inserted in the same command execution as this query, there can't be any in the database
         if (isEntityInserted(dbSqlSession, "execution", executionId)) {
             return getListFromCache(jobsByExecutionIdMatcher, executionId);
         }
-        
+
         return getList(dbSqlSession, "selectJobsByExecutionId", executionId, jobsByExecutionIdMatcher, true);
     }
 
@@ -87,7 +87,7 @@ class MybatisJobDataManager extends AbstractDataManager<JobEntity> implements Jo
     @Override
     @SuppressWarnings("unchecked")
     public List<JobEntity> findExpiredJobs(Page page) {
-        Map<string, Object> params = new HashMap<>();
+        Map!(string, Object) params = new HashMap<>();
         params.put("jobExecutionScope", jobServiceConfiguration.getJobExecutionScope());
         Date now = jobServiceConfiguration.getClock().getCurrentTime();
         params.put("now", now);
@@ -110,7 +110,7 @@ class MybatisJobDataManager extends AbstractDataManager<JobEntity> implements Jo
 
     @Override
     public void updateJobTenantIdForDeployment(string deploymentId, string newTenantId) {
-        HashMap<string, Object> params = new HashMap<>();
+        HashMap!(string, Object) params = new HashMap<>();
         params.put("deploymentId", deploymentId);
         params.put("tenantId", newTenantId);
         getDbSqlSession().update("updateJobTenantIdForDeployment", params);
@@ -118,12 +118,12 @@ class MybatisJobDataManager extends AbstractDataManager<JobEntity> implements Jo
 
     @Override
     public void resetExpiredJob(string jobId) {
-        Map<string, Object> params = new HashMap<>(2);
+        Map!(string, Object) params = new HashMap<>(2);
         params.put("id", jobId);
         params.put("now", jobServiceConfiguration.getClock().getCurrentTime());
         getDbSqlSession().update("resetExpiredJob", params);
     }
-    
+
     @Override
     public void deleteJobsByExecutionId(string executionId) {
         DbSqlSession dbSqlSession = getDbSqlSession();

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,12 +12,12 @@
  */
 
 
-import java.util.Collection;
-import java.util.Collections;
+import hunt.collection;
+import hunt.collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableOptimisticLockingException;
 import flow.common.db.SingleCachedEntityMatcher;
@@ -96,37 +96,37 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
         }
         return super.findById(executionId);
     }
-    
+
     /**
      * Fetches the execution tree related to the execution (if the process definition has been configured to do so)
-     * @return True if the tree has been fetched, false otherwise or if fetching is disabled.  
+     * @return True if the tree has been fetched, false otherwise or if fetching is disabled.
      */
     protected bool isExecutionTreeFetched(final string executionId) {
-        
+
         // The setting needs to be globally enabled
         if (!performanceSettings.isEnableEagerExecutionTreeFetching()) {
             return false;
         }
-        
+
         // Need to get the cache result before doing the findById
         ExecutionEntity cachedExecutionEntity = getEntityCache().findInCache(getManagedEntityClass(), executionId);
-        
+
         // Find execution in db or cache to check process definition setting for execution fetch.
         // If not set, no extra work is done. The execution is in the cache however now as a side-effect of calling this method.
         ExecutionEntity executionEntity = (cachedExecutionEntity !is null) ? cachedExecutionEntity : super.findById(executionId);
         if (!ProcessDefinitionUtil.getProcess(executionEntity.getProcessDefinitionId()).isEnableEagerExecutionTreeFetching()) {
             return false;
         }
-        
+
         // If it's in the cache, the execution and its tree have been fetched before. No need to do anything more.
         if (cachedExecutionEntity !is null) {
             return true;
         }
-        
+
         // Fetches execution tree. This will store them in the cache and thus avoind extra database calls.
         getList("selectExecutionsWithSameRootProcessInstanceId", executionId,
                 executionsWithSameRootProcessInstanceIdMatcher, true);
-        
+
         return true;
     }
 
@@ -158,8 +158,8 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
     }
 
     @Override
-    public List<ExecutionEntity> findExecutionsByParentExecutionAndActivityIds(final string parentExecutionId, final Collection<string> activityIds) {
-        Map<string, Object> parameters = new HashMap<>(2);
+    public List<ExecutionEntity> findExecutionsByParentExecutionAndActivityIds(final string parentExecutionId, final Collection!string activityIds) {
+        Map!(string, Object) parameters = new HashMap<>(2);
         parameters.put("parentExecutionId", parentExecutionId);
         parameters.put("activityIds", activityIds);
 
@@ -190,7 +190,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
 
     @Override
     public Collection<ExecutionEntity> findInactiveExecutionsByProcessInstanceId(final string processInstanceId) {
-        HashMap<string, Object> params = new HashMap<>(2);
+        HashMap!(string, Object) params = new HashMap<>(2);
         params.put("processInstanceId", processInstanceId);
         params.put("isActive", false);
 
@@ -203,7 +203,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
 
     @Override
     public Collection<ExecutionEntity> findInactiveExecutionsByActivityIdAndProcessInstanceId(final string activityId, final string processInstanceId) {
-        HashMap<string, Object> params = new HashMap<>(3);
+        HashMap!(string, Object) params = new HashMap<>(3);
         params.put("activityId", activityId);
         params.put("processInstanceId", processInstanceId);
         params.put("isActive", false);
@@ -217,7 +217,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<string> findProcessInstanceIdsByProcessDefinitionId(string processDefinitionId) {
+    public List!string findProcessInstanceIdsByProcessDefinitionId(string processDefinitionId) {
         return getDbSqlSession().selectListNoCacheLoadAndStore("selectProcessInstanceIdsByProcessDefinitionId", processDefinitionId);
     }
 
@@ -293,24 +293,24 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Execution> findExecutionsByNativeQuery(Map<string, Object> parameterMap) {
+    public List<Execution> findExecutionsByNativeQuery(Map!(string, Object) parameterMap) {
         return getDbSqlSession().selectListWithRawParameter("selectExecutionByNativeQuery", parameterMap);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ProcessInstance> findProcessInstanceByNativeQuery(Map<string, Object> parameterMap) {
+    public List<ProcessInstance> findProcessInstanceByNativeQuery(Map!(string, Object) parameterMap) {
         return getDbSqlSession().selectListWithRawParameter("selectExecutionByNativeQuery", parameterMap);
     }
 
     @Override
-    public long findExecutionCountByNativeQuery(Map<string, Object> parameterMap) {
+    public long findExecutionCountByNativeQuery(Map!(string, Object) parameterMap) {
         return (Long) getDbSqlSession().selectOne("selectExecutionCountByNativeQuery", parameterMap);
     }
 
     @Override
     public void updateExecutionTenantIdForDeployment(string deploymentId, string newTenantId) {
-        HashMap<string, Object> params = new HashMap<>();
+        HashMap!(string, Object) params = new HashMap<>();
         params.put("deploymentId", deploymentId);
         params.put("tenantId", newTenantId);
         getDbSqlSession().update("updateExecutionTenantIdForDeployment", params);
@@ -318,7 +318,7 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
 
     @Override
     public void updateProcessInstanceLockTime(string processInstanceId, Date lockDate, Date expirationTime) {
-        HashMap<string, Object> params = new HashMap<>();
+        HashMap!(string, Object) params = new HashMap<>();
         params.put("id", processInstanceId);
         params.put("lockTime", lockDate);
         params.put("expirationTime", expirationTime);
@@ -336,9 +336,9 @@ class MybatisExecutionDataManager extends AbstractProcessDataManager<ExecutionEn
 
     @Override
     public void clearProcessInstanceLockTime(string processInstanceId) {
-        HashMap<string, Object> params = new HashMap<>();
+        HashMap!(string, Object) params = new HashMap<>();
         params.put("id", processInstanceId);
         getDbSqlSession().update("clearProcessInstanceLockTime", params);
     }
-    
+
 }

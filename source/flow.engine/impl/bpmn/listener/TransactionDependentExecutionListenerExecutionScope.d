@@ -12,9 +12,9 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 
 /**
  * @author Yvo Swillens
@@ -24,12 +24,12 @@ class TransactionDependentExecutionListenerExecutionScope {
     protected final string processInstanceId;
     protected final string executionId;
     protected final FlowElement flowElement;
-    protected final Map<string, Object> executionVariables;
-    protected final Map<string, Object> customPropertiesMap;
+    protected final Map!(string, Object) executionVariables;
+    protected final Map!(string, Object) customPropertiesMap;
 
     public TransactionDependentExecutionListenerExecutionScope(string processInstanceId, string executionId,
-            FlowElement flowElement, Map<string, Object> executionVariables,
-            Map<string, Object> customPropertiesMap) {
+            FlowElement flowElement, Map!(string, Object) executionVariables,
+            Map!(string, Object) customPropertiesMap) {
         this.processInstanceId = processInstanceId;
         this.executionId = executionId;
         this.flowElement = flowElement;
@@ -49,11 +49,11 @@ class TransactionDependentExecutionListenerExecutionScope {
         return flowElement;
     }
 
-    public Map<string, Object> getExecutionVariables() {
+    public Map!(string, Object) getExecutionVariables() {
         return executionVariables;
     }
 
-    public Map<string, Object> getCustomPropertiesMap() {
+    public Map!(string, Object) getCustomPropertiesMap() {
         return customPropertiesMap;
     }
 }

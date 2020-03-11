@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.api.history.NativeHistoricVariableInstanceQuery;
 
 import flow.common.api.query.NativeQuery;
-
+import flow.variable.service.api.history.HistoricVariableInstance;
 /**
  * Allows querying of {@link org.flowable.engine.HistoricVariableInstance.HistoricVariableInstance}s via native (SQL) queries
- * 
+ *
  * @author Henry Yan(http://www.kafeitu.me)
  */
-interface NativeHistoricVariableInstanceQuery extends NativeQuery<NativeHistoricVariableInstanceQuery, HistoricVariableInstance> {
+interface NativeHistoricVariableInstanceQuery : NativeQuery!(NativeHistoricVariableInstanceQuery, HistoricVariableInstance) {
 
 }

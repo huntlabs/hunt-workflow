@@ -11,9 +11,12 @@
  * limitations under the License.
  */
 
+module flow.task.api.history.HistoricTaskLogEntry;
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
+
+alias Date =LocalDateTime;
 /**
  * @author martin.grofcik
  */

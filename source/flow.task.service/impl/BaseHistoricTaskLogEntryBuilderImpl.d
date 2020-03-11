@@ -14,8 +14,8 @@
 
 import java.util.Date;
 
-import org.flowable.task.api.TaskInfo;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.TaskInfo;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
 
 /**
  * Base implementation of the {@link HistoricTaskLogEntryBuilder} interface

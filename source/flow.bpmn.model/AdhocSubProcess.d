@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,14 +11,16 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.AdhocSubProcess;
 
+import flow.bpmn.model.SubProcess;
 /**
  * @author Tijs Rademakers
  */
-class AdhocSubProcess extends SubProcess {
+class AdhocSubProcess : SubProcess {
 
-    public static final string ORDERING_PARALLEL = "Parallel";
-    public static final string ORDERING_SEQUENTIALL = "Sequential";
+    public static  string ORDERING_PARALLEL = "Parallel";
+    public static  string ORDERING_SEQUENTIALL = "Sequential";
 
     protected string completionCondition;
     protected string ordering = ORDERING_PARALLEL;
@@ -41,11 +43,11 @@ class AdhocSubProcess extends SubProcess {
     }
 
     public bool hasParallelOrdering() {
-        return !ORDERING_SEQUENTIALL.equals(ordering);
+        return ORDERING_SEQUENTIALL != ordering;
     }
 
     public bool hasSequentialOrdering() {
-        return ORDERING_SEQUENTIALL.equals(ordering);
+        return ORDERING_SEQUENTIALL == ordering;
     }
 
     public bool isCancelRemainingInstances() {

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,15 +12,15 @@
  */
 
 
-import java.util.Collection;
+import hunt.collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import hunt.collection.LinkedHashSet;
+import hunt.collection.List;
+import hunt.collection.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.Process;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.Process;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
@@ -29,7 +29,7 @@ import flow.engine.impl.persistence.entity.DeploymentEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.identitylink.api.IdentityLinkType;
+import flow.identitylink.api.IdentityLinkType;
 import org.flowable.identitylink.service.IdentityLinkService;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 
@@ -44,13 +44,13 @@ class BpmnDeploymentHelper {
 
     /**
      * Verifies that no two process definitions share the same key, to prevent database unique index violation.
-     * 
+     *
      * @throws FlowableException
      *             if any two processes have the same key
      */
     public void verifyProcessDefinitionsDoNotShareKeys(
             Collection<ProcessDefinitionEntity> processDefinitions) {
-        Set<string> keySet = new LinkedHashSet<>();
+        Set!string keySet = new LinkedHashSet<>();
         for (ProcessDefinitionEntity processDefinition : processDefinitions) {
             if (keySet.contains(processDefinition.getKey())) {
                 throw new FlowableException(
@@ -114,7 +114,7 @@ class BpmnDeploymentHelper {
 
         return existingDefinition;
     }
-    
+
     /**
      * Gets the most recent persisted derived process definition that matches this one for tenant and key. If none is found, returns null. This method assumes that the tenant and key are properly set on the
      * process definition entity.
@@ -188,12 +188,12 @@ class BpmnDeploymentHelper {
         addAuthorizationsFromIterator(commandContext, process.getCandidateStarterGroups(), processDefinition, ExpressionType.GROUP);
     }
 
-    protected void addAuthorizationsFromIterator(CommandContext commandContext, List<string> expressions,
+    protected void addAuthorizationsFromIterator(CommandContext commandContext, List!string expressions,
             ProcessDefinitionEntity processDefinition, ExpressionType expressionType) {
 
         if (expressions !is null) {
             IdentityLinkService identityLinkService = CommandContextUtil.getIdentityLinkService();
-            Iterator<string> iterator = expressions.iterator();
+            Iterator!string iterator = expressions.iterator();
             while (iterator.hasNext()) {
                 @SuppressWarnings("cast")
                 string expression = iterator.next();

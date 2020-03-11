@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.model.alfresco.AlfrescoMailTask;
 
+import flow.bpmn.model.ServiceTask;
 
-import org.flowable.bpmn.model.ServiceTask;
+class AlfrescoMailTask : ServiceTask {
 
-class AlfrescoMailTask extends ServiceTask {
-
-    @Override
+    override
     public AlfrescoMailTask clone() {
         AlfrescoMailTask clone = new AlfrescoMailTask();
         clone.setValues(this);

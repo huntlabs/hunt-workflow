@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,15 +12,15 @@
  */
 
 
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.flowable.bpmn.converter.BpmnXMLConverter;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.GraphicInfo;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.GraphicInfo;
 import flow.common.EngineDeployer;
 import flow.common.interceptor.CommandContext;
 import flow.common.util.io.BytesStreamSource;
@@ -89,10 +89,10 @@ abstract class AbstractDynamicInjectionCmd {
         BaseDynamicSubProcessInjectUtil.addResource(commandContext, deploymentEntity, resourceName, bytes);
     }
 
-    protected ProcessDefinitionEntity deployDerivedDeploymentEntity(CommandContext commandContext, 
+    protected ProcessDefinitionEntity deployDerivedDeploymentEntity(CommandContext commandContext,
             DeploymentEntity deploymentEntity, ProcessDefinitionEntity originalProcessDefinitionEntity) {
 
-        Map<string, Object> deploymentSettings = new HashMap<>();
+        Map!(string, Object) deploymentSettings = new HashMap<>();
         deploymentSettings.put(DeploymentSettings.IS_DERIVED_DEPLOYMENT, true);
         deploymentSettings.put(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ID, originalProcessDefinitionEntity.getId());
         if (originalProcessDefinitionEntity.getDerivedFromRoot() !is null) {
@@ -115,44 +115,44 @@ abstract class AbstractDynamicInjectionCmd {
                 .findResourceByDeploymentIdAndResourceName(originalProcessDefinitionEntity.getDeploymentId(), originalProcessDefinitionEntity.getResourceName());
         BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(new BytesStreamSource(originalBpmnResource.getBytes()), false, false);
 
-        org.flowable.bpmn.model.Process process = bpmnModel.getProcessById(originalProcessDefinitionEntity.getKey());
+        flow.bpmn.model.Process process = bpmnModel.getProcessById(originalProcessDefinitionEntity.getKey());
         updateBpmnProcess(commandContext, process, bpmnModel, originalProcessDefinitionEntity, newDeploymentEntity);
         return bpmnModel;
     }
 
-    protected abstract void updateBpmnProcess(CommandContext commandContext, org.flowable.bpmn.model.Process process, 
+    protected abstract void updateBpmnProcess(CommandContext commandContext, flow.bpmn.model.Process process,
             BpmnModel bpmnModel, ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity);
 
     protected void updateExecutions(CommandContext commandContext, ProcessDefinitionEntity processDefinitionEntity, ExecutionEntity processInstance, BpmnModel bpmnModel) {
         string previousProcessDefinitionId = processInstance.getProcessDefinitionId();
         processInstance.setProcessDefinitionId(processDefinitionEntity.getId());
         processInstance.setProcessDefinitionVersion(processDefinitionEntity.getVersion());
-        
+
         List<TaskEntity> currentTasks = CommandContextUtil.getTaskService(commandContext).findTasksByProcessInstanceId(processInstance.getId());
         for (TaskEntity currentTask : currentTasks) {
             currentTask.setProcessDefinitionId(processDefinitionEntity.getId());
         }
-        
+
         List<JobEntity> currentJobs = CommandContextUtil.getJobService(commandContext).findJobsByProcessInstanceId(processInstance.getId());
         for (JobEntity currentJob : currentJobs) {
             currentJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
-        
+
         List<TimerJobEntity> currentTimerJobs = CommandContextUtil.getTimerJobService(commandContext).findTimerJobsByProcessInstanceId(processInstance.getId());
         for (TimerJobEntity currentTimerJob : currentTimerJobs) {
             currentTimerJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
-        
+
         List<SuspendedJobEntity> currentSuspendedJobs = CommandContextUtil.getJobService(commandContext).findSuspendedJobsByProcessInstanceId(processInstance.getId());
         for (SuspendedJobEntity currentSuspendedJob : currentSuspendedJobs) {
             currentSuspendedJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
-        
+
         List<DeadLetterJobEntity> currentDeadLetterJobs = CommandContextUtil.getJobService(commandContext).findDeadLetterJobsByProcessInstanceId(processInstance.getId());
         for (DeadLetterJobEntity currentDeadLetterJob : currentDeadLetterJobs) {
             currentDeadLetterJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
-        
+
         List<IdentityLinkEntity> identityLinks = CommandContextUtil.getIdentityLinkService().findIdentityLinksByProcessDefinitionId(previousProcessDefinitionId);
         for (IdentityLinkEntity identityLinkEntity : identityLinks) {
             if (identityLinkEntity.getTaskId() !is null || identityLinkEntity.getProcessInstanceId() !is null || identityLinkEntity.getScopeId() !is null) {
@@ -162,7 +162,7 @@ abstract class AbstractDynamicInjectionCmd {
 
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).updateActivityInstancesProcessDefinitionId(processDefinitionEntity.getId(), processInstance.getId());
         CommandContextUtil.getHistoryManager(commandContext).updateProcessDefinitionIdInHistory(processDefinitionEntity, processInstance);
-        
+
         List<ExecutionEntity> childExecutions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByProcessInstanceId(processInstance.getId());
         for (ExecutionEntity childExecution : childExecutions) {
             childExecution.setProcessDefinitionId(processDefinitionEntity.getId());
@@ -172,22 +172,22 @@ abstract class AbstractDynamicInjectionCmd {
         updateExecutions(commandContext, processDefinitionEntity, processInstance, childExecutions);
     }
 
-    protected abstract void updateExecutions(CommandContext commandContext, 
+    protected abstract void updateExecutions(CommandContext commandContext,
             ProcessDefinitionEntity processDefinitionEntity, ExecutionEntity processInstance, List<ExecutionEntity> childExecutions);
-    
+
     protected List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2) {
         List<GraphicInfo> wayPoints = new ArrayList<>();
         wayPoints.add(new GraphicInfo(x1, y1));
         wayPoints.add(new GraphicInfo(x2, y2));
-        
+
         return wayPoints;
     }
-    
+
     protected List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2, double x3, double y3) {
         List<GraphicInfo> wayPoints = createWayPoints(x1, y1, x2, y2);
         wayPoints.add(new GraphicInfo(x3, y3));
-        
+
         return wayPoints;
-    } 
+    }
 
 }

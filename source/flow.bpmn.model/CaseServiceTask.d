@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,14 +11,16 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.CaseServiceTask;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import flow.bpmn.model.ServiceTask;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.IOParameter;
 /**
  * @author Tijs Rademakers
  */
-class CaseServiceTask extends ServiceTask {
+class CaseServiceTask : ServiceTask {
 
     protected string caseDefinitionKey;
     protected string caseInstanceName;
@@ -27,9 +29,9 @@ class CaseServiceTask extends ServiceTask {
     protected bool inheritBusinessKey;
     protected bool fallbackToDefaultTenant;
     protected string caseInstanceIdVariableName;
-    
-    protected List<IOParameter> inParameters = new ArrayList<>();
-    protected List<IOParameter> outParameters = new ArrayList<>();
+
+    protected List!IOParameter inParameters ;//= new ArrayList<>();
+    protected List!IOParameter outParameters ;//= new ArrayList<>();
 
     public string getCaseDefinitionKey() {
         return caseDefinitionKey;
@@ -79,19 +81,19 @@ class CaseServiceTask extends ServiceTask {
         this.fallbackToDefaultTenant = fallbackToDefaultTenant;
     }
 
-    public List<IOParameter> getInParameters() {
+    public List!IOParameter getInParameters() {
         return inParameters;
     }
 
-    public void setInParameters(List<IOParameter> inParameters) {
+    public void setInParameters(List!IOParameter inParameters) {
         this.inParameters = inParameters;
     }
 
-    public List<IOParameter> getOutParameters() {
+    public List!IOParameter getOutParameters() {
         return outParameters;
     }
 
-    public void setOutParameters(List<IOParameter> outParameters) {
+    public void setOutParameters(List!IOParameter outParameters) {
         this.outParameters = outParameters;
     }
 
@@ -103,7 +105,7 @@ class CaseServiceTask extends ServiceTask {
         this.caseInstanceIdVariableName = caseInstanceIdVariableName;
     }
 
-    @Override
+    override
     public CaseServiceTask clone() {
         CaseServiceTask clone = new CaseServiceTask();
         clone.setValues(this);
@@ -121,16 +123,16 @@ class CaseServiceTask extends ServiceTask {
         setFallbackToDefaultTenant(otherElement.isFallbackToDefaultTenant());
         setCaseInstanceIdVariableName(otherElement.getCaseInstanceIdVariableName());
 
-        inParameters = new ArrayList<>();
+        inParameters = new ArrayList!IOParameter();
         if (otherElement.getInParameters() !is null && !otherElement.getInParameters().isEmpty()) {
-            for (IOParameter parameter : otherElement.getInParameters()) {
+            foreach (IOParameter parameter ; otherElement.getInParameters()) {
                 inParameters.add(parameter.clone());
             }
         }
 
-        outParameters = new ArrayList<>();
+        outParameters = new ArrayList!IOParameter();
         if (otherElement.getOutParameters() !is null && !otherElement.getOutParameters().isEmpty()) {
-            for (IOParameter parameter : otherElement.getOutParameters()) {
+            foreach (IOParameter parameter ; otherElement.getOutParameters()) {
                 outParameters.add(parameter.clone());
             }
         }

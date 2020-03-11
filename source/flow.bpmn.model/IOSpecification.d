@@ -11,50 +11,62 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.IOSpecification;
 
-import java.util.ArrayList;
-import java.util.List;
 
-class IOSpecification extends BaseElement {
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.DataSpec;
 
-    protected List<DataSpec> dataInputs = new ArrayList<>();
-    protected List<DataSpec> dataOutputs = new ArrayList<>();
-    protected List<string> dataInputRefs = new ArrayList<>();
-    protected List<string> dataOutputRefs = new ArrayList<>();
+class IOSpecification : BaseElement {
 
-    public List<DataSpec> getDataInputs() {
+    protected List!DataSpec dataInputs ;//= new ArrayList<>();
+    protected List!DataSpec dataOutputs ;//= new ArrayList<>();
+    protected List!string dataInputRefs ;//= new ArrayList<>();
+    protected List!string dataOutputRefs ;//= new ArrayList<>();
+
+    this()
+    {
+        dataInputs = new  ArrayList!DataSpec;
+        dataOutputs = new ArrayList!DataSpec;
+        dataInputRefs = new ArrayList!string;
+        dataOutputRefs = new ArrayList!string;
+    }
+
+    public List!DataSpec getDataInputs() {
         return dataInputs;
     }
 
-    public void setDataInputs(List<DataSpec> dataInputs) {
+    public void setDataInputs(List!DataSpec dataInputs) {
         this.dataInputs = dataInputs;
     }
 
-    public List<DataSpec> getDataOutputs() {
+    public List!DataSpec getDataOutputs() {
         return dataOutputs;
     }
 
-    public void setDataOutputs(List<DataSpec> dataOutputs) {
+    public void setDataOutputs(List!DataSpec dataOutputs) {
         this.dataOutputs = dataOutputs;
     }
 
-    public List<string> getDataInputRefs() {
+    public List!string getDataInputRefs() {
         return dataInputRefs;
     }
 
-    public void setDataInputRefs(List<string> dataInputRefs) {
+    public void setDataInputRefs(List!string dataInputRefs) {
         this.dataInputRefs = dataInputRefs;
     }
 
-    public List<string> getDataOutputRefs() {
+    public List!string getDataOutputRefs() {
         return dataOutputRefs;
     }
 
-    public void setDataOutputRefs(List<string> dataOutputRefs) {
+    public void setDataOutputRefs(List!string dataOutputRefs) {
         this.dataOutputRefs = dataOutputRefs;
     }
 
-    @Override
+    override
     public IOSpecification clone() {
         IOSpecification clone = new IOSpecification();
         clone.setValues(this);
@@ -62,21 +74,21 @@ class IOSpecification extends BaseElement {
     }
 
     public void setValues(IOSpecification otherSpec) {
-        dataInputs = new ArrayList<>();
+        dataInputs = new ArrayList!DataSpec();
         if (otherSpec.getDataInputs() !is null && !otherSpec.getDataInputs().isEmpty()) {
-            for (DataSpec dataSpec : otherSpec.getDataInputs()) {
+            foreach (DataSpec dataSpec ; otherSpec.getDataInputs()) {
                 dataInputs.add(dataSpec.clone());
             }
         }
 
-        dataOutputs = new ArrayList<>();
+        dataOutputs = new ArrayList!DataSpec();
         if (otherSpec.getDataOutputs() !is null && !otherSpec.getDataOutputs().isEmpty()) {
-            for (DataSpec dataSpec : otherSpec.getDataOutputs()) {
+            foreach (DataSpec dataSpec ; otherSpec.getDataOutputs()) {
                 dataOutputs.add(dataSpec.clone());
             }
         }
 
-        dataInputRefs = new ArrayList<>(otherSpec.getDataInputRefs());
-        dataOutputRefs = new ArrayList<>(otherSpec.getDataOutputRefs());
+        dataInputRefs = new ArrayList!string(otherSpec.getDataInputRefs());
+        dataOutputRefs = new ArrayList!string(otherSpec.getDataOutputRefs());
     }
 }

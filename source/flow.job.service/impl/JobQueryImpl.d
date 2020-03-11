@@ -15,7 +15,7 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.scope.ScopeTypes;
@@ -56,7 +56,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
-    
+
     protected string lockOwner;
     protected bool onlyLocked;
     protected bool onlyUnlocked;
@@ -98,7 +98,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         this.processDefinitionId = processDefinitionId;
         return this;
     }
-    
+
     @Override
     public JobQueryImpl elementId(string elementId) {
         if (elementId is null) {
@@ -107,7 +107,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         this.elementId = elementId;
         return this;
     }
-    
+
     @Override
     public JobQueryImpl elementName(string elementName) {
         if (elementName is null) {
@@ -116,7 +116,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         this.elementName = elementName;
         return this;
     }
-    
+
     @Override
     public JobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
@@ -125,7 +125,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         this.scopeId = scopeId;
         return this;
     }
-    
+
     @Override
     public JobQueryImpl subScopeId(string subScopeId) {
         if (subScopeId is null) {
@@ -134,7 +134,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         this.subScopeId = subScopeId;
         return this;
     }
-    
+
     @Override
     public JobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
@@ -143,7 +143,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         this.scopeType = scopeType;
         return this;
     }
-    
+
     @Override
     public JobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
@@ -152,7 +152,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         this.scopeDefinitionId = scopeDefinitionId;
         return this;
     }
-    
+
     @Override
     public JobQueryImpl caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
@@ -162,7 +162,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public JobQueryImpl caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
@@ -172,7 +172,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public JobQueryImpl planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
@@ -387,7 +387,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     public string getProcessDefinitionId() {
         return processDefinitionId;
     }
-    
+
     public string getScopeId() {
         return scopeId;
     }

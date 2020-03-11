@@ -11,17 +11,17 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.AbstractEngineConfigurator;
- 
- 
- 
 
 
+
+
+import flow.common.AbstractEngineConfiguration;
 //import java.io.IOException;
 import hunt.io.Common;
 import hunt.collection.ArrayList;
@@ -104,7 +104,7 @@ class AbstractEngineConfigurator : EngineConfigurator {
         implementationMissing(false);
         //string cfgPath = getMybatisCfgPath();
         //if (cfgPath !is null) {
-        //    Set<string> resources = new HashSet<>();
+        //    Set!string resources = new HashSet<>();
         //
         //    ClassLoader classLoader = engineConfiguration.getClassLoader();
         //    if (classLoader is null) {
@@ -191,31 +191,31 @@ class AbstractEngineConfigurator : EngineConfigurator {
         //}
     }
 
-    protected DocumentBuilderFactory createDocumentBuilderFactory() throws ParserConfigurationException {
-        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        if (!enableMybatisXmlMappingValidation) {
-            docBuilderFactory.setValidating(false);
-            docBuilderFactory.setNamespaceAware(false);
-            docBuilderFactory.setExpandEntityReferences(false);
-            docBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-            docBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
-        }
-        return docBuilderFactory;
-    }
+    //protected DocumentBuilderFactory createDocumentBuilderFactory() throws ParserConfigurationException {
+    //    DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+    //    if (!enableMybatisXmlMappingValidation) {
+    //        docBuilderFactory.setValidating(false);
+    //        docBuilderFactory.setNamespaceAware(false);
+    //        docBuilderFactory.setExpandEntityReferences(false);
+    //        docBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    //        docBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+    //    }
+    //    return docBuilderFactory;
+    //}
 
     /**
      * Override when custom type aliases are needed.
      */
-    protected List<MybatisTypeAliasConfigurator> getMybatisTypeAliases() {
-        return null;
-    }
+    //protected List<MybatisTypeAliasConfigurator> getMybatisTypeAliases() {
+    //    return null;
+    //}
 
     /**
      * Override when custom type handlers are needed.
      */
-    protected List<MybatisTypeHandlerConfigurator> getMybatisTypeHandlers() {
-        return null;
-    }
+    //protected List<MybatisTypeHandlerConfigurator> getMybatisTypeHandlers() {
+    //    return null;
+    //}
 
     protected void initialiseCommonProperties(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
         initEngineConfigurations(engineConfiguration, targetEngineConfiguration);
@@ -240,14 +240,14 @@ class AbstractEngineConfigurator : EngineConfigurator {
     }
 
     protected void initServiceConfigurations(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        for (string serviceConfigurationKey : engineConfiguration.getServiceConfigurations().keySet()) {
+        foreach (string serviceConfigurationKey ; engineConfiguration.getServiceConfigurations().keySet()) {
             if (targetEngineConfiguration.getServiceConfigurations() is null
                     || !targetEngineConfiguration.getServiceConfigurations().containsKey(serviceConfigurationKey)) {
                 targetEngineConfiguration.addServiceConfiguration(serviceConfigurationKey, engineConfiguration.getServiceConfigurations().get(serviceConfigurationKey));
             }
         }
     }
-    
+
     protected void initEventRegistryEventConsumers(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
         targetEngineConfiguration.setEventRegistryEventConsumers(engineConfiguration.getEventRegistryEventConsumers());
     }
@@ -311,9 +311,9 @@ class AbstractEngineConfigurator : EngineConfigurator {
         }
     }
 
-    protected abstract List<Class<? extends Entity>> getEntityInsertionOrder();
-
-    protected abstract List<Class<? extends Entity>> getEntityDeletionOrder();
+    //protected abstract List!Entity getEntityInsertionOrder();
+    //
+    //protected abstract List!Entity getEntityDeletionOrder();
 
     public bool isEnableMybatisXmlMappingValidation() {
         return enableMybatisXmlMappingValidation;

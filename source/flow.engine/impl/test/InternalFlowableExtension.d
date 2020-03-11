@@ -15,10 +15,10 @@
 import static flow.engine.impl.test.TestHelper.EMPTY_LINE;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.HashSet;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableOptimisticLockingException;
 import flow.common.db.SchemaManager;
@@ -128,7 +128,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
                 processEngineConfiguration.setAsyncHistoryEnabled(false);
                 asyncHistoryManager = processEngineConfiguration.getHistoryManager();
                 processEngineConfiguration
-                    .setHistoryManager(new DefaultHistoryManager(processEngineConfiguration, 
+                    .setHistoryManager(new DefaultHistoryManager(processEngineConfiguration,
                             processEngineConfiguration.getHistoryLevel(), processEngineConfiguration.isUsePrefixId()));
             }
 
@@ -144,7 +144,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
                 .ifPresent(cleanTest -> removeDeployments(processEngine.getRepositoryService()));
 
             AbstractFlowableTestCase.cleanDeployments(processEngine);
-            
+
             if (context.getTestInstanceLifecycle().orElse(TestInstance.Lifecycle.PER_METHOD) == lifecycleForClean
                     && processEngineConfiguration.isUsingRelationalDatabase()) { // the logic only is applicable to a relational database with tables
                 cleanTestAndAssertAndEnsureCleanDb(context, processEngine);
@@ -174,7 +174,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
      */
     protected void assertAndEnsureCleanDb(ProcessEngine processEngine, ExtensionContext context, EnsureCleanDb ensureCleanDb) {
         logger.debug("verifying that db is clean after test");
-        Set<string> tableNamesExcludedFromDbCleanCheck = new HashSet<>(Arrays.asList(ensureCleanDb.excludeTables()));
+        Set!string tableNamesExcludedFromDbCleanCheck = new HashSet<>(Arrays.asList(ensureCleanDb.excludeTables()));
         ManagementService managementService = processEngine.getManagementService();
         ProcessEngineConfiguration processEngineConfiguration = processEngine.getProcessEngineConfiguration();
         Map<string, Long> tableCounts = managementService.getTableCount();

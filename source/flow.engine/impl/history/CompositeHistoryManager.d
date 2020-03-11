@@ -12,12 +12,12 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
+import hunt.collection.ArrayList;
+import hunt.collection;
 import java.util.Date;
-import java.util.Map;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 import flow.common.history.HistoryLevel;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
@@ -25,7 +25,7 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.runtime.ActivityInstance;
 import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
@@ -267,7 +267,7 @@ class CompositeHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void recordFormPropertiesSubmitted(ExecutionEntity processInstance, Map<string, string> properties, string taskId, Date createTime) {
+    public void recordFormPropertiesSubmitted(ExecutionEntity processInstance, Map!(string, string) properties, string taskId, Date createTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordFormPropertiesSubmitted(processInstance, properties, taskId, createTime);
         }

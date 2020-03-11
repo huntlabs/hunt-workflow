@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,17 +12,17 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.flowable.bpmn.constants.BpmnXMLConstants;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.ExtensionElement;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.StartEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.ExtensionElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.StartEvent;
 import flow.common.api.FlowableException;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.context.Context;
@@ -60,7 +60,7 @@ class EventSubscriptionManager {
             removeObsoleteEventSubscriptionsImpl(previousProcessDefinition, SignalEventHandler.EVENT_HANDLER_TYPE);
         }
     }
-    
+
     protected void removeObsoleteEventRegistryEventSubScription(ProcessDefinitionEntity previousProcessDefinition) {
         // remove all subscriptions for the previous version
         if (previousProcessDefinition !is null) {
@@ -70,7 +70,7 @@ class EventSubscriptionManager {
             if (previousProcessDefinition.getTenantId() !is null) {
                 eventSubscriptionQuery.tenantId(previousProcessDefinition.getTenantId());
             }
-            
+
             List<EventSubscription> subscriptionsToDelete = eventSubscriptionService.findEventSubscriptionsByQueryCriteria(eventSubscriptionQuery);
             for (EventSubscription eventSubscription : subscriptionsToDelete) {
                 EventSubscriptionEntity eventSubscriptionEntity = (EventSubscriptionEntity) eventSubscription;
@@ -79,7 +79,7 @@ class EventSubscriptionManager {
             }
         }
     }
-    
+
     protected void removeObsoleteEventSubscriptionsImpl(ProcessDefinitionEntity processDefinition, string eventHandlerType) {
         // remove all subscriptions for the previous version
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
@@ -92,7 +92,7 @@ class EventSubscriptionManager {
         }
     }
 
-    protected void addEventSubscriptions(CommandContext commandContext, ProcessDefinitionEntity processDefinition, org.flowable.bpmn.model.Process process, BpmnModel bpmnModel) {
+    protected void addEventSubscriptions(CommandContext commandContext, ProcessDefinitionEntity processDefinition, flow.bpmn.model.Process process, BpmnModel bpmnModel) {
         if (CollectionUtil.isNotEmpty(process.getFlowElements())) {
             for (FlowElement element : process.getFlowElements()) {
                 if (element instanceof StartEvent) {
@@ -102,12 +102,12 @@ class EventSubscriptionManager {
                         if (eventDefinition instanceof SignalEventDefinition) {
                             SignalEventDefinition signalEventDefinition = (SignalEventDefinition) eventDefinition;
                             insertSignalEvent(signalEventDefinition, startEvent, processDefinition, bpmnModel);
-                        
+
                         } else if (eventDefinition instanceof MessageEventDefinition) {
                             MessageEventDefinition messageEventDefinition = (MessageEventDefinition) eventDefinition;
                             insertMessageEvent(messageEventDefinition, startEvent, processDefinition, bpmnModel);
                         }
-                        
+
                     } else {
                         if (startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE) !is null) {
                             List<ExtensionElement> eventTypeElements = startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
@@ -121,7 +121,7 @@ class EventSubscriptionManager {
             }
         }
     }
-    
+
     protected void insertSignalEvent(SignalEventDefinition signalEventDefinition, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
         CommandContext commandContext = Context.getCommandContext();
         SignalEventSubscriptionEntity subscriptionEntity = CommandContextUtil.getEventSubscriptionService(commandContext).createSignalEventSubscription();
@@ -140,7 +140,7 @@ class EventSubscriptionManager {
         CommandContextUtil.getEventSubscriptionService(commandContext).insertEventSubscription(subscriptionEntity);
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(subscriptionEntity);
     }
-    
+
     protected void insertMessageEvent(MessageEventDefinition messageEventDefinition, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
         CommandContext commandContext = Context.getCommandContext();
 
@@ -172,7 +172,7 @@ class EventSubscriptionManager {
         eventSubscriptionService.insertEventSubscription(newSubscription);
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(newSubscription);
     }
-    
+
     protected void insertEventRegistryEvent(string eventDefinitionKey, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
         CommandContext commandContext = Context.getCommandContext();
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
@@ -182,7 +182,7 @@ class EventSubscriptionManager {
                 .processDefinitionId(processDefinition.getId())
                 .scopeType(ScopeTypes.BPMN)
                 .configuration(CorrelationUtil.getCorrelationKey(BpmnXMLConstants.ELEMENT_EVENT_CORRELATION_PARAMETER, commandContext, startEvent, null));
-                
+
         if (processDefinition.getTenantId() !is null) {
             eventSubscriptionBuilder.tenantId(processDefinition.getTenantId());
         }

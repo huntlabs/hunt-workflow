@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,10 +12,10 @@
  */
 
 
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.Escalation;
-import org.flowable.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.Escalation;
+import flow.bpmn.model.EscalationEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 
 /**
@@ -32,13 +32,13 @@ class EscalationEventDefinitionParseHandler extends AbstractBpmnParseHandler<Esc
     protected void executeParse(BpmnParse bpmnParse, EscalationEventDefinition eventDefinition) {
         if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
             BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();
-            
+
             Escalation escalation = null;
             if (bpmnParse.getBpmnModel().containsEscalationRef(eventDefinition.getEscalationCode())) {
                 escalation = bpmnParse.getBpmnModel().getEscalation(eventDefinition.getEscalationCode());
             }
-            
-            boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEscalationEventActivityBehavior(boundaryEvent, 
+
+            boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEscalationEventActivityBehavior(boundaryEvent,
                                 eventDefinition, escalation, boundaryEvent.isCancelActivity()));
         }
     }

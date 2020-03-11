@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,14 +13,14 @@
 
 
 import java.io.Serializable;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.IdentityLinkType;
+import flow.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLinkType;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
@@ -39,14 +39,14 @@ class GetIdentityLinksForTaskCmd implements Command<List<IdentityLink>>, Seriali
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public List<IdentityLink> execute(CommandContext commandContext) {
+    public List!IdentityLink execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
-        
+
         if (task is null) {
             throw new FlowableObjectNotFoundException("task not found");
         }
 
-        List<IdentityLink> identityLinks = (List) task.getIdentityLinks();
+        List!IdentityLink identityLinks = (List) task.getIdentityLinks();
 
         // assignee is not part of identity links in the db.
         // so if there is one, we add it here.

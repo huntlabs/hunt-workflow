@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,11 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collections;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import flow.common.api.FlowableException;
@@ -54,13 +54,13 @@ import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
 import org.flowable.job.service.impl.persistence.entity.JobEntity;
 import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
 import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.history.HistoricTaskLogEntry;
-import org.flowable.task.api.history.HistoricTaskInstance;
+import flow.task.api.Task;
+import flow.task.api.history.HistoricTaskLogEntry;
+import flow.task.api.history.HistoricTaskInstance;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.api.history.HistoricVariableInstance;
+import flow.variable.service.api.history.HistoricVariableInstance;
 import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import org.slf4j.Logger;
@@ -170,8 +170,8 @@ class TableDataManagerImpl extends AbstractManager implements TableDataManager {
     }
 
     @Override
-    public List<string> getTablesPresentInDatabase() {
-        List<string> tableNames = new ArrayList<>();
+    public List!string getTablesPresentInDatabase() {
+        List!string tableNames = new ArrayList<>();
         try {
             Connection connection = getDbSqlSession().getSqlSession().getConnection();
             DatabaseMetaData databaseMetaData = connection.getMetaData();

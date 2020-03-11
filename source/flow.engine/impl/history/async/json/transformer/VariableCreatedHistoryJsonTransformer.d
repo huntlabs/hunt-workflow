@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,9 +19,9 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
 import java.util.Base64;
-import java.util.Collections;
+import hunt.collections;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.interceptor.CommandContext;
@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 class VariableCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
 
     @Override
-    public List<string> getTypes() {
+    public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_VARIABLE_CREATED);
     }
 
@@ -60,22 +60,22 @@ class VariableCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransform
         historicVariableInstanceEntity.setScopeId(getStringFromJson(historicalData, HistoryJsonConstants.SCOPE_ID));
         historicVariableInstanceEntity.setSubScopeId(getStringFromJson(historicalData, HistoryJsonConstants.SUB_SCOPE_ID));
         historicVariableInstanceEntity.setScopeType(getStringFromJson(historicalData, HistoryJsonConstants.SCOPE_TYPE));
-        
+
         VariableTypes variableTypes = CommandContextUtil.getProcessEngineConfiguration().getVariableTypes();
         VariableType variableType = variableTypes.getVariableType(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TYPE));
-        
+
         historicVariableInstanceEntity.setVariableType(variableType);
 
         historicVariableInstanceEntity.setTextValue(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TEXT_VALUE));
         historicVariableInstanceEntity.setTextValue2(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TEXT_VALUE2));
         historicVariableInstanceEntity.setDoubleValue(getDoubleFromJson(historicalData, HistoryJsonConstants.VARIABLE_DOUBLE_VALUE));
         historicVariableInstanceEntity.setLongValue(getLongFromJson(historicalData, HistoryJsonConstants.VARIABLE_LONG_VALUE));
-        
+
         string variableBytes = getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_BYTES_VALUE);
         if (StringUtils.isNotEmpty(variableBytes)) {
             historicVariableInstanceEntity.setBytes(Base64.getDecoder().decode(variableBytes));
         }
-        
+
         Date time = getDateFromJson(historicalData, HistoryJsonConstants.CREATE_TIME);
         historicVariableInstanceEntity.setCreateTime(time);
         historicVariableInstanceEntity.setLastUpdatedTime(time);

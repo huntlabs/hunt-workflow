@@ -13,12 +13,12 @@
 
 
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
+import hunt.collection.HashMap;
+import hunt.collection.HashSet;
+import hunt.collection.LinkedHashSet;
+import hunt.collection.List;
 import java.util.Locale;
-import java.util.Map;
+import hunt.collection.Map;
 import java.util.ResourceBundle;
 
 import flow.engine.impl.persistence.deploy.ProcessDefinitionInfoCacheObject;

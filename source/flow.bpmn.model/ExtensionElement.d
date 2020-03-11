@@ -11,21 +11,29 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.ExtensionElement;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.LinkedHashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
+import flow.bpmn.model.BaseElement;
+import std.array;
 
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 
-class ExtensionElement extends BaseElement {
+class ExtensionElement : BaseElement {
 
     protected string name;
     protected string namespacePrefix;
     protected string namespace;
     protected string elementText;
-    protected Map<string, List<ExtensionElement>> childElements = new LinkedHashMap<>();
+    protected Map!(string, List!ExtensionElement) childElements ;// = new LinkedHashMap<>();
+
+    this()
+    {
+      childElements = new LinkedHashMap!(string, List!ExtensionElement);
+    }
 
     public string getElementText() {
         return elementText;
@@ -59,26 +67,26 @@ class ExtensionElement extends BaseElement {
         this.namespace = namespace;
     }
 
-    public Map<string, List<ExtensionElement>> getChildElements() {
+    public Map!(string, List!ExtensionElement) getChildElements() {
         return childElements;
     }
 
     public void addChildElement(ExtensionElement childElement) {
-        if (childElement !is null && StringUtils.isNotEmpty(childElement.getName())) {
-            List<ExtensionElement> elementList = null;
+        if (childElement !is null && (childElement.getName() !is null && childElement.getName().length != 0)) {
+            List!ExtensionElement elementList = null;
             if (!this.childElements.containsKey(childElement.getName())) {
-                elementList = new ArrayList<>();
+                elementList = new ArrayList!ExtensionElement();
                 this.childElements.put(childElement.getName(), elementList);
             }
             this.childElements.get(childElement.getName()).add(childElement);
         }
     }
 
-    public void setChildElements(Map<string, List<ExtensionElement>> childElements) {
+    public void setChildElements(Map!(string, List!ExtensionElement) childElements) {
         this.childElements = childElements;
     }
 
-    @Override
+    override
     public ExtensionElement clone() {
         ExtensionElement clone = new ExtensionElement();
         clone.setValues(this);
@@ -92,13 +100,13 @@ class ExtensionElement extends BaseElement {
         setElementText(otherElement.getElementText());
         setAttributes(otherElement.getAttributes());
 
-        childElements = new LinkedHashMap<>();
+        childElements = new LinkedHashMap!(string, List!ExtensionElement)();
         if (otherElement.getChildElements() !is null && !otherElement.getChildElements().isEmpty()) {
-            for (string key : otherElement.getChildElements().keySet()) {
-                List<ExtensionElement> otherElementList = otherElement.getChildElements().get(key);
+            foreach (string key ; otherElement.getChildElements().byKey().array) {
+                List!ExtensionElement otherElementList = otherElement.getChildElements().get(key);
                 if (otherElementList !is null && !otherElementList.isEmpty()) {
-                    List<ExtensionElement> elementList = new ArrayList<>();
-                    for (ExtensionElement extensionElement : otherElementList) {
+                    List!ExtensionElement elementList = new ArrayList!ExtensionElement();
+                    foreach (ExtensionElement extensionElement ; otherElementList) {
                         elementList.add(extensionElement.clone());
                     }
                     childElements.put(key, elementList);

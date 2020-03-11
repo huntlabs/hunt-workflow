@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -42,7 +42,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * Provides positions and dimensions of elements in a process diagram as provided by {@link RepositoryService#getProcessDiagram(string)}.
- * 
+ *
  * @author Falko Menge
  */
 class ProcessDiagramLayoutFactory {
@@ -51,9 +51,9 @@ class ProcessDiagramLayoutFactory {
 
     /**
      * Provides positions and dimensions of elements in a process diagram as provided by {@link RepositoryService#getProcessDiagram(string)}.
-     * 
+     *
      * Currently, it only supports BPMN 2.0 models.
-     * 
+     *
      * @param bpmnXmlStream
      *            BPMN 2.0 XML file
      * @param imageStream
@@ -67,7 +67,7 @@ class ProcessDiagramLayoutFactory {
 
     /**
      * Provides positions and dimensions of elements in a BPMN process diagram as provided by {@link RepositoryService#getProcessDiagram(string)}.
-     * 
+     *
      * @param bpmnModel
      *            BPMN 2.0 XML document
      * @param imageStream

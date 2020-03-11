@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
@@ -26,7 +26,7 @@ class VariableDeletedEventHandler extends VariableEventHandler {
     @Override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         FlowableVariableEvent variableEvent = (FlowableVariableEvent) event;
-        Map<string, Object> data = createData(variableEvent);
+        Map!(string, Object) data = createData(variableEvent);
 
         data.put(Fields.END_TIME, timeStamp);
 

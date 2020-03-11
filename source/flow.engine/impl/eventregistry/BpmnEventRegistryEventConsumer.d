@@ -12,27 +12,27 @@
  */
 
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection;
+import hunt.collections;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Objects;
 
 import org.flowable.bpmn.constants.BpmnXMLConstants;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.ExtensionElement;
-import org.flowable.bpmn.model.StartEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.ExtensionElement;
+import flow.bpmn.model.StartEvent;
 import flow.common.api.constant.ReferenceTypes;
 import flow.common.api.scope.ScopeTypes;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.RuntimeService;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.runtime.ProcessInstanceBuilder;
-import org.flowable.eventregistry.api.runtime.EventInstance;
-import org.flowable.eventregistry.impl.constant.EventConstants;
-import org.flowable.eventregistry.impl.consumer.BaseEventRegistryEventConsumer;
-import org.flowable.eventregistry.impl.consumer.CorrelationKey;
+import flow.event.registry.api.runtime.EventInstance;
+import flow.event.registry.constant.EventConstants;
+import flow.event.registry.consumer.BaseEventRegistryEventConsumer;
+import flow.event.registry.consumer.CorrelationKey;
 import org.flowable.eventsubscription.api.EventSubscription;
 import org.flowable.eventsubscription.api.EventSubscriptionQuery;
 import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryImpl;
@@ -47,7 +47,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
 
     public BpmnEventRegistryEventConsumer(ProcessEngineConfigurationImpl processEngineConfiguration) {
         super(processEngineConfiguration);
-        
+
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
@@ -55,7 +55,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
     public string getConsumerKey() {
         return "bpmnEventConsumer";
     }
-    
+
     @Override
     protected void eventReceived(EventInstance eventInstance) {
 
@@ -79,7 +79,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
 
             // When an executionId is set, this means that the process instance is waiting at that step for an event
 
-            Map<string, Object> transientVariableMap = new HashMap<>();
+            Map!(string, Object) transientVariableMap = new HashMap<>();
             transientVariableMap.put(EventConstants.EVENT_INSTANCE, eventInstance);
             runtimeService.trigger(eventSubscription.getExecutionId(), null, transientVariableMap);
 

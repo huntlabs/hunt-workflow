@@ -14,15 +14,15 @@
 
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Map;
+import hunt.collection;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.api.persistence.entity.VariableInstance;
 
@@ -30,10 +30,10 @@ class GetTaskVariableInstancesCmd implements Command<Map<string, VariableInstanc
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
-    protected Collection<string> variableNames;
+    protected Collection!string variableNames;
     protected bool isLocal;
 
-    public GetTaskVariableInstancesCmd(string taskId, Collection<string> variableNames, bool isLocal) {
+    public GetTaskVariableInstancesCmd(string taskId, Collection!string variableNames, bool isLocal) {
         this.taskId = taskId;
         this.variableNames = variableNames;
         this.isLocal = isLocal;

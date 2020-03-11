@@ -12,10 +12,10 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.MessageEventDefinition;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -64,7 +64,7 @@ class IntermediateCatchMessageEventActivityBehavior extends IntermediateCatchEve
                         .processDefinitionId(executionEntity.getProcessDefinitionId())
                         .tenantId(executionEntity.getTenantId())
                         .create();
-        
+
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
         executionEntity.getEventSubscriptions().add(eventSubscription);
 

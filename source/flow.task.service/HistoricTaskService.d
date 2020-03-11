@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,48 +13,48 @@
 
 
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.interceptor.CommandExecutor;
-import org.flowable.task.api.TaskInfo;
-import org.flowable.task.api.history.HistoricTaskInstance;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.api.history.HistoricTaskLogEntryQuery;
-import org.flowable.task.api.history.NativeHistoricTaskLogEntryQuery;
+import flow.task.api.TaskInfo;
+import flow.task.api.history.HistoricTaskInstance;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntryQuery;
+import flow.task.api.history.NativeHistoricTaskLogEntryQuery;
 import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * Service which provides access to {@link HistoricTaskInstanceEntity}.
- * 
+ *
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 interface HistoricTaskService {
 
     HistoricTaskInstanceEntity getHistoricTask(string id);
-    
+
     List<HistoricTaskInstanceEntity> findHistoricTasksByParentTaskId(string parentTaskId);
-    
+
     List<HistoricTaskInstanceEntity> findHistoricTasksByProcessInstanceId(string processInstanceId);
-    
+
     List<HistoricTaskInstance> findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
-    
+
     HistoricTaskInstanceEntity createHistoricTask();
-    
+
     HistoricTaskInstanceEntity createHistoricTask(TaskEntity taskEntity);
-    
+
     void updateHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireUpdateEvent);
-    
+
     void insertHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireCreateEvent);
-    
+
     void deleteHistoricTask(HistoricTaskInstanceEntity HistoricTaskInstance);
-    
+
     HistoricTaskInstanceEntity recordTaskCreated(TaskEntity task);
-    
+
     HistoricTaskInstanceEntity recordTaskEnd(TaskEntity task, string deleteReason, Date endTime);
-    
+
     HistoricTaskInstanceEntity recordTaskInfoChange(TaskEntity taskEntity, Date changeTime);
 
     void deleteHistoricTaskLogEntry(long taskLogNumber);
@@ -79,14 +79,14 @@ interface HistoricTaskService {
     void deleteHistoricTaskLogEntriesForScopeDefinition(string scopeType, string scopeDefinitionId);
 
     void deleteHistoricTaskLogEntriesForTaskId(string taskId);
-    
+
     void deleteHistoricTaskLogEntriesForNonExistingProcessInstances();
-    
+
     void deleteHistoricTaskLogEntriesForNonExistingCaseInstances();
-    
+
     void deleteHistoricTaskInstances(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
     void deleteHistoricTaskInstancesForNonExistingProcessInstances();
-    
+
     void deleteHistoricTaskInstancesForNonExistingCaseInstances();
 }

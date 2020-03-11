@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +17,9 @@ import static java.util.Comparator.comparing;
 
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.AlwaysUpdatedPersistentObject;
 import flow.common.persistence.entity.Entity;
@@ -127,7 +127,7 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
     void setLockTime(Date lockTime);
 
     void forceUpdate();
-    
+
     string getStartActivityId();
 
     void setStartActivityId(string startActivityId);
@@ -135,11 +135,11 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
     void setStartUserId(string startUserId);
 
     void setStartTime(Date startTime);
-    
+
     void setCallbackId(string callbackId);
-    
+
     void setCallbackType(string callbackType);
-    
+
     void setVariable(string variableName, Object value, ExecutionEntity sourceExecution, bool fetchAllVariables);
 
     void setReferenceId(string referenceId);
@@ -147,10 +147,10 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
     void setReferenceType(string referenceType);
 
     void setPropagatedStageInstanceId(string propagatedStageInstanceId);
-    
+
     Object setVariableLocal(string variableName, Object value, ExecutionEntity sourceExecution, bool fetchAllVariables);
 
     FlowElement getOriginatingCurrentFlowElement();
-    
+
     void setOriginatingCurrentFlowElement(FlowElement flowElement);
 }

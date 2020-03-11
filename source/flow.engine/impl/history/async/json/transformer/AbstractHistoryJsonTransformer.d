@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
 
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.api.deleg.event.FlowableEvent;
@@ -56,7 +56,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
         }
         return false;
     }
-    
+
     public bool historicActivityInstanceExistsForDataIncludingFinished(ObjectNode historicalData, CommandContext commandContext) {
         string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (StringUtils.isNotEmpty(runtimeActivityInstanceId)) {
@@ -94,14 +94,14 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
 
     protected HistoricActivityInstanceEntity getUnfinishedHistoricActivityInstanceFromCache(CommandContext commandContext,
                     string executionId, string activityId) {
-        
+
         List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
             if (activityId !is null
                             && activityId.equals(cachedHistoricActivityInstance.getActivityId())
                             && cachedHistoricActivityInstance.getEndTime() is null
                             && executionId.equals(cachedHistoricActivityInstance.getExecutionId())) {
-                
+
                 return cachedHistoricActivityInstance;
             }
         }
@@ -123,16 +123,16 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
         }
         return historicActivityInstanceEntity;
     }
-    
+
     protected HistoricActivityInstanceEntity getHistoricActivityInstanceFromCache(CommandContext commandContext,
                     string executionId, string activityId) {
-        
+
         List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
             if (activityId !is null
                             && activityId.equals(cachedHistoricActivityInstance.getActivityId())
                             && executionId.equals(cachedHistoricActivityInstance.getExecutionId())) {
-                
+
                 return cachedHistoricActivityInstance;
             }
         }

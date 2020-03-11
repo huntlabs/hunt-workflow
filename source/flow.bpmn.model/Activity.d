@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,24 +11,39 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.Activity;
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.MultiInstanceLoopCharacteristics;
+import flow.bpmn.model.IOSpecification;
+import flow.bpmn.model.DataAssociation;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.MapExceptionEntry;
 
 /**
  * @author Tijs Rademakers
  */
-public abstract class Activity extends FlowNode {
+abstract class Activity : FlowNode {
 
     protected string defaultFlow;
     protected bool forCompensation;
     protected MultiInstanceLoopCharacteristics loopCharacteristics;
     protected IOSpecification ioSpecification;
-    protected List<DataAssociation> dataInputAssociations = new ArrayList<>();
-    protected List<DataAssociation> dataOutputAssociations = new ArrayList<>();
-    protected List<BoundaryEvent> boundaryEvents = new ArrayList<>();
+    protected List!DataAssociation dataInputAssociations ;//= new ArrayList<>();
+    protected List!DataAssociation dataOutputAssociations ;// = new ArrayList<>();
+    protected List!BoundaryEvent boundaryEvents ;//= new ArrayList<>();
     protected string failedJobRetryTimeCycleValue;
-    protected List<MapExceptionEntry> mapExceptions = new ArrayList<>();
+    protected List!MapExceptionEntry mapExceptions ;//= new ArrayList<>();
+
+    this()
+    {
+        dataInputAssociations = new ArrayList!DataAssociation;
+        dataOutputAssociations = new ArrayList!DataAssociation;
+        boundaryEvents = new ArrayList!BoundaryEvent;
+        mapExceptions = new ArrayList!MapExceptionEntry;
+    }
 
     public string getFailedJobRetryTimeCycleValue() {
         return failedJobRetryTimeCycleValue;
@@ -46,11 +61,11 @@ public abstract class Activity extends FlowNode {
         this.forCompensation = forCompensation;
     }
 
-    public List<BoundaryEvent> getBoundaryEvents() {
+    public List!BoundaryEvent getBoundaryEvents() {
         return boundaryEvents;
     }
 
-    public void setBoundaryEvents(List<BoundaryEvent> boundaryEvents) {
+    public void setBoundaryEvents(List!BoundaryEvent boundaryEvents) {
         this.boundaryEvents = boundaryEvents;
     }
 
@@ -82,27 +97,27 @@ public abstract class Activity extends FlowNode {
         this.ioSpecification = ioSpecification;
     }
 
-    public List<DataAssociation> getDataInputAssociations() {
+    public List!DataAssociation getDataInputAssociations() {
         return dataInputAssociations;
     }
 
-    public void setDataInputAssociations(List<DataAssociation> dataInputAssociations) {
+    public void setDataInputAssociations(List!DataAssociation dataInputAssociations) {
         this.dataInputAssociations = dataInputAssociations;
     }
 
-    public List<DataAssociation> getDataOutputAssociations() {
+    public List!DataAssociation getDataOutputAssociations() {
         return dataOutputAssociations;
     }
 
-    public void setDataOutputAssociations(List<DataAssociation> dataOutputAssociations) {
+    public void setDataOutputAssociations(List!DataAssociation dataOutputAssociations) {
         this.dataOutputAssociations = dataOutputAssociations;
     }
 
-    public List<MapExceptionEntry> getMapExceptions() {
+    public List!MapExceptionEntry getMapExceptions() {
         return mapExceptions;
     }
 
-    public void setMapExceptions(List<MapExceptionEntry> mapExceptions) {
+    public void setMapExceptions(List!MapExceptionEntry mapExceptions) {
         this.mapExceptions = mapExceptions;
     }
 
@@ -118,16 +133,16 @@ public abstract class Activity extends FlowNode {
             setIoSpecification(otherActivity.getIoSpecification().clone());
         }
 
-        dataInputAssociations = new ArrayList<>();
+        dataInputAssociations = new ArrayList!DataAssociation();
         if (otherActivity.getDataInputAssociations() !is null && !otherActivity.getDataInputAssociations().isEmpty()) {
-            for (DataAssociation association : otherActivity.getDataInputAssociations()) {
+            foreach (DataAssociation association ; otherActivity.getDataInputAssociations()) {
                 dataInputAssociations.add(association.clone());
             }
         }
 
-        dataOutputAssociations = new ArrayList<>();
+        dataOutputAssociations = new ArrayList!DataAssociation();
         if (otherActivity.getDataOutputAssociations() !is null && !otherActivity.getDataOutputAssociations().isEmpty()) {
-            for (DataAssociation association : otherActivity.getDataOutputAssociations()) {
+            foreach (DataAssociation association ; otherActivity.getDataOutputAssociations()) {
                 dataOutputAssociations.add(association.clone());
             }
         }

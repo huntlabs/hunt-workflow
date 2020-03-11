@@ -11,8 +11,9 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.parse.Warning;
 
-import org.flowable.bpmn.model.BaseElement;
+import flow.bpmn.model.BaseElement;
 
 class Warning {
 
@@ -21,22 +22,22 @@ class Warning {
     protected int line;
     protected int column;
 
-    public Warning(string warningMessage, string localName, int lineNumber, int columnNumber) {
+    this(string warningMessage, string localName, int lineNumber, int columnNumber) {
         this.warningMessage = warningMessage;
         this.resource = localName;
         this.line = lineNumber;
         this.column = columnNumber;
     }
 
-    public Warning(string warningMessage, BaseElement element) {
+    this(string warningMessage, BaseElement element) {
         this.warningMessage = warningMessage;
         this.resource = element.getId();
         line = element.getXmlRowNumber();
         column = element.getXmlColumnNumber();
     }
 
-    @Override
+    override
     public string toString() {
-        return warningMessage + (resource !is null ? " | " + resource : "") + " | line " + line + " | column " + column;
+        return warningMessage ~= (resource !is null ? " | " ~= resource : "") ~= " | line " ~= line ~= " | column " ~= column;
     }
 }

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,14 +13,14 @@
 
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.impl.util.TaskHelper;
-import org.flowable.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLink;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 import org.flowable.task.service.InternalTaskAssignmentManager;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
@@ -28,12 +28,12 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntity;
  * @author Tijs Rademakers
  */
 class DefaultTaskAssignmentManager implements InternalTaskAssignmentManager {
-    
+
     @Override
     public void changeAssignee(Task task, string assignee) {
         TaskHelper.changeTaskAssignee((TaskEntity) task, assignee);
     }
-    
+
     @Override
     public void changeOwner(Task task, string owner) {
         TaskHelper.changeTaskOwner((TaskEntity) task, owner);
@@ -45,7 +45,7 @@ class DefaultTaskAssignmentManager implements InternalTaskAssignmentManager {
     }
 
     @Override
-    public void addCandidateUsers(Task task, List<IdentityLink> candidateUsers) {
+    public void addCandidateUsers(Task task, List!IdentityLink candidateUsers) {
         List<IdentityLinkEntity> identityLinks = new ArrayList<>();
         for (IdentityLink identityLink : candidateUsers) {
             identityLinks.add((IdentityLinkEntity) identityLink);
@@ -59,7 +59,7 @@ class DefaultTaskAssignmentManager implements InternalTaskAssignmentManager {
     }
 
     @Override
-    public void addCandidateGroups(Task task, List<IdentityLink> candidateGroups) {
+    public void addCandidateGroups(Task task, List!IdentityLink candidateGroups) {
         List<IdentityLinkEntity> identityLinks = new ArrayList<>();
         for (IdentityLink identityLink : candidateGroups) {
             identityLinks.add((IdentityLinkEntity) identityLink);

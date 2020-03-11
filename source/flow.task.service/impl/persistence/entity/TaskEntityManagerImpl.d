@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,18 +14,18 @@
 
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Objects;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.identity.Authentication;
 import org.flowable.identitylink.service.IdentityLinkService;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskBuilder;
-import org.flowable.task.api.TaskInfo;
-import org.flowable.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.api.history.HistoricTaskLogEntryType;
+import flow.task.api.Task;
+import flow.task.api.TaskBuilder;
+import flow.task.api.TaskInfo;
+import flow.task.api.history.HistoricTaskLogEntryBuilder;
+import flow.task.api.history.HistoricTaskLogEntryType;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.event.impl.FlowableTaskEventBuilder;
 import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
@@ -127,7 +127,7 @@ class TaskEntityManagerImpl
                 || (taskEntity.getAssignee() is null && assignee !is null)) {
 
             taskEntity.setAssignee(assignee);
-            
+
             if (taskEntity.getId() !is null) {
                 serviceConfiguration.getInternalHistoryTaskManager().recordTaskInfoChange(taskEntity, getClock().getCurrentTime());
                 update(taskEntity);
@@ -139,7 +139,7 @@ class TaskEntityManagerImpl
     public void changeTaskOwner(TaskEntity taskEntity, string owner) {
         if ((taskEntity.getOwner() !is null && !taskEntity.getOwner().equals(owner))
                 || (taskEntity.getOwner() is null && owner !is null)) {
-            
+
             taskEntity.setOwner(owner);
 
             if (taskEntity.getId() !is null) {
@@ -158,12 +158,12 @@ class TaskEntityManagerImpl
     public List<TaskEntity> findTasksByProcessInstanceId(string processInstanceId) {
         return dataManager.findTasksByProcessInstanceId(processInstanceId);
     }
-    
+
     @Override
     public List<TaskEntity> findTasksByScopeIdAndScopeType(string scopeId, string scopeType) {
         return dataManager.findTasksByScopeIdAndScopeType(scopeId, scopeType);
     }
-    
+
     @Override
     public List<TaskEntity> findTasksBySubScopeIdAndScopeType(string subScopeId, string scopeType) {
         return dataManager.findTasksBySubScopeIdAndScopeType(subScopeId, scopeType);
@@ -185,12 +185,12 @@ class TaskEntityManagerImpl
     }
 
     @Override
-    public List<Task> findTasksByNativeQuery(Map<string, Object> parameterMap) {
+    public List<Task> findTasksByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findTasksByNativeQuery(parameterMap);
     }
 
     @Override
-    public long findTaskCountByNativeQuery(Map<string, Object> parameterMap) {
+    public long findTaskCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findTaskCountByNativeQuery(parameterMap);
     }
 
@@ -203,12 +203,12 @@ class TaskEntityManagerImpl
     public void updateTaskTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateTaskTenantIdForDeployment(deploymentId, newTenantId);
     }
-    
+
     @Override
     public void updateAllTaskRelatedEntityCountFlags(bool configProperty) {
         dataManager.updateAllTaskRelatedEntityCountFlags(configProperty);
     }
-    
+
     @Override
     public void deleteTasksByExecutionId(string executionId) {
         dataManager.deleteTasksByExecutionId(executionId);
@@ -310,7 +310,7 @@ class TaskEntityManagerImpl
 
     @SuppressWarnings("unchecked")
     protected bool wasPersisted(TaskEntity task) {
-        if (task.getOriginalPersistentState() !is null && ((Map<string, Object>) task.getOriginalPersistentState()).size() > 0) {
+        if (task.getOriginalPersistentState() !is null && ((Map!(string, Object)) task.getOriginalPersistentState()).size() > 0) {
             return true;
         } else {
             return false;
@@ -320,7 +320,7 @@ class TaskEntityManagerImpl
     @SuppressWarnings("unchecked")
     protected Object getOriginalState(TaskEntity task, string stateKey) {
         if (task.getOriginalPersistentState() !is null) {
-            return ((Map<string, Object>) task.getOriginalPersistentState()).get(stateKey);
+            return ((Map!(string, Object)) task.getOriginalPersistentState()).get(stateKey);
         }
         return null;
     }

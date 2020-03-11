@@ -11,15 +11,16 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.alfresco.AlfrescoScriptTask;
 
-import org.flowable.bpmn.model.ServiceTask;
+import flow.bpmn.model.ServiceTask;
 
-class AlfrescoScriptTask extends ServiceTask {
+class AlfrescoScriptTask : ServiceTask {
 
-    public static final string ALFRESCO_SCRIPT_DELEGATE = "org.alfresco.repo.workflow.activiti.script.AlfrescoScriptDelegate";
-    public static final string ALFRESCO_SCRIPT_EXECUTION_LISTENER = "org.alfresco.repo.workflow.activiti.listener.ScriptExecutionListener";
+    public static  string ALFRESCO_SCRIPT_DELEGATE = "org.alfresco.repo.workflow.activiti.script.AlfrescoScriptDelegate";
+    public static  string ALFRESCO_SCRIPT_EXECUTION_LISTENER = "org.alfresco.repo.workflow.activiti.listener.ScriptExecutionListener";
 
-    @Override
+    override
     public AlfrescoScriptTask clone() {
         AlfrescoScriptTask clone = new AlfrescoScriptTask();
         clone.setValues(this);

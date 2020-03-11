@@ -13,10 +13,10 @@
 
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
 import flow.engine.migration.ActivityMigrationMapping;
@@ -35,7 +35,7 @@ class ProcessInstanceMigrationDocumentBuilderImpl implements ProcessInstanceMigr
     protected Integer migrateToProcessDefinitionVersion;
     protected string migrateToProcessDefinitionTenantId;
     protected List<ActivityMigrationMapping> activityMigrationMappings = new ArrayList<>();
-    protected Map<string, Object> processInstanceVariables = new HashMap<>();
+    protected Map!(string, Object) processInstanceVariables = new HashMap<>();
     protected Script preUpgradeScript;
     protected string preUpgradeJavaDelegate;
     protected string preUpgradeJavaDelegateExpression;
@@ -117,7 +117,7 @@ class ProcessInstanceMigrationDocumentBuilderImpl implements ProcessInstanceMigr
     }
 
     @Override
-    public ProcessInstanceMigrationDocumentBuilder addProcessInstanceVariables(Map<string, Object> processInstanceVariables) {
+    public ProcessInstanceMigrationDocumentBuilder addProcessInstanceVariables(Map!(string, Object) processInstanceVariables) {
         this.processInstanceVariables.putAll(processInstanceVariables);
         return this;
     }

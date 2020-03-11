@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,7 +13,7 @@
 
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
@@ -31,22 +31,22 @@ class TriggerCmd extends NeedsActiveExecutionCmd<Object> {
 
     private static final long serialVersionUID = 1L;
 
-    protected Map<string, Object> processVariables;
-    protected Map<string, Object> transientVariables;
+    protected Map!(string, Object) processVariables;
+    protected Map!(string, Object) transientVariables;
     protected bool async;
 
-    public TriggerCmd(string executionId, Map<string, Object> processVariables) {
+    public TriggerCmd(string executionId, Map!(string, Object) processVariables) {
         super(executionId);
         this.processVariables = processVariables;
     }
 
-    public TriggerCmd(string executionId, Map<string, Object> processVariables, bool async) {
+    public TriggerCmd(string executionId, Map!(string, Object) processVariables, bool async) {
         super(executionId);
         this.processVariables = processVariables;
         this.async = async;
     }
 
-    public TriggerCmd(string executionId, Map<string, Object> processVariables, Map<string, Object> transientVariables) {
+    public TriggerCmd(string executionId, Map!(string, Object) processVariables, Map!(string, Object) transientVariables) {
         this(executionId, processVariables);
         this.transientVariables = transientVariables;
     }
@@ -58,7 +58,7 @@ class TriggerCmd extends NeedsActiveExecutionCmd<Object> {
             compatibilityHandler.trigger(executionId, processVariables, transientVariables);
             return null;
         }
-        
+
         if (processVariables !is null) {
             execution.setVariables(processVariables);
         }
@@ -73,7 +73,7 @@ class TriggerCmd extends NeedsActiveExecutionCmd<Object> {
                             null, execution.getId(), execution.getProcessInstanceId(), execution.getProcessDefinitionId()));
 
             CommandContextUtil.getAgenda(commandContext).planTriggerExecutionOperation(execution);
-            
+
         } else {
             CommandContextUtil.getAgenda(commandContext).planAsyncTriggerExecutionOperation(execution);
         }

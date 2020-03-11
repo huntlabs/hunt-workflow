@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,26 +12,26 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
-import org.flowable.common.engine.api.repository.EngineDeployment;
-import org.flowable.common.engine.api.repository.EngineResource;
+import flow.common.api.repository.EngineDeployment;
+import flow.common.api.repository.EngineResource;
 import flow.common.EngineDeployer;
-import org.flowable.eventregistry.api.EventDeploymentBuilder;
-import org.flowable.eventregistry.api.EventRepositoryService;
-import org.flowable.eventregistry.impl.util.CommandContextUtil;
+import flow.event.registry.api.EventDeploymentBuilder;
+import flow.event.registry.api.EventRepositoryService;
+import flow.event.registry.util.CommandContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * @author Tijs Rademakers
  */
-public class EventDeployer implements EngineDeployer {
+class EventDeployer implements EngineDeployer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventDeployer.class);
 
     @Override
-    public void deploy(EngineDeployment deployment, Map<String, Object> deploymentSettings) {
+    public void deploy(EngineDeployment deployment, Map!(string, Object) deploymentSettings) {
         if (!deployment.isNew())
             return;
 
@@ -43,16 +43,16 @@ public class EventDeployer implements EngineDeployer {
         for (String resourceName : resources.keySet()) {
             if (resourceName.endsWith(".event")) {
                 LOGGER.info("EventDeployer: processing resource {}", resourceName);
-                if (eventDeploymentBuilder == null) {
+                if (eventDeploymentBuilder is null) {
                     EventRepositoryService eventRepositoryService = CommandContextUtil.getEventRepositoryService();
                     eventDeploymentBuilder = eventRepositoryService.createDeployment().name(deployment.getName());
                 }
 
                 eventDeploymentBuilder.addEventDefinitionBytes(resourceName, resources.get(resourceName).getBytes());
-            
+
             } else if (resourceName.endsWith(".channel")) {
                 LOGGER.info("EventDeployer: processing resource {}", resourceName);
-                if (eventDeploymentBuilder == null) {
+                if (eventDeploymentBuilder is null) {
                     EventRepositoryService eventRepositoryService = CommandContextUtil.getEventRepositoryService();
                     eventDeploymentBuilder = eventRepositoryService.createDeployment().name(deployment.getName());
                 }
@@ -61,9 +61,9 @@ public class EventDeployer implements EngineDeployer {
             }
         }
 
-        if (eventDeploymentBuilder != null) {
+        if (eventDeploymentBuilder !is null) {
             eventDeploymentBuilder.parentDeploymentId(deployment.getId());
-            if (deployment.getTenantId() != null && deployment.getTenantId().length() > 0) {
+            if (deployment.getTenantId() !is null && deployment.getTenantId().length() > 0) {
                 eventDeploymentBuilder.tenantId(deployment.getTenantId());
             }
 

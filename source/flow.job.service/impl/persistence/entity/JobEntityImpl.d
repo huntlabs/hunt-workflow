@@ -13,7 +13,7 @@
 
 
 import java.util.Date;
-import java.util.Map;
+import hunt.collection.Map;
 
 /**
  * Job entity.
@@ -31,7 +31,7 @@ class JobEntityImpl extends AbstractJobEntityImpl implements JobEntity {
     @Override
     @SuppressWarnings("unchecked")
     public Object getPersistentState() {
-        Map<string, Object> persistentState = (Map<string, Object>) super.getPersistentState();
+        Map!(string, Object) persistentState = (Map!(string, Object)) super.getPersistentState();
         persistentState.put("lockOwner", lockOwner);
         persistentState.put("lockExpirationTime", lockExpirationTime);
 

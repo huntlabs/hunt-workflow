@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.flowable.batch.api.Batch;
 import flow.common.interceptor.Command;
@@ -20,7 +20,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
 class GetAllBatchesCmd implements Command<List<Batch>> {
-    
+
     @Override
     public List<Batch> execute(CommandContext commandContext) {
         return CommandContextUtil.getBatchService(commandContext).getAllBatches();

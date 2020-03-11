@@ -18,7 +18,7 @@ import flow.common.identity.Authentication;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-import org.flowable.task.api.TaskInfo;
+import flow.task.api.TaskInfo;
 import org.flowable.task.service.impl.util.CommandContextUtil;
 
 /**

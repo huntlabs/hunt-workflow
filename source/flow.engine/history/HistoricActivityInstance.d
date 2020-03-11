@@ -12,19 +12,21 @@
  * limitations under the License.
  */
 
+module flow.engine.history.HistoricActivityInstance;
 
-
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.api.history.HistoricData;
 
+alias Date = LocalDateTime;
+
 /**
  * Represents one execution of an activity and it's stored permanent for statistics, audit and other business intelligence purposes.
- * 
+ *
  * @author Christian Stettler
  * @author Joram Barrez
  */
-interface HistoricActivityInstance extends HistoricData {
+interface HistoricActivityInstance : HistoricData {
 
     /** The unique identifier of this historic activity instance. */
     string getId();
@@ -63,7 +65,7 @@ interface HistoricActivityInstance extends HistoricData {
     Date getEndTime();
 
     /** Difference between {@link #getEndTime()} and {@link #getStartTime()}. */
-    Long getDurationInMillis();
+    long getDurationInMillis();
 
     /** Returns the delete reason for this activity, if any was set (if completed normally, no delete reason is set) */
     string getDeleteReason();

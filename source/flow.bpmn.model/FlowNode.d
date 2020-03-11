@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,29 +11,32 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.FlowNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.SequenceFlow;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-public abstract class FlowNode extends FlowElement {
+abstract class FlowNode : FlowElement {
 
     protected bool asynchronous;
     protected bool notExclusive;
 
-    protected List<SequenceFlow> incomingFlows = new ArrayList<>();
-    protected List<SequenceFlow> outgoingFlows = new ArrayList<>();
+    protected List!SequenceFlow incomingFlows ;//= new ArrayList<>();
+    protected List!SequenceFlow outgoingFlows ;//= new ArrayList<>();
 
-    @JsonIgnore
+    //@JsonIgnore
     protected Object behavior;
 
-    public FlowNode() {
-
+    this() {
+        incomingFlows = new ArrayList!SequenceFlow;
+        outgoingFlows = new ArrayList!SequenceFlow;
     }
 
     public bool isAsynchronous() {
@@ -68,19 +71,19 @@ public abstract class FlowNode extends FlowElement {
         this.behavior = behavior;
     }
 
-    public List<SequenceFlow> getIncomingFlows() {
+    public List!SequenceFlow getIncomingFlows() {
         return incomingFlows;
     }
 
-    public void setIncomingFlows(List<SequenceFlow> incomingFlows) {
+    public void setIncomingFlows(List!SequenceFlow incomingFlows) {
         this.incomingFlows = incomingFlows;
     }
 
-    public List<SequenceFlow> getOutgoingFlows() {
+    public List!SequenceFlow getOutgoingFlows() {
         return outgoingFlows;
     }
 
-    public void setOutgoingFlows(List<SequenceFlow> outgoingFlows) {
+    public void setOutgoingFlows(List!SequenceFlow outgoingFlows) {
         this.outgoingFlows = outgoingFlows;
     }
 

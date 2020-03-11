@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 /**
  * @author Dennis
@@ -43,7 +43,7 @@ interface ActivityMigrationMappingOptions<T extends ActivityMigrationMapping> {
 
         T withLocalVariable(string variableName, Object variableValue);
 
-        T withLocalVariables(Map<string, Object> variables);
+        T withLocalVariables(Map!(string, Object) variables);
 
         Map<string,Object> getActivityLocalVariables();
     }
@@ -52,11 +52,11 @@ interface ActivityMigrationMappingOptions<T extends ActivityMigrationMapping> {
 
         T withLocalVariableForActivity(string toActivity, string variableName, Object variableValue);
 
-        T withLocalVariablesForActivity(string toActivity, Map<string, Object> variables);
+        T withLocalVariablesForActivity(string toActivity, Map!(string, Object) variables);
 
         T withLocalVariableForAllActivities(string variableName, Object variableValue);
 
-        T withLocalVariablesForAllActivities(Map<string, Object> variables);
+        T withLocalVariablesForAllActivities(Map!(string, Object) variables);
 
         T withLocalVariables(Map<string, Map<string, Object>> mappingVariables);
 

@@ -13,25 +13,28 @@
  */
 
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.engine.history.HistoricProcessInstance;
- 
- 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
 
-import java.util.Date;
-import hunt.colleciton.Map;
+module flow.engine.history.HistoricProcessInstance;
+
+
+
+
+import hunt.time.LocalDateTime;
+import hunt.collection.Map;
 
 import flow.engine.IdentityService;
 import flow.engine.runtime.ProcessInstance;
 
+
+alias Date = LocalDateTime;
+
 /**
  * A single execution of a whole process definition that is stored permanently.
- * 
+ *
  * @author Christian Stettler
  */
 interface HistoricProcessInstance {
@@ -54,7 +57,7 @@ interface HistoricProcessInstance {
     string getProcessDefinitionKey();
 
     /** The version of the process definition of the process instance. */
-    Integer getProcessDefinitionVersion();
+    int getProcessDefinitionVersion();
 
     /**
      * The deployment id of the process definition of the process instance.
@@ -70,7 +73,7 @@ interface HistoricProcessInstance {
     /**
      * The difference between {@link #getEndTime()} and {@link #getStartTime()} .
      */
-    Long getDurationInMillis();
+    long getDurationInMillis();
 
     /**
      * Reference to the activity in which this process instance ended. Note that a process instance can have multiple end events, in this case it might not be deterministic which activity id will be
@@ -80,7 +83,7 @@ interface HistoricProcessInstance {
 
     /**
      * The authenticated user that started this process instance.
-     * 
+     *
      * @see IdentityService#setAuthenticatedUserId(string)
      */
     string getStartUserId();
@@ -110,12 +113,12 @@ interface HistoricProcessInstance {
      * The description for the process instance.
      */
     string getDescription();
-    
+
     /**
-     * The callback id for the process instance. 
+     * The callback id for the process instance.
      */
     string getCallbackId();
-    
+
     /**
      * The callback type for the process instance.
      */
@@ -132,5 +135,5 @@ interface HistoricProcessInstance {
     string getReferenceType();
 
     /** Returns the process variables if requested in the process instance query */
-    Map<string, Object> getProcessVariables();
+    Map!(string, Object) getProcessVariables();
 }

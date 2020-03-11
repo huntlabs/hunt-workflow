@@ -12,12 +12,12 @@
  */
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.db.AbstractDataManager;
-import org.flowable.task.api.history.HistoricTaskLogEntry;
+import flow.task.api.history.HistoricTaskLogEntry;
 import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityImpl;
@@ -60,7 +60,7 @@ class MyBatisHistoricTaskLogEntryDataManager extends AbstractDataManager<Histori
 
     @Override
     public void deleteHistoricTaskLogEntriesByScopeDefinitionId(string scopeType, string scopeDefinitionId) {
-        Map<string, string> params = new HashMap<>(2);
+        Map!(string, string) params = new HashMap<>(2);
         params.put("scopeDefinitionId", scopeDefinitionId);
         params.put("scopeType", scopeType);
         getDbSqlSession().delete("deleteHistoricTaskLogEntriesByScopeDefinitionId", params, HistoricTaskLogEntryEntityImpl.class);
@@ -75,18 +75,18 @@ class MyBatisHistoricTaskLogEntryDataManager extends AbstractDataManager<Histori
     public void deleteHistoricTaskLogEntriesForNonExistingProcessInstances() {
         getDbSqlSession().delete("bulkDeleteHistoricTaskLogEntriesForNonExistingProcessInstances", null, HistoricTaskLogEntryEntityImpl.class);
     }
-    
+
     @Override
     public void deleteHistoricTaskLogEntriesForNonExistingCaseInstances() {
         getDbSqlSession().delete("bulkDeleteHistoricTaskLogEntriesForNonExistingCaseInstances", null, HistoricTaskLogEntryEntityImpl.class);
     }
-    
+
     @Override
-    public long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map<string, Object> nativeHistoricTaskLogEntryQuery) {
+    public long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
         return (Long) getDbSqlSession().selectOne("selectHistoricTaskLogEntriesCountByNativeQueryCriteria", nativeHistoricTaskLogEntryQuery);
     }
     @Override
-    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map<string, Object> nativeHistoricTaskLogEntryQuery) {
+    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
         return getDbSqlSession().selectListWithRawParameter("selectHistoricTaskLogEntriesByNativeQueryCriteria", nativeHistoricTaskLogEntryQuery);
     }
 }

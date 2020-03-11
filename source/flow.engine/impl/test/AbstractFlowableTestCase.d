@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,20 +14,20 @@
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.EndEvent;
-import org.flowable.bpmn.model.SequenceFlow;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.EndEvent;
+import flow.bpmn.model.SequenceFlow;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.UserTask;
 import flow.common.history.HistoryLevel;
 import flow.common.test.EnsureCleanDb;
 import flow.engine.DynamicBpmnService;
@@ -52,8 +52,8 @@ import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ActivityInstance;
 import flow.engine.runtime.ProcessInstance;
 import org.flowable.job.api.Job;
-import org.flowable.task.api.Task;
-import org.flowable.task.api.history.HistoricTaskInstance;
+import flow.task.api.Task;
+import flow.task.api.history.HistoricTaskInstance;
 import org.junit.jupiter.api.BeforeEach;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -72,7 +72,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
 
     protected ProcessEngine processEngine;
 
-    protected static List<string> deploymentIdsForAutoCleanup = new ArrayList<>();
+    protected static List!string deploymentIdsForAutoCleanup = new ArrayList<>();
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
     protected RepositoryService repositoryService;
@@ -116,7 +116,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
             List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery().finished().list();
 
             for (HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
-                
+
                 assertNotNull("Historic process instance has no process definition id", historicProcessInstance.getProcessDefinitionId());
                 assertNotNull("Historic process instance has no process definition key", historicProcessInstance.getProcessDefinitionKey());
                 assertNotNull("Historic process instance has no process definition version", historicProcessInstance.getProcessDefinitionVersion());
@@ -130,7 +130,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                 // tasks
                 List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
                         .processInstanceId(processInstanceId).list();
-                
+
                 if (historicTaskInstances !is null && historicTaskInstances.size() > 0) {
                     for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
                         assertEquals(processInstanceId, historicTaskInstance.getProcessInstanceId());
@@ -255,11 +255,11 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     public void waitForJobExecutorToProcessAllJobsAndExecutableTimerJobs(long maxMillisToWait, long intervalMillis) {
         JobTestHelper.waitForJobExecutorToProcessAllJobsAndExecutableTimerJobs(processEngineConfiguration, managementService, maxMillisToWait, intervalMillis);
     }
-    
+
     public void waitForJobExecutorToProcessAllHistoryJobs(long maxMillisToWait, long intervalMillis) {
         HistoryTestHelper.waitForJobExecutorToProcessAllHistoryJobs(processEngineConfiguration, managementService, maxMillisToWait, intervalMillis);
     }
-    
+
     public void waitForHistoryJobExecutorToProcessAllJobs(long maxMillisToWait, long intervalMillis) {
         HistoryTestHelper.waitForJobExecutorToProcessAllHistoryJobs(processEngineConfiguration, managementService, maxMillisToWait, intervalMillis);
     }
@@ -270,23 +270,23 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
      */
     public BpmnModel createOneTaskTestProcess() {
         BpmnModel model = new BpmnModel();
-        org.flowable.bpmn.model.Process process = createOneTaskProcess();
+        flow.bpmn.model.Process process = createOneTaskProcess();
         model.addProcess(process);
 
         return model;
     }
-    
+
     public BpmnModel createOneTaskTestProcessWithCandidateStarterGroup() {
         BpmnModel model = new BpmnModel();
-        org.flowable.bpmn.model.Process process = createOneTaskProcess();
+        flow.bpmn.model.Process process = createOneTaskProcess();
         process.getCandidateStarterGroups().add("testGroup");
         model.addProcess(process);
 
         return model;
     }
-    
-    protected org.flowable.bpmn.model.Process createOneTaskProcess() {
-        org.flowable.bpmn.model.Process process = new org.flowable.bpmn.model.Process();
+
+    protected flow.bpmn.model.Process createOneTaskProcess() {
+        flow.bpmn.model.Process process = new flow.bpmn.model.Process();
         process.setId("oneTaskProcess");
         process.setName("The one task process");
 
@@ -308,13 +308,13 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
 
         process.addFlowElement(new SequenceFlow("start", "theTask"));
         process.addFlowElement(new SequenceFlow("theTask", "theEnd"));
-        
+
         return process;
     }
 
     public BpmnModel createTwoTasksTestProcess() {
         BpmnModel model = new BpmnModel();
-        org.flowable.bpmn.model.Process process = new org.flowable.bpmn.model.Process();
+        flow.bpmn.model.Process process = new flow.bpmn.model.Process();
         model.addProcess(process);
         process.setId("twoTasksProcess");
         process.setName("The two tasks process");
@@ -349,7 +349,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
 
     /**
      * Creates and deploys the one task process. See {@link #createOneTaskTestProcess()}.
-     * 
+     *
      * @return The process definition id (NOT the process definition key) of deployed one task process.
      */
     public string deployOneTaskTestProcess() {
@@ -361,7 +361,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
         ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
         return processDefinition.getId();
     }
-    
+
     public string deployOneTaskTestProcessWithCandidateStarterGroup() {
         BpmnModel bpmnModel = createOneTaskTestProcessWithCandidateStarterGroup();
         Deployment deployment = repositoryService.createDeployment().addBpmnModel("oneTasktest.bpmn20.xml", bpmnModel).deploy();
@@ -385,39 +385,39 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     //
     // HELPERS
     //
-    
+
     protected void deleteDeployments() {
         bool isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
         HistoryManager asyncHistoryManager = null;
         if (isAsyncHistoryEnabled) {
             processEngineConfiguration.setAsyncHistoryEnabled(false);
             asyncHistoryManager = processEngineConfiguration.getHistoryManager();
-            processEngineConfiguration.setHistoryManager(new DefaultHistoryManager(processEngineConfiguration, 
+            processEngineConfiguration.setHistoryManager(new DefaultHistoryManager(processEngineConfiguration,
                     processEngineConfiguration.getHistoryLevel(), processEngineConfiguration.isUsePrefixId()));
         }
-        
+
         for (flow.engine.repository.Deployment deployment : repositoryService.createDeploymentQuery().list()) {
             repositoryService.deleteDeployment(deployment.getId(), true);
         }
-        
+
         if (isAsyncHistoryEnabled) {
             processEngineConfiguration.setAsyncHistoryEnabled(true);
             processEngineConfiguration.setHistoryManager(asyncHistoryManager);
         }
     }
-    
+
     protected void deleteDeployment(string deploymentId) {
         bool isAsyncHistoryEnabled = processEngineConfiguration.isAsyncHistoryEnabled();
         HistoryManager asyncHistoryManager = null;
         if (isAsyncHistoryEnabled) {
             processEngineConfiguration.setAsyncHistoryEnabled(false);
             asyncHistoryManager = processEngineConfiguration.getHistoryManager();
-            processEngineConfiguration.setHistoryManager(new DefaultHistoryManager(processEngineConfiguration, 
+            processEngineConfiguration.setHistoryManager(new DefaultHistoryManager(processEngineConfiguration,
                     processEngineConfiguration.getHistoryLevel(), processEngineConfiguration.isUsePrefixId()));
         }
-        
+
         repositoryService.deleteDeployment(deploymentId, true);
-        
+
         if (isAsyncHistoryEnabled) {
             processEngineConfiguration.setAsyncHistoryEnabled(true);
             processEngineConfiguration.setHistoryManager(asyncHistoryManager);
@@ -477,7 +477,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     protected string getJobActivityId(Job job) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Map<string, Object> jobConfigurationMap = objectMapper.readValue(job.getJobHandlerConfiguration(), new TypeReference<Map<string, Object>>() {
+            Map!(string, Object) jobConfigurationMap = objectMapper.readValue(job.getJobHandlerConfiguration(), new TypeReference<Map<string, Object>>() {
 
             });
             return (string) jobConfigurationMap.get("activityId");
@@ -491,7 +491,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
             .name(name)
             .addClasspathResource(path)
             .deploy();
-        
+
         ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
             .deploymentId(deployment.getId()).singleResult();
 

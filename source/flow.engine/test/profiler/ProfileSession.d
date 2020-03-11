@@ -12,11 +12,11 @@
  */
 
 
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 /**
  * @author Joram Barrez
@@ -102,12 +102,12 @@ class ProfileSession {
     public Map<string, CommandStats> calculateSummaryStatistics() {
         Map<string, CommandStats> result = new HashMap<>();
         for (string className : commandExecutionResults.keySet()) {
-            
+
             // ignore GetNextIdBlockCmd
             if (className.endsWith("GetNextIdBlockCmd")) {
                 continue;
             }
-            
+
             List<CommandExecutionResult> executions = commandExecutionResults.get(className);
             CommandStats commandStats = new CommandStats(executions);
             result.put(className, commandStats);

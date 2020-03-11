@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
-import java.util.Collections;
-import java.util.List;
+import hunt.collections;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.interceptor.CommandContext;
@@ -33,7 +33,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 class TaskCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
 
     @Override
-    public List<string> getTypes() {
+    public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_TASK_CREATED);
     }
 
@@ -48,9 +48,9 @@ class TaskCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
 
         string taskId = getStringFromJson(historicalData, HistoryJsonConstants.ID);
         string executionId = getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID);
-        
+
         HistoricTaskInstanceEntity historicTaskInstance = historicTaskService.getHistoricTask(taskId);
-        
+
         if (historicTaskInstance is null) {
             historicTaskInstance = historicTaskService.createHistoricTask();
             historicTaskInstance.setId(taskId);
@@ -75,7 +75,7 @@ class TaskCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
             historicTaskInstance.setCategory(getStringFromJson(historicalData, HistoryJsonConstants.CATEGORY));
             historicTaskInstance.setTenantId(getStringFromJson(historicalData, HistoryJsonConstants.TENANT_ID));
             historicTaskInstance.setLastUpdateTime(getDateFromJson(historicalData, HistoryJsonConstants.TIMESTAMP));
-    
+
             historicTaskService.insertHistoricTask(historicTaskInstance, true);
         }
 

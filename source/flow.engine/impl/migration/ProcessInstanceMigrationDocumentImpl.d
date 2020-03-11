@@ -14,9 +14,9 @@
 
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -41,7 +41,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     protected string migrateToProcessDefinitionTenantId;
     protected List<ActivityMigrationMapping> activityMigrationMappings;
     protected Map<string, Map<string, Object>> activitiesLocalVariables;
-    protected Map<string, Object> processInstanceVariables;
+    protected Map!(string, Object) processInstanceVariables;
     protected Script preUpgradeScript;
     protected string preUpgradeJavaDelegate;
     protected string preUpgradeJavaDelegateExpression;
@@ -191,7 +191,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     }
 
     public void setActivityMigrationMappings(List<ActivityMigrationMapping> activityMigrationMappings) {
-        List<string> duplicates = findDuplicatedFromActivityIds(activityMigrationMappings);
+        List!string duplicates = findDuplicatedFromActivityIds(activityMigrationMappings);
         if (duplicates.isEmpty()) {
             this.activityMigrationMappings = activityMigrationMappings;
             this.activitiesLocalVariables = buildActivitiesLocalVariablesMap(activityMigrationMappings);
@@ -200,7 +200,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         }
     }
 
-    protected static List<string> findDuplicatedFromActivityIds(List<ActivityMigrationMapping> activityMigrationMappings) {
+    protected static List!string findDuplicatedFromActivityIds(List<ActivityMigrationMapping> activityMigrationMappings) {
         //Frequency Map
         Map<string, Long> frequencyMap = activityMigrationMappings.stream()
             .filter(mapping -> !mapping.isToParentProcess())
@@ -208,7 +208,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
         //Duplicates
-        List<string> duplicatedActivityIds = frequencyMap.entrySet()
+        List!string duplicatedActivityIds = frequencyMap.entrySet()
             .stream()
             .filter(entry -> entry.getValue() > 1)
             .map(Map.Entry::getKey)
@@ -222,7 +222,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         Map<string, Map<string, Object>> variablesMap = new HashMap<>();
         activityMigrationMappings.forEach(mapping -> {
             mapping.getToActivityIds().forEach(activityId -> {
-                Map<string, Object> mappedLocalVariables = null;
+                Map!(string, Object) mappedLocalVariables = null;
                 if (mapping instanceof ActivityMigrationMapping.OneToOneMapping) {
                     mappedLocalVariables = ((ActivityMigrationMapping.OneToOneMapping) mapping).getActivityLocalVariables();
                 }
@@ -233,7 +233,7 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
                     mappedLocalVariables = ((ActivityMigrationMapping.OneToManyMapping) mapping).getActivitiesLocalVariables().get(activityId);
                 }
                 if (mappedLocalVariables !is null && !mappedLocalVariables.isEmpty()) {
-                    Map<string, Object> activityLocalVariables = variablesMap.computeIfAbsent(activityId, key -> new HashMap<>());
+                    Map!(string, Object) activityLocalVariables = variablesMap.computeIfAbsent(activityId, key -> new HashMap<>());
                     activityLocalVariables.putAll(mappedLocalVariables);
                 }
             });
@@ -251,12 +251,12 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         return activitiesLocalVariables;
     }
 
-    public void setProcessInstanceVariables(Map<string, Object> processInstanceVariables) {
+    public void setProcessInstanceVariables(Map!(string, Object) processInstanceVariables) {
         this.processInstanceVariables = processInstanceVariables;
     }
 
     @Override
-    public Map<string, Object> getProcessInstanceVariables() {
+    public Map!(string, Object) getProcessInstanceVariables() {
         return processInstanceVariables;
     }
 

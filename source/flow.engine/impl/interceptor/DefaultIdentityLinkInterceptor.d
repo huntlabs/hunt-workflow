@@ -17,9 +17,9 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.interceptor.IdentityLinkInterceptor;
-import org.flowable.identitylink.api.IdentityLinkType;
+import flow.identitylink.api.IdentityLinkType;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
@@ -32,17 +32,17 @@ class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
                     Authentication.getAuthenticatedUserId(), null, IdentityLinkType.PARTICIPANT);
         }
     }
-    
+
     @Override
     public void handleAddIdentityLinkToTask(TaskEntity taskEntity, IdentityLinkEntity identityLinkEntity) {
         addUserIdentityLinkToParent(taskEntity, identityLinkEntity.getUserId());
     }
-    
+
     @Override
     public void handleAddAssigneeIdentityLinkToTask(TaskEntity taskEntity, string assignee) {
         addUserIdentityLinkToParent(taskEntity, assignee);
     }
-    
+
     @Override
     public void handleAddOwnerIdentityLinkToTask(TaskEntity taskEntity, string owner) {
         addUserIdentityLinkToParent(taskEntity, owner);
@@ -55,7 +55,7 @@ class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
             IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
         }
     }
-    
+
     @Override
     public void handleCreateSubProcessInstance(ExecutionEntity subProcessInstanceExecution, ExecutionEntity superExecution) {
         string authenticatedUserId = Authentication.getAuthenticatedUserId();
@@ -63,7 +63,7 @@ class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
             IdentityLinkUtil.createProcessInstanceIdentityLink(subProcessInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
         }
     }
-    
+
     protected void addUserIdentityLinkToParent(Task task, string userId) {
         if (userId !is null && task.getProcessInstanceId() !is null) {
             ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
@@ -72,7 +72,7 @@ class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
                     return;
                 }
             }
-            
+
             IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity, userId, null, IdentityLinkType.PARTICIPANT);
         }
     }

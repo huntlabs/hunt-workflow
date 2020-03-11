@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,20 +11,28 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.SendEventServiceTask;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.ServiceTask;
+import flow.bpmn.model.IOParameter;
 /**
  * @author Tijs Rademakers
  */
-class SendEventServiceTask extends ServiceTask {
+class SendEventServiceTask : ServiceTask {
 
     protected string eventType;
     protected string triggerEventType;
     protected bool sendSynchronously;
-    protected List<IOParameter> eventInParameters = new ArrayList<>();
-    protected List<IOParameter> eventOutParameters = new ArrayList<>();
+    protected List!IOParameter eventInParameters ;//= new ArrayList<>();
+    protected List!IOParameter eventOutParameters ;//= new ArrayList<>();
+
+    this()
+    {
+      eventInParameters = new ArrayList!IOParameter;
+      eventOutParameters = new ArrayList!IOParameter;
+    }
 
     public string getEventType() {
         return eventType;
@@ -50,23 +58,23 @@ class SendEventServiceTask extends ServiceTask {
         this.sendSynchronously = sendSynchronously;
     }
 
-    public List<IOParameter> getEventInParameters() {
+    public List!IOParameter getEventInParameters() {
         return eventInParameters;
     }
 
-    public void setEventInParameters(List<IOParameter> eventInParameters) {
+    public void setEventInParameters(List!IOParameter eventInParameters) {
         this.eventInParameters = eventInParameters;
     }
 
-    public List<IOParameter> getEventOutParameters() {
+    public List!IOParameter getEventOutParameters() {
         return eventOutParameters;
     }
 
-    public void setEventOutParameters(List<IOParameter> eventOutParameters) {
+    public void setEventOutParameters(List!IOParameter eventOutParameters) {
         this.eventOutParameters = eventOutParameters;
     }
 
-    @Override
+    override
     public SendEventServiceTask clone() {
         SendEventServiceTask clone = new SendEventServiceTask();
         clone.setValues(this);
@@ -78,17 +86,17 @@ class SendEventServiceTask extends ServiceTask {
         setEventType(otherElement.getEventType());
         setTriggerEventType(otherElement.getTriggerEventType());
         setSendSynchronously(otherElement.isSendSynchronously());
-        
-        eventInParameters = new ArrayList<>();
+
+        eventInParameters = new ArrayList!IOParameter();
         if (otherElement.getEventInParameters() !is null && !otherElement.getEventInParameters().isEmpty()) {
-            for (IOParameter parameter : otherElement.getEventInParameters()) {
+            foreach (IOParameter parameter ; otherElement.getEventInParameters()) {
                 eventInParameters.add(parameter.clone());
             }
         }
 
-        eventOutParameters = new ArrayList<>();
+        eventOutParameters = new ArrayList!IOParameter();
         if (otherElement.getEventOutParameters() !is null && !otherElement.getEventOutParameters().isEmpty()) {
-            for (IOParameter parameter : otherElement.getEventOutParameters()) {
+            foreach (IOParameter parameter ; otherElement.getEventOutParameters()) {
                 eventOutParameters.add(parameter.clone());
             }
         }

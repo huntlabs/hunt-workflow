@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,13 +11,13 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.QueryOperator;
 
 /**
  * Used to indicate the operator that should be used to comparing values in a query clause.
- * 
+ *
  * @author Frederik Heremans
  */
-public enum QueryOperator {
+ enum QueryOperator {
     EQUALS, NOT_EQUALS, GREATER_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL, LIKE, EQUALS_IGNORE_CASE, NOT_EQUALS_IGNORE_CASE, LIKE_IGNORE_CASE,
 }

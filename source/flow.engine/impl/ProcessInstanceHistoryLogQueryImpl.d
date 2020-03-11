@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.history.HistoricData;
 import flow.common.interceptor.Command;
@@ -25,7 +25,7 @@ import flow.engine.history.ProcessInstanceHistoryLogQuery;
 import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
-import org.flowable.variable.api.history.HistoricVariableInstance;
+import flow.variable.service.api.history.HistoricVariableInstance;
 import org.flowable.variable.service.impl.HistoricVariableInstanceQueryImpl;
 import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 import org.flowable.variable.service.impl.types.CacheableVariable;

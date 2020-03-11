@@ -15,7 +15,7 @@
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -155,7 +155,7 @@ class TimerJobEntityManagerImpl
             eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, jobEntity));
         }
     }
-    
+
     protected TimerJobEntity createTimer(JobEntity te) {
         TimerJobEntity newTimerEntity = create();
         newTimerEntity.setJobHandlerConfiguration(te.getJobHandlerConfiguration());
@@ -180,7 +180,7 @@ class TimerJobEntityManagerImpl
     }
 
     protected void setNewRepeat(JobEntity timerEntity, int newRepeatValue) {
-        List<string> expression = Arrays.asList(timerEntity.getRepeat().split("/"));
+        List!string expression = Arrays.asList(timerEntity.getRepeat().split("/"));
         expression = expression.subList(1, expression.size());
         StringBuilder repeatBuilder = new StringBuilder("R");
         repeatBuilder.append(newRepeatValue);
@@ -205,7 +205,7 @@ class TimerJobEntityManagerImpl
 
     protected int calculateRepeatValue(JobEntity timerEntity) {
         int times = -1;
-        List<string> expression = Arrays.asList(timerEntity.getRepeat().split("/"));
+        List!string expression = Arrays.asList(timerEntity.getRepeat().split("/"));
         if (expression.size() > 1 && expression.get(0).startsWith("R") && expression.get(0).length() > 1) {
             times = Integer.parseInt(expression.get(0).substring(1));
             if (times > 0) {

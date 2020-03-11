@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,8 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 import java.util.Properties;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -52,7 +52,7 @@ class DbSchemaExport {
         try {
             DatabaseMetaData meta = connection.getMetaData();
 
-            SortedSet<string> tableNames = new TreeSet<>();
+            SortedSet!string tableNames = new TreeSet<>();
             ResultSet tables = meta.getTables(null, null, null, null);
             while (tables.next()) {
                 string tableName = tables.getString(3);
@@ -61,7 +61,7 @@ class DbSchemaExport {
 
             System.out.println("TABLES");
             for (string tableName : tableNames) {
-                Map<string, string> columnDescriptions = new HashMap<>();
+                Map!(string, string) columnDescriptions = new HashMap<>();
                 ResultSet columns = meta.getColumns(null, null, tableName, null);
                 while (columns.next()) {
                     string columnName = columns.getString(4);
@@ -75,7 +75,7 @@ class DbSchemaExport {
                 }
 
                 System.out.println("INDEXES");
-                SortedSet<string> indexNames = new TreeSet<>();
+                SortedSet!string indexNames = new TreeSet<>();
                 ResultSet indexes = meta.getIndexInfo(null, null, tableName, false, true);
                 while (indexes.next()) {
                     string indexName = indexes.getString(6);

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,14 +13,14 @@
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.CancelEventDefinition;
-import org.flowable.bpmn.model.EndEvent;
-import org.flowable.bpmn.model.ErrorEventDefinition;
-import org.flowable.bpmn.model.Escalation;
-import org.flowable.bpmn.model.EscalationEventDefinition;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.TerminateEventDefinition;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.CancelEventDefinition;
+import flow.bpmn.model.EndEvent;
+import flow.bpmn.model.ErrorEventDefinition;
+import flow.bpmn.model.Escalation;
+import flow.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.TerminateEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ class EndEventParseHandler extends AbstractActivityBpmnParseHandler<EndEvent> {
                     }
                 }
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createErrorEndEventActivityBehavior(endEvent, errorDefinition));
-                
+
             } else if (eventDefinition instanceof EscalationEventDefinition) {
                 EscalationEventDefinition escalationDefinition = (EscalationEventDefinition) eventDefinition;
                 Escalation escalation = null;
@@ -66,7 +66,7 @@ class EndEventParseHandler extends AbstractActivityBpmnParseHandler<EndEvent> {
                     }
                 }
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createEscalationEndEventActivityBehavior(endEvent, escalationDefinition, escalation));
-                
+
             } else if (eventDefinition instanceof TerminateEventDefinition) {
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createTerminateEndEventActivityBehavior(endEvent));
             } else if (eventDefinition instanceof CancelEventDefinition) {

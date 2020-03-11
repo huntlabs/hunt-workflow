@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,26 +13,26 @@
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
+import hunt.collection.ArrayList;
+import hunt.collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
+import hunt.collection.HashMap;
+import hunt.collection.HashSet;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
 import flow.common.api.FlowableException;
 import flow.common.api.scope.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.db.SuspensionState;
 import flow.common.interceptor.CommandContext;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.IdentityLinkType;
+import flow.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLinkType;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntityManager;
-import org.flowable.task.api.DelegationState;
+import flow.task.api.DelegationState;
 import org.flowable.task.service.InternalTaskAssignmentManager;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.impl.persistence.CountingTaskEntity;
@@ -82,7 +82,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     protected string processInstanceId;
     protected string processDefinitionId;
     protected string taskDefinitionId;
-    
+
     protected string scopeId;
     protected string subScopeId;
     protected string scopeType;
@@ -117,7 +117,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("assignee", this.assignee);
         persistentState.put("owner", this.owner);
         persistentState.put("name", this.name);
@@ -214,7 +214,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
             variableInstance.setProcessDefinitionId(this.processDefinitionId);
         }
     }
-    
+
     @Override
     protected void addLoggingSessionInfo(ObjectNode loggingNode) {
         // TODO
@@ -224,29 +224,29 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     protected List<VariableInstanceEntity> loadVariableInstances() {
         return CommandContextUtil.getVariableInstanceEntityManager().findVariableInstancesByTaskId(id);
     }
-    
+
     @Override
     protected VariableInstanceEntity createVariableInstance(string variableName, Object value) {
         VariableInstanceEntity variableInstance = super.createVariableInstance(variableName, value);
-        
+
         CountingTaskUtil.handleInsertVariableInstanceEntityCount(variableInstance);
 
         return variableInstance;
-        
+
     }
-    
+
     @Override
     protected void deleteVariableInstanceForExplicitUserCall(VariableInstanceEntity variableInstance) {
         super.deleteVariableInstanceForExplicitUserCall(variableInstance);
-        
+
         CountingTaskUtil.handleDeleteVariableInstanceEntityCount(variableInstance, true);
     }
 
     // task assignment ////////////////////////////////////////////////////////////
 
     @Override
-    public Set<IdentityLink> getCandidates() {
-        Set<IdentityLink> potentialOwners = new HashSet<>();
+    public Set!IdentityLink getCandidates() {
+        Set!IdentityLink potentialOwners = new HashSet<>();
         for (IdentityLinkEntity identityLinkEntity : getIdentityLinks()) {
             if (IdentityLinkType.CANDIDATE.equals(identityLinkEntity.getType())) {
                 potentialOwners.add(identityLinkEntity);
@@ -285,7 +285,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         this.assignee = assignee;
         assigneeUpdatedCount++;
     }
-    
+
     @Override
     public void setAssigneeValue(string assignee) {
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
@@ -302,7 +302,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     public void setOwner(string owner) {
         this.owner = owner;
     }
-    
+
     @Override
     public void setOwnerValue(string owner) {
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
@@ -357,13 +357,13 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     public void deleteCandidateGroup(string groupId) {
         deleteGroupIdentityLink(groupId, IdentityLinkType.CANDIDATE);
     }
-    
+
     @Override
     public void deleteUserIdentityLink(string userId, string identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         identityLinkEntityManager.deleteTaskIdentityLink(this.id, getIdentityLinks(), userId, null, identityLinkType);
     }
-    
+
     @Override
     public void deleteGroupIdentityLink(string groupId, string identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
@@ -405,7 +405,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     }
 
     @Override
-    protected List<VariableInstanceEntity> getSpecificVariables(Collection<string> variableNames) {
+    protected List<VariableInstanceEntity> getSpecificVariables(Collection!string variableNames) {
         CommandContext commandContext = Context.getCommandContext();
         if (commandContext is null) {
             throw new FlowableException("lazy loading outside command context");
@@ -584,12 +584,12 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     public void setEventName(string eventName) {
         this.eventName = eventName;
     }
-    
+
     @Override
     public string getEventHandlerId() {
         return eventHandlerId;
     }
-    
+
     @Override
     public void setEventHandlerId(string eventHandlerId) {
         this.eventHandlerId = eventHandlerId;
@@ -614,7 +614,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     public DelegationState getDelegationState() {
         return delegationState;
     }
-    
+
     @Override
     public void addCandidateUser(string userId) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
@@ -624,9 +624,9 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
             taskAssignmentManager.addCandidateUser(this, identityLink);
         }
     }
-    
+
     @Override
-    public void addCandidateUsers(Collection<string> candidateUsers) {
+    public void addCandidateUsers(Collection!string candidateUsers) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         List<IdentityLinkEntity> identityLinks = identityLinkEntityManager.addCandidateUsers(this.id, candidateUsers);
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
@@ -634,7 +634,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
             taskAssignmentManager.addCandidateUsers(this, convertToIdentityLinks(identityLinks));
         }
     }
-    
+
     @Override
     public void addCandidateGroup(string groupId) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
@@ -644,9 +644,9 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
             taskAssignmentManager.addCandidateGroup(this, identityLink);
         }
     }
-    
+
     @Override
-    public void addCandidateGroups(Collection<string> candidateGroups) {
+    public void addCandidateGroups(Collection!string candidateGroups) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         List<IdentityLinkEntity> identityLinks = identityLinkEntityManager.addCandidateGroups(this.id, candidateGroups);
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
@@ -654,18 +654,18 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
             taskAssignmentManager.addCandidateGroups(this, convertToIdentityLinks(identityLinks));
         }
     }
-    
-    protected List<IdentityLink> convertToIdentityLinks(List<IdentityLinkEntity> identityLinks) {
-        List<IdentityLink> identityLinkObjects = new ArrayList<>(identityLinks);
+
+    protected List!IdentityLink convertToIdentityLinks(List<IdentityLinkEntity> identityLinks) {
+        List!IdentityLink identityLinkObjects = new ArrayList<>(identityLinks);
         return identityLinkObjects;
     }
-    
+
     protected InternalTaskAssignmentManager getTaskAssignmentManager() {
         TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration();
         if (taskServiceConfiguration !is null) {
             return taskServiceConfiguration.getInternalTaskAssignmentManager();
         }
-        
+
         return null;
     }
 
@@ -734,8 +734,8 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     }
 
     @Override
-    public Map<string, Object> getTaskLocalVariables() {
-        Map<string, Object> variables = new HashMap<>();
+    public Map!(string, Object) getTaskLocalVariables() {
+        Map!(string, Object) variables = new HashMap<>();
         if (queryVariables !is null) {
             for (VariableInstanceEntity variableInstance : queryVariables) {
                 if (variableInstance.getId() !is null && variableInstance.getTaskId() !is null) {
@@ -747,8 +747,8 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     }
 
     @Override
-    public Map<string, Object> getProcessVariables() {
-        Map<string, Object> variables = new HashMap<>();
+    public Map!(string, Object) getProcessVariables() {
+        Map!(string, Object) variables = new HashMap<>();
         if (queryVariables !is null) {
             for (VariableInstanceEntity variableInstance : queryVariables) {
                 if (variableInstance.getId() !is null && variableInstance.getTaskId() is null) {
@@ -846,5 +846,5 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     public void setSubTaskCount(int subTaskCount) {
         this.subTaskCount = subTaskCount;
     }
-    
+
 }

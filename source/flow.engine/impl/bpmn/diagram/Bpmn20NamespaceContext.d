@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,21 +13,21 @@
 
 
 
-import java.util.HashMap;
-import java.util.HashSet;
+import hunt.collection.HashMap;
+import hunt.collection.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import hunt.collection.Map;
 import java.util.Map.Entry;
-import java.util.Set;
+import hunt.collection.Set;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
 
 /**
  * XML {@link NamespaceContext} containing the namespaces used by BPMN 2.0 XML documents.
- * 
+ *
  * Can be used in {@link XPath#setNamespaceContext(NamespaceContext)}.
- * 
+ *
  * @author Falko Menge
  */
 class Bpmn20NamespaceContext implements NamespaceContext {
@@ -40,7 +40,7 @@ class Bpmn20NamespaceContext implements NamespaceContext {
     /**
      * This is a protected filed so you can extend that context with your own namespaces if necessary
      */
-    protected Map<string, string> namespaceUris = new HashMap<>();
+    protected Map!(string, string) namespaceUris = new HashMap<>();
 
     public Bpmn20NamespaceContext() {
         namespaceUris.put(BPMN, "http://www.omg.org/spec/BPMN/20100524/MODEL");
@@ -60,7 +60,7 @@ class Bpmn20NamespaceContext implements NamespaceContext {
     }
 
     @Override
-    public Iterator<string> getPrefixes(string namespaceURI) {
+    public Iterator!string getPrefixes(string namespaceURI) {
         return getKeysByValue(namespaceUris, namespaceURI).iterator();
     }
 

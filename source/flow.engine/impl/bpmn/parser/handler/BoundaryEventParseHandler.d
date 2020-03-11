@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,22 +12,22 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.CancelEventDefinition;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.ConditionalEventDefinition;
-import org.flowable.bpmn.model.ErrorEventDefinition;
-import org.flowable.bpmn.model.EscalationEventDefinition;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.ExtensionElement;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.CancelEventDefinition;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.ConditionalEventDefinition;
+import flow.bpmn.model.ErrorEventDefinition;
+import flow.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.ExtensionElement;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.TimerEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,12 +59,12 @@ class BoundaryEventParseHandler extends AbstractFlowNodeBpmnParseHandler<Boundar
         }
 
         if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof ErrorEventDefinition || eventDefinition instanceof SignalEventDefinition
-                || eventDefinition instanceof CancelEventDefinition || eventDefinition instanceof ConditionalEventDefinition || eventDefinition instanceof MessageEventDefinition 
+                || eventDefinition instanceof CancelEventDefinition || eventDefinition instanceof ConditionalEventDefinition || eventDefinition instanceof MessageEventDefinition
                 || eventDefinition instanceof EscalationEventDefinition || eventDefinition instanceof CompensateEventDefinition) {
 
             bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse, eventDefinition);
             return;
-            
+
         } else if (!boundaryEvent.getExtensionElements().isEmpty()) {
             List<ExtensionElement> eventTypeExtensionElements = boundaryEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
             if (eventTypeExtensionElements !is null && !eventTypeExtensionElements.isEmpty()) {
@@ -76,8 +76,8 @@ class BoundaryEventParseHandler extends AbstractFlowNodeBpmnParseHandler<Boundar
                 }
             }
 
-        } 
-        
+        }
+
         // Should already be picked up by process validator on deploy, so this is just to be sure
         LOGGER.warn("Unsupported boundary event type for boundary event {}", boundaryEvent.getId());
     }

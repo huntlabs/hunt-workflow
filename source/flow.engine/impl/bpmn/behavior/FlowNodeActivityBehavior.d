@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.bpmn.model.FlowNode;
+import flow.bpmn.model.FlowNode;
 import flow.common.api.FlowableException;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.delegate.TriggerableActivityBehavior;
@@ -20,9 +20,9 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 
 /**
  * Superclass for all 'connectable' BPMN 2.0 process elements: tasks, gateways and events. This means that any subclass can be the source or target of a sequenceflow.
- * 
+ *
  * Corresponds with the notion of the 'flownode' in BPMN 2.0.
- * 
+ *
  * @author Joram Barrez
  */
 abstract class FlowNodeActivityBehavior implements TriggerableActivityBehavior {

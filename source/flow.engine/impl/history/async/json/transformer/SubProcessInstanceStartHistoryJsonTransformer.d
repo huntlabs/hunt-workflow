@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,8 +15,8 @@
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDateFromJson;
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
-import java.util.Collections;
-import java.util.List;
+import hunt.collections;
+import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
@@ -34,20 +34,20 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
 
     @Override
-    public List<string> getTypes() {
+    public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_SUBPROCESS_INSTANCE_START);
     }
 
     @Override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
-        HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext, 
+        HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext,
                 getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID), activityId);
-            
+
         if (activityInstance is null) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -79,14 +79,14 @@ class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonT
             subProcessInstance.setReferenceId(getStringFromJson(historicalData, HistoryJsonConstants.REFERENCE_ID));
             subProcessInstance.setReferenceType(getStringFromJson(historicalData, HistoryJsonConstants.REFERENCE_TYPE));
             subProcessInstance.setTenantId(getStringFromJson(historicalData, HistoryJsonConstants.TENANT_ID));
-        
+
             historicProcessInstanceEntityManager.insert(subProcessInstance, false);
-    
+
             // Fire event
             dispatchEvent(commandContext, FlowableEventBuilder.createEntityEvent(
                     FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_CREATED, subProcessInstance));
         }
-        
+
         string executionId = getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID);
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
 

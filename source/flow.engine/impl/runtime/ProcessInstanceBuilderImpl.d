@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.engine.impl.RuntimeServiceImpl;
 import flow.engine.runtime.ProcessInstance;
@@ -40,9 +40,9 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
     protected string tenantId;
     protected string overrideDefinitionTenantId;
     protected string predefinedProcessInstanceId;
-    protected Map<string, Object> variables;
-    protected Map<string, Object> transientVariables;
-    protected Map<string, Object> startFormVariables;
+    protected Map!(string, Object) variables;
+    protected Map!(string, Object) transientVariables;
+    protected Map!(string, Object) startFormVariables;
     protected string outcome;
     protected bool fallbackToDefaultTenant;
 
@@ -79,13 +79,13 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
         this.businessKey = businessKey;
         return this;
     }
-    
+
     @Override
     public ProcessInstanceBuilder callbackId(string callbackId) {
         this.callbackId = callbackId;
         return this;
     }
-    
+
     @Override
     public ProcessInstanceBuilder callbackType(string callbackType) {
         this.callbackType = callbackType;
@@ -115,7 +115,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
         this.tenantId = tenantId;
         return this;
     }
-    
+
     @Override
     public ProcessInstanceBuilder overrideProcessDefinitionTenantId(string tenantId) {
         this.overrideDefinitionTenantId = tenantId;
@@ -129,7 +129,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
     }
 
     @Override
-    public ProcessInstanceBuilder variables(Map<string, Object> variables) {
+    public ProcessInstanceBuilder variables(Map!(string, Object) variables) {
         if (this.variables is null) {
             this.variables = new HashMap<>();
         }
@@ -149,7 +149,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
     }
 
     @Override
-    public ProcessInstanceBuilder transientVariables(Map<string, Object> transientVariables) {
+    public ProcessInstanceBuilder transientVariables(Map!(string, Object) transientVariables) {
         if (this.transientVariables is null) {
             this.transientVariables = new HashMap<>();
         }
@@ -169,7 +169,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
     }
 
     @Override
-    public ProcessInstanceBuilder startFormVariables(Map<string, Object> startFormVariables) {
+    public ProcessInstanceBuilder startFormVariables(Map!(string, Object) startFormVariables) {
         if (this.startFormVariables is null) {
             this.startFormVariables = new HashMap<>();
         }
@@ -229,7 +229,7 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
     public string getBusinessKey() {
         return businessKey;
     }
-    
+
     public string getCallbackId() {
         return callbackId;
     }
@@ -262,15 +262,15 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
         return predefinedProcessInstanceId;
     }
 
-    public Map<string, Object> getVariables() {
+    public Map!(string, Object) getVariables() {
         return variables;
     }
 
-    public Map<string, Object> getTransientVariables() {
+    public Map!(string, Object) getTransientVariables() {
         return transientVariables;
     }
 
-    public Map<string, Object> getStartFormVariables() {
+    public Map!(string, Object) getStartFormVariables() {
         return startFormVariables;
     }
     public string getOutcome() {

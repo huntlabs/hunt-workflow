@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Collection;
+import hunt.collection;
 import java.util.Objects;
 
 import flow.common.persistence.cache.CachedEntity;
@@ -27,7 +27,7 @@ class ActivityByProcessInstanceIdMatcher implements CachedEntityMatcher<Activity
     @Override
     public bool isRetained(Collection<ActivityInstanceEntity> databaseEntities, Collection<CachedEntity> cachedEntities,
                     ActivityInstanceEntity entity, Object param) {
-        
+
         string processInstanceId = (string) param;
         return Objects.equals(entity.getProcessInstanceId(), processInstanceId);
     }

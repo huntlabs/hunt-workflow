@@ -21,9 +21,9 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
@@ -86,7 +86,7 @@ class ShellActivityBehavior extends AbstractBpmnActivityBehavior {
 
         readFields(execution);
 
-        List<string> argList = new ArrayList<>();
+        List!string argList = new ArrayList<>();
         argList.add(commandStr);
 
         if (arg1Str !is null)
@@ -105,7 +105,7 @@ class ShellActivityBehavior extends AbstractBpmnActivityBehavior {
         try {
             processBuilder.redirectErrorStream(redirectErrorFlag);
             if (cleanEnvBoolean) {
-                Map<string, string> env = processBuilder.environment();
+                Map!(string, string) env = processBuilder.environment();
                 env.clear();
             }
             if (directoryStr !is null && directoryStr.length() > 0)

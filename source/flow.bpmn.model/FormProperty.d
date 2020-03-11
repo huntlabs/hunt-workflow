@@ -1,24 +1,25 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.model.FormProperty;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
+import hunt.collection.ArrayList;
+import hunt.collection.List;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FormValue;
 /**
  * @author Tijs Rademakers
  */
-class FormProperty extends BaseElement {
+class FormProperty : BaseElement {
 
     protected string name;
     protected string expression;
@@ -29,7 +30,8 @@ class FormProperty extends BaseElement {
     protected bool readable = true;
     protected bool writeable = true;
     protected bool required;
-    protected List<FormValue> formValues = new ArrayList<>();
+    protected List!FormValue formValues ;//= new ArrayList<>();
+
 
     public string getName() {
         return name;
@@ -103,15 +105,15 @@ class FormProperty extends BaseElement {
         this.required = required;
     }
 
-    public List<FormValue> getFormValues() {
+    public List!FormValue getFormValues() {
         return formValues;
     }
 
-    public void setFormValues(List<FormValue> formValues) {
+    public void setFormValues(List!FormValue formValues) {
         this.formValues = formValues;
     }
 
-    @Override
+    override
     public FormProperty clone() {
         FormProperty clone = new FormProperty();
         clone.setValues(this);
@@ -130,9 +132,9 @@ class FormProperty extends BaseElement {
         setWriteable(otherProperty.isWriteable());
         setRequired(otherProperty.isRequired());
 
-        formValues = new ArrayList<>();
+        formValues = new ArrayList!FormValue();
         if (otherProperty.getFormValues() !is null && !otherProperty.getFormValues().isEmpty()) {
-            for (FormValue formValue : otherProperty.getFormValues()) {
+            foreach (FormValue formValue ; otherProperty.getFormValues()) {
                 formValues.add(formValue.clone());
             }
         }

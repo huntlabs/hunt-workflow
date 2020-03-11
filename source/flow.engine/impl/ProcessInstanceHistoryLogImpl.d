@@ -12,12 +12,12 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.history.HistoricData;
 import flow.engine.history.HistoricProcessInstance;

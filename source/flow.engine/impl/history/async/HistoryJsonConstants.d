@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,17 +13,17 @@
 
 
 import java.util.Arrays;
-import java.util.List;
+import hunt.collection.List;
 
 interface HistoryJsonConstants {
-    
+
     string JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY = "async-history"; // Backwards compatibility: process engine used this first before the handler was reused
-    
+
     string JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY_ZIPPED = "async-history-zipped"; // Backwards compatibility: process engine used this first before the handler was reused
-    
+
     string TYPE = "type";
-    
-    List<string> ORDERED_TYPES = Arrays.asList(
+
+    List!string ORDERED_TYPES = Arrays.asList(
             HistoryJsonConstants.TYPE_PROCESS_INSTANCE_START,
             HistoryJsonConstants.TYPE_PROCESS_INSTANCE_PROPERTY_CHANGED,
             HistoryJsonConstants.TYPE_ACTIVITY_START,
@@ -47,7 +47,7 @@ interface HistoryJsonConstants {
             HistoryJsonConstants.TYPE_PROCESS_INSTANCE_DELETED,
             HistoryJsonConstants.TYPE_PROCESS_INSTANCE_END
     );
-    
+
     string TYPE_PROCESS_INSTANCE_START = "process-instance-start";
     string TYPE_SUBPROCESS_INSTANCE_START = "subprocess-instance-start";
     string TYPE_PROCESS_INSTANCE_PROPERTY_CHANGED = "process-instance-property-changed";
@@ -81,23 +81,23 @@ interface HistoryJsonConstants {
     string DATA = "data";
 
     string ID = "id";
-    
+
     string NAME = "name";
 
     string DESCRIPTION = "description";
-    
+
     string REVISION = "revision";
 
     string CATEGORY = "category";
 
     string EXECUTION_ID = "executionId";
-    
+
     string SOURCE_EXECUTION_ID = "sourceExecutionId";
-    
+
     string IS_MULTI_INSTANCE_ROOT_EXECUTION = "isMiRootExecution";
 
     string PROCESS_INSTANCE_ID = "processInstanceId";
-    
+
     string TASK_ID = "taskId";
 
     string BUSINESS_KEY = "businessKey";
@@ -109,25 +109,25 @@ interface HistoryJsonConstants {
     string PROCESS_DEFINITION_NAME = "processDefinitionName";
 
     string PROCESS_DEFINITION_VERSION = "processDefinitionVersion";
-    
+
     string PROCESS_DEFINITION_CATEGORY = "processDefinitionCategory";
 
     string PROCESS_DEFINITIN_DERIVED_FROM = "processDefinitionDerivedFrom";
-    
+
     string PROCESS_DEFINITIN_DERIVED_FROM_ROOT = "processDefinitionDerivedFromRoot";
-    
+
     string PROCESS_DEFINITIN_DERIVED_VERSION = "processDefinitionDerivedVersion";
-    
+
     string DEPLOYMENT_ID = "deploymentId";
 
     string START_TIME = "startTime";
 
     string END_TIME = "endTime";
-    
+
     string CREATE_TIME = "createTime";
 
     string CLAIM_TIME = "claimTime";
-    
+
     string LAST_UPDATED_TIME = "lastUpdatedTime";
 
     string START_USER_ID = "startUserId";
@@ -147,17 +147,17 @@ interface HistoryJsonConstants {
     string PARENT_TASK_ID = "parentTaskId";
 
     string ASSIGNEE = "assignee";
-    
+
     string ACTIVITY_ASSIGNEE_HANDLED = "activityAssigneeHandled";
 
     string OWNER = "owner";
-    
+
     string IDENTITY_LINK_TYPE = "identityLinkType";
-    
+
     string ENTITY_LINK_TYPE = "entityLinkType";
 
     string TASK_DEFINITION_KEY = "taskDefinitionKey";
-    
+
     string TASK_DEFINITION_ID = "taskDefinitionId";
 
     string FORM_KEY = "formKey";
@@ -167,31 +167,31 @@ interface HistoryJsonConstants {
     string DUE_DATE = "dueDate";
 
     string PROPERTY = "property";
-    
+
     string VARIABLE_TYPE = "variableType";
-    
+
     string VARIABLE_TEXT_VALUE = "variableTextValue";
-    
+
     string VARIABLE_TEXT_VALUE2 = "variableTextValue2";
-    
+
     string VARIABLE_DOUBLE_VALUE = "variableDoubleValue";
-    
+
     string VARIABLE_LONG_VALUE = "variableLongValue";
-    
+
     string VARIABLE_BYTES_VALUE = "variableBytesValue";
-    
+
     string FORM_PROPERTY_ID = "formPropertyId";
-    
+
     string FORM_PROPERTY_VALUE = "formPropertyValue";
-    
+
     string USER_ID = "userId";
-    
+
     string GROUP_ID = "groupId";
 
     string TENANT_ID = "tenantId";
-    
+
     string CALLBACK_ID = "callbackId";
-    
+
     string CALLBACK_TYPE = "callbackType";
 
     string REFERENCE_ID = "referenceId";
@@ -201,17 +201,17 @@ interface HistoryJsonConstants {
     string CALLED_PROCESS_INSTANCE_ID = "calledProcessInstanceId";
 
     string SCOPE_ID = "scopeId";
-    
+
     string SUB_SCOPE_ID = "subScopeId";
-    
+
     string SCOPE_TYPE = "scopeType";
-    
+
     string SCOPE_DEFINITION_ID = "scopeDefinitionId";
-    
+
     string REF_SCOPE_ID = "referenceScopeId";
-    
+
     string REF_SCOPE_TYPE = "referenceScopeType";
-    
+
     string REF_SCOPE_DEFINITION_ID = "referenceScopeDefinitionId";
 
     string HIERARCHY_TYPE = "hierarchyType";

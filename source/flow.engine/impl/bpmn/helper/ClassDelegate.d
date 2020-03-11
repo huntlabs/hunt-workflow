@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,13 +13,13 @@
 
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.MapExceptionEntry;
-import org.flowable.bpmn.model.Task;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.MapExceptionEntry;
+import flow.bpmn.model.Task;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
@@ -49,9 +49,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Helper class for bpmn constructs that allow class delegation.
- * 
+ *
  * This class will lazily instantiate the referenced classes when needed at runtime.
- * 
+ *
  * @author Joram Barrez
  * @author Falko Menge
  * @author Saeid Mirzaei
@@ -83,11 +83,11 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     public ClassDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations, Expression skipExpression) {
         this(clazz.getName(), fieldDeclarations, skipExpression);
     }
-    
+
     public ClassDelegate(string className, List<FieldDeclaration> fieldDeclarations) {
         super(className, fieldDeclarations);
     }
-    
+
     public ClassDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations) {
         super(clazz, fieldDeclarations);
     }
@@ -101,7 +101,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
 
     // Transaction Dependent execution listener
     @Override
-    public void notify(string processInstanceId, string executionId, FlowElement flowElement, Map<string, Object> executionVariables, Map<string, Object> customPropertiesMap) {
+    public void notify(string processInstanceId, string executionId, FlowElement flowElement, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
         TransactionDependentExecutionListener transactionDependentExecutionListenerInstance = getTransactionDependentExecutionListenerInstance();
 
         // Note that we can't wrap it in the delegate interceptor like usual here due to being executed when the context is already removed.
@@ -109,7 +109,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     }
 
     @Override
-    public Map<string, Object> getCustomPropertiesMap(DelegateExecution execution) {
+    public Map!(string, Object) getCustomPropertiesMap(DelegateExecution execution) {
         if (customPropertiesResolverInstance is null) {
             customPropertiesResolverInstance = getCustomPropertiesResolverInstance();
         }
@@ -129,7 +129,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     }
 
     @Override
-    public void notify(string processInstanceId, string executionId, Task task, Map<string, Object> executionVariables, Map<string, Object> customPropertiesMap) {
+    public void notify(string processInstanceId, string executionId, Task task, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
         TransactionDependentTaskListener transactionDependentTaskListenerInstance = getTransactionDependentTaskListenerInstance();
         transactionDependentTaskListenerInstance.notify(processInstanceId, executionId, task, executionVariables, customPropertiesMap);
     }

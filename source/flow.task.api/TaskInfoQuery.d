@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,32 +11,32 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.task.api.TaskInfoQuery;
- 
- 
- 
 
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+
+
+
+import hunt.collection;
+import hunt.time.LocalDateTime;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.Query;
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.task.api.history.HistoricTaskInstanceQuery;
-
+//import flow.identitylink.api.IdentityLink;
+//import flow.task.api.history.HistoricTaskInstanceQuery;
+import hunt.Integer;
+alias Date = LocalDateTime;
 /**
  * Interface containing shared methods between the {@link TaskQuery} and the {@link HistoricTaskInstanceQuery}.
- * 
+ *
  * @author Joram Barrez
  */
-interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> extends Query<T, V> {
+interface TaskInfoQuery(T,V) : Query!(T, V) {
 
     /**
      * Only select tasks with the given task id (in practice, there will be maximum one of this kind)
@@ -48,21 +48,21 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks with a name that is in the given list
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             When passed name list is empty or <code>null</code> or contains <code>null string</code>.
      */
-    T taskNameIn(Collection<string> nameList);
+    T taskNameIn(Collection!string nameList);
 
     /**
      * Only select tasks with a name that is in the given list
-     * 
+     *
      * This method, unlike the {@link #taskNameIn(Collection)} method will not take in account the upper/lower case: both the input parameters as the column value are lowercased when the query is executed.
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             When passed name list is empty or <code>null</code> or contains <code>null string</code>.
      */
-    T taskNameInIgnoreCase(Collection<string> nameList);
+    T taskNameInIgnoreCase(Collection!string nameList);
 
     /**
      * Only select tasks with a name matching the parameter. The syntax is that of SQL: for example usage: nameLike(%test%)
@@ -71,7 +71,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks with a name matching the parameter. The syntax is that of SQL: for example usage: nameLike(%test%)
-     * 
+     *
      * This method, unlike the {@link #taskNameLike(string)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
@@ -87,7 +87,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks with a description matching the parameter . The syntax is that of SQL: for example usage: descriptionLike(%test%)
-     * 
+     *
      * This method, unlike the {@link #taskDescriptionLike(string)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
@@ -112,7 +112,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which were last assigned to an assignee like the given value. The syntax that should be used is the same as in SQL, eg. %test%.
-     * 
+     *
      * This method, unlike the {@link #taskAssigneeLike(string)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
@@ -120,11 +120,11 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks with an assignee that is in the given list
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             When passed name list is empty or <code>null</code> or contains <code>null string</code>.
      */
-    T taskAssigneeIds(Collection<string> assigneeListIds);
+    T taskAssigneeIds(Collection!string assigneeListIds);
 
     /** Only select tasks for which the given user is the owner. */
     T taskOwner(string owner);
@@ -136,7 +136,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which were last assigned to an owner like the given value. The syntax that should be used is the same as in SQL, eg. %test%.
-     * 
+     *
      * This method, unlike the {@link #taskOwnerLike(string)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the query is
      * executed.
      */
@@ -153,7 +153,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks for which there exist an {@link IdentityLink} with the given Groups.
      */
-    T taskInvolvedGroups(Collection<string> involvedGroup);
+    T taskInvolvedGroups(Collection!string involvedGroup);
 
     /**
      * Allows to select a task using {@link #taskCandidateGroup(string)} {@link #taskCandidateGroupIn(Collection)} or {@link #taskCandidateUser(string)} but ignore the assignee value instead of querying for an empty assignee.
@@ -165,12 +165,12 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks for which the 'candidateGroup' is one of the given groups.
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             When query is executed and {@link #taskCandidateGroup(string)} or {@link #taskCandidateUser(string)} has been executed on the query instance. When passed group list is empty or
      *             <code>null</code>.
      */
-    T taskCandidateGroupIn(Collection<string> candidateGroups);
+    T taskCandidateGroupIn(Collection!string candidateGroups);
 
     /**
      * Only select tasks that have the given tenant id.
@@ -195,7 +195,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks for the given process ids.
      */
-    T processInstanceIdIn(Collection<string> processInstanceIds);
+    T processInstanceIdIn(Collection!string processInstanceIds);
 
     /** Only select tasks foe the given business key */
     T processInstanceBusinessKey(string processInstanceBusinessKey);
@@ -207,7 +207,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks with a business key like the given value The syntax is that of SQL: for example usage: processInstanceBusinessKeyLike("%test%").
-     * 
+     *
      * This method, unlike the {@link #processInstanceBusinessKeyLike(string)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when
      * the query is executed.
      */
@@ -217,39 +217,39 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
      * Only select tasks for the given execution.
      */
     T executionId(string executionId);
-    
+
     /**
      * Only select tasks for the given case instance.
      */
     T caseInstanceId(string caseInstanceId);
-    
+
     /**
      * Only select tasks for the given case definition.
      */
     T caseDefinitionId(string caseDefinitionId);
-    
+
     /**
-     * Only select tasks for the given plan item instance. 
+     * Only select tasks for the given plan item instance.
      */
     T planItemInstanceId(string planItemInstanceId);
-    
+
     /**
-     * Only select tasks for the given scope identifier. 
+     * Only select tasks for the given scope identifier.
      */
     T scopeId(string scopeId);
-    
+
     /**
-     * Only select tasks for the given sub scope identifier. 
+     * Only select tasks for the given sub scope identifier.
      */
     T subScopeId(string subScopeId);
-    
+
     /**
-     * Only select tasks for the given scope type. 
+     * Only select tasks for the given scope type.
      */
     T scopeType(string scopeType);
-    
+
     /**
-     * Only select tasks for the given scope definition identifier. 
+     * Only select tasks for the given scope definition identifier.
      */
     T scopeDefinitionId(string scopeDefinitionId);
 
@@ -257,12 +257,12 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
      * Only select tasks for the given stage, defined through its stage instance id.
      */
     T propagatedStageInstanceId(string propagatedStageInstanceId);
-    
+
     /**
      * Select all tasks for the given process instance id and its children.
      */
     T processInstanceIdWithChildren(string processInstanceId);
-    
+
     /**
      * Select all tasks for the given case instance id and its children.
      */
@@ -287,7 +287,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
      * Only select tasks with the given category.
      */
     T taskCategory(string category);
-    
+
     /**
      * Only select tasks with form key.
      */
@@ -312,7 +312,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks with the given taskDefinitionKeys. The task definition key is the id of the userTask: &lt;userTask id="xxx" .../&gt;
      **/
-    T taskDefinitionKeys(Collection<string> keys);
+    T taskDefinitionKeys(Collection!string keys);
 
     /**
      * Only select tasks with the given due date.
@@ -346,14 +346,14 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which are part of a process instance which has a process definition key like the given value. The syntax that should be used is the same as in SQL, eg. %test%.
-     * 
+     *
      * This method, unlike the {@link #processDefinitionKeyLike(string)} method will not take in account the upper/lower case: both the input parameter as the column value are lowercased when the
      * query is executed.
      */
     T processDefinitionKeyLikeIgnoreCase(string processDefinitionKeyLikeIgnoreCase);
 
     /** Only select tasks that have a process definition for which the key is present in the given list **/
-    T processDefinitionKeyIn(Collection<string> processDefinitionKeys);
+    T processDefinitionKeyIn(Collection!string processDefinitionKeys);
 
     /**
      * Only select tasks which created from the given task definition referenced by id.
@@ -377,21 +377,21 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which are part of a process instance whose definition belongs to the category which is present in the given list.
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             When passed category list is empty or <code>null</code> or contains <code>null string</code>.
      * @param processCategoryInList
      */
-    T processCategoryIn(Collection<string> processCategoryInList);
+    T processCategoryIn(Collection!string processCategoryInList);
 
     /**
      * Only select tasks which are part of a process instance whose definition does not belong to the category which is present in the given list.
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             When passed category list is empty or <code>null</code> or contains <code>null string</code>.
      * @param processCategoryNotInList
      */
-    T processCategoryNotIn(Collection<string> processCategoryNotInList);
+    T processCategoryNotIn(Collection!string processCategoryNotInList);
 
     /**
      * Only select tasks which are part of a process instance which has the given deployment id.
@@ -401,17 +401,17 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which are part of a process instance which has the given deployment id.
      */
-    T deploymentIdIn(Collection<string> deploymentIds);
-    
+    T deploymentIdIn(Collection!string deploymentIds);
+
     /**
      * Only select tasks which are related to a case instance for to the given deployment id.
      */
     T cmmnDeploymentId(string cmmnDeploymentId);
-    
+
     /**
      * Only select tasks which are related to a case instances for the given deployment id.
      */
-    T cmmnDeploymentIdIn(Collection<string> cmmnDeploymentIds);
+    T cmmnDeploymentIdIn(Collection!string cmmnDeploymentIds);
 
     /**
      * Only select tasks which have a local task variable with the given name set to the given value.
@@ -450,7 +450,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a local variable value greater than the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers)
      * are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -461,7 +461,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a local variable value greater than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive
      * type wrappers) are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -472,7 +472,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a local variable value less than the passed value when the ended.Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers) are
      * not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -483,7 +483,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a local variable value less than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type
      * wrappers) are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -493,7 +493,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which have a local variable value like the given value when they ended. This can be used on string variables only.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -503,25 +503,25 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which have a local variable value like the given value (case insensitive) when they ended. This can be used on string variables only.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
      *            cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
      */
     T taskVariableValueLikeIgnoreCase(string name, string value);
-    
+
     /**
      * Only select tasks which have a local variable with the given name.
-     * 
+     *
      * @param name
      *            cannot be null.
      */
     T taskVariableExists(string name);
-    
+
     /**
      * Only select tasks which does not have a local variable with the given name.
-     * 
+     *
      * @param name
      *            cannot be null.
      */
@@ -564,7 +564,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a global variable value greater than the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type
      * wrappers) are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -575,7 +575,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a global variable value greater than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive
      * type wrappers) are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -586,7 +586,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a global variable value less than the passed value when the ended.Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers) are
      * not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -597,7 +597,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
     /**
      * Only select tasks which have a global variable value less than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type
      * wrappers) are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -607,7 +607,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which have a global variable value like the given value when they ended. This can be used on string variables only.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -617,25 +617,25 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * Only select tasks which have a global variable value like the given value (case insensitive) when they ended. This can be used on string variables only.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
      *            cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
      */
     T processVariableValueLikeIgnoreCase(string name, string value);
-    
+
     /**
      * Only select tasks which have a global variable with the given name.
-     * 
+     *
      * @param name
      *            cannot be null.
      */
     T processVariableExists(string name);
-    
+
     /**
      * Only select tasks which does not have a global variable with the given name.
-     * 
+     *
      * @param name
      *            cannot be null.
      */
@@ -673,7 +673,7 @@ interface TaskInfoQuery<T extends TaskInfoQuery<?, ?>, V extends TaskInfo> exten
 
     /**
      * All query clauses called will be added to a single or-statement. This or-statement will be included with the other already existing clauses in the query, joined by an 'and'.
-     * 
+     *
      * Calling endOr() will add all clauses to the regular query again. Calling or() after or() has been called or calling endOr() after endOr() has been called will result in an exception.
      * It is possible to call or() endOr() several times if each or() has a matching endOr(), e.g.:
      * query.<ConditionA>

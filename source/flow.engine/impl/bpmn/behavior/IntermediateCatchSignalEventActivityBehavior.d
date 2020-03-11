@@ -12,11 +12,11 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -68,7 +68,7 @@ class IntermediateCatchSignalEventActivityBehavior extends IntermediateCatchEven
                         .processDefinitionId(executionEntity.getProcessDefinitionId())
                         .tenantId(executionEntity.getTenantId())
                         .create();
-        
+
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
         executionEntity.getEventSubscriptions().add(eventSubscription);
 

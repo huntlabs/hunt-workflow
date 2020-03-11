@@ -14,8 +14,8 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -27,12 +27,12 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.form.api.FormFieldHandler;
-import org.flowable.form.api.FormInfo;
-import org.flowable.form.api.FormRepositoryService;
-import org.flowable.form.api.FormService;
-import org.flowable.task.api.TaskInfo;
-import org.flowable.task.api.history.HistoricTaskInstance;
+import flow.form.api.FormFieldHandler;
+import flow.form.api.FormInfo;
+import flow.form.api.FormRepositoryService;
+import flow.form.api.FormService;
+import flow.task.api.TaskInfo;
+import flow.task.api.history.HistoricTaskInstance;
 
 /**
  * @author Tijs Rademakers
@@ -73,7 +73,7 @@ class GetTaskFormModelCmd implements Command<FormInfo>, Serializable {
             throw new FlowableObjectNotFoundException("Task not found with id " + taskId);
         }
 
-        Map<string, Object> variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap<>();
         if (!ignoreVariables && task.getProcessInstanceId() !is null) {
 
             if (!historic) {

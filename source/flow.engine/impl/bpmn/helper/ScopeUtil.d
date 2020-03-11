@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,11 +13,11 @@
 
 
 
-import java.util.ArrayList;
-import java.util.Collections;
+import hunt.collection.ArrayList;
+import hunt.collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Map.Entry;
 
 import flow.common.util.CollectionUtil;
@@ -99,8 +99,8 @@ class ScopeUtil {
 
             // copy local variables to eventScopeExecution by value. This way,
             // the eventScopeExecution references a 'snapshot' of the local variables
-            Map<string, Object> variables = subProcessExecution.getVariablesLocal();
-            for (Entry<string, Object> variable : variables.entrySet()) {
+            Map!(string, Object) variables = subProcessExecution.getVariablesLocal();
+            for (Entry!(string, Object) variable : variables.entrySet()) {
                 eventScopeExecution.setVariableLocal(variable.getKey(), variable.getValue(), subProcessExecution, true);
             }
 
@@ -116,9 +116,9 @@ class ScopeUtil {
                                 .activityId(eventSubscriptionEntity.getActivityId())
                                 .tenantId(eventScopeExecution.getTenantId())
                                 .create();
-                
+
                 CountingEntityUtil.handleInsertEventSubscriptionEntityCount(newSubscription);
-                
+
                 newSubscription.setConfiguration(eventSubscriptionEntity.getConfiguration());
                 newSubscription.setCreated(eventSubscriptionEntity.getCreated());
             }
@@ -130,9 +130,9 @@ class ScopeUtil {
                             .activityId(eventScopeExecution.getCurrentFlowElement().getId())
                             .tenantId(processInstanceExecutionEntity.getTenantId())
                             .create();
-            
+
             CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
-            
+
             eventSubscription.setConfiguration(eventScopeExecution.getId());
         }
     }

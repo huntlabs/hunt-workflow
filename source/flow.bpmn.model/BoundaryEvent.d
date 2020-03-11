@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,15 +11,19 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.BoundaryEvent;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import flow.bpmn.model.Event;
+import flow.bpmn.model.Activity;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author Tijs Rademakers
  */
-class BoundaryEvent extends Event {
+class BoundaryEvent : Event {
 
-    @JsonIgnore
+   // @JsonIgnore
     protected Activity attachedToRef;
     protected string attachedToRefId;
     protected bool cancelActivity = true;
@@ -48,7 +52,7 @@ class BoundaryEvent extends Event {
         this.cancelActivity = cancelActivity;
     }
 
-    @Override
+    override
     public BoundaryEvent clone() {
         BoundaryEvent clone = new BoundaryEvent();
         clone.setValues(this);

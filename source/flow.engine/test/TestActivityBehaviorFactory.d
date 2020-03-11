@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,48 +12,48 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.HashSet;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.collection.Set;
 
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.BusinessRuleTask;
-import org.flowable.bpmn.model.CallActivity;
-import org.flowable.bpmn.model.CancelEventDefinition;
-import org.flowable.bpmn.model.CaseServiceTask;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.ConditionalEventDefinition;
-import org.flowable.bpmn.model.EndEvent;
-import org.flowable.bpmn.model.ErrorEventDefinition;
-import org.flowable.bpmn.model.Escalation;
-import org.flowable.bpmn.model.EscalationEventDefinition;
-import org.flowable.bpmn.model.EventGateway;
-import org.flowable.bpmn.model.EventSubProcess;
-import org.flowable.bpmn.model.ExclusiveGateway;
-import org.flowable.bpmn.model.InclusiveGateway;
-import org.flowable.bpmn.model.IntermediateCatchEvent;
-import org.flowable.bpmn.model.ManualTask;
-import org.flowable.bpmn.model.MessageEventDefinition;
-import org.flowable.bpmn.model.ParallelGateway;
-import org.flowable.bpmn.model.ReceiveTask;
-import org.flowable.bpmn.model.ScriptTask;
-import org.flowable.bpmn.model.SendEventServiceTask;
-import org.flowable.bpmn.model.SendTask;
-import org.flowable.bpmn.model.ServiceTask;
-import org.flowable.bpmn.model.Signal;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.StartEvent;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.Task;
-import org.flowable.bpmn.model.ThrowEvent;
-import org.flowable.bpmn.model.TimerEventDefinition;
-import org.flowable.bpmn.model.Transaction;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.BusinessRuleTask;
+import flow.bpmn.model.CallActivity;
+import flow.bpmn.model.CancelEventDefinition;
+import flow.bpmn.model.CaseServiceTask;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.ConditionalEventDefinition;
+import flow.bpmn.model.EndEvent;
+import flow.bpmn.model.ErrorEventDefinition;
+import flow.bpmn.model.Escalation;
+import flow.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.EventGateway;
+import flow.bpmn.model.EventSubProcess;
+import flow.bpmn.model.ExclusiveGateway;
+import flow.bpmn.model.InclusiveGateway;
+import flow.bpmn.model.IntermediateCatchEvent;
+import flow.bpmn.model.ManualTask;
+import flow.bpmn.model.MessageEventDefinition;
+import flow.bpmn.model.ParallelGateway;
+import flow.bpmn.model.ReceiveTask;
+import flow.bpmn.model.ScriptTask;
+import flow.bpmn.model.SendEventServiceTask;
+import flow.bpmn.model.SendTask;
+import flow.bpmn.model.ServiceTask;
+import flow.bpmn.model.Signal;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.Task;
+import flow.bpmn.model.ThrowEvent;
+import flow.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.Transaction;
+import flow.bpmn.model.UserTask;
 import flow.common.api.deleg.Expression;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.behavior.AdhocSubProcessActivityBehavior;
@@ -129,10 +129,10 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     protected ActivityBehaviorFactory wrappedActivityBehaviorFactory;
 
     protected bool allServiceTasksNoOp;
-    protected Map<string, string> mockedClassDelegatesMapping = new HashMap<>();
-    protected Map<string, string> mockedClassTaskIdDelegatesMapping = new HashMap<>();
-    protected Set<string> noOpServiceTaskIds = new HashSet<>();
-    protected Set<string> noOpServiceTaskClassNames = new HashSet<>();
+    protected Map!(string, string) mockedClassDelegatesMapping = new HashMap<>();
+    protected Map!(string, string) mockedClassTaskIdDelegatesMapping = new HashMap<>();
+    protected Set!string noOpServiceTaskIds = new HashSet<>();
+    protected Set!string noOpServiceTaskClassNames = new HashSet<>();
 
     public TestActivityBehaviorFactory() {
 
@@ -278,7 +278,7 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public ScriptTaskActivityBehavior createScriptTaskActivityBehavior(ScriptTask scriptTask) {
         return wrappedActivityBehaviorFactory.createScriptTaskActivityBehavior(scriptTask);
     }
-    
+
     @Override
     public SendEventTaskActivityBehavior createSendEventTaskBehavior(SendEventServiceTask sendEventServiceTask) {
         return wrappedActivityBehaviorFactory.createSendEventTaskBehavior(sendEventServiceTask);
@@ -318,16 +318,16 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public SubProcessActivityBehavior createSubprocessActivityBehavior(SubProcess subProcess) {
         return wrappedActivityBehaviorFactory.createSubprocessActivityBehavior(subProcess);
     }
-    
+
     @Override
     public EventSubProcessActivityBehavior createEventSubprocessActivityBehavior(EventSubProcess eventSubProcess) {
         return wrappedActivityBehaviorFactory.createEventSubprocessActivityBehavior(eventSubProcess);
     }
-    
+
     @Override
     public EventSubProcessConditionalStartEventActivityBehavior createEventSubProcessConditionalStartEventActivityBehavior(StartEvent startEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
-        
+
         return wrappedActivityBehaviorFactory.createEventSubProcessConditionalStartEventActivityBehavior(startEvent, conditionalEventDefinition, conditionExpression);
     }
 
@@ -335,7 +335,7 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public EventSubProcessErrorStartEventActivityBehavior createEventSubProcessErrorStartEventActivityBehavior(StartEvent startEvent) {
         return wrappedActivityBehaviorFactory.createEventSubProcessErrorStartEventActivityBehavior(startEvent);
     }
-    
+
     @Override
     public EventSubProcessEscalationStartEventActivityBehavior createEventSubProcessEscalationStartEventActivityBehavior(StartEvent startEvent) {
         return wrappedActivityBehaviorFactory.createEventSubProcessEscalationStartEventActivityBehavior(startEvent);
@@ -385,12 +385,12 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public IntermediateCatchEventActivityBehavior createIntermediateCatchEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent) {
         return wrappedActivityBehaviorFactory.createIntermediateCatchEventActivityBehavior(intermediateCatchEvent);
     }
-    
+
     @Override
-    public IntermediateCatchConditionalEventActivityBehavior createIntermediateCatchConditionalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent, 
+    public IntermediateCatchConditionalEventActivityBehavior createIntermediateCatchConditionalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
-        
-        return wrappedActivityBehaviorFactory.createIntermediateCatchConditionalEventActivityBehavior(intermediateCatchEvent, 
+
+        return wrappedActivityBehaviorFactory.createIntermediateCatchConditionalEventActivityBehavior(intermediateCatchEvent,
                         conditionalEventDefinition, conditionExpression);
     }
 
@@ -406,26 +406,26 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     }
 
     @Override
-    public IntermediateCatchSignalEventActivityBehavior createIntermediateCatchSignalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent, 
+    public IntermediateCatchSignalEventActivityBehavior createIntermediateCatchSignalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
                     SignalEventDefinition signalEventDefinition, Signal signal) {
 
         return wrappedActivityBehaviorFactory.createIntermediateCatchSignalEventActivityBehavior(intermediateCatchEvent, signalEventDefinition, signal);
     }
-    
+
     @Override
     public IntermediateThrowNoneEventActivityBehavior createIntermediateThrowNoneEventActivityBehavior(ThrowEvent throwEvent) {
         return wrappedActivityBehaviorFactory.createIntermediateThrowNoneEventActivityBehavior(throwEvent);
     }
 
     @Override
-    public IntermediateThrowSignalEventActivityBehavior createIntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent, 
+    public IntermediateThrowSignalEventActivityBehavior createIntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent,
                     SignalEventDefinition signalEventDefinition, Signal signal) {
 
         return wrappedActivityBehaviorFactory.createIntermediateThrowSignalEventActivityBehavior(throwEvent, signalEventDefinition, signal);
     }
-    
+
     @Override
-    public IntermediateThrowEscalationEventActivityBehavior createIntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent, 
+    public IntermediateThrowEscalationEventActivityBehavior createIntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent,
                     EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
 
         return wrappedActivityBehaviorFactory.createIntermediateThrowEscalationEventActivityBehavior(throwEvent, escalationEventDefinition, escalation);
@@ -445,7 +445,7 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public ErrorEndEventActivityBehavior createErrorEndEventActivityBehavior(EndEvent endEvent, ErrorEventDefinition errorEventDefinition) {
         return wrappedActivityBehaviorFactory.createErrorEndEventActivityBehavior(endEvent, errorEventDefinition);
     }
-    
+
     @Override
     public EscalationEndEventActivityBehavior createEscalationEndEventActivityBehavior(EndEvent endEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
         return wrappedActivityBehaviorFactory.createEscalationEndEventActivityBehavior(endEvent, escalationEventDefinition, escalation);
@@ -470,12 +470,12 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public BoundaryCancelEventActivityBehavior createBoundaryCancelEventActivityBehavior(CancelEventDefinition cancelEventDefinition) {
         return wrappedActivityBehaviorFactory.createBoundaryCancelEventActivityBehavior(cancelEventDefinition);
     }
-    
+
     @Override
     public BoundaryConditionalEventActivityBehavior createBoundaryConditionalEventActivityBehavior(BoundaryEvent boundaryEvent,
             ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, bool interrupting) {
 
-        return wrappedActivityBehaviorFactory.createBoundaryConditionalEventActivityBehavior(boundaryEvent, 
+        return wrappedActivityBehaviorFactory.createBoundaryConditionalEventActivityBehavior(boundaryEvent,
                         conditionalEventDefinition, conditionExpression, interrupting);
     }
 
@@ -493,7 +493,7 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public BoundaryMessageEventActivityBehavior createBoundaryMessageEventActivityBehavior(BoundaryEvent boundaryEvent, MessageEventDefinition messageEventDefinition, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryMessageEventActivityBehavior(boundaryEvent, messageEventDefinition, interrupting);
     }
-    
+
     @Override
     public BoundaryEscalationEventActivityBehavior createBoundaryEscalationEventActivityBehavior(BoundaryEvent boundaryEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryEscalationEventActivityBehavior(boundaryEvent, escalationEventDefinition, escalation, interrupting);
@@ -503,7 +503,7 @@ class TestActivityBehaviorFactory extends AbstractBehaviorFactory implements Act
     public BoundaryCompensateEventActivityBehavior createBoundaryCompensateEventActivityBehavior(BoundaryEvent boundaryEvent, CompensateEventDefinition compensateEventDefinition, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryCompensateEventActivityBehavior(boundaryEvent, compensateEventDefinition, interrupting);
     }
-    
+
     @Override
     public BoundaryEventRegistryEventActivityBehavior createBoundaryEventRegistryEventActivityBehavior(BoundaryEvent boundaryEvent, string eventDefinitionKey, bool interrupting) {
         return wrappedActivityBehaviorFactory.createBoundaryEventRegistryEventActivityBehavior(boundaryEvent, eventDefinitionKey, interrupting);

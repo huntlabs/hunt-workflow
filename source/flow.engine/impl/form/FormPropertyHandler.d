@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,7 +14,7 @@
 
 
 import java.io.Serializable;
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
@@ -75,7 +75,7 @@ class FormPropertyHandler implements Serializable {
         return formProperty;
     }
 
-    public void submitFormProperty(ExecutionEntity execution, Map<string, string> properties) {
+    public void submitFormProperty(ExecutionEntity execution, Map!(string, string) properties) {
         if (!isWritable && properties.containsKey(id)) {
             throw new FlowableException("form property '" + id + "' is not writable");
         }

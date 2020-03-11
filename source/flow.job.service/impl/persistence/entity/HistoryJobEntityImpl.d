@@ -14,8 +14,8 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.job.api.JobInfo;
@@ -45,12 +45,12 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
     protected Date lockExpirationTime;
     protected Date createTime;
     protected string scopeType;
-    
+
     protected string tenantId = JobServiceConfiguration.NO_TENANT_ID;
 
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap<>();
         persistentState.put("retries", retries);
         persistentState.put("exceptionMessage", exceptionMessage);
         persistentState.put("jobHandlerType", jobHandlerType);
@@ -61,13 +61,13 @@ class HistoryJobEntityImpl extends AbstractJobServiceEntity implements HistoryJo
 
         persistentState.put("lockOwner", lockOwner);
         persistentState.put("lockExpirationTime", lockExpirationTime);
-        
+
         persistentState.put("scopeType", scopeType);
 
         return persistentState;
     }
 
-    private void putByteArrayRefIdToMap(string key, JobByteArrayRef jobByteArrayRef, Map<string, Object> map) {
+    private void putByteArrayRefIdToMap(string key, JobByteArrayRef jobByteArrayRef, Map!(string, Object) map) {
         if(jobByteArrayRef !is null) {
             map.put(key, jobByteArrayRef.getId());
         }

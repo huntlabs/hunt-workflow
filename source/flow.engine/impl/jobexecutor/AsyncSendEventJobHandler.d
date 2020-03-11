@@ -12,26 +12,26 @@
  */
 
 
-import java.util.Collection;
+import hunt.collection;
 import java.util.Objects;
 
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.SendEventServiceTask;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.SendEventServiceTask;
 import flow.common.api.FlowableException;
 import flow.common.interceptor.CommandContext;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventInstanceBpmnUtil;
-import org.flowable.eventregistry.api.runtime.EventPayloadInstance;
-import org.flowable.eventregistry.impl.runtime.EventInstanceImpl;
-import org.flowable.eventregistry.model.EventModel;
+import flow.event.registry.api.runtime.EventPayloadInstance;
+import flow.event.registry.runtime.EventInstanceImpl;
+import flow.event.registry.model.EventModel;
 import org.flowable.job.service.JobHandler;
 import org.flowable.job.service.impl.persistence.entity.JobEntity;
 import org.flowable.variable.api.delegate.VariableScope;
 
 /**
- * 
+ *
  * @author Tijs Rademakers
  */
 class AsyncSendEventJobHandler implements JobHandler {
@@ -47,7 +47,7 @@ class AsyncSendEventJobHandler implements JobHandler {
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
         FlowElement flowElement = executionEntity.getCurrentFlowElement();
-        
+
         if (!(flowElement instanceof SendEventServiceTask)) {
             throw new FlowableException(string.format("unexpected activity type found for job %s, at activity %s", job.getId(), flowElement.getId()));
         }
@@ -63,16 +63,16 @@ class AsyncSendEventJobHandler implements JobHandler {
         if (eventModel is null) {
             throw new FlowableException("No event model found for event key " + sendEventServiceTask.getEventType());
         }
-        
+
         EventInstanceImpl eventInstance = new EventInstanceImpl();
         eventInstance.setEventModel(eventModel);
 
-        Collection<EventPayloadInstance> eventPayloadInstances = EventInstanceBpmnUtil.createEventPayloadInstances(executionEntity, 
+        Collection!EventPayloadInstance eventPayloadInstances = EventInstanceBpmnUtil.createEventPayloadInstances(executionEntity,
                         CommandContextUtil.getProcessEngineConfiguration().getExpressionManager(), sendEventServiceTask, eventModel);
         eventInstance.setPayloadInstances(eventPayloadInstances);
 
         CommandContextUtil.getEventRegistry(commandContext).sendEventOutbound(eventInstance);
-        
+
         if (!sendEventServiceTask.isTriggerable()) {
             CommandContextUtil.getAgenda(commandContext).planTakeOutgoingSequenceFlowsOperation(executionEntity, true);
         }

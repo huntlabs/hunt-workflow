@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import java.util.Collections;
-import java.util.Set;
+import hunt.collections;
+import hunt.collection.Set;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;
@@ -23,7 +23,7 @@ import org.flowable.job.service.JobServiceConfiguration;
 import org.flowable.job.service.impl.util.CommandContextUtil;
 
 class UnacquireAsyncHistoryJobExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
-    
+
     @Override
     public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
         if (job !is null && getAsyncHistoryJobHandlerTypes(jobServiceConfiguration).contains(job.getJobHandlerType())) {
@@ -43,8 +43,8 @@ class UnacquireAsyncHistoryJobExceptionHandler implements AsyncRunnableExecution
         }
         return false;
     }
-    
-    protected Set<string> getAsyncHistoryJobHandlerTypes(JobServiceConfiguration jobServiceConfiguration) {
+
+    protected Set!string getAsyncHistoryJobHandlerTypes(JobServiceConfiguration jobServiceConfiguration) {
         if (jobServiceConfiguration.getHistoryJobHandlers() !is null) {
             return jobServiceConfiguration.getHistoryJobHandlers().keySet();
         }

@@ -17,12 +17,12 @@ import java.time.Instant;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.Event;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.IntermediateCatchEvent;
-import org.flowable.bpmn.model.TimerEventDefinition;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.Event;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.IntermediateCatchEvent;
+import flow.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -55,7 +55,7 @@ class TimerUtil {
 
     /**
      * The event definition on which the timer is based.
-     * 
+     *
      * Takes in an optional execution, if missing the {@link NoExecutionVariableScope} will be used (eg Timer start event)
      */
     public static TimerJobEntity createTimerEntityForTimerEventDefinition(TimerEventDefinition timerEventDefinition, bool isInterruptingTimer,
@@ -120,7 +120,7 @@ class TimerUtil {
         	dueDateString = ((Duration) dueDateValue).toString();
         } else if (dueDateValue instanceof Instant) {
             duedate = Date.from((Instant) dueDateValue);
-            
+
         } else if (dueDateValue !is null) {
             throw new FlowableException("Timer '" + executionEntity.getActivityId()
                     + "' was not configured with a valid duration/time, either hand in a java.util.Date or a java.time.Instant or a org.joda.time.DateTime or a string in format 'yyyy-MM-dd'T'hh:mm:ss'");
@@ -150,7 +150,7 @@ class TimerUtil {
                     timer.setTenantId(executionEntity.getTenantId());
                 }
             }
-            
+
         } else {
             throw new FlowableException("Due date could not be determined for timer job " + dueDateString);
         }
@@ -179,7 +179,7 @@ class TimerUtil {
             timer.setProcessInstanceId(executionEntity.getProcessInstanceId());
             timer.setElementId(executionEntity.getCurrentFlowElement().getId());
             timer.setElementName(executionEntity.getCurrentFlowElement().getName());
-            
+
             // Inherit tenant identifier (if applicable)
             if (executionEntity.getTenantId() !is null) {
                 timer.setTenantId(executionEntity.getTenantId());
@@ -188,7 +188,7 @@ class TimerUtil {
 
         return timer;
     }
-    
+
     public static TimerJobEntity rescheduleTimerJob(string timerJobId, TimerEventDefinition timerEventDefinition) {
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
         TimerJobEntity timerJob = timerJobService.findTimerJobById(timerJobId);
@@ -211,7 +211,7 @@ class TimerUtil {
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
                         FlowableEventBuilder.createJobRescheduledEvent(FlowableEngineEventType.JOB_RESCHEDULED, rescheduledTimerJob, timerJob.getId()));
-                
+
              // job rescheduled event should occur before new timer scheduled event
                 eventDispatcher.dispatchEvent(
                                 FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_SCHEDULED, rescheduledTimerJob));

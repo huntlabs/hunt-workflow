@@ -12,8 +12,8 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 import java.util.Optional;
 
 import flow.common.api.scope.ScopeTypes;
@@ -27,11 +27,11 @@ import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
  * @author Tijs Rademakers
  */
 class EntityLinkUtil {
-    
+
     public static void copyExistingEntityLinks(string scopeId, string referenceScopeId, string referenceScopeType) {
         EntityLinkService entityLinkService = CommandContextUtil.getEntityLinkService();
         List<EntityLink> entityLinks = entityLinkService.findEntityLinksByReferenceScopeIdAndType(scopeId, ScopeTypes.BPMN, EntityLinkType.CHILD);
-        List<string> parentIds = new ArrayList<>();
+        List!string parentIds = new ArrayList<>();
         for (EntityLink entityLink : entityLinks) {
             if (!parentIds.contains(entityLink.getScopeId())) {
                 EntityLinkEntity newEntityLink = (EntityLinkEntity) entityLinkService.createEntityLink();
@@ -45,17 +45,17 @@ class EntityLinkUtil {
                     newEntityLink.setHierarchyType(entityLink.getHierarchyType());
                 }
                 entityLinkService.insertEntityLink(newEntityLink);
-                
+
                 CommandContextUtil.getHistoryManager().recordEntityLinkCreated(newEntityLink);
-                
+
                 parentIds.add(entityLink.getScopeId());
             }
         }
     }
-    
+
     public static void createNewEntityLink(string scopeId, string referenceScopeId, string referenceScopeType) {
         EntityLinkService entityLinkService = CommandContextUtil.getEntityLinkService();
-        
+
         // Check if existing links already have root, if not, current is root
         Optional<EntityLink> entityLinkWithRoot = entityLinkService
             .findEntityLinksByReferenceScopeIdAndType(scopeId, ScopeTypes.BPMN, EntityLinkType.CHILD)
@@ -75,8 +75,8 @@ class EntityLinkUtil {
             newEntityLink.setHierarchyType(HierarchyType.PARENT);
         }
         entityLinkService.insertEntityLink(newEntityLink);
-        
+
         CommandContextUtil.getHistoryManager().recordEntityLinkCreated(newEntityLink);
     }
-    
+
 }

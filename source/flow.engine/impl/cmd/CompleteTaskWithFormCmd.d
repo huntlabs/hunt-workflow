@@ -12,19 +12,19 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.UserTask;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.impl.util.TaskHelper;
-import org.flowable.form.api.FormFieldHandler;
-import org.flowable.form.api.FormInfo;
-import org.flowable.form.api.FormRepositoryService;
-import org.flowable.form.api.FormService;
+import flow.form.api.FormFieldHandler;
+import flow.form.api.FormInfo;
+import flow.form.api.FormRepositoryService;
+import flow.form.api.FormService;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**
@@ -35,11 +35,11 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
     private static final long serialVersionUID = 1L;
     protected string formDefinitionId;
     protected string outcome;
-    protected Map<string, Object> variables;
-    protected Map<string, Object> transientVariables;
+    protected Map!(string, Object) variables;
+    protected Map!(string, Object) transientVariables;
     protected bool localScope;
 
-    public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome, Map<string, Object> variables) {
+    public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome, Map!(string, Object) variables) {
         super(taskId);
         this.formDefinitionId = formDefinitionId;
         this.outcome = outcome;
@@ -47,14 +47,14 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
     }
 
     public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, bool localScope) {
+            Map!(string, Object) variables, bool localScope) {
 
         this(taskId, formDefinitionId, outcome, variables);
         this.localScope = localScope;
     }
 
     public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome,
-            Map<string, Object> variables, Map<string, Object> transientVariables) {
+            Map!(string, Object) variables, Map!(string, Object) transientVariables) {
 
         this(taskId, formDefinitionId, outcome, variables);
         this.transientVariables = transientVariables;
@@ -78,7 +78,7 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
             }
 
             // Extract raw variables and complete the task
-            Map<string, Object> taskVariables = formService.getVariablesFromFormSubmission(formInfo, variables, outcome);
+            Map!(string, Object) taskVariables = formService.getVariablesFromFormSubmission(formInfo, variables, outcome);
 
             // The taskVariables are the variables that should be used when completing the task
             // the actual variables should instead be used when saving the form instances

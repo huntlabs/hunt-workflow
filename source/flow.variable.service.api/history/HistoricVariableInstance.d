@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,20 +11,22 @@
  * limitations under the License.
  */
 
+module flow.variable.service.api.history.HistoricVariableInstance;
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.api.history.HistoricData;
 
+alias Date =LocalDateTime;
 /**
  * A single process variable containing the last value when its process instance has finished.
- * 
+ *
  * @author Christian Lipphardt (camunda)
  * @author ruecker
  * @author Joram Barrez
  */
-interface HistoricVariableInstance extends HistoricData {
+interface HistoricVariableInstance : HistoricData {
 
     /** The unique DB id */
     string getId();
@@ -52,10 +54,10 @@ interface HistoricVariableInstance extends HistoricData {
      * Returns the time when the value of the variable was last updated. Note that a {@link HistoricVariableInstance} only contains the latest value of the variable.
      */
     Date getLastUpdatedTime();
-    
+
     string getScopeId();
-    
+
     string getSubScopeId();
-    
+
     string getScopeType();
 }

@@ -12,14 +12,14 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.query.AbstractNativeQuery;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-import org.flowable.task.api.history.NativeHistoricTaskLogEntryQuery;
-import org.flowable.task.api.history.HistoricTaskLogEntry;
+import flow.task.api.history.NativeHistoricTaskLogEntryQuery;
+import flow.task.api.history.HistoricTaskLogEntry;
 import org.flowable.task.service.impl.util.CommandContextUtil;
 
 /**
@@ -41,12 +41,12 @@ class NativeHistoricTaskLogEntryQueryImpl extends AbstractNativeQuery<NativeHist
     // results ////////////////////////////////////////////////////////////////
 
     @Override
-    public List<HistoricTaskLogEntry> executeList(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public List<HistoricTaskLogEntry> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricTaskLogEntryEntityManager(commandContext).findHistoricTaskLogEntriesByNativeQueryCriteria(parameterMap);
     }
 
     @Override
-    public long executeCount(CommandContext commandContext, Map<string, Object> parameterMap) {
+    public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricTaskLogEntryEntityManager(commandContext).findHistoricTaskLogEntriesCountByNativeQueryCriteria(parameterMap);
     }
 

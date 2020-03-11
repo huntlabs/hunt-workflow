@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.api.query.DeleteQuery;
- 
- 
- 
+
+
+
 
 
 /**
@@ -26,12 +26,14 @@ module flow.common.api.query.DeleteQuery;
  *
  * @author Filip Hrisafov
  */
-interface DeleteQuery<T extends DeleteQuery<T, U>, U> {
+
+//interface DeleteQuery<T extends DeleteQuery<T, U>, U>
+interface DeleteQuery(T,U) {
 
     /**
      * Delete all instances that match the query.
      */
-    void delete();
+    void del();
 
     /**
      * Delete all instances and their related data that match the query.

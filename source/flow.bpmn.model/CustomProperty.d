@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,11 +11,15 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.CustomProperty;
 
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.ComplexDataType;
+import flow.bpmn.model.DataGrid;
 /**
  * @author Tijs Rademakers
  */
-class CustomProperty extends BaseElement {
+class CustomProperty : BaseElement {
 
     protected string name;
     protected string simpleValue;
@@ -45,7 +49,7 @@ class CustomProperty extends BaseElement {
         this.complexValue = complexValue;
     }
 
-    @Override
+    override
     public CustomProperty clone() {
         CustomProperty clone = new CustomProperty();
         clone.setValues(this);
@@ -56,8 +60,10 @@ class CustomProperty extends BaseElement {
         setName(otherProperty.getName());
         setSimpleValue(otherProperty.getSimpleValue());
 
-        if (otherProperty.getComplexValue() !is null && otherProperty.getComplexValue() instanceof DataGrid) {
-            setComplexValue(((DataGrid) otherProperty.getComplexValue()).clone());
+        DataGrid c = cast(DataGrid)(otherProperty.getComplexValue());
+
+        if (otherProperty.getComplexValue() !is null && c !is null) {
+            setComplexValue(c.clone());
         }
     }
 }

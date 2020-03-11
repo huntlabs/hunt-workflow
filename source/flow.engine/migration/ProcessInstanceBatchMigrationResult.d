@@ -13,15 +13,15 @@
 
 
 
-import java.util.ArrayList;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection.List;
 
 class ProcessInstanceBatchMigrationResult {
-    
+
     public static final string STATUS_IN_PROGRESS = "inProgress";
     public static final string STATUS_WAITING = "waiting";
     public static final string STATUS_COMPLETED = "completed";
-    
+
     public static final string RESULT_SUCCESS = "success";
     public static final string RESULT_FAIL = "fail";
 
@@ -75,20 +75,20 @@ class ProcessInstanceBatchMigrationResult {
             allMigrationParts = new ArrayList<>();
         }
         allMigrationParts.add(migrationPart);
-        
+
         if (!STATUS_COMPLETED.equals(migrationPart.getStatus())) {
             if (waitingMigrationParts is null) {
                 waitingMigrationParts = new ArrayList<>();
             }
             waitingMigrationParts.add(migrationPart);
-        
+
         } else {
             if (RESULT_SUCCESS.equals(migrationPart.getResult())) {
                 if (succesfulMigrationParts is null) {
                     succesfulMigrationParts = new ArrayList<>();
                 }
                 succesfulMigrationParts.add(migrationPart);
-            
+
             } else {
                 if (failedMigrationParts is null) {
                     failedMigrationParts = new ArrayList<>();

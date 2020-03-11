@@ -13,10 +13,10 @@
 
 
 
-import java.util.ArrayList;
-import java.util.Collection;
+import hunt.collection.ArrayList;
+import hunt.collection;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 import java.util.Objects;
 
 import flow.common.api.FlowableException;
@@ -27,10 +27,10 @@ import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.common.persistence.cache.EntityCache;
-import org.flowable.idm.api.Group;
-import org.flowable.idm.api.IdmIdentityService;
-import org.flowable.task.api.history.HistoricTaskInstance;
-import org.flowable.task.api.history.HistoricTaskInstanceQuery;
+import flow.idm.api.Group;
+import flow.idm.api.IdmIdentityService;
+import flow.task.api.history.HistoricTaskInstance;
+import flow.task.api.history.HistoricTaskInstanceQuery;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import org.flowable.task.service.impl.util.CommandContextUtil;
@@ -52,17 +52,17 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     protected string processDefinitionKey;
     protected string processDefinitionKeyLike;
     protected string processDefinitionKeyLikeIgnoreCase;
-    protected Collection<string> processDefinitionKeys;
+    protected Collection!string processDefinitionKeys;
     protected string processDefinitionName;
     protected string processDefinitionNameLike;
-    protected Collection<string> processCategoryInList;
-    protected Collection<string> processCategoryNotInList;
+    protected Collection!string processCategoryInList;
+    protected Collection!string processCategoryNotInList;
     protected string deploymentId;
-    protected Collection<string> deploymentIds;
+    protected Collection!string deploymentIds;
     protected string cmmnDeploymentId;
-    protected Collection<string> cmmnDeploymentIds;
+    protected Collection!string cmmnDeploymentIds;
     protected string processInstanceId;
-    protected Collection<string> processInstanceIds;
+    protected Collection!string processInstanceIds;
     protected string processInstanceBusinessKey;
     protected string processInstanceBusinessKeyLike;
     protected string processInstanceBusinessKeyLikeIgnoreCase;
@@ -78,8 +78,8 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     protected string taskName;
     protected string taskNameLike;
     protected string taskNameLikeIgnoreCase;
-    protected Collection<string> taskNameList;
-    protected Collection<string> taskNameListIgnoreCase;
+    protected Collection!string taskNameList;
+    protected Collection!string taskNameListIgnoreCase;
     protected string taskParentTaskId;
     protected string taskDescription;
     protected string taskDescriptionLike;
@@ -92,15 +92,15 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     protected string taskAssignee;
     protected string taskAssigneeLike;
     protected string taskAssigneeLikeIgnoreCase;
-    protected Collection<string> taskAssigneeIds;
+    protected Collection!string taskAssigneeIds;
     protected string taskDefinitionKey;
     protected string taskDefinitionKeyLike;
-    protected Collection<string> taskDefinitionKeys;
+    protected Collection!string taskDefinitionKeys;
     protected string candidateUser;
     protected string candidateGroup;
-    private Collection<string> candidateGroups;
+    private Collection!string candidateGroups;
     protected string involvedUser;
-    protected Collection<string> involvedGroups;
+    protected Collection!string involvedGroups;
     protected bool ignoreAssigneeValue;
     protected Integer taskPriority;
     protected Integer taskMinPriority;
@@ -233,7 +233,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQueryImpl processInstanceIdIn(Collection<string> processInstanceIds) {
+    public HistoricTaskInstanceQueryImpl processInstanceIdIn(Collection!string processInstanceIds) {
         if (processInstanceIds is null) {
             throw new FlowableIllegalArgumentException("Process instance id list is null");
         }
@@ -451,7 +451,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery processDefinitionKeyIn(Collection<string> processDefinitionKeys) {
+    public HistoricTaskInstanceQuery processDefinitionKeyIn(Collection!string processDefinitionKeys) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeys = processDefinitionKeys;
         } else {
@@ -481,7 +481,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery processCategoryIn(Collection<string> processCategoryInList) {
+    public HistoricTaskInstanceQuery processCategoryIn(Collection!string processCategoryInList) {
         if (processCategoryInList is null) {
             throw new FlowableIllegalArgumentException("Process category list is null");
         }
@@ -503,7 +503,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery processCategoryNotIn(Collection<string> processCategoryNotInList) {
+    public HistoricTaskInstanceQuery processCategoryNotIn(Collection!string processCategoryNotInList) {
         if (processCategoryNotInList is null) {
             throw new FlowableIllegalArgumentException("Process category list is null");
         }
@@ -535,7 +535,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery deploymentIdIn(Collection<string> deploymentIds) {
+    public HistoricTaskInstanceQuery deploymentIdIn(Collection!string deploymentIds) {
         if (inOrStatement) {
             currentOrQueryObject.deploymentIds = deploymentIds;
         } else {
@@ -555,7 +555,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery cmmnDeploymentIdIn(Collection<string> cmmnDeploymentIds) {
+    public HistoricTaskInstanceQuery cmmnDeploymentIdIn(Collection!string cmmnDeploymentIds) {
         if (inOrStatement) {
             currentOrQueryObject.cmmnDeploymentIds = cmmnDeploymentIds;
         } else {
@@ -585,7 +585,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery taskNameIn(Collection<string> taskNameList) {
+    public HistoricTaskInstanceQuery taskNameIn(Collection!string taskNameList) {
         if (taskNameList is null) {
             throw new FlowableIllegalArgumentException("Task name list is null");
         }
@@ -612,7 +612,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery taskNameInIgnoreCase(Collection<string> taskNameList) {
+    public HistoricTaskInstanceQuery taskNameInIgnoreCase(Collection!string taskNameList) {
         if (taskNameList is null) {
             throw new FlowableIllegalArgumentException("Task name list is null");
         }
@@ -636,7 +636,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
 
         final int nameListSize = taskNameList.size();
-        final Collection<string> caseIgnoredTaskNameList = new ArrayList<>(nameListSize);
+        final Collection!string caseIgnoredTaskNameList = new ArrayList<>(nameListSize);
         for (string taskName : taskNameList) {
             caseIgnoredTaskNameList.add(taskName.toLowerCase());
         }
@@ -760,7 +760,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery taskAssigneeIds(Collection<string> assigneeIds) {
+    public HistoricTaskInstanceQuery taskAssigneeIds(Collection!string assigneeIds) {
         if (assigneeIds is null) {
             throw new FlowableIllegalArgumentException("Task assignee list is null");
         }
@@ -1122,7 +1122,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery taskDefinitionKeys(Collection<string> taskDefinitionKeys) {
+    public HistoricTaskInstanceQuery taskDefinitionKeys(Collection!string taskDefinitionKeys) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionKeys = taskDefinitionKeys;
         } else {
@@ -1360,7 +1360,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery taskCandidateGroupIn(Collection<string> candidateGroups) {
+    public HistoricTaskInstanceQuery taskCandidateGroupIn(Collection!string candidateGroups) {
         if (candidateGroups is null) {
             throw new FlowableIllegalArgumentException("Candidate group list is null");
         }
@@ -1396,7 +1396,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     @Override
-    public HistoricTaskInstanceQuery taskInvolvedGroups(Collection<string> involvedGroups) {
+    public HistoricTaskInstanceQuery taskInvolvedGroups(Collection!string involvedGroups) {
         if (involvedGroups is null) {
             throw new FlowableIllegalArgumentException("Involved groups are null");
         }
@@ -1675,9 +1675,9 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return specialOrderBy;
     }
 
-    public Collection<string> getCandidateGroups() {
+    public Collection!string getCandidateGroups() {
         if (candidateGroup !is null) {
-            Collection<string> candidateGroupList = new ArrayList<>(1);
+            Collection!string candidateGroupList = new ArrayList<>(1);
             candidateGroupList.add(candidateGroup);
             return candidateGroupList;
 
@@ -1690,8 +1690,8 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return null;
     }
 
-    protected Collection<string> getGroupsForCandidateUser(string candidateUser) {
-        Collection<string> groupIds = new ArrayList<>();
+    protected Collection!string getGroupsForCandidateUser(string candidateUser) {
+        Collection!string groupIds = new ArrayList<>();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService !is null) {
             List<Group> groups = idmIdentityService.createGroupQuery().groupMember(candidateUser).list();
@@ -1726,7 +1726,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return processInstanceId;
     }
 
-    public Collection<string> getProcessInstanceIds() {
+    public Collection!string getProcessInstanceIds() {
         return processInstanceIds;
     }
 
@@ -1774,7 +1774,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return processDefinitionKeyLike;
     }
 
-    public Collection<string> getProcessDefinitionKeys() {
+    public Collection!string getProcessDefinitionKeys() {
         return processDefinitionKeys;
     }
 
@@ -1786,11 +1786,11 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return processDefinitionNameLike;
     }
 
-    public Collection<string> getProcessCategoryInList() {
+    public Collection!string getProcessCategoryInList() {
         return processCategoryInList;
     }
 
-    public Collection<string> getProcessCategoryNotInList() {
+    public Collection!string getProcessCategoryNotInList() {
         return processCategoryNotInList;
     }
 
@@ -1798,7 +1798,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return deploymentId;
     }
 
-    public Collection<string> getDeploymentIds() {
+    public Collection!string getDeploymentIds() {
         return deploymentIds;
     }
 
@@ -1806,7 +1806,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return cmmnDeploymentId;
     }
 
-    public Collection<string> getCmmnDeploymentIds() {
+    public Collection!string getCmmnDeploymentIds() {
         return cmmnDeploymentIds;
     }
 
@@ -1938,11 +1938,11 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return taskNameLike;
     }
 
-    public Collection<string> getTaskNameList() {
+    public Collection!string getTaskNameList() {
         return taskNameList;
     }
 
-    public Collection<string> getTaskNameListIgnoreCase() {
+    public Collection!string getTaskNameListIgnoreCase() {
         return taskNameListIgnoreCase;
     }
 
@@ -1970,14 +1970,14 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return taskAssigneeLike;
     }
 
-    public Collection<string> getTaskAssigneeIds() {
+    public Collection!string getTaskAssigneeIds() {
         return taskAssigneeIds;
     }
 
     public string getTaskId() {
         return taskId;
     }
-    
+
     @Override
     public string getId() {
         return taskId;
@@ -1995,7 +1995,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return taskOwner;
     }
 
-    public Collection<string> getTaskDefinitionKeys() {
+    public Collection!string getTaskDefinitionKeys() {
         return taskDefinitionKeys;
     }
 
@@ -2019,7 +2019,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return involvedUser;
     }
 
-    public Collection<string> getInvolvedGroups() {
+    public Collection!string getInvolvedGroups() {
         return involvedGroups;
     }
 

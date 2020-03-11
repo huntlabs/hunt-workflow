@@ -11,14 +11,16 @@
  * limitations under the License.
  */
 
+module flow.task.api.history.NativeHistoricTaskLogEntryQuery;
 
 import flow.common.api.query.NativeQuery;
+import flow.task.api.history.HistoricTaskLogEntry;
 
 /**
  * Allows querying of {@link HistoricTaskLogEntry}s via native (SQL) queries
- * 
+ *
  * @author martin.grofcik
  */
-interface NativeHistoricTaskLogEntryQuery extends NativeQuery<NativeHistoricTaskLogEntryQuery, HistoricTaskLogEntry> {
+interface NativeHistoricTaskLogEntryQuery : NativeQuery!(NativeHistoricTaskLogEntryQuery, HistoricTaskLogEntry) {
 
 }

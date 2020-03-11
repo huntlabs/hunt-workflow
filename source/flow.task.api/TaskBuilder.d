@@ -11,36 +11,38 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.task.api.TaskBuilder;
- 
- 
- 
 
 
-import java.util.Date;
-import java.util.Set;
+
+
+
+import hunt.time.LocalDateTime;
+import hunt.collection.Set;
 
 import flow.identitylink.api.IdentityLinkInfo;
 import flow.task.api.Task;
 
+
+alias Date = LocalDateTime;
 /**
  * Wraps {@link TaskInfo} to the builder.
- * 
+ *
  */
 interface TaskBuilder {
 
     /**
      * Creates task instance according values set in the builder
-     * 
+     *
      * @return task instance
      */
     Task create();
-    
+
     /**
      * DB id of the task.
      */
@@ -121,8 +123,8 @@ interface TaskBuilder {
     /**
      * add identity links to the task
      */
-    TaskBuilder identityLinks(Set<? extends IdentityLinkInfo> identityLinks);
-    Set<? extends IdentityLinkInfo> getIdentityLinks();
+    TaskBuilder identityLinks(Set!IdentityLinkInfo identityLinks);
+    Set!IdentityLinkInfo getIdentityLinks();
 
     /**
      * add task scopeId

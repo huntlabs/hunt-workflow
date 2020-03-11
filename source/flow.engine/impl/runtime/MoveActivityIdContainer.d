@@ -12,8 +12,8 @@
  */
 
 
-import java.util.Collections;
-import java.util.List;
+import hunt.collections;
+import hunt.collection.List;
 import java.util.Optional;
 
 /**
@@ -21,8 +21,8 @@ import java.util.Optional;
  */
 class MoveActivityIdContainer {
 
-    protected List<string> activityIds;
-    protected List<string> moveToActivityIds;
+    protected List!string activityIds;
+    protected List!string moveToActivityIds;
     protected bool moveToParentProcess;
     protected bool moveToSubProcessInstance;
     protected string callActivityId;
@@ -39,31 +39,31 @@ class MoveActivityIdContainer {
         this.newAssigneeId = newAssigneeId;
     }
 
-    public MoveActivityIdContainer(List<string> activityIds, string moveToActivityId) {
+    public MoveActivityIdContainer(List!string activityIds, string moveToActivityId) {
         this(activityIds, moveToActivityId, null);
     }
 
-    public MoveActivityIdContainer(List<string> activityIds, string moveToActivityId, string newAssigneeId) {
+    public MoveActivityIdContainer(List!string activityIds, string moveToActivityId, string newAssigneeId) {
         this.activityIds = activityIds;
         this.moveToActivityIds = Collections.singletonList(moveToActivityId);
         this.newAssigneeId = newAssigneeId;
     }
 
-    public MoveActivityIdContainer(string singleActivityId, List<string> moveToActivityIds) {
+    public MoveActivityIdContainer(string singleActivityId, List!string moveToActivityIds) {
         this(singleActivityId, moveToActivityIds, null);
     }
 
-    public MoveActivityIdContainer(string singleActivityId, List<string> moveToActivityIds, string newAssigneeId) {
+    public MoveActivityIdContainer(string singleActivityId, List!string moveToActivityIds, string newAssigneeId) {
         this.activityIds = Collections.singletonList(singleActivityId);
         this.moveToActivityIds = moveToActivityIds;
         this.newAssigneeId = newAssigneeId;
     }
 
-    public List<string> getActivityIds() {
+    public List!string getActivityIds() {
         return Optional.ofNullable(activityIds).orElse(Collections.emptyList());
     }
 
-    public List<string> getMoveToActivityIds() {
+    public List!string getMoveToActivityIds() {
         return Optional.ofNullable(moveToActivityIds).orElse(Collections.emptyList());
     }
 
@@ -99,7 +99,7 @@ class MoveActivityIdContainer {
         this.callActivitySubProcessVersion = callActivitySubProcessVersion;
     }
 
-    public Optional<string> getNewAssigneeId() {
+    public Optional!string getNewAssigneeId() {
         return Optional.ofNullable(newAssigneeId);
     }
 }

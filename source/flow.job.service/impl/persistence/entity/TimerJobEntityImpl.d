@@ -13,7 +13,7 @@
 
 
 import java.util.Date;
-import java.util.Map;
+import hunt.collection.Map;
 
 /**
  * TimerJob entity, necessary for persistence.
@@ -30,7 +30,7 @@ class TimerJobEntityImpl extends AbstractJobEntityImpl implements TimerJobEntity
     @SuppressWarnings("unchecked")
     @Override
     public Object getPersistentState() {
-        Map<string, Object> persistentState = (Map<string, Object>) super.getPersistentState();
+        Map!(string, Object) persistentState = (Map!(string, Object)) super.getPersistentState();
         persistentState.put("lockOwner", lockOwner);
         persistentState.put("lockExpirationTime", lockExpirationTime);
 

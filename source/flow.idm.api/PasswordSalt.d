@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
+module flow.idm.api.PasswordSalt;
+import flow.idm.api.PasswordSaltProvider;
 /**
  * @author faizal-manan
  */

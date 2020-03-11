@@ -13,8 +13,8 @@
 
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 import java.util.UUID;
 
 import org.flowable.variable.api.event.FlowableVariableEvent;
@@ -52,8 +52,8 @@ abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHand
     public static final string TYPE_UUID = "uuid";
     public static final string TYPE_JSON = "json";
 
-    protected Map<string, Object> createData(FlowableVariableEvent variableEvent) {
-        Map<string, Object> data = new HashMap<>();
+    protected Map!(string, Object) createData(FlowableVariableEvent variableEvent) {
+        Map!(string, Object) data = new HashMap<>();
         putInMapIfNotNull(data, Fields.NAME, variableEvent.getVariableName());
         putInMapIfNotNull(data, Fields.PROCESS_DEFINITION_ID, variableEvent.getProcessDefinitionId());
         putInMapIfNotNull(data, Fields.PROCESS_INSTANCE_ID, variableEvent.getProcessInstanceId());

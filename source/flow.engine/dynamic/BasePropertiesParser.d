@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,10 +12,10 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElement;
 import flow.engine.DynamicBpmnConstants;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -45,7 +45,7 @@ abstract class BasePropertiesParser implements PropertiesParser, DynamicBpmnCons
         }
     }
 
-    protected void putPropertyValue(string key, List<string> values, ObjectNode propertiesNode) {
+    protected void putPropertyValue(string key, List!string values, ObjectNode propertiesNode) {
         // we don't set a node value if the collection is null.
         // An empty collection is a indicator. if a task has candidate users you can only overrule it by putting an empty array as dynamic candidate users
         if (values !is null) {

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,25 +13,25 @@
 
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.FieldExtension;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowElementsContainer;
-import org.flowable.bpmn.model.GraphicInfo;
-import org.flowable.bpmn.model.Process;
-import org.flowable.bpmn.model.SequenceFlow;
-import org.flowable.bpmn.model.ServiceTask;
-import org.flowable.bpmn.model.SubProcess;
-import org.flowable.bpmn.model.UserTask;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.FieldExtension;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowElementsContainer;
+import flow.bpmn.model.GraphicInfo;
+import flow.bpmn.model.Process;
+import flow.bpmn.model.SequenceFlow;
+import flow.bpmn.model.ServiceTask;
+import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.UserTask;
 import flow.common.interceptor.CommandContext;
 import flow.common.util.IoUtil;
 import org.flowable.dmn.api.DmnDecisionTable;
@@ -44,34 +44,34 @@ import flow.engine.impl.persistence.entity.ResourceEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.form.api.FormDefinition;
-import org.flowable.form.api.FormDeployment;
-import org.flowable.form.api.FormRepositoryService;
+import flow.form.api.FormDefinition;
+import flow.form.api.FormDeployment;
+import flow.form.api.FormRepositoryService;
 
 /**
  * @author Tijs Rademakers
  */
 class BaseDynamicSubProcessInjectUtil {
-    
-    public static void processFlowElements(CommandContext commandContext, FlowElementsContainer process, BpmnModel bpmnModel, 
+
+    public static void processFlowElements(CommandContext commandContext, FlowElementsContainer process, BpmnModel bpmnModel,
                     ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity) {
-        
+
         for (FlowElement flowElement : process.getFlowElements()) {
 
             processUserTask(flowElement, originalProcessDefinitionEntity, newDeploymentEntity, commandContext);
             processDecisionTask(flowElement, originalProcessDefinitionEntity, newDeploymentEntity, commandContext);
-                
+
             if (flowElement instanceof SubProcess) {
                 processFlowElements(commandContext, ((SubProcess) flowElement), bpmnModel, originalProcessDefinitionEntity, newDeploymentEntity);
             }
         }
     }
-    
+
     protected static void processSubProcessFlowElements(CommandContext commandContext, string prefix, Process process, BpmnModel bpmnModel,
-                    SubProcess subProcess, BpmnModel subProcessBpmnModel, ProcessDefinition originalProcessDefinition, 
+                    SubProcess subProcess, BpmnModel subProcessBpmnModel, ProcessDefinition originalProcessDefinition,
                     DeploymentEntity newDeploymentEntity, Map<string, FlowElement> generatedIds, bool includeDiInfo) {
-        
-        Collection<FlowElement> flowElementsOfSubProcess = subProcess.getFlowElementMap().values(); 
+
+        Collection<FlowElement> flowElementsOfSubProcess = subProcess.getFlowElementMap().values();
         for (FlowElement flowElement : flowElementsOfSubProcess) {
 
             if (process.getFlowElement(flowElement.getId(), true) !is null) {
@@ -83,7 +83,7 @@ class BaseDynamicSubProcessInjectUtil {
                         if (wayPoints !is null) {
                             bpmnModel.addFlowGraphicInfoList(flowElement.getId(), wayPoints);
                         }
-                        
+
                     } else {
                         GraphicInfo graphicInfo = subProcessBpmnModel.getGraphicInfo(flowElement.getId());
                         if (graphicInfo !is null) {
@@ -92,20 +92,20 @@ class BaseDynamicSubProcessInjectUtil {
                     }
                 }
             }
-            
+
             processUserTask(flowElement, originalProcessDefinition, newDeploymentEntity, commandContext);
             processDecisionTask(flowElement, originalProcessDefinition, newDeploymentEntity, commandContext);
 
             if (flowElement instanceof SubProcess) {
-                processSubProcessFlowElements(commandContext, prefix, process, bpmnModel, (SubProcess) flowElement, 
+                processSubProcessFlowElements(commandContext, prefix, process, bpmnModel, (SubProcess) flowElement,
                         subProcessBpmnModel, originalProcessDefinition, newDeploymentEntity, generatedIds, includeDiInfo);
             }
         }
     }
-    
-    protected static void generateIdForDuplicateFlowElement(string prefix, org.flowable.bpmn.model.Process process, BpmnModel bpmnModel,
+
+    protected static void generateIdForDuplicateFlowElement(string prefix, flow.bpmn.model.Process process, BpmnModel bpmnModel,
                     BpmnModel subProcessBpmnModel, FlowElement duplicateFlowElement, Map<string, FlowElement> generatedIds, bool includeDiInfo) {
-        
+
         string originalFlowElementId = duplicateFlowElement.getId();
         if (process.getFlowElement(originalFlowElementId, true) !is null) {
             string newFlowElementId = prefix + "-" + originalFlowElementId;
@@ -124,11 +124,11 @@ class BaseDynamicSubProcessInjectUtil {
 
             duplicateFlowElement.setId(newFlowElementId);
             generatedIds.put(originalFlowElementId, duplicateFlowElement);
-            
+
             if (includeDiInfo) {
                 if (duplicateFlowElement instanceof SequenceFlow) {
                     bpmnModel.addFlowGraphicInfoList(newFlowElementId, subProcessBpmnModel.getFlowLocationGraphicInfo(originalFlowElementId));
-                    
+
                 } else {
                     bpmnModel.addGraphicInfo(newFlowElementId, subProcessBpmnModel.getGraphicInfo(originalFlowElementId));
                 }
@@ -136,7 +136,7 @@ class BaseDynamicSubProcessInjectUtil {
 
             for (FlowElement flowElement : duplicateFlowElement.getParentContainer().getFlowElements()) {
                 if (flowElement instanceof SequenceFlow) {
-                    SequenceFlow sequenceFlow = (SequenceFlow) flowElement; 
+                    SequenceFlow sequenceFlow = (SequenceFlow) flowElement;
                     if (sequenceFlow.getSourceRef().equals(originalFlowElementId)) {
                         sequenceFlow.setSourceRef(newFlowElementId);
                     }
@@ -152,16 +152,16 @@ class BaseDynamicSubProcessInjectUtil {
                     if (boundaryEvent.getEventDefinitions() !is null
                             && boundaryEvent.getEventDefinitions().size() > 0
                             && (boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition)) {
-                        
+
                         CompensateEventDefinition compensateEventDefinition = (CompensateEventDefinition) boundaryEvent.getEventDefinitions().get(0);
                         if (compensateEventDefinition.getActivityRef().equals(originalFlowElementId)) {
                             compensateEventDefinition.setActivityRef(newFlowElementId);
                         }
                     }
-                } 
+                }
             }
-            
-            
+
+
         }
 
         if (duplicateFlowElement instanceof FlowElementsContainer) {
@@ -171,10 +171,10 @@ class BaseDynamicSubProcessInjectUtil {
             }
         }
     }
-    
-    protected static void processUserTask(FlowElement flowElement, ProcessDefinition originalProcessDefinitionEntity, 
+
+    protected static void processUserTask(FlowElement flowElement, ProcessDefinition originalProcessDefinitionEntity,
                     DeploymentEntity newDeploymentEntity, CommandContext commandContext) {
-        
+
         if (flowElement instanceof UserTask) {
             FormRepositoryService formRepositoryService = CommandContextUtil.getFormRepositoryService();
             if (formRepositoryService !is null) {
@@ -183,9 +183,9 @@ class BaseDynamicSubProcessInjectUtil {
                     Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(originalProcessDefinitionEntity.getDeploymentId());
                     if (deployment.getParentDeploymentId() !is null) {
                         List<FormDeployment> formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
-                        
+
                         if (formDeployments !is null && formDeployments.size() > 0) {
-                        
+
                             FormDefinition formDefinition = formRepositoryService.createFormDefinitionQuery()
                                     .formDefinitionKey(userTask.getFormKey()).deploymentId(formDeployments.get(0).getId()).latestVersion().singleResult();
                             if (formDefinition !is null) {
@@ -200,12 +200,12 @@ class BaseDynamicSubProcessInjectUtil {
             }
         }
     }
-    
-    protected static void processDecisionTask(FlowElement flowElement, ProcessDefinition originalProcessDefinitionEntity, 
+
+    protected static void processDecisionTask(FlowElement flowElement, ProcessDefinition originalProcessDefinitionEntity,
                     DeploymentEntity newDeploymentEntity, CommandContext commandContext) {
-        
+
         if (flowElement instanceof ServiceTask && ServiceTask.DMN_TASK.equals(((ServiceTask) flowElement).getType())) {
-                    
+
             DmnRepositoryService dmnRepositoryService = CommandContextUtil.getDmnRepositoryService();
             if (dmnRepositoryService !is null) {
                 ServiceTask serviceTask = (ServiceTask) flowElement;
@@ -217,12 +217,12 @@ class BaseDynamicSubProcessInjectUtil {
                             break;
                         }
                     }
-    
+
                     if (decisionTableReferenceKey !is null) {
                         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(originalProcessDefinitionEntity.getDeploymentId());
                         if (deployment.getParentDeploymentId() !is null) {
                             List<DmnDeployment> dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
-                            
+
                             if (dmnDeployments !is null && dmnDeployments.size() > 0) {
                                 DmnDecisionTable dmnDecisionTable = dmnRepositoryService.createDecisionTableQuery()
                                         .decisionTableKey(decisionTableReferenceKey).deploymentId(dmnDeployments.get(0).getId()).latestVersion().singleResult();
@@ -239,9 +239,9 @@ class BaseDynamicSubProcessInjectUtil {
             }
         }
     }
-    
+
     public static void addResource(CommandContext commandContext, DeploymentEntity deploymentEntity, string resourceName, byte[] bytes) {
-        if (!deploymentEntity.getResources().containsKey(resourceName)) { 
+        if (!deploymentEntity.getResources().containsKey(resourceName)) {
             ResourceEntityManager resourceEntityManager = CommandContextUtil.getResourceEntityManager(commandContext);
             ResourceEntity resourceEntity = resourceEntityManager.create();
             resourceEntity.setDeploymentId(deploymentEntity.getId());
@@ -251,19 +251,19 @@ class BaseDynamicSubProcessInjectUtil {
             deploymentEntity.addResource(resourceEntity);
         }
     }
-    
+
     protected static List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2) {
         List<GraphicInfo> wayPoints = new ArrayList<>();
         wayPoints.add(new GraphicInfo(x1, y1));
         wayPoints.add(new GraphicInfo(x2, y2));
-        
+
         return wayPoints;
     }
-    
+
     protected static List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2, double x3, double y3) {
         List<GraphicInfo> wayPoints = createWayPoints(x1, y1, x2, y2);
         wayPoints.add(new GraphicInfo(x3, y3));
-        
+
         return wayPoints;
     }
 }

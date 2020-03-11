@@ -12,28 +12,28 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collections;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.ExtensionElement;
-import org.flowable.bpmn.model.IOParameter;
-import org.flowable.bpmn.model.SendEventServiceTask;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.ExtensionElement;
+import flow.bpmn.model.IOParameter;
+import flow.bpmn.model.SendEventServiceTask;
 import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
-import org.flowable.eventregistry.api.runtime.EventInstance;
-import org.flowable.eventregistry.api.runtime.EventPayloadInstance;
-import org.flowable.eventregistry.impl.runtime.EventPayloadInstanceImpl;
-import org.flowable.eventregistry.model.EventModel;
-import org.flowable.eventregistry.model.EventPayload;
+import flow.event.registry.api.runtime.EventInstance;
+import flow.event.registry.api.runtime.EventPayloadInstance;
+import flow.event.registry.runtime.EventPayloadInstanceImpl;
+import flow.event.registry.model.EventModel;
+import flow.event.registry.model.EventPayload;
 import org.flowable.variable.api.delegate.VariableScope;
 
 class EventInstanceBpmnUtil {
@@ -47,7 +47,7 @@ class EventInstanceBpmnUtil {
         Map<string, EventPayloadInstance> payloadInstances = eventInstance.getPayloadInstances()
                 .stream()
                 .collect(Collectors.toMap(EventPayloadInstance::getDefinitionName, Function.identity()));
-        
+
         if (baseElement instanceof SendEventServiceTask) {
             SendEventServiceTask eventServiceTask = (SendEventServiceTask) baseElement;
             if (!eventServiceTask.getEventOutParameters().isEmpty()) {
@@ -55,7 +55,7 @@ class EventInstanceBpmnUtil {
                     setEventParameterVariable(parameter.getSource(), parameter.getTarget(), parameter.isTransient(), payloadInstances, variableScope);
                 }
             }
-            
+
         } else {
             List<ExtensionElement> outParameters = baseElement.getExtensionElements()
                     .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_OUT_PARAMETER, Collections.emptyList());
@@ -75,10 +75,10 @@ class EventInstanceBpmnUtil {
      *
      * Typically used when needing to create {@link EventInstance}'s and populate the payload.
      */
-    public static Collection<EventPayloadInstance> createEventPayloadInstances(VariableScope variableScope, ExpressionManager expressionManager,
+    public static Collection!EventPayloadInstance createEventPayloadInstances(VariableScope variableScope, ExpressionManager expressionManager,
             BaseElement baseElement, EventModel eventDefinition) {
 
-        List<EventPayloadInstance> eventPayloadInstances = new ArrayList<>();
+        List!EventPayloadInstance eventPayloadInstances = new ArrayList<>();
         if (baseElement instanceof SendEventServiceTask) {
             SendEventServiceTask eventServiceTask = (SendEventServiceTask) baseElement;
             if (!eventServiceTask.getEventInParameters().isEmpty()) {
@@ -89,30 +89,30 @@ class EventInstanceBpmnUtil {
                     } else {
                         sourceValue = parameter.getSource();
                     }
-                    addEventPayloadInstance(eventPayloadInstances, sourceValue, parameter.getTarget(), 
+                    addEventPayloadInstance(eventPayloadInstances, sourceValue, parameter.getTarget(),
                                     variableScope, expressionManager, eventDefinition);
                 }
             }
-            
+
         } else {
             List<ExtensionElement> inParameters = baseElement.getExtensionElements()
                 .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_IN_PARAMETER, Collections.emptyList());
-    
+
             if (!inParameters.isEmpty()) {
-    
+
                 for (ExtensionElement inParameter : inParameters) {
-    
+
                     string sourceExpression = inParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION);
                     string source = inParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_SOURCE);
                     string target = inParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_TARGET);
-                    
+
                     string sourceValue = null;
                     if (StringUtils.isNotEmpty(sourceExpression)) {
                         sourceValue = sourceExpression;
                     } else {
                         sourceValue = source;
                     }
-    
+
                     addEventPayloadInstance(eventPayloadInstances, sourceValue, target, variableScope, expressionManager, eventDefinition);
                 }
             }
@@ -120,10 +120,10 @@ class EventInstanceBpmnUtil {
 
         return eventPayloadInstances;
     }
-    
+
     protected static void setEventParameterVariable(string source, string target, bool isTransient,
                     Map<string, EventPayloadInstance> payloadInstances, VariableScope variableScope) {
-        
+
         EventPayloadInstance payloadInstance = payloadInstances.get(source);
         if (StringUtils.isNotEmpty(target)) {
             Object value = payloadInstance !is null ? payloadInstance.getValue() : null;
@@ -134,10 +134,10 @@ class EventInstanceBpmnUtil {
             }
         }
     }
-    
-    protected static void addEventPayloadInstance(List<EventPayloadInstance> eventPayloadInstances, string source, string target,
+
+    protected static void addEventPayloadInstance(List!EventPayloadInstance eventPayloadInstances, string source, string target,
                     VariableScope variableScope, ExpressionManager expressionManager, EventModel eventDefinition) {
-        
+
         Optional<EventPayload> matchingEventDefinition = eventDefinition.getPayload()
             .stream()
             .filter(e -> e.getName().equals(target))

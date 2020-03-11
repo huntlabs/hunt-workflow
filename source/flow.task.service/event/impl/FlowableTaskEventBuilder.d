@@ -17,7 +17,7 @@ import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.event.FlowableEntityEventImpl;
 import flow.common.event.FlowableEngineEventImpl;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 
 /**
  * Builder class used to create {@link FlowableEvent} implementations.
@@ -38,7 +38,7 @@ class FlowableTaskEventBuilder {
         populateEventWithCurrentContext(newEvent);
         return newEvent;
     }
-    
+
     protected static void populateEventWithCurrentContext(FlowableEngineEventImpl event) {
         if (event instanceof FlowableEntityEvent) {
             Object persistedObject = ((FlowableEntityEvent) event).getEntity();
@@ -46,7 +46,7 @@ class FlowableTaskEventBuilder {
                 Task taskObject = (Task) persistedObject;
                 event.setProcessInstanceId(taskObject.getProcessInstanceId());
                 event.setExecutionId(taskObject.getExecutionId());
-                event.setProcessDefinitionId(taskObject.getProcessDefinitionId());   
+                event.setProcessDefinitionId(taskObject.getProcessDefinitionId());
             }
         }
     }

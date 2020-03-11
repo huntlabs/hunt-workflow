@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,9 +13,9 @@
 
 
 
-import java.util.List;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.BpmnModel;
+import flow.bpmn.model.BpmnModel;
 import flow.common.api.FlowableException;
 import flow.common.service.CommonEngineServiceImpl;
 import flow.engine.DynamicBpmnConstants;
@@ -45,7 +45,7 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     public DynamicBpmnServiceImpl(ProcessEngineConfigurationImpl processEngineConfiguration) {
         super(processEngineConfiguration);
     }
-    
+
     @Override
     public void injectUserTaskInProcessInstance(string processInstanceId, DynamicUserTaskBuilder dynamicUserTaskBuilder) {
         commandExecutor.execute(new InjectUserTaskInProcessInstanceCmd(processInstanceId, dynamicUserTaskBuilder));
@@ -55,7 +55,7 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     public void injectParallelUserTask(string taskId, DynamicUserTaskBuilder dynamicUserTaskBuilder) {
         commandExecutor.execute(new InjectParallelUserTaskCmd(taskId, dynamicUserTaskBuilder));
     }
-    
+
     @Override
     public void injectEmbeddedSubProcessInProcessInstance(string processInstanceId, DynamicEmbeddedSubProcessBuilder dynamicEmbeddedSubProcessBuilder) {
         commandExecutor.execute(new InjectEmbeddedSubProcessInProcessInstanceCmd(processInstanceId, dynamicEmbeddedSubProcessBuilder));
@@ -307,14 +307,14 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     }
 
     @Override
-    public ObjectNode changeUserTaskCandidateUsers(string id, List<string> candidateUsers) {
+    public ObjectNode changeUserTaskCandidateUsers(string id, List!string candidateUsers) {
         ObjectNode infoNode = configuration.getObjectMapper().createObjectNode();
         changeUserTaskCandidateUsers(id, candidateUsers, infoNode);
         return infoNode;
     }
 
     @Override
-    public void changeUserTaskCandidateUsers(string id, List<string> candidateUsers, ObjectNode infoNode) {
+    public void changeUserTaskCandidateUsers(string id, List!string candidateUsers, ObjectNode infoNode) {
         ArrayNode candidateUsersNode = configuration.getObjectMapper().createArrayNode();
         for (string candidateUser : candidateUsers) {
             candidateUsersNode.add(candidateUser);
@@ -323,21 +323,21 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
     }
 
     @Override
-    public ObjectNode changeUserTaskCandidateGroups(string id, List<string> candidateGroups) {
+    public ObjectNode changeUserTaskCandidateGroups(string id, List!string candidateGroups) {
         ObjectNode infoNode = configuration.getObjectMapper().createObjectNode();
         changeUserTaskCandidateGroups(id, candidateGroups, infoNode);
         return infoNode;
     }
 
     @Override
-    public void changeUserTaskCandidateGroups(string id, List<string> candidateGroups, ObjectNode infoNode) {
+    public void changeUserTaskCandidateGroups(string id, List!string candidateGroups, ObjectNode infoNode) {
         ArrayNode candidateGroupsNode = configuration.getObjectMapper().createArrayNode();
         for (string candidateGroup : candidateGroups) {
             candidateGroupsNode.add(candidateGroup);
         }
         setElementProperty(id, USER_TASK_CANDIDATE_GROUPS, candidateGroupsNode, infoNode);
     }
-    
+
     @Override
     public ObjectNode changeMultiInstanceCompletionCondition(string id, string completionCondition) {
         ObjectNode infoNode = configuration.getObjectMapper().createObjectNode();
@@ -489,7 +489,7 @@ class DynamicBpmnServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfig
 
         ((ObjectNode) bpmnNode.get(id)).set(propertyName, propertyValue);
     }
-    
+
     protected void removeElementProperty(string id, string propertyName, ObjectNode infoNode) {
         ObjectNode bpmnNode = createOrGetBpmnNode(infoNode);
         if (bpmnNode.has(id)) {

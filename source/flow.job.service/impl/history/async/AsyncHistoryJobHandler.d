@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,10 +12,10 @@
  */
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import org.flowable.job.service.impl.history.async.transformer.HistoryJsonTransformer;
@@ -28,13 +28,13 @@ class AsyncHistoryJobHandler extends AbstractAsyncHistoryJobHandler {
 
     protected Map<string, List<HistoryJsonTransformer>> historyJsonTransformers = new HashMap<>();
     protected HistoryJsonTransformer defaultHistoryJsonTransformer;
-    
+
     public AsyncHistoryJobHandler(string jobType) {
         super(jobType);
     }
 
     public void addHistoryJsonTransformer(HistoryJsonTransformer historyJsonTransformer) {
-        List<string> types = historyJsonTransformer.getTypes();
+        List!string types = historyJsonTransformer.getTypes();
 
         for (string type : types) {
             if (!historyJsonTransformers.containsKey(type)) {
@@ -46,7 +46,7 @@ class AsyncHistoryJobHandler extends AbstractAsyncHistoryJobHandler {
 
     @Override
     protected void processHistoryJson(CommandContext commandContext, HistoryJobEntity job, JsonNode historyNode) {
-        
+
         string type = null;
         if (historyNode.has(HistoryJsonTransformer.FIELD_NAME_TYPE)) {
             type = historyNode.get(HistoryJsonTransformer.FIELD_NAME_TYPE).asText();
@@ -108,5 +108,5 @@ class AsyncHistoryJobHandler extends AbstractAsyncHistoryJobHandler {
     public void setDefaultHistoryJsonTransformer(HistoryJsonTransformer defaultHistoryJsonTransformer) {
         this.defaultHistoryJsonTransformer = defaultHistoryJsonTransformer;
     }
-    
+
 }

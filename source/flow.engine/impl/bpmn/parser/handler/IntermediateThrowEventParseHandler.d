@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,12 +12,12 @@
  */
 
 
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.CompensateEventDefinition;
-import org.flowable.bpmn.model.EscalationEventDefinition;
-import org.flowable.bpmn.model.EventDefinition;
-import org.flowable.bpmn.model.SignalEventDefinition;
-import org.flowable.bpmn.model.ThrowEvent;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.CompensateEventDefinition;
+import flow.bpmn.model.EscalationEventDefinition;
+import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.SignalEventDefinition;
+import flow.bpmn.model.ThrowEvent;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,7 @@ class IntermediateThrowEventParseHandler extends AbstractActivityBpmnParseHandle
             SignalEventDefinition signalEventDefinition = (SignalEventDefinition) eventDefinition;
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowSignalEventActivityBehavior(intermediateEvent, signalEventDefinition,
                     bpmnParse.getBpmnModel().getSignal(signalEventDefinition.getSignalRef())));
-            
+
         } else if (eventDefinition instanceof EscalationEventDefinition) {
             EscalationEventDefinition escalationEventDefinition = (EscalationEventDefinition) eventDefinition;
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowEscalationEventActivityBehavior(intermediateEvent, escalationEventDefinition,

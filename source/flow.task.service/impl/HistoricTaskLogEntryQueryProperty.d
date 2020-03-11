@@ -12,15 +12,15 @@
  */
 
 
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
-import org.flowable.task.api.history.HistoricTaskLogEntryQuery;
+import flow.task.api.history.HistoricTaskLogEntryQuery;
 
 /**
  * Contains the possible properties that can be used in a {@link HistoricTaskLogEntryQuery}.
- * 
+ *
  * @author martin.grofcik
  */
 class HistoricTaskLogEntryQueryProperty implements QueryProperty {

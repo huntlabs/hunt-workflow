@@ -12,11 +12,11 @@
  */
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.task.api.history.HistoricTaskLogEntry;
+import flow.task.api.history.HistoricTaskLogEntry;
 import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 
@@ -31,17 +31,17 @@ interface HistoricTaskLogEntryDataManager extends DataManager<HistoricTaskLogEnt
 
     List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery);
 
-    long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map<string, Object> nativeHistoricTaskLogEntryQuery);
+    long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
 
-    List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map<string, Object> nativeHistoricTaskLogEntryQuery);
+    List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
 
     void deleteHistoricTaskLogEntriesByProcessDefinitionId(string processDefinitionId);
 
     void deleteHistoricTaskLogEntriesByScopeDefinitionId(string scopeType, string scopeDefinitionId);
 
     void deleteHistoricTaskLogEntriesByTaskId(string taskId);
-    
+
     void deleteHistoricTaskLogEntriesForNonExistingProcessInstances();
-    
+
     void deleteHistoricTaskLogEntriesForNonExistingCaseInstances();
 }

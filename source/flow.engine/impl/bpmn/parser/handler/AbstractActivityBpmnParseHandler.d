@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,10 +13,10 @@
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.BaseElement;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.bpmn.model.MultiInstanceLoopCharacteristics;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.MultiInstanceLoopCharacteristics;
 import flow.common.el.ExpressionManager;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;
@@ -82,7 +82,7 @@ abstract class AbstractActivityBpmnParseHandler<T extends FlowNode> extends Abst
             miActivityBehavior.setHandler(loopCharacteristics.getHandler().clone());
         }
     }
-    
+
     protected MultiInstanceActivityBehavior createMultiInstanceActivityBehavior(Activity modelActivity, MultiInstanceLoopCharacteristics loopCharacteristics, BpmnParse bpmnParse) {
         MultiInstanceActivityBehavior miActivityBehavior = null;
 
@@ -92,7 +92,7 @@ abstract class AbstractActivityBpmnParseHandler<T extends FlowNode> extends Abst
         } else {
             miActivityBehavior = bpmnParse.getActivityBehaviorFactory().createParallelMultiInstanceBehavior(modelActivity, modelActivityBehavior);
         }
-        
+
         return miActivityBehavior;
     }
 }

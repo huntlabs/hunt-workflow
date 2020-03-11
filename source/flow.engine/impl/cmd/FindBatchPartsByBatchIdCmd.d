@@ -12,7 +12,7 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 
 import org.flowable.batch.api.BatchPart;
 import flow.common.interceptor.Command;
@@ -20,19 +20,19 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
 class FindBatchPartsByBatchIdCmd implements Command<List<BatchPart>> {
-    
+
     protected string batchId;
     protected string status;
-    
+
     public FindBatchPartsByBatchIdCmd(string batchId) {
         this.batchId = batchId;
     }
-    
+
     public FindBatchPartsByBatchIdCmd(string batchId, string status) {
         this.batchId = batchId;
         this.status = status;
     }
-    
+
     @Override
     public List<BatchPart> execute(CommandContext commandContext) {
         if (status !is null) {

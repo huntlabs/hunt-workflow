@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,12 +15,12 @@
 
 import java.util.Date;
 
-import org.flowable.identitylink.api.IdentityLink;
-import org.flowable.identitylink.api.IdentityLinkInfo;
+import flow.identitylink.api.IdentityLink;
+import flow.identitylink.api.IdentityLinkInfo;
 
 /**
  * Historic counterpart of {@link IdentityLink} that represents the current state if any runtime link. Will be preserved when the runtime process instance or task is finished.
- * 
+ *
  * @author Frederik Heremans
  */
 interface HistoricIdentityLink extends IdentityLinkInfo {

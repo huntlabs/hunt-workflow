@@ -11,15 +11,15 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.context.Context;
- 
- 
- 
+
+
+
 
 
 import hunt.collection.List;
@@ -75,7 +75,7 @@ class Context {
 
     //protected static <T> Stack<T> getStack(ThreadLocal<Stack<T>> threadLocal) {
     //    Stack<T> stack = threadLocal.get();
-    //    if (stack == null) {
+    //    if (stack is null) {
     //        stack = new Stack<>();
     //        threadLocal.set(stack);
     //    }

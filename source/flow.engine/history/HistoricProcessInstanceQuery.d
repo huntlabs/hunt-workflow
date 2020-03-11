@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,18 +11,18 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.history.HistoricProcessInstanceQuery;
- 
- 
- 
 
 
-import java.util.Date;
+
+
+
+import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Set;
 
@@ -31,15 +31,18 @@ import flow.common.api.query.Query;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.runtime.ProcessInstanceQuery;
 import flow.engine.history.HistoricProcessInstance;
+
+
+
 /**
  * Allows programmatic querying of {@link HistoricProcessInstance}s.
- * 
+ *
  * @author Tom Baeyens
  * @author Joram Barrez
  * @author Tijs Rademakers
  * @author Falko Menge
  */
-interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, HistoricProcessInstance), DeleteQuery<HistoricProcessInstanceQuery, HistoricProcessInstance> {
+interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, HistoricProcessInstance), DeleteQuery!(HistoricProcessInstanceQuery, HistoricProcessInstance) {
 
     /**
      * Only select historic process instances with the given process instance. {@link ProcessInstance) ids and {@link HistoricProcessInstance} ids match.
@@ -49,7 +52,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select historic process instances whose id is in the given set of ids. {@link ProcessInstance) ids and {@link HistoricProcessInstance} ids match.
      */
-    HistoricProcessInstanceQuery processInstanceIds(Set<string> processInstanceIds);
+    HistoricProcessInstanceQuery processInstanceIds(Set!string processInstanceIds);
 
     /** Only select historic process instances for the given process definition */
     HistoricProcessInstanceQuery processDefinitionId(string processDefinitionId);
@@ -62,12 +65,12 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select historic process instances that are defined by a process definition with one of the given process definition keys.
      */
-    HistoricProcessInstanceQuery processDefinitionKeyIn(List<string> processDefinitionKeys);
+    HistoricProcessInstanceQuery processDefinitionKeyIn(List!string processDefinitionKeys);
 
     /**
      * Only select historic process instances that don't have a process-definition of which the key is present in the given list
      */
-    HistoricProcessInstanceQuery processDefinitionKeyNotIn(List<string> processDefinitionKeys);
+    HistoricProcessInstanceQuery processDefinitionKeyNotIn(List!string processDefinitionKeys);
 
     /** Only select historic process instances whose process definition category is processDefinitionCategory. */
     HistoricProcessInstanceQuery processDefinitionCategory(string processDefinitionCategory);
@@ -78,7 +81,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select historic process instances with a certain process definition version. Particularly useful when used in combination with {@link #processDefinitionKey(string)}
      */
-    HistoricProcessInstanceQuery processDefinitionVersion(Integer processDefinitionVersion);
+    HistoricProcessInstanceQuery processDefinitionVersion(int processDefinitionVersion);
 
     /** Only select historic process instances with the given business key */
     HistoricProcessInstanceQuery processInstanceBusinessKey(string processInstanceBusinessKey);
@@ -96,7 +99,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select historic process instances that are defined by a process definition with one of the given deployment identifiers.
      */
-    HistoricProcessInstanceQuery deploymentIdIn(List<string> deploymentIds);
+    HistoricProcessInstanceQuery deploymentIdIn(List!string deploymentIds);
 
     /** Only select historic process instances that are completely finished. */
     HistoricProcessInstanceQuery finished();
@@ -118,13 +121,13 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select the historic process instances with which the group with the given ids are involved.
      */
-    HistoricProcessInstanceQuery involvedGroups(Set<string> groups);
+    HistoricProcessInstanceQuery involvedGroups(Set!string groups);
 
     /**
      * Only select process instances which had a global variable with the given value when they ended. The type only applies to already ended process instances, otherwise use a
      * {@link ProcessInstanceQuery} instead! of variable is determined based on the value, using types configured in {@link ProcessEngineConfiguration#getVariableTypes()}. Byte-arrays and
      * {@link Serializable} objects (which are not primitive type wrappers) are not supported.
-     * 
+     *
      * @param name
      *            of the variable, cannot be null.
      */
@@ -139,7 +142,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
 
     /**
      * Only select historic process instances which have a local string variable with the given value, case insensitive.
-     * 
+     *
      * @param name
      *            name of the variable, cannot be null.
      * @param value
@@ -150,7 +153,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select process instances which had a global variable with the given name, but with a different value than the passed value when they ended. Only select process instances which have a
      * variable value greater than the passed value. Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers) are not supported.
-     * 
+     *
      * @param name
      *            of the variable, cannot be null.
      */
@@ -159,7 +162,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select process instances which had a global variable value greater than the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive
      * type wrappers) are not supported. Only select process instances which have a variable value greater than the passed value.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -170,7 +173,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select process instances which had a global variable value greater than or equal to the passed value when they ended. Booleans, Byte-arrays and {@link Serializable} objects (which are not
      * primitive type wrappers) are not supported. Only applies to already ended process instances, otherwise use a {@link ProcessInstanceQuery} instead!
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -181,7 +184,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select process instances which had a global variable value less than the passed value when the ended. Only applies to already ended process instances, otherwise use a
      * {@link ProcessInstanceQuery} instead! Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers) are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -192,7 +195,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select process instances which has a global variable value less than or equal to the passed value when they ended. Only applies to already ended process instances, otherwise use a
      * {@link ProcessInstanceQuery} instead! Booleans, Byte-arrays and {@link Serializable} objects (which are not primitive type wrappers) are not supported.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -203,7 +206,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select process instances which had global variable value like the given value when they ended. Only applies to already ended process instances, otherwise use a {@link ProcessInstanceQuery}
      * instead! This can be used on string variables only.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
@@ -214,25 +217,25 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Only select process instances which had global variable value like (case insensitive) the given value when they ended. Only applies to already ended process instances, otherwise use a
      * {@link ProcessInstanceQuery} instead! This can be used on string variables only.
-     * 
+     *
      * @param name
      *            cannot be null.
      * @param value
      *            cannot be null. The string can include the wildcard character '%' to express like-strategy: starts with (string%), ends with (%string) or contains (%string%).
      */
     HistoricProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value);
-    
+
     /**
      * Only select process instances which have a variable with the given name.
-     * 
+     *
      * @param name
      *            cannot be null.
      */
     HistoricProcessInstanceQuery variableExists(string name);
-    
+
     /**
      * Only select process instances which does not have a variable with the given name.
-     * 
+     *
      * @param name
      *            cannot be null.
      */
@@ -335,7 +338,7 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
     /**
      * Limit process instance variables
      */
-    HistoricProcessInstanceQuery limitProcessInstanceVariables(Integer processInstanceVariablesLimit);
+    HistoricProcessInstanceQuery limitProcessInstanceVariables(int processInstanceVariablesLimit);
 
     /**
      * Only select process instances that failed due to an exception happening during a job execution.
@@ -356,14 +359,14 @@ interface HistoricProcessInstanceQuery : Query!(HistoricProcessInstanceQuery, Hi
      * Only select process instances with a name like the given value, ignoring upper/lower case.
      */
     HistoricProcessInstanceQuery processInstanceNameLikeIgnoreCase(string nameLikeIgnoreCase);
-    
+
     /**
-     * Only select process instances with the given callback identifier. 
+     * Only select process instances with the given callback identifier.
      */
     HistoricProcessInstanceQuery processInstanceCallbackId(string callbackId);
-    
+
     /**
-     * Only select process instances with the given callback type. 
+     * Only select process instances with the given callback type.
      */
     HistoricProcessInstanceQuery processInstanceCallbackType(string callbackType);
 

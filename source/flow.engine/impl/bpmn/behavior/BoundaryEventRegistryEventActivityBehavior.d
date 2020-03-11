@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,12 +12,12 @@
  */
 
 
-import java.util.List;
+import hunt.collection.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
-import org.flowable.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.BoundaryEvent;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
 import flow.common.api.scope.ScopeTypes;
@@ -31,9 +31,9 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CorrelationUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.engine.impl.util.EventInstanceBpmnUtil;
-import org.flowable.eventregistry.api.runtime.EventInstance;
-import org.flowable.eventregistry.impl.constant.EventConstants;
-import org.flowable.eventregistry.model.EventModel;
+import flow.event.registry.api.runtime.EventInstance;
+import flow.event.registry.constant.EventConstants;
+import flow.event.registry.model.EventModel;
 import org.flowable.eventsubscription.service.EventSubscriptionService;
 import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 
@@ -67,7 +67,7 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
                         .tenantId(executionEntity.getTenantId())
                         .configuration(CorrelationUtil.getCorrelationKey(BpmnXMLConstants.ELEMENT_EVENT_CORRELATION_PARAMETER, commandContext, executionEntity))
                         .create();
-        
+
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
         executionEntity.getEventSubscriptions().add(eventSubscription);
     }
@@ -86,7 +86,7 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         ExecutionEntity executionEntity = (ExecutionEntity) execution;
         BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
-        
+
         Object eventInstance = execution.getTransientVariables().get(EventConstants.EVENT_INSTANCE);
         if (eventInstance instanceof EventInstance) {
             EventInstanceBpmnUtil.handleEventInstanceOutParameters(execution, boundaryEvent, (EventInstance) eventInstance);
@@ -95,7 +95,7 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
         if (boundaryEvent.isCancelActivity()) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
             List<EventSubscriptionEntity> eventSubscriptions = executionEntity.getEventSubscriptions();
-            
+
             CommandContext commandContext = Context.getCommandContext();
             EventModel eventModel = getEventModel(commandContext, executionEntity);
             for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
@@ -108,7 +108,7 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
 
         super.trigger(executionEntity, triggerName, triggerData);
     }
-    
+
     protected EventModel getEventModel(CommandContext commandContext, ExecutionEntity executionEntity) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 

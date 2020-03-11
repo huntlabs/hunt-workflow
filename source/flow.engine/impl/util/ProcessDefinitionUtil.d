@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.bpmn.model.BpmnModel;
-import org.flowable.bpmn.model.Process;
+import flow.bpmn.model.BpmnModel;
+import flow.bpmn.model.Process;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.context.Context;
@@ -27,7 +27,7 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * A utility class that hides the complexity of {@link ProcessDefinitionEntity} and {@link Process} lookup. Use this class rather than accessing the process definition cache or
  * {@link DeploymentManager} directly.
- * 
+ *
  * @author Joram Barrez
  */
 class ProcessDefinitionUtil {
@@ -54,7 +54,7 @@ class ProcessDefinitionUtil {
     public static Process getProcess(string processDefinitionId) {
         if (Context.getCommandContext() is null) {
             throw new FlowableException("Cannot get process model: no current command context is active");
-            
+
         } else if (CommandContextUtil.getProcessEngineConfiguration() is null) {
             return Flowable5Util.getFlowable5CompatibilityHandler().getProcessDefinitionProcessObject(processDefinitionId);
 

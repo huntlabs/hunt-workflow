@@ -13,13 +13,13 @@
 
 
 
-import java.util.List;
-import java.util.Map;
+import hunt.collection.List;
+import hunt.collection.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.SubProcess;
 import flow.common.interceptor.CommandContext;
 import flow.engine.dynamic.DynamicStateManager;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -37,13 +37,13 @@ class DefaultDynamicStateManager extends AbstractDynamicStateManager implements 
         List<MoveExecutionEntityContainer> moveExecutionEntityContainerList = resolveMoveExecutionEntityContainers(changeActivityStateBuilder, Optional.empty(), changeActivityStateBuilder.getProcessInstanceVariables(), commandContext);
         List<ExecutionEntity> executions = moveExecutionEntityContainerList.iterator().next().getExecutions();
         string processInstanceId = executions.iterator().next().getProcessInstanceId();
-        
+
         ProcessInstanceChangeState processInstanceChangeState = new ProcessInstanceChangeState()
             .setProcessInstanceId(processInstanceId)
             .setMoveExecutionEntityContainers(moveExecutionEntityContainerList)
             .setLocalVariables(changeActivityStateBuilder.getLocalVariables())
             .setProcessInstanceVariables(changeActivityStateBuilder.getProcessInstanceVariables());
-        
+
         doMoveExecutionState(processInstanceChangeState, commandContext);
     }
 

@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.bpmn.model.ConditionalEventDefinition;
+import flow.bpmn.model.ConditionalEventDefinition;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -39,8 +39,8 @@ class IntermediateCatchConditionalEventActivityBehavior extends IntermediateCatc
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_WAITING, 
-                            executionEntity.getActivityId(), conditionExpression, executionEntity.getId(), 
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_WAITING,
+                            executionEntity.getActivityId(), conditionExpression, executionEntity.getId(),
                             executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
         }
     }
@@ -49,15 +49,15 @@ class IntermediateCatchConditionalEventActivityBehavior extends IntermediateCatc
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         Expression expression = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
-        
+
         if (result !is null && result instanceof bool && (bool) result) {
             ExecutionEntity executionEntity = (ExecutionEntity) execution;
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-                eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_RECEIVED, executionEntity.getActivityId(), 
+                eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_RECEIVED, executionEntity.getActivityId(),
                                 conditionExpression, executionEntity.getId(), executionEntity.getProcessInstanceId(), executionEntity.getProcessDefinitionId()));
             }
-            
+
             leaveIntermediateCatchEvent(execution);
         }
     }

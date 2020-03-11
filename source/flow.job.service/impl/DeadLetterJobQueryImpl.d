@@ -15,7 +15,7 @@
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.scope.ScopeTypes;
@@ -94,7 +94,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         this.processDefinitionId = processDefinitionId;
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQueryImpl elementId(string elementId) {
         if (elementId is null) {
@@ -103,7 +103,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         this.elementId = elementId;
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQueryImpl elementName(string elementName) {
         if (elementName is null) {
@@ -112,7 +112,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         this.elementName = elementName;
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
@@ -121,7 +121,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         this.scopeId = scopeId;
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQueryImpl subScopeId(string subScopeId) {
         if (subScopeId is null) {
@@ -130,7 +130,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         this.subScopeId = subScopeId;
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
@@ -139,7 +139,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         this.scopeType = scopeType;
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
@@ -148,7 +148,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         this.scopeDefinitionId = scopeDefinitionId;
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQuery caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
@@ -158,7 +158,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQuery caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
@@ -168,7 +168,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         scopeType(ScopeTypes.CMMN);
         return this;
     }
-    
+
     @Override
     public DeadLetterJobQuery planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
@@ -375,7 +375,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
     public string getProcessDefinitionId() {
         return processDefinitionId;
     }
-    
+
     public string getScopeId() {
         return scopeId;
     }

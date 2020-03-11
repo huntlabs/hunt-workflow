@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,14 +13,14 @@
 
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.List;
 
-import org.flowable.bpmn.model.BoundaryEvent;
-import org.flowable.bpmn.model.CancelEventDefinition;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.BoundaryEvent;
+import flow.bpmn.model.CancelEventDefinition;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;

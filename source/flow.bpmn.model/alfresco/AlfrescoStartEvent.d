@@ -11,10 +11,11 @@
  * limitations under the License.
  */
 
+module flow.bpmn.model.alfresco.AlfrescoStartEvent;
 
-import org.flowable.bpmn.model.StartEvent;
+import flow.bpmn.model.StartEvent;
 
-class AlfrescoStartEvent extends StartEvent {
+class AlfrescoStartEvent : StartEvent {
 
     protected string runAs;
     protected string scriptProcessor;
@@ -35,7 +36,7 @@ class AlfrescoStartEvent extends StartEvent {
         this.scriptProcessor = scriptProcessor;
     }
 
-    @Override
+    override
     public AlfrescoStartEvent clone() {
         AlfrescoStartEvent clone = new AlfrescoStartEvent();
         clone.setValues(this);

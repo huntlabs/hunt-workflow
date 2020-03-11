@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,9 +13,9 @@
 
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
 
 import flow.common.Page;
 import flow.common.db.AbstractDataManager;
@@ -33,11 +33,11 @@ import org.flowable.job.service.impl.persistence.entity.data.HistoryJobDataManag
 class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJobEntity> implements HistoryJobDataManager {
 
     protected JobServiceConfiguration jobServiceConfiguration;
-    
+
     public MybatisHistoryJobDataManager() {
-        
+
     }
-    
+
     public MybatisHistoryJobDataManager(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
     }
@@ -55,10 +55,10 @@ class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJobEntity>
     @Override
     @SuppressWarnings("unchecked")
     public List<HistoryJobEntity> findJobsToExecute(Page page) {
-        
+
         ListQueryParameterObject params = new ListQueryParameterObject();
         params.setParameter(jobServiceConfiguration.getHistoryJobExecutionScope());
-        
+
         // Needed for db2/sqlserver (see limitBetween in mssql.properties), otherwise ordering will be incorrect
         params.setFirstResult(page.getFirstResult());
         params.setMaxResults(page.getMaxResults());
@@ -80,7 +80,7 @@ class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJobEntity>
     @Override
     @SuppressWarnings("unchecked")
     public List<HistoryJobEntity> findExpiredJobs(Page page) {
-        Map<string, Object> params = new HashMap<>();
+        Map!(string, Object) params = new HashMap<>();
         params.put("jobExecutionScope", jobServiceConfiguration.getHistoryJobExecutionScope());
         Date now = jobServiceConfiguration.getClock().getCurrentTime();
         params.put("now", now);
@@ -103,7 +103,7 @@ class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJobEntity>
 
     @Override
     public void updateJobTenantIdForDeployment(string deploymentId, string newTenantId) {
-        HashMap<string, Object> params = new HashMap<>();
+        HashMap!(string, Object) params = new HashMap<>();
         params.put("deploymentId", deploymentId);
         params.put("tenantId", newTenantId);
         getDbSqlSession().update("updateHistoryJobTenantIdForDeployment", params);
@@ -111,7 +111,7 @@ class MybatisHistoryJobDataManager extends AbstractDataManager<HistoryJobEntity>
 
     @Override
     public void resetExpiredJob(string jobId) {
-        Map<string, Object> params = new HashMap<>(2);
+        Map!(string, Object) params = new HashMap<>(2);
         params.put("id", jobId);
         getDbSqlSession().update("resetExpiredHistoryJob", params);
     }

@@ -10,22 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.deleg.event.impl.FlowableEventBuilder;
- 
- 
- 
 
 
-import java.util.Map;
 
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.FlowElement;
-import org.flowable.bpmn.model.FlowNode;
+
+
+import hunt.collection.Map;
+
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
@@ -53,7 +53,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
 import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.job.api.Job;
-import org.flowable.task.api.Task;
+import flow.task.api.Task;
 import org.flowable.variable.api.event.FlowableVariableEvent;
 import org.flowable.variable.api.types.VariableType;
 
@@ -107,7 +107,7 @@ class FlowableEventBuilder {
      * @return an {@link FlowableEntityEvent}. In case an {@link ExecutionContext} is active, the execution related event fields will be populated. If not, execution details will be retrieved from the
      *         {@link Object} if possible.
      */
-    @SuppressWarnings("rawtypes")
+   // @SuppressWarnings("rawtypes")
     public static FlowableProcessStartedEvent createProcessStartedEvent(final Object entity,
             final Map variables, final bool localScope) {
         final FlowableProcessStartedEventImpl newEvent = new FlowableProcessStartedEventImpl(entity, variables, localScope);
@@ -127,7 +127,7 @@ class FlowableEventBuilder {
      * @return an {@link FlowableEntityEvent}. In case an {@link ExecutionContext} is active, the execution related event fields will be populated. If not, execution details will be retrieved from the
      *         {@link Object} if possible.
      */
-    @SuppressWarnings("rawtypes")
+    //@SuppressWarnings("rawtypes")
     public static FlowableEntityWithVariablesEvent createEntityWithVariablesEvent(FlowableEngineEventType type, Object entity, Map variables, bool localScope) {
         FlowableEntityWithVariablesEventImpl newEvent = new FlowableEntityWithVariablesEventImpl(entity, variables, localScope, type);
 
@@ -376,10 +376,10 @@ class FlowableEventBuilder {
         newEvent.setMessageData(payload);
         return newEvent;
     }
-    
+
     public static FlowableConditionalEvent createConditionalEvent(FlowableEngineEventType type, string activityId, string conditionExpression,
                     string executionId, string processInstanceId, string processDefinitionId) {
-        
+
         FlowableConditionalEventImpl newEvent = new FlowableConditionalEventImpl(type);
         newEvent.setActivityId(activityId);
         newEvent.setExecutionId(executionId);
@@ -388,7 +388,7 @@ class FlowableEventBuilder {
         newEvent.setConditionExpression(conditionExpression);
         return newEvent;
     }
-    
+
     public static FlowableEscalationEvent createEscalationEvent(FlowableEngineEventType type, string activityId, string escalationCode, string escalationName,
                     string executionId, string processInstanceId, string processDefinitionId) {
         FlowableEscalationEventImpl newEvent = new FlowableEscalationEventImpl(type);
@@ -433,30 +433,30 @@ class FlowableEventBuilder {
                 event.setExecutionId(((Job) persistedObject).getExecutionId());
                 event.setProcessInstanceId(((Job) persistedObject).getProcessInstanceId());
                 event.setProcessDefinitionId(((Job) persistedObject).getProcessDefinitionId());
-                
+
             } else if (persistedObject instanceof DelegateExecution) {
                 event.setExecutionId(((DelegateExecution) persistedObject).getId());
                 event.setProcessInstanceId(((DelegateExecution) persistedObject).getProcessInstanceId());
                 event.setProcessDefinitionId(((DelegateExecution) persistedObject).getProcessDefinitionId());
-                
+
             } else if (persistedObject instanceof IdentityLinkEntity) {
                 IdentityLinkEntity idLink = (IdentityLinkEntity) persistedObject;
                 if (idLink.getProcessDefinitionId() !is null) {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
-                    
+
                 } else if (idLink.getProcessInstanceId() !is null) {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
                     event.setProcessInstanceId(idLink.getProcessInstanceId());
-                    
+
                 } else if (idLink.getTaskId() !is null) {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
                 }
-                
+
             } else if (persistedObject instanceof Task) {
                 event.setProcessInstanceId(((Task) persistedObject).getProcessInstanceId());
                 event.setExecutionId(((Task) persistedObject).getExecutionId());
                 event.setProcessDefinitionId(((Task) persistedObject).getProcessDefinitionId());
-                
+
             } else if (persistedObject instanceof ProcessDefinition) {
                 event.setProcessDefinitionId(((ProcessDefinition) persistedObject).getId());
             }

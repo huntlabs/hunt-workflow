@@ -23,7 +23,7 @@ import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
 /**
  * @author Joram Barrez
  */
-public abstract class AbstractJobServiceEngineEntityManager<EntityImpl extends Entity, DM extends DataManager<EntityImpl>>
+abstract class AbstractJobServiceEngineEntityManager<EntityImpl extends Entity, DM extends DataManager<EntityImpl>>
     extends AbstractServiceEngineEntityManager<JobServiceConfiguration, EntityImpl, DM> {
 
     public AbstractJobServiceEngineEntityManager(JobServiceConfiguration variableServiceConfiguration, DM dataManager) {

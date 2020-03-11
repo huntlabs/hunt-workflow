@@ -14,8 +14,8 @@
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
@@ -27,7 +27,7 @@ class EngineClosedEventHandler extends AbstractDatabaseEventLoggerEventHandler {
 
     @Override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
-        Map<string, Object> data = new HashMap<>();
+        Map!(string, Object) data = new HashMap<>();
         try {
             data.put("ip", InetAddress.getLocalHost().getHostAddress()); // Note
                                                                          // that

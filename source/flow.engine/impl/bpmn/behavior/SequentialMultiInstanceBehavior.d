@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.bpmn.model.Activity;
-import org.flowable.bpmn.model.SubProcess;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.deleg.BpmnError;
@@ -95,10 +95,10 @@ class SequentialMultiInstanceBehavior extends MultiInstanceActivityBehavior {
             continueSequentialMultiInstance(execution, loopCounter, (ExecutionEntity) multiInstanceRootExecution);
         }
     }
-    
+
     public void continueSequentialMultiInstance(DelegateExecution execution, int loopCounter, ExecutionEntity multiInstanceRootExecution) {
         try {
-            
+
             if (execution.getCurrentFlowElement() instanceof SubProcess) {
                 ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
                 ExecutionEntity executionToContinue = executionEntityManager.createChildExecution(multiInstanceRootExecution);

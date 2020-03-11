@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,12 +32,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class that contains the main logic to send information about an async history data job to a message queue.
- * Subclasses are responsible for implementing the actual sending logic.   
- * 
+ * Subclasses are responsible for implementing the actual sending logic.
+ *
  * @author Joram Barrez
  */
-public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
-    
+abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMessageBasedJobManager.class);
 
     public AbstractMessageBasedJobManager() {
@@ -52,7 +52,7 @@ public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
     protected void triggerExecutorIfNeeded(final JobEntity jobEntity) {
         prepareAndSendMessage(jobEntity);
     }
-    
+
     @Override
     protected void triggerAsyncHistoryExecutorIfNeeded(HistoryJobEntity jobEntity) {
         prepareAndSendMessage(jobEntity);
@@ -71,7 +71,7 @@ public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
 
         prepareAndSendMessage(job);
     }
-    
+
     @Override
     public void unacquireWithDecrementRetries(JobInfo job) {
         if (job instanceof HistoryJob) {
@@ -88,11 +88,11 @@ public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
     }
 
     protected void prepareAndSendMessage(final JobInfo job) {
-        
+
         // If it's an async job, the transaction context is still active
         // If it's an async history job, the transaction context might be gone (due to the command context
         // already being closing), but the asyncHistorySession still has it stored.
-        
+
         TransactionContext transactionContext = Context.getTransactionContext();
         if (transactionContext is null) {
             if (job instanceof HistoryJobEntity) {
@@ -101,7 +101,7 @@ public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
                 transactionContext = asyncHistorySession.getTransactionContext();
             }
         }
-        
+
         if (transactionContext !is null) {
             transactionContext.addTransactionListener(TransactionState.COMMITTED, new TransactionListener() {
                 @Override
@@ -109,18 +109,18 @@ public abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
                     sendMessage(job);
                 }
             });
-            
+
         } else {
             LOGGER.warn("Could not send message for job {}: no transaction context active nor is it a history job", job.getId());
-        
+
         }
 
     }
-    
+
     /**
      * Subclasses need to implement this method: it should contain the actual sending of the message
-     * using the job data provided in the parameter.  
+     * using the job data provided in the parameter.
      */
     protected abstract void sendMessage(JobInfo job);
-    
+
 }
