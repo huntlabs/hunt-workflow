@@ -10,21 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.persistence.entity.EventResourceEntityManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
+import flow.event.registry.persistence.entity.EventResourceEntity;
 
 /**
  * @author Joram Barrez
  */
-interface EventResourceEntityManager extends EntityManager<EventResourceEntity> {
+interface EventResourceEntityManager : EntityManager!EventResourceEntity {
 
-    List<EventResourceEntity> findResourcesByDeploymentId(String deploymentId);
+    List!EventResourceEntity findResourcesByDeploymentId(string deploymentId);
 
-    EventResourceEntity findResourceByDeploymentIdAndResourceName(String deploymentId, String resourceName);
+    EventResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName);
 
-    void deleteResourcesByDeploymentId(String deploymentId);
+    void deleteResourcesByDeploymentId(string deploymentId);
 
 }

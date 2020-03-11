@@ -11,30 +11,27 @@
  * limitations under the License.
  */
 
+module flow.event.registry.management.EventRegistryChangeDetectionRunnable;
 
 import flow.event.registry.api.management.EventRegistryChangeDetectionManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.util.Common;
+import hunt.logging;
 /**
  * @author Joram Barrez
  */
-class EventRegistryChangeDetectionRunnable implements Runnable {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(EventRegistryChangeDetectionRunnable.class);
+class EventRegistryChangeDetectionRunnable : Runnable {
 
     protected EventRegistryChangeDetectionManager eventRegistryChangeDetectionManager;
 
-    public EventRegistryChangeDetectionRunnable(EventRegistryChangeDetectionManager eventRegistryChangeDetectionManager) {
+    this(EventRegistryChangeDetectionManager eventRegistryChangeDetectionManager) {
         this.eventRegistryChangeDetectionManager = eventRegistryChangeDetectionManager;
     }
 
-    @Override
     public void run() {
         try {
             eventRegistryChangeDetectionManager.detectChanges();
         } catch (Exception e) {
-            LOGGER.error("Exception while detecting event registry changes", e);
+            logError("Exception while detecting event registry changes %s", e.msg);
         }
     }
 

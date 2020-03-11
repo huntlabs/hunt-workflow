@@ -12,7 +12,6 @@
  */
 
 module flow.event.registry.api.InboundEventKeyDetector;
-import hunt.String;
 /**
  * @author Joram Barrez
  * @author Filip Hrisafov
@@ -20,6 +19,6 @@ import hunt.String;
 //@FunctionalInterface
 interface InboundEventKeyDetector(T) {
 
-    String detectEventDefinitionKey(T event);
+    string detectEventDefinitionKey(T event);
 
 }

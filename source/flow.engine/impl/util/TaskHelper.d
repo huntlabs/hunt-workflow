@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.api.variable.VariableContainer;
 import flow.common.el.ExpressionManager;
 import flow.common.history.HistoryLevel;

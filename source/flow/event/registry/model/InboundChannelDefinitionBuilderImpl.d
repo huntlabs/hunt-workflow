@@ -1,17 +1,17 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
-
+///* Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *      http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
+//
 //import hunt.collection.LinkedHashSet;
 //import hunt.collection.Set;
 //
@@ -28,7 +28,6 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //import flow.event.registry.model.KafkaInboundChannelModel;
 //import flow.event.registry.model.RabbitInboundChannelModel;
 ////import org.w3c.dom.Document;
-//import hunt.String;
 //
 ////import com.fasterxml.jackson.databind.JsonNode;
 //
@@ -41,12 +40,12 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //    protected EventRepositoryService eventRepository;
 //
 //    protected InboundChannelModel channelModel;
-//    protected String deploymentName;
-//    protected String resourceName;
-//    protected String category;
-//    protected String parentDeploymentId;
-//    protected String deploymentTenantId;
-//    protected String key;
+//    protected string deploymentName;
+//    protected string resourceName;
+//    protected string category;
+//    protected string parentDeploymentId;
+//    protected string deploymentTenantId;
+//    protected string key;
 //    protected InboundEventProcessingPipelineBuilder inboundEventProcessingPipelineBuilder;
 //
 //    this(EventRepositoryService eventRepository) {
@@ -54,43 +53,43 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //    }
 //
 //
-//    public InboundChannelModelBuilder key(String key) {
+//    public InboundChannelModelBuilder key(string key) {
 //        this.key = key;
 //        return this;
 //    }
 //
 //
-//    public InboundChannelModelBuilder deploymentName(String deploymentName) {
+//    public InboundChannelModelBuilder deploymentName(string deploymentName) {
 //        this.deploymentName = deploymentName;
 //        return this;
 //    }
 //
 //
-//    public InboundChannelModelBuilder resourceName(String resourceName) {
+//    public InboundChannelModelBuilder resourceName(string resourceName) {
 //        this.resourceName = resourceName;
 //        return this;
 //    }
 //
 //
-//    public InboundChannelModelBuilder category(String category) {
+//    public InboundChannelModelBuilder category(string category) {
 //        this.category = category;
 //        return this;
 //    }
 //
 //
-//    public InboundChannelModelBuilder parentDeploymentId(String parentDeploymentId) {
+//    public InboundChannelModelBuilder parentDeploymentId(string parentDeploymentId) {
 //        this.parentDeploymentId = parentDeploymentId;
 //        return this;
 //    }
 //
 //
-//    public InboundChannelModelBuilder deploymentTenantId(String deploymentTenantId) {
+//    public InboundChannelModelBuilder deploymentTenantId(string deploymentTenantId) {
 //        this.deploymentTenantId = deploymentTenantId;
 //        return this;
 //    }
 //
 //
-//    public InboundEventProcessingPipelineBuilder channelAdapter(String delegateExpression) {
+//    public InboundEventProcessingPipelineBuilder channelAdapter(string delegateExpression) {
 //        DelegateExpressionInboundChannelModel channelModel = new DelegateExpressionInboundChannelModel();
 //        channelModel.setAdapterDelegateExpression(delegateExpression);
 //        this.channelModel = channelModel;
@@ -99,7 +98,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //    }
 //
 //
-//    public InboundJmsChannelBuilder jmsChannelAdapter(String destinationName) {
+//    public InboundJmsChannelBuilder jmsChannelAdapter(string destinationName) {
 //        JmsInboundChannelModel channelModel = new JmsInboundChannelModel();
 //        channelModel.setDestination(destinationName);
 //        this.channelModel = channelModel;
@@ -108,9 +107,9 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //    }
 //
 //
-//    public InboundRabbitChannelBuilder rabbitChannelAdapter(String queueName) {
+//    public InboundRabbitChannelBuilder rabbitChannelAdapter(string queueName) {
 //        RabbitInboundChannelModel channelModel = new RabbitInboundChannelModel();
-//        Set!String queues = new LinkedHashSet<>();
+//        Set!string queues = new LinkedHashSet<>();
 //        queues.add(queueName);
 //        channelModel.setQueues(queues);
 //        this.channelModel = channelModel;
@@ -119,9 +118,9 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //    }
 //
 //
-//    public InboundKafkaChannelBuilder kafkaChannelAdapter(String topic) {
+//    public InboundKafkaChannelBuilder kafkaChannelAdapter(string topic) {
 //        KafkaInboundChannelModel channelModel = new KafkaInboundChannelModel();
-//        Set!String topics = new LinkedHashSet<>();
+//        Set!string topics = new LinkedHashSet<>();
 //        topics.add(topic);
 //        channelModel.setTopics(topics);
 //        this.channelModel = channelModel;
@@ -174,19 +173,19 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundJmsChannelBuilder selector(String selector) {
+//        public InboundJmsChannelBuilder selector(string selector) {
 //            jmsChannel.setSelector(selector);
 //            return this;
 //        }
 //
 //
-//        public InboundJmsChannelBuilder subscription(String subscription) {
+//        public InboundJmsChannelBuilder subscription(string subscription) {
 //            jmsChannel.setSubscription(subscription);
 //            return this;
 //        }
 //
 //
-//        public InboundJmsChannelBuilder concurrency(String concurrency) {
+//        public InboundJmsChannelBuilder concurrency(string concurrency) {
 //            jmsChannel.setConcurrency(concurrency);
 //            return this;
 //        }
@@ -221,31 +220,31 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundRabbitChannelBuilder priority(String priority) {
+//        public InboundRabbitChannelBuilder priority(string priority) {
 //            this.rabbitChannel.setPriority(priority);
 //            return this;
 //        }
 //
 //
-//        public InboundRabbitChannelBuilder admin(String admin) {
+//        public InboundRabbitChannelBuilder admin(string admin) {
 //            this.rabbitChannel.setAdmin(admin);
 //            return this;
 //        }
 //
 //
-//        public InboundRabbitChannelBuilder concurrency(String concurrency) {
+//        public InboundRabbitChannelBuilder concurrency(string concurrency) {
 //            rabbitChannel.setConcurrency(concurrency);
 //            return this;
 //        }
 //
 //
-//        public InboundRabbitChannelBuilder executor(String executor) {
+//        public InboundRabbitChannelBuilder executor(string executor) {
 //            this.rabbitChannel.setExecutor(executor);
 //            return this;
 //        }
 //
 //
-//        public InboundRabbitChannelBuilder ackMode(String ackMode) {
+//        public InboundRabbitChannelBuilder ackMode(string ackMode) {
 //            this.rabbitChannel.setAckMode(ackMode);
 //            return this;
 //        }
@@ -274,25 +273,25 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundKafkaChannelBuilder groupId(String groupId) {
+//        public InboundKafkaChannelBuilder groupId(string groupId) {
 //            kafkaChannel.setGroupId(groupId);
 //            return this;
 //        }
 //
 //
-//        public InboundKafkaChannelBuilder clientIdPrefix(String clientIdPrefix) {
+//        public InboundKafkaChannelBuilder clientIdPrefix(string clientIdPrefix) {
 //            kafkaChannel.setClientIdPrefix(clientIdPrefix);
 //            return this;
 //        }
 //
 //
-//        public InboundKafkaChannelBuilder concurrency(String concurrency) {
+//        public InboundKafkaChannelBuilder concurrency(string concurrency) {
 //            kafkaChannel.setConcurrency(concurrency);
 //            return this;
 //        }
 //
 //
-//        public InboundKafkaChannelBuilder property(String name, String value) {
+//        public InboundKafkaChannelBuilder property(string name, string value) {
 //            kafkaChannel.addProperty(name, value);
 //            return this;
 //        }
@@ -320,7 +319,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //
 //
 //        public InboundEventKeyJsonDetectorBuilder jsonDeserializer() {
-//            channelModel.setDeserializerType(new String("json"));
+//            channelModel.setDeserializerType(new string("json"));
 //
 //            InboundEventProcessingPipelineBuilderImpl<JsonNode> jsonPipelineBuilder
 //                = new InboundEventProcessingPipelineBuilderImpl<>(channelModel, eventRepository, channelDefinitionBuilder);
@@ -340,7 +339,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventKeyDetectorBuilder delegateExpressionDeserializer(String delegateExpression) {
+//        public InboundEventKeyDetectorBuilder delegateExpressionDeserializer(string delegateExpression) {
 //            channelModel.setDeserializerType("expression");
 //            channelModel.setDeserializerDelegateExpression(delegateExpression);
 //            InboundEventProcessingPipelineBuilderImpl customPipelineBuilder = new InboundEventProcessingPipelineBuilderImpl<>(channelModel,
@@ -350,7 +349,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundChannelModelBuilder eventProcessingPipeline(String delegateExpression) {
+//        public InboundChannelModelBuilder eventProcessingPipeline(string delegateExpression) {
 //            this.channelModel.setPipelineDelegateExpression(delegateExpression);
 //            return channelDefinitionBuilder;
 //        }
@@ -366,7 +365,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventTenantJsonDetectorBuilder fixedEventKey(String key) {
+//        public InboundEventTenantJsonDetectorBuilder fixedEventKey(string key) {
 //            ChannelEventKeyDetection keyDetection = new ChannelEventKeyDetection();
 //            keyDetection.setFixedValue(key);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventKeyDetection(keyDetection);
@@ -374,7 +373,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonField(String field) {
+//        public InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonField(string field) {
 //            ChannelEventKeyDetection keyDetection = new ChannelEventKeyDetection();
 //            keyDetection.setJsonField(field);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventKeyDetection(keyDetection);
@@ -382,7 +381,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonPointerExpression(String jsonPointerExpression) {
+//        public InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonPointerExpression(string jsonPointerExpression) {
 //            ChannelEventKeyDetection keyDetection = new ChannelEventKeyDetection();
 //            keyDetection.setJsonPointerExpression(jsonPointerExpression);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventKeyDetection(keyDetection);
@@ -399,7 +398,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventTenantXmlDetectorBuilder fixedEventKey(String key) {
+//        public InboundEventTenantXmlDetectorBuilder fixedEventKey(string key) {
 //            ChannelEventKeyDetection keyDetection = new ChannelEventKeyDetection();
 //            keyDetection.setFixedValue(key);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventKeyDetection(keyDetection);
@@ -407,7 +406,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventTenantXmlDetectorBuilder detectEventKeyUsingXPathExpression(String xPathExpression) {
+//        public InboundEventTenantXmlDetectorBuilder detectEventKeyUsingXPathExpression(string xPathExpression) {
 //            ChannelEventKeyDetection keyDetection = new ChannelEventKeyDetection();
 //            keyDetection.setXmlXPathExpression(xPathExpression);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventKeyDetection(keyDetection);
@@ -425,7 +424,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventTenantDetectorBuilder delegateExpressionKeyDetector(String delegateExpression) {
+//        public InboundEventTenantDetectorBuilder delegateExpressionKeyDetector(string delegateExpression) {
 //            ChannelEventKeyDetection keyDetection = new ChannelEventKeyDetection();
 //            keyDetection.setDelegateExpression(delegateExpression);
 //            inboundEventProcessingPipelineBuilder.channelModel.setChannelEventKeyDetection(keyDetection);
@@ -442,7 +441,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventPayloadJsonExtractorBuilder fixedTenantId(String tenantId) {
+//        public InboundEventPayloadJsonExtractorBuilder fixedTenantId(string tenantId) {
 //            ChannelEventTenantIdDetection tenantIdDetection = new ChannelEventTenantIdDetection();
 //            tenantIdDetection.setFixedValue(tenantId);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventTenantIdDetection(tenantIdDetection);
@@ -450,7 +449,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventPayloadJsonExtractorBuilder detectEventTenantUsingJsonPointerExpression(String jsonPointerExpression) {
+//        public InboundEventPayloadJsonExtractorBuilder detectEventTenantUsingJsonPointerExpression(string jsonPointerExpression) {
 //            ChannelEventTenantIdDetection tenantIdDetection = new ChannelEventTenantIdDetection();
 //            tenantIdDetection.setJsonPointerExpression(jsonPointerExpression);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventTenantIdDetection(tenantIdDetection);
@@ -467,7 +466,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventPayloadXmlExtractorBuilder fixedTenantId(String tenantId) {
+//        public InboundEventPayloadXmlExtractorBuilder fixedTenantId(string tenantId) {
 //            ChannelEventTenantIdDetection tenantIdDetection = new ChannelEventTenantIdDetection();
 //            tenantIdDetection.setFixedValue(tenantId);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventTenantIdDetection(tenantIdDetection);
@@ -475,7 +474,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventPayloadXmlExtractorBuilder detectEventTenantUsingXPathExpression(String xPathExpression) {
+//        public InboundEventPayloadXmlExtractorBuilder detectEventTenantUsingXPathExpression(string xPathExpression) {
 //            ChannelEventTenantIdDetection tenantIdDetection = new ChannelEventTenantIdDetection();
 //            tenantIdDetection.setxPathExpression(xPathExpression);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventTenantIdDetection(tenantIdDetection);
@@ -492,7 +491,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventPayloadExtractorBuilder fixedTenantId(String tenantId) {
+//        public InboundEventPayloadExtractorBuilder fixedTenantId(string tenantId) {
 //            ChannelEventTenantIdDetection tenantIdDetection = new ChannelEventTenantIdDetection();
 //            tenantIdDetection.setFixedValue(tenantId);
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setChannelEventTenantIdDetection(tenantIdDetection);
@@ -500,7 +499,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventPayloadExtractorBuilder delegateExpressionTenantDetector(String delegateExpression) {
+//        public InboundEventPayloadExtractorBuilder delegateExpressionTenantDetector(string delegateExpression) {
 //            ChannelEventTenantIdDetection tenantIdDetection = new ChannelEventTenantIdDetection();
 //            tenantIdDetection.setDelegateExpression(delegateExpression);
 //            inboundEventProcessingPipelineBuilder.channelModel.setChannelEventTenantIdDetection(tenantIdDetection);
@@ -548,7 +547,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundEventTransformerBuilder payloadExtractor(String delegateExpression) {
+//        public InboundEventTransformerBuilder payloadExtractor(string delegateExpression) {
 //            inboundEventProcessingPipelineBuilder.channelModel.setPayloadExtractorDelegateExpression(delegateExpression);
 //            return new InboundEventTransformerBuilderImpl(inboundEventProcessingPipelineBuilder);
 //        }
@@ -564,7 +563,7 @@ module flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 //        }
 //
 //
-//        public InboundChannelModelBuilder transformer(String delegateExpression) {
+//        public InboundChannelModelBuilder transformer(string delegateExpression) {
 //            this.inboundEventProcessingPipelineBuilder.channelModel.setEventTransformerDelegateExpression(delegateExpression);
 //            return this.inboundEventProcessingPipelineBuilder.channelDefinitionBuilder;
 //        }

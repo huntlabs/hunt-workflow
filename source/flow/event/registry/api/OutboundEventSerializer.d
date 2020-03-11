@@ -13,7 +13,7 @@
 module flow.event.registry.api.OutboundEventSerializer;
 
 import flow.event.registry.api.runtime.EventInstance;
-import hunt.String;
+import hunt.string;
 /**
  * @author Joram Barrez
  * @author Filip Hrisafov
@@ -23,6 +23,6 @@ interface OutboundEventSerializer {
     /**
      * The actual serialization.
      */
-    String serialize(EventInstance eventInstance);
+    string serialize(EventInstance eventInstance);
 
 }

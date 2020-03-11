@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.event.registry.persistence.entity.ChannelDefinitionEntity;
 
-
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.persistence.entity.Entity;
 import flow.event.registry.api.ChannelDefinition;
@@ -21,24 +21,24 @@ import flow.event.registry.api.ChannelDefinition;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface ChannelDefinitionEntity extends ChannelDefinition, Entity {
+interface ChannelDefinitionEntity : ChannelDefinition, Entity {
 
-    void setKey(String key);
+    void setKey(string key);
 
-    void setName(String name);
+    void setName(string name);
 
     void setVersion(int version);
 
-    void setDescription(String description);
+    void setDescription(string description);
 
-    void setDeploymentId(String deploymentId);
+    void setDeploymentId(string deploymentId);
 
     void setCreateTime(Date createTime);
 
-    void setResourceName(String resourceName);
+    void setResourceName(string resourceName);
 
-    void setTenantId(String tenantId);
+    void setTenantId(string tenantId);
 
-    void setCategory(String category);
+    void setCategory(string category);
 
 }

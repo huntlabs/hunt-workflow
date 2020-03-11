@@ -42,13 +42,13 @@ class CommandContextUtil {
         return getEventRegistryConfiguration().getEventRepositoryService();
     }
 
-    public static DbSqlSession getDbSqlSession() {
-        return getDbSqlSession(getCommandContext());
-    }
-
-    public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
-        return commandContext.getSession(DbSqlSession.class);
-    }
+    //public static DbSqlSession getDbSqlSession() {
+    //    return getDbSqlSession(getCommandContext());
+    //}
+    //
+    //public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
+    //    return commandContext.getSession(DbSqlSession.class);
+    //}
 
     public static EventResourceEntityManager getResourceEntityManager() {
         return getResourceEntityManager(getCommandContext());

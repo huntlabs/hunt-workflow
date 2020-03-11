@@ -12,13 +12,12 @@
  */
 module flow.event.registry.api.InboundEventTenantDetector;
 
-import hunt.String;
 /**
  * @author Joram Barrez
  */
 //@FunctionalInterface
 interface InboundEventTenantDetector(T) {
 
-    String detectTenantId(T event);
+    string detectTenantId(T event);
 
 }

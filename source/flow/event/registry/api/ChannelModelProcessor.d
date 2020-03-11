@@ -16,18 +16,16 @@ import flow.event.registry.model.ChannelModel;
 import flow.event.registry.api.EventRegistry;
 import flow.event.registry.api.EventRepositoryService;
 
-import hunt.Boolean;
-import hunt.String;
 /**
  * @author Filip Hrisafov
  */
 interface ChannelModelProcessor {
 
-    Boolean canProcess(ChannelModel channelModel);
+    bool canProcess(ChannelModel channelModel);
 
-    void registerChannelModel(ChannelModel channelModel, String tenantId, EventRegistry eventRegistry,
-                    EventRepositoryService eventRepositoryService, Boolean fallbackToDefaultTenant);
+    void registerChannelModel(ChannelModel channelModel, string tenantId, EventRegistry eventRegistry,
+                    EventRepositoryService eventRepositoryService, bool fallbackToDefaultTenant);
 
-    void unregisterChannelModel(ChannelModel channelModel, String tenantId, EventRepositoryService eventRepositoryService);
+    void unregisterChannelModel(ChannelModel channelModel, string tenantId, EventRepositoryService eventRepositoryService);
 
 }

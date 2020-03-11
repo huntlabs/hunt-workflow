@@ -14,7 +14,7 @@
 
 module flow.engine.runtime.ProcessInstance;
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import hunt.collection.Map;
 import hunt.time.LocalDateTime;
 import flow.engine.repository.ProcessDefinition;

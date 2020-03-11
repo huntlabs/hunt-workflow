@@ -15,7 +15,7 @@
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Calendar;
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import java.util.GregorianCalendar;
 
 import flow.bpmn.model.FlowElement;

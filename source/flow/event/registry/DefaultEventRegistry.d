@@ -25,7 +25,7 @@ import flow.event.registry.api.OutboundEventProcessor;
 import flow.event.registry.api.runtime.EventInstance;
 import flow.event.registry.model.InboundChannelModel;
 import flow.event.registry.EventRegistryEngineConfiguration;
-import hunt.String;
+import flow.event.registry.DefaultCorrelationKeyGenerator;
 /**
  * @author Joram Barrez
  */
@@ -33,7 +33,7 @@ class DefaultEventRegistry : EventRegistry {
 
     protected EventRegistryEngineConfiguration engineConfiguration;
 
-    protected CorrelationKeyGenerator!(Map!(String, Object)) correlationKeyGenerator;
+    protected CorrelationKeyGenerator!(Map!(string, Object)) correlationKeyGenerator;
 
     protected InboundEventProcessor inboundEventProcessor;
     protected OutboundEventProcessor outboundEventProcessor;
@@ -54,7 +54,7 @@ class DefaultEventRegistry : EventRegistry {
     }
 
 
-    public void eventReceived(InboundChannelModel channelModel, String event) {
+    public void eventReceived(InboundChannelModel channelModel, string event) {
         inboundEventProcessor.eventReceived(channelModel, event);
     }
 
@@ -82,7 +82,7 @@ class DefaultEventRegistry : EventRegistry {
     }
 
 
-    public String generateKey(Map!(String, Object) data) {
+    public string generateKey(Map!(string, Object) data) {
         return correlationKeyGenerator.generateKey(data);
     }
 

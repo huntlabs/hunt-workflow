@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.event.registry.runtime.EventInstanceImpl;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -23,18 +24,18 @@ import flow.event.registry.model.EventModel;
 /**
  * @author Joram Barrez
  */
-class EventInstanceImpl implements EventInstance {
+class EventInstanceImpl : EventInstance {
 
     protected EventModel eventModel;
-    protected Collection!EventPayloadInstance payloadInstances = new ArrayList<>();
-    protected Collection!EventCorrelationParameterInstance correlationParameterInstances = new ArrayList<>();
-    protected String tenantId;
+    protected Collection!EventPayloadInstance payloadInstances ;//= new ArrayList<>();
+    protected Collection!EventCorrelationParameterInstance correlationParameterInstances ;//= new ArrayList<>();
+    protected string tenantId;
 
-    public EventInstanceImpl() {
+    this() {
 
     }
 
-    public EventInstanceImpl(EventModel eventModel,
+    this(EventModel eventModel,
             Collection!EventCorrelationParameterInstance correlationParameterInstances,
             Collection!EventPayloadInstance payloadInstances) {
 
@@ -43,10 +44,10 @@ class EventInstanceImpl implements EventInstance {
         this.payloadInstances = payloadInstances;
     }
 
-    public EventInstanceImpl(EventModel eventModel,
+    this(EventModel eventModel,
             Collection!EventCorrelationParameterInstance correlationParameterInstances,
             Collection!EventPayloadInstance payloadInstances,
-            String tenantId) {
+            string tenantId) {
 
         this.eventModel = eventModel;
         this.correlationParameterInstances = correlationParameterInstances;
@@ -54,21 +55,21 @@ class EventInstanceImpl implements EventInstance {
         this.tenantId = tenantId;
     }
 
-    @Override
+
     public EventModel getEventModel() {
         return eventModel;
     }
     public void setEventModel(EventModel eventModel) {
         this.eventModel = eventModel;
     }
-    @Override
+
     public Collection!EventPayloadInstance getPayloadInstances() {
         return payloadInstances;
     }
     public void setPayloadInstances(Collection!EventPayloadInstance payloadInstances) {
         this.payloadInstances = payloadInstances;
     }
-    @Override
+
     public Collection!EventCorrelationParameterInstance getCorrelationParameterInstances() {
         return correlationParameterInstances;
     }
@@ -76,11 +77,11 @@ class EventInstanceImpl implements EventInstance {
         Collection!EventCorrelationParameterInstance correlationParameterInstances) {
         this.correlationParameterInstances = correlationParameterInstances;
     }
-    @Override
-    public String getTenantId() {
+
+    public string getTenantId() {
         return tenantId;
     }
-    public void setTenantId(String tenantId) {
+    public void setTenantId(string tenantId) {
         this.tenantId = tenantId;
     }
 }

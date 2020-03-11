@@ -24,7 +24,7 @@ import flow.bpmn.model.Signal;
 import flow.bpmn.model.SignalEventDefinition;
 import flow.bpmn.model.StartEvent;
 import flow.common.api.FlowableException;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.util.CollectionUtil;

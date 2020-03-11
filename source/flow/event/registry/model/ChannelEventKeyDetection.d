@@ -14,7 +14,6 @@ module flow.event.registry.model.ChannelEventKeyDetection;
 
 //import com.fasterxml.jackson.annotation.JsonInclude;
 //import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import hunt.String;
 
 /**
  * @author Joram Barrez
@@ -22,49 +21,49 @@ import hunt.String;
 //@JsonInclude(Include.NON_NULL)
 class ChannelEventKeyDetection {
 
-    protected String fixedValue;
-    protected String jsonField;
-    protected String jsonPointerExpression;
-    protected String xmlXPathExpression;
-    protected String delegateExpression;
+    protected string fixedValue;
+    protected string jsonField;
+    protected string jsonPointerExpression;
+    protected string xmlXPathExpression;
+    protected string delegateExpression;
 
-    public String getFixedValue() {
+    public string getFixedValue() {
         return fixedValue;
     }
 
-    public void setFixedValue(String fixedValue) {
+    public void setFixedValue(string fixedValue) {
         this.fixedValue = fixedValue;
     }
 
-    public String getJsonField() {
+    public string getJsonField() {
         return jsonField;
     }
 
-    public void setJsonField(String jsonField) {
+    public void setJsonField(string jsonField) {
         this.jsonField = jsonField;
     }
 
-    public String getJsonPointerExpression() {
+    public string getJsonPointerExpression() {
         return jsonPointerExpression;
     }
 
-    public void setJsonPointerExpression(String jsonPointerExpression) {
+    public void setJsonPointerExpression(string jsonPointerExpression) {
         this.jsonPointerExpression = jsonPointerExpression;
     }
 
-    public String getXmlXPathExpression() {
+    public string getXmlXPathExpression() {
         return xmlXPathExpression;
     }
 
-    public void setXmlXPathExpression(String xmlXPathExpression) {
+    public void setXmlXPathExpression(string xmlXPathExpression) {
         this.xmlXPathExpression = xmlXPathExpression;
     }
 
-    public String getDelegateExpression() {
+    public string getDelegateExpression() {
         return delegateExpression;
     }
 
-    public void setDelegateExpression(String delegateExpression) {
+    public void setDelegateExpression(string delegateExpression) {
         this.delegateExpression = delegateExpression;
     }
 }

@@ -18,8 +18,6 @@ import hunt.collection.Set;
 import flow.event.registry.api.ChannelDefinition;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.Query;
-import hunt.String;
-import hunt.Integer;
 
 alias Date = LocalDateTime;
 
@@ -32,76 +30,76 @@ alias Date = LocalDateTime;
 interface ChannelDefinitionQuery : Query!(ChannelDefinitionQuery, ChannelDefinition) {
 
     /** Only select channel definition with the given id. */
-    ChannelDefinitionQuery channelDefinitionId(String channelDefinitionId);
+    ChannelDefinitionQuery channelDefinitionId(string channelDefinitionId);
 
     /** Only select channel definitions with the given ids. */
-    ChannelDefinitionQuery channelDefinitionIds(Set!String channelDefinitionIds);
+    ChannelDefinitionQuery channelDefinitionIds(Set!string channelDefinitionIds);
 
     /** Only select channel definitions with the given category. */
-    ChannelDefinitionQuery channelCategory(String category);
+    ChannelDefinitionQuery channelCategory(string category);
 
     /**
      * Only select channel definitions where the category matches the given parameter. The syntax that should be used is the same as in SQL, eg. %test%
      */
-    ChannelDefinitionQuery channelCategoryLike(String categoryLike);
+    ChannelDefinitionQuery channelCategoryLike(string categoryLike);
 
     /**
      * Only select channel definitions that have a different category then the given one.
      */
-    ChannelDefinitionQuery channelCategoryNotEquals(String categoryNotEquals);
+    ChannelDefinitionQuery channelCategoryNotEquals(string categoryNotEquals);
 
     /** Only select channel definitions with the given name. */
-    ChannelDefinitionQuery channelDefinitionName(String channelDefinitionName);
+    ChannelDefinitionQuery channelDefinitionName(string channelDefinitionName);
 
     /**
      * Only select channel definitions where the name matches the given parameter. The syntax that should be used is the same as in SQL, eg. %test%
      */
-    ChannelDefinitionQuery channelDefinitionNameLike(String channelDefinitionNameLike);
+    ChannelDefinitionQuery channelDefinitionNameLike(string channelDefinitionNameLike);
 
     /**
      * Only select channel definitions that are deployed in a deployment with the given deployment id
      */
-    ChannelDefinitionQuery deploymentId(String deploymentId);
+    ChannelDefinitionQuery deploymentId(string deploymentId);
 
     /**
      * Select channel definitions that are deployed in deployments with the given set of ids
      */
-    ChannelDefinitionQuery deploymentIds(Set!String deploymentIds);
+    ChannelDefinitionQuery deploymentIds(Set!string deploymentIds);
 
     /**
      * Only select channel definition with the given key.
      */
-    ChannelDefinitionQuery channelDefinitionKey(String channelDefinitionKey);
+    ChannelDefinitionQuery channelDefinitionKey(string channelDefinitionKey);
 
     /**
      * Only select channel definitions where the key matches the given parameter. The syntax that should be used is the same as in SQL, eg. %test%
      */
-    ChannelDefinitionQuery channelDefinitionKeyLike(String channelDefinitionKeyLike);
+    ChannelDefinitionQuery channelDefinitionKeyLike(string channelDefinitionKeyLike);
 
     /**
-     * Only select channel definitions with a certain version. Particularly useful when used in combination with {@link #formDefinitionKey(String)}
+     * Only select channel definitions with a certain version. Particularly useful when used in combination with {@link #formDefinitionKey(string)}
      */
-    ChannelDefinitionQuery channelVersion(Integer channelVersion);
+    ChannelDefinitionQuery channelVersion(int channelVersion);
 
     /**
      * Only select channel definitions which version are greater than a certain version.
      */
-    ChannelDefinitionQuery channelVersionGreaterThan(Integer channelVersion);
+    ChannelDefinitionQuery channelVersionGreaterThan(int channelVersion);
 
     /**
      * Only select channel definitions which version are greater than or equals a certain version.
      */
-    ChannelDefinitionQuery channelVersionGreaterThanOrEquals(Integer channelVersion);
+    ChannelDefinitionQuery channelVersionGreaterThanOrEquals(int channelVersion);
 
     /**
      * Only select channel definitions which version are lower than a certain version.
      */
-    ChannelDefinitionQuery channelVersionLowerThan(Integer channelVersion);
+    ChannelDefinitionQuery channelVersionLowerThan(int channelVersion);
 
     /**
      * Only select channel definitions which version are lower than or equals a certain version.
      */
-    ChannelDefinitionQuery channelVersionLowerThanOrEquals(Integer channelVersion);
+    ChannelDefinitionQuery channelVersionLowerThanOrEquals(int channelVersion);
 
     /**
      * Only select the channel definitions which are the latest deployed (ie. which have the highest version number for the given key).
@@ -109,7 +107,7 @@ interface ChannelDefinitionQuery : Query!(ChannelDefinitionQuery, ChannelDefinit
      * Can also be used without any other criteria (ie. query.latestVersion().list()), which will then give all the latest versions of all the deployed channel definitions.
      *
      * @throws FlowableIllegalArgumentException
-     *             if used in combination with {{@link #channelVersion(int)} or {@link #deploymentId(String)}
+     *             if used in combination with {{@link #channelVersion(int)} or {@link #deploymentId(string)}
      */
     ChannelDefinitionQuery latestVersion();
 
@@ -129,20 +127,20 @@ interface ChannelDefinitionQuery : Query!(ChannelDefinitionQuery, ChannelDefinit
     ChannelDefinitionQuery channelCreateTimeBefore(Date createTimeBefore);
 
     /** Only select channel definition with the given resource name. */
-    ChannelDefinitionQuery channelDefinitionResourceName(String resourceName);
+    ChannelDefinitionQuery channelDefinitionResourceName(string resourceName);
 
     /** Only select channel definition with a resource name like the given . */
-    ChannelDefinitionQuery channelDefinitionResourceNameLike(String resourceNameLike);
+    ChannelDefinitionQuery channelDefinitionResourceNameLike(string resourceNameLike);
 
     /**
      * Only select channel definitions that have the given tenant id.
      */
-    ChannelDefinitionQuery tenantId(String tenantId);
+    ChannelDefinitionQuery tenantId(string tenantId);
 
     /**
      * Only select channel definitions with a tenant id like the given one.
      */
-    ChannelDefinitionQuery tenantIdLike(String tenantIdLike);
+    ChannelDefinitionQuery tenantIdLike(string tenantIdLike);
 
     /**
      * Only select channel definitions that do not have a tenant id.

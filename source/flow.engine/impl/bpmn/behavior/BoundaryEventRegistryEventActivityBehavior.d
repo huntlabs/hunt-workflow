@@ -20,7 +20,7 @@ import org.flowable.bpmn.constants.BpmnXMLConstants;
 import flow.bpmn.model.BoundaryEvent;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.ProcessEngineConfiguration;

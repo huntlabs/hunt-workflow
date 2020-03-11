@@ -11,44 +11,79 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.ChannelDefinitionQueryProperty;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
 import flow.event.registry.api.ChannelDefinitionQuery;
+import std.concurrency : initOnce;
 
 /**
  * Contains the possible properties that can be used in a {@link ChannelDefinitionQuery}.
  */
-class ChannelDefinitionQueryProperty implements QueryProperty {
+class ChannelDefinitionQueryProperty : QueryProperty {
 
-    private static final long serialVersionUID = 1L;
+    static Map!(string,ChannelDefinitionQueryProperty) properties() {
+      __gshared Map!(string,ChannelDefinitionQueryProperty) inst;
+      return initOnce!inst(new HashMap!(string,ChannelDefinitionQueryProperty));
+    }
 
-    private static final Map<String, ChannelDefinitionQueryProperty> properties = new HashMap<>();
+  static ChannelDefinitionQueryProperty KEY() {
+    __gshared ChannelDefinitionQueryProperty inst;
+    return initOnce!inst(new ChannelDefinitionQueryProperty("RES.KEY_"));
+  }
 
-    public static final ChannelDefinitionQueryProperty KEY = new ChannelDefinitionQueryProperty("RES.KEY_");
-    public static final ChannelDefinitionQueryProperty CATEGORY = new ChannelDefinitionQueryProperty("RES.CATEGORY_");
-    public static final ChannelDefinitionQueryProperty ID = new ChannelDefinitionQueryProperty("RES.ID_");
-    public static final ChannelDefinitionQueryProperty NAME = new ChannelDefinitionQueryProperty("RES.NAME_");
-    public static final ChannelDefinitionQueryProperty DEPLOYMENT_ID = new ChannelDefinitionQueryProperty("RES.DEPLOYMENT_ID_");
-    public static final ChannelDefinitionQueryProperty CREATE_TIME = new ChannelDefinitionQueryProperty("RES.CREATE_TIME_");
-    public static final ChannelDefinitionQueryProperty TENANT_ID = new ChannelDefinitionQueryProperty("RES.TENANT_ID_");
+  static ChannelDefinitionQueryProperty CATEGORY() {
+    __gshared ChannelDefinitionQueryProperty inst;
+    return initOnce!inst(new ChannelDefinitionQueryProperty("RES.CATEGORY_"));
+  }
+  static ChannelDefinitionQueryProperty ID() {
+    __gshared ChannelDefinitionQueryProperty inst;
+    return initOnce!inst(new ChannelDefinitionQueryProperty("RES.ID_"));
+  }
+  static ChannelDefinitionQueryProperty NAME() {
+    __gshared ChannelDefinitionQueryProperty inst;
+    return initOnce!inst(new ChannelDefinitionQueryProperty("RES.NAME_"));
+  }
 
-    private String name;
+  static ChannelDefinitionQueryProperty DEPLOYMENT_ID() {
+    __gshared ChannelDefinitionQueryProperty inst;
+    return initOnce!inst(new ChannelDefinitionQueryProperty("RES.DEPLOYMENT_ID_"));
+  }
 
-    public ChannelDefinitionQueryProperty(String name) {
+  static ChannelDefinitionQueryProperty CREATE_TIME() {
+    __gshared ChannelDefinitionQueryProperty inst;
+    return initOnce!inst(new ChannelDefinitionQueryProperty("RES.CREATE_TIME_"));
+  }
+
+  static ChannelDefinitionQueryProperty TENANT_ID() {
+    __gshared ChannelDefinitionQueryProperty inst;
+    return initOnce!inst(new ChannelDefinitionQueryProperty("RES.TENANT_ID_"));
+  }
+    //private static final Map<string, ChannelDefinitionQueryProperty> properties = new HashMap<>();
+
+    //public static final ChannelDefinitionQueryProperty KEY = new ChannelDefinitionQueryProperty("RES.KEY_");
+   // public static final ChannelDefinitionQueryProperty CATEGORY = new ChannelDefinitionQueryProperty("RES.CATEGORY_");
+    //public static final ChannelDefinitionQueryProperty ID = new ChannelDefinitionQueryProperty("RES.ID_");
+    //public static final ChannelDefinitionQueryProperty NAME = new ChannelDefinitionQueryProperty("RES.NAME_");
+   // public static final ChannelDefinitionQueryProperty DEPLOYMENT_ID = new ChannelDefinitionQueryProperty("RES.DEPLOYMENT_ID_");
+    //public static final ChannelDefinitionQueryProperty CREATE_TIME = new ChannelDefinitionQueryProperty("RES.CREATE_TIME_");
+  //  public static final ChannelDefinitionQueryProperty TENANT_ID = new ChannelDefinitionQueryProperty("RES.TENANT_ID_");
+
+    private string name;
+
+    this(string name) {
         this.name = name;
         properties.put(name, this);
     }
 
-    @Override
-    public String getName() {
+    public string getName() {
         return name;
     }
 
-    public static ChannelDefinitionQueryProperty findByName(String propertyName) {
+    public static ChannelDefinitionQueryProperty findByName(string propertyName) {
         return properties.get(propertyName);
     }
 

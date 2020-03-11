@@ -41,7 +41,7 @@ class DeploymentQueryProperty : QueryProperty {
 
     private static  long serialVersionUID = 1L;
 
-    //private static  Map!(String, DeploymentQueryProperty) properties  ;//= new HashMap<>();
+    //private static  Map!(string, DeploymentQueryProperty) properties  ;//= new HashMap<>();
     //
     //public static  DeploymentQueryProperty DEPLOYMENT_ID = new DeploymentQueryProperty("RES.ID_");
     //public static  DeploymentQueryProperty DEPLOYMENT_NAME = new DeploymentQueryProperty("RES.NAME_");
@@ -68,7 +68,7 @@ class DeploymentQueryProperty : QueryProperty {
       return initOnce!inst(new DeploymentQueryProperty("RES.DEPLOY_TIME_"));
     }
 
-  static Map!(String, DeploymentQueryProperty) properties() {
+  static Map!(string, DeploymentQueryProperty) properties() {
     __gshared Map!(string, DeploymentQueryProperty) inst;
     return initOnce!inst(new HashMap!(string, DeploymentQueryProperty));
   }
@@ -76,7 +76,7 @@ class DeploymentQueryProperty : QueryProperty {
 
   private string name;
 
-    this(String name) {
+    this(string name) {
         this.name = name;
         properties.put(name, this);
     }

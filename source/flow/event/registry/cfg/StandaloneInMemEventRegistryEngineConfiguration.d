@@ -11,13 +11,15 @@
  * limitations under the License.
  */
 
+module flow.event.registry.cfg.StandaloneInMemEventRegistryEngineConfiguration;
+import flow.event.registry.cfg.StandaloneEventRegistryEngineConfiguration;
 
 /**
  * @author Tijs Rademakers
  */
-class StandaloneInMemEventRegistryEngineConfiguration extends StandaloneEventRegistryEngineConfiguration {
+class StandaloneInMemEventRegistryEngineConfiguration : StandaloneEventRegistryEngineConfiguration {
 
-    public StandaloneInMemEventRegistryEngineConfiguration() {
+    this() {
         this.jdbcUrl = "jdbc:h2:mem:flowable";
     }
 }

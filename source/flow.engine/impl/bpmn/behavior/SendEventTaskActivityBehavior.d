@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import flow.bpmn.model.SendEventServiceTask;
 import flow.common.api.FlowableException;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.context.Context;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.deleg.DelegateExecution;

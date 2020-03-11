@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.DefaultInboundEventProcessor;
 
 import hunt.collection;
 
@@ -24,21 +24,21 @@ import flow.event.registry.model.InboundChannelModel;
  * @author Joram Barrez
  * @author Filip Hrisafov
  */
-class DefaultInboundEventProcessor implements InboundEventProcessor {
+class DefaultInboundEventProcessor : InboundEventProcessor {
 
     protected EventRegistry eventRegistry;
 
-    public DefaultInboundEventProcessor(EventRegistry eventRegistry) {
+    this(EventRegistry eventRegistry) {
         this.eventRegistry = eventRegistry;
     }
 
-    @Override
-    public void eventReceived(InboundChannelModel channelModel, String event) {
 
-        InboundEventProcessingPipeline inboundEventProcessingPipeline = (InboundEventProcessingPipeline) channelModel.getInboundEventProcessingPipeline();
+    public void eventReceived(InboundChannelModel channelModel, string event) {
+
+        InboundEventProcessingPipeline inboundEventProcessingPipeline = cast(InboundEventProcessingPipeline) channelModel.getInboundEventProcessingPipeline();
         Collection!EventRegistryEvent eventRegistryEvents = inboundEventProcessingPipeline.run(channelModel.getKey(), event);
 
-        for (EventRegistryEvent eventRegistryEvent : eventRegistryEvents) {
+        foreach (EventRegistryEvent eventRegistryEvent ; eventRegistryEvents) {
             eventRegistry.sendEventToConsumers(eventRegistryEvent);
         }
 

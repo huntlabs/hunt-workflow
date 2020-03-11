@@ -11,16 +11,16 @@
  * limitations under the License.
  */
 
-
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+module flow.event.registry.DefaultCorrelationKeyGenerator;
+//import java.math.BigInteger;
+//import java.nio.charset.StandardCharsets;
+//import java.security.MessageDigest;
+//import java.security.NoSuchAlgorithmException;
 import hunt.collection.ArrayList;
-import hunt.collections;
+import hunt.collection;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import hunt.Exceptions;
 import flow.event.registry.api.CorrelationKeyGenerator;
 
 /**
@@ -32,27 +32,27 @@ import flow.event.registry.api.CorrelationKeyGenerator;
  *
  * @author Filip Hrisafov
  */
-class DefaultCorrelationKeyGenerator implements CorrelationKeyGenerator<Map<String, Object>> {
+class DefaultCorrelationKeyGenerator : CorrelationKeyGenerator!(Map(!string, Object)) {
 
-    @Override
-    public String generateKey(Map!(string, Object) source) {
-        StringBuilder sb = new StringBuilder();
-        List!String keys = new ArrayList<>(source.keySet());
-        Collections.sort(keys);
-        for (String key : keys) {
-            Object sourceValue = source.get(key);
-            String value = sourceValue is null ? "" : sourceValue.toString();
-            sb.append(key).append("=").append(value).append(";");
-        }
-
-        MessageDigest digest;
-        try {
-            digest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException("MD5 algorithm not available. Fatal (should be in the JDK).");
-        }
-
-        byte[] bytes = digest.digest(sb.toString().getBytes(StandardCharsets.UTF_8));
-        return String.format("%x", new BigInteger(1, bytes));
+    public string generateKey(Map!(string, Object) source) {
+        implementationMissing(false);
+        //StringBuilder sb = new StringBuilder();
+        //List!string keys = new ArrayList!string(source.keySet());
+        //Collections.sort(keys);
+        //foreach (string key ; keys) {
+        //    Object sourceValue = source.get(key);
+        //    string value = sourceValue is null ? "" : sourceValue.toString();
+        //    sb.append(key).append("=").append(value).append(";");
+        //}
+        //
+        //MessageDigest digest;
+        //try {
+        //    digest = MessageDigest.getInstance("MD5");
+        //} catch (NoSuchAlgorithmException e) {
+        //    throw new IllegalStateException("MD5 algorithm not available. Fatal (should be in the JDK).");
+        //}
+        //
+        //byte[] bytes = digest.digest(sb.toString().getBytes(StandardCharsets.UTF_8));
+        //return string.format("%x", new BigInteger(1, bytes));
     }
 }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.runtime.EventPayloadInstanceImpl;
 
 import flow.event.registry.api.runtime.EventPayloadInstance;
 import flow.event.registry.model.EventPayload;
@@ -19,17 +19,17 @@ import flow.event.registry.model.EventPayload;
  * @author Joram Barrez
  * @author Filip Hrisafov
  */
-class EventPayloadInstanceImpl implements EventPayloadInstance {
+class EventPayloadInstanceImpl : EventPayloadInstance {
 
     protected EventPayload eventPayloadDefinition;
     protected Object value;
 
-    public EventPayloadInstanceImpl(EventPayload eventPayloadDefinition, Object value) {
+    this(EventPayload eventPayloadDefinition, Object value) {
         this.eventPayloadDefinition = eventPayloadDefinition;
         this.value = value;
     }
 
-    @Override
+
     public EventPayload getEventPayloadDefinition() {
         return eventPayloadDefinition;
     }
@@ -38,17 +38,17 @@ class EventPayloadInstanceImpl implements EventPayloadInstance {
         this.eventPayloadDefinition = eventPayloadDefinition;
     }
 
-    @Override
-    public String getDefinitionName() {
+
+    public string getDefinitionName() {
         return eventPayloadDefinition.getName();
     }
 
-    @Override
-    public String getDefinitionType() {
+
+    public string getDefinitionType() {
         return eventPayloadDefinition.getType();
     }
 
-    @Override
+
     public Object getValue() {
         return value;
     }

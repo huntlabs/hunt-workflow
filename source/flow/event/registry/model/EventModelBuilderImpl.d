@@ -17,10 +17,9 @@ import hunt.collection;
 import hunt.collection.HashSet;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.Map;
-import hunt.String;
 import hunt.Exceptions;
 
-//import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.stringUtils;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.event.registry.api.EventDeployment;
 import flow.event.registry.api.model.EventModelBuilder;
@@ -37,72 +36,72 @@ class EventModelBuilderImpl : EventModelBuilder {
 
     protected EventRepositoryServiceImpl eventRepository;
 
-    protected String deploymentName;
-    protected String resourceName;
-    protected String category;
-    protected String parentDeploymentId;
-    protected String deploymentTenantId;
+    protected string deploymentName;
+    protected string resourceName;
+    protected string category;
+    protected string parentDeploymentId;
+    protected string deploymentTenantId;
 
-    protected String key;
-    protected Collection!String inboundChannelKeys;
-    protected Collection!String outboundChannelKeys;
-    protected Map!(String, EventCorrelationParameter) correlationParameterDefinitions ;//= new LinkedHashMap<>();
-    protected Map!(String, EventPayload) eventPayloadDefinitions ;// = new LinkedHashMap<>();
+    protected string key;
+    protected Collection!string inboundChannelKeys;
+    protected Collection!string outboundChannelKeys;
+    protected Map!(string, EventCorrelationParameter) correlationParameterDefinitions ;//= new LinkedHashMap<>();
+    protected Map!(string, EventPayload) eventPayloadDefinitions ;// = new LinkedHashMap<>();
 
     this(EventRepositoryServiceImpl eventRepository) {
         this.eventRepository = eventRepository;
-        correlationParameterDefinitions = new LinkedHashMap!(String, EventCorrelationParameter);
-        eventPayloadDefinitions = new LinkedHashMap!(String, EventPayload);
+        correlationParameterDefinitions = new LinkedHashMap!(string, EventCorrelationParameter);
+        eventPayloadDefinitions = new LinkedHashMap!(string, EventPayload);
     }
 
 
-    public EventModelBuilder key(String key) {
+    public EventModelBuilder key(string key) {
         this.key = key;
         return this;
     }
 
 
-    public EventModelBuilder deploymentName(String deploymentName) {
+    public EventModelBuilder deploymentName(string deploymentName) {
         this.deploymentName = deploymentName;
         return this;
     }
 
 
-    public EventModelBuilder resourceName(String resourceName) {
+    public EventModelBuilder resourceName(string resourceName) {
         this.resourceName = resourceName;
         return this;
     }
 
 
-    public EventModelBuilder category(String category) {
+    public EventModelBuilder category(string category) {
         this.category = category;
         return this;
     }
 
 
-    public EventModelBuilder parentDeploymentId(String parentDeploymentId) {
+    public EventModelBuilder parentDeploymentId(string parentDeploymentId) {
         this.parentDeploymentId = parentDeploymentId;
         return this;
     }
 
 
-    public EventModelBuilder deploymentTenantId(String deploymentTenantId) {
+    public EventModelBuilder deploymentTenantId(string deploymentTenantId) {
         this.deploymentTenantId = deploymentTenantId;
         return this;
     }
 
 
-    public EventModelBuilder inboundChannelKey(String channelKey) {
+    public EventModelBuilder inboundChannelKey(string channelKey) {
         if (inboundChannelKeys is null) {
-            inboundChannelKeys = new HashSet!String();
+            inboundChannelKeys = new HashSet!string();
         }
         inboundChannelKeys.add(channelKey);
         return this;
     }
 
 
-    public EventModelBuilder inboundChannelKeys(Collection!String channelKeys) {
-        foreach (String key ; channelKeys)
+    public EventModelBuilder inboundChannelKeys(Collection!string channelKeys) {
+        foreach (string key ; channelKeys)
         {
             inboundChannelKey(key);
         }
@@ -111,17 +110,17 @@ class EventModelBuilderImpl : EventModelBuilder {
     }
 
 
-    public EventModelBuilder outboundChannelKey(String channelKey) {
+    public EventModelBuilder outboundChannelKey(string channelKey) {
         if (outboundChannelKeys is null) {
-            outboundChannelKeys = new HashSet!String();
+            outboundChannelKeys = new HashSet!string();
         }
         outboundChannelKeys.add(channelKey);
         return this;
     }
 
 
-    public EventModelBuilder outboundChannelKeys(Collection!String channelKeys) {
-        foreach(String key ; channelKeys)
+    public EventModelBuilder outboundChannelKeys(Collection!string channelKeys) {
+        foreach(string key ; channelKeys)
         {
             outboundChannelKey(key);
         }
@@ -130,14 +129,14 @@ class EventModelBuilderImpl : EventModelBuilder {
     }
 
 
-    public EventModelBuilder correlationParameter(String name, String type) {
+    public EventModelBuilder correlationParameter(string name, string type) {
         correlationParameterDefinitions.put(name, new EventCorrelationParameter(name, type));
         payload(name, type);
         return this;
     }
 
 
-    public EventModelBuilder payload(String name, String type) {
+    public EventModelBuilder payload(string name, string type) {
         eventPayloadDefinitions.put(name, new EventPayload(name, type));
         return this;
     }

@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.persistence.entity.Entity;
 import flow.task.api.history.HistoricTaskLogEntry;

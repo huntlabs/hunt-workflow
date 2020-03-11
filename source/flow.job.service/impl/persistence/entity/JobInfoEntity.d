@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
@@ -27,5 +27,5 @@ interface JobInfoEntity extends JobInfo, AbstractJobEntity, Entity, HasRevision 
     Date getLockExpirationTime();
 
     void setLockExpirationTime(Date claimedUntil);
-    
+
 }

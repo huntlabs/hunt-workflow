@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.persistence.entity.EventDeploymentEntityManagerImpl;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -21,71 +21,74 @@ import flow.event.registry.api.EventDeployment;
 import flow.event.registry.EventDeploymentQueryImpl;
 import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.event.registry.persistence.entity.data.EventDeploymentDataManager;
-
+import flow.event.registry.persistence.entity.EventDeploymentEntity;
+import flow.event.registry.persistence.entity.EventDeploymentEntityManager;
+import flow.event.registry.persistence.entity.EventResourceEntityManager;
+import flow.event.registry.persistence.entity.EventDefinitionEntityManager;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 class EventDeploymentEntityManagerImpl
-        extends AbstractEngineEntityManager<EventRegistryEngineConfiguration, EventDeploymentEntity, EventDeploymentDataManager>
-        implements EventDeploymentEntityManager {
+        : AbstractEngineEntityManager!(EventRegistryEngineConfiguration, EventDeploymentEntity, EventDeploymentDataManager)
+        , EventDeploymentEntityManager {
 
-    public EventDeploymentEntityManagerImpl(EventRegistryEngineConfiguration eventRegistryConfiguration, EventDeploymentDataManager deploymentDataManager) {
+    this(EventRegistryEngineConfiguration eventRegistryConfiguration, EventDeploymentDataManager deploymentDataManager) {
         super(eventRegistryConfiguration, deploymentDataManager);
     }
 
-    @Override
+
     public void insert(EventDeploymentEntity deployment) {
         insert(deployment, true);
     }
 
-    @Override
-    public void insert(EventDeploymentEntity deployment, boolean fireEvent) {
+
+    public void insert(EventDeploymentEntity deployment, bool fireEvent) {
         super.insert(deployment, fireEvent);
 
-        for (EventResourceEntity resource : deployment.getResources().values()) {
+        foreach (EventResourceEntity resource ; deployment.getResources().values()) {
             resource.setDeploymentId(deployment.getId());
             getResourceEntityManager().insert(resource);
         }
     }
 
-    @Override
-    public void deleteDeployment(String deploymentId) {
+
+    public void deleteDeployment(string deploymentId) {
         deleteEventDefinitionsForDeployment(deploymentId);
         deleteChannelDefinitionsForDeployment(deploymentId);
         getResourceEntityManager().deleteResourcesByDeploymentId(deploymentId);
         delete(findById(deploymentId));
     }
 
-    protected void deleteEventDefinitionsForDeployment(String deploymentId) {
+    protected void deleteEventDefinitionsForDeployment(string deploymentId) {
         getEventDefinitionEntityManager().deleteEventDefinitionsByDeploymentId(deploymentId);
     }
 
-    protected void deleteChannelDefinitionsForDeployment(String deploymentId) {
+    protected void deleteChannelDefinitionsForDeployment(string deploymentId) {
         getChannelDefinitionEntityManager().deleteChannelDefinitionsByDeploymentId(deploymentId);
     }
 
-    @Override
+
     public long findDeploymentCountByQueryCriteria(EventDeploymentQueryImpl deploymentQuery) {
         return dataManager.findDeploymentCountByQueryCriteria(deploymentQuery);
     }
 
-    @Override
-    public List<EventDeployment> findDeploymentsByQueryCriteria(EventDeploymentQueryImpl deploymentQuery) {
+
+    public List!EventDeployment findDeploymentsByQueryCriteria(EventDeploymentQueryImpl deploymentQuery) {
         return dataManager.findDeploymentsByQueryCriteria(deploymentQuery);
     }
 
-    @Override
-    public List!String getDeploymentResourceNames(String deploymentId) {
+
+    public List!string getDeploymentResourceNames(string deploymentId) {
         return dataManager.getDeploymentResourceNames(deploymentId);
     }
 
-    @Override
-    public List<EventDeployment> findDeploymentsByNativeQuery(Map!(string, Object) parameterMap) {
+
+    public List!EventDeployment findDeploymentsByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findDeploymentsByNativeQuery(parameterMap);
     }
 
-    @Override
+
     public long findDeploymentCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findDeploymentCountByNativeQuery(parameterMap);
     }

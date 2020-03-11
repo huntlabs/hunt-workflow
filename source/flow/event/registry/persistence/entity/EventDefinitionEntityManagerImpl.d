@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.persistence.entity.EventDefinitionEntityManagerImpl;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -21,79 +21,80 @@ import flow.event.registry.api.EventDefinition;
 import flow.event.registry.EventDefinitionQueryImpl;
 import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.event.registry.persistence.entity.data.EventDefinitionDataManager;
-
+import flow.event.registry.persistence.entity.EventDefinitionEntity;
+import flow.event.registry.persistence.entity.EventDefinitionEntityManager;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 class EventDefinitionEntityManagerImpl
-        extends AbstractEngineEntityManager<EventRegistryEngineConfiguration, EventDefinitionEntity, EventDefinitionDataManager>
-        implements EventDefinitionEntityManager {
+        : AbstractEngineEntityManager!(EventRegistryEngineConfiguration, EventDefinitionEntity, EventDefinitionDataManager)
+        , EventDefinitionEntityManager {
 
-    public EventDefinitionEntityManagerImpl(EventRegistryEngineConfiguration eventRegistryEngineConfiguration, EventDefinitionDataManager eventDefinitionDataManager) {
+    this(EventRegistryEngineConfiguration eventRegistryEngineConfiguration, EventDefinitionDataManager eventDefinitionDataManager) {
         super(eventRegistryEngineConfiguration, eventDefinitionDataManager);
     }
 
-    @Override
-    public EventDefinitionEntity findLatestEventDefinitionByKey(String eventDefinitionKey) {
+
+    public EventDefinitionEntity findLatestEventDefinitionByKey(string eventDefinitionKey) {
         return dataManager.findLatestEventDefinitionByKey(eventDefinitionKey);
     }
 
-    @Override
-    public void deleteEventDefinitionsByDeploymentId(String deploymentId) {
+
+    public void deleteEventDefinitionsByDeploymentId(string deploymentId) {
         dataManager.deleteEventDefinitionsByDeploymentId(deploymentId);
     }
 
-    @Override
-    public List<EventDefinition> findEventDefinitionsByQueryCriteria(EventDefinitionQueryImpl eventQuery) {
+
+    public List!EventDefinition findEventDefinitionsByQueryCriteria(EventDefinitionQueryImpl eventQuery) {
         return dataManager.findEventDefinitionsByQueryCriteria(eventQuery);
     }
 
-    @Override
+
     public long findEventDefinitionCountByQueryCriteria(EventDefinitionQueryImpl eventQuery) {
         return dataManager.findEventDefinitionCountByQueryCriteria(eventQuery);
     }
 
-    @Override
-    public EventDefinitionEntity findEventDefinitionByDeploymentAndKey(String deploymentId, String eventDefinitionKey) {
+
+    public EventDefinitionEntity findEventDefinitionByDeploymentAndKey(string deploymentId, string eventDefinitionKey) {
         return dataManager.findEventDefinitionByDeploymentAndKey(deploymentId, eventDefinitionKey);
     }
 
-    @Override
-    public EventDefinitionEntity findEventDefinitionByDeploymentAndKeyAndTenantId(String deploymentId, String eventDefinitionKey, String tenantId) {
+
+    public EventDefinitionEntity findEventDefinitionByDeploymentAndKeyAndTenantId(string deploymentId, string eventDefinitionKey, string tenantId) {
         return dataManager.findEventDefinitionByDeploymentAndKeyAndTenantId(deploymentId, eventDefinitionKey, tenantId);
     }
 
-    @Override
-    public EventDefinitionEntity findLatestEventDefinitionByKeyAndTenantId(String eventDefinitionKey, String tenantId) {
-        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+
+    public EventDefinitionEntity findLatestEventDefinitionByKeyAndTenantId(string eventDefinitionKey, string tenantId) {
+        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID == (tenantId)) {
             return dataManager.findLatestEventDefinitionByKey(eventDefinitionKey);
         } else {
             return dataManager.findLatestEventDefinitionByKeyAndTenantId(eventDefinitionKey, tenantId);
         }
     }
 
-    @Override
-    public EventDefinitionEntity findEventDefinitionByKeyAndVersionAndTenantId(String eventDefinitionKey, Integer eventVersion, String tenantId) {
-        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+
+    public EventDefinitionEntity findEventDefinitionByKeyAndVersionAndTenantId(string eventDefinitionKey, int eventVersion, string tenantId) {
+        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID == (tenantId)) {
             return dataManager.findEventDefinitionByKeyAndVersion(eventDefinitionKey, eventVersion);
         } else {
             return dataManager.findEventDefinitionByKeyAndVersionAndTenantId(eventDefinitionKey, eventVersion, tenantId);
         }
     }
 
-    @Override
-    public List<EventDefinition> findEventDefinitionsByNativeQuery(Map!(string, Object) parameterMap) {
+
+    public List!EventDefinition findEventDefinitionsByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findEventDefinitionsByNativeQuery(parameterMap);
     }
 
-    @Override
+
     public long findEventDefinitionCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findEventDefinitionCountByNativeQuery(parameterMap);
     }
 
-    @Override
-    public void updateEventDefinitionTenantIdForDeployment(String deploymentId, String newTenantId) {
+
+    public void updateEventDefinitionTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateEventDefinitionTenantIdForDeployment(deploymentId, newTenantId);
     }
 

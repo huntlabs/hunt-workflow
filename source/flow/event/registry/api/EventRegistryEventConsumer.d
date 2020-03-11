@@ -12,7 +12,6 @@
  */
 
 module flow.event.registry.api.EventRegistryEventConsumer;
-import hunt.String;
 import flow.event.registry.api.EventRegistryEvent;
 /**
  * @author Joram Barrez
@@ -21,5 +20,5 @@ interface EventRegistryEventConsumer {
 
     void eventReceived(EventRegistryEvent event);
 
-    String getConsumerKey();
+    string getConsumerKey();
 }

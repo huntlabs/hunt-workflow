@@ -16,52 +16,51 @@ module flow.event.registry.model.JmsInboundChannelModel;
 //import com.fasterxml.jackson.annotation.JsonInclude;
 //import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import flow.event.registry.model.InboundChannelModel;
-import hunt.String;
 /**
  * @author Filip Hrisafov
  */
 //@JsonInclude(Include.NON_NULL)
 class JmsInboundChannelModel : InboundChannelModel {
 
-    protected String destination;
-    protected String selector;
-    protected String subscription;
-    protected String concurrency;
+    protected string destination;
+    protected string selector;
+    protected string subscription;
+    protected string concurrency;
 
     this() {
         super();
-        setType(new String("jms"));
+        setType("jms");
     }
 
-    public String getDestination() {
+    public string getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(string destination) {
         this.destination = destination;
     }
 
-    public String getSelector() {
+    public string getSelector() {
         return selector;
     }
 
-    public void setSelector(String selector) {
+    public void setSelector(string selector) {
         this.selector = selector;
     }
 
-    public String getSubscription() {
+    public string getSubscription() {
         return subscription;
     }
 
-    public void setSubscription(String subscription) {
+    public void setSubscription(string subscription) {
         this.subscription = subscription;
     }
 
-    public String getConcurrency() {
+    public string getConcurrency() {
         return concurrency;
     }
 
-    public void setConcurrency(String concurrency) {
+    public void setConcurrency(string concurrency) {
         this.concurrency = concurrency;
     }
 }

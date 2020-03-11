@@ -36,7 +36,7 @@ import flow.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.callback.CallbackData;
 import flow.common.callback.RuntimeInstanceStateChangeCallback;
 import flow.common.context.Context;

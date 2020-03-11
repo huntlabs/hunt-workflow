@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.persistence.entity.EventResourceEntity;
 
 
 import flow.common.persistence.entity.Entity;
@@ -18,21 +18,20 @@ import flow.common.persistence.entity.Entity;
 /**
  * @author Tijs Rademakers
  */
-interface EventResourceEntity extends Entity {
+interface EventResourceEntity : Entity {
 
-    String getName();
+    string getName();
 
-    void setName(String name);
+    void setName(string name);
 
     byte[] getBytes();
 
     void setBytes(byte[] bytes);
 
-    String getDeploymentId();
+    string getDeploymentId();
 
-    void setDeploymentId(String deploymentId);
+    void setDeploymentId(string deploymentId);
 
-    @Override
     Object getPersistentState();
 
 }

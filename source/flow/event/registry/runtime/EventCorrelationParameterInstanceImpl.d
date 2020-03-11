@@ -11,8 +11,7 @@
  * limitations under the License.
  */
 
-
-import java.util.Objects;
+module flow.event.registry.runtime.EventCorrelationParameterInstanceImpl;
 
 import flow.event.registry.api.runtime.EventCorrelationParameterInstance;
 import flow.event.registry.model.EventCorrelationParameter;
@@ -21,18 +20,18 @@ import flow.event.registry.model.EventCorrelationParameter;
  * @author Joram Barrez
  * @author Filip Hrisafov
  */
-class EventCorrelationParameterInstanceImpl implements EventCorrelationParameterInstance {
+class EventCorrelationParameterInstanceImpl : EventCorrelationParameterInstance {
 
     protected EventCorrelationParameter eventCorrelationParameterDefinition;
     protected Object value;
 
-    public EventCorrelationParameterInstanceImpl(
+    this(
         EventCorrelationParameter eventCorrelationParameterDefinition, Object value) {
         this.eventCorrelationParameterDefinition = eventCorrelationParameterDefinition;
         this.value = value;
     }
 
-    @Override
+
     public EventCorrelationParameter getEventCorrelationParameterDefinition() {
         return eventCorrelationParameterDefinition;
     }
@@ -41,17 +40,17 @@ class EventCorrelationParameterInstanceImpl implements EventCorrelationParameter
         this.eventCorrelationParameterDefinition = eventCorrelationParameterDefinition;
     }
 
-    @Override
-    public String getDefinitionName() {
+
+    public string getDefinitionName() {
         return eventCorrelationParameterDefinition.getName();
     }
 
-    @Override
-    public String getDefinitionType() {
+
+    public string getDefinitionType() {
         return eventCorrelationParameterDefinition.getType();
     }
 
-    @Override
+
     public Object getValue() {
         return value;
     }
@@ -60,20 +59,21 @@ class EventCorrelationParameterInstanceImpl implements EventCorrelationParameter
         this.value = value;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    override
+    public bool opEquals(Object o) {
+        if (this is o) {
             return true;
         }
-        if (o is null || getClass() != o.getClass()) {
+        if (o is null || cast(EventCorrelationParameterInstanceImpl)o is null) {
             return false;
         }
-        EventCorrelationParameterInstanceImpl that = (EventCorrelationParameterInstanceImpl) o;
-        return Objects.equals(eventCorrelationParameterDefinition, that.eventCorrelationParameterDefinition) && Objects.equals(value, that.value);
+        EventCorrelationParameterInstanceImpl that = cast(EventCorrelationParameterInstanceImpl) o;
+        return (eventCorrelationParameterDefinition == that.eventCorrelationParameterDefinition) ;//&& Objects.equals(value, that.value);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(eventCorrelationParameterDefinition, value);
+    override
+    public size_t toHash() {
+        return hashOf!EventCorrelationParameter(eventCorrelationParameterDefinition);
+        //return Objects.hash(eventCorrelationParameterDefinition, value);
     }
 }

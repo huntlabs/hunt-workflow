@@ -17,19 +17,18 @@ import flow.event.registry.model.ChannelModel;
 import flow.event.registry.model.ChannelEventKeyDetection;
 import flow.event.registry.model.ChannelEventTenantIdDetection;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
-import hunt.String;
 
 /**
  * @author Joram Barrez
  */
 class InboundChannelModel : ChannelModel {
 
-    protected String deserializerType;
+    protected string deserializerType;
 
-    protected String deserializerDelegateExpression;
-    protected String payloadExtractorDelegateExpression;
-    protected String eventTransformerDelegateExpression;
-    protected String pipelineDelegateExpression;
+    protected string deserializerDelegateExpression;
+    protected string payloadExtractorDelegateExpression;
+    protected string eventTransformerDelegateExpression;
+    protected string pipelineDelegateExpression;
     protected ChannelEventKeyDetection channelEventKeyDetection;
     protected ChannelEventTenantIdDetection channelEventTenantIdDetection;
 
@@ -43,43 +42,43 @@ class InboundChannelModel : ChannelModel {
         setChannelType("inbound");
     }
 
-    public String getDeserializerType() {
+    public string getDeserializerType() {
         return deserializerType;
     }
 
-    public void setDeserializerType(String deserializerType) {
+    public void setDeserializerType(string deserializerType) {
         this.deserializerType = deserializerType;
     }
 
-    public String getDeserializerDelegateExpression() {
+    public string getDeserializerDelegateExpression() {
         return deserializerDelegateExpression;
     }
 
-    public void setDeserializerDelegateExpression(String deserializerDelegateExpression) {
+    public void setDeserializerDelegateExpression(string deserializerDelegateExpression) {
         this.deserializerDelegateExpression = deserializerDelegateExpression;
     }
 
-    public String getPayloadExtractorDelegateExpression() {
+    public string getPayloadExtractorDelegateExpression() {
         return payloadExtractorDelegateExpression;
     }
 
-    public void setPayloadExtractorDelegateExpression(String payloadExtractorDelegateExpression) {
+    public void setPayloadExtractorDelegateExpression(string payloadExtractorDelegateExpression) {
         this.payloadExtractorDelegateExpression = payloadExtractorDelegateExpression;
     }
 
-    public String getEventTransformerDelegateExpression() {
+    public string getEventTransformerDelegateExpression() {
         return eventTransformerDelegateExpression;
     }
 
-    public void setEventTransformerDelegateExpression(String eventTransformerDelegateExpression) {
+    public void setEventTransformerDelegateExpression(string eventTransformerDelegateExpression) {
         this.eventTransformerDelegateExpression = eventTransformerDelegateExpression;
     }
 
-    public String getPipelineDelegateExpression() {
+    public string getPipelineDelegateExpression() {
         return pipelineDelegateExpression;
     }
 
-    public void setPipelineDelegateExpression(String pipelineDelegateExpression) {
+    public void setPipelineDelegateExpression(string pipelineDelegateExpression) {
         this.pipelineDelegateExpression = pipelineDelegateExpression;
     }
 

@@ -10,43 +10,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.event.registry.persistence.entity.EventDeploymentEntity;
 
 
-
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;
 
 import flow.common.persistence.entity.Entity;
 import flow.event.registry.api.EventDeployment;
+import flow.event.registry.persistence.entity.EventResourceEntity;
+
+
+alias Date = LocalDateTime;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-interface EventDeploymentEntity extends EventDeployment, Entity {
+interface EventDeploymentEntity : EventDeployment, Entity {
 
     void addResource(EventResourceEntity resource);
 
-    Map<String, EventResourceEntity> getResources();
+    Map!(string, EventResourceEntity) getResources();
 
     void addDeployedArtifact(Object deployedArtifact);
 
-    <T> List<T> getDeployedArtifacts(Class<T> clazz);
+    //<T> List<T> getDeployedArtifacts(Class<T> clazz);
 
-    void setName(String name);
+    void setName(string name);
 
-    void setCategory(String category);
+    void setCategory(string category);
 
-    void setTenantId(String tenantId);
+    void setTenantId(string tenantId);
 
-    void setParentDeploymentId(String parentDeploymentId);
+    void setParentDeploymentId(string parentDeploymentId);
 
-    void setResources(Map<String, EventResourceEntity> resources);
+    void setResources(Map!(string, EventResourceEntity) resources);
 
     void setDeploymentTime(Date deploymentTime);
 
-    boolean isNew();
+    bool isNew();
 
-    void setNew(boolean isNew);
+    void setNew(bool isNew);
 }

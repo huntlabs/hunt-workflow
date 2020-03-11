@@ -11,64 +11,84 @@
  * limitations under the License.
  */
 
+module flow.event.registry.persistence.entity.EventResourceEntityImpl;
 
-
-import java.io.Serializable;
-
+import flow.event.registry.persistence.entity.EventResourceEntity;
+import flow.event.registry.persistence.entity.AbstractEventRegistryNoRevisionEntity;
 /**
  * @author Tijs Rademakers
  */
-class EventResourceEntityImpl extends AbstractEventRegistryNoRevisionEntity implements EventResourceEntity, Serializable {
+import hunt.entity;
 
-    private static final long serialVersionUID = 1L;
+@Table("FLW_EVENT_RESOURCE")
+class EventResourceEntityImpl : AbstractEventRegistryNoRevisionEntity , Model, EventResourceEntity {
+  mixin MakeModel;
 
-    protected String name;
-    protected byte[] bytes;
-    protected String deploymentId;
+    @PrimaryKey
+    @Column("ID_")
+     string id;
 
-    public EventResourceEntityImpl() {
+    @Column("NAME_")
+     string name;
+
+    @Column("RESOURCE_BYTES_")
+     byte[] bytes;
+
+    @Column("DEPLOYMENT_ID_")
+     string deploymentId;
+
+    this() {
 
     }
 
-    @Override
-    public String getName() {
+
+   public string getId() {
+    return id;
+  }
+
+
+   public void setId(string id) {
+    this.id = id;
+  }
+
+    public string getName() {
         return name;
     }
 
-    @Override
-    public void setName(String name) {
+
+    public void setName(string name) {
         this.name = name;
     }
 
-    @Override
+
     public byte[] getBytes() {
         return bytes;
     }
 
-    @Override
+
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
 
-    @Override
-    public String getDeploymentId() {
+
+    public string getDeploymentId() {
         return deploymentId;
     }
 
-    @Override
-    public void setDeploymentId(String deploymentId) {
+
+    public void setDeploymentId(string deploymentId) {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+
     public Object getPersistentState() {
-        return EventResourceEntityImpl.class;
+        return this;
     }
 
     // common methods //////////////////////////////////////////////////////////
 
-    @Override
-    public String toString() {
-        return "ResourceEntity[id=" + id + ", name=" + name + "]";
+    override
+    public string toString() {
+        return "ResourceEntity[id=" ~ id ~ ", name=" ~ name ~ "]";
     }
 }

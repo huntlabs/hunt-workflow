@@ -1,22 +1,22 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-module flow.event.registry.persistence.deploy.EventDeploymentManager;
-
+///* Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *      http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//module flow.event.registry.persistence.deploy.EventDeploymentManager;
+//
 //import hunt.collection.List;
 //
 //import flow.common.api.FlowableException;
 //import flow.common.api.FlowableObjectNotFoundException;
-//import flow.common.persistence.deploy.DeploymentCache;
+////import flow.common.persistence.deploy.DeploymentCache;
 //import flow.event.registry.api.ChannelDefinition;
 //import flow.event.registry.api.ChannelModelProcessor;
 //import flow.event.registry.api.EventDefinition;
@@ -31,7 +31,7 @@ module flow.event.registry.persistence.deploy.EventDeploymentManager;
 //import flow.event.registry.persistence.entity.EventDeploymentEntityManager;
 //import flow.event.registry.persistence.entity.EventResourceEntity;
 //import flow.event.registry.model.ChannelModel;
-//
+//import flow.event.registry.persistence.deploy.Deployer;
 ///**
 // * @author Tijs Rademakers
 // * @author Joram Barrez
@@ -39,20 +39,20 @@ module flow.event.registry.persistence.deploy.EventDeploymentManager;
 //class EventDeploymentManager {
 //
 //    protected EventRegistryEngineConfiguration engineConfig;
-//    protected DeploymentCache<EventDefinitionCacheEntry> eventDefinitionCache;
-//    protected DeploymentCache<ChannelDefinitionCacheEntry> channelDefinitionCache;
+//    //protected DeploymentCache<EventDefinitionCacheEntry> eventDefinitionCache;
+//    //protected DeploymentCache<ChannelDefinitionCacheEntry> channelDefinitionCache;
 //
-//    protected List<Deployer> deployers;
+//    protected List!Deployer deployers;
 //    protected EventDefinitionEntityManager eventDefinitionEntityManager;
 //    protected ChannelDefinitionEntityManager channelDefinitionEntityManager;
 //    protected EventDeploymentEntityManager deploymentEntityManager;
 //
-//    public EventDeploymentManager(DeploymentCache<EventDefinitionCacheEntry> eventDefinitionCache,
+//    this(DeploymentCache<EventDefinitionCacheEntry> eventDefinitionCache,
 //                    DeploymentCache<ChannelDefinitionCacheEntry> channelDefinitionCache, EventRegistryEngineConfiguration engineConfig) {
 //
 //        this.eventDefinitionCache = eventDefinitionCache;
 //        this.channelDefinitionCache = channelDefinitionCache;
-//        this.engineConfig = engineConfig;
+//        this.engineConfig =engineConfig engineConfig;
 //    }
 //
 //    public void deploy(EventDeploymentEntity deployment) {

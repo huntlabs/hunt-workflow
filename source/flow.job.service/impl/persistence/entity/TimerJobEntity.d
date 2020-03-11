@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 /**
  * Stub of the common parts of a Job. You will normally work with a subclass of JobEntity, such as {@link TimerEntity} or {@link MessageEntity}.

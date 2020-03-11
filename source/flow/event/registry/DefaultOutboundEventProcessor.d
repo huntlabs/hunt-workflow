@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.DefaultOutboundEventProcessor;
 
 import hunt.collection;
-import java.util.Objects;
 
 import flow.common.api.FlowableException;
 import flow.event.registry.api.EventRepositoryService;
@@ -27,44 +26,44 @@ import flow.event.registry.model.OutboundChannelModel;
 /**
  * @author Joram Barrez
  */
-class DefaultOutboundEventProcessor implements OutboundEventProcessor {
+class DefaultOutboundEventProcessor : OutboundEventProcessor {
 
     protected EventRepositoryService eventRepositoryService;
-    protected boolean fallbackToDefaultTenant;
+    protected bool fallbackToDefaultTenant;
 
-    public DefaultOutboundEventProcessor(EventRepositoryService eventRepositoryService, boolean fallbackToDefaultTenant) {
+    this(EventRepositoryService eventRepositoryService, bool fallbackToDefaultTenant) {
         this.eventRepositoryService = eventRepositoryService;
         this.fallbackToDefaultTenant =fallbackToDefaultTenant;
     }
 
-    @Override
     public void sendEvent(EventInstance eventInstance) {
-        Collection!String outboundChannelKeys = eventInstance.getEventModel().getOutboundChannelKeys();
-        for (String outboundChannelKey : outboundChannelKeys) {
+        Collection!string outboundChannelKeys = eventInstance.getEventModel().getOutboundChannelKeys();
+        foreach (string outboundChannelKey ; outboundChannelKeys) {
 
-            ChannelModel channelModel is null;
-            if (Objects.equals(EventRegistryEngineConfiguration.NO_TENANT_ID, eventInstance.getTenantId())) {
+            ChannelModel channelModel = null;
+            if ((EventRegistryEngineConfiguration.NO_TENANT_ID ==  eventInstance.getTenantId())) {
                 channelModel = eventRepositoryService.getChannelModelByKey(outboundChannelKey);
             } else {
                 channelModel = eventRepositoryService.getChannelModelByKey(outboundChannelKey, eventInstance.getTenantId());
             }
 
             if (channelModel is null) {
-                throw new FlowableException("Could not find outbound channel model for " + outboundChannelKey);
+                throw new FlowableException("Could not find outbound channel model for " ~ outboundChannelKey);
             }
 
-            if (!(channelModel instanceof OutboundChannelModel)) {
-                throw new FlowableException("Channel model is not an outbound channel model for " + outboundChannelKey);
+            OutboundChannelModel outboundChannelModel = cast(OutboundChannelModel) channelModel;
+            if (outboundChannelModel is null) {
+                throw new FlowableException("Channel model is not an outbound channel model for " ~ outboundChannelKey);
             }
 
-            OutboundChannelModel outboundChannelModel = (OutboundChannelModel) channelModel;
+            //OutboundChannelModel outboundChannelModel = cast(OutboundChannelModel) channelModel;
 
-            OutboundEventProcessingPipeline outboundEventProcessingPipeline = (OutboundEventProcessingPipeline) outboundChannelModel.getOutboundEventProcessingPipeline();
-            String rawEvent = outboundEventProcessingPipeline.run(eventInstance);
+            OutboundEventProcessingPipeline outboundEventProcessingPipeline = cast(OutboundEventProcessingPipeline) outboundChannelModel.getOutboundEventProcessingPipeline();
+            string rawEvent = outboundEventProcessingPipeline.run(eventInstance);
 
-            OutboundEventChannelAdapter outboundEventChannelAdapter = (OutboundEventChannelAdapter) outboundChannelModel.getOutboundEventChannelAdapter();
+            OutboundEventChannelAdapter outboundEventChannelAdapter = cast(OutboundEventChannelAdapter) outboundChannelModel.getOutboundEventChannelAdapter();
             if (outboundEventChannelAdapter is null) {
-                throw new FlowableException("Could not find an outbound channel adapter for channel " + outboundChannelKey);
+                throw new FlowableException("Could not find an outbound channel adapter for channel " ~ outboundChannelKey);
             }
 
             outboundEventChannelAdapter.sendEvent(rawEvent);

@@ -14,42 +14,41 @@ module flow.event.registry.model.ChannelEventTenantIdDetection;
 
 //import com.fasterxml.jackson.annotation.JsonInclude;
 //import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import hunt.String;
 /**
  * @author Joram Barrez
  */
 //@JsonInclude(Include.NON_NULL)
 class ChannelEventTenantIdDetection {
 
-    protected String fixedValue;
-    protected String jsonPointerExpression;
-    protected String xPathExpression;
-    protected String delegateExpression;
+    protected string fixedValue;
+    protected string jsonPointerExpression;
+    protected string xPathExpression;
+    protected string delegateExpression;
 
-    public String getFixedValue() {
+    public string getFixedValue() {
         return fixedValue;
     }
-    public void setFixedValue(String fixedValue) {
+    public void setFixedValue(string fixedValue) {
         this.fixedValue = fixedValue;
     }
-    public String getJsonPointerExpression() {
+    public string getJsonPointerExpression() {
         return jsonPointerExpression;
     }
-    public void setJsonPointerExpression(String jsonPointerExpression) {
+    public void setJsonPointerExpression(string jsonPointerExpression) {
         this.jsonPointerExpression = jsonPointerExpression;
     }
-    public String getxPathExpression() {
+    public string getxPathExpression() {
         return xPathExpression;
     }
-    public void setxPathExpression(String xPathExpression) {
+    public void setxPathExpression(string xPathExpression) {
         this.xPathExpression = xPathExpression;
     }
 
-    public String getDelegateExpression() {
+    public string getDelegateExpression() {
         return delegateExpression;
     }
 
-    public void setDelegateExpression(String delegateExpression) {
+    public void setDelegateExpression(string delegateExpression) {
         this.delegateExpression = delegateExpression;
     }
 }

@@ -14,8 +14,6 @@
 module flow.event.registry.api.EventDeployment;
 
 import hunt.time.LocalDateTime;
-import hunt.String;
-
 
 alias Date = LocalDateTime;
 /**
@@ -28,15 +26,15 @@ alias Date = LocalDateTime;
  */
 interface EventDeployment {
 
-    String getId();
+    string getId();
 
-    String getName();
+    string getName();
 
     Date getDeploymentTime();
 
-    String getCategory();
+    string getCategory();
 
-    String getTenantId();
+    string getTenantId();
 
-    String getParentDeploymentId();
+    string getParentDeploymentId();
 }

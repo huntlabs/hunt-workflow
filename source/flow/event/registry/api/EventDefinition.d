@@ -12,7 +12,6 @@
  */
 module flow.event.registry.api.EventDefinition;
 
-import hunt.String;
 /**
  * An object structure representing an event definition
  *
@@ -22,34 +21,34 @@ import hunt.String;
 interface EventDefinition {
 
     /** unique identifier */
-    String getId();
+    string getId();
 
     /**
      * category name of the event definition
      */
-    String getCategory();
+    string getCategory();
 
     /** label used for display purposes */
-    String getName();
+    string getName();
 
     /** unique name for all versions this event definition */
-    String getKey();
+    string getKey();
 
     /** version of this event definition */
     int getVersion();
 
     /** description of this event definition **/
-    String getDescription();
+    string getDescription();
 
     /**
-     * name of {@link EventRepositoryService#getResourceAsStream(String, String) the resource} of this event definition.
+     * name of {@link EventRepositoryService#getResourceAsStream(string, string) the resource} of this event definition.
      */
-    String getResourceName();
+    string getResourceName();
 
     /** The deployment in which this form is contained. */
-    String getDeploymentId();
+    string getDeploymentId();
 
     /** The tenant identifier of this form */
-    String getTenantId();
+    string getTenantId();
 
 }

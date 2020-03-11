@@ -12,12 +12,11 @@
  */
 module flow.event.registry.api.OutboundEventChannelAdapter;
 
-import hunt.String;
 /**
  * @author Joram Barrez
  */
 interface OutboundEventChannelAdapter {
 
-    void sendEvent(String rawEvent);
+    void sendEvent(string rawEvent);
 
 }

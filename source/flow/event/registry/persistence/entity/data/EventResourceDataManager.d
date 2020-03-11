@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.persistence.entity.data.EventResourceDataManager;
 
 import hunt.collection.List;
 
@@ -20,12 +20,12 @@ import flow.event.registry.persistence.entity.EventResourceEntity;
 /**
  * @author Joram Barrez
  */
-interface EventResourceDataManager extends DataManager<EventResourceEntity> {
+interface EventResourceDataManager : DataManager!EventResourceEntity {
 
-    void deleteResourcesByDeploymentId(String deploymentId);
+    void deleteResourcesByDeploymentId(string deploymentId);
 
-    EventResourceEntity findResourceByDeploymentIdAndResourceName(String deploymentId, String resourceName);
+    EventResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName);
 
-    List<EventResourceEntity> findResourcesByDeploymentId(String deploymentId);
+    List!EventResourceEntity findResourcesByDeploymentId(string deploymentId);
 
 }

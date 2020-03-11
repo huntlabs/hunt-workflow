@@ -11,38 +11,39 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.persistence.entity.EventResourceEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.AbstractEngineEntityManager;
 import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.event.registry.persistence.entity.data.EventResourceDataManager;
-
+import flow.event.registry.persistence.entity.EventResourceEntity;
+import flow.event.registry.persistence.entity.EventResourceEntityManager;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
 class EventResourceEntityManagerImpl
-        extends AbstractEngineEntityManager<EventRegistryEngineConfiguration, EventResourceEntity, EventResourceDataManager>
-        implements EventResourceEntityManager {
+        : AbstractEngineEntityManager!(EventRegistryEngineConfiguration, EventResourceEntity, EventResourceDataManager)
+        , EventResourceEntityManager {
 
-    public EventResourceEntityManagerImpl(EventRegistryEngineConfiguration eventRegistryConfiguration, EventResourceDataManager resourceDataManager) {
+    this(EventRegistryEngineConfiguration eventRegistryConfiguration, EventResourceDataManager resourceDataManager) {
         super(eventRegistryConfiguration, resourceDataManager);
     }
 
-    @Override
-    public void deleteResourcesByDeploymentId(String deploymentId) {
+
+    public void deleteResourcesByDeploymentId(string deploymentId) {
         dataManager.deleteResourcesByDeploymentId(deploymentId);
     }
 
-    @Override
-    public EventResourceEntity findResourceByDeploymentIdAndResourceName(String deploymentId, String resourceName) {
+
+    public EventResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName) {
         return dataManager.findResourceByDeploymentIdAndResourceName(deploymentId, resourceName);
     }
 
-    @Override
-    public List<EventResourceEntity> findResourcesByDeploymentId(String deploymentId) {
+
+    public List!EventResourceEntity findResourcesByDeploymentId(string deploymentId) {
         return dataManager.findResourcesByDeploymentId(deploymentId);
     }
 

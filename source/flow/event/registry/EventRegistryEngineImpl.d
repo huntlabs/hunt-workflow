@@ -46,9 +46,9 @@ class EventRegistryEngineImpl : EventRegistryEngine {
         this.managementService = engineConfiguration.getEventManagementService();
         this.eventRegistry = engineConfiguration.getEventRegistry();
 
-        if (engineConfiguration.getSchemaManagementCmd() !is null) {
-            engineConfiguration.getCommandExecutor().execute(engineConfiguration.getSchemaCommandConfig(), engineConfiguration.getSchemaManagementCmd());
-        }
+        //if (engineConfiguration.getSchemaManagementCmd() !is null) {
+        //    engineConfiguration.getCommandExecutor().execute(engineConfiguration.getSchemaCommandConfig(), engineConfiguration.getSchemaManagementCmd());
+        //}
 
         if (name is null) {
             logInfo("default flowable EventRegistryEngine created");
@@ -56,7 +56,7 @@ class EventRegistryEngineImpl : EventRegistryEngine {
             logInfo("EventRegistryEngine %s created", name);
         }
 
-        EventRegistryEngines.registerEventRegistryEngine(this);
+       // EventRegistryEngines.registerEventRegistryEngine(this);
 
         if (engineConfiguration.getEngineLifecycleListeners() !is null) {
             foreach (EngineLifecycleListener engineLifecycleListener ; engineConfiguration.getEngineLifecycleListeners()) {
@@ -78,7 +78,7 @@ class EventRegistryEngineImpl : EventRegistryEngine {
 
 
     public void close() {
-        EventRegistryEngines.unregister(this);
+      //  EventRegistryEngines.unregister(this);
         engineConfiguration.close();
 
         if (engineConfiguration.getEngineLifecycleListeners() !is null) {

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.persistence.AbstractManager;
 
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
@@ -24,11 +24,11 @@ import flow.event.registry.persistence.entity.EventResourceEntityManager;
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-public abstract class AbstractManager {
+abstract class AbstractManager {
 
     protected EventRegistryEngineConfiguration eventEngineConfiguration;
 
-    public AbstractManager(EventRegistryEngineConfiguration eventEngineConfiguration) {
+    this(EventRegistryEngineConfiguration eventEngineConfiguration) {
         this.eventEngineConfiguration = eventEngineConfiguration;
     }
 
@@ -38,9 +38,9 @@ public abstract class AbstractManager {
         return Context.getCommandContext();
     }
 
-    protected <T> T getSession(Class<T> sessionClass) {
-        return getCommandContext().getSession(sessionClass);
-    }
+    //protected <T> T getSession(Class<T> sessionClass) {
+    //    return getCommandContext().getSession(sessionClass);
+    //}
 
     // Engine scoped
 

@@ -40,7 +40,7 @@ import flow.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.api.variable.VariableContainer;
 import flow.common.calendar.BusinessCalendar;
 import flow.common.calendar.CycleBusinessCalendar;

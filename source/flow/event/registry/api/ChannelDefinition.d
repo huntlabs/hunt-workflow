@@ -12,11 +12,9 @@
  */
 module flow.event.registry.api.ChannelDefinition;
 
-//import java.util.Date;
+//import hunt.time.LocalDateTime;
 import hunt.time.LocalDateTime;
-import hunt.String;
 
-alias Date = LocalDateTime;
 /**
  * An object structure representing a channel definition
  *
@@ -26,33 +24,33 @@ alias Date = LocalDateTime;
 interface ChannelDefinition {
 
     /** unique identifier */
-    String getId();
+    string getId();
 
     /** category name of the channel definition */
-    String getCategory();
+    string getCategory();
 
     /** label used for display purposes */
-    String getName();
+    string getName();
 
     /** unique name for all versions this channel definition */
-    String getKey();
+    string getKey();
 
     /** version of this channel definition */
     int getVersion();
 
     /** description of this channel definition **/
-    String getDescription();
+    string getDescription();
 
-    /** name of {@link EventRepositoryService#getResourceAsStream(String, String) the resource} of this channel definition. */
-    String getResourceName();
+    /** name of {@link EventRepositoryService#getResourceAsStream(string, string) the resource} of this channel definition. */
+    string getResourceName();
 
     /** The deployment in which this channel definition is contained. */
-    String getDeploymentId();
+    string getDeploymentId();
 
     /** create time for this channel definition */
     Date getCreateTime();
 
     /** The tenant identifier of this channel definition */
-    String getTenantId();
+    string getTenantId();
 
 }

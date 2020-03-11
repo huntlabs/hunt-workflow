@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="DLANGUAGE_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/source" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="hunt-1.4.2+commit.2.g62b4281" level="project" />
+    <orderEntry type="library" name="hunt-entity-2.5.3" level="project" />
+    <orderEntry type="library" name="hunt-database-2.0.0" level="project" />
+    <orderEntry type="library" name="hunt-net-0.4.5" level="project" />
+    <orderEntry type="library" name="hunt-openssl-1.0.1" level="project" />
+    <orderEntry type="library" name="hunt-sql-1.3.0" level="project" />
+    <orderEntry type="library" name="hunt-validation-0.2.3" level="project" />
+    <orderEntry type="library" name="hunt-time-1.0.0+commit.3.gb4f160a" level="project" />
+  </component>
+</module>

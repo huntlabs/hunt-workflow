@@ -24,7 +24,7 @@ import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ExtensionElement;
 import flow.bpmn.model.StartEvent;
 import flow.common.api.constant.ReferenceTypes;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.RuntimeService;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;

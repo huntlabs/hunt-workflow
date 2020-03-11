@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.event.registry.persistence.entity.data.impl.MybatisEventResourceDataManager;
 
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -21,43 +22,52 @@ import flow.event.registry.persistence.entity.EventResourceEntity;
 import flow.event.registry.persistence.entity.EventResourceEntityImpl;
 import flow.event.registry.persistence.entity.data.AbstractEventDataManager;
 import flow.event.registry.persistence.entity.data.EventResourceDataManager;
+import hunt.entity;
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
 
 /**
  * @author Joram Barrez
  */
-class MybatisEventResourceDataManager extends AbstractEventDataManager<EventResourceEntity> implements EventResourceDataManager {
+class MybatisEventResourceDataManager : EntityRepository!( EventResourceEntityImpl , string), EventResourceDataManager {
+//class MybatisEventResourceDataManager : AbstractEventDataManager<EventResourceEntity> implements EventResourceDataManager {
+    public EventRegistryEngineConfiguration eventRegistryConfiguration;
 
-    public MybatisEventResourceDataManager(EventRegistryEngineConfiguration eventRegistryConfiguration) {
-        super(eventRegistryConfiguration);
+    this(EventRegistryEngineConfiguration eventRegistryConfiguration) {
+        //super(eventRegistryConfiguration);
+        this.eventRegistryConfiguration = eventRegistryConfiguration;
+        super(entityManagerFactory.createEntityManager());
     }
 
-    @Override
-    class<? extends EventResourceEntity> getManagedEntityClass() {
-        return EventResourceEntityImpl.class;
-    }
+    //
+    //class<? extends EventResourceEntity> getManagedEntityClass() {
+    //    return EventResourceEntityImpl.class;
+    //}
 
-    @Override
+
     public EventResourceEntity create() {
         return new EventResourceEntityImpl();
     }
 
-    @Override
-    public void deleteResourcesByDeploymentId(String deploymentId) {
-        getDbSqlSession().delete("deleteEventResourcesByDeploymentId", deploymentId, getManagedEntityClass());
+
+    public void deleteResourcesByDeploymentId(string deploymentId) {
+        implementationMissing(false);
+       // getDbSqlSession().delete("deleteEventResourcesByDeploymentId", deploymentId, getManagedEntityClass());
     }
 
-    @Override
-    public EventResourceEntity findResourceByDeploymentIdAndResourceName(String deploymentId, String resourceName) {
-        Map!(string, Object) params = new HashMap<>();
-        params.put("deploymentId", deploymentId);
-        params.put("resourceName", resourceName);
-        return (EventResourceEntity) getDbSqlSession().selectOne("selectEventResourceByDeploymentIdAndResourceName", params);
+
+    public EventResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName) {
+        implementationMissing(false);
+        //Map!(string, Object) params = new HashMap<>();
+        //params.put("deploymentId", deploymentId);
+        //params.put("resourceName", resourceName);
+        //return (EventResourceEntity) getDbSqlSession().selectOne("selectEventResourceByDeploymentIdAndResourceName", params);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<EventResourceEntity> findResourcesByDeploymentId(String deploymentId) {
-        return getDbSqlSession().selectList("selectEventResourcesByDeploymentId", deploymentId);
+
+    public List!EventResourceEntity findResourcesByDeploymentId(string deploymentId) {
+        implementationMissing(false);
+        //return getDbSqlSession().selectList("selectEventResourcesByDeploymentId", deploymentId);
     }
 
 }

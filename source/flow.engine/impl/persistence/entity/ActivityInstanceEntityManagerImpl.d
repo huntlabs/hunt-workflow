@@ -15,7 +15,7 @@
 
 import static flow.engine.impl.util.CommandContextUtil.getEntityCache;
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;
 import java.util.Objects;

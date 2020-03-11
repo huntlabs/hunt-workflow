@@ -16,7 +16,6 @@ module flow.event.registry.model.EventModel;
 import hunt.collection.ArrayList;
 import hunt.collection;
 
-import hunt.String;
 import flow.event.registry.model.EventCorrelationParameter;
 import flow.event.registry.model.EventPayload;
 
@@ -26,58 +25,58 @@ import flow.event.registry.model.EventPayload;
 //@JsonInclude(Include.NON_NULL)
 class EventModel {
 
-    protected String key;
-    protected String name;
-    protected Collection!String inboundChannelKeys ;// = new ArrayList<>();
-    protected Collection!String outboundChannelKeys ;//= new ArrayList<>();
+    protected string key;
+    protected string name;
+    protected Collection!string inboundChannelKeys ;// = new ArrayList<>();
+    protected Collection!string outboundChannelKeys ;//= new ArrayList<>();
     protected Collection!EventCorrelationParameter correlationParameters ;//= new ArrayList<>();
     protected Collection!EventPayload payload ;//= new ArrayList<>();
 
     this()
     {
-        inboundChannelKeys = new ArrayList!String;
-        outboundChannelKeys = new ArrayList!String;
+        inboundChannelKeys = new ArrayList!string;
+        outboundChannelKeys = new ArrayList!string;
         correlationParameters = new ArrayList!EventCorrelationParameter;
         payload = new ArrayList!EventPayload;
     }
 
-    public String getKey() {
+    public string getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(string key) {
         this.key = key;
     }
 
-    public String getName() {
+    public string getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(string name) {
         this.name = name;
     }
 
-    public Collection!String getInboundChannelKeys() {
+    public Collection!string getInboundChannelKeys() {
         return inboundChannelKeys;
     }
 
-    public void addInboundChannelKey(String inboundChannelKey) {
+    public void addInboundChannelKey(string inboundChannelKey) {
         this.inboundChannelKeys.add(inboundChannelKey);
     }
 
-    public void setInboundChannelKeys(Collection!String inboundChannelKeys) {
+    public void setInboundChannelKeys(Collection!string inboundChannelKeys) {
         this.inboundChannelKeys = inboundChannelKeys;
     }
 
-    public Collection!String getOutboundChannelKeys() {
+    public Collection!string getOutboundChannelKeys() {
         return outboundChannelKeys;
     }
 
-    public void addOutboundChannelKey(String outboundChannelKey) {
+    public void addOutboundChannelKey(string outboundChannelKey) {
         this.outboundChannelKeys.add(outboundChannelKey);
     }
 
-    public void setOutboundChannelKeys(Collection!String outboundChannelKeys) {
+    public void setOutboundChannelKeys(Collection!string outboundChannelKeys) {
         this.outboundChannelKeys = outboundChannelKeys;
     }
 

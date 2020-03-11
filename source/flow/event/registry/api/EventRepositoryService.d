@@ -14,7 +14,6 @@ module flow.event.registry.api.EventRepositoryService;
 
 import hunt.io.Common;
 import hunt.collection.List;
-import hunt.String;
 import flow.event.registry.api.model.EventModelBuilder;
 import flow.event.registry.api.model.InboundChannelModelBuilder;
 import flow.event.registry.api.model.OutboundChannelModelBuilder;
@@ -36,7 +35,7 @@ interface EventRepositoryService {
 
     EventDeploymentBuilder createDeployment();
 
-    void deleteDeployment(String deploymentId);
+    void deleteDeployment(string deploymentId);
 
     EventDefinitionQuery createEventDefinitionQuery();
 
@@ -50,7 +49,7 @@ interface EventRepositoryService {
      * @param category
      *              The new category.
      */
-    void setDeploymentCategory(String deploymentId, String category);
+    void setDeploymentCategory(string deploymentId, string category);
 
     /**
      * Changes the tenant id of a deployment.
@@ -60,7 +59,7 @@ interface EventRepositoryService {
      * @param newTenantId
      *              The new tenant identifier.
      */
-    void setDeploymentTenantId(String deploymentId, String newTenantId);
+    void setDeploymentTenantId(string deploymentId, string newTenantId);
 
     /**
      * Changes the parent deployment id of a deployment. This is used to move deployments to a different app deployment parent.
@@ -70,45 +69,45 @@ interface EventRepositoryService {
      * @param newParentDeploymentId
      *              The new parent deployment identifier.
      */
-    void changeDeploymentParentDeploymentId(String deploymentId, String newParentDeploymentId);
+    void changeDeploymentParentDeploymentId(string deploymentId, string newParentDeploymentId);
 
-    List!String getDeploymentResourceNames(String deploymentId);
+    List!string getDeploymentResourceNames(string deploymentId);
 
-    InputStream getResourceAsStream(String deploymentId, String resourceName);
+    InputStream getResourceAsStream(string deploymentId, string resourceName);
 
     EventDeploymentQuery createDeploymentQuery();
 
-    EventDefinition getEventDefinition(String eventDefinitionId);
+    EventDefinition getEventDefinition(string eventDefinitionId);
 
-    InputStream getEventDefinitionResource(String eventDefinitionId);
+    InputStream getEventDefinitionResource(string eventDefinitionId);
 
-    void setEventDefinitionCategory(String eventDefinitionId, String category);
+    void setEventDefinitionCategory(string eventDefinitionId, string category);
 
-    ChannelDefinition getChannelDefinition(String channelDefinitionId);
+    ChannelDefinition getChannelDefinition(string channelDefinitionId);
 
-    InputStream getChannelDefinitionResource(String channelDefinitionId);
+    InputStream getChannelDefinitionResource(string channelDefinitionId);
 
-    void setChannelDefinitionCategory(String channelDefinitionId, String category);
+    void setChannelDefinitionCategory(string channelDefinitionId, string category);
 
-    EventModel getEventModelById(String eventDefinitionId);
+    EventModel getEventModelById(string eventDefinitionId);
 
-    EventModel getEventModelByKey(String eventDefinitionKey);
+    EventModel getEventModelByKey(string eventDefinitionKey);
 
-    EventModel getEventModelByKey(String eventDefinitionKey, String tenantId);
+    EventModel getEventModelByKey(string eventDefinitionKey, string tenantId);
 
-    EventModel getEventModelByKeyAndParentDeploymentId(String eventDefinitionKey, String parentDeploymentId);
+    EventModel getEventModelByKeyAndParentDeploymentId(string eventDefinitionKey, string parentDeploymentId);
 
-    EventModel getEventModelByKeyAndParentDeploymentId(String eventDefinitionKey, String parentDeploymentId, String tenantId);
+    EventModel getEventModelByKeyAndParentDeploymentId(string eventDefinitionKey, string parentDeploymentId, string tenantId);
 
-    ChannelModel getChannelModelById(String channelDefinitionId);
+    ChannelModel getChannelModelById(string channelDefinitionId);
 
-    ChannelModel getChannelModelByKey(String channelDefinitionKey);
+    ChannelModel getChannelModelByKey(string channelDefinitionKey);
 
-    ChannelModel getChannelModelByKey(String channelDefinitionKey, String tenantId);
+    ChannelModel getChannelModelByKey(string channelDefinitionKey, string tenantId);
 
-    ChannelModel getChannelModelByKeyAndParentDeploymentId(String channelDefinitionKey, String parentDeploymentId);
+    ChannelModel getChannelModelByKeyAndParentDeploymentId(string channelDefinitionKey, string parentDeploymentId);
 
-    ChannelModel getChannelModelByKeyAndParentDeploymentId(String channelDefinitionKey, String parentDeploymentId, String tenantId);
+    ChannelModel getChannelModelByKeyAndParentDeploymentId(string channelDefinitionKey, string parentDeploymentId, string tenantId);
 
     /**
      * Programmatically build and register a new {@link EventModel}.

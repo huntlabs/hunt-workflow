@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.persistence.entity.ChannelDefinitionEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,29 +18,31 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.event.registry.api.ChannelDefinition;
 import flow.event.registry.ChannelDefinitionQueryImpl;
+import flow.event.registry.persistence.entity.ChannelDefinitionEntity;
 
-interface ChannelDefinitionEntityManager extends EntityManager<ChannelDefinitionEntity> {
 
-    ChannelDefinitionEntity findLatestChannelDefinitionByKey(String channelDefinitionKey);
+interface ChannelDefinitionEntityManager : EntityManager!ChannelDefinitionEntity {
 
-    ChannelDefinitionEntity findLatestChannelDefinitionByKeyAndTenantId(String channelDefinitionKey, String tenantId);
+    ChannelDefinitionEntity findLatestChannelDefinitionByKey(string channelDefinitionKey);
 
-    List<ChannelDefinition> findChannelDefinitionsByQueryCriteria(ChannelDefinitionQueryImpl eventQuery);
+    ChannelDefinitionEntity findLatestChannelDefinitionByKeyAndTenantId(string channelDefinitionKey, string tenantId);
+
+    List!ChannelDefinition findChannelDefinitionsByQueryCriteria(ChannelDefinitionQueryImpl eventQuery);
 
     long findChannelDefinitionCountByQueryCriteria(ChannelDefinitionQueryImpl eventQuery);
 
-    ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKey(String deploymentId, String channelDefinitionKey);
+    ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKey(string deploymentId, string channelDefinitionKey);
 
-    ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKeyAndTenantId(String deploymentId, String channelDefinitionKey, String tenantId);
+    ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKeyAndTenantId(string deploymentId, string channelDefinitionKey, string tenantId);
 
-    ChannelDefinitionEntity findChannelDefinitionByKeyAndVersionAndTenantId(String channelDefinitionKey, Integer channelVersion, String tenantId);
+    ChannelDefinitionEntity findChannelDefinitionByKeyAndVersionAndTenantId(string channelDefinitionKey, int channelVersion, string tenantId);
 
-    List<ChannelDefinition> findChannelDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
+    List!ChannelDefinition findChannelDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findChannelDefinitionCountByNativeQuery(Map!(string, Object) parameterMap);
 
-    void updateChannelDefinitionTenantIdForDeployment(String deploymentId, String newTenantId);
+    void updateChannelDefinitionTenantIdForDeployment(string deploymentId, string newTenantId);
 
-    void deleteChannelDefinitionsByDeploymentId(String deploymentId);
+    void deleteChannelDefinitionsByDeploymentId(string deploymentId);
 
 }

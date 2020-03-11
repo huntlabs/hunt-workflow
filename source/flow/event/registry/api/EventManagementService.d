@@ -14,19 +14,17 @@ module flow.event.registry.api.EventManagementService;
 
 import hunt.collection;
 import hunt.collection.Map;
-import hunt.String;
-import hunt.Long;
 interface EventManagementService {
 
     /**
      * Returns a map containing {tableName, rowCount} values.
      */
-    Map!(String, Long) getTableCounts();
+    Map!(string, long) getTableCounts();
 
     /**
      * Returns all relational database tables of the engine.
      */
-    Collection!String getTableNames();
+    Collection!string getTableNames();
 
     /**
      * Programmatically execute the house keeping functionality: any new channel definitions

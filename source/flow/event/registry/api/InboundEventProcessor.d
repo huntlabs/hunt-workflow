@@ -14,12 +14,11 @@
 module flow.event.registry.api.InboundEventProcessor;
 
 import flow.event.registry.model.InboundChannelModel;
-import hunt.String;
 /**
  * @author Joram Barrez
  */
 interface InboundEventProcessor {
 
-    void eventReceived(InboundChannelModel channelModel, String event);
+    void eventReceived(InboundChannelModel channelModel, string event);
 
 }

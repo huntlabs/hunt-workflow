@@ -14,7 +14,7 @@
 
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;

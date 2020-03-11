@@ -21,8 +21,6 @@ import flow.event.registry.api.EventDeployment;
 //import flow.event.registry.api.InboundEventTenantDetector;
 import flow.event.registry.model.InboundChannelModel;
 
-import hunt.String;
-import hunt.Boolean;
 /**
  * A builder to create a {@link InboundChannelModel} instance,
  * which represents a channel from the 'outside world' to receive events.
@@ -48,52 +46,52 @@ interface InboundChannelModelBuilder {
     /**
      * Each channel needs to have a unique key to identity it.
      */
-    InboundChannelModelBuilder key(String key);
+    InboundChannelModelBuilder key(string key);
 
     /**
      * Set the name for the channel deployment.
      */
-    InboundChannelModelBuilder deploymentName(String deploymentName);
+    InboundChannelModelBuilder deploymentName(string deploymentName);
 
     /**
      * Set the resource name for the channel model.
      */
-    InboundChannelModelBuilder resourceName(String resourceName);
+    InboundChannelModelBuilder resourceName(string resourceName);
 
     /**
      * Set the category for the channel deployment.
      */
-    InboundChannelModelBuilder category(String category);
+    InboundChannelModelBuilder category(string category);
 
     /**
      * Set the tenant id for the channel deployment.
      */
-    InboundChannelModelBuilder deploymentTenantId(String deploymentTenantId);
+    InboundChannelModelBuilder deploymentTenantId(string deploymentTenantId);
 
     /**
      * Set the parent deployment id for the channel deployment.
      */
-    InboundChannelModelBuilder parentDeploymentId(String parentDeploymentId);
+    InboundChannelModelBuilder parentDeploymentId(string parentDeploymentId);
 
     /**
      * Sets a custom {@link InboundEventChannelAdapter} via a delegate expression.
      */
-    InboundEventProcessingPipelineBuilder channelAdapter(String delegateExpression);
+    InboundEventProcessingPipelineBuilder channelAdapter(string delegateExpression);
 
     /**
      * Configures an adapter which will receive events using JMS.
      */
-    InboundJmsChannelBuilder jmsChannelAdapter(String destinationName);
+    InboundJmsChannelBuilder jmsChannelAdapter(string destinationName);
 
     /**
      * Configures an adapter which will receive events using a RabbitMQ.
      */
-    InboundRabbitChannelBuilder rabbitChannelAdapter(String queue);
+    InboundRabbitChannelBuilder rabbitChannelAdapter(string queue);
 
     /**
      * Configures an adapter which receives events using Kafka.
      */
-    InboundKafkaChannelBuilder kafkaChannelAdapter(String topic);
+    InboundKafkaChannelBuilder kafkaChannelAdapter(string topic);
 
     /**
      * Creates the {@link InboundChannelModel} instance based on the configuration
@@ -110,17 +108,17 @@ interface InboundChannelModelBuilder {
          * Set the JMS message selector, which can be used to filter
          * out incoming events. See the JMS spec for more info.
          */
-        InboundJmsChannelBuilder selector(String selector);
+        InboundJmsChannelBuilder selector(string selector);
 
         /**
          * Sets the JMS subscription. See the JMS spec for more info.
          */
-        InboundJmsChannelBuilder subscription(String subscription);
+        InboundJmsChannelBuilder subscription(string subscription);
 
         /**
          * Sets the concurrency for the listener (e.g "5-10"). See the Spring JMS docs for more info.
          */
-        InboundJmsChannelBuilder concurrency(String concurrency);
+        InboundJmsChannelBuilder concurrency(string concurrency);
 
         /**
          * Continue building the {@link InboundChannelModel} by configuring the next parts (if any).
@@ -137,33 +135,33 @@ interface InboundChannelModelBuilder {
          * Sets whether this adapter will be the only consumer of messages of the provided queue(s).
          * See the Spring Rabbit docs for more info.
          */
-        InboundRabbitChannelBuilder exclusive(Boolean exclusive);
+        InboundRabbitChannelBuilder exclusive(bool exclusive);
 
         /**
          * Sets the priority of this adapter. See the Spring Rabbit docs for more info.
          */
-        InboundRabbitChannelBuilder priority(String priority);
+        InboundRabbitChannelBuilder priority(string priority);
 
         /**
          * Bean name of a org.springframework.amqp.rabbit.core.RabbitAdmin instance.
          * See the Spring Rabbit docs for more info.
          */
-        InboundRabbitChannelBuilder admin(String admin);
+        InboundRabbitChannelBuilder admin(string admin);
 
         /**
          * Sets the concurrency for the listener. See the Spring JMS docs for more info.
          */
-        InboundRabbitChannelBuilder concurrency(String concurrency);
+        InboundRabbitChannelBuilder concurrency(string concurrency);
 
         /**
          * Bean name of a TaskExecutor instance used to process incoming messages.
          */
-        InboundRabbitChannelBuilder executor(String executor);
+        InboundRabbitChannelBuilder executor(string executor);
 
         /**
          * Sets the AckMode (e.g. NONE/MANUAL/AUTO). See the Spring JMS docs for more info.
          */
-        InboundRabbitChannelBuilder ackMode(String ackMode);
+        InboundRabbitChannelBuilder ackMode(string ackMode);
 
         /**
          * Continue building the {@link InboundChannelModel} by configuring the next parts (if any).
@@ -179,22 +177,22 @@ interface InboundChannelModelBuilder {
         /**
          * Sets the groupId for this Kafka adapter. See Kafka docs for more info.
          */
-        InboundKafkaChannelBuilder groupId(String groupId);
+        InboundKafkaChannelBuilder groupId(string groupId);
 
         /**
          * Sets the client id prefix for this Kafka adapter. See Kafka docs for more info.
          */
-        InboundKafkaChannelBuilder clientIdPrefix(String clientIdPrefix);
+        InboundKafkaChannelBuilder clientIdPrefix(string clientIdPrefix);
 
         /**
          * Sets the concurrency (and integer) for this Kafka adapter. See the Spring Kafka docs for more information.
          */
-        InboundKafkaChannelBuilder concurrency(String concurrency);
+        InboundKafkaChannelBuilder concurrency(string concurrency);
 
         /**
          * Sets custom properties for this Kafka adapter. See the Spring Kafka docs for more information.
          */
-        InboundKafkaChannelBuilder property(String name, String value);
+        InboundKafkaChannelBuilder property(string name, string value);
 
         /**
          * Continue building the {@link InboundChannelModel} by configuring the next parts (if any).
@@ -220,12 +218,12 @@ interface InboundChannelModelBuilder {
         /**
          * Uses a delegate expression to deserialize the event.
          */
-        InboundEventKeyDetectorBuilder delegateExpressionDeserializer(String delegateExpression);
+        InboundEventKeyDetectorBuilder delegateExpressionDeserializer(string delegateExpression);
 
         /**
          * Uses a delegate expression to determine the custom {@link InboundEventProcessingPipeline} instance.
          */
-        InboundChannelModelBuilder eventProcessingPipeline(String delegateExpression);
+        InboundChannelModelBuilder eventProcessingPipeline(string delegateExpression);
 
     }
 
@@ -237,17 +235,17 @@ interface InboundChannelModelBuilder {
         /**
          * Sets the event key to a hardcoded value. This is useful when the channel only receives one type of event.
          */
-        InboundEventTenantJsonDetectorBuilder fixedEventKey(String key);
+        InboundEventTenantJsonDetectorBuilder fixedEventKey(string key);
 
         /**
          * Determines the key of the event based on a top-level field in the JSON representation in the event.
          */
-        InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonField(String field);
+        InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonField(string field);
 
         /**
          * Determines the key of the event using on a JSON Pointer expression to find the value.
          */
-        InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonPointerExpression(String jsonPointerExpression);
+        InboundEventTenantJsonDetectorBuilder detectEventKeyUsingJsonPointerExpression(string jsonPointerExpression);
 
     }
 
@@ -259,12 +257,12 @@ interface InboundChannelModelBuilder {
         /**
          * Sets the tenant to a hardcoded value. Useful for when the channel only receives events for a given tenant.
          */
-        InboundEventPayloadJsonExtractorBuilder fixedTenantId(String tenantId);
+        InboundEventPayloadJsonExtractorBuilder fixedTenantId(string tenantId);
 
         /**
          * Determines the tenant ID by using a JSOn Pointer expression.
          */
-        InboundEventPayloadJsonExtractorBuilder detectEventTenantUsingJsonPointerExpression(String jsonPointerExpression);
+        InboundEventPayloadJsonExtractorBuilder detectEventTenantUsingJsonPointerExpression(string jsonPointerExpression);
 
     }
 
@@ -276,12 +274,12 @@ interface InboundChannelModelBuilder {
         /**
          * Sets the event key to a hardcoded value. This is useful when the channel only receives one type of event.
          */
-        InboundEventTenantXmlDetectorBuilder fixedEventKey(String key);
+        InboundEventTenantXmlDetectorBuilder fixedEventKey(string key);
 
         /**
          * Determines the key of the event using on a XPATH expression to find the value.
          */
-        InboundEventTenantXmlDetectorBuilder detectEventKeyUsingXPathExpression(String xPathExpression);
+        InboundEventTenantXmlDetectorBuilder detectEventKeyUsingXPathExpression(string xPathExpression);
 
     }
 
@@ -293,12 +291,12 @@ interface InboundChannelModelBuilder {
         /**
          * Sets the tenant to a hardcoded value. Useful for when the channel only receives events for a given tenant.
          */
-        InboundEventPayloadXmlExtractorBuilder fixedTenantId(String tenantId);
+        InboundEventPayloadXmlExtractorBuilder fixedTenantId(string tenantId);
 
         /**
          * Determines the tenant ID by using an XPath expression.
          */
-        InboundEventPayloadXmlExtractorBuilder detectEventTenantUsingXPathExpression(String xPathExpression);
+        InboundEventPayloadXmlExtractorBuilder detectEventTenantUsingXPathExpression(string xPathExpression);
 
     }
 
@@ -310,7 +308,7 @@ interface InboundChannelModelBuilder {
         /**
          * Uses delegate expression to determine the custom {@link InboundEventKeyDetector}.
          */
-        InboundEventTenantDetectorBuilder delegateExpressionKeyDetector(String delegateExpression);
+        InboundEventTenantDetectorBuilder delegateExpressionKeyDetector(string delegateExpression);
 
     }
 
@@ -322,12 +320,12 @@ interface InboundChannelModelBuilder {
         /**
          * Sets the tenant to a hardcoded value. Useful for when the channel only receives events for a given tenant.
          */
-        InboundEventPayloadExtractorBuilder fixedTenantId(String tenantId);
+        InboundEventPayloadExtractorBuilder fixedTenantId(string tenantId);
 
         /**
          * Uses delegate expression to determine the custom {@link InboundEventTenantDetector} instance.
          */
-        InboundEventPayloadExtractorBuilder delegateExpressionTenantDetector(String delegateExpression);
+        InboundEventPayloadExtractorBuilder delegateExpressionTenantDetector(string delegateExpression);
 
     }
 
@@ -363,13 +361,13 @@ interface InboundChannelModelBuilder {
         /**
          * Uses delegate expression to determine the custom {@link InboundEventPayloadExtractor} instance.
          */
-        InboundEventTransformerBuilder payloadExtractor(String delegateExpression);
+        InboundEventTransformerBuilder payloadExtractor(string delegateExpression);
 
     }
 
     interface InboundEventTransformerBuilder {
 
-        InboundChannelModelBuilder transformer(String delegateExpression);
+        InboundChannelModelBuilder transformer(string delegateExpression);
 
         EventDeployment deploy();
 

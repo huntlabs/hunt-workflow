@@ -15,14 +15,14 @@ module flow.event.registry.api.EventDeploymentQuery;
 
 import flow.common.api.query.Query;
 import flow.event.registry.api.EventDeployment;
-import hunt.String;
+import hunt.string;
 /**
  * Allows programmatic querying of {@link EventDeployment}s.
  *
  * Note that it is impossible to retrieve the deployment resources through the results of this operation, since that would cause a huge transfer of (possibly) unneeded bytes over the wire.
  *
- * To retrieve the actual bytes of a deployment resource use the operations on the {@link EventRepositoryService#getDeploymentResourceNames(String)} and
- * {@link RepositoryService#getResourceAsStream(String, String)}
+ * To retrieve the actual bytes of a deployment resource use the operations on the {@link EventRepositoryService#getDeploymentResourceNames(string)} and
+ * {@link RepositoryService#getResourceAsStream(string, string)}
  *
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -32,41 +32,41 @@ interface EventDeploymentQuery : Query!(EventDeploymentQuery, EventDeployment) {
     /**
      * Only select deployments with the given deployment id.
      */
-    EventDeploymentQuery deploymentId(String deploymentId);
+    EventDeploymentQuery deploymentId(string deploymentId);
 
     /**
      * Only select deployments with the given name.
      */
-    EventDeploymentQuery deploymentName(String name);
+    EventDeploymentQuery deploymentName(string name);
 
     /**
      * Only select deployments with a name like the given string.
      */
-    EventDeploymentQuery deploymentNameLike(String nameLike);
+    EventDeploymentQuery deploymentNameLike(string nameLike);
 
     /**
      * Only select deployments with the given category.
      *
-     * @see DeploymentBuilder#category(String)
+     * @see DeploymentBuilder#category(string)
      */
-    EventDeploymentQuery deploymentCategory(String category);
+    EventDeploymentQuery deploymentCategory(string category);
 
     /**
      * Only select deployments that have a different category then the given one.
      *
-     * @see DeploymentBuilder#category(String)
+     * @see DeploymentBuilder#category(string)
      */
-    EventDeploymentQuery deploymentCategoryNotEquals(String categoryNotEquals);
+    EventDeploymentQuery deploymentCategoryNotEquals(string categoryNotEquals);
 
     /**
      * Only select deployment that have the given tenant id.
      */
-    EventDeploymentQuery deploymentTenantId(String tenantId);
+    EventDeploymentQuery deploymentTenantId(string tenantId);
 
     /**
      * Only select deployments with a tenant id like the given one.
      */
-    EventDeploymentQuery deploymentTenantIdLike(String tenantIdLike);
+    EventDeploymentQuery deploymentTenantIdLike(string tenantIdLike);
 
     /**
      * Only select deployments that do not have a tenant id.
@@ -74,30 +74,30 @@ interface EventDeploymentQuery : Query!(EventDeploymentQuery, EventDeployment) {
     EventDeploymentQuery deploymentWithoutTenantId();
 
     /** Only select deployments with the given event definition key. */
-    EventDeploymentQuery eventDefinitionKey(String key);
+    EventDeploymentQuery eventDefinitionKey(string key);
 
     /**
      * Only select deployments with an event definition key like the given string.
      */
-    EventDeploymentQuery eventDefinitionKeyLike(String keyLike);
+    EventDeploymentQuery eventDefinitionKeyLike(string keyLike);
 
     /** Only select deployments with the given channel definition key. */
-    EventDeploymentQuery channelDefinitionKey(String key);
+    EventDeploymentQuery channelDefinitionKey(string key);
 
     /**
      * Only select deployments with a channel definition key like the given string.
      */
-    EventDeploymentQuery channelDefinitionKeyLike(String keyLike);
+    EventDeploymentQuery channelDefinitionKeyLike(string keyLike);
 
     /**
      * Only select deployment that have the given deployment parent id.
      */
-    EventDeploymentQuery parentDeploymentId(String deploymentParentId);
+    EventDeploymentQuery parentDeploymentId(string deploymentParentId);
 
     /**
      * Only select deployments with a deployment parent id like the given one.
      */
-    EventDeploymentQuery parentDeploymentIdLike(String deploymentParentIdLike);
+    EventDeploymentQuery parentDeploymentIdLike(string deploymentParentIdLike);
 
     // sorting ////////////////////////////////////////////////////////
 

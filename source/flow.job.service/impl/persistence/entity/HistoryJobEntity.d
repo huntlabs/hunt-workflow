@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
@@ -35,7 +35,7 @@ interface HistoryJobEntity extends JobInfoEntity, HistoryJob, Entity, HasRevisio
     void setCustomValuesByteArrayRef(JobByteArrayRef customValuesByteArrayRef);
 
     void setExceptionByteArrayRef(JobByteArrayRef exceptionByteArrayRef);
-    
+
     void setScopeType(string scopeType);
 
 }

@@ -12,11 +12,10 @@
  */
 
 module flow.event.registry.api.CorrelationKeyGenerator;
-import hunt.String;
 /**
  * @author Filip Hrisafov
  */
 interface CorrelationKeyGenerator(T) {
 
-    String generateKey(T source);
+    string generateKey(T source);
 }

@@ -11,8 +11,8 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.persistence.entity.EventRegistryEntityConstants;
 class EventRegistryEntityConstants {
 
-    public static final String EVENT_REGISTRY_ID_PREFIX = "EVR-";
+    public static  string EVENT_REGISTRY_ID_PREFIX = "EVR-";
 }

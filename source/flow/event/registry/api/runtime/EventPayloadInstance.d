@@ -15,7 +15,6 @@ module flow.event.registry.api.runtime.EventPayloadInstance;
 
 import flow.event.registry.model.EventPayload;
 
-import hunt.String;
 /**
  * @author Joram Barrez
  * @author Filip Hrisafov
@@ -24,9 +23,9 @@ interface EventPayloadInstance {
 
     EventPayload getEventPayloadDefinition();
 
-    String getDefinitionName();
+    string getDefinitionName();
 
-    String getDefinitionType();
+    string getDefinitionType();
 
     Object getValue();
 

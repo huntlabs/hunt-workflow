@@ -52,7 +52,7 @@ import flow.common.api.deleg.FlowableExpressionEnhancer;
 import flow.common.api.deleg.FlowableFunctionDelegate;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.deleg.event.FlowableEventListener;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.EngineConfigurator;
 import flow.common.EngineDeployer;

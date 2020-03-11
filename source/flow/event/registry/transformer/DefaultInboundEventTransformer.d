@@ -11,9 +11,9 @@
  * limitations under the License.
  */
 
+module flow.event.registry.transformer.DefaultInboundEventTransformer;
 
 import hunt.collection;
-import hunt.collections;
 
 import flow.event.registry.api.EventRegistryEvent;
 import flow.event.registry.api.InboundEventTransformer;
@@ -24,9 +24,8 @@ import flow.event.registry.event.FlowableEventRegistryEvent;
  * @author Joram Barrez
  * @author Filip Hrisafov
  */
-class DefaultInboundEventTransformer implements InboundEventTransformer {
+class DefaultInboundEventTransformer : InboundEventTransformer {
 
-    @Override
     public Collection!EventRegistryEvent transform(EventInstance eventInstance) {
         return Collections.singletonList(new FlowableEventRegistryEvent(eventInstance));
     }

@@ -10,28 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
-module flow.common.api.scope.ScopeTypes; 
- 
- 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
+module flow.common.api.scop.ScopeTypes;
+
+
+
 
 
 /**
  * @author Joram Barrez
  */
 interface ScopeTypes {
-
-    string APP = "app";
-    string BPMN = "bpmn";
-    string CMMN = "cmmn";
-    string DMN = "dmn";
-    string EVENT_REGISTRY = "eventRegistry";
-    string FORM = "form";
-    string PLAN_ITEM = "planItem";
-    string TASK = "task";
+  static string P = "app";
+  static string BPMN = "bpmn";
+  static string CMMN = "cmmn";
+  static string DMN = "dmn";
+  static string EVENT_REGISTRY = "eventRegistry";
+  static string FORM = "form";
+  static string PLAN_ITEM = "planItem";
+  static string TASK = "task";
 }

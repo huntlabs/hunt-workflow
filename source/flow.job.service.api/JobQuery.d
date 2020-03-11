@@ -11,18 +11,18 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.job.service.api.JobQuery;
- 
- 
- 
 
 
-//import java.util.Date;
+
+
+
+//import hunt.time.LocalDateTime;
 
 import flow.common.api.query.Query;
 import flow.job.service.api.Job;
@@ -48,34 +48,34 @@ interface JobQuery : Query!(JobQuery, Job) {
 
     /** Only select jobs which exist for the given process definition id */
     JobQuery processDefinitionId(string processDefinitionId);
-    
+
     /** Only select jobs which exist for the given element id */
     JobQuery elementId(string elementId);
-    
+
     /** Only select jobs which exist for the given element name */
     JobQuery elementName(string elementName);
-    
+
     /** Only select tasks for the given scope identifier. */
     JobQuery scopeId(string scopeId);
 
     /** Only select tasks for the given sub scope identifier. */
     JobQuery subScopeId(string subScopeId);
-    
+
     /** Only select tasks for the given scope type. */
     JobQuery scopeType(string scopeType);
-    
+
     /** Only select tasks for the given scope definition identifier. */
     JobQuery scopeDefinitionId(string scopeDefinitionId);
-    
+
     /** Only select jobs for the given case instance. */
     JobQuery caseInstanceId(string caseInstanceId);
-    
+
     /** Only select jobs for the given case definition. */
     JobQuery caseDefinitionId(string caseDefinitionId);
-    
+
     /** Only select jobs for the given plan item instance.  */
     JobQuery planItemInstanceId(string planItemInstanceId);
-    
+
     /**
      * Only select jobs that are timers. Cannot be used together with {@link #messages()}
      */

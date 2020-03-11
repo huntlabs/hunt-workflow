@@ -15,25 +15,24 @@ module flow.event.registry.model.JmsOutboundChannelModel;
 //import com.fasterxml.jackson.annotation.JsonInclude;
 //import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import flow.event.registry.model.OutboundChannelModel;
-import hunt.String;
 /**
  * @author Filip Hrisafov
  */
 //@JsonInclude(Include.NON_NULL)
 class JmsOutboundChannelModel : OutboundChannelModel {
 
-    protected String destination;
+    protected string destination;
 
     this() {
         super();
-        setType(new String("jms"));
+        setType("jms");
     }
 
-    public String getDestination() {
+    public string getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(string destination) {
         this.destination = destination;
     }
 }

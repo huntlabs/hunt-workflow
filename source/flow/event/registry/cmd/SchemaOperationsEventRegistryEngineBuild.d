@@ -15,17 +15,19 @@
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.event.registry.EventRegistryEngineConfiguration;
-import flow.event.registry.db.EventDbSchemaManager;
+//import flow.event.registry.db.EventDbSchemaManager;
 import flow.event.registry.util.CommandContextUtil;
 import hunt.Object;
+import hunt.logging;
 /**
  * @author Joram Barrez
  */
 class SchemaOperationsEventRegistryEngineBuild : Command!Void {
 
     public Void execute(CommandContext commandContext) {
-        EventRegistryEngineConfiguration configuration = CommandContextUtil.getEventRegistryConfiguration(commandContext);
-        ((EventDbSchemaManager) configuration.getSchemaManager()).initSchema(configuration);
+        logInfo("SchemaOperationsEventRegistryEngineBuild -- ");
+        //EventRegistryEngineConfiguration configuration = CommandContextUtil.getEventRegistryConfiguration(commandContext);
+        //((EventDbSchemaManager) configuration.getSchemaManager()).initSchema(configuration);
         return null;
     }
 

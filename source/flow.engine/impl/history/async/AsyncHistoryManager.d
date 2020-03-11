@@ -15,7 +15,7 @@
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.putIfNotNull;
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import java.util.Iterator;
 import hunt.collection.List;
 import hunt.collection.Map;

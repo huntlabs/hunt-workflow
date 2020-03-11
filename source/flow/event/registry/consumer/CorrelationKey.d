@@ -11,9 +11,9 @@
  * limitations under the License.
  */
 
+module flow.event.registry.consumer.CorrelationKey;
 
 import hunt.collection;
-import java.util.Objects;
 
 import flow.event.registry.api.runtime.EventCorrelationParameterInstance;
 
@@ -26,18 +26,18 @@ import flow.event.registry.api.runtime.EventCorrelationParameterInstance;
  */
 class CorrelationKey {
 
-    protected String value;
+    protected string value;
     protected Collection!EventCorrelationParameterInstance parameterInstances;
 
-    public CorrelationKey(String value, Collection!EventCorrelationParameterInstance parameterInstances) {
+    this(string value, Collection!EventCorrelationParameterInstance parameterInstances) {
         this.value = value;
         this.parameterInstances = parameterInstances;
     }
 
-    public String getValue() {
+    public string getValue() {
         return value;
     }
-    public void setValue(String value) {
+    public void setValue(string value) {
         this.value = value;
     }
     public Collection!EventCorrelationParameterInstance getParameterInstances() {
@@ -47,20 +47,20 @@ class CorrelationKey {
         this.parameterInstances = parameterInstances;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    override
+    public bool opEquals(Object o) {
+        if (this is o) {
             return true;
         }
-        if (o is null || getClass() != o.getClass()) {
+        if (o is null || cast(CorrelationKey)o is null) {
             return false;
         }
-        CorrelationKey that = (CorrelationKey) o;
-        return Objects.equals(value, that.value) && Objects.equals(parameterInstances, that.parameterInstances);
+        CorrelationKey that = cast(CorrelationKey) o;
+        return (value == that.value) && (parameterInstances == that.parameterInstances);
     }
 
-    @Override
-    public int hashCode() {
-        return value.hashCode(); // The value is determined by the parameterInstance, so no need to use them in the hashcode
+    override
+    public size_t toHash() {
+        return hashOf(value); // The value is determined by the parameterInstance, so no need to use them in the hashcode
     }
 }

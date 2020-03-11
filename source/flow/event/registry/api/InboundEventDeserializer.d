@@ -16,12 +16,11 @@ module flow.event.registry.api.InboundEventDeserializer;
  * @author Joram Barrez
  * @author Filip Hrisafov
  */
-import hunt.String;
 interface InboundEventDeserializer(T) {
 
     /**
      * The actual deserialization.
      */
-    T deserialize(String rawEvent);
+    T deserialize(string rawEvent);
 
 }

@@ -11,59 +11,59 @@
  * limitations under the License.
  */
 
-
-import hunt.collection;
-import hunt.collection.HashMap;
-import hunt.collection.Map;
-
-import flow.common.persistence.entity.Entity;
-import flow.event.registry.persistence.entity.ChannelDefinitionEntity;
-import flow.event.registry.persistence.entity.EventDefinitionEntity;
-import flow.event.registry.persistence.entity.EventDeploymentEntity;
-import flow.event.registry.persistence.entity.EventResourceEntity;
-import flow.event.registry.persistence.entity.data.TableDataManager;
-import flow.event.registry.util.CommandContextUtil;
-
-/**
- * @author Joram Barrez
- */
-class TableDataManagerImpl implements TableDataManager {
-
-    public static Map<Class<? extends Entity>, String> entityToTableNameMap = new HashMap<>();
-
-    static {
-        entityToTableNameMap.put(EventDeploymentEntity.class, "FLW_EVENT_DEPLOYMENT");
-        entityToTableNameMap.put(EventResourceEntity.class, "FLW_EVENT_RESOURCE");
-        entityToTableNameMap.put(EventDefinitionEntity.class, "FLW_EVENT_DEFINITION");
-        entityToTableNameMap.put(ChannelDefinitionEntity.class, "FLW_CHANNEL_DEFINITION");
-    }
-
-    public TableDataManagerImpl() {
-    }
-
-    @Override
-    public Map<String, Long> getTableCount() {
-        Map<String, Long> counts = new HashMap<>();
-        for (String table : getTablesPresentInDatabase()) {
-            counts.put(table, (Long) CommandContextUtil.getDbSqlSession().selectOne("flow.event.registry.TableData.selectTableCount", table));
-        }
-        return counts;
-    }
-
-    @Override
-    public Collection!String getTablesPresentInDatabase() {
-        return entityToTableNameMap.values();
-    }
-
-    @Override
-    public String getTableName(Class<?> entityClass, boolean withPrefix) {
-        String databaseTablePrefix = CommandContextUtil.getDbSqlSession().getDbSqlSessionFactory().getDatabaseTablePrefix();
-        String tableName = entityToTableNameMap.get(entityClass);
-        if (withPrefix) {
-            return databaseTablePrefix + tableName;
-        } else {
-            return tableName;
-        }
-    }
-
-}
+//
+//import hunt.collection;
+//import hunt.collection.HashMap;
+//import hunt.collection.Map;
+//
+//import flow.common.persistence.entity.Entity;
+//import flow.event.registry.persistence.entity.ChannelDefinitionEntity;
+//import flow.event.registry.persistence.entity.EventDefinitionEntity;
+//import flow.event.registry.persistence.entity.EventDeploymentEntity;
+//import flow.event.registry.persistence.entity.EventResourceEntity;
+//import flow.event.registry.persistence.entity.data.TableDataManager;
+//import flow.event.registry.util.CommandContextUtil;
+//
+///**
+// * @author Joram Barrez
+// */
+//class TableDataManagerImpl implements TableDataManager {
+//
+//    public static Map<Class<? extends Entity>, String> entityToTableNameMap = new HashMap<>();
+//
+//    static {
+//        entityToTableNameMap.put(EventDeploymentEntity.class, "FLW_EVENT_DEPLOYMENT");
+//        entityToTableNameMap.put(EventResourceEntity.class, "FLW_EVENT_RESOURCE");
+//        entityToTableNameMap.put(EventDefinitionEntity.class, "FLW_EVENT_DEFINITION");
+//        entityToTableNameMap.put(ChannelDefinitionEntity.class, "FLW_CHANNEL_DEFINITION");
+//    }
+//
+//    public TableDataManagerImpl() {
+//    }
+//
+//    @Override
+//    public Map<String, Long> getTableCount() {
+//        Map<String, Long> counts = new HashMap<>();
+//        for (String table : getTablesPresentInDatabase()) {
+//            counts.put(table, (Long) CommandContextUtil.getDbSqlSession().selectOne("flow.event.registry.TableData.selectTableCount", table));
+//        }
+//        return counts;
+//    }
+//
+//    @Override
+//    public Collection!String getTablesPresentInDatabase() {
+//        return entityToTableNameMap.values();
+//    }
+//
+//    @Override
+//    public String getTableName(Class<?> entityClass, boolean withPrefix) {
+//        String databaseTablePrefix = CommandContextUtil.getDbSqlSession().getDbSqlSessionFactory().getDatabaseTablePrefix();
+//        String tableName = entityToTableNameMap.get(entityClass);
+//        if (withPrefix) {
+//            return databaseTablePrefix + tableName;
+//        } else {
+//            return tableName;
+//        }
+//    }
+//
+//}

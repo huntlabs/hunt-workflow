@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.cfg.TransactionContext;
 import flow.common.cfg.TransactionListener;

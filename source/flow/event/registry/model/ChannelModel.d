@@ -14,66 +14,65 @@
 module flow.event.registry.model.ChannelModel;
 
 
-import hunt.String;
 
 class ChannelModel {
 
-    protected String key;
-    protected String category;
-    protected String name;
-    protected String description;
+    protected string key;
+    protected string category;
+    protected string name;
+    protected string description;
 
     // inbound or outbound
-    protected String channelType;
+    protected string channelType;
 
     // jms, rabbitmq, kafka etc
-    protected String type;
+    protected string type;
 
-    public String getKey() {
+    public string getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(string key) {
         this.key = key;
     }
 
-    public String getCategory() {
+    public string getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(string category) {
         this.category = category;
     }
 
-    public String getName() {
+    public string getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(string name) {
         this.name = name;
     }
 
-    public String getDescription() {
+    public string getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(string description) {
         this.description = description;
     }
 
-    public String getChannelType() {
+    public string getChannelType() {
         return channelType;
     }
 
-    public void setChannelType(String channelType) {
+    public void setChannelType(string channelType) {
         this.channelType = channelType;
     }
 
-    public String getType() {
+    public string getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(string type) {
         this.type = type;
     }
 

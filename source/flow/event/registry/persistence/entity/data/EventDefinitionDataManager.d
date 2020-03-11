@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.persistence.entity.data.EventDefinitionDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -23,34 +23,34 @@ import flow.event.registry.persistence.entity.EventDefinitionEntity;
 /**
  * @author Joram Barrez
  */
-interface EventDefinitionDataManager extends DataManager<EventDefinitionEntity> {
+interface EventDefinitionDataManager : DataManager!EventDefinitionEntity {
 
-    EventDefinitionEntity findLatestEventDefinitionByKey(String eventDefinitionKey);
+    EventDefinitionEntity findLatestEventDefinitionByKey(string eventDefinitionKey);
 
-    EventDefinitionEntity findLatestEventDefinitionByKeyAndTenantId(String eventDefinitionKey, String tenantId);
+    EventDefinitionEntity findLatestEventDefinitionByKeyAndTenantId(string eventDefinitionKey, string tenantId);
 
-    EventDefinitionEntity findLatestEventDefinitionByKeyAndParentDeploymentId(String eventDefinitionKey, String parentDeploymentId);
+    EventDefinitionEntity findLatestEventDefinitionByKeyAndParentDeploymentId(string eventDefinitionKey, string parentDeploymentId);
 
-    EventDefinitionEntity findLatestEventDefinitionByKeyParentDeploymentIdAndTenantId(String eventDefinitionKey, String parentDeploymentId, String tenantId);
+    EventDefinitionEntity findLatestEventDefinitionByKeyParentDeploymentIdAndTenantId(string eventDefinitionKey, string parentDeploymentId, string tenantId);
 
-    void deleteEventDefinitionsByDeploymentId(String deploymentId);
+    void deleteEventDefinitionsByDeploymentId(string deploymentId);
 
-    List<EventDefinition> findEventDefinitionsByQueryCriteria(EventDefinitionQueryImpl eventDefinitionQuery);
+    List!EventDefinition findEventDefinitionsByQueryCriteria(EventDefinitionQueryImpl eventDefinitionQuery);
 
     long findEventDefinitionCountByQueryCriteria(EventDefinitionQueryImpl eventDefinitionQuery);
 
-    EventDefinitionEntity findEventDefinitionByDeploymentAndKey(String deploymentId, String eventDefinitionKey);
+    EventDefinitionEntity findEventDefinitionByDeploymentAndKey(string deploymentId, string eventDefinitionKey);
 
-    EventDefinitionEntity findEventDefinitionByDeploymentAndKeyAndTenantId(String deploymentId, String eventDefinitionKey, String tenantId);
+    EventDefinitionEntity findEventDefinitionByDeploymentAndKeyAndTenantId(string deploymentId, string eventDefinitionKey, string tenantId);
 
-    EventDefinitionEntity findEventDefinitionByKeyAndVersion(String eventDefinitionKey, Integer eventVersion);
+    EventDefinitionEntity findEventDefinitionByKeyAndVersion(string eventDefinitionKey, int eventVersion);
 
-    EventDefinitionEntity findEventDefinitionByKeyAndVersionAndTenantId(String eventDefinitionKey, Integer eventVersion, String tenantId);
+    EventDefinitionEntity findEventDefinitionByKeyAndVersionAndTenantId(string eventDefinitionKey, int eventVersion, string tenantId);
 
-    List<EventDefinition> findEventDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
+    List!EventDefinition findEventDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findEventDefinitionCountByNativeQuery(Map!(string, Object) parameterMap);
 
-    void updateEventDefinitionTenantIdForDeployment(String deploymentId, String newTenantId);
+    void updateEventDefinitionTenantIdForDeployment(string deploymentId, string newTenantId);
 
 }

@@ -11,11 +11,12 @@
  * limitations under the License.
  */
 
+module flow.event.registry.persistence.entity.ResourceRef;
 
-import java.io.Serializable;
 
 import flow.event.registry.util.CommandContextUtil;
-
+import flow.event.registry.persistence.entity.EventResourceEntity;
+import flow.event.registry.persistence.entity.EventResourceEntityManager;
 /**
  * <p>
  * Encapsulates the logic for transparently working with {@link ByteArrayEntity} .
@@ -24,28 +25,27 @@ import flow.event.registry.util.CommandContextUtil;
  * @author Marcus Klimstra (CGI)
  * @author Tijs Rademakers
  */
-class ResourceRef implements Serializable {
+class ResourceRef {
 
-    private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String name;
+    private string id;
+    private string name;
     private EventResourceEntity entity;
-    protected boolean deleted;
+    protected bool deleted;
 
-    public ResourceRef() {
+    this() {
     }
 
     // Only intended to be used by ByteArrayRefTypeHandler
-    public ResourceRef(String id) {
+    this(string id) {
         this.id = id;
     }
 
-    public String getId() {
+    public string getId() {
         return id;
     }
 
-    public String getName() {
+    public string getName() {
         return name;
     }
 
@@ -54,7 +54,7 @@ class ResourceRef implements Serializable {
         return (entity !is null ? entity.getBytes() : null);
     }
 
-    public void setValue(String name, byte[] bytes) {
+    public void setValue(string name, byte[] bytes) {
         this.name = name;
         setBytes(bytes);
     }
@@ -81,14 +81,14 @@ class ResourceRef implements Serializable {
         return entity;
     }
 
-    public void delete() {
+    public void dele() {
         if (!deleted && id !is null) {
             if (entity !is null) {
                 // if the entity has been loaded already,
                 // we might as well use the safer optimistic locking delete.
-                CommandContextUtil.getResourceEntityManager().delete(entity);
+                CommandContextUtil.getResourceEntityManager().dele(entity);
             } else {
-                CommandContextUtil.getResourceEntityManager().delete(id);
+                CommandContextUtil.getResourceEntityManager().dele(id);
             }
             entity = null;
             id = null;
@@ -103,12 +103,12 @@ class ResourceRef implements Serializable {
         }
     }
 
-    public boolean isDeleted() {
+    public bool isDeleted() {
         return deleted;
     }
 
-    @Override
-    public String toString() {
-        return "ResourceRef[id=" + id + ", name=" + name + ", entity=" + entity + (deleted ? ", deleted]" : "]");
+    override
+    public string toString() {
+        return "ResourceRef[id=" ~ id ~ ", name=" ~ name ~ ", entity=" ~ entity ~ (deleted ? ", deleted]" : "]");
     }
 }

@@ -13,7 +13,6 @@
 module flow.event.registry.api.runtime.EventCorrelationParameterInstance;
 
 import flow.event.registry.model.EventCorrelationParameter;
-import hunt.String;
 /**
  * @author Joram Barrez
  * @author Filip Hrisafov
@@ -22,9 +21,9 @@ interface EventCorrelationParameterInstance {
 
     EventCorrelationParameter getEventCorrelationParameterDefinition();
 
-    String getDefinitionName();
+    string getDefinitionName();
 
-    String getDefinitionType();
+    string getDefinitionType();
 
     Object getValue();
 

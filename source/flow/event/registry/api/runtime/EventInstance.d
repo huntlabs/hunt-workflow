@@ -13,10 +13,9 @@
 module flow.event.registry.api.runtime.EventInstance;
 
 import hunt.collection;
-import hunt.String;
 import flow.event.registry.model.EventModel;
-import flow.event.registry.api.EventPayloadInstance;
-import flow.event.registry.api.EventCorrelationParameterInstance;
+import flow.event.registry.api.runtime.EventPayloadInstance;
+import flow.event.registry.api.runtime.EventCorrelationParameterInstance;
 
 /**
  * @author Joram Barrez
@@ -29,6 +28,6 @@ interface EventInstance {
 
     Collection!EventCorrelationParameterInstance getCorrelationParameterInstances();
 
-    String getTenantId();
+    string getTenantId();
 
 }

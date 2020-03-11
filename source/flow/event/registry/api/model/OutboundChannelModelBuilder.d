@@ -18,7 +18,6 @@ import flow.event.registry.api.EventDeployment;
 //import flow.event.registry.api.OutboundEventSerializer;
 import flow.event.registry.model.OutboundChannelModel;
 
-import hunt.String;
 /**
  * A builder to create an {@link OutboundChannelModel} instance.
  *  which represents a channel to send events to the 'outside world'.
@@ -36,52 +35,52 @@ interface OutboundChannelModelBuilder {
     /**
      * Each channel needs to have a unique key to identity it.
      */
-    OutboundChannelModelBuilder key(String key);
+    OutboundChannelModelBuilder key(string key);
 
     /**
      * Set the name for the channel deployment.
      */
-    OutboundChannelModelBuilder deploymentName(String deploymentName);
+    OutboundChannelModelBuilder deploymentName(string deploymentName);
 
     /**
      * Set the resource name for the channel model.
      */
-    OutboundChannelModelBuilder resourceName(String resourceName);
+    OutboundChannelModelBuilder resourceName(string resourceName);
 
     /**
      * Set the category for the channel deployment.
      */
-    OutboundChannelModelBuilder category(String category);
+    OutboundChannelModelBuilder category(string category);
 
     /**
      * Set the tenant id for the channel deployment.
      */
-    OutboundChannelModelBuilder deploymentTenantId(String deploymentTenantId);
+    OutboundChannelModelBuilder deploymentTenantId(string deploymentTenantId);
 
     /**
      * Set the parent deployment id for the channel deployment.
      */
-    OutboundChannelModelBuilder parentDeploymentId(String parentDeploymentId);
+    OutboundChannelModelBuilder parentDeploymentId(string parentDeploymentId);
 
     /**
      * Sets a custom {@link OutboundEventChannelAdapter} via a delegate expression.
      */
-    OutboundEventProcessingPipelineBuilder channelAdapter(String delegateExpression);
+    OutboundEventProcessingPipelineBuilder channelAdapter(string delegateExpression);
 
     /**
      * Configures an adapter which will send events using JMS.
      */
-    OutboundJmsChannelBuilder jmsChannelAdapter(String destination);
+    OutboundJmsChannelBuilder jmsChannelAdapter(string destination);
 
     /**
      * Configures an adapter which will send events using RabbitMQ.
      */
-    OutboundRabbitChannelBuilder rabbitChannelAdapter(String routingKey);
+    OutboundRabbitChannelBuilder rabbitChannelAdapter(string routingKey);
 
     /**
      * Configures an adapter which will send events using Kafka.
      */
-    OutboundKafkaChannelBuilder kafkaChannelAdapter(String topic);
+    OutboundKafkaChannelBuilder kafkaChannelAdapter(string topic);
 
     /**
      * Creates the {@link OutboundChannelModel} instance based on the configuration
@@ -105,7 +104,7 @@ interface OutboundChannelModelBuilder {
         /**
          * Sets the exchange to which events need to be sent.
          */
-        OutboundRabbitChannelBuilder exchange(String exchange);
+        OutboundRabbitChannelBuilder exchange(string exchange);
 
         OutboundEventProcessingPipelineBuilder eventProcessingPipeline();
     }
@@ -118,7 +117,7 @@ interface OutboundChannelModelBuilder {
         /**
          * Sets the record key for the outgoing message.
          */
-        OutboundKafkaChannelBuilder recordKey(String key);
+        OutboundKafkaChannelBuilder recordKey(string key);
 
         OutboundEventProcessingPipelineBuilder eventProcessingPipeline();
     }
@@ -142,12 +141,12 @@ interface OutboundChannelModelBuilder {
          * Uses a delegate expression to serialize the event.
          * The expression should resolve to an instance of {@link OutboundEventSerializer}.
          */
-        OutboundChannelModelBuilder delegateExpressionSerializer(String delegateExpression);
+        OutboundChannelModelBuilder delegateExpressionSerializer(string delegateExpression);
 
         /**
          * Uses a delegate expression to determine the custom {@link OutboundEventProcessingPipeline} instance.
          */
-        OutboundChannelModelBuilder eventProcessingPipeline(String delegateExpression);
+        OutboundChannelModelBuilder eventProcessingPipeline(string delegateExpression);
 
     }
 

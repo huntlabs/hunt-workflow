@@ -17,16 +17,15 @@ module flow.event.registry.model.OutboundChannelModel;
 import flow.event.registry.model.ChannelModel;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import hunt.String;
 /**
  * @author Joram Barrez
  */
 class OutboundChannelModel : ChannelModel {
 
-    protected String serializerType;
+    protected string serializerType;
 
-    protected String serializerDelegateExpression;
-    protected String pipelineDelegateExpression;
+    protected string serializerDelegateExpression;
+    protected string pipelineDelegateExpression;
 
    // @JsonIgnore
     protected Object outboundEventChannelAdapter;
@@ -38,27 +37,27 @@ class OutboundChannelModel : ChannelModel {
         setChannelType("outbound");
     }
 
-    public String getSerializerType() {
+    public string getSerializerType() {
         return serializerType;
     }
 
-    public void setSerializerType(String serializerType) {
+    public void setSerializerType(string serializerType) {
         this.serializerType = serializerType;
     }
 
-    public String getSerializerDelegateExpression() {
+    public string getSerializerDelegateExpression() {
         return serializerDelegateExpression;
     }
 
-    public void setSerializerDelegateExpression(String serializerDelegateExpression) {
+    public void setSerializerDelegateExpression(string serializerDelegateExpression) {
         this.serializerDelegateExpression = serializerDelegateExpression;
     }
 
-    public String getPipelineDelegateExpression() {
+    public string getPipelineDelegateExpression() {
         return pipelineDelegateExpression;
     }
 
-    public void setPipelineDelegateExpression(String pipelineDelegateExpression) {
+    public void setPipelineDelegateExpression(string pipelineDelegateExpression) {
         this.pipelineDelegateExpression = pipelineDelegateExpression;
     }
 

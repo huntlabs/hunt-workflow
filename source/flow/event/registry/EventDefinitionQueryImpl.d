@@ -28,57 +28,56 @@ import flow.event.registry.util.CommandContextUtil;
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefinition> implements EventDefinitionQuery {
+class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefinition) , EventDefinitionQuery {
 
-    private static final long serialVersionUID = 1L;
-    protected String id;
-    protected Set!String ids;
-    protected String category;
-    protected String categoryLike;
-    protected String categoryNotEquals;
-    protected String name;
-    protected String nameLike;
-    protected String deploymentId;
-    protected Set!String deploymentIds;
-    protected String key;
-    protected String keyLike;
-    protected Integer version;
-    protected Integer versionGt;
-    protected Integer versionGte;
-    protected Integer versionLt;
-    protected Integer versionLte;
-    protected boolean latest;
-    protected String resourceName;
-    protected String resourceNameLike;
-    protected String tenantId;
-    protected String tenantIdLike;
-    protected boolean withoutTenantId;
+    protected string id;
+    protected Set!string ids;
+    protected string category;
+    protected string categoryLike;
+    protected string categoryNotEquals;
+    protected string name;
+    protected string nameLike;
+    protected string deploymentId;
+    protected Set!string deploymentIds;
+    protected string key;
+    protected string keyLike;
+    protected int _version;
+    protected int versionGt;
+    protected int versionGte;
+    protected int versionLt;
+    protected int versionLte;
+    protected bool latest;
+    protected string resourceName;
+    protected string resourceNameLike;
+    protected string tenantId;
+    protected string tenantIdLike;
+    protected bool withoutTenantId;
 
-    public EventDefinitionQueryImpl() {
+    this() {
     }
 
-    public EventDefinitionQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public EventDefinitionQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionId(String eventDefinitionId) {
+
+    public EventDefinitionQueryImpl eventDefinitionId(string eventDefinitionId) {
         this.id = eventDefinitionId;
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionIds(Set!String eventDefinitionIds) {
+
+    public EventDefinitionQueryImpl eventDefinitionIds(Set!string eventDefinitionIds) {
         this.ids = eventDefinitionIds;
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventCategory(String category) {
+
+    public EventDefinitionQueryImpl eventCategory(string category) {
         if (category is null) {
             throw new FlowableIllegalArgumentException("category is null");
         }
@@ -86,8 +85,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventCategoryLike(String categoryLike) {
+
+    public EventDefinitionQueryImpl eventCategoryLike(string categoryLike) {
         if (categoryLike is null) {
             throw new FlowableIllegalArgumentException("categoryLike is null");
         }
@@ -95,8 +94,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventCategoryNotEquals(String categoryNotEquals) {
+
+    public EventDefinitionQueryImpl eventCategoryNotEquals(string categoryNotEquals) {
         if (categoryNotEquals is null) {
             throw new FlowableIllegalArgumentException("categoryNotEquals is null");
         }
@@ -104,8 +103,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionName(String name) {
+
+    public EventDefinitionQueryImpl eventDefinitionName(string name) {
         if (name is null) {
             throw new FlowableIllegalArgumentException("name is null");
         }
@@ -113,8 +112,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionNameLike(String nameLike) {
+
+    public EventDefinitionQueryImpl eventDefinitionNameLike(string nameLike) {
         if (nameLike is null) {
             throw new FlowableIllegalArgumentException("nameLike is null");
         }
@@ -122,8 +121,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl deploymentId(String deploymentId) {
+
+    public EventDefinitionQueryImpl deploymentId(string deploymentId) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("id is null");
         }
@@ -131,8 +130,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl deploymentIds(Set!String deploymentIds) {
+
+    public EventDefinitionQueryImpl deploymentIds(Set!string deploymentIds) {
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("ids are null");
         }
@@ -140,8 +139,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionKey(String key) {
+
+    public EventDefinitionQueryImpl eventDefinitionKey(string key) {
         if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
@@ -149,8 +148,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionKeyLike(String keyLike) {
+
+    public EventDefinitionQueryImpl eventDefinitionKeyLike(string keyLike) {
         if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
         }
@@ -158,57 +157,57 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventVersion(Integer version) {
-        checkVersion(version);
-        this.version = version;
+
+    public EventDefinitionQueryImpl eventVersion(int _version) {
+        checkVersion(_version);
+        this._version = _version;
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventVersionGreaterThan(Integer eventVersion) {
+
+    public EventDefinitionQueryImpl eventVersionGreaterThan(int eventVersion) {
         checkVersion(eventVersion);
         this.versionGt = eventVersion;
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventVersionGreaterThanOrEquals(Integer eventVersion) {
+
+    public EventDefinitionQueryImpl eventVersionGreaterThanOrEquals(int eventVersion) {
         checkVersion(eventVersion);
         this.versionGte = eventVersion;
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventVersionLowerThan(Integer eventVersion) {
+
+    public EventDefinitionQueryImpl eventVersionLowerThan(int eventVersion) {
         checkVersion(eventVersion);
         this.versionLt = eventVersion;
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventVersionLowerThanOrEquals(Integer eventVersion) {
+
+    public EventDefinitionQueryImpl eventVersionLowerThanOrEquals(int eventVersion) {
         checkVersion(eventVersion);
         this.versionLte = eventVersion;
         return this;
     }
 
-    protected void checkVersion(Integer version) {
-        if (version is null) {
-            throw new FlowableIllegalArgumentException("version is null");
-        } else if (version <= 0) {
-            throw new FlowableIllegalArgumentException("version must be positive");
+    protected void checkVersion(int _version) {
+        if (_version is null) {
+            throw new FlowableIllegalArgumentException("_version is null");
+        } else if (_version <= 0) {
+            throw new FlowableIllegalArgumentException("_version must be positive");
         }
     }
 
-    @Override
+
     public EventDefinitionQueryImpl latestVersion() {
         this.latest = true;
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionResourceName(String resourceName) {
+
+    public EventDefinitionQueryImpl eventDefinitionResourceName(string resourceName) {
         if (resourceName is null) {
             throw new FlowableIllegalArgumentException("resourceName is null");
         }
@@ -216,8 +215,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl eventDefinitionResourceNameLike(String resourceNameLike) {
+
+    public EventDefinitionQueryImpl eventDefinitionResourceNameLike(string resourceNameLike) {
         if (resourceNameLike is null) {
             throw new FlowableIllegalArgumentException("resourceNameLike is null");
         }
@@ -225,8 +224,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl tenantId(String tenantId) {
+
+    public EventDefinitionQueryImpl tenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("form tenantId is null");
         }
@@ -234,8 +233,8 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
-    public EventDefinitionQueryImpl tenantIdLike(String tenantIdLike) {
+
+    public EventDefinitionQueryImpl tenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("form tenantId is null");
         }
@@ -243,7 +242,7 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
         return this;
     }
 
-    @Override
+
     public EventDefinitionQueryImpl withoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -251,111 +250,111 @@ class EventDefinitionQueryImpl : AbstractQuery<EventDefinitionQuery, EventDefini
 
     // sorting ////////////////////////////////////////////
 
-    @Override
+
     public EventDefinitionQuery orderByDeploymentId() {
         return orderBy(EventDefinitionQueryProperty.DEPLOYMENT_ID);
     }
 
-    @Override
+
     public EventDefinitionQuery orderByEventDefinitionKey() {
         return orderBy(EventDefinitionQueryProperty.KEY);
     }
 
-    @Override
+
     public EventDefinitionQuery orderByEventDefinitionCategory() {
         return orderBy(EventDefinitionQueryProperty.CATEGORY);
     }
 
-    @Override
+
     public EventDefinitionQuery orderByEventDefinitionId() {
         return orderBy(EventDefinitionQueryProperty.ID);
     }
 
-    @Override
+
     public EventDefinitionQuery orderByEventDefinitionName() {
         return orderBy(EventDefinitionQueryProperty.NAME);
     }
 
-    @Override
+
     public EventDefinitionQuery orderByTenantId() {
         return orderBy(EventDefinitionQueryProperty.TENANT_ID);
     }
 
     // results ////////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getEventDefinitionEntityManager(commandContext).findEventDefinitionCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<EventDefinition> executeList(CommandContext commandContext) {
+
+    public List!EventDefinition executeList(CommandContext commandContext) {
         return CommandContextUtil.getEventDefinitionEntityManager(commandContext).findEventDefinitionsByQueryCriteria(this);
     }
 
     // getters ////////////////////////////////////////////
 
-    public String getDeploymentId() {
+    public string getDeploymentId() {
         return deploymentId;
     }
 
-    public Set!String getDeploymentIds() {
+    public Set!string getDeploymentIds() {
         return deploymentIds;
     }
 
-    public String getId() {
+    public string getId() {
         return id;
     }
 
-    public Set!String getIds() {
+    public Set!string getIds() {
         return ids;
     }
 
-    public String getName() {
+    public string getName() {
         return name;
     }
 
-    public String getNameLike() {
+    public string getNameLike() {
         return nameLike;
     }
 
-    public String getKey() {
+    public string getKey() {
         return key;
     }
 
-    public String getKeyLike() {
+    public string getKeyLike() {
         return keyLike;
     }
 
-    public String getCategory() {
+    public string getCategory() {
         return category;
     }
 
-    public String getCategoryLike() {
+    public string getCategoryLike() {
         return categoryLike;
     }
 
-    public String getResourceName() {
+    public string getResourceName() {
         return resourceName;
     }
 
-    public String getResourceNameLike() {
+    public string getResourceNameLike() {
         return resourceNameLike;
     }
 
-    public String getCategoryNotEquals() {
+    public string getCategoryNotEquals() {
         return categoryNotEquals;
     }
 
-    public String getTenantId() {
+    public string getTenantId() {
         return tenantId;
     }
 
-    public String getTenantIdLike() {
+    public string getTenantIdLike() {
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 }

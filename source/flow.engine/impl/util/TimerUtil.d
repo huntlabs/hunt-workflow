@@ -14,7 +14,7 @@
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BoundaryEvent;

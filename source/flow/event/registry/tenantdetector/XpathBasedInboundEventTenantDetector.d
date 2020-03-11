@@ -11,42 +11,42 @@
  * limitations under the License.
  */
 
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
-
-import flow.common.api.FlowableException;
-import flow.event.registry.api.InboundEventTenantDetector;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
-/**
- * @author Joram Barrez
- */
-class XpathBasedInboundEventTenantDetector implements InboundEventTenantDetector<Document> {
-
-    protected String xpathExpression;
-
-    public XpathBasedInboundEventTenantDetector(String xpathExpression) {
-        this.xpathExpression = xpathExpression;
-    }
-
-    @Override
-    public String detectTenantId(Document document) {
-        try {
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            Node result = (Node) xPath.compile(xpathExpression).evaluate(document, XPathConstants.NODESET);
-            return result.getTextContent();
-        } catch (Exception e) {
-            throw new FlowableException("Could not evaluate xpath expression ", e);
-        }
-    }
-
-    public String getXpathExpression() {
-        return xpathExpression;
-    }
-    public void setXpathExpression(String xpathExpression) {
-        this.xpathExpression = xpathExpression;
-    }
-}
+//
+//import javax.xml.xpath.XPath;
+//import javax.xml.xpath.XPathConstants;
+//import javax.xml.xpath.XPathFactory;
+//
+//import flow.common.api.FlowableException;
+//import flow.event.registry.api.InboundEventTenantDetector;
+//import org.w3c.dom.Document;
+//import org.w3c.dom.Node;
+//
+///**
+// * @author Joram Barrez
+// */
+//class XpathBasedInboundEventTenantDetector implements InboundEventTenantDetector<Document> {
+//
+//    protected String xpathExpression;
+//
+//    public XpathBasedInboundEventTenantDetector(String xpathExpression) {
+//        this.xpathExpression = xpathExpression;
+//    }
+//
+//    @Override
+//    public String detectTenantId(Document document) {
+//        try {
+//            XPath xPath = XPathFactory.newInstance().newXPath();
+//            Node result = (Node) xPath.compile(xpathExpression).evaluate(document, XPathConstants.NODESET);
+//            return result.getTextContent();
+//        } catch (Exception e) {
+//            throw new FlowableException("Could not evaluate xpath expression ", e);
+//        }
+//    }
+//
+//    public String getXpathExpression() {
+//        return xpathExpression;
+//    }
+//    public void setXpathExpression(String xpathExpression) {
+//        this.xpathExpression = xpathExpression;
+//    }
+//}

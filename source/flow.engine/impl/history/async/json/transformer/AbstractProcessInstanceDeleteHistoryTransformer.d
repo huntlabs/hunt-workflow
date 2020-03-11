@@ -14,7 +14,7 @@
 
 import hunt.collection.List;
 
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.interceptor.CommandContext;
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;

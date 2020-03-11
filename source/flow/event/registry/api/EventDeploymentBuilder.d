@@ -13,7 +13,6 @@
 module flow.event.registry.api.EventDeploymentBuilder;
 
 import hunt.io.Common;
-import hunt.String;
 import flow.event.registry.api.EventDeployment;
 /**
  * Builder for creating new deployments.
@@ -29,39 +28,39 @@ import flow.event.registry.api.EventDeployment;
  */
 interface EventDeploymentBuilder {
 
-    EventDeploymentBuilder addInputStream(String resourceName, InputStream inputStream);
+    EventDeploymentBuilder addInputStream(string resourceName, InputStream inputStream);
 
-    EventDeploymentBuilder addClasspathResource(String resource);
+    EventDeploymentBuilder addClasspathResource(string resource);
 
-    EventDeploymentBuilder addString(String resourceName, String text);
+    EventDeploymentBuilder addString(string resourceName, string text);
 
-    EventDeploymentBuilder addEventDefinitionBytes(String resourceName, byte[] eventBytes);
+    EventDeploymentBuilder addEventDefinitionBytes(string resourceName, byte[] eventBytes);
 
-    EventDeploymentBuilder addEventDefinition(String resourceName, String eventDefinition);
+    EventDeploymentBuilder addEventDefinition(string resourceName, string eventDefinition);
 
-    EventDeploymentBuilder addChannelDefinitionBytes(String resourceName, byte[] channelBytes);
+    EventDeploymentBuilder addChannelDefinitionBytes(string resourceName, byte[] channelBytes);
 
-    EventDeploymentBuilder addChannelDefinition(String resourceName, String channelDefinition);
+    EventDeploymentBuilder addChannelDefinition(string resourceName, string channelDefinition);
 
     /**
      * Gives the deployment the given name.
      */
-    EventDeploymentBuilder name(String name);
+    EventDeploymentBuilder name(string name);
 
     /**
      * Gives the deployment the given category.
      */
-    EventDeploymentBuilder category(String category);
+    EventDeploymentBuilder category(string category);
 
     /**
      * Gives the deployment the given tenant id.
      */
-    EventDeploymentBuilder tenantId(String tenantId);
+    EventDeploymentBuilder tenantId(string tenantId);
 
     /**
      * Gives the deployment the given parent deployment id.
      */
-    EventDeploymentBuilder parentDeploymentId(String parentDeploymentId);
+    EventDeploymentBuilder parentDeploymentId(string parentDeploymentId);
 
     /**
      * Allows to add a property to the deployment builder that influences the deployment.

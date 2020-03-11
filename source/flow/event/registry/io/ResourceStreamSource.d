@@ -11,35 +11,35 @@
  * limitations under the License.
  */
 
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-
-import flow.common.api.FlowableException;
-import flow.common.util.io.StreamSource;
-
-/**
- * @author Joram Barrez
- */
-class ResourceStreamSource implements StreamSource {
-
-    String resource;
-
-    public ResourceStreamSource(String resource) {
-        this.resource = resource;
-    }
-
-    @Override
-    public InputStream getInputStream() {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
-        if (inputStream is null) {
-            throw new FlowableException("resource '" + resource + "' doesn't exist");
-        }
-        return new BufferedInputStream(inputStream);
-    }
-
-    @Override
-    public String toString() {
-        return "Resource[" + resource + "]";
-    }
-}
+//
+//import java.io.BufferedInputStream;
+//import java.io.InputStream;
+//
+//import flow.common.api.FlowableException;
+//import flow.common.util.io.StreamSource;
+//
+///**
+// * @author Joram Barrez
+// */
+//class ResourceStreamSource implements StreamSource {
+//
+//    String resource;
+//
+//    public ResourceStreamSource(String resource) {
+//        this.resource = resource;
+//    }
+//
+//    @Override
+//    public InputStream getInputStream() {
+//        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+//        if (inputStream is null) {
+//            throw new FlowableException("resource '" + resource + "' doesn't exist");
+//        }
+//        return new BufferedInputStream(inputStream);
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "Resource[" + resource + "]";
+//    }
+//}

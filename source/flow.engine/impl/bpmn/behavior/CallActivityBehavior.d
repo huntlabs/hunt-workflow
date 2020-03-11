@@ -31,7 +31,7 @@ import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
 import flow.engine.DynamicBpmnConstants;

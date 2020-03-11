@@ -11,58 +11,79 @@
  * limitations under the License.
  */
 
+module flow.event.registry.persistence.entity.EventDeploymentEntityImpl;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import flow.event.registry.persistence.entity.AbstractEventRegistryNoRevisionEntity;
 import flow.event.registry.EventRegistryEngineConfiguration;
-
+import flow.event.registry.persistence.entity.EventDeploymentEntity;
+import hunt.entity;
+import flow.event.registry.persistence.entity.EventResourceEntity;
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class EventDeploymentEntityImpl extends AbstractEventRegistryNoRevisionEntity implements EventDeploymentEntity, Serializable {
+@Table("FLW_EVENT_DEPLOYMENT")
+class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,EventDeploymentEntity {
+ mixin MakeModel;
 
-    private static final long serialVersionUID = 1L;
+    @PrimaryKey
+    @Column("ID_")
+     string id;
 
-    protected String name;
-    protected String category;
-    protected String tenantId = EventRegistryEngineConfiguration.NO_TENANT_ID;
-    protected String parentDeploymentId;
-    protected Map<String, EventResourceEntity> resources;
-    protected Date deploymentTime;
-    protected boolean isNew;
+    @Column("NAME_")
+     string name;
+
+    @Column("CATEGORY_")
+     string category;
+
+     @Column("TENANT_ID_")
+     string tenantId;
+
+     @Column("PARENT_DEPLOYMENT_ID_")
+     string parentDeploymentId;
+     private Map!(string, EventResourceEntity) resources;
+     private Date deploymentTime;
+     private bool isNew;
 
     /**
      * Will only be used during actual deployment to pass deployed artifacts (eg form definitions). Will be null otherwise.
      */
-    protected Map<Class<?>, List<Object>> deployedArtifacts;
+    //protected Map<Class<?>, List<Object>> deployedArtifacts;
 
-    public EventDeploymentEntityImpl() {
+    this() {
 
     }
+    public string getId() {
+    return id;
+  }
 
-    @Override
+
+    public void setId(string id) {
+    this.id = id;
+  }
+
+
     public void addResource(EventResourceEntity resource) {
         if (resources is null) {
-            resources = new HashMap<>();
+            resources = new HashMap!(string, EventResourceEntity)();
         }
         resources.put(resource.getName(), resource);
     }
 
-    @Override
-    public Map<String, EventResourceEntity> getResources() {
+
+    public Map!(string, EventResourceEntity) getResources() {
         return resources;
     }
 
-    @Override
+
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
         persistentState.put("category", this.category);
         persistentState.put("tenantId", tenantId);
         persistentState.put("parentDeploymentId", parentDeploymentId);
@@ -71,105 +92,106 @@ class EventDeploymentEntityImpl extends AbstractEventRegistryNoRevisionEntity im
 
     // Deployed artifacts manipulation ////////////////////////////////////////////
 
-    @Override
+
     public void addDeployedArtifact(Object deployedArtifact) {
-        if (deployedArtifacts is null) {
-            deployedArtifacts = new HashMap<>();
-        }
-
-        Class<?> clazz = deployedArtifact.getClass();
-        List<Object> artifacts = deployedArtifacts.get(clazz);
-        if (artifacts is null) {
-            artifacts = new ArrayList<>();
-            deployedArtifacts.put(clazz, artifacts);
-        }
-
-        artifacts.add(deployedArtifact);
+        implementationMissing(false);
+        //if (deployedArtifacts is null) {
+        //    deployedArtifacts = new HashMap<>();
+        //}
+        //
+        //Class<?> clazz = deployedArtifact.getClass();
+        //List<Object> artifacts = deployedArtifacts.get(clazz);
+        //if (artifacts is null) {
+        //    artifacts = new ArrayList<>();
+        //    deployedArtifacts.put(clazz, artifacts);
+        //}
+        //
+        //artifacts.add(deployedArtifact);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> List<T> getDeployedArtifacts(Class<T> clazz) {
-        for (Class<?> deployedArtifactsClass : deployedArtifacts.keySet()) {
-            if (clazz.isAssignableFrom(deployedArtifactsClass)) {
-                return (List<T>) deployedArtifacts.get(deployedArtifactsClass);
-            }
-        }
-        return null;
-    }
+
+    //public <T> List<T> getDeployedArtifacts(Class<T> clazz) {
+    //    for (Class<?> deployedArtifactsClass : deployedArtifacts.keySet()) {
+    //        if (clazz.isAssignableFrom(deployedArtifactsClass)) {
+    //            return (List<T>) deployedArtifacts.get(deployedArtifactsClass);
+    //        }
+    //    }
+    //    return null;
+    //}
 
     // getters and setters ////////////////////////////////////////////////////////
 
-    @Override
-    public String getName() {
+
+    public string getName() {
         return name;
     }
 
-    @Override
-    public void setName(String name) {
+
+    public void setName(string name) {
         this.name = name;
     }
 
-    @Override
-    public String getCategory() {
+
+    public string getCategory() {
         return category;
     }
 
-    @Override
-    public void setCategory(String category) {
+
+    public void setCategory(string category) {
         this.category = category;
     }
 
-    @Override
-    public String getTenantId() {
+
+    public string getTenantId() {
         return tenantId;
     }
 
-    @Override
-    public void setTenantId(String tenantId) {
+
+    public void setTenantId(string tenantId) {
         this.tenantId = tenantId;
     }
 
-    @Override
-    public String getParentDeploymentId() {
+
+    public string getParentDeploymentId() {
         return parentDeploymentId;
     }
 
-    @Override
-    public void setParentDeploymentId(String parentDeploymentId) {
+
+    public void setParentDeploymentId(string parentDeploymentId) {
         this.parentDeploymentId = parentDeploymentId;
     }
 
-    @Override
-    public void setResources(Map<String, EventResourceEntity> resources) {
+
+    public void setResources(Map!(string, EventResourceEntity) resources) {
         this.resources = resources;
     }
 
-    @Override
+
     public Date getDeploymentTime() {
         return deploymentTime;
     }
 
-    @Override
+
     public void setDeploymentTime(Date deploymentTime) {
         this.deploymentTime = deploymentTime;
     }
 
-    @Override
-    public boolean isNew() {
+
+    public bool isNew() {
         return isNew;
     }
 
-    @Override
-    public void setNew(boolean isNew) {
+
+    public void setNew(bool isNew) {
         this.isNew = isNew;
     }
 
     // common methods //////////////////////////////////////////////////////////
 
-    @Override
-    public String toString() {
-        return "EventDeploymentEntity[id=" + id + ", name=" + name + "]";
+
+    override
+    public string toString() {
+        return "EventDeploymentEntity[id=" ~ id ~ ", name=" ~ name ~ "]";
     }
 
 }

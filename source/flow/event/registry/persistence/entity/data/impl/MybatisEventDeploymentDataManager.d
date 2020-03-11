@@ -24,52 +24,66 @@ import flow.event.registry.persistence.entity.EventDeploymentEntity;
 import flow.event.registry.persistence.entity.EventDeploymentEntityImpl;
 import flow.event.registry.persistence.entity.data.AbstractEventDataManager;
 import flow.event.registry.persistence.entity.data.EventDeploymentDataManager;
-
+import hunt.entity;
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class MybatisEventDeploymentDataManager : AbstractEventDataManager!EventDeploymentEntity , EventDeploymentDataManager {
+class MybatisEventDeploymentDataManager : EntityRepository!( EventDeploymentEntityImpl , string), EventDeploymentDataManager {
+
+    public EventRegistryEngineConfiguration eventRegistryConfiguration;
 
     this(EventRegistryEngineConfiguration eventRegistryConfiguration) {
-        super(eventRegistryConfiguration);
+        //super(eventRegistryConfiguration);
+        this.eventRegistryConfiguration = eventRegistryConfiguration;
+        super(entityManagerFactory.createEntityManager());
     }
 
-    @Override
-    class<? extends EventDeploymentEntity> getManagedEntityClass() {
-        return EventDeploymentEntityImpl.class;
-    }
+    //
+    //class<? extends EventDeploymentEntity> getManagedEntityClass() {
+    //    return EventDeploymentEntityImpl.class;
+    //}
 
-    @Override
+
     public EventDeploymentEntity create() {
         return new EventDeploymentEntityImpl();
     }
 
-    @Override
+
     public long findDeploymentCountByQueryCriteria(EventDeploymentQueryImpl deploymentQuery) {
-        return (Long) getDbSqlSession().selectOne("selectEventDeploymentCountByQueryCriteria", deploymentQuery);
+        implementationMissing(false);
+        return 0;
+       // return (Long) getDbSqlSession().selectOne("selectEventDeploymentCountByQueryCriteria", deploymentQuery);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<EventDeployment> findDeploymentsByQueryCriteria(EventDeploymentQueryImpl deploymentQuery) {
-        return getDbSqlSession().selectList("selectEventDeploymentsByQueryCriteria", deploymentQuery);
+
+    public List!EventDeployment findDeploymentsByQueryCriteria(EventDeploymentQueryImpl deploymentQuery) {
+      implementationMissing(false);
+      return null;
+        //return getDbSqlSession().selectList("selectEventDeploymentsByQueryCriteria", deploymentQuery);
     }
 
-    @Override
-    public List!String getDeploymentResourceNames(String deploymentId) {
-        return getDbSqlSession().getSqlSession().selectList("selectEventResourceNamesByDeploymentId", deploymentId);
+
+    public List!string getDeploymentResourceNames(string deploymentId) {
+      implementationMissing(false);
+        return null;
+        //return getDbSqlSession().getSqlSession().selectList("selectEventResourceNamesByDeploymentId", deploymentId);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<EventDeployment> findDeploymentsByNativeQuery(Map!(string, Object) parameterMap) {
-        return getDbSqlSession().selectListWithRawParameter("selectEventDeploymentByNativeQuery", parameterMap);
+
+    public List!EventDeployment findDeploymentsByNativeQuery(Map!(string, Object) parameterMap) {
+      implementationMissing(false);
+          return null;
+        //return getDbSqlSession().selectListWithRawParameter("selectEventDeploymentByNativeQuery", parameterMap);
     }
 
-    @Override
+
     public long findDeploymentCountByNativeQuery(Map!(string, Object) parameterMap) {
-        return (Long) getDbSqlSession().selectOne("selectEventDeploymentCountByNativeQuery", parameterMap);
+      implementationMissing(false);
+      return 0;
+        //return (Long) getDbSqlSession().selectOne("selectEventDeploymentCountByNativeQuery", parameterMap);
     }
 
 }

@@ -15,7 +15,7 @@
 
 
 import java.io.Serializable;
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.engine.impl.util.CommandContextUtil;
 

@@ -11,13 +11,13 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.persistence.entity.AbstractEventRegistryNoRevisionEntity;
 import flow.common.persistence.entity.AbstractEntityNoRevision;
+import flow.event.registry.persistence.entity.EventRegistryEntityConstants;
 
-public abstract class AbstractEventRegistryNoRevisionEntity extends AbstractEntityNoRevision {
+abstract class AbstractEventRegistryNoRevisionEntity : AbstractEntityNoRevision {
 
-    @Override
-    public String getIdPrefix() {
+    public string getIdPrefix() {
         return EventRegistryEntityConstants.EVENT_REGISTRY_ID_PREFIX;
     }
 }

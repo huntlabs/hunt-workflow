@@ -22,7 +22,7 @@ import flow.bpmn.model.IOParameter;
 import flow.common.api.FlowableException;
 import flow.common.api.constant.ReferenceTypes;
 import flow.common.api.deleg.Expression;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.api.variable.VariableContainer;
 import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;

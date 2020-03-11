@@ -26,7 +26,7 @@ import flow.bpmn.model.StartEvent;
 import flow.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.ProcessEngineConfiguration;

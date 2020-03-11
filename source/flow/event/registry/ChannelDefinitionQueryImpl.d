@@ -11,9 +11,9 @@
  * limitations under the License.
  */
 
+module flow.event.registry.ChannelDefinitionQueryImpl;
 
-
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Set;
 
@@ -25,63 +25,63 @@ import flow.event.registry.api.ChannelDefinition;
 import flow.event.registry.api.ChannelDefinitionQuery;
 import flow.event.registry.util.CommandContextUtil;
 
+alias Date = LocalDateTime;
 /**
  * @author Tijs Rademakers
  */
-class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, ChannelDefinition> implements ChannelDefinitionQuery {
+class ChannelDefinitionQueryImpl : AbstractQuery!(ChannelDefinitionQuery, ChannelDefinition) , ChannelDefinitionQuery {
 
-    private static final long serialVersionUID = 1L;
-    protected String id;
-    protected Set!String ids;
-    protected String category;
-    protected String categoryLike;
-    protected String categoryNotEquals;
-    protected String name;
-    protected String nameLike;
-    protected String deploymentId;
-    protected Set!String deploymentIds;
-    protected String key;
-    protected String keyLike;
-    protected Integer version;
-    protected Integer versionGt;
-    protected Integer versionGte;
-    protected Integer versionLt;
-    protected Integer versionLte;
-    protected boolean latest;
+    protected string id;
+    protected Set!string ids;
+    protected string category;
+    protected string categoryLike;
+    protected string categoryNotEquals;
+    protected string name;
+    protected string nameLike;
+    protected string deploymentId;
+    protected Set!string deploymentIds;
+    protected string key;
+    protected string keyLike;
+    protected int _version;
+    protected int versionGt;
+    protected int versionGte;
+    protected int versionLt;
+    protected int versionLte;
+    protected bool latest;
     protected Date createTime;
     protected Date createTimeAfter;
     protected Date createTimeBefore;
-    protected String resourceName;
-    protected String resourceNameLike;
-    protected String tenantId;
-    protected String tenantIdLike;
-    protected boolean withoutTenantId;
+    protected string resourceName;
+    protected string resourceNameLike;
+    protected string tenantId;
+    protected string tenantIdLike;
+    protected bool withoutTenantId;
 
-    public ChannelDefinitionQueryImpl() {
+    this() {
     }
 
-    public ChannelDefinitionQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public ChannelDefinitionQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionId(String channelDefinitionId) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionId(string channelDefinitionId) {
         this.id = channelDefinitionId;
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionIds(Set!String channelDefinitionIds) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionIds(Set!string channelDefinitionIds) {
         this.ids = channelDefinitionIds;
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelCategory(String category) {
+
+    public ChannelDefinitionQueryImpl channelCategory(string category) {
         if (category is null) {
             throw new FlowableIllegalArgumentException("category is null");
         }
@@ -89,8 +89,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelCategoryLike(String categoryLike) {
+
+    public ChannelDefinitionQueryImpl channelCategoryLike(string categoryLike) {
         if (categoryLike is null) {
             throw new FlowableIllegalArgumentException("categoryLike is null");
         }
@@ -98,8 +98,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelCategoryNotEquals(String categoryNotEquals) {
+
+    public ChannelDefinitionQueryImpl channelCategoryNotEquals(string categoryNotEquals) {
         if (categoryNotEquals is null) {
             throw new FlowableIllegalArgumentException("categoryNotEquals is null");
         }
@@ -107,8 +107,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionName(String name) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionName(string name) {
         if (name is null) {
             throw new FlowableIllegalArgumentException("name is null");
         }
@@ -116,8 +116,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionNameLike(String nameLike) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionNameLike(string nameLike) {
         if (nameLike is null) {
             throw new FlowableIllegalArgumentException("nameLike is null");
         }
@@ -125,8 +125,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl deploymentId(String deploymentId) {
+
+    public ChannelDefinitionQueryImpl deploymentId(string deploymentId) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("id is null");
         }
@@ -134,8 +134,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl deploymentIds(Set!String deploymentIds) {
+
+    public ChannelDefinitionQueryImpl deploymentIds(Set!string deploymentIds) {
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("ids are null");
         }
@@ -143,8 +143,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionKey(String key) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionKey(string key) {
         if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
@@ -152,8 +152,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionKeyLike(String keyLike) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionKeyLike(string keyLike) {
         if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
         }
@@ -161,75 +161,75 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelVersion(Integer version) {
-        checkVersion(version);
-        this.version = version;
+
+    public ChannelDefinitionQueryImpl channelVersion(int _version) {
+        checkVersion(_version);
+        this._version = _version;
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelVersionGreaterThan(Integer channelVersion) {
+
+    public ChannelDefinitionQueryImpl channelVersionGreaterThan(int channelVersion) {
         checkVersion(channelVersion);
         this.versionGt = channelVersion;
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelVersionGreaterThanOrEquals(Integer channelVersion) {
+
+    public ChannelDefinitionQueryImpl channelVersionGreaterThanOrEquals(int channelVersion) {
         checkVersion(channelVersion);
         this.versionGte = channelVersion;
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelVersionLowerThan(Integer channelVersion) {
+
+    public ChannelDefinitionQueryImpl channelVersionLowerThan(int channelVersion) {
         checkVersion(channelVersion);
         this.versionLt = channelVersion;
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelVersionLowerThanOrEquals(Integer channelVersion) {
+
+    public ChannelDefinitionQueryImpl channelVersionLowerThanOrEquals(int channelVersion) {
         checkVersion(channelVersion);
         this.versionLte = channelVersion;
         return this;
     }
 
-    protected void checkVersion(Integer version) {
-        if (version is null) {
-            throw new FlowableIllegalArgumentException("version is null");
-        } else if (version <= 0) {
-            throw new FlowableIllegalArgumentException("version must be positive");
+    protected void checkVersion(int _version) {
+        if (_version is null) {
+            throw new FlowableIllegalArgumentException("_version is null");
+        } else if (_version <= 0) {
+            throw new FlowableIllegalArgumentException("_version must be positive");
         }
     }
 
-    @Override
+
     public ChannelDefinitionQueryImpl latestVersion() {
         this.latest = true;
         return this;
     }
 
-    @Override
+
     public ChannelDefinitionQueryImpl channelCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }
 
-    @Override
+
     public ChannelDefinitionQueryImpl channelCreateTimeAfter(Date createTimeAfter) {
         this.createTimeAfter = createTimeAfter;
         return this;
     }
 
-    @Override
+
     public ChannelDefinitionQueryImpl channelCreateTimeBefore(Date createTimeBefore) {
         this.createTimeBefore = createTimeBefore;
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionResourceName(String resourceName) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionResourceName(string resourceName) {
         if (resourceName is null) {
             throw new FlowableIllegalArgumentException("resourceName is null");
         }
@@ -237,8 +237,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl channelDefinitionResourceNameLike(String resourceNameLike) {
+
+    public ChannelDefinitionQueryImpl channelDefinitionResourceNameLike(string resourceNameLike) {
         if (resourceNameLike is null) {
             throw new FlowableIllegalArgumentException("resourceNameLike is null");
         }
@@ -246,8 +246,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl tenantId(String tenantId) {
+
+    public ChannelDefinitionQueryImpl tenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("form tenantId is null");
         }
@@ -255,8 +255,8 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
-    public ChannelDefinitionQueryImpl tenantIdLike(String tenantIdLike) {
+
+    public ChannelDefinitionQueryImpl tenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("form tenantId is null");
         }
@@ -264,7 +264,7 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return this;
     }
 
-    @Override
+
     public ChannelDefinitionQueryImpl withoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -272,116 +272,116 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
 
     // sorting ////////////////////////////////////////////
 
-    @Override
+
     public ChannelDefinitionQuery orderByDeploymentId() {
         return orderBy(ChannelDefinitionQueryProperty.DEPLOYMENT_ID);
     }
 
-    @Override
+
     public ChannelDefinitionQuery orderByChannelDefinitionKey() {
         return orderBy(ChannelDefinitionQueryProperty.KEY);
     }
 
-    @Override
+
     public ChannelDefinitionQuery orderByChannelDefinitionCategory() {
         return orderBy(ChannelDefinitionQueryProperty.CATEGORY);
     }
 
-    @Override
+
     public ChannelDefinitionQuery orderByChannelDefinitionId() {
         return orderBy(ChannelDefinitionQueryProperty.ID);
     }
 
-    @Override
+
     public ChannelDefinitionQuery orderByChannelDefinitionName() {
         return orderBy(ChannelDefinitionQueryProperty.NAME);
     }
 
-    @Override
+
     public ChannelDefinitionQuery orderByCreateTime() {
         return orderBy(ChannelDefinitionQueryProperty.CREATE_TIME);
     }
 
-    @Override
+
     public ChannelDefinitionQuery orderByTenantId() {
         return orderBy(ChannelDefinitionQueryProperty.TENANT_ID);
     }
 
     // results ////////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getChannelDefinitionEntityManager(commandContext).findChannelDefinitionCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<ChannelDefinition> executeList(CommandContext commandContext) {
+
+    public List!ChannelDefinition executeList(CommandContext commandContext) {
         return CommandContextUtil.getChannelDefinitionEntityManager(commandContext).findChannelDefinitionsByQueryCriteria(this);
     }
 
     // getters ////////////////////////////////////////////
 
-    public String getDeploymentId() {
+    public string getDeploymentId() {
         return deploymentId;
     }
 
-    public Set!String getDeploymentIds() {
+    public Set!string getDeploymentIds() {
         return deploymentIds;
     }
 
-    public String getId() {
+    public string getId() {
         return id;
     }
 
-    public Set!String getIds() {
+    public Set!string getIds() {
         return ids;
     }
 
-    public String getName() {
+    public string getName() {
         return name;
     }
 
-    public String getNameLike() {
+    public string getNameLike() {
         return nameLike;
     }
 
-    public String getKey() {
+    public string getKey() {
         return key;
     }
 
-    public String getKeyLike() {
+    public string getKeyLike() {
         return keyLike;
     }
 
-    public String getCategory() {
+    public string getCategory() {
         return category;
     }
 
-    public String getCategoryLike() {
+    public string getCategoryLike() {
         return categoryLike;
     }
 
-    public Integer getVersion() {
-        return version;
+    public int getVersion() {
+        return _version;
     }
 
-    public Integer getVersionGt() {
+    public int getVersionGt() {
         return versionGt;
     }
 
-    public Integer getVersionGte() {
+    public int getVersionGte() {
         return versionGte;
     }
 
-    public Integer getVersionLt() {
+    public int getVersionLt() {
         return versionLt;
     }
 
-    public Integer getVersionLte() {
+    public int getVersionLte() {
         return versionLte;
     }
 
-    public boolean isLatest() {
+    public bool isLatest() {
         return latest;
     }
 
@@ -397,27 +397,27 @@ class ChannelDefinitionQueryImpl extends AbstractQuery<ChannelDefinitionQuery, C
         return createTimeBefore;
     }
 
-    public String getResourceName() {
+    public string getResourceName() {
         return resourceName;
     }
 
-    public String getResourceNameLike() {
+    public string getResourceNameLike() {
         return resourceNameLike;
     }
 
-    public String getCategoryNotEquals() {
+    public string getCategoryNotEquals() {
         return categoryNotEquals;
     }
 
-    public String getTenantId() {
+    public string getTenantId() {
         return tenantId;
     }
 
-    public String getTenantIdLike() {
+    public string getTenantIdLike() {
         return tenantIdLike;
     }
 
-    public boolean isWithoutTenantId() {
+    public bool isWithoutTenantId() {
         return withoutTenantId;
     }
 }

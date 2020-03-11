@@ -18,7 +18,6 @@ import flow.event.registry.api.EventDeployment;
 //import flow.event.registry.model.EventCorrelationParameter;
 import flow.event.registry.model.EventModel;
 
-import hunt.String;
 
 /**
  * @author Joram Barrez
@@ -30,72 +29,72 @@ interface EventModelBuilder {
      * (similar to the key of a process/case/decision/... definition),
      * which is typically referenced in process/case/... models.
      */
-    EventModelBuilder key(String key);
+    EventModelBuilder key(string key);
 
     /**
      * Set the name for the event deployment.
      */
-    EventModelBuilder deploymentName(String deploymentName);
+    EventModelBuilder deploymentName(string deploymentName);
 
     /**
      * Set the resource name for the event model.
      */
-    EventModelBuilder resourceName(String resourceName);
+    EventModelBuilder resourceName(string resourceName);
 
     /**
      * Set the category for the event deployment.
      */
-    EventModelBuilder category(String category);
+    EventModelBuilder category(string category);
 
     /**
      * Set the tenant id for the event deployment.
      */
-    EventModelBuilder deploymentTenantId(String deploymentTenantId);
+    EventModelBuilder deploymentTenantId(string deploymentTenantId);
 
     /**
      * Set the parent deployment id for the event deployment.
      */
-    EventModelBuilder parentDeploymentId(String parentDeploymentId);
+    EventModelBuilder parentDeploymentId(string parentDeploymentId);
 
     /**
      * {@link EventModel} can be bound to inbound or outbound channels.
      * Calling this method will bind it to an inbound channel with the given key.
      */
-    EventModelBuilder inboundChannelKey(String channelKey);
+    EventModelBuilder inboundChannelKey(string channelKey);
 
     /**
-     * Allows to set multiple channel keys. See {@link #inboundChannelKey(String)}.
+     * Allows to set multiple channel keys. See {@link #inboundChannelKey(string)}.
      */
-    EventModelBuilder inboundChannelKeys(Collection!String channelKeys);
+    EventModelBuilder inboundChannelKeys(Collection!string channelKeys);
 
     /**
      * {@link EventModel} can be bound to inbound or outbound channels.
      * Calling this method will bind it to an inbound channel with the given key.
      */
-    EventModelBuilder outboundChannelKey(String channelKey);
+    EventModelBuilder outboundChannelKey(string channelKey);
 
     /**
-     * Allows to set multiple channel keys. See {@link #inboundChannelKey(String)}.
+     * Allows to set multiple channel keys. See {@link #inboundChannelKey(string)}.
      */
-    EventModelBuilder outboundChannelKeys(Collection!String channelKeys);
+    EventModelBuilder outboundChannelKeys(Collection!string channelKeys);
 
     /**
      * Defines one payload element of an event definition.
      * Such payload elements are data that is contained within an event.
      * If certain payload needs to be used to correlate runtime instances,
-     * use the {@link #correlationParameter(String, String)} method.
+     * use the {@link #correlationParameter(string, string)} method.
      *
      * One {@link EventModel} typically has multiple such elements.
      */
-    EventModelBuilder payload(String name, String type);
+    EventModelBuilder payload(string name, string type);
 
     /**
      * Defines one parameters for correlation that can be used in models to map onto.
-     * Each correlation parameter is automatically a {@link #payload(String, String)} element.
+     * Each correlation parameter is automatically a {@link #payload(string, string)} element.
      *
      * Will create a {@link EventCorrelationParameter} behind the scenes.
      */
-    EventModelBuilder correlationParameter(String name, String type);
+    EventModelBuilder correlationParameter(string name, string type);
 
     /**
      * Creates a new event model, but does not deploy it to the Event registry engine.

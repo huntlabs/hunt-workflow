@@ -11,34 +11,35 @@
  * limitations under the License.
  */
 
-
-import flow.event.registry.parser.ChannelDefinitionParseFactory;
-import flow.event.registry.parser.EventDefinitionParseFactory;
-import flow.event.registry.persistence.entity.EventDeploymentEntity;
-
-class ParsedDeploymentBuilderFactory {
-
-    protected EventDefinitionParseFactory eventParseFactory;
-    protected ChannelDefinitionParseFactory channelParseFactory;
-
-    public ParsedDeploymentBuilder getBuilderForDeployment(EventDeploymentEntity deployment) {
-        return new ParsedDeploymentBuilder(deployment, eventParseFactory, channelParseFactory);
-    }
-
-    public EventDefinitionParseFactory getEventParseFactory() {
-        return eventParseFactory;
-    }
-
-    public void setEventParseFactory(EventDefinitionParseFactory eventParseFactory) {
-        this.eventParseFactory = eventParseFactory;
-    }
-
-    public ChannelDefinitionParseFactory getChannelParseFactory() {
-        return channelParseFactory;
-    }
-
-    public void setChannelParseFactory(ChannelDefinitionParseFactory channelParseFactory) {
-        this.channelParseFactory = channelParseFactory;
-    }
-
-}
+//module flow.event.registry.deployer.ParsedDeploymentBuilderFactory;
+//
+//import flow.event.registry.parser.ChannelDefinitionParseFactory;
+//import flow.event.registry.parser.EventDefinitionParseFactory;
+//import flow.event.registry.persistence.entity.EventDeploymentEntity;
+//
+//class ParsedDeploymentBuilderFactory {
+//
+//    protected EventDefinitionParseFactory eventParseFactory;
+//    protected ChannelDefinitionParseFactory channelParseFactory;
+//
+//    public ParsedDeploymentBuilder getBuilderForDeployment(EventDeploymentEntity deployment) {
+//        return new ParsedDeploymentBuilder(deployment, eventParseFactory, channelParseFactory);
+//    }
+//
+//    public EventDefinitionParseFactory getEventParseFactory() {
+//        return eventParseFactory;
+//    }
+//
+//    public void setEventParseFactory(EventDefinitionParseFactory eventParseFactory) {
+//        this.eventParseFactory = eventParseFactory;
+//    }
+//
+//    public ChannelDefinitionParseFactory getChannelParseFactory() {
+//        return channelParseFactory;
+//    }
+//
+//    public void setChannelParseFactory(ChannelDefinitionParseFactory channelParseFactory) {
+//        this.channelParseFactory = channelParseFactory;
+//    }
+//
+//}

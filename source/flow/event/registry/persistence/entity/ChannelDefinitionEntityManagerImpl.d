@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.persistence.entity.ChannelDefinitionEntityManagerImpl;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -21,79 +21,81 @@ import flow.event.registry.api.ChannelDefinition;
 import flow.event.registry.ChannelDefinitionQueryImpl;
 import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.event.registry.persistence.entity.data.ChannelDefinitionDataManager;
+import flow.event.registry.persistence.entity.ChannelDefinitionEntity;
+import flow.event.registry.persistence.entity.ChannelDefinitionEntityManager;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 class ChannelDefinitionEntityManagerImpl
-        extends AbstractEngineEntityManager<EventRegistryEngineConfiguration, ChannelDefinitionEntity, ChannelDefinitionDataManager>
-        implements ChannelDefinitionEntityManager {
+        : AbstractEngineEntityManager!(EventRegistryEngineConfiguration, ChannelDefinitionEntity, ChannelDefinitionDataManager)
+        , ChannelDefinitionEntityManager {
 
-    public ChannelDefinitionEntityManagerImpl(EventRegistryEngineConfiguration eventRegistryEngineConfiguration, ChannelDefinitionDataManager channelDefinitionDataManager) {
+    this(EventRegistryEngineConfiguration eventRegistryEngineConfiguration, ChannelDefinitionDataManager channelDefinitionDataManager) {
         super(eventRegistryEngineConfiguration, channelDefinitionDataManager);
     }
 
-    @Override
-    public ChannelDefinitionEntity findLatestChannelDefinitionByKey(String channelDefinitionKey) {
+
+    public ChannelDefinitionEntity findLatestChannelDefinitionByKey(string channelDefinitionKey) {
         return dataManager.findLatestChannelDefinitionByKey(channelDefinitionKey);
     }
 
-    @Override
-    public void deleteChannelDefinitionsByDeploymentId(String deploymentId) {
+
+    public void deleteChannelDefinitionsByDeploymentId(string deploymentId) {
         dataManager.deleteChannelDefinitionsByDeploymentId(deploymentId);
     }
 
-    @Override
-    public List<ChannelDefinition> findChannelDefinitionsByQueryCriteria(ChannelDefinitionQueryImpl channelQuery) {
+
+    public List!ChannelDefinition findChannelDefinitionsByQueryCriteria(ChannelDefinitionQueryImpl channelQuery) {
         return dataManager.findChannelDefinitionsByQueryCriteria(channelQuery);
     }
 
-    @Override
+
     public long findChannelDefinitionCountByQueryCriteria(ChannelDefinitionQueryImpl channelQuery) {
         return dataManager.findChannelDefinitionCountByQueryCriteria(channelQuery);
     }
 
-    @Override
-    public ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKey(String deploymentId, String channelDefinitionKey) {
+
+    public ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKey(string deploymentId, string channelDefinitionKey) {
         return dataManager.findChannelDefinitionByDeploymentAndKey(deploymentId, channelDefinitionKey);
     }
 
-    @Override
-    public ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKeyAndTenantId(String deploymentId, String channelDefinitionKey, String tenantId) {
+
+    public ChannelDefinitionEntity findChannelDefinitionByDeploymentAndKeyAndTenantId(string deploymentId, string channelDefinitionKey, string tenantId) {
         return dataManager.findChannelDefinitionByDeploymentAndKeyAndTenantId(deploymentId, channelDefinitionKey, tenantId);
     }
 
-    @Override
-    public ChannelDefinitionEntity findLatestChannelDefinitionByKeyAndTenantId(String channelDefinitionKey, String tenantId) {
-        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+
+    public ChannelDefinitionEntity findLatestChannelDefinitionByKeyAndTenantId(string channelDefinitionKey, string tenantId) {
+        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID == (tenantId)) {
             return dataManager.findLatestChannelDefinitionByKey(channelDefinitionKey);
         } else {
             return dataManager.findLatestChannelDefinitionByKeyAndTenantId(channelDefinitionKey, tenantId);
         }
     }
 
-    @Override
-    public ChannelDefinitionEntity findChannelDefinitionByKeyAndVersionAndTenantId(String channelDefinitionKey, Integer eventVersion, String tenantId) {
-        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+
+    public ChannelDefinitionEntity findChannelDefinitionByKeyAndVersionAndTenantId(string channelDefinitionKey, int eventVersion, string tenantId) {
+        if (tenantId is null || EventRegistryEngineConfiguration.NO_TENANT_ID == (tenantId)) {
             return dataManager.findChannelDefinitionByKeyAndVersion(channelDefinitionKey, eventVersion);
         } else {
             return dataManager.findChannelDefinitionByKeyAndVersionAndTenantId(channelDefinitionKey, eventVersion, tenantId);
         }
     }
 
-    @Override
-    public List<ChannelDefinition> findChannelDefinitionsByNativeQuery(Map!(string, Object) parameterMap) {
+
+    public List!ChannelDefinition findChannelDefinitionsByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findChannelDefinitionsByNativeQuery(parameterMap);
     }
 
-    @Override
+
     public long findChannelDefinitionCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findChannelDefinitionCountByNativeQuery(parameterMap);
     }
 
-    @Override
-    public void updateChannelDefinitionTenantIdForDeployment(String deploymentId, String newTenantId) {
+
+    public void updateChannelDefinitionTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateChannelDefinitionTenantIdForDeployment(deploymentId, newTenantId);
     }
 

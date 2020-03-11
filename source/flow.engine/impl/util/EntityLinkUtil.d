@@ -16,7 +16,7 @@ import hunt.collection.ArrayList;
 import hunt.collection.List;
 import java.util.Optional;
 
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import org.flowable.entitylink.api.EntityLink;
 import org.flowable.entitylink.api.EntityLinkService;
 import org.flowable.entitylink.api.EntityLinkType;

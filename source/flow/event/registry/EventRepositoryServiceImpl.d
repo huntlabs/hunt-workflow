@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.event.registry.EventRepositoryServiceImpl;
 
-
-import java.io.InputStream;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -50,24 +49,23 @@ import flow.event.registry.model.OutboundChannelDefinitionBuilderImpl;
 import flow.event.registry.repository.EventDeploymentBuilderImpl;
 import flow.event.registry.model.ChannelModel;
 import flow.event.registry.model.EventModel;
+import flow.event.registry.EventRegistryEngineConfiguration;
 
 /**
  * @author Tijs Rademakers
  */
-class EventRepositoryServiceImpl extends CommonEngineServiceImpl<EventRegistryEngineConfiguration> implements EventRepositoryService {
+class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineConfiguration , EventRepositoryService {
 
     protected EventRegistryEngineConfiguration eventRegistryEngineConfiguration;
 
-    public EventRepositoryServiceImpl(EventRegistryEngineConfiguration engineConfiguration) {
+    this(EventRegistryEngineConfiguration engineConfiguration) {
         super(engineConfiguration);
 
         this.eventRegistryEngineConfiguration = engineConfiguration;
     }
 
-    @Override
     public EventDeploymentBuilder createDeployment() {
-        return commandExecutor.execute(new Command<EventDeploymentBuilder>() {
-            @Override
+        return commandExecutor.execute(new class Command!EventDeploymentBuilder {
             public EventDeploymentBuilder execute(CommandContext commandContext) {
                 return new EventDeploymentBuilderImpl();
             }
@@ -78,143 +76,142 @@ class EventRepositoryServiceImpl extends CommonEngineServiceImpl<EventRegistryEn
         return commandExecutor.execute(new DeployCmd<EventDeployment>(deploymentBuilder));
     }
 
-    @Override
-    public void deleteDeployment(String deploymentId) {
+    public void deleteDeployment(string deploymentId) {
         commandExecutor.execute(new DeleteDeploymentCmd(deploymentId));
     }
 
-    @Override
+
     public EventDefinitionQuery createEventDefinitionQuery() {
         return new EventDefinitionQueryImpl(commandExecutor);
     }
 
-    @Override
+
     public ChannelDefinitionQuery createChannelDefinitionQuery() {
         return new ChannelDefinitionQueryImpl(commandExecutor);
     }
 
-    @Override
-    public List!String getDeploymentResourceNames(String deploymentId) {
+
+    public List!string getDeploymentResourceNames(string deploymentId) {
         return commandExecutor.execute(new GetDeploymentResourceNamesCmd(deploymentId));
     }
 
-    @Override
-    public InputStream getResourceAsStream(String deploymentId, String resourceName) {
-        return commandExecutor.execute(new GetDeploymentResourceCmd(deploymentId, resourceName));
-    }
 
-    @Override
-    public void setDeploymentCategory(String deploymentId, String category) {
+    //public InputStream getResourceAsStream(string deploymentId, string resourceName) {
+    //    return commandExecutor.execute(new GetDeploymentResourceCmd(deploymentId, resourceName));
+    //}
+
+
+    public void setDeploymentCategory(string deploymentId, string category) {
         commandExecutor.execute(new SetDeploymentCategoryCmd(deploymentId, category));
     }
 
-    @Override
-    public void setDeploymentTenantId(String deploymentId, String newTenantId) {
+
+    public void setDeploymentTenantId(string deploymentId, string newTenantId) {
         commandExecutor.execute(new SetDeploymentTenantIdCmd(deploymentId, newTenantId));
     }
 
-    @Override
-    public void changeDeploymentParentDeploymentId(String deploymentId, String newParentDeploymentId) {
+
+    public void changeDeploymentParentDeploymentId(string deploymentId, string newParentDeploymentId) {
         commandExecutor.execute(new SetDeploymentParentDeploymentIdCmd(deploymentId, newParentDeploymentId));
     }
 
-    @Override
+
     public EventDeploymentQuery createDeploymentQuery() {
         return new EventDeploymentQueryImpl(commandExecutor);
     }
 
-    @Override
-    public EventDefinition getEventDefinition(String eventDefinitionId) {
+
+    public EventDefinition getEventDefinition(string eventDefinitionId) {
         return commandExecutor.execute(new GetEventDefinitionCmd(eventDefinitionId));
     }
 
-    @Override
-    public InputStream getEventDefinitionResource(String eventDefinitionId) {
-        return commandExecutor.execute(new GetEventDefinitionResourceCmd(eventDefinitionId));
-    }
 
-    @Override
-    public void setEventDefinitionCategory(String eventDefinitionId, String category) {
+    //public InputStream getEventDefinitionResource(string eventDefinitionId) {
+    //    return commandExecutor.execute(new GetEventDefinitionResourceCmd(eventDefinitionId));
+    //}
+
+
+    public void setEventDefinitionCategory(string eventDefinitionId, string category) {
         commandExecutor.execute(new SetEventDefinitionCategoryCmd(eventDefinitionId, category));
     }
 
-    @Override
-    public ChannelDefinition getChannelDefinition(String channelDefinitionId) {
+
+    public ChannelDefinition getChannelDefinition(string channelDefinitionId) {
         return commandExecutor.execute(new GetChannelDefinitionCmd(channelDefinitionId));
     }
 
-    @Override
-    public InputStream getChannelDefinitionResource(String channelDefinitionId) {
-        return commandExecutor.execute(new GetChannelDefinitionResourceCmd(channelDefinitionId));
-    }
 
-    @Override
-    public void setChannelDefinitionCategory(String channelDefinitionId, String category) {
+    //public InputStream getChannelDefinitionResource(string channelDefinitionId) {
+    //    return commandExecutor.execute(new GetChannelDefinitionResourceCmd(channelDefinitionId));
+    //}
+
+
+    public void setChannelDefinitionCategory(string channelDefinitionId, string category) {
         commandExecutor.execute(new SetChannelDefinitionCategoryCmd(channelDefinitionId, category));
     }
 
-    @Override
-    public EventModel getEventModelById(String eventDefinitionId) {
+
+    public EventModel getEventModelById(string eventDefinitionId) {
         return commandExecutor.execute(new GetEventModelCmd(null, eventDefinitionId));
     }
 
-    @Override
-    public EventModel getEventModelByKey(String eventDefinitionKey) {
+
+    public EventModel getEventModelByKey(string eventDefinitionKey) {
         return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, null));
     }
 
-    @Override
-    public EventModel getEventModelByKey(String eventDefinitionKey, String tenantId) {
+
+    public EventModel getEventModelByKey(string eventDefinitionKey, string tenantId) {
         return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, tenantId, null));
     }
 
-    @Override
-    public EventModel getEventModelByKeyAndParentDeploymentId(String eventDefinitionKey, String parentDeploymentId) {
+
+    public EventModel getEventModelByKeyAndParentDeploymentId(string eventDefinitionKey, string parentDeploymentId) {
         return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, null, parentDeploymentId));
     }
 
-    @Override
-    public EventModel getEventModelByKeyAndParentDeploymentId(String eventDefinitionKey, String parentDeploymentId, String tenantId) {
+
+    public EventModel getEventModelByKeyAndParentDeploymentId(string eventDefinitionKey, string parentDeploymentId, string tenantId) {
         return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, tenantId, parentDeploymentId));
     }
 
-    @Override
-    public ChannelModel getChannelModelById(String channelDefinitionId) {
+
+    public ChannelModel getChannelModelById(string channelDefinitionId) {
         return commandExecutor.execute(new GetChannelModelCmd(null, channelDefinitionId));
     }
 
-    @Override
-    public ChannelModel getChannelModelByKey(String channelDefinitionKey) {
+
+    public ChannelModel getChannelModelByKey(string channelDefinitionKey) {
         return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, null));
     }
 
-    @Override
-    public ChannelModel getChannelModelByKey(String channelDefinitionKey, String tenantId) {
+
+    public ChannelModel getChannelModelByKey(string channelDefinitionKey, string tenantId) {
         return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, tenantId, null));
     }
 
-    @Override
-    public ChannelModel getChannelModelByKeyAndParentDeploymentId(String channelDefinitionKey, String parentDeploymentId) {
+
+    public ChannelModel getChannelModelByKeyAndParentDeploymentId(string channelDefinitionKey, string parentDeploymentId) {
         return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, null, parentDeploymentId));
     }
 
-    @Override
-    public ChannelModel getChannelModelByKeyAndParentDeploymentId(String channelDefinitionKey, String parentDeploymentId, String tenantId) {
+
+    public ChannelModel getChannelModelByKeyAndParentDeploymentId(string channelDefinitionKey, string parentDeploymentId, string tenantId) {
         return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, tenantId, parentDeploymentId));
     }
 
-    @Override
+
     public EventModelBuilder createEventModelBuilder() {
         return new EventModelBuilderImpl(this);
     }
 
 
-    @Override
+
     public InboundChannelModelBuilder createInboundChannelModelBuilder() {
         return new InboundChannelDefinitionBuilderImpl(eventRegistryEngineConfiguration.getEventRepositoryService());
     }
 
-    @Override
+
     public OutboundChannelModelBuilder createOutboundChannelModelBuilder() {
         return new OutboundChannelDefinitionBuilderImpl(eventRegistryEngineConfiguration.getEventRepositoryService());
     }

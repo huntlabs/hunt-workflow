@@ -17,7 +17,7 @@ import hunt.collection.Map;
 
 import flow.bpmn.model.FlowElement;
 import flow.common.api.FlowableException;
-import flow.common.api.scope.ScopeTypes;
+import flow.common.api.scop.ScopeTypes;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;

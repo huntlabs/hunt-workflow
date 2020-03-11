@@ -10,36 +10,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.event.registry.persistence.entity.ChannelDefinitionEntityImpl;
 
-
-import java.io.Serializable;
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
-
+import hunt.entity;
 import flow.event.registry.EventRegistryEngineConfiguration;
+import flow.event.registry.persistence.entity.AbstractEventRegistryNoRevisionEntity;
+import flow.event.registry.persistence.entity.ChannelDefinitionEntity;
 
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class ChannelDefinitionEntityImpl extends AbstractEventRegistryNoRevisionEntity implements ChannelDefinitionEntity, Serializable {
 
-    private static final long serialVersionUID = 1L;
+alias Date = LocalDateTime;
 
-    protected String name;
-    protected String description;
-    protected String key;
-    protected int version;
-    protected String category;
-    protected String deploymentId;
-    protected Date createTime;
-    protected String resourceName;
-    protected String tenantId = EventRegistryEngineConfiguration.NO_TENANT_ID;
+@Table("FLW_CHANNEL_DEFINITION")
+class ChannelDefinitionEntityImpl : AbstractEventRegistryNoRevisionEntity , Model, ChannelDefinitionEntity {
+mixin MakeModel;
 
-    @Override
+    @PrimaryKey
+    @Column("ID_")
+     string id;
+
+    @Column("NAME_")
+     string name;
+
+    @Column("DESCRIPTION_")
+     string description;
+
+    @Column("KEY_")
+     string key;
+
+     @Column("VERSION_")
+     int _version;
+
+     @Column("CATEGORY_")
+     string category;
+
+     @Column("DEPLOYMENT_ID_")
+     string deploymentId;
+     private Date createTime;
+
+     @Column("RESOURCE_NAME_")
+     string resourceName;
+     @Column("TENANT_ID_")
+     string tenantId;
+
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap<>();
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
         persistentState.put("category", this.category);
         return persistentState;
     }
@@ -47,99 +68,100 @@ class ChannelDefinitionEntityImpl extends AbstractEventRegistryNoRevisionEntity 
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    @Override
-    public String getKey() {
+
+    public string getKey() {
         return key;
     }
 
-    @Override
-    public void setKey(String key) {
+
+    public void setKey(string key) {
         this.key = key;
     }
 
-    @Override
+
     public int getVersion() {
-        return version;
+        return _version;
     }
 
-    @Override
-    public void setVersion(int version) {
-        this.version = version;
+
+    public void setVersion(int _version) {
+        this._version = _version;
     }
 
-    @Override
-    public String getName() {
+
+    public string getName() {
         return name;
     }
 
-    @Override
-    public void setName(String name) {
+
+    public void setName(string name) {
         this.name = name;
     }
 
-    @Override
-    public void setDescription(String description) {
+
+    public void setDescription(string description) {
         this.description = description;
     }
 
-    @Override
-    public String getDescription() {
+
+    public string getDescription() {
         return description;
     }
 
-    @Override
-    public String getDeploymentId() {
+
+    public string getDeploymentId() {
         return deploymentId;
     }
 
-    @Override
-    public String getCategory() {
+
+    public string getCategory() {
         return category;
     }
 
-    @Override
-    public void setCategory(String category) {
+
+    public void setCategory(string category) {
         this.category = category;
     }
 
-    @Override
-    public void setDeploymentId(String deploymentId) {
+
+    public void setDeploymentId(string deploymentId) {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+
     public Date getCreateTime() {
         return createTime;
     }
 
-    @Override
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    @Override
-    public String getResourceName() {
+
+    public string getResourceName() {
         return resourceName;
     }
 
-    @Override
-    public void setResourceName(String resourceName) {
+
+    public void setResourceName(string resourceName) {
         this.resourceName = resourceName;
     }
 
-    @Override
-    public String getTenantId() {
+
+    public string getTenantId() {
         return tenantId;
     }
 
-    @Override
-    public void setTenantId(String tenantId) {
+
+    public void setTenantId(string tenantId) {
         this.tenantId = tenantId;
     }
 
-    @Override
-    public String toString() {
-        return "ChannelDefitionEntity[" + id + "]";
+
+    override
+    public string toString() {
+        return "ChannelDefitionEntity[" ~ id ~ "]";
     }
 
 }

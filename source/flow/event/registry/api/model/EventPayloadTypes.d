@@ -12,15 +12,14 @@
  */
 module flow.event.registry.api.model.EventPayloadTypes;
 
-import hunt.String;
 /**
  * @author Joram Barrez
  */
 interface EventPayloadTypes {
 
-    String STRING = "string";
-    String INTEGER = "integer";
-    String DOUBLE = "double";
-    String BOOLEAN = "boolean";
+    string STRING = "string";
+    string INTEGER = "integer";
+    string DOUBLE = "double";
+    string BOOLEAN = "boolean";
 
 }

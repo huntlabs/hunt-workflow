@@ -13,7 +13,6 @@
 module flow.event.registry.api.InboundEventProcessingPipeline;
 
 import hunt.collection;
-import hunt.String;
 import flow.event.registry.api.EventRegistryEvent;
 
 /**
@@ -22,6 +21,6 @@ import flow.event.registry.api.EventRegistryEvent;
  */
 interface InboundEventProcessingPipeline {
 
-    Collection!EventRegistryEvent run(String channelKey, String rawEvent);
+    Collection!EventRegistryEvent run(string channelKey, string rawEvent);
 
 }

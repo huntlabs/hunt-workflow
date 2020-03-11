@@ -11,26 +11,26 @@
  * limitations under the License.
  */
 
+module flow.event.registry.tenantdetector.InboundEventStaticTenantDetector;
 
 import flow.event.registry.api.InboundEventTenantDetector;
 
 /**
  * @author Joram Barrez
  */
-class InboundEventStaticTenantDetector<T> implements InboundEventTenantDetector<T> {
+class InboundEventStaticTenantDetector(T) , InboundEventTenantDetector!T {
 
-    protected String staticTenantId;
+    protected string staticTenantId;
 
-    public InboundEventStaticTenantDetector(String staticTenantId) {
+    this(string staticTenantId) {
         this.staticTenantId = staticTenantId;
     }
 
-    @Override
-    public String detectTenantId(T event) {
+    public string detectTenantId(T event) {
         return staticTenantId;
     }
 
-    public String getStaticTenantId() {
+    public string getStaticTenantId() {
         return staticTenantId;
     }
 }

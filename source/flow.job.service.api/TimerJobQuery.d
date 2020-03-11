@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,13 +13,13 @@
 
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.api.query.Query;
 
 /**
  * Allows programmatic querying of {@link Job}s.
- * 
+ *
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
@@ -36,31 +36,31 @@ interface TimerJobQuery extends Query<TimerJobQuery, Job> {
 
     /** Only select jobs which exist for the given process definition id */
     TimerJobQuery processDefinitionId(string processDefinitionid);
-    
+
     /** Only select jobs which exist for the given element id */
     TimerJobQuery elementId(string elementId);
-    
+
     /** Only select jobs which exist for the given element name */
     TimerJobQuery elementName(string elementName);
-    
+
     /** Only select jobs for the given scope identifier. */
     TimerJobQuery scopeId(string scopeId);
 
     /** Only select jobs for the given sub scope identifier. */
     TimerJobQuery subScopeId(string subScopeId);
-    
+
     /** Only select jobs for the given scope type. */
     TimerJobQuery scopeType(string scopeType);
-    
+
     /** Only select tasks for the given scope definition identifier. */
     TimerJobQuery scopeDefinitionId(string scopeDefinitionId);
-    
+
     /** Only select jobs for the given case instance. */
     TimerJobQuery caseInstanceId(string caseInstanceId);
-    
+
     /** Only select jobs for the given case definition. */
     TimerJobQuery caseDefinitionId(string caseDefinitionId);
-    
+
     /** Only select jobs for the given plan item instance.  */
     TimerJobQuery planItemInstanceId(string planItemInstanceId);
 

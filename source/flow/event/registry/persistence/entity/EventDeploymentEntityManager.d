@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.persistence.entity.EventDeploymentEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,22 +18,23 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.event.registry.api.EventDeployment;
 import flow.event.registry.EventDeploymentQueryImpl;
+import flow.event.registry.persistence.entity.EventDeploymentEntity;
 
 /**
  * @author Tijs Rademakers
  */
-interface EventDeploymentEntityManager extends EntityManager<EventDeploymentEntity> {
+interface EventDeploymentEntityManager : EntityManager!EventDeploymentEntity {
 
-    List<EventDeployment> findDeploymentsByQueryCriteria(EventDeploymentQueryImpl deploymentQuery);
+    List!EventDeployment findDeploymentsByQueryCriteria(EventDeploymentQueryImpl deploymentQuery);
 
-    List!String getDeploymentResourceNames(String deploymentId);
+    List!string getDeploymentResourceNames(string deploymentId);
 
-    List<EventDeployment> findDeploymentsByNativeQuery(Map!(string, Object) parameterMap);
+    List!EventDeployment findDeploymentsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findDeploymentCountByNativeQuery(Map!(string, Object) parameterMap);
 
     long findDeploymentCountByQueryCriteria(EventDeploymentQueryImpl deploymentQuery);
 
-    void deleteDeployment(String deploymentId);
+    void deleteDeployment(string deploymentId);
 
 }

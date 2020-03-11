@@ -10,54 +10,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.event.registry.persistence.ResourceRefTypeHandler;
 
-
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeHandler;
-import org.apache.ibatis.type.TypeReference;
-import flow.event.registry.persistence.entity.ResourceRef;
-
-/**
- * MyBatis TypeHandler for {@link ResourceRef}.
- *
- * @author Marcus Klimstra (CGI)
- */
-class ResourceRefTypeHandler extends TypeReference<ResourceRef> implements TypeHandler<ResourceRef> {
-
-    @Override
-    public void setParameter(PreparedStatement ps, int i, ResourceRef parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, getValueToSet(parameter));
-    }
-
-    private String getValueToSet(ResourceRef parameter) {
-        if (parameter is null) {
-            // Note that this should not happen: ByteArrayRefs should always be initialized.
-            return null;
-        }
-        return parameter.getId();
-    }
-
-    @Override
-    public ResourceRef getResult(ResultSet rs, String columnName) throws SQLException {
-        String id = rs.getString(columnName);
-        return new ResourceRef(id);
-    }
-
-    @Override
-    public ResourceRef getResult(ResultSet rs, int columnIndex) throws SQLException {
-        String id = rs.getString(columnIndex);
-        return new ResourceRef(id);
-    }
-
-    @Override
-    public ResourceRef getResult(CallableStatement cs, int columnIndex) throws SQLException {
-        String id = cs.getString(columnIndex);
-        return new ResourceRef(id);
-    }
-
-}
+//import java.sql.CallableStatement;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//
+//import org.apache.ibatis.type.JdbcType;
+//import org.apache.ibatis.type.TypeHandler;
+//import org.apache.ibatis.type.TypeReference;
+//import flow.event.registry.persistence.entity.ResourceRef;
+//
+///**
+// * MyBatis TypeHandler for {@link ResourceRef}.
+// *
+// * @author Marcus Klimstra (CGI)
+// */
+//class ResourceRefTypeHandler extends TypeReference<ResourceRef> implements TypeHandler<ResourceRef> {
+//
+//    @Override
+//    public void setParameter(PreparedStatement ps, int i, ResourceRef parameter, JdbcType jdbcType) throws SQLException {
+//        ps.setString(i, getValueToSet(parameter));
+//    }
+//
+//    private String getValueToSet(ResourceRef parameter) {
+//        if (parameter is null) {
+//            // Note that this should not happen: ByteArrayRefs should always be initialized.
+//            return null;
+//        }
+//        return parameter.getId();
+//    }
+//
+//    @Override
+//    public ResourceRef getResult(ResultSet rs, String columnName) throws SQLException {
+//        String id = rs.getString(columnName);
+//        return new ResourceRef(id);
+//    }
+//
+//    @Override
+//    public ResourceRef getResult(ResultSet rs, int columnIndex) throws SQLException {
+//        String id = rs.getString(columnIndex);
+//        return new ResourceRef(id);
+//    }
+//
+//    @Override
+//    public ResourceRef getResult(CallableStatement cs, int columnIndex) throws SQLException {
+//        String id = cs.getString(columnIndex);
+//        return new ResourceRef(id);
+//    }
+//
+//}

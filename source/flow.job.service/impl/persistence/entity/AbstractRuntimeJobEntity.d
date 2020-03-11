@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import org.flowable.job.api.Job;
 
@@ -27,9 +27,9 @@ interface AbstractRuntimeJobEntity extends Job, AbstractJobEntity {
     void setProcessInstanceId(string processInstanceId);
 
     void setProcessDefinitionId(string processDefinitionId);
-    
+
     void setElementId(string elementId);
-    
+
     void setElementName(string elementName);
 
     void setScopeId(string scopeId);
@@ -60,13 +60,13 @@ interface AbstractRuntimeJobEntity extends Job, AbstractJobEntity {
     Date getEndDate();
 
     void setEndDate(Date endDate);
-    
+
     int getMaxIterations();
 
     void setMaxIterations(int maxIterations);
-    
+
     void setJobType(string jobType);
-    
+
     void setCreateTime(Date createTime);
 
 }

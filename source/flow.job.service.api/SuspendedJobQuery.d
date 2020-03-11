@@ -13,7 +13,7 @@
 
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.api.query.Query;
 
@@ -39,31 +39,31 @@ interface SuspendedJobQuery extends Query<SuspendedJobQuery, Job> {
 
     /** Only select jobs which exist for the given process definition id */
     SuspendedJobQuery processDefinitionId(string processDefinitionid);
-    
+
     /** Only select jobs which exist for the given element id */
     SuspendedJobQuery elementId(string elementId);
-    
+
     /** Only select jobs which exist for the given element name */
     SuspendedJobQuery elementName(string elementName);
-    
+
     /** Only select jobs for the given scope identifier. */
     SuspendedJobQuery scopeId(string scopeId);
 
     /** Only select jobs for the given sub scope identifier. */
     SuspendedJobQuery subScopeId(string subScopeId);
-    
+
     /** Only select jobs for the given scope type. */
     SuspendedJobQuery scopeType(string scopeType);
-    
+
     /** Only select jobs for the given scope definition identifier. */
     SuspendedJobQuery scopeDefinitionId(string scopeDefinitionId);
-    
+
     /** Only select jobs for the given case instance. */
     SuspendedJobQuery caseInstanceId(string caseInstanceId);
-    
+
     /** Only select jobs for the given case definition. */
     SuspendedJobQuery caseDefinitionId(string caseDefinitionId);
-    
+
     /** Only select jobs for the given plan item instance.  */
     SuspendedJobQuery planItemInstanceId(string planItemInstanceId);
 

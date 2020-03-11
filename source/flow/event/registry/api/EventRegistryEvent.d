@@ -13,11 +13,10 @@
 
 module flow.event.registry.api.EventRegistryEvent;
 
-import hunt.String;
 
 interface EventRegistryEvent {
 
-    String getType();
+    string getType();
 
     Object getEventObject();
 }

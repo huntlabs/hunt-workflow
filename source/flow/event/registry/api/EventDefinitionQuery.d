@@ -18,8 +18,6 @@ import hunt.collection.Set;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.Query;
-import hunt.String;
-import hunt.Integer;
 /**
  * Allows programmatic querying of {@link EventDefinition}s.
  *
@@ -29,78 +27,78 @@ import hunt.Integer;
 interface EventDefinitionQuery : Query!(EventDefinitionQuery, EventDefinition) {
 
     /** Only select eventdefinition with the given id. */
-    EventDefinitionQuery eventDefinitionId(String eventDefinitionId);
+    EventDefinitionQuery eventDefinitionId(string eventDefinitionId);
 
     /** Only select forms with the given ids. */
-    EventDefinitionQuery eventDefinitionIds(Set!String eventDefinitionIds);
+    EventDefinitionQuery eventDefinitionIds(Set!string eventDefinitionIds);
 
     /** Only select event definitions with the given category. */
-    EventDefinitionQuery eventCategory(String category);
+    EventDefinitionQuery eventCategory(string category);
 
     /**
      * Only select event definitions where the category matches the given parameter. The syntax that should be used is the same as in SQL, eg. %test%
      */
-    EventDefinitionQuery eventCategoryLike(String categoryLike);
+    EventDefinitionQuery eventCategoryLike(string categoryLike);
 
     /**
      * Only select event definitions that have a different category then the given one.
      *
-     * @see EventDeploymentBuilder#category(String)
+     * @see EventDeploymentBuilder#category(string)
      */
-    EventDefinitionQuery eventCategoryNotEquals(String categoryNotEquals);
+    EventDefinitionQuery eventCategoryNotEquals(string categoryNotEquals);
 
     /** Only select event definitions with the given name. */
-    EventDefinitionQuery eventDefinitionName(String eventDefinitionName);
+    EventDefinitionQuery eventDefinitionName(string eventDefinitionName);
 
     /**
      * Only select event definitions where the name matches the given parameter. The syntax that should be used is the same as in SQL, eg. %test%
      */
-    EventDefinitionQuery eventDefinitionNameLike(String eventDefinitionNameLike);
+    EventDefinitionQuery eventDefinitionNameLike(string eventDefinitionNameLike);
 
     /**
      * Only select event definitions that are deployed in a deployment with the given deployment id
      */
-    EventDefinitionQuery deploymentId(String deploymentId);
+    EventDefinitionQuery deploymentId(string deploymentId);
 
     /**
      * Select event definitions that are deployed in deployments with the given set of ids
      */
-    EventDefinitionQuery deploymentIds(Set!String deploymentIds);
+    EventDefinitionQuery deploymentIds(Set!string deploymentIds);
 
     /**
      * Only select event definition with the given key.
      */
-    EventDefinitionQuery eventDefinitionKey(String eventDefinitionKey);
+    EventDefinitionQuery eventDefinitionKey(string eventDefinitionKey);
 
     /**
      * Only select event definitions where the key matches the given parameter. The syntax that should be used is the same as in SQL, eg. %test%
      */
-    EventDefinitionQuery eventDefinitionKeyLike(String eventDefinitionKeyLike);
+    EventDefinitionQuery eventDefinitionKeyLike(string eventDefinitionKeyLike);
 
     /**
-     * Only select event definitions with a certain version. Particularly useful when used in combination with {@link #formDefinitionKey(String)}
+     * Only select event definitions with a certain version. Particularly useful when used in combination with {@link #formDefinitionKey(string)}
      */
-    EventDefinitionQuery eventVersion(Integer eventVersion);
+    EventDefinitionQuery eventVersion(int eventVersion);
 
     /**
      * Only select event definitions which version are greater than a certain version.
      */
-    EventDefinitionQuery eventVersionGreaterThan(Integer eventVersion);
+    EventDefinitionQuery eventVersionGreaterThan(int eventVersion);
 
     /**
      * Only select event definitions which version are greater than or equals a certain version.
      */
-    EventDefinitionQuery eventVersionGreaterThanOrEquals(Integer eventVersion);
+    EventDefinitionQuery eventVersionGreaterThanOrEquals(int eventVersion);
 
     /**
      * Only select event definitions which version are lower than a certain version.
      */
-    EventDefinitionQuery eventVersionLowerThan(Integer eventVersion);
+    EventDefinitionQuery eventVersionLowerThan(int eventVersion);
 
     /**
      * Only select event definitions which version are lower than or equals a certain version.
      */
-    EventDefinitionQuery eventVersionLowerThanOrEquals(Integer eventVersion);
+    EventDefinitionQuery eventVersionLowerThanOrEquals(int eventVersion);
 
     /**
      * Only select the event definitions which are the latest deployed (ie. which have the highest version number for the given key).
@@ -108,25 +106,25 @@ interface EventDefinitionQuery : Query!(EventDefinitionQuery, EventDefinition) {
      * Can also be used without any other criteria (ie. query.latestVersion().list()), which will then give all the latest versions of all the deployed event definitions.
      *
      * @throws FlowableIllegalArgumentException
-     *             if used in combination with {{@link #eventVersion(int)} or {@link #deploymentId(String)}
+     *             if used in combination with {{@link #eventVersion(int)} or {@link #deploymentId(string)}
      */
     EventDefinitionQuery latestVersion();
 
     /** Only select event definition with the given resource name. */
-    EventDefinitionQuery eventDefinitionResourceName(String resourceName);
+    EventDefinitionQuery eventDefinitionResourceName(string resourceName);
 
     /** Only select event definition with a resource name like the given . */
-    EventDefinitionQuery eventDefinitionResourceNameLike(String resourceNameLike);
+    EventDefinitionQuery eventDefinitionResourceNameLike(string resourceNameLike);
 
     /**
      * Only select event definitions that have the given tenant id.
      */
-    EventDefinitionQuery tenantId(String tenantId);
+    EventDefinitionQuery tenantId(string tenantId);
 
     /**
      * Only select event definitions with a tenant id like the given one.
      */
-    EventDefinitionQuery tenantIdLike(String tenantIdLike);
+    EventDefinitionQuery tenantIdLike(string tenantIdLike);
 
     /**
      * Only select event definitions that do not have a tenant id.

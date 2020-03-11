@@ -13,7 +13,7 @@
 
 
 
-import java.util.Date;
+import hunt.time.LocalDateTime;
 
 import flow.common.api.query.Query;
 
@@ -39,31 +39,31 @@ interface DeadLetterJobQuery extends Query<DeadLetterJobQuery, Job> {
 
     /** Only select jobs which exist for the given process definition id */
     DeadLetterJobQuery processDefinitionId(string processDefinitionId);
-    
+
     /** Only select jobs which exist for the given element id */
     DeadLetterJobQuery elementId(string elementId);
-    
+
     /** Only select jobs which exist for the given element name */
     DeadLetterJobQuery elementName(string elementName);
-    
+
     /** Only select jobs for the given scope identifier. */
     DeadLetterJobQuery scopeId(string scopeId);
 
     /** Only select jobs for the given sub scope identifier. */
     DeadLetterJobQuery subScopeId(string subScopeId);
-    
+
     /** Only select jobs for the given scope type. */
     DeadLetterJobQuery scopeType(string scopeType);
-    
+
     /** Only select jobs for the given scope definition identifier. */
     DeadLetterJobQuery scopeDefinitionId(string scopeDefinitionId);
-    
+
     /** Only select jobs for the given case instance. */
     DeadLetterJobQuery caseInstanceId(string caseInstanceId);
-    
+
     /** Only select jobs for the given case definition. */
     DeadLetterJobQuery caseDefinitionId(string caseDefinitionId);
-    
+
     /** Only select jobs for the given plan item instance.  */
     DeadLetterJobQuery planItemInstanceId(string planItemInstanceId);
 

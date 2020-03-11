@@ -20,7 +20,7 @@ import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonU
 
 import java.util.Base64;
 import hunt.collections;
-import java.util.Date;
+import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;

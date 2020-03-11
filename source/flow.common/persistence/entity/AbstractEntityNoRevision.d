@@ -21,7 +21,7 @@ import flow.common.persistence.entity.Entity;
  */
 abstract class AbstractEntityNoRevision : Entity {
 
-    protected string id;
+    //protected string id;
 
     protected bool isInserted;
     protected bool isUpdated;

@@ -13,36 +13,35 @@
 
 module flow.event.registry.model.EventCorrelationParameter;
 
-import hunt.String;
 
 /**
  * @author Joram Barrez
  */
 class EventCorrelationParameter {
 
-    protected String name;
-    protected String type;
+    protected string name;
+    protected string type;
 
     this() {}
 
-    this(String name, String type) {
+    this(string name, string type) {
         this.name = name;
         this.type = type;
     }
 
-    public String getName() {
+    public string getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(string name) {
         this.name = name;
     }
 
-    public String getType() {
+    public string getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(string type) {
         this.type = type;
     }
 

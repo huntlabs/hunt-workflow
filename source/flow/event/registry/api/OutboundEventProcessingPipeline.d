@@ -13,13 +13,12 @@
 module flow.event.registry.api.OutboundEventProcessingPipeline;
 
 import flow.event.registry.api.runtime.EventInstance;
-import hunt.String;
 
 /**
  * @author Joram Barrez
  */
 interface OutboundEventProcessingPipeline {
 
-    String run(EventInstance eventInstance);
+    string run(EventInstance eventInstance);
 
 }

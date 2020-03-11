@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.event.registry.event.FlowableEventRegistryEvent;
 
 import flow.event.registry.api.EventRegistryEvent;
 import flow.event.registry.api.runtime.EventInstance;
@@ -18,12 +19,12 @@ import flow.event.registry.api.runtime.EventInstance;
 /**
  * @author Joram Barrez
  */
-class FlowableEventRegistryEvent implements EventRegistryEvent {
+class FlowableEventRegistryEvent : EventRegistryEvent {
 
-    protected String type;
+    protected string type;
     protected EventInstance eventInstance;
 
-    public FlowableEventRegistryEvent(EventInstance eventInstance) {
+    this(EventInstance eventInstance) {
         this.type = eventInstance.getEventModel().getKey();
         this.eventInstance = eventInstance;
     }
@@ -36,16 +37,14 @@ class FlowableEventRegistryEvent implements EventRegistryEvent {
         this.eventInstance = eventInstance;
     }
 
-    @Override
-    public String getType() {
+    public string getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(string type) {
         this.type = type;
     }
 
-    @Override
     public Object getEventObject() {
         return eventInstance;
     }

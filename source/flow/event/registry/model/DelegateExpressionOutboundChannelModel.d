@@ -14,26 +14,24 @@
 module flow.event.registry.model.DelegateExpressionOutboundChannelModel;
 //import com.fasterxml.jackson.annotation.JsonInclude;
 //import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import flow.event.registry.model.OutboundChannelModel;
-import hunt.String;
 /**
  * @author Filip Hrisafov
  */
 //@JsonInclude(Include.NON_NULL)
 class DelegateExpressionOutboundChannelModel : OutboundChannelModel {
 
-    protected String adapterDelegateExpression;
+    protected string adapterDelegateExpression;
 
     this() {
         super();
-        setType(new String("expression"));
+        setType(new string("expression"));
     }
 
-    public String getAdapterDelegateExpression() {
+    public string getAdapterDelegateExpression() {
         return adapterDelegateExpression;
     }
 
-    public void setAdapterDelegateExpression(String adapterDelegateExpression) {
+    public void setAdapterDelegateExpression(string adapterDelegateExpression) {
         this.adapterDelegateExpression = adapterDelegateExpression;
     }
 }

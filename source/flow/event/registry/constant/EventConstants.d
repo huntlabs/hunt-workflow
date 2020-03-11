@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.constant.EventConstants;
 
 /**
  * @author Joram Barrez
  */
 interface EventConstants {
 
-    String EVENT_INSTANCE = "eventInstance";
+    static string EVENT_INSTANCE = "eventInstance";
 
 }

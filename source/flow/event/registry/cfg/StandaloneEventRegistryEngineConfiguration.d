@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.cfg.StandaloneEventRegistryEngineConfiguration;
 
 import flow.event.registry.EventRegistryEngineConfiguration;
 
 /**
  * @author Tijs Rademakers
  */
-class StandaloneEventRegistryEngineConfiguration extends EventRegistryEngineConfiguration {
+class StandaloneEventRegistryEngineConfiguration : EventRegistryEngineConfiguration {
 
 }
