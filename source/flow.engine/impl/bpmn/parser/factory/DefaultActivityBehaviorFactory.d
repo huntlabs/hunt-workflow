@@ -120,7 +120,7 @@ import flow.engine.impl.bpmn.helper.ClassDelegateFactory;
 import flow.engine.impl.bpmn.helper.DefaultClassDelegateFactory;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 
 /**
  * Default implementation of the {@link ActivityBehaviorFactory}. Used when no custom {@link ActivityBehaviorFactory} is injected on the {@link ProcessEngineConfigurationImpl}.

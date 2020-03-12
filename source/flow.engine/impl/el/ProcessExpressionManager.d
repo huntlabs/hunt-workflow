@@ -22,7 +22,7 @@ import flow.common.javax.el.BeanELResolver;
 import flow.common.javax.el.ELResolver;
 import flow.common.javax.el.ValueExpression;
 import flow.engine.impl.bpmn.data.ItemInstance;
-import flow.engine.impl.delegate.invocation.DefaultDelegateInterceptor;
+import flow.engine.impl.deleg.invocation.DefaultDelegateInterceptor;
 import flow.engine.impl.interceptor.DelegateInterceptor;
 import org.flowable.variable.service.impl.el.VariableScopeExpressionManager;
 

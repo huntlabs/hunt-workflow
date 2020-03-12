@@ -25,7 +25,7 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;
 import flow.engine.impl.bpmn.helper.ErrorPropagation;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.jobexecutor.AsyncContinuationJobHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;

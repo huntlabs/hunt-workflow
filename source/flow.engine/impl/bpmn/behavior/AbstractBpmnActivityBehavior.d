@@ -23,7 +23,7 @@ import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Process;
 import flow.common.util.CollectionUtil;
 import flow.engine.deleg.DelegateExecution;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;

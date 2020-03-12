@@ -15,7 +15,7 @@
 import flow.bpmn.model.FlowNode;
 import flow.common.api.FlowableException;
 import flow.engine.deleg.DelegateExecution;
-import flow.engine.impl.delegate.TriggerableActivityBehavior;
+import flow.engine.impl.deleg.TriggerableActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 
 /**

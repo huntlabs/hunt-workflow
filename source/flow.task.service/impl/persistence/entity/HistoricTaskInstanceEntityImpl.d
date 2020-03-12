@@ -21,7 +21,7 @@ import hunt.collection.List;
 import hunt.collection.Map;
 
 import flow.common.context.Context;
-import org.flowable.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.impl.util.CommandContextUtil;
 import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInitializingList;

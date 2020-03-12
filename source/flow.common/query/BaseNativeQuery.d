@@ -13,8 +13,8 @@
 
 
 //import java.io.Serializable;
-//import java.util.HashMap;
-//import java.util.Map;
+//import hunt.collection.HashMap;
+//import hunt.collection.Map;
 //
 //import flow.common.api.query.NativeQuery;
 //

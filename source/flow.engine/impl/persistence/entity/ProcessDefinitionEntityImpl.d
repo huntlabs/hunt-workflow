@@ -22,7 +22,7 @@ import flow.common.db.SuspensionState;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.bpmn.data.IOSpecification;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 
 /**
  * @author Joram Barrez

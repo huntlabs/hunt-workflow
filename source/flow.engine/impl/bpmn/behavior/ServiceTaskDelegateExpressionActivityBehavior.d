@@ -29,10 +29,10 @@ import flow.engine.impl.bpmn.helper.ErrorPropagation;
 import flow.engine.impl.bpmn.helper.SkipExpressionUtil;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.context.BpmnOverrideContext;
-import flow.engine.impl.delegate.ActivityBehavior;
-import flow.engine.impl.delegate.ActivityBehaviorInvocation;
-import flow.engine.impl.delegate.TriggerableActivityBehavior;
-import flow.engine.impl.delegate.invocation.JavaDelegateInvocation;
+import flow.engine.impl.deleg.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehaviorInvocation;
+import flow.engine.impl.deleg.TriggerableActivityBehavior;
+import flow.engine.impl.deleg.invocation.JavaDelegateInvocation;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 

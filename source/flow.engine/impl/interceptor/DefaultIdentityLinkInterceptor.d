@@ -18,7 +18,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.interceptor.IdentityLinkInterceptor;
 import flow.identitylink.api.IdentityLinkType;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.Task;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 

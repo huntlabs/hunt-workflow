@@ -16,8 +16,8 @@
 import flow.common.el.ExpressionManager;
 import flow.common.javax.el.ELContext;
 import flow.common.javax.el.ValueExpression;
-import flow.engine.impl.delegate.invocation.ExpressionGetInvocation;
-import flow.engine.impl.delegate.invocation.ExpressionSetInvocation;
+import flow.engine.impl.deleg.invocation.ExpressionGetInvocation;
+import flow.engine.impl.deleg.invocation.ExpressionSetInvocation;
 import flow.engine.impl.interceptor.DelegateInterceptor;
 import flow.engine.impl.util.CommandContextUtil;
 
@@ -30,21 +30,21 @@ import flow.engine.impl.util.CommandContextUtil;
 class JuelExpression extends flow.common.el.JuelExpression {
 
     private static final long serialVersionUID = 1L;
-    
+
     protected DelegateInterceptor delegateInterceptor;
 
     public JuelExpression(ExpressionManager expressionManager, DelegateInterceptor delegateInterceptor, ValueExpression valueExpression, string expressionText) {
         super(expressionManager, valueExpression, expressionText);
         this.delegateInterceptor = delegateInterceptor;
     }
-    
+
     @Override
     protected Object resolveGetValueExpression(ELContext elContext) {
         ExpressionGetInvocation invocation = new ExpressionGetInvocation(valueExpression, elContext);
         delegateInterceptor.handleInvocation(invocation);
         return invocation.getInvocationResult();
     }
-    
+
     @Override
     protected void resolveSetValueExpression(Object value, ELContext elContext) {
         ExpressionSetInvocation invocation = new ExpressionSetInvocation(valueExpression, elContext, value);

@@ -27,7 +27,7 @@ import hunt.collection.Map;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.Task;
 import flow.task.service.deleg.DelegateTask;
 import org.flowable.variable.api.delegate.VariableScope;

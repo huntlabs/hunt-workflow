@@ -18,7 +18,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.engine.FlowableEngineAgenda;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  */
 class DefaultFlowableEngineAgenda extends AbstractAgenda implements FlowableEngineAgenda {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFlowableEngineAgenda.class);
 
     public DefaultFlowableEngineAgenda(CommandContext commandContext) {
@@ -86,7 +86,7 @@ class DefaultFlowableEngineAgenda extends AbstractAgenda implements FlowableEngi
     public void planEndExecutionOperation(ExecutionEntity execution) {
         planOperation(new EndExecutionOperation(commandContext, execution), execution);
     }
-    
+
     @Override
     public void planEndExecutionOperationSynchronous(ExecutionEntity execution) {
         planOperation(new EndExecutionOperation(commandContext, execution, true), execution);
@@ -101,7 +101,7 @@ class DefaultFlowableEngineAgenda extends AbstractAgenda implements FlowableEngi
     public void planAsyncTriggerExecutionOperation(ExecutionEntity execution) {
         planOperation(new TriggerExecutionOperation(commandContext, execution, true), execution);
     }
-    
+
     @Override
     public void planEvaluateConditionalEventsOperation(ExecutionEntity execution) {
         planOperation(new EvaluateConditionalEventsOperation(commandContext, execution), execution);

@@ -21,8 +21,8 @@ import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.JavaDelegate;
 import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
-import flow.engine.impl.delegate.invocation.ExecutionListenerInvocation;
-import flow.engine.impl.delegate.invocation.JavaDelegateInvocation;
+import flow.engine.impl.deleg.invocation.ExecutionListenerInvocation;
+import flow.engine.impl.deleg.invocation.JavaDelegateInvocation;
 import flow.engine.impl.util.CommandContextUtil;
 
 /**

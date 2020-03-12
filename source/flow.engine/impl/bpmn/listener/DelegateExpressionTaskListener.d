@@ -19,7 +19,7 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
 import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
-import flow.engine.impl.delegate.invocation.TaskListenerInvocation;
+import flow.engine.impl.deleg.invocation.TaskListenerInvocation;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.task.service.deleg.DelegateTask;
 import flow.task.service.deleg.TaskListener;

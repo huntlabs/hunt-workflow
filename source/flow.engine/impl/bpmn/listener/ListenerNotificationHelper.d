@@ -33,7 +33,7 @@ import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.TransactionDependentExecutionListener;
 import flow.engine.deleg.TransactionDependentTaskListener;
 import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
-import flow.engine.impl.delegate.invocation.TaskListenerInvocation;
+import flow.engine.impl.deleg.invocation.TaskListenerInvocation;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ExecutionHelper;
 import flow.engine.impl.util.ProcessDefinitionUtil;

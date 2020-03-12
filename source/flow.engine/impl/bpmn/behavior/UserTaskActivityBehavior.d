@@ -46,7 +46,7 @@ import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.impl.util.TaskHelper;
 import flow.engine.interceptor.CreateUserTaskAfterContext;
 import flow.engine.interceptor.CreateUserTaskBeforeContext;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.task.service.TaskService;
 import org.flowable.task.service.event.impl.FlowableTaskEventBuilder;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;

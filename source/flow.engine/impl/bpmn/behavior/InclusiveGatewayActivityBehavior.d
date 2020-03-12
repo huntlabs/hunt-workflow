@@ -18,7 +18,7 @@ import java.util.Iterator;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.DelegateExecution;
-import flow.engine.impl.delegate.InactiveActivityBehavior;
+import flow.engine.impl.deleg.InactiveActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;

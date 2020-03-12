@@ -11,19 +11,21 @@
  * limitations under the License.
  */
 
-
+module flow.identitylink.api.history.HistoricIdentityLink;
 
 import hunt.time.LocalDateTime;
 
 import flow.identitylink.api.IdentityLink;
 import flow.identitylink.api.IdentityLinkInfo;
 
+alias Date = LocalDateTime;
+
 /**
  * Historic counterpart of {@link IdentityLink} that represents the current state if any runtime link. Will be preserved when the runtime process instance or task is finished.
  *
  * @author Frederik Heremans
  */
-interface HistoricIdentityLink extends IdentityLinkInfo {
+interface HistoricIdentityLink : IdentityLinkInfo {
     /**
      * Returns the time when the identity link was created.
      */

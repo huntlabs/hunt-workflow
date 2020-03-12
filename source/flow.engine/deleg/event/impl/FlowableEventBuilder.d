@@ -51,7 +51,7 @@ import flow.engine.deleg.event.FlowableSignalEvent;
 import flow.engine.impl.context.ExecutionContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.job.api.Job;
 import flow.task.api.Task;
 import org.flowable.variable.api.event.FlowableVariableEvent;

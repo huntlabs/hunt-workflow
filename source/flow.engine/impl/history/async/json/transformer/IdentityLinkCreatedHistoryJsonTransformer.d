@@ -20,8 +20,8 @@ import hunt.collection.List;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.history.async.HistoryJsonConstants;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.identitylink.service.HistoricIdentityLinkService;
-import org.flowable.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
+import flow.identitylink.service.HistoricIdentityLinkService;
+import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;

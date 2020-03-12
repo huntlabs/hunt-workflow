@@ -46,8 +46,8 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubsc
 import org.flowable.eventsubscription.service.impl.persistence.entity.GenericEventSubscriptionEntityImpl;
 import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntityImpl;
 import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntityImpl;
-import org.flowable.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntityImpl;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntityImpl;
+import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntityImpl;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntityImpl;
 import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntityImpl;
 import org.flowable.job.service.impl.persistence.entity.HistoryJobEntityImpl;
 import org.flowable.job.service.impl.persistence.entity.JobByteArrayEntityImpl;

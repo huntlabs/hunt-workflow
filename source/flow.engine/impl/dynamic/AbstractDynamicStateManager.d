@@ -58,7 +58,7 @@ import flow.engine.ProcessEngineConfiguration;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.history.DeleteReason;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.dynamic.MoveExecutionEntityContainer.FlowElementMoveEntry;
 import flow.engine.impl.jobexecutor.TimerEventHandler;
 import flow.engine.impl.jobexecutor.TriggerTimerEventJobHandler;

@@ -38,7 +38,7 @@ import flow.common.runtime.Clock;
 abstract class AbstractServiceConfiguration {
 
     /** The tenant id indicating 'no tenant' */
-    public static final string NO_TENANT_ID = "";
+    public static  string NO_TENANT_ID = "";
 
     protected string engineName;
     protected bool enableEventDispatcher = true;

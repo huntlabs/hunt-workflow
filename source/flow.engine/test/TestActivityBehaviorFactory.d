@@ -114,7 +114,7 @@ import flow.engine.impl.bpmn.helper.ClassDelegate;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.bpmn.parser.factory.AbstractBehaviorFactory;
 import flow.engine.impl.bpmn.parser.factory.ActivityBehaviorFactory;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.el.FixedValue;
 import flow.engine.impl.test.NoOpServiceTask;
 

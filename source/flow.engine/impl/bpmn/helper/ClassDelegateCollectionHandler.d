@@ -19,7 +19,7 @@ import hunt.collection.List;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
-import flow.engine.impl.delegate.FlowableCollectionHandler;
+import flow.engine.impl.deleg.FlowableCollectionHandler;
 
 /**
  * Helper class for Collection handlers to allow class delegation.

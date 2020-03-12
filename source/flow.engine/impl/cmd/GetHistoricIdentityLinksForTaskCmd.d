@@ -21,9 +21,9 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.identitylink.api.history.HistoricIdentityLink;
-import org.flowable.identitylink.service.HistoricIdentityLinkService;
+import flow.identitylink.service.HistoricIdentityLinkService;
 import flow.identitylink.api.IdentityLinkType;
-import org.flowable.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import flow.task.api.history.HistoricTaskInstance;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 

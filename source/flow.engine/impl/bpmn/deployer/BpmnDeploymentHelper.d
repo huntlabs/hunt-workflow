@@ -30,8 +30,8 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.identitylink.api.IdentityLinkType;
-import org.flowable.identitylink.service.IdentityLinkService;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.IdentityLinkService;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 
 /**
  * Methods for working with deployments. Much of the actual work of {@link BpmnDeployer} is done by orchestrating the different pieces of work this class does; by having them here, we allow other

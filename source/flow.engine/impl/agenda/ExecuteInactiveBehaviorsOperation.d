@@ -19,7 +19,7 @@ import flow.bpmn.model.FlowNode;
 import flow.bpmn.model.Process;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
-import flow.engine.impl.delegate.InactiveActivityBehavior;
+import flow.engine.impl.deleg.InactiveActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;

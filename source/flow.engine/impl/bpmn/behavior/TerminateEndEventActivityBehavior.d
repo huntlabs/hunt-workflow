@@ -31,7 +31,7 @@ import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.history.DeleteReason;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import flow.engine.impl.delegate.SubProcessActivityBehavior;
+import flow.engine.impl.deleg.SubProcessActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;

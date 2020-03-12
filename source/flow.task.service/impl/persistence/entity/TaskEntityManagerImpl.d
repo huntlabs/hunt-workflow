@@ -20,7 +20,7 @@ import java.util.Objects;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.identity.Authentication;
-import org.flowable.identitylink.service.IdentityLinkService;
+import flow.identitylink.service.IdentityLinkService;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 import flow.task.api.TaskInfo;

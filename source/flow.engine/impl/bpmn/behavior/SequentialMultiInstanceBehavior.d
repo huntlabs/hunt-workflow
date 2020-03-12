@@ -18,7 +18,7 @@ import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.deleg.BpmnError;
 import flow.engine.deleg.DelegateExecution;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;

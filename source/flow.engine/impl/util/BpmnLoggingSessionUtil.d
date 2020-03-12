@@ -37,10 +37,10 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.behavior.ServiceTaskDelegateExpressionActivityBehavior;
 import flow.engine.impl.bpmn.behavior.ServiceTaskExpressionActivityBehavior;
 import flow.engine.impl.bpmn.helper.ClassDelegate;
-import flow.engine.impl.delegate.ActivityBehavior;
+import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import org.flowable.job.service.impl.persistence.entity.JobEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 

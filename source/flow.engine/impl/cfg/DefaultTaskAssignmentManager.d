@@ -19,7 +19,7 @@ import hunt.collection.List;
 import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.impl.util.TaskHelper;
 import flow.identitylink.api.IdentityLink;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.Task;
 import org.flowable.task.service.InternalTaskAssignmentManager;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;

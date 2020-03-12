@@ -27,7 +27,6 @@ import hunt.Exceptions;
  */
 class FlowableException : RuntimeException {
 
-    private static  long serialVersionUID = 1L;
 
     protected bool isLogged;
     protected bool reduceLogLevel;

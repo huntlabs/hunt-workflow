@@ -17,7 +17,7 @@ import hunt.collection.List;
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 
 /**
  * @author Joram Barrez

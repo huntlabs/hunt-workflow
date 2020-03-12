@@ -17,7 +17,7 @@ import hunt.collection;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
-import flow.engine.impl.delegate.FlowableCollectionHandler;
+import flow.engine.impl.deleg.FlowableCollectionHandler;
 
 /**
  * @author Lori Small

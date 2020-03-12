@@ -13,7 +13,7 @@
 module flow.common.db.AbstractDataManager;
 
 //import hunt.collection.ArrayList;
-//import java.util.Collection;
+//import hunt.collection;
 //import hunt.collection.HashMap;
 //import java.util.Iterator;
 //import hunt.collection.List;
