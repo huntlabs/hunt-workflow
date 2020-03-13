@@ -10,40 +10,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-
-import java.util.Arrays;
+module flow.job.service.impl.persistence.entity.TimerJobEntityManagerImpl;
+import hunt.text.StringBuilder;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
-
+import hunt.collection.ArrayList;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.Page;
-import flow.common.calendar.BusinessCalendar;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
-import org.flowable.job.service.impl.TimerJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.data.TimerJobDataManager;
-import org.flowable.variable.api.delegate.VariableScope;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import std.algorithm;
+import std.conv;
+//import flow.common.calendar.BusinessCalendar;
+import flow.job.service.api.Job;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.impl.TimerJobQueryImpl;
+import flow.job.service.impl.persistence.entity.data.TimerJobDataManager;
+import flow.variable.service.api.deleg.VariableScope;
+import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
+import flow.job.service.impl.persistence.entity.TimerJobEntityManager;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
 
 /**
  * @author Tijs Rademakers
  */
 class TimerJobEntityManagerImpl
-    extends AbstractJobServiceEngineEntityManager<TimerJobEntity, TimerJobDataManager>
-    implements TimerJobEntityManager {
+    : AbstractJobServiceEngineEntityManager!(TimerJobEntity, TimerJobDataManager)
+    , TimerJobEntityManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TimerJobEntityManagerImpl.class);
 
-    public TimerJobEntityManagerImpl(JobServiceConfiguration jobServiceConfiguration, TimerJobDataManager jobDataManager) {
+    this(JobServiceConfiguration jobServiceConfiguration, TimerJobDataManager jobDataManager) {
         super(jobServiceConfiguration, jobDataManager);
     }
 
-    @Override
+
     public TimerJobEntity createAndCalculateNextTimer(JobEntity timerEntity, VariableScope variableScope) {
         int repeatValue = calculateRepeatValue(timerEntity);
         if (repeatValue != 0) {
@@ -60,67 +61,67 @@ class TimerJobEntityManagerImpl
         return null;
     }
 
-    @Override
-    public List<TimerJobEntity> findTimerJobsToExecute(Page page) {
+
+    public List!TimerJobEntity findTimerJobsToExecute(Page page) {
         return dataManager.findTimerJobsToExecute(page);
     }
 
-    @Override
-    public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionId(string jobHandlerType, string processDefinitionId) {
+
+    public List!TimerJobEntity findJobsByTypeAndProcessDefinitionId(string jobHandlerType, string processDefinitionId) {
         return dataManager.findJobsByTypeAndProcessDefinitionId(jobHandlerType, processDefinitionId);
     }
 
-    @Override
-    public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyNoTenantId(string jobHandlerType, string processDefinitionKey) {
+
+    public List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyNoTenantId(string jobHandlerType, string processDefinitionKey) {
         return dataManager.findJobsByTypeAndProcessDefinitionKeyNoTenantId(jobHandlerType, processDefinitionKey);
     }
 
-    @Override
-    public List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyAndTenantId(string jobHandlerType, string processDefinitionKey, string tenantId) {
+
+    public List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyAndTenantId(string jobHandlerType, string processDefinitionKey, string tenantId) {
         return dataManager.findJobsByTypeAndProcessDefinitionKeyAndTenantId(jobHandlerType, processDefinitionKey, tenantId);
     }
 
-    @Override
-    public List<TimerJobEntity> findJobsByExecutionId(string id) {
+
+    public List!TimerJobEntity findJobsByExecutionId(string id) {
         return dataManager.findJobsByExecutionId(id);
     }
 
-    @Override
-    public List<TimerJobEntity> findJobsByProcessInstanceId(string id) {
+
+    public List!TimerJobEntity findJobsByProcessInstanceId(string id) {
         return dataManager.findJobsByProcessInstanceId(id);
     }
 
-    @Override
-    public List<TimerJobEntity> findJobsByScopeIdAndSubScopeId(string scopeId, string subScopeId) {
+
+    public List!TimerJobEntity findJobsByScopeIdAndSubScopeId(string scopeId, string subScopeId) {
         return dataManager.findJobsByScopeIdAndSubScopeId(scopeId, subScopeId);
     }
 
-    @Override
-    public List<Job> findJobsByQueryCriteria(TimerJobQueryImpl jobQuery) {
+
+    public List!Job findJobsByQueryCriteria(TimerJobQueryImpl jobQuery) {
         return dataManager.findJobsByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public long findJobCountByQueryCriteria(TimerJobQueryImpl jobQuery) {
         return dataManager.findJobCountByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public void updateJobTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateJobTenantIdForDeployment(deploymentId, newTenantId);
     }
 
-    @Override
+
     public bool insertTimerJobEntity(TimerJobEntity timerJobEntity) {
         return doInsert(timerJobEntity, true);
     }
 
-    @Override
+
     public void insert(TimerJobEntity jobEntity) {
         insert(jobEntity, true);
     }
 
-    @Override
+
     public void insert(TimerJobEntity jobEntity, bool fireCreateEvent) {
         doInsert(jobEntity, fireCreateEvent);
     }
@@ -138,9 +139,9 @@ class TimerJobEntityManagerImpl
         return true;
     }
 
-    @Override
-    public void delete(TimerJobEntity jobEntity) {
-        super.delete(jobEntity, false);
+
+    public void dele(TimerJobEntity jobEntity) {
+        super.dele(jobEntity, false);
 
         deleteByteArrayRef(jobEntity.getExceptionByteArrayRef());
         deleteByteArrayRef(jobEntity.getCustomValuesByteArrayRef());
@@ -180,11 +181,12 @@ class TimerJobEntityManagerImpl
     }
 
     protected void setNewRepeat(JobEntity timerEntity, int newRepeatValue) {
-        List!string expression = Arrays.asList(timerEntity.getRepeat().split("/"));
-        expression = expression.subList(1, expression.size());
+        List!string expression = new ArrayList!string(timerEntity.getRepeat().split("/"));
+        expression.removeAt(0);
+        //expression = expression.subList(1, expression.size());
         StringBuilder repeatBuilder = new StringBuilder("R");
         repeatBuilder.append(newRepeatValue);
-        for (string value : expression) {
+        foreach (string value ; expression) {
             repeatBuilder.append("/");
             repeatBuilder.append(value);
         }
@@ -205,9 +207,11 @@ class TimerJobEntityManagerImpl
 
     protected int calculateRepeatValue(JobEntity timerEntity) {
         int times = -1;
-        List!string expression = Arrays.asList(timerEntity.getRepeat().split("/"));
-        if (expression.size() > 1 && expression.get(0).startsWith("R") && expression.get(0).length() > 1) {
-            times = Integer.parseInt(expression.get(0).substring(1));
+        List!string expression = new ArrayList!string(timerEntity.getRepeat().split("/"));
+        if (expression.size() > 1 && startsWith(expression.get(0),"R") && expression.get(0).length() > 1) {
+            string t = expression.get(0)[ 1 .. $];
+            times = to!int(t);
+           // times = Integer.parseInt(expression.get(0).substring(1));
             if (times > 0) {
                 times--;
             }

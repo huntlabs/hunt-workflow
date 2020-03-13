@@ -30,7 +30,7 @@ import flow.common.persistence.entity.Entity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.Task;
 import flow.task.service.deleg.DelegateTask;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**

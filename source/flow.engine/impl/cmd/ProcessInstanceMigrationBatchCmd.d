@@ -13,7 +13,7 @@
 
 
 
-import org.flowable.batch.api.Batch;
+import flow.batch.service.api.Batch;
 import flow.common.api.FlowableException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -22,7 +22,7 @@ import flow.engine.migration.ProcessInstanceMigrationDocument;
 import flow.engine.migration.ProcessInstanceMigrationManager;
 
 class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
-    
+
     protected string processDefinitionId;
     protected string processDefinitionKey;
     protected int processDefinitionVersion;
@@ -33,7 +33,7 @@ class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
         if (processDefinitionId is null) {
             throw new FlowableException("Must specify a process definition id to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -48,7 +48,7 @@ class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
         if (processDefinitionKey is null) {
             throw new FlowableException("Must specify a process definition key to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -66,7 +66,7 @@ class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
             return migrationManager.batchMigrateProcessInstancesOfProcessDefinition(processDefinitionId, processInstanceMigrationDocument, commandContext);
         }
 
-        return migrationManager.batchMigrateProcessInstancesOfProcessDefinition(processDefinitionKey, processDefinitionVersion, 
+        return migrationManager.batchMigrateProcessInstancesOfProcessDefinition(processDefinitionKey, processDefinitionVersion,
                         processDefinitionTenantId, processInstanceMigrationDocument, commandContext);
     }
 

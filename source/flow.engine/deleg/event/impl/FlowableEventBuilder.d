@@ -52,10 +52,10 @@ import flow.engine.impl.context.ExecutionContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.job.api.Job;
+import flow.job.service.api.Job;
 import flow.task.api.Task;
-import org.flowable.variable.api.event.FlowableVariableEvent;
-import org.flowable.variable.api.types.VariableType;
+import flow.variable.service.api.event.FlowableVariableEvent;
+import flow.variable.service.api.types.VariableType;
 
 /**
  * Builder class used to create {@link FlowableEvent} implementations.

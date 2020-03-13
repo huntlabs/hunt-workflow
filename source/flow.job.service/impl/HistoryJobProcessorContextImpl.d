@@ -12,9 +12,9 @@
  */
 
 
-import org.flowable.job.service.HistoryJobProcessor;
-import org.flowable.job.service.HistoryJobProcessorContext;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.HistoryJobProcessor;
+import flow.job.service.HistoryJobProcessorContext;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 /**
  * The default {@link HistoryJobProcessorContext} implementation used in the {@link HistoryJobProcessor}.

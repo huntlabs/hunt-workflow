@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,32 +29,32 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.db.DbIdGenerator;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.DeploymentBuilder;
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
-import org.flowable.job.service.impl.asyncexecutor.multitenant.ExecutorPerTenantAsyncExecutor;
-import org.flowable.job.service.impl.asyncexecutor.multitenant.SharedExecutorServiceAsyncExecutor;
-import org.flowable.job.service.impl.asyncexecutor.multitenant.TenantAwareAsyncExecutor;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.asyncexecutor.multitenant.ExecutorPerTenantAsyncExecutor;
+import flow.job.service.impl.asyncexecutor.multitenant.SharedExecutorServiceAsyncExecutor;
+import flow.job.service.impl.asyncexecutor.multitenant.TenantAwareAsyncExecutor;
 
 /**
  * A {@link ProcessEngineConfiguration} that builds a multi tenant {@link ProcessEngine} where each tenant has its own database schema.
- * 
+ *
  * If multitenancy is needed and no data isolation is needed: the default {@link ProcessEngineConfigurationImpl} of Flowable is multitenant enabled out of the box by setting a tenant identifier on a
  * {@link DeploymentBuilder}.
- * 
+ *
  * This configuration has following characteristics:
- * 
+ *
  * - It needs a {@link TenantInfoHolder} to determine which tenant is currently 'active'. Ie for which tenant a certain API call is executed.
- * 
+ *
  * - The {@link StrongUuidGenerator} is used by default. The 'regular' {@link DbIdGenerator} cannot be used with this config.
- * 
+ *
  * - Adding tenants (also after boot!) is done using the {@link #registerTenant(string, DataSource)} operations.
- * 
+ *
  * - Currently, this config does not work with the 'old' {@link JobExecutor}, but only with the newer {@link AsyncExecutor}. There are two different implementations: - The
  * {@link ExecutorPerTenantAsyncExecutor}: creates one full {@link AsyncExecutor} for each tenant. - The {@link SharedExecutorServiceAsyncExecutor}: created acquisition threads for each tenant, but
  * the job execution is done using a process engine shared {@link ExecutorService}. The {@link AsyncExecutor} needs to be injected using the {@link #setAsyncExecutor(AsyncExecutor)} method on this
  * class.
- * 
+ *
  * databasetype
- * 
+ *
  * @author Joram Barrez
  */
 class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
@@ -78,7 +78,7 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
 
     /**
      * Add a new {@link DataSource} for a tenant, identified by the provided tenantId, to the engine. This can be done after the engine has booted up.
-     * 
+     *
      * Note that the tenant identifier must have been added to the {@link TenantInfoHolder} *prior* to calling this method.
      */
     public void registerTenant(string tenantId, DataSource dataSource) {

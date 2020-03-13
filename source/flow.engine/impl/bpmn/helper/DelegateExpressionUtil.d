@@ -17,7 +17,7 @@ import flow.common.api.variable.VariableContainer;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.cfg.DelegateExpressionFieldInjectionMode;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 
 import hunt.collection.List;
 

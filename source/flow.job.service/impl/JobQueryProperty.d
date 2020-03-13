@@ -17,7 +17,7 @@ import hunt.collection.HashMap;
 import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
-import org.flowable.job.api.JobQuery;
+import flow.job.service.api.JobQuery;
 
 /**
  * Contains the possible properties that can be used in a {@link JobQuery}.

@@ -49,11 +49,11 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEve
 import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.api.Job;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskLogEntry;
 import flow.task.api.history.HistoricTaskInstance;

@@ -21,7 +21,7 @@ import flow.engine.impl.jobexecutor.TriggerTimerEventJobHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.TimerUtil;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * @author Joram Barrez

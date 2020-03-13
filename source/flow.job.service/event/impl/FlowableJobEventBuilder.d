@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.job.service.event.impl.FlowableJobEventBuilder;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEntityEvent;
@@ -19,7 +20,7 @@ import flow.common.api.deleg.event.FlowableExceptionEvent;
 import flow.common.event.FlowableEntityEventImpl;
 import flow.common.event.FlowableEntityExceptionEventImpl;
 import flow.common.event.FlowableEngineEventImpl;
-import org.flowable.job.api.Job;
+import flow.job.service.api.Job;
 
 /**
  * Builder class used to create {@link FlowableEvent} implementations.
@@ -37,12 +38,12 @@ class FlowableJobEventBuilder {
      */
     public static FlowableEntityEvent createEntityEvent(FlowableEngineEventType type, Object entity) {
         FlowableEntityEventImpl newEvent = new FlowableEntityEventImpl(entity, type);
-        
+
         // In case an execution-context is active, populate the event fields related to the execution
         populateEventWithCurrentContext(newEvent);
         return newEvent;
     }
-    
+
     /**
      * @param type
      *            type of event
@@ -60,14 +61,16 @@ class FlowableJobEventBuilder {
         populateEventWithCurrentContext(newEvent);
         return newEvent;
     }
-    
+
     protected static void populateEventWithCurrentContext(FlowableEngineEventImpl event) {
-        if (event instanceof FlowableEntityEvent) {
-            Object persistedObject = ((FlowableEntityEvent) event).getEntity();
-            if (persistedObject instanceof Job) {
-                event.setExecutionId(((Job) persistedObject).getExecutionId());
-                event.setProcessInstanceId(((Job) persistedObject).getProcessInstanceId());
-                event.setProcessDefinitionId(((Job) persistedObject).getProcessDefinitionId());   
+        FlowableEntityEvent f = cast(FlowableEntityEvent) event;
+        if (f !is null) {
+            Object persistedObject = f.getEntity();
+             Job j = cast(Job)persistedObject;
+            if (j !is null) {
+                event.setExecutionId(j.getExecutionId());
+                event.setProcessInstanceId(j.getProcessInstanceId());
+                event.setProcessDefinitionId(j.getProcessDefinitionId());
             }
         }
     }

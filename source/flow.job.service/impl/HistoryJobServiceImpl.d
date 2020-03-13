@@ -14,10 +14,10 @@
 
 import hunt.collection.List;
 
-import org.flowable.job.api.HistoryJob;
-import org.flowable.job.service.HistoryJobService;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.api.HistoryJob;
+import flow.job.service.HistoryJobService;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 /**
  * @author Tijs Rademakers

@@ -10,21 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.data.HistoryJobDataManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.api.HistoryJob;
-import org.flowable.job.service.impl.HistoryJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.api.HistoryJob;
+import flow.job.service.impl.HistoryJobQueryImpl;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.persistence.entity.data.JobInfoDataManager;
 
 /**
  * @author Tijs Rademakers
  */
-interface HistoryJobDataManager extends DataManager<HistoryJobEntity>, JobInfoDataManager<HistoryJobEntity> {
+interface HistoryJobDataManager : DataManager!HistoryJobEntity, JobInfoDataManager!HistoryJobEntity {
 
-    List<HistoryJob> findHistoryJobsByQueryCriteria(HistoryJobQueryImpl query);
+    List!HistoryJob findHistoryJobsByQueryCriteria(HistoryJobQueryImpl query);
 
     long findHistoryJobCountByQueryCriteria(HistoryJobQueryImpl query);
 

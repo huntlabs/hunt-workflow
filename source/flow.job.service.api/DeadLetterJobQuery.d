@@ -11,11 +11,12 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.api.DeadLetterJobQuery;
 
 import hunt.time.LocalDateTime;
 
 import flow.common.api.query.Query;
+import flow.job.service.api.Job;
 
 /**
  * Allows programmatic querying of {@link Job}s.
@@ -23,7 +24,7 @@ import flow.common.api.query.Query;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface DeadLetterJobQuery extends Query<DeadLetterJobQuery, Job> {
+interface DeadLetterJobQuery : Query!(DeadLetterJobQuery, Job) {
 
     /** Only select jobs with the given id */
     DeadLetterJobQuery jobId(string jobId);

@@ -10,34 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.SuspendedJobEntityManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.JobQueryImpl;
-import org.flowable.job.service.impl.SuspendedJobQueryImpl;
+import flow.job.service.api.Job;
+import flow.job.service.impl.JobQueryImpl;
+import flow.job.service.impl.SuspendedJobQueryImpl;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 
 /**
  * @author Tijs Rademakers
  */
-interface SuspendedJobEntityManager extends EntityManager<SuspendedJobEntity> {
+interface SuspendedJobEntityManager : EntityManager!SuspendedJobEntity {
 
     /**
      * Returns all {@link SuspendedJobEntity} instances related to on {@link ExecutionEntity}.
      */
-    List<SuspendedJobEntity> findJobsByExecutionId(string id);
+    List!SuspendedJobEntity findJobsByExecutionId(string id);
 
     /**
      * Returns all {@link SuspendedJobEntity} instances related to on {@link ExecutionEntity}.
      */
-    List<SuspendedJobEntity> findJobsByProcessInstanceId(string id);
+    List!SuspendedJobEntity findJobsByProcessInstanceId(string id);
 
     /**
      * Executes a {@link JobQueryImpl} and returns the matching {@link SuspendedJobEntity} instances.
      */
-    List<Job> findJobsByQueryCriteria(SuspendedJobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(SuspendedJobQueryImpl jobQuery);
 
     /**
      * Same as {@link #findJobsByQueryCriteria(SuspendedJobQueryImpl)}, but only returns a count and not the instances itself.

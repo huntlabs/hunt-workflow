@@ -16,7 +16,7 @@ import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * @author Tijs Rademakers

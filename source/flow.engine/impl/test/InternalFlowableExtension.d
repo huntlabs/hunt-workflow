@@ -38,7 +38,7 @@ import flow.engine.impl.history.HistoryManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.test.Deployment;
 import flow.engine.test.DeploymentId;
-import org.flowable.job.api.HistoryJob;
+import flow.job.service.api.HistoryJob;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;

@@ -34,8 +34,8 @@
 //import flow.event.registry.api.runtime.EventInstance;
 //import flow.event.registry.EventRegistryEngineConfiguration;
 //import flow.event.registry.util.CommandContextUtil;
-//import org.flowable.eventsubscription.api.EventSubscription;
-//import org.flowable.eventsubscription.api.EventSubscriptionQuery;
+//import flow.eventsubscription.service.api.EventSubscription;
+//import flow.eventsubscription.service.api.EventSubscriptionQuery;
 //
 ///**
 // * @author Joram Barrez

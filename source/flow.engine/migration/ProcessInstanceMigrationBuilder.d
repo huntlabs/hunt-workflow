@@ -15,7 +15,7 @@
 
 import hunt.collection.Map;
 
-import org.flowable.batch.api.Batch;
+import flow.batch.service.api.Batch;
 
 interface ProcessInstanceMigrationBuilder {
 

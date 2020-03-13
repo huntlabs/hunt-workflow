@@ -11,11 +11,12 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.api.TimerJobQuery;
 
 import hunt.time.LocalDateTime;
 
 import flow.common.api.query.Query;
+import flow.job.service.api.Job;
 
 /**
  * Allows programmatic querying of {@link Job}s.
@@ -23,7 +24,7 @@ import flow.common.api.query.Query;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface TimerJobQuery extends Query<TimerJobQuery, Job> {
+interface TimerJobQuery : Query!(TimerJobQuery, Job) {
 
     /** Only select jobs with the given id */
     TimerJobQuery jobId(string jobId);

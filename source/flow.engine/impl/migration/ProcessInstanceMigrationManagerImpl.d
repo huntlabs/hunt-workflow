@@ -26,9 +26,9 @@ import hunt.collection.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.flowable.batch.api.Batch;
-import org.flowable.batch.api.BatchPart;
-import org.flowable.batch.api.BatchService;
+import flow.batch.service.api.Batch;
+import flow.batch.service.api.BatchPart;
+import flow.batch.service.api.BatchService;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.CallActivity;
@@ -78,10 +78,10 @@ import flow.engine.migration.Script;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.Execution;
 import flow.engine.runtime.ProcessInstance;
-import org.flowable.job.service.JobService;
-import org.flowable.job.service.TimerJobService;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.JobService;
+import flow.job.service.TimerJobService;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 class ProcessInstanceMigrationManagerImpl extends AbstractDynamicStateManager implements ProcessInstanceMigrationManager {
 

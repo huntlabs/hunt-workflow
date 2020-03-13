@@ -11,53 +11,54 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.JobInfoEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.common.Page;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.persistence.entity.data.JobInfoDataManager;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-abstract class JobInfoEntityManagerImpl<T extends JobInfoEntity, DM extends JobInfoDataManager<T>>
-    extends AbstractJobServiceEngineEntityManager<T, DM>
-    implements JobInfoEntityManager<T> {
+abstract class JobInfoEntityManagerImpl(T , DM) : AbstractJobServiceEngineEntityManager!(T, DM) ,JobInfoEntityManager!T {
+//abstract class JobInfoEntityManagerImpl<T extends JobInfoEntity, DM extends JobInfoDataManager<T>>
 
-    public JobInfoEntityManagerImpl(JobServiceConfiguration jobServiceConfiguration, DM jobDataManager) {
+
+    this(JobServiceConfiguration jobServiceConfiguration, DM jobDataManager) {
         super(jobServiceConfiguration, jobDataManager);
     }
 
-    @Override
-    public List<T> findJobsToExecute(Page page) {
+
+    public List!T findJobsToExecute(Page page) {
         return dataManager.findJobsToExecute(page);
     }
 
-    @Override
-    public List<T> findJobsByExecutionId(string executionId) {
+
+    public List!T findJobsByExecutionId(string executionId) {
         return dataManager.findJobsByExecutionId(executionId);
     }
 
-    @Override
-    public List<T> findJobsByProcessInstanceId(string processInstanceId) {
+
+    public List!T findJobsByProcessInstanceId(string processInstanceId) {
         return dataManager.findJobsByProcessInstanceId(processInstanceId);
     }
 
-    @Override
-    public List<T> findExpiredJobs(Page page) {
+
+    public List!T findExpiredJobs(Page page) {
         return dataManager.findExpiredJobs(page);
     }
 
-    @Override
+
     public void resetExpiredJob(string jobId) {
         dataManager.resetExpiredJob(jobId);
     }
 
-    @Override
+
     public void updateJobTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateJobTenantIdForDeployment(deploymentId, newTenantId);
     }

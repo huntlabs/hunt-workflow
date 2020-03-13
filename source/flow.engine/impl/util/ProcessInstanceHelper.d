@@ -59,7 +59,7 @@ import flow.event.registry.constant.EventConstants;
 import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
 import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * @author Tijs Rademakers

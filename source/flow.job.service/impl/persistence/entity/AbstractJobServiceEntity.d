@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.AbstractJobServiceEntity;
 
 import flow.common.persistence.entity.AbstractEntity;
+import flow.job.service.impl.persistence.entity.JobServiceEntityConstants;
 
-abstract class AbstractJobServiceEntity extends AbstractEntity {
+class AbstractJobServiceEntity : AbstractEntity {
 
-    @Override
     public string getIdPrefix() {
         return JobServiceEntityConstants.JOB_SERVICE_ID_PREFIX;
     }

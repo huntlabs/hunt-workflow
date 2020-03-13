@@ -19,7 +19,10 @@
 module flow.job.service.api.Job;
 
 
+import hunt.time.LocalDateTime;
+import flow.job.service.api.JobInfo;
 
+alias Date = LocalDateTime;
 
 
 //import hunt.time.LocalDateTime;

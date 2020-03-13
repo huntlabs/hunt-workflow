@@ -11,19 +11,20 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.JobEntityManager;
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.JobQueryImpl;
-
+import flow.job.service.api.Job;
+import flow.job.service.impl.JobQueryImpl;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 /**
  * {@link EntityManager} responsible for the {@link JobEntity} class.
  *
  * @author Joram Barrez
  */
-interface JobEntityManager extends EntityManager<JobEntity>, JobInfoEntityManager<JobEntity> {
+interface JobEntityManager : EntityManager!JobEntity, JobInfoEntityManager!JobEntity {
 
     /**
      * Insert the {@link JobEntity}, similar to {@link #insert(JobEntity)}, but returns a bool in case the insert did not go through. This could happen if the execution related to the
@@ -34,7 +35,7 @@ interface JobEntityManager extends EntityManager<JobEntity>, JobInfoEntityManage
     /**
      * Executes a {@link JobQueryImpl} and returns the matching {@link JobEntity} instances.
      */
-    List<Job> findJobsByQueryCriteria(JobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(JobQueryImpl jobQuery);
 
     /**
      * Same as {@link #findJobsByQueryCriteria(JobQueryImpl)}, but only returns a count and not the instances itself.

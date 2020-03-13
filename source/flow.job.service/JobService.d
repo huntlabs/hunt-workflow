@@ -10,20 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.JobService;
 
 import hunt.collection.List;
 
-import org.flowable.job.api.DeadLetterJobQuery;
-import org.flowable.job.api.HistoryJobQuery;
-import org.flowable.job.api.JobInfo;
-import org.flowable.job.api.JobQuery;
-import org.flowable.job.api.SuspendedJobQuery;
-import org.flowable.job.api.TimerJobQuery;
-import org.flowable.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
-import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.api.DeadLetterJobQuery;
+import flow.job.service.api.HistoryJobQuery;
+import flow.job.service.api.JobInfo;
+import flow.job.service.api.JobQuery;
+import flow.job.service.api.SuspendedJobQuery;
+import flow.job.service.api.TimerJobQuery;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 
 /**
  * Service which provides access to jobs.
@@ -46,17 +46,17 @@ interface JobService {
 
     JobEntity findJobById(string jobId);
 
-    List<JobEntity> findJobsByExecutionId(string executionId);
+    List!JobEntity findJobsByExecutionId(string executionId);
 
-    List<SuspendedJobEntity> findSuspendedJobsByExecutionId(string executionId);
+    List!SuspendedJobEntity findSuspendedJobsByExecutionId(string executionId);
 
-    List<DeadLetterJobEntity> findDeadLetterJobsByExecutionId(string executionId);
+    List!DeadLetterJobEntity findDeadLetterJobsByExecutionId(string executionId);
 
-    List<JobEntity> findJobsByProcessInstanceId(string processInstanceId);
+    List!JobEntity findJobsByProcessInstanceId(string processInstanceId);
 
-    List<SuspendedJobEntity> findSuspendedJobsByProcessInstanceId(string processInstanceId);
+    List!SuspendedJobEntity findSuspendedJobsByProcessInstanceId(string processInstanceId);
 
-    List<DeadLetterJobEntity> findDeadLetterJobsByProcessInstanceId(string processInstanceId);
+    List!DeadLetterJobEntity findDeadLetterJobsByProcessInstanceId(string processInstanceId);
 
     AbstractRuntimeJobEntity activateSuspendedJob(SuspendedJobEntity job);
 

@@ -18,7 +18,7 @@ import hunt.time.LocalDateTime;
 
 import flow.common.api.history.HistoricData;
 
-alias Date =LocalDateTime;
+alias Date = LocalDateTime;
 /**
  * A single process variable containing the last value when its process instance has finished.
  *

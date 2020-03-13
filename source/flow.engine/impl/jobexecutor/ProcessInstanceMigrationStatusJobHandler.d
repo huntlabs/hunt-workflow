@@ -14,15 +14,15 @@
 
 import hunt.collection.List;
 
-import org.flowable.batch.api.Batch;
-import org.flowable.batch.api.BatchPart;
-import org.flowable.batch.api.BatchService;
+import flow.batch.service.api.Batch;
+import flow.batch.service.api.BatchPart;
+import flow.batch.service.api.BatchService;
 import org.flowable.batch.service.impl.persistence.entity.BatchEntity;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.migration.ProcessInstanceBatchMigrationResult;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 class ProcessInstanceMigrationStatusJobHandler extends AbstractProcessInstanceMigrationJobHandler {
 

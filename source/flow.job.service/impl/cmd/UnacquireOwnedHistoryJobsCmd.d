@@ -16,9 +16,9 @@ import hunt.collection.List;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
-import org.flowable.job.api.HistoryJob;
-import org.flowable.job.service.impl.HistoryJobQueryImpl;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.api.HistoryJob;
+import flow.job.service.impl.HistoryJobQueryImpl;
+import flow.job.service.impl.util.CommandContextUtil;
 
 class UnacquireOwnedHistoryJobsCmd implements Command<Void> {
 

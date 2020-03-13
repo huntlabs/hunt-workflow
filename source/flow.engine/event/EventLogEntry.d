@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.event.EventLogEntry;
 
 import hunt.time.LocalDateTime;
+alias Date = LocalDateTime;
 
 /**
  * @author Joram Barrez

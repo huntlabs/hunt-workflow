@@ -28,9 +28,9 @@ import flow.engine.impl.jobexecutor.TimerStartEventJobHandler;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.TimerUtil;
-import org.flowable.job.service.TimerJobService;
-import org.flowable.job.service.impl.cmd.CancelJobsCmd;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.TimerJobService;
+import flow.job.service.impl.cmd.CancelJobsCmd;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * Manages timers for newly-deployed process definitions and their previous versions.

@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.batch.api.Batch;
+import flow.batch.service.api.Batch;
 import flow.common.service.CommonEngineServiceImpl;
 import flow.engine.ProcessMigrationService;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;

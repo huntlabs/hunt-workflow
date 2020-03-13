@@ -36,7 +36,7 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.TaskHelper;
 import flow.engine.runtime.ActivityInstance;
-import org.flowable.entitylink.api.history.HistoricEntityLinkService;
+import flow.entitylink.service.api.history.HistoricEntityLinkService;
 import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
 import org.flowable.entitylink.service.impl.persistence.entity.HistoricEntityLinkEntity;
 import flow.identitylink.service.HistoricIdentityLinkService;

@@ -36,7 +36,7 @@ import flow.engine.history.NativeHistoricDetailQuery;
 import flow.engine.history.NativeHistoricProcessInstanceQuery;
 import flow.engine.history.ProcessInstanceHistoryLog;
 import flow.engine.history.ProcessInstanceHistoryLogQuery;
-//import org.flowable.entitylink.api.history.HistoricEntityLink;
+//import flow.entitylink.service.api.history.HistoricEntityLink;
 import flow.identitylink.api.IdentityLink;
 //import flow.identitylink.api.history.HistoricIdentityLink;
 import flow.task.api.TaskInfo;

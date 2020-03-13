@@ -12,7 +12,7 @@
  */
 
 
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
 import hunt.collections;
 import hunt.collection.List;
@@ -22,7 +22,7 @@ import flow.engine.impl.history.async.HistoryJsonConstants;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.identitylink.service.HistoricIdentityLinkService;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

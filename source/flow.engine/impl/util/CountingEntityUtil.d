@@ -18,7 +18,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.CountingExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-import org.flowable.eventsubscription.api.EventSubscription;
+import flow.eventsubscription.service.api.EventSubscription;
 import org.flowable.task.service.impl.persistence.CountingTaskEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
@@ -41,15 +41,15 @@ class CountingEntityUtil {
                 executionEntity.setVariableCount(executionEntity.getVariableCount() - 1);
             }
         }
-        
+
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
         if (fireDeleteEvent && eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, variableInstance));
-    
+
             eventDispatcher.dispatchEvent(EventUtil.createVariableDeleteEvent(variableInstance));
         }
     }
-    
+
     public static void handleInsertVariableInstanceEntityCount(VariableInstanceEntity variableInstance) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
@@ -64,7 +64,7 @@ class CountingEntityUtil {
             }
         }
     }
-    
+
     public static void handleInsertEventSubscriptionEntityCount(EventSubscription eventSubscription) {
         if (eventSubscription.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
@@ -75,18 +75,18 @@ class CountingEntityUtil {
             }
         }
     }
-    
+
     public static void handleDeleteEventSubscriptionEntityCount(EventSubscription eventSubscription) {
         if (eventSubscription.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
                             eventSubscription.getExecutionId());
-            
+
             if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(executionEntity)) {
                 executionEntity.setEventSubscriptionCount(executionEntity.getEventSubscriptionCount() - 1);
             }
         }
     }
-    
+
     /* Execution related entity count methods */
 
     public static bool isExecutionRelatedEntityCountEnabledGlobally() {
@@ -115,18 +115,18 @@ class CountingEntityUtil {
     }
 
     /**
-     * There are two flags here: a global flag and a flag on the execution entity. 
+     * There are two flags here: a global flag and a flag on the execution entity.
      * The global flag can be switched on and off between different reboots, however the flag on the executionEntity refers
      * to the state at that particular moment of the last insert/update.
-     * 
+     *
      * Global flag / ExecutionEntity flag : result
-     * 
-     * T / T : T (all true, regular mode with flags enabled) 
-     * T / F : F (global is true, but execution was of a time when it was disabled, thus treating it as disabled as the counts can't be guessed) 
+     *
+     * T / T : T (all true, regular mode with flags enabled)
+     * T / F : F (global is true, but execution was of a time when it was disabled, thus treating it as disabled as the counts can't be guessed)
      * F / T : F (execution was of time when counting was done. But this is overruled by the global flag and thus the queries will o
-     * be done) 
+     * be done)
      * F / F : F (all disabled)
-     * 
+     *
      * From this table it is clear that only when both are true, the result should be true, which is the regular AND rule for booleans.
      */
     public static bool isExecutionRelatedEntityCountEnabled(CountingExecutionEntity executionEntity) {
@@ -139,5 +139,5 @@ class CountingEntityUtil {
     public static bool isTaskRelatedEntityCountEnabled(CountingTaskEntity taskEntity) {
         return isTaskRelatedEntityCountEnabledGlobally() && taskEntity.isCountEnabled();
     }
-    
+
 }

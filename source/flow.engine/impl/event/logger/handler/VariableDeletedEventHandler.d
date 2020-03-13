@@ -16,7 +16,7 @@ import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.EventLogEntryEntity;
-import org.flowable.variable.api.event.FlowableVariableEvent;
+import flow.variable.service.api.event.FlowableVariableEvent;
 
 /**
  * @author Joram Barrez

@@ -11,12 +11,12 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.HistoryJobService;
 import hunt.collection.List;
 
-import org.flowable.job.api.HistoryJob;
-import org.flowable.job.service.impl.HistoryJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.api.HistoryJob;
+import flow.job.service.impl.HistoryJobQueryImpl;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 /**
  * Service which provides access to jobs.
@@ -25,7 +25,7 @@ import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
  */
 interface HistoryJobService {
 
-    List<HistoryJob> findHistoryJobsByQueryCriteria(HistoryJobQueryImpl query);
+    List!HistoryJob findHistoryJobsByQueryCriteria(HistoryJobQueryImpl query);
 
     HistoryJobEntity createHistoryJob();
 

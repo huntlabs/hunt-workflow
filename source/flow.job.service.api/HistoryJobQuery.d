@@ -11,17 +11,17 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.api.HistoryJobQuery;
 
 import flow.common.api.query.Query;
-
+import flow.job.service.api.HistoryJob;
 /**
  * Allows programmatic querying of {@link HistoryJob}s.
  *
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface HistoryJobQuery extends Query<HistoryJobQuery, HistoryJob> {
+interface HistoryJobQuery : Query!(HistoryJobQuery, HistoryJob) {
 
     /** Only select jobs with the given id */
     HistoryJobQuery jobId(string jobId);
@@ -34,7 +34,7 @@ interface HistoryJobQuery extends Query<HistoryJobQuery, HistoryJob> {
 
     /** Only select jobs that failed due to an exception with the given message. */
     HistoryJobQuery exceptionMessage(string exceptionMessage);
-    
+
     /**
      * Only select jobs with the given scope type.
      */

@@ -26,7 +26,7 @@ import hunt.collection.List;
 
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.FlowableListener;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * Execution used in {@link JavaDelegate}s and {@link ExecutionListener}s.

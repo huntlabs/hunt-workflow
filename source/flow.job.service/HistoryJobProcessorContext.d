@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 /**
  * The context used in the {@link HistoryJobProcessor}. It holds the history job phase and the

@@ -15,7 +15,7 @@
 
 import hunt.collection.Set;
 
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 
 /**
  * Interface for {@link AsyncExecutor} implementations used in conjunction with the MultiSchemaMultiTenantProcessEngineConfiguration. Allows to dynamically add tenant executors to the engine.

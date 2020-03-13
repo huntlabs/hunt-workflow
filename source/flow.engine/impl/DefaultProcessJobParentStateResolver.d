@@ -16,8 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.runtime.ProcessInstance;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.InternalJobParentStateResolver;
+import flow.job.service.api.Job;
+import flow.job.service.InternalJobParentStateResolver;
 
 /**
  * @author martin.grofcik

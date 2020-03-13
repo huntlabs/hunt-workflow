@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,7 @@ import flow.engine.impl.persistence.entity.ModelEntityManager;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntityManager;
 import flow.engine.impl.persistence.entity.ResourceEntityManager;
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 
 /**
  * @author Tom Baeyens

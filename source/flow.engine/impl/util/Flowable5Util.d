@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,8 +22,8 @@ import flow.engine.impl.context.Flowable5CompatibilityContext;
 import flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.job.api.Job;
-import org.flowable.job.api.JobInfo;
+import flow.job.service.api.Job;
+import flow.job.service.api.JobInfo;
 
 /**
  * @author Joram Barrez
@@ -32,12 +32,12 @@ import org.flowable.job.api.JobInfo;
 class Flowable5Util {
 
     public static final string V5_ENGINE_TAG = "v5";
-    
+
     public static bool isJobHandledByV5Engine(JobInfo jobInfo) {
         if (!(jobInfo instanceof Job)) { // v5 only knew one type of jobs
             return false;
         }
-        
+
         final Job job = (Job) jobInfo;
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         bool isFlowable5ProcessDefinition = Flowable5Util.isFlowable5ProcessDefinitionId(processEngineConfiguration, job.getProcessDefinitionId());
@@ -143,7 +143,7 @@ class Flowable5Util {
     }
 
     public static Flowable5CompatibilityHandler getFlowable5CompatibilityHandler() {
-        Flowable5CompatibilityHandler flowable5CompatibilityHandler = CommandContextUtil.getProcessEngineConfiguration().getFlowable5CompatibilityHandler(); 
+        Flowable5CompatibilityHandler flowable5CompatibilityHandler = CommandContextUtil.getProcessEngineConfiguration().getFlowable5CompatibilityHandler();
         if (flowable5CompatibilityHandler is null) {
             flowable5CompatibilityHandler = Flowable5CompatibilityContext.getFallbackFlowable5CompatibilityHandler();
         }

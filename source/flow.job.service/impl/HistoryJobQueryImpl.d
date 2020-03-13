@@ -21,9 +21,9 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.query.AbstractQuery;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-import org.flowable.job.api.HistoryJob;
-import org.flowable.job.api.HistoryJobQuery;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.api.HistoryJob;
+import flow.job.service.api.HistoryJobQuery;
+import flow.job.service.impl.util.CommandContextUtil;
 
 /**
  * @author Joram Barrez

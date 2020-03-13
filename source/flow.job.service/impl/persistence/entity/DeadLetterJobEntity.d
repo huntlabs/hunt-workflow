@@ -11,6 +11,9 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 
 /**
  * Suspended jobs are stored separately to increase the normal job query performance
@@ -18,6 +21,6 @@
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-interface DeadLetterJobEntity extends AbstractRuntimeJobEntity {
+interface DeadLetterJobEntity : AbstractRuntimeJobEntity {
 
 }

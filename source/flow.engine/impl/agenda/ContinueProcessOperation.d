@@ -41,9 +41,9 @@ import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.logging.LogMDC;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.JobService;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.api.Job;
+import flow.job.service.JobService;
+import flow.job.service.impl.persistence.entity.JobEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

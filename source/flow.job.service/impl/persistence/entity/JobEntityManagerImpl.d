@@ -11,37 +11,38 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.JobEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
-import org.flowable.job.service.impl.JobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.data.JobDataManager;
-
+import flow.job.service.api.Job;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.impl.JobQueryImpl;
+import flow.job.service.impl.persistence.entity.data.JobDataManager;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManagerImpl;
+import flow.job.service.impl.persistence.entity.JobEntity;
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
  * @author Joram Barrez
  */
 class JobEntityManagerImpl
-    extends JobInfoEntityManagerImpl<JobEntity, JobDataManager>
-    implements JobEntityManager {
+    : JobInfoEntityManagerImpl!(JobEntity, JobDataManager)
+    , JobEntityManager {
 
-    public JobEntityManagerImpl(JobServiceConfiguration jobServiceConfiguration, JobDataManager jobDataManager) {
+    this(JobServiceConfiguration jobServiceConfiguration, JobDataManager jobDataManager) {
         super(jobServiceConfiguration, jobDataManager);
     }
 
-    @Override
+
     public bool insertJobEntity(JobEntity timerJobEntity) {
         return doInsert(timerJobEntity, true);
     }
 
-    @Override
+
     public void insert(JobEntity jobEntity, bool fireCreateEvent) {
         doInsert(jobEntity, fireCreateEvent);
     }
@@ -59,19 +60,19 @@ class JobEntityManagerImpl
         return true;
     }
 
-    @Override
-    public List<Job> findJobsByQueryCriteria(JobQueryImpl jobQuery) {
+
+    public List!Job findJobsByQueryCriteria(JobQueryImpl jobQuery) {
         return dataManager.findJobsByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public long findJobCountByQueryCriteria(JobQueryImpl jobQuery) {
         return dataManager.findJobCountByQueryCriteria(jobQuery);
     }
 
-    @Override
-    public void delete(JobEntity jobEntity) {
-        super.delete(jobEntity, false);
+
+    public void dele(JobEntity jobEntity) {
+        super.dele(jobEntity, false);
 
         deleteByteArrayRef(jobEntity.getExceptionByteArrayRef());
         deleteByteArrayRef(jobEntity.getCustomValuesByteArrayRef());
@@ -83,13 +84,13 @@ class JobEntityManagerImpl
         }
     }
 
-    @Override
-    public void delete(JobEntity entity, bool fireDeleteEvent) {
+
+    public void dele(JobEntity entity, bool fireDeleteEvent) {
         if (serviceConfiguration.getInternalJobManager() !is null) {
             serviceConfiguration.getInternalJobManager().handleJobDelete(entity);
         }
 
-        super.delete(entity, fireDeleteEvent);
+        super.dele(entity, fireDeleteEvent);
     }
 
 }

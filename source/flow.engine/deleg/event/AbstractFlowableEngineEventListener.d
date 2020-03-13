@@ -32,7 +32,7 @@ import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.variable.api.event.FlowableVariableEvent;
+import flow.variable.service.api.event.FlowableVariableEvent;
 
 /**
  *  @author Robert Hafner

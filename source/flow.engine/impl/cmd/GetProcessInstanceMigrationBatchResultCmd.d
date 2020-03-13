@@ -16,9 +16,9 @@
 import java.io.IOException;
 import hunt.collection.List;
 
-import org.flowable.batch.api.Batch;
-import org.flowable.batch.api.BatchPart;
-import org.flowable.batch.api.BatchService;
+import flow.batch.service.api.Batch;
+import flow.batch.service.api.BatchPart;
+import flow.batch.service.api.BatchService;
 import flow.common.api.FlowableException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;

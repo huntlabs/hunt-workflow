@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,14 +15,14 @@
 import flow.common.AbstractEngineConfiguration;
 import flow.common.scripting.Resolver;
 import flow.common.scripting.ResolverFactory;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * This is a bridge resolver, making available any objects registered through {@link flow.engine.test.mock.Mocks#register} inside scripts supported by process execution. <br>
  * <br>
  * In order to use it, you need to declare it as ResolverFactory, for example by using flowable.cfg.xml like this: <br>
  * <br>
- * 
+ *
  * &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;<br>
  * &lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;<br>
  * xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;<br>
@@ -45,9 +45,9 @@ import org.flowable.variable.api.delegate.VariableScope;
  * &lt;/beans&gt; <br>
  * <br>
  * or by any other means of creating configuration.
- * 
+ *
  * @author Emil Genov (http://www.emil-genov.info/)
- * 
+ *
  */
 class MockResolverFactory implements ResolverFactory {
     @Override

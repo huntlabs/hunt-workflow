@@ -12,9 +12,9 @@
  */
 
 
-import org.flowable.job.service.JobProcessor;
-import org.flowable.job.service.JobProcessorContext;
-import org.flowable.job.service.impl.persistence.entity.AbstractJobEntity;
+import flow.job.service.JobProcessor;
+import flow.job.service.JobProcessorContext;
+import flow.job.service.impl.persistence.entity.AbstractJobEntity;
 
 /**
  * The default {@link JobProcessorContext} implementation used in the {@link JobProcessor}.

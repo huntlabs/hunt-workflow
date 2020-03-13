@@ -11,7 +11,8 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.JobProcessor;
+import flow.job.service.JobProcessorContext;
 /**
  * Job processor which is used to process job entities during the different job phases.
  *

@@ -19,7 +19,7 @@
 module flow.common.api.deleg.Expression;
 
 
-//import flow.common.engine.api.variable.VariableContainer;
+import flow.common.api.variable.VariableContainer;
 
 
 //import java.io.Serializable;
@@ -29,12 +29,12 @@ module flow.common.api.deleg.Expression;
 // * @author Frederik Heremans
 // * @author Joram Barrez
 // */
-//interface Expression  {
-//
-//    Object getValue(VariableContainer variableContainer);
-//
-//    void setValue(Object value, VariableContainer variableContainer);
-//
-//    string getExpressionText();
-//
-//}
+interface Expression  {
+
+    Object getValue(VariableContainer variableContainer);
+
+    void setValue(Object value, VariableContainer variableContainer);
+
+    string getExpressionText();
+
+}

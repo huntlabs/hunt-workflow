@@ -15,7 +15,7 @@
 
 import hunt.collection.Map;
 
-import org.flowable.batch.api.Batch;
+import flow.batch.service.api.Batch;
 import flow.common.api.FlowableException;
 import flow.engine.ProcessMigrationService;
 import flow.engine.migration.ActivityMigrationMapping;

@@ -12,9 +12,9 @@
  */
 
 
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDateFromJson;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDateFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
 import hunt.collections;
 import hunt.time.LocalDateTime;
@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.history.async.HistoryJsonConstants;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

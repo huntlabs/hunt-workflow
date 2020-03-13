@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.batch.api.Batch;
+import flow.batch.service.api.Batch;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;

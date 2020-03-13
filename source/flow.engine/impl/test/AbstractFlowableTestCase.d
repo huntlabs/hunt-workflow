@@ -51,7 +51,7 @@ import flow.engine.repository.Deployment;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ActivityInstance;
 import flow.engine.runtime.ProcessInstance;
-import org.flowable.job.api.Job;
+import flow.job.service.api.Job;
 import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskInstance;
 import org.junit.jupiter.api.BeforeEach;

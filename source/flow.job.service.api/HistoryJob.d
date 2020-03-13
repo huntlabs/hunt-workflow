@@ -11,16 +11,18 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.api.HistoryJob;
 
 import hunt.time.LocalDateTime;
+import flow.job.service.api.JobInfo;
+alias Date = LocalDateTime;
 
 /**
  * Represents one history job
  *
  * @author Tijs Rademakers
  */
-interface HistoryJob extends JobInfo {
+interface HistoryJob : JobInfo {
 
     /**
      * Get the job create time.

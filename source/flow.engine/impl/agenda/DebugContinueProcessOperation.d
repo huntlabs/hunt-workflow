@@ -17,8 +17,8 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ProcessDebugger;
-import org.flowable.job.service.JobService;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.JobService;
+import flow.job.service.impl.persistence.entity.JobEntity;
 
 /**
  * This class extends {@link ContinueProcessOperation} with the possibility to check whether execution is trying to

@@ -11,54 +11,57 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.DeadLetterJobEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
-import org.flowable.job.service.impl.DeadLetterJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.data.DeadLetterJobDataManager;
+import flow.job.service.api.Job;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.impl.DeadLetterJobQueryImpl;
+import flow.job.service.impl.persistence.entity.data.DeadLetterJobDataManager;
+import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntityManager;
 
 /**
  * @author Tijs Rademakers
  */
 class DeadLetterJobEntityManagerImpl
-    extends AbstractJobServiceEngineEntityManager<DeadLetterJobEntity, DeadLetterJobDataManager>
-    implements DeadLetterJobEntityManager {
+    : AbstractJobServiceEngineEntityManager!(DeadLetterJobEntity, DeadLetterJobDataManager)
+    , DeadLetterJobEntityManager {
 
-    public DeadLetterJobEntityManagerImpl(JobServiceConfiguration jobServiceConfiguration, DeadLetterJobDataManager jobDataManager) {
+    this(JobServiceConfiguration jobServiceConfiguration, DeadLetterJobDataManager jobDataManager) {
         super(jobServiceConfiguration, jobDataManager);
     }
 
-    @Override
-    public List<DeadLetterJobEntity> findJobsByExecutionId(string id) {
+
+    public List!DeadLetterJobEntity findJobsByExecutionId(string id) {
         return dataManager.findJobsByExecutionId(id);
     }
 
-    @Override
-    public List<DeadLetterJobEntity> findJobsByProcessInstanceId(string id) {
+
+    public List!DeadLetterJobEntity findJobsByProcessInstanceId(string id) {
         return dataManager.findJobsByProcessInstanceId(id);
     }
 
-    @Override
-    public List<Job> findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery) {
+
+    public List!Job findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery) {
         return dataManager.findJobsByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public long findJobCountByQueryCriteria(DeadLetterJobQueryImpl jobQuery) {
         return dataManager.findJobCountByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public void updateJobTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateJobTenantIdForDeployment(deploymentId, newTenantId);
     }
 
-    @Override
+
     public void insert(DeadLetterJobEntity jobEntity, bool fireCreateEvent) {
         if (getServiceConfiguration().getInternalJobManager() !is null) {
             getServiceConfiguration().getInternalJobManager().handleJobInsert(jobEntity);
@@ -68,14 +71,14 @@ class DeadLetterJobEntityManagerImpl
         super.insert(jobEntity, fireCreateEvent);
     }
 
-    @Override
+
     public void insert(DeadLetterJobEntity jobEntity) {
         insert(jobEntity, true);
     }
 
-    @Override
-    public void delete(DeadLetterJobEntity jobEntity) {
-        super.delete(jobEntity);
+
+    public void dele(DeadLetterJobEntity jobEntity) {
+        super.dele(jobEntity);
 
         deleteByteArrayRef(jobEntity.getExceptionByteArrayRef());
         deleteByteArrayRef(jobEntity.getCustomValuesByteArrayRef());

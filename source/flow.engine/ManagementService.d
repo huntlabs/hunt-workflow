@@ -21,32 +21,31 @@ module flow.engine.ManagementService;
 
 
 
-import java.sql.Connection;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import org.flowable.batch.api.Batch;
-import org.flowable.batch.api.BatchBuilder;
-import org.flowable.batch.api.BatchPart;
-import org.flowable.batch.api.BatchQuery;
+import flow.batch.service.api.Batch;
+import flow.batch.service.api.BatchBuilder;
+import flow.batch.service.api.BatchPart;
+import flow.batch.service.api.BatchQuery;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.api.management.TableMetaData;
 import flow.common.api.management.TablePage;
 import flow.common.api.management.TablePageQuery;
-import flow.common.cmd.CustomSqlExecution;
+//import flow.common.cmd.CustomSqlExecution;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;
-import flow.common.lock.LockManager;
+//import flow.common.lock.LockManager;
 import flow.engine.event.EventLogEntry;
-import org.flowable.job.api.DeadLetterJobQuery;
-import org.flowable.job.api.HistoryJobQuery;
-import org.flowable.job.api.Job;
-import org.flowable.job.api.JobQuery;
-import org.flowable.job.api.SuspendedJobQuery;
-import org.flowable.job.api.TimerJobQuery;
-import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.api.DeadLetterJobQuery;
+import flow.job.service.api.HistoryJobQuery;
+import flow.job.service.api.Job;
+import flow.job.service.api.JobQuery;
+import flow.job.service.api.SuspendedJobQuery;
+import flow.job.service.api.TimerJobQuery;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * Service for admin and maintenance operations on the process engine.

@@ -14,7 +14,7 @@
 
 import hunt.collection.List;
 
-import org.flowable.batch.api.BatchPart;
+import flow.batch.service.api.BatchPart;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;

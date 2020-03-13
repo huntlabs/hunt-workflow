@@ -12,8 +12,8 @@
  */
 
 
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.convertToBase64;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.putIfNotNull;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.convertToBase64;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.putIfNotNull;
 
 import flow.common.history.HistoryLevel;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;

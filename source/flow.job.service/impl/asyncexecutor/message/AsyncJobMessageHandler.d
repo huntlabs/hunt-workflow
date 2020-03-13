@@ -11,8 +11,9 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.asyncexecutor.message.AsyncJobMessageHandler;
 
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
 
 /**
  * Experimental.
@@ -30,6 +31,6 @@ interface AsyncJobMessageHandler {
      * Returning true will delete the job.
      * Returning false will unacquire the job and decrement the retries.
      */
-    abstract bool handleJob(JobEntity job);
+     bool handleJob(JobEntity job);
 
 }

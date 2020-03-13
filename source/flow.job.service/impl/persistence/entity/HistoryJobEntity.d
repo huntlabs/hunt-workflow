@@ -10,15 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import hunt.time.LocalDateTime;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
-import org.flowable.job.api.HistoryJob;
+import flow.job.service.api.HistoryJob;
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
+import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 
-interface HistoryJobEntity extends JobInfoEntity, HistoryJob, Entity, HasRevision {
+interface HistoryJobEntity : JobInfoEntity, HistoryJob, Entity, HasRevision {
 
     string getAdvancedJobHandlerConfiguration();
 

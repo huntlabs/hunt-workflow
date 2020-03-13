@@ -36,7 +36,7 @@ import flow.engine.impl.cmd.GetHistoricEntityLinkChildrenForTaskCmd;
 import flow.engine.impl.cmd.GetHistoricEntityLinkParentsForProcessInstanceCmd;
 import flow.engine.impl.cmd.GetHistoricEntityLinkParentsForTaskCmd;
 import flow.engine.impl.cmd.GetHistoricIdentityLinksForTaskCmd;
-import org.flowable.entitylink.api.history.HistoricEntityLink;
+import flow.entitylink.service.api.history.HistoricEntityLink;
 import flow.identitylink.api.history.HistoricIdentityLink;
 import flow.task.api.TaskInfo;
 import flow.task.api.history.HistoricTaskInstanceQuery;

@@ -17,10 +17,10 @@ import hunt.collection.List;
 import java.util.Optional;
 
 import flow.common.api.scop.ScopeTypes;
-import org.flowable.entitylink.api.EntityLink;
-import org.flowable.entitylink.api.EntityLinkService;
-import org.flowable.entitylink.api.EntityLinkType;
-import org.flowable.entitylink.api.HierarchyType;
+import flow.entitylink.service.api.EntityLink;
+import flow.entitylink.service.api.EntityLinkService;
+import flow.entitylink.service.api.EntityLinkType;
+import flow.entitylink.service.api.HierarchyType;
 import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
 
 /**

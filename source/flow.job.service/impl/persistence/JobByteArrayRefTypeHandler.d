@@ -12,52 +12,52 @@
  */
 
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.TypeHandler;
-import org.apache.ibatis.type.TypeReference;
-import org.flowable.job.service.impl.persistence.entity.JobByteArrayRef;
-
-/**
- * MyBatis TypeHandler for {@link JobByteArrayRef}.
- * 
- * @author Marcus Klimstra (CGI)
- */
-class JobByteArrayRefTypeHandler extends TypeReference<JobByteArrayRef> implements TypeHandler<JobByteArrayRef> {
-
-    @Override
-    public void setParameter(PreparedStatement ps, int i, JobByteArrayRef parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, getValueToSet(parameter));
-    }
-
-    private string getValueToSet(JobByteArrayRef parameter) {
-        if (parameter is null) {
-            // Note that this should not happen: VariableByteArrayRefs should always be initialized.
-            return null;
-        }
-        return parameter.getId();
-    }
-
-    @Override
-    public JobByteArrayRef getResult(ResultSet rs, string columnName) throws SQLException {
-        string id = rs.getString(columnName);
-        return new JobByteArrayRef(id);
-    }
-
-    @Override
-    public JobByteArrayRef getResult(ResultSet rs, int columnIndex) throws SQLException {
-        string id = rs.getString(columnIndex);
-        return new JobByteArrayRef(id);
-    }
-
-    @Override
-    public JobByteArrayRef getResult(CallableStatement cs, int columnIndex) throws SQLException {
-        string id = cs.getString(columnIndex);
-        return new JobByteArrayRef(id);
-    }
-
-}
+//import java.sql.CallableStatement;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//
+//import org.apache.ibatis.type.JdbcType;
+//import org.apache.ibatis.type.TypeHandler;
+//import org.apache.ibatis.type.TypeReference;
+//import flow.job.service.impl.persistence.entity.JobByteArrayRef;
+//
+///**
+// * MyBatis TypeHandler for {@link JobByteArrayRef}.
+// *
+// * @author Marcus Klimstra (CGI)
+// */
+//class JobByteArrayRefTypeHandler extends TypeReference<JobByteArrayRef> implements TypeHandler<JobByteArrayRef> {
+//
+//    @Override
+//    public void setParameter(PreparedStatement ps, int i, JobByteArrayRef parameter, JdbcType jdbcType) throws SQLException {
+//        ps.setString(i, getValueToSet(parameter));
+//    }
+//
+//    private string getValueToSet(JobByteArrayRef parameter) {
+//        if (parameter is null) {
+//            // Note that this should not happen: VariableByteArrayRefs should always be initialized.
+//            return null;
+//        }
+//        return parameter.getId();
+//    }
+//
+//    @Override
+//    public JobByteArrayRef getResult(ResultSet rs, string columnName) throws SQLException {
+//        string id = rs.getString(columnName);
+//        return new JobByteArrayRef(id);
+//    }
+//
+//    @Override
+//    public JobByteArrayRef getResult(ResultSet rs, int columnIndex) throws SQLException {
+//        string id = rs.getString(columnIndex);
+//        return new JobByteArrayRef(id);
+//    }
+//
+//    @Override
+//    public JobByteArrayRef getResult(CallableStatement cs, int columnIndex) throws SQLException {
+//        string id = cs.getString(columnIndex);
+//        return new JobByteArrayRef(id);
+//    }
+//
+//}

@@ -22,9 +22,9 @@ import flow.common.api.scop.ScopeTypes;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.common.query.AbstractQuery;
-import org.flowable.job.api.Job;
-import org.flowable.job.api.TimerJobQuery;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.api.Job;
+import flow.job.service.api.TimerJobQuery;
+import flow.job.service.impl.util.CommandContextUtil;
 
 /**
  * @author Joram Barrez

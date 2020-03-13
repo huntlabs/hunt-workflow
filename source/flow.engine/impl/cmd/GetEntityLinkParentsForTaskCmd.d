@@ -22,8 +22,8 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.entitylink.api.EntityLink;
-import org.flowable.entitylink.api.EntityLinkType;
+import flow.entitylink.service.api.EntityLink;
+import flow.entitylink.service.api.EntityLinkType;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 /**

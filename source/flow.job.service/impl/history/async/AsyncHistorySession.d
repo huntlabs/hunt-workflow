@@ -23,9 +23,9 @@ import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandContextCloseListener;
 import flow.common.interceptor.Session;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.util.CommandContextUtil;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

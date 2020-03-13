@@ -10,20 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.persistence.entity.SuspendedJobEntityImpl;
 
-
+import  flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
+import  flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 /**
  * TimerJob entity, necessary for persistence.
  *
  * @author Tijs Rademakers
  */
-class SuspendedJobEntityImpl extends AbstractJobEntityImpl implements SuspendedJobEntity {
+class SuspendedJobEntityImpl : AbstractJobEntityImpl , SuspendedJobEntity {
 
-    private static final long serialVersionUID = 1L;
 
-    @Override
+    override
     public string toString() {
-        return "SuspendedJobEntity [id=" + id + "]";
+        return "SuspendedJobEntity [id=" ~ id ~ "]";
     }
 
 }

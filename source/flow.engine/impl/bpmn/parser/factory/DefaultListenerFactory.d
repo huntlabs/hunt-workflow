@@ -46,7 +46,7 @@ import flow.engine.runtime.ProcessInstance;
 import flow.engine.task.Attachment;
 import flow.engine.task.Comment;
 import flow.identitylink.api.IdentityLink;
-import org.flowable.job.api.Job;
+import flow.job.service.api.Job;
 import flow.task.api.Task;
 import flow.task.service.deleg.TaskListener;
 

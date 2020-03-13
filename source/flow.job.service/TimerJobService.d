@@ -11,12 +11,12 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.TimerJobService;
 import hunt.collection.List;
 
-import org.flowable.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * Service which provides access to timer jobs.
@@ -29,15 +29,15 @@ interface TimerJobService {
 
     TimerJobEntity findTimerJobById(string jobId);
 
-    List<TimerJobEntity> findTimerJobsByExecutionId(string executionId);
+    List!TimerJobEntity findTimerJobsByExecutionId(string executionId);
 
-    List<TimerJobEntity> findTimerJobsByProcessInstanceId(string processInstanceId);
+    List!TimerJobEntity findTimerJobsByProcessInstanceId(string processInstanceId);
 
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionId(string type, string processDefinitionId);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionId(string type, string processDefinitionId);
 
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyNoTenantId(string type, string processDefinitionKey);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyNoTenantId(string type, string processDefinitionKey);
 
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyAndTenantId(string type, string processDefinitionKey, string tenantId);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyAndTenantId(string type, string processDefinitionKey, string tenantId);
 
     AbstractRuntimeJobEntity moveJobToTimerJob(JobEntity job);
 

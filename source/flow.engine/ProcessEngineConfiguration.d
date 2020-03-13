@@ -121,11 +121,11 @@ import flow.engine.ProcessEngineLifecycleListener;
     protected Object jpaEntityManagerFactory;
     protected bool jpaHandleTransaction;
     protected bool jpaCloseEntityManager;
-    /**
-     * Define the default lock time for an async job in seconds.
 
     protected AsyncExecutor asyncExecutor;
     protected AsyncExecutor asyncHistoryExecutor;
+    /**
+     * Define the default lock time for an async job in seconds.
 
 
     protected ProcessEngineLifecycleListener processEngineLife The lock time is used when creating an async job and when it expires the async executor assumes that the job has failed. It will be
@@ -396,11 +396,11 @@ import flow.engine.ProcessEngineLifecycleListener;
         return this;
     }
 
-    override
-    public ProcessEngineConfiguration setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-        return this;
-    }
+    //override
+    //public ProcessEngineConfiguration setDataSource(DataSource dataSource) {
+    //    this.dataSource = dataSource;
+    //    return this;
+    //}
 
     override
     public ProcessEngineConfiguration setJdbcDriver(string jdbcDriver) {
@@ -516,11 +516,11 @@ import flow.engine.ProcessEngineLifecycleListener;
         return this;
     }
 
-    override
-    public ProcessEngineConfiguration setClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
-        return this;
-    }
+    //override
+    //public ProcessEngineConfiguration setClassLoader(ClassLoader classLoader) {
+    //    this.classLoader = classLoader;
+    //    return this;
+    //}
 
     override
     public ProcessEngineConfiguration setUseClassForNameClassLoading(bool useClassForNameClassLoading) {

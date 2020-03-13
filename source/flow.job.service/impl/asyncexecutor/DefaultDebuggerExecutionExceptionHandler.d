@@ -13,16 +13,16 @@
 
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.flowable.job.api.JobInfo;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.api.JobInfo;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Swallow exception for the debugger executions and add debugger breakpoint again to the suspended jobs.
- * 
+ *
  * @author martin.grofcik
  */
 class DefaultDebuggerExecutionExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
@@ -34,7 +34,7 @@ class DefaultDebuggerExecutionExceptionHandler implements AsyncRunnableExecution
     public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
         if (HANDLER_TYPE_BREAK_POINT.equals(job.getJobHandlerType())) {
             LOGGER.debug("break point execution throws an exception which will be swallowed", exception);
-            jobServiceConfiguration.getCommandExecutor().execute( 
+            jobServiceConfiguration.getCommandExecutor().execute(
                     commandContext -> {
                         JobEntity jobEntity = jobServiceConfiguration.getJobService().findJobById(job.getId());
                         SuspendedJobEntity suspendedJobEntity = jobServiceConfiguration.getJobService().moveJobToSuspendedJob(jobEntity);
@@ -50,5 +50,5 @@ class DefaultDebuggerExecutionExceptionHandler implements AsyncRunnableExecution
         }
         return false;
     }
-    
+
 }

@@ -29,7 +29,7 @@ import flow.common.api.FlowableObjectNotFoundException;
 import flow.identitylink.api.IdentityLink;
 import flow.identitylink.api.IdentityLinkType;
 import flow.task.api.DelegationState;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * @author Joram Barrez

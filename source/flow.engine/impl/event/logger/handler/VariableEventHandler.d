@@ -17,8 +17,8 @@ import hunt.collection.HashMap;
 import hunt.collection.Map;
 import java.util.UUID;
 
-import org.flowable.variable.api.event.FlowableVariableEvent;
-import org.flowable.variable.api.types.VariableType;
+import flow.variable.service.api.event.FlowableVariableEvent;
+import flow.variable.service.api.types.VariableType;
 import org.flowable.variable.service.impl.types.BooleanType;
 import org.flowable.variable.service.impl.types.DateType;
 import org.flowable.variable.service.impl.types.DoubleType;

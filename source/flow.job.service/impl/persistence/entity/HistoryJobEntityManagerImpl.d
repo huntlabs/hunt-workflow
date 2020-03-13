@@ -11,47 +11,46 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.HistoryJobEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
-import org.flowable.job.api.HistoryJob;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
-import org.flowable.job.service.impl.HistoryJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.data.HistoryJobDataManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.job.service.api.HistoryJob;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.impl.HistoryJobQueryImpl;
+import flow.job.service.impl.persistence.entity.data.HistoryJobDataManager;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManagerImpl;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.persistence.entity.HistoryJobEntityManager;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 class HistoryJobEntityManagerImpl
-    extends JobInfoEntityManagerImpl<HistoryJobEntity, HistoryJobDataManager>
-    implements HistoryJobEntityManager {
+    : JobInfoEntityManagerImpl!(HistoryJobEntity, HistoryJobDataManager)
+    , HistoryJobEntityManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HistoryJobEntityManagerImpl.class);
 
-    public HistoryJobEntityManagerImpl(JobServiceConfiguration jobServiceConfiguration, HistoryJobDataManager historyJobDataManager) {
+    this(JobServiceConfiguration jobServiceConfiguration, HistoryJobDataManager historyJobDataManager) {
         super(jobServiceConfiguration, historyJobDataManager);
     }
 
-    @Override
-    public List<HistoryJob> findHistoryJobsByQueryCriteria(HistoryJobQueryImpl jobQuery) {
+
+    public List!HistoryJob findHistoryJobsByQueryCriteria(HistoryJobQueryImpl jobQuery) {
         return dataManager.findHistoryJobsByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public long findHistoryJobCountByQueryCriteria(HistoryJobQueryImpl jobQuery) {
         return dataManager.findHistoryJobCountByQueryCriteria(jobQuery);
     }
 
-    @Override
-    public void delete(HistoryJobEntity jobEntity) {
-        super.delete(jobEntity, false);
+
+    public void dele(HistoryJobEntity jobEntity) {
+        super.dele(jobEntity, false);
 
         deleteByteArrayRef(jobEntity.getExceptionByteArrayRef());
         deleteByteArrayRef(jobEntity.getAdvancedJobHandlerConfigurationByteArrayRef());
@@ -64,9 +63,9 @@ class HistoryJobEntityManagerImpl
         }
     }
 
-    @Override
+
     public void deleteNoCascade(HistoryJobEntity historyJobEntity) {
-        super.delete(historyJobEntity);
+        super.dele(historyJobEntity);
     }
 
 }

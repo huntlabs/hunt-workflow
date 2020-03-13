@@ -10,10 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.JobEntityImpl;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.Map;
+import flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import hunt.entity;
+alias Date =LocalDateTime;
 
 /**
  * Job entity.
@@ -21,48 +25,56 @@ import hunt.collection.Map;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class JobEntityImpl extends AbstractJobEntityImpl implements JobEntity {
+@Table("ACT_RU_JOB")
+class JobEntityImpl : AbstractJobEntityImpl , Model,JobEntity {
 
-    private static final long serialVersionUID = 1L;
+    mixin MakeModel;
 
-    protected string lockOwner;
-    protected Date lockExpirationTime;
+    @PrimaryKey
+    @Column("ID_")
+    string id;
 
-    @Override
-    @SuppressWarnings("unchecked")
+    @Column("LOCK_OWNER_")
+    string lockOwner;
+
+    @Column("LOCK_EXP_TIME_")
+    int lockExpirationTime;
+
+    override
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = (Map!(string, Object)) super.getPersistentState();
-        persistentState.put("lockOwner", lockOwner);
-        persistentState.put("lockExpirationTime", lockExpirationTime);
+        //Map!(string, Object) persistentState = cast(Map!(string, Object)) super.getPersistentState();
+        //persistentState.put("lockOwner", lockOwner);
+        //persistentState.put("lockExpirationTime", lockExpirationTime);
 
-        return persistentState;
+        return this;
     }
 
     // getters and setters ////////////////////////////////////////////////////////
 
-    @Override
+
     public string getLockOwner() {
         return lockOwner;
     }
 
-    @Override
+
     public void setLockOwner(string claimedBy) {
         this.lockOwner = claimedBy;
     }
 
-    @Override
+
     public Date getLockExpirationTime() {
         return lockExpirationTime;
     }
 
-    @Override
+
     public void setLockExpirationTime(Date claimedUntil) {
         this.lockExpirationTime = claimedUntil;
     }
 
-    @Override
+
+    override
     public string toString() {
-        return "JobEntity [id=" + id + "]";
+        return "JobEntity [id=" ~ id ~ "]";
     }
 
 }

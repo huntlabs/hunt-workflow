@@ -16,9 +16,9 @@ import hunt.collection;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntity;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntityManager;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
+import flow.job.service.impl.util.CommandContextUtil;
 
 /**
  * @author Joram Barrez

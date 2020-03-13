@@ -45,8 +45,8 @@ import flow.engine.repository.Model;
 import flow.engine.repository.ProcessDefinition;
 import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
 import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
-import org.flowable.job.service.TimerJobService;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.TimerJobService;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * @author Tom Baeyens

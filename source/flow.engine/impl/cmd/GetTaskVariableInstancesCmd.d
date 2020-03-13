@@ -24,7 +24,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.task.api.Task;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.api.persistence.entity.VariableInstance;
+import flow.variable.service.api.persistence.entity.VariableInstance;
 
 class GetTaskVariableInstancesCmd implements Command<Map<string, VariableInstance>>, Serializable {
 

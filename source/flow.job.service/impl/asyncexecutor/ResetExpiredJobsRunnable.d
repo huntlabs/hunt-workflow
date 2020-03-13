@@ -17,9 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import flow.common.api.FlowableOptimisticLockingException;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntity;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntityManager;
+import flow.job.service.api.Job;
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

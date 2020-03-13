@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.batch.api.Batch;
+import flow.batch.service.api.Batch;
 import flow.engine.migration.ProcessInstanceBatchMigrationResult;
 import flow.engine.migration.ProcessInstanceMigrationBuilder;
 import flow.engine.migration.ProcessInstanceMigrationDocument;

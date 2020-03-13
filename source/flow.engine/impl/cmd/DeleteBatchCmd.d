@@ -12,21 +12,21 @@
  */
 
 
-import org.flowable.batch.api.Batch;
-import org.flowable.batch.api.BatchService;
+import flow.batch.service.api.Batch;
+import flow.batch.service.api.BatchService;
 import flow.common.api.FlowableException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
 class DeleteBatchCmd implements Command<Void> {
-    
+
     protected string batchId;
-    
+
     public DeleteBatchCmd(string batchId) {
         this.batchId = batchId;
     }
-    
+
     @Override
     public Void execute(CommandContext commandContext) {
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
@@ -34,9 +34,9 @@ class DeleteBatchCmd implements Command<Void> {
         if (batch is null) {
             throw new FlowableException("batch entity not found for id " + batchId);
         }
-        
+
         batchService.deleteBatch(batchId);
-        
+
         return null;
     }
 }

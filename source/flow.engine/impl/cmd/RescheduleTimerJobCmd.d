@@ -22,7 +22,7 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TimerUtil;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 class RescheduleTimerJobCmd implements Command<TimerJobEntity>, Serializable {
 

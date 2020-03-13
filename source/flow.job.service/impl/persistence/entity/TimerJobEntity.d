@@ -10,17 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 import hunt.time.LocalDateTime;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 
+alias Date = LocalDateTime;
 /**
  * Stub of the common parts of a Job. You will normally work with a subclass of JobEntity, such as {@link TimerEntity} or {@link MessageEntity}.
  *
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-interface TimerJobEntity extends AbstractRuntimeJobEntity {
+interface TimerJobEntity : AbstractRuntimeJobEntity {
 
     string getLockOwner();
 

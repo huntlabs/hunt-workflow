@@ -10,25 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.HistoryJobEntityManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
-import org.flowable.job.api.HistoryJob;
-import org.flowable.job.service.impl.HistoryJobQueryImpl;
-
+import flow.job.service.api.HistoryJob;
+import flow.job.service.impl.HistoryJobQueryImpl;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 /**
  * {@link EntityManager} responsible for the {@link HistoryJobEntity} class.
  *
  * @author Tijs Rademakers
  */
-interface HistoryJobEntityManager extends EntityManager<HistoryJobEntity>, JobInfoEntityManager<HistoryJobEntity> {
+interface HistoryJobEntityManager : EntityManager!HistoryJobEntity, JobInfoEntityManager!HistoryJobEntity {
 
     /**
      * Executes a {@link HistoryJobQueryImpl} and returns the matching {@link HistoryJobEntity} instances.
      */
-    List<HistoryJob> findHistoryJobsByQueryCriteria(HistoryJobQueryImpl jobQuery);
+    List!HistoryJob findHistoryJobsByQueryCriteria(HistoryJobQueryImpl jobQuery);
 
     /**
      * Same as {@link #findHistoryJobsByQueryCriteria(HistoryJobQueryImpl)}, but only returns a count and not the instances itself.

@@ -33,10 +33,10 @@ import flow.engine.impl.persistence.entity.ResourceEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ProcessInstance;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 abstract class AbstractDynamicInjectionCmd {

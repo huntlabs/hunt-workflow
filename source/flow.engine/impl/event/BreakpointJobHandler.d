@@ -17,9 +17,9 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.agenda.ContinueProcessOperation;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.service.JobHandler;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.JobHandler;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * Continue in the broken process execution

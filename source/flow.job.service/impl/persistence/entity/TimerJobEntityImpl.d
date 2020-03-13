@@ -10,58 +10,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.TimerJobEntityImpl;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.Map;
+import flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
 
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
+
+import hunt.entity;
+
+alias Date = LocalDateTime;
 /**
  * TimerJob entity, necessary for persistence.
  *
  * @author Tijs Rademakers
  */
-class TimerJobEntityImpl extends AbstractJobEntityImpl implements TimerJobEntity {
+@Table("ACT_RU_TIMER_JOB")
+class TimerJobEntityImpl : AbstractJobEntityImpl , Model,TimerJobEntity {
 
-    private static final long serialVersionUID = 1L;
+    mixin MakeModel;
 
-    protected string lockOwner;
-    protected Date lockExpirationTime;
+    @PrimaryKey
+    @Column("ID_")
+     string id;
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @Column("LOCK_OWNER_")
+     string lockOwner;
+
+    @Column("LOCK_EXP_TIME_")
+     int lockExpirationTime;
+
+    override
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = (Map!(string, Object)) super.getPersistentState();
-        persistentState.put("lockOwner", lockOwner);
-        persistentState.put("lockExpirationTime", lockExpirationTime);
+        return this;
 
-        return persistentState;
+        //Map!(string, Object) persistentState = (Map!(string, Object)) super.getPersistentState();
+        //persistentState.put("lockOwner", lockOwner);
+        //persistentState.put("lockExpirationTime", lockExpirationTime);
+        //
+        //return persistentState;
     }
 
     // getters and setters ////////////////////////////////////////////////////////
 
-    @Override
+
     public string getLockOwner() {
         return lockOwner;
     }
 
-    @Override
+
     public void setLockOwner(string claimedBy) {
         this.lockOwner = claimedBy;
     }
 
-    @Override
+
     public Date getLockExpirationTime() {
         return lockExpirationTime;
     }
 
-    @Override
+
     public void setLockExpirationTime(Date claimedUntil) {
         this.lockExpirationTime = claimedUntil;
     }
 
-    @Override
+    override
     public string toString() {
-        return "TimerJobEntity [id=" + id + "]";
+        return "TimerJobEntity [id=" ~ id ~ "]";
     }
 
 }

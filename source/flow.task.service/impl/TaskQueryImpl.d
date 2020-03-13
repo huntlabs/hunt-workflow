@@ -35,7 +35,7 @@ import flow.task.api.TaskQuery;
 import org.flowable.task.service.TaskServiceConfiguration;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 import org.flowable.task.service.impl.util.CommandContextUtil;
-import org.flowable.variable.api.types.VariableTypes;
+import flow.variable.service.api.types.VariableTypes;
 import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
 import org.flowable.variable.service.impl.QueryVariableValue;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;

@@ -12,27 +12,27 @@
  */
 
 
-import org.flowable.batch.api.BatchPart;
+import flow.batch.service.api.BatchPart;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
 class GetBatchPartCmd implements Command<BatchPart> {
-    
+
     protected string batchPartId;
-    
+
     public GetBatchPartCmd(string batchPartId) {
         this.batchPartId = batchPartId;
     }
-    
+
     @Override
     public BatchPart execute(CommandContext commandContext) {
         BatchPart batchPart = CommandContextUtil.getBatchService(commandContext).getBatchPart(batchPartId);
         if (batchPart is null) {
             throw new FlowableObjectNotFoundException("No batch part found for id " + batchPartId);
         }
-        
+
         return batchPart;
     }
 }

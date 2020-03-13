@@ -11,15 +11,17 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.TimerJobEntityManager;
 import hunt.collection.List;
 
 import flow.common.Page;
 import flow.common.persistence.entity.EntityManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.JobQueryImpl;
-import org.flowable.job.service.impl.TimerJobQueryImpl;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.api.Job;
+import flow.job.service.impl.JobQueryImpl;
+import flow.job.service.impl.TimerJobQueryImpl;
+import flow.variable.service.api.deleg.VariableScope;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
 
 /**
  * {@link EntityManager} responsible for {@link TimerJobEntity} instances.
@@ -27,7 +29,7 @@ import org.flowable.variable.api.delegate.VariableScope;
  * @author Tijs Rademakers
  * @author Vasile Dirla
  */
-interface TimerJobEntityManager extends EntityManager<TimerJobEntity> {
+interface TimerJobEntityManager : EntityManager!TimerJobEntity {
 
     /**
      * Insert the {@link TimerJobEntity}, similar to {@link #insert(TimerJobEntity)}, but returns a bool in case the insert did not go through. This could happen if the execution related to the
@@ -38,44 +40,44 @@ interface TimerJobEntityManager extends EntityManager<TimerJobEntity> {
     /**
      * Returns the {@link TimerJobEntity} instances that are eligible to execute, meaning the due date of the timer has been passed.
      */
-    List<TimerJobEntity> findTimerJobsToExecute(Page page);
+    List!TimerJobEntity findTimerJobsToExecute(Page page);
 
     /**
      * Returns the {@link TimerJobEntity} for a given process definition.
      * <p>
      * This is for example used when deleting a process definition: it finds the {@link TimerJobEntity} representing the timer start events.
      */
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionId(string type, string processDefinitionId);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionId(string type, string processDefinitionId);
 
     /**
      * The same as {@link #findJobsByTypeAndProcessDefinitionId(string, string)}, but by key and for a specific tenantId.
      */
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyAndTenantId(string type, string processDefinitionKey, string tenantId);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyAndTenantId(string type, string processDefinitionKey, string tenantId);
 
     /**
      * The same as {@link #findJobsByTypeAndProcessDefinitionId(string, string)}, but by key and specifically for the 'no tenant' mode.
      */
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyNoTenantId(string type, string processDefinitionKey);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyNoTenantId(string type, string processDefinitionKey);
 
     /**
      * Returns all {@link TimerJobEntity} instances related to on {@link ExecutionEntity}.
      */
-    List<TimerJobEntity> findJobsByExecutionId(string id);
+    List!TimerJobEntity findJobsByExecutionId(string id);
 
     /**
      * Returns all {@link TimerJobEntity} instances related to on {@link ExecutionEntity}.
      */
-    List<TimerJobEntity> findJobsByProcessInstanceId(string id);
+    List!TimerJobEntity findJobsByProcessInstanceId(string id);
 
     /**
      * Returns all {@link TimerJobEntity} for the given scope and subscope.
      */
-    List<TimerJobEntity> findJobsByScopeIdAndSubScopeId(string scopeId, string subScopeId);
+    List!TimerJobEntity findJobsByScopeIdAndSubScopeId(string scopeId, string subScopeId);
 
     /**
      * Executes a {@link JobQueryImpl} and returns the matching {@link TimerJobEntity} instances.
      */
-    List<Job> findJobsByQueryCriteria(TimerJobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(TimerJobQueryImpl jobQuery);
 
     /**
      * Same as {@link #findJobsByQueryCriteria(TimerJobQueryImpl)}, but only returns a count and not the instances itself.

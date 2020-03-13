@@ -21,7 +21,7 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.variable.api.persistence.entity.VariableInstance;
+import flow.variable.service.api.persistence.entity.VariableInstance;
 import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**

@@ -11,31 +11,34 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.JobByteArrayEntityManagerImpl;
 
 import hunt.collection.List;
 
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.persistence.entity.data.JobByteArrayDataManager;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.persistence.entity.data.JobByteArrayDataManager;
+import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
+import flow.job.service.impl.persistence.entity.JobByteArrayEntity;
+import flow.job.service.impl.persistence.entity.JobByteArrayEntityManager;
 
 /**
  * @author Joram Barrez
  * @author Marcus Klimstra (CGI)
  */
 class JobByteArrayEntityManagerImpl
-    extends AbstractJobServiceEngineEntityManager<JobByteArrayEntity, JobByteArrayDataManager>
-    implements JobByteArrayEntityManager {
+    : AbstractJobServiceEngineEntityManager!(JobByteArrayEntity, JobByteArrayDataManager)
+    , JobByteArrayEntityManager {
 
-    public JobByteArrayEntityManagerImpl(JobServiceConfiguration jobServiceConfiguration, JobByteArrayDataManager byteArrayDataManager) {
+    this(JobServiceConfiguration jobServiceConfiguration, JobByteArrayDataManager byteArrayDataManager) {
         super(jobServiceConfiguration, byteArrayDataManager);
     }
 
-    @Override
-    public List<JobByteArrayEntity> findAll() {
+
+    public List!JobByteArrayEntity findAll() {
         return dataManager.findAll();
     }
 
-    @Override
+
     public void deleteByteArrayById(string byteArrayEntityId) {
         dataManager.deleteByteArrayNoRevisionCheck(byteArrayEntityId);
     }

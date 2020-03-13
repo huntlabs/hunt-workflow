@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,12 +11,12 @@
  * limitations under the License.
  */
 
+module flow.job.service.InternalJobManager;
 
-
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.api.Job;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * @author Tijs Rademakers
@@ -24,17 +24,17 @@ import org.flowable.variable.api.delegate.VariableScope;
 interface InternalJobManager {
 
     VariableScope resolveVariableScope(Job job);
-    
+
     bool handleJobInsert(Job job);
-    
+
     void handleJobDelete(Job job);
-    
+
     void lockJobScope(Job job);
-    
+
     void clearJobScopeLock(Job job);
-    
+
     void preTimerJobDelete(JobEntity jobEntity, VariableScope variableScope);
-    
+
     void preRepeatedTimerSchedule(TimerJobEntity timerJobEntity, VariableScope variableScope);
-    
+
 }

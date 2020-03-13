@@ -10,12 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.persistence.entity.JobByteArrayRef;
 
 
-import java.io.Serializable;
-
-import org.flowable.job.service.impl.util.CommandContextUtil;
-import java.nio.charset.StandardCharsets;
+import flow.job.service.impl.util.CommandContextUtil;
 
 /**
  * <p>
@@ -24,20 +22,18 @@ import java.nio.charset.StandardCharsets;
  *
  * @author Marcus Klimstra (CGI)
  */
-class JobByteArrayRef implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+class JobByteArrayRef {
 
     private string id;
     private string name;
     private JobByteArrayEntity entity;
     protected bool deleted;
 
-    public JobByteArrayRef() {
+    this() {
     }
 
     // Only intended to be used by ByteArrayRefTypeHandler
-    public JobByteArrayRef(string id) {
+    this(string id) {
         this.id = id;
     }
 
@@ -65,7 +61,7 @@ class JobByteArrayRef implements Serializable {
             return null;
         }
 
-        return new string(bytes, StandardCharsets.UTF_8);
+        return cast(string)(bytes);
     }
 
     public void setValue(string name, byte[] bytes) {
@@ -83,7 +79,7 @@ class JobByteArrayRef implements Serializable {
     public void setValue(string name, string value) {
         this.name = name;
         if (value !is null) {
-            setBytes(value.getBytes(StandardCharsets.UTF_8));
+            setBytes(cast(byte[])value);
         }
     }
 
@@ -108,12 +104,12 @@ class JobByteArrayRef implements Serializable {
         return entity;
     }
 
-    public void delete() {
+    public void dele() {
         if (!deleted && id !is null) {
             if (entity !is null) {
                 // if the entity has been loaded already,
                 // we might as well use the safer optimistic locking delete.
-                CommandContextUtil.getJobByteArrayEntityManager().delete(entity);
+                CommandContextUtil.getJobByteArrayEntityManager().dele(entity);
             } else {
                 CommandContextUtil.getJobByteArrayEntityManager().deleteByteArrayById(id);
             }
@@ -148,8 +144,8 @@ class JobByteArrayRef implements Serializable {
         return copy;
     }
 
-    @Override
+    override
     public string toString() {
-        return "ByteArrayRef[id=" + id + ", name=" + name + ", entity=" + entity + (deleted ? ", deleted]" : "]");
+        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity=" ~ entity ~ (deleted ? ", deleted]" : "]");
     }
 }

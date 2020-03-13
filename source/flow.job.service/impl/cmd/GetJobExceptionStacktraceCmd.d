@@ -19,9 +19,9 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.api.Job;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
+import flow.job.service.impl.util.CommandContextUtil;
 
 /**
  * @author Frederik Heremans

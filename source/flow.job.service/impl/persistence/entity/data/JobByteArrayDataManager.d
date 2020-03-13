@@ -10,19 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.data.JobByteArrayDataManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.service.impl.persistence.entity.JobByteArrayEntity;
+import flow.job.service.impl.persistence.entity.JobByteArrayEntity;
 
 /**
  * @author Joram Barrez
  */
-interface JobByteArrayDataManager extends DataManager<JobByteArrayEntity> {
+interface JobByteArrayDataManager : DataManager!JobByteArrayEntity {
 
-    List<JobByteArrayEntity> findAll();
+    List!JobByteArrayEntity findAll();
 
     void deleteByteArrayNoRevisionCheck(string byteArrayEntityId);
 

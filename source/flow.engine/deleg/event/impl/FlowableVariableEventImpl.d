@@ -11,19 +11,19 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.deleg.event.impl.FlowableVariableEventImpl;
- 
- 
- 
+
+
+
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
-import org.flowable.variable.api.event.FlowableVariableEvent;
-import org.flowable.variable.api.types.VariableType;
+import flow.variable.service.api.event.FlowableVariableEvent;
+import flow.variable.service.api.types.VariableType;
 
 /**
  * Implementation of {@link FlowableVariableEvent}.

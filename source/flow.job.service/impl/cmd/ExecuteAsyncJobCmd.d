@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,10 +19,10 @@ import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntity;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntityManager;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
+import flow.job.service.impl.util.CommandContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ class ExecuteAsyncJobCmd implements Command<Object>, Serializable {
     public ExecuteAsyncJobCmd(string jobId) {
         this.jobId = jobId;
     }
-    
+
     public ExecuteAsyncJobCmd(string jobId, JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager) {
         this.jobId = jobId;
         this.jobEntityManager = jobEntityManager;
@@ -50,7 +50,7 @@ class ExecuteAsyncJobCmd implements Command<Object>, Serializable {
 
     @Override
     public Object execute(CommandContext commandContext) {
-        
+
         if (jobEntityManager is null) {
             jobEntityManager = CommandContextUtil.getJobEntityManager(commandContext); // Backwards compatibility
         }

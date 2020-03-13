@@ -20,8 +20,8 @@ import flow.common.api.scop.ScopeTypes;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.entitylink.api.EntityLinkType;
-import org.flowable.entitylink.api.history.HistoricEntityLink;
+import flow.entitylink.service.api.EntityLinkType;
+import flow.entitylink.service.api.history.HistoricEntityLink;
 
 /**
  * @author Tijs Rademakers

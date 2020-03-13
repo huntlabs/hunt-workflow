@@ -10,25 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.data.SuspendedJobDataManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.SuspendedJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.api.Job;
+import flow.job.service.impl.SuspendedJobQueryImpl;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 
 /**
  * @author Tijs Rademakers
  */
-interface SuspendedJobDataManager extends DataManager<SuspendedJobEntity> {
+interface SuspendedJobDataManager : DataManager!SuspendedJobEntity {
 
-    List<SuspendedJobEntity> findJobsByExecutionId(string executionId);
+    List!SuspendedJobEntity findJobsByExecutionId(string executionId);
 
-    List<SuspendedJobEntity> findJobsByProcessInstanceId(string processInstanceId);
+    List!SuspendedJobEntity findJobsByProcessInstanceId(string processInstanceId);
 
-    List<Job> findJobsByQueryCriteria(SuspendedJobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(SuspendedJobQueryImpl jobQuery);
 
     long findJobCountByQueryCriteria(SuspendedJobQueryImpl jobQuery);
 

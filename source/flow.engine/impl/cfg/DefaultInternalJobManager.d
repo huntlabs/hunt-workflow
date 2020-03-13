@@ -37,14 +37,14 @@ import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.InternalJobManager;
-import org.flowable.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
-import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.api.Job;
+import flow.job.service.InternalJobManager;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * @author Tijs Rademakers

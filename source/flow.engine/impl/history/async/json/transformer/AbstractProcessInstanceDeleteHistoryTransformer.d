@@ -21,7 +21,7 @@ import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.TaskHelper;
-import org.flowable.entitylink.api.history.HistoricEntityLinkService;
+import flow.entitylink.service.api.history.HistoricEntityLinkService;
 
 abstract class AbstractProcessInstanceDeleteHistoryTransformer extends AbstractHistoryJsonTransformer {
 

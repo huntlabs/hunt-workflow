@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.JobByteArrayEntityManager;
 
 import hunt.collection.List;
 
@@ -19,12 +19,12 @@ import flow.common.persistence.entity.EntityManager;
 /**
  * @author Joram Barrez
  */
-interface JobByteArrayEntityManager extends EntityManager<JobByteArrayEntity> {
+interface JobByteArrayEntityManager : EntityManager!JobByteArrayEntity {
 
     /**
      * Returns all {@link JobByteArrayEntity}.
      */
-    List<JobByteArrayEntity> findAll();
+    List!JobByteArrayEntity findAll();
 
     /**
      * Deletes the {@link JobByteArrayEntity} with the given id from the database. Important: this operation will NOT do any optimistic locking, to avoid loading the bytes in memory. So use this method

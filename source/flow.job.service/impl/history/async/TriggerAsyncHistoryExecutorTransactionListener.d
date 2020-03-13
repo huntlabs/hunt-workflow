@@ -14,34 +14,34 @@
 
 import flow.common.cfg.TransactionListener;
 import flow.common.interceptor.CommandContext;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.util.CommandContextUtil;
 
 /**
- * A {@link TransactionListener} that will, typically on post-commit, trigger 
- * the async history executor to execute the provided list of {@link HistoryJobEntity} instances. 
- * 
+ * A {@link TransactionListener} that will, typically on post-commit, trigger
+ * the async history executor to execute the provided list of {@link HistoryJobEntity} instances.
+ *
  * @author Joram Barrez
  */
 class TriggerAsyncHistoryExecutorTransactionListener implements TransactionListener {
-    
+
     protected HistoryJobEntity historyJobEntity;
-    
+
     protected  JobServiceConfiguration jobServiceConfiguration;
-    
+
     public TriggerAsyncHistoryExecutorTransactionListener(CommandContext commandContext) {
         this(commandContext,null);
     }
-    
+
     public TriggerAsyncHistoryExecutorTransactionListener(CommandContext commandContext, HistoryJobEntity historyJobEntity) {
-        // The execution of this listener will reference components that might 
-        // not be available when the command context is closing (when typically 
+        // The execution of this listener will reference components that might
+        // not be available when the command context is closing (when typically
         // the history jobs are created and scheduled), so they are already referenced here.
         this.jobServiceConfiguration = CommandContextUtil.getJobServiceConfiguration(commandContext);
         this.historyJobEntity = historyJobEntity;
     }
-    
+
     @Override
     public void execute(CommandContext commandContext) {
         jobServiceConfiguration.getAsyncHistoryExecutor().executeAsyncJob(historyJobEntity);

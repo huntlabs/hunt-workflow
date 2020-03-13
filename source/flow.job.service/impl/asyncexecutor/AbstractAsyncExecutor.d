@@ -15,12 +15,12 @@
 import java.util.LinkedList;
 import java.util.UUID;
 
-import org.flowable.job.api.JobInfo;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.cmd.UnacquireOwnedJobsCmd;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntity;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntityManager;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.api.JobInfo;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.cmd.UnacquireOwnedJobsCmd;
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
+import flow.job.service.impl.util.CommandContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -10,19 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.persistence.entity.DeadLetterJobEntityImpl;
 
 
+import  flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
+import  flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 /**
  * DeadLetterJob entity, necessary for persistence.
  *
  * @author Tijs Rademakers
  */
-class DeadLetterJobEntityImpl extends AbstractJobEntityImpl implements DeadLetterJobEntity {
+class DeadLetterJobEntityImpl : AbstractJobEntityImpl , DeadLetterJobEntity {
 
-    private static final long serialVersionUID = 1L;
 
-    @Override
+    override
     public string toString() {
-        return "DeadLetterJobEntity [id=" + id + "]";
+        return "DeadLetterJobEntity [id=" ~ id ~ "]";
     }
 }

@@ -11,22 +11,22 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.AbstractManager;
 
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.runtime.Clock;
-import org.flowable.job.service.JobServiceConfiguration;
+import flow.job.service.JobServiceConfiguration;
 
 /**
  * @author Tijs Rademakers
  */
-abstract class AbstractManager {
+ class AbstractManager {
 
     protected JobServiceConfiguration jobServiceConfiguration;
 
-    public AbstractManager(JobServiceConfiguration jobServiceConfiguration) {
+    this(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
     }
 
@@ -35,10 +35,10 @@ abstract class AbstractManager {
     protected CommandContext getCommandContext() {
         return Context.getCommandContext();
     }
-
-    protected <T> T getSession(Class<T> sessionClass) {
-        return getCommandContext().getSession(sessionClass);
-    }
+    //
+    //protected <T> T getSession(Class<T> sessionClass) {
+    //    return getCommandContext().getSession(sessionClass);
+    //}
 
     // Engine scoped
 

@@ -31,8 +31,8 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
 import flow.engine.impl.util.Flowable5Util;
-import org.flowable.entitylink.api.EntityLink;
-import org.flowable.entitylink.api.EntityLinkType;
+import flow.entitylink.service.api.EntityLink;
+import flow.entitylink.service.api.EntityLinkType;
 import org.flowable.eventsubscription.service.EventSubscriptionService;
 import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 

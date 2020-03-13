@@ -13,7 +13,7 @@
 
 
 
-import org.flowable.batch.api.Batch;
+import flow.batch.service.api.Batch;
 import flow.common.interceptor.CommandContext;
 
 interface ProcessInstanceMigrationManager {

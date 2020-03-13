@@ -12,19 +12,19 @@
  */
 
 
-import org.flowable.job.api.JobInfo;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
-import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.SuspendedJobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.api.JobInfo;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * Contains methods that are not tied to any specific job type (async, timer, suspended or deadletter), but which are generally applicable or are about going from one type to another.
- * 
+ *
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
@@ -34,17 +34,17 @@ interface JobManager {
      * Execute a job, which means that the logic (async logic, timer that fires, etc) is executed, typically by a background thread of an executor.
      */
     void execute(JobInfo job);
-    
+
     /**
      * Unacquires a job, meaning that this job was previously locked, and it is now freed to be acquired by other executor nodes.
      */
     void unacquire(JobInfo job);
-    
+
     /**
      * Unacquires a job, meaning that this job was previously locked, and it is now freed to be acquired by other executor nodes.
      */
     void unacquireWithDecrementRetries(JobInfo job);
-    
+
     /**
      * Creates an async job so that it can be continued later in a background thread.
      */
@@ -59,7 +59,7 @@ interface JobManager {
      * Schedules a timer, meaning it will be inserted in the datastore.
      */
     void scheduleTimerJob(TimerJobEntity timerJob);
-    
+
     /**
      * Get the business calendar name of the job configuration
      */
@@ -67,14 +67,14 @@ interface JobManager {
 
     /**
      * Moves a {@link TimerJobEntity} to become an async {@link JobEntity}.
-     * 
+     *
      * This happens for example when the due date of a timer is reached, the timer entity then becomes a 'regular' async job that can be picked up by the {@link AsyncExecutor}.
      */
     JobEntity moveTimerJobToExecutableJob(TimerJobEntity timerJob);
 
     /**
      * Moves an {@link AbstractRuntimeJobEntity} to become a {@link TimerJobEntity}.
-     * 
+     *
      * This happens for example when an async job is executed and fails. It then becomes a timer, as it needs to be retried later.
      */
     TimerJobEntity moveJobToTimerJob(AbstractRuntimeJobEntity job);
@@ -99,7 +99,7 @@ interface JobManager {
      * because of it failed and retries became 0.
      */
     JobEntity moveDeadLetterJobToExecutableJob(DeadLetterJobEntity deadLetterJobEntity, int retries);
-    
+
     /**
      * schedules a {@link HistoryJobEntity}, meaning it will be scheduled (inserted in the database/put on a queue/...) to be executed at a later point in time.
      */
@@ -109,7 +109,7 @@ interface JobManager {
      * The ProcessEngineConfiguration instance will be passed when the ProcessEngine is built.
      */
     void setJobServiceConfiguration(JobServiceConfiguration jobServiceConfiguration);
-    
+
     /**
      * Create an executable job from another job
      */

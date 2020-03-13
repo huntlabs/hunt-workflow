@@ -23,9 +23,9 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.impl.util.ProcessInstanceHelper;
-import org.flowable.job.service.JobHandler;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.JobHandler;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -15,20 +15,20 @@
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.service.JobHandler;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.JobHandler;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * A {@link JobHandler} implementation that asynchronously will end an execution asynchronously.
- * 
- * Primary use case is handling a parallel multi-instance call activity where the child process 
+ *
+ * Primary use case is handling a parallel multi-instance call activity where the child process
  * has an async step just before reaching the end event.
- * The async locking happens on the level of the child process instance, but the end event will 
- * execute the completing/completed callbacks of the call activity, which are done in scope of 
- * the parent process instance and can lead to optimistic locking exceptions. 
- * By scheduling the job in context of the parent process instance, the correct lock will be used.  
- * 
+ * The async locking happens on the level of the child process instance, but the end event will
+ * execute the completing/completed callbacks of the call activity, which are done in scope of
+ * the parent process instance and can lead to optimistic locking exceptions.
+ * By scheduling the job in context of the parent process instance, the correct lock will be used.
+ *
  * @author Joram Barrez
  */
 class AsyncCompleteCallActivityJobHandler implements JobHandler {

@@ -25,7 +25,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
-import org.flowable.variable.api.persistence.entity.VariableInstance;
+import flow.variable.service.api.persistence.entity.VariableInstance;
 
 class GetExecutionVariableInstancesCmd implements Command<Map<string, VariableInstance>>, Serializable {
 

@@ -10,37 +10,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.data.TimerJobDataManager;
 
 import hunt.collection.List;
 
 import flow.common.Page;
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.TimerJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.api.Job;
+import flow.job.service.impl.TimerJobQueryImpl;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * @author Tijs Rademakers
  * @author Vasile Dirla
  */
-interface TimerJobDataManager extends DataManager<TimerJobEntity> {
+interface TimerJobDataManager : DataManager!TimerJobEntity {
 
-    List<TimerJobEntity> findTimerJobsToExecute(Page page);
+    List!TimerJobEntity findTimerJobsToExecute(Page page);
 
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionId(string jobHandlerType, string processDefinitionId);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionId(string jobHandlerType, string processDefinitionId);
 
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyNoTenantId(string jobHandlerType, string processDefinitionKey);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyNoTenantId(string jobHandlerType, string processDefinitionKey);
 
-    List<TimerJobEntity> findJobsByTypeAndProcessDefinitionKeyAndTenantId(string jobHandlerType, string processDefinitionKey, string tenantId);
+    List!TimerJobEntity findJobsByTypeAndProcessDefinitionKeyAndTenantId(string jobHandlerType, string processDefinitionKey, string tenantId);
 
-    List<TimerJobEntity> findJobsByExecutionId(string executionId);
+    List!TimerJobEntity findJobsByExecutionId(string executionId);
 
-    List<TimerJobEntity> findJobsByProcessInstanceId(string processInstanceId);
+    List!TimerJobEntity findJobsByProcessInstanceId(string processInstanceId);
 
-    List<TimerJobEntity> findJobsByScopeIdAndSubScopeId(string scopeId, string subScopeId);
+    List!TimerJobEntity findJobsByScopeIdAndSubScopeId(string scopeId, string subScopeId);
 
-    List<Job> findJobsByQueryCriteria(TimerJobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(TimerJobQueryImpl jobQuery);
 
     long findJobCountByQueryCriteria(TimerJobQueryImpl jobQuery);
 

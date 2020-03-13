@@ -11,54 +11,57 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.SuspendedJobEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
-import org.flowable.job.service.impl.SuspendedJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.data.SuspendedJobDataManager;
+import flow.job.service.api.Job;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.impl.SuspendedJobQueryImpl;
+import flow.job.service.impl.persistence.entity.data.SuspendedJobDataManager;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
+import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
+import flow.job.service.impl.persistence.entity.SuspendedJobEntityManager;
 
 /**
  * @author Tijs Rademakers
  */
 class SuspendedJobEntityManagerImpl
-    extends AbstractJobServiceEngineEntityManager<SuspendedJobEntity, SuspendedJobDataManager>
-    implements SuspendedJobEntityManager {
+    : AbstractJobServiceEngineEntityManager!(SuspendedJobEntity, SuspendedJobDataManager)
+    ,SuspendedJobEntityManager {
 
-    public SuspendedJobEntityManagerImpl(JobServiceConfiguration jobServiceConfiguration, SuspendedJobDataManager jobDataManager) {
+    this(JobServiceConfiguration jobServiceConfiguration, SuspendedJobDataManager jobDataManager) {
         super(jobServiceConfiguration, jobDataManager);
     }
 
-    @Override
-    public List<SuspendedJobEntity> findJobsByExecutionId(string id) {
+
+    public List!SuspendedJobEntity findJobsByExecutionId(string id) {
         return dataManager.findJobsByExecutionId(id);
     }
 
-    @Override
-    public List<SuspendedJobEntity> findJobsByProcessInstanceId(string id) {
+
+    public List!SuspendedJobEntity findJobsByProcessInstanceId(string id) {
         return dataManager.findJobsByProcessInstanceId(id);
     }
 
-    @Override
-    public List<Job> findJobsByQueryCriteria(SuspendedJobQueryImpl jobQuery) {
+
+    public List!Job findJobsByQueryCriteria(SuspendedJobQueryImpl jobQuery) {
         return dataManager.findJobsByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public long findJobCountByQueryCriteria(SuspendedJobQueryImpl jobQuery) {
         return dataManager.findJobCountByQueryCriteria(jobQuery);
     }
 
-    @Override
+
     public void updateJobTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateJobTenantIdForDeployment(deploymentId, newTenantId);
     }
 
-    @Override
+
     public void insert(SuspendedJobEntity jobEntity, bool fireCreateEvent) {
         if (serviceConfiguration.getInternalJobManager() !is null) {
             serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
@@ -68,14 +71,14 @@ class SuspendedJobEntityManagerImpl
         super.insert(jobEntity, fireCreateEvent);
     }
 
-    @Override
+
     public void insert(SuspendedJobEntity jobEntity) {
         insert(jobEntity, true);
     }
 
-    @Override
-    public void delete(SuspendedJobEntity jobEntity) {
-        super.delete(jobEntity, false);
+
+    public void dele(SuspendedJobEntity jobEntity) {
+        super.dele(jobEntity, false);
 
         deleteByteArrayRef(jobEntity.getExceptionByteArrayRef());
         deleteByteArrayRef(jobEntity.getCustomValuesByteArrayRef());

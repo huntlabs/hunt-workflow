@@ -10,24 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.api.JobNotFoundException;
 
 import flow.common.api.FlowableObjectNotFoundException;
 
 /**
  * This exception is thrown when you try to execute a job that is not found (may be due to cancelActiviti="true" for instance)..
- * 
+ *
  * @author Prabhat Tripathi
  */
-class JobNotFoundException extends FlowableObjectNotFoundException {
+class JobNotFoundException : FlowableObjectNotFoundException {
 
-    private static final long serialVersionUID = 1L;
 
     /** the id of the job */
     private string jobId;
-    
-    public JobNotFoundException(string jobId) {
-        super("No job found with id '" + jobId + "'.", Job.class);
+
+    this(string jobId) {
+        super("No job found with id '" ~ jobId ~ "'.", typeid(JobNotFoundException));
         this.jobId = jobId;
         this.reduceLogLevel = true;
     }

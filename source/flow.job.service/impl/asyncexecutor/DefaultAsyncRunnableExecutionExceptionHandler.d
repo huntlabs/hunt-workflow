@@ -17,12 +17,12 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;
 import flow.common.interceptor.CommandContext;
-import org.flowable.job.api.JobInfo;
-import org.flowable.job.service.InternalJobCompatibilityManager;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
-import org.flowable.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
-import org.flowable.job.service.impl.util.CommandContextUtil;
+import flow.job.service.api.JobInfo;
+import flow.job.service.InternalJobCompatibilityManager;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
+import flow.job.service.impl.util.CommandContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

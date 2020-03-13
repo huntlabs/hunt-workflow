@@ -11,20 +11,21 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.persistence.entity.data.JobDataManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.JobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-
+import flow.job.service.api.Job;
+import flow.job.service.impl.JobQueryImpl;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.data.JobInfoDataManager;
 /**
  * @author Joram Barrez
  */
-interface JobDataManager extends DataManager<JobEntity>, JobInfoDataManager<JobEntity> {
+interface JobDataManager : DataManager!JobEntity, JobInfoDataManager!JobEntity {
 
-    List<Job> findJobsByQueryCriteria(JobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(JobQueryImpl jobQuery);
 
     long findJobCountByQueryCriteria(JobQueryImpl jobQuery);
 

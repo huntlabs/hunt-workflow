@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,9 +18,9 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.service.JobHandler;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.JobHandler;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * @author Joram Barrez
@@ -43,5 +43,5 @@ class TriggerTimerEventJobHandler implements JobHandler {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_FIRED, job));
         }
     }
-    
+
 }

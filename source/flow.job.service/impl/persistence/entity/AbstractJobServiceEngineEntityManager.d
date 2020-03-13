@@ -10,34 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.persistence.entity.AbstractServiceEngineEntityManager;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.event.impl.FlowableJobEventBuilder;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.event.impl.FlowableJobEventBuilder;
 
 /**
  * @author Joram Barrez
  */
-abstract class AbstractJobServiceEngineEntityManager<EntityImpl extends Entity, DM extends DataManager<EntityImpl>>
-    extends AbstractServiceEngineEntityManager<JobServiceConfiguration, EntityImpl, DM> {
+class AbstractJobServiceEngineEntityManager(EntityImpl, DM)
+    : AbstractServiceEngineEntityManager!(JobServiceConfiguration, EntityImpl, DM) {
 
-    public AbstractJobServiceEngineEntityManager(JobServiceConfiguration variableServiceConfiguration, DM dataManager) {
+    this(JobServiceConfiguration variableServiceConfiguration, DM dataManager) {
         super(variableServiceConfiguration, dataManager);
     }
 
-    @Override
+    override
     protected FlowableEntityEvent createEntityEvent(FlowableEngineEventType eventType, Entity entity) {
         return FlowableJobEventBuilder.createEntityEvent(eventType, entity);
     }
 
     protected void deleteByteArrayRef(JobByteArrayRef jobByteArrayRef) {
         if(jobByteArrayRef !is null) {
-            jobByteArrayRef.delete();
+            jobByteArrayRef.dele();
         }
     }
 }

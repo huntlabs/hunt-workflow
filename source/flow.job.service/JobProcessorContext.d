@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.JobProcessorContext;
 
-
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
-import org.flowable.job.service.impl.persistence.entity.AbstractJobEntity;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.persistence.entity.AbstractJobEntity;
 
 /**
  * The context used in the {@link JobProcessor}. It holds the job phase and the

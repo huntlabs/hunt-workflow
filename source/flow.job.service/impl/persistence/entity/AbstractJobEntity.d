@@ -10,18 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.AbstractJobEntity;
 
 import hunt.time.LocalDateTime;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
+import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 
+alias Date = LocalDateTime;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-interface AbstractJobEntity extends Entity, HasRevision {
+interface AbstractJobEntity : Entity, HasRevision {
 
     void setRetries(int retries);
 

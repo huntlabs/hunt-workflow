@@ -33,7 +33,7 @@ import hunt.logging;
  * @author Joram Barrez
  */
 class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdentityLinkEntityImpl , string) ,  HistoricIdentityLinkDataManager {
-//class MybatisHistoricIdentityLinkDataManager extends AbstractDataManager!HistoricIdentityLinkEntity implements HistoricIdentityLinkDataManager {
+class MybatisHistoricIdentityLinkDataManager extends AbstractDataManager!HistoricIdentityLinkEntity implements HistoricIdentityLinkDataManager {
 
     //protected CachedEntityMatcher!HistoricIdentityLinkEntity historicIdentityLinksByProcInstMatcher = new HistoricIdentityLinksByProcInstMatcher();
     //protected CachedEntityMatcher!HistoricIdentityLinkEntity historicIdentityLinksByScopeIdAndTypeMatcher = new HistoricIdentityLinksByScopeIdAndTypeMatcher();

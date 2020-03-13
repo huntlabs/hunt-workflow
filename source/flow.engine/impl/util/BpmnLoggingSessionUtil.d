@@ -41,7 +41,7 @@ import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;

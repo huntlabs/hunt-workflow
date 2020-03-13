@@ -22,8 +22,8 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
  * Helper class for implementing BPMN 2.0 activities, offering convenience methods specific to BPMN 2.0.

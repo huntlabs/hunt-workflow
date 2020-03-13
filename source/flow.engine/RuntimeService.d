@@ -47,14 +47,14 @@ import flow.engine.runtime.ProcessInstance;
 import flow.engine.runtime.ProcessInstanceBuilder;
 import flow.engine.runtime.ProcessInstanceQuery;
 import flow.engine.task.Event;
-import org.flowable.entitylink.api.EntityLink;
+import flow.entitylink.service.api.EntityLink;
 import flow.event.registry.api.EventRegistryEventConsumer;
-import org.flowable.eventsubscription.api.EventSubscriptionQuery;
+import flow.eventsubscription.service.api.EventSubscriptionQuery;
 import flow.form.api.FormInfo;
 import flow.identitylink.api.IdentityLink;
 import flow.identitylink.api.IdentityLinkType;
-import org.flowable.variable.api.delegate.VariableScope;
-import org.flowable.variable.api.persistence.entity.VariableInstance;
+import flow.variable.service.api.deleg.VariableScope;
+import flow.variable.service.api.persistence.entity.VariableInstance;
 
 /**
  * @author Tom Baeyens
@@ -550,22 +550,22 @@ interface RuntimeService {
     /**
      * Retrieves the {@link EntityLink}s associated with the given process instance.
      */
-    List<EntityLink> getEntityLinkChildrenForProcessInstance(string instanceId);
+    List!EntityLink getEntityLinkChildrenForProcessInstance(string instanceId);
 
     /**
      * Retrieves the {@link EntityLink}s associated with the given task.
      */
-    List<EntityLink> getEntityLinkChildrenForTask(string taskId);
+    List!EntityLink getEntityLinkChildrenForTask(string taskId);
 
     /**
      * Retrieves the {@link EntityLink}s where the given process instance is referenced.
      */
-    List<EntityLink> getEntityLinkParentsForProcessInstance(string instanceId);
+    List!EntityLink getEntityLinkParentsForProcessInstance(string instanceId);
 
     /**
      * Retrieves the {@link EntityLink}s where the given task is referenced.
      */
-    List<EntityLink> getEntityLinkParentsForTask(string taskId);
+    List!EntityLink getEntityLinkParentsForTask(string taskId);
 
     // Variables
     // ////////////////////////////////////////////////////////////////////
@@ -590,7 +590,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, VariableInstance> getVariableInstances(string executionId);
+    Map!(string, VariableInstance) getVariableInstances(string executionId);
 
     /**
      * All variables visible from the given execution scope (including parent scopes).
@@ -599,7 +599,7 @@ interface RuntimeService {
      *     ids of execution, cannot be null.
      * @return the variables.
      */
-    List<VariableInstance> getVariableInstancesByExecutionIds(Set!string executionIds);
+    List!VariableInstance getVariableInstancesByExecutionIds(Set!string executionIds);
 
     /**
      * All variable values that are defined in the execution scope, without taking outer scopes into account. If you have many task local variables and you only need a few, consider using
@@ -623,7 +623,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal(string executionId);
+    Map!(string, VariableInstance) getVariableInstancesLocal(string executionId);
 
     /**
      * The variable values for all given variableNames, takes all variables into account which are visible from the given execution scope (including parent scopes).
@@ -649,7 +649,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, VariableInstance> getVariableInstances(string executionId, Collection!string variableNames);
+    Map!(string, VariableInstance) getVariableInstances(string executionId, Collection!string variableNames);
 
     /**
      * The variable values for the given variableNames only taking the given execution scope into account, not looking in outer scopes.
@@ -675,7 +675,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal(string executionId, Collection!string variableNames);
+    Map!(string, VariableInstance) getVariableInstancesLocal(string executionId, Collection!string variableNames);
 
     /**
      * The variable value. Searching for the variable is done in all scopes that are visible to the given execution (including parent scopes). Returns null when no variable value is found with the
@@ -719,7 +719,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    <T> T getVariable(string executionId, string variableName, Class<T> variableClass);
+    //<T> T getVariable(string executionId, string variableName, Class<T> variableClass);
 
     /**
      * Check whether or not this execution has variable set with the given name, Searching for the variable is done in all scopes that are visible to the given execution (including parent scopes).
@@ -750,7 +750,7 @@ interface RuntimeService {
      * The variable value for an execution. Returns the value casted to given class when the variable is set for the execution (and not searching parent scopes). Returns null when no variable value is
      * found with the given name or when the value is set to null.
      */
-    <T> T getVariableLocal(string executionId, string variableName, Class<T> variableClass);
+   // <T> T getVariableLocal(string executionId, string variableName, Class<T> variableClass);
 
     /**
      * Check whether or not this execution has a local variable set with the given name.
@@ -802,7 +802,7 @@ interface RuntimeService {
      *     when no execution is found for the given executionId.
      * @see VariableScope#setVariables(Map) {@link VariableScope#setVariables(Map)}
      */
-    void setVariables(string executionId, Map<string, ? extends Object> variables);
+    void setVariables(string executionId, Map!(string,  Object) variables);
 
     /**
      * Update or create given variables for an execution (not considering parent scopes). If the variables are not already existing, it will be created in the given execution.
@@ -814,7 +814,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    void setVariablesLocal(string executionId, Map<string, ? extends Object> variables);
+    void setVariablesLocal(string executionId, Map!(string, Object) variables);
 
     /**
      * Removes a variable for an execution.
@@ -865,7 +865,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjects(string executionId);
+    Map!(string, DataObject) getDataObjects(string executionId);
 
     /**
      * All DataObjects visible from the given execution scope (including parent scopes).
@@ -880,7 +880,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjects(string executionId, string locale, bool withLocalizationFallback);
+    Map!(string, DataObject) getDataObjects(string executionId, string locale, bool withLocalizationFallback);
 
     /**
      * All DataObject values that are defined in the execution scope, without taking outer scopes into account. If you have many local DataObjects and you only need a few, consider using
@@ -892,7 +892,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjectsLocal(string executionId);
+    Map!(string, DataObject) getDataObjectsLocal(string executionId);
 
     /**
      * All DataObject values that are defined in the execution scope, without taking outer scopes into account. If you have many local DataObjects and you only need a few, consider using
@@ -908,7 +908,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjectsLocal(string executionId, string locale, bool withLocalizationFallback);
+    Map!(string, DataObject) getDataObjectsLocal(string executionId, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObjects for all given dataObjectNames, takes all dataObjects into account which are visible from the given execution scope (including parent scopes).
@@ -921,7 +921,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjects(string executionId, Collection!string dataObjectNames);
+    Map!(string, DataObject) getDataObjects(string executionId, Collection!string dataObjectNames);
 
     /**
      * The DataObjects for all given dataObjectNames, takes all dataObjects into account which are visible from the given execution scope (including parent scopes).
@@ -938,7 +938,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjects(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback);
+    Map!(string, DataObject) getDataObjects(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObjects for the given dataObjectNames only taking the given execution scope into account, not looking in outer scopes.
@@ -951,7 +951,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjectsLocal(string executionId, Collection!string dataObjects);
+    Map!(string, DataObject) getDataObjectsLocal(string executionId, Collection!string dataObjects);
 
     /**
      * The DataObjects for the given dataObjectNames only taking the given execution scope into account, not looking in outer scopes.
@@ -968,7 +968,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    Map<string, DataObject> getDataObjectsLocal(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback);
+    Map!(string, DataObject) getDataObjectsLocal(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback);
 
     /**
      * The DataObject. Searching for the DataObject is done in all scopes that are visible to the given execution (including parent scopes). Returns null when no DataObject value is found with the
@@ -1273,7 +1273,7 @@ interface RuntimeService {
      * @param types
      *     types of events the listener should be notified for
      */
-    void addEventListener(FlowableEventListener listenerToAdd, FlowableEngineEventType... types);
+    //void addEventListener(FlowableEventListener listenerToAdd, FlowableEngineEventType... types);
 
     /**
      * Removes the given listener from this dispatcher. The listener will no longer be notified, regardless of the type(s) it was registered for in the first place.
@@ -1318,7 +1318,7 @@ interface RuntimeService {
      *     id of the process instance that is used to search for child executions
      * @return a list of executions
      */
-    List<Execution> getAdhocSubProcessExecutions(string processInstanceId);
+    List!Execution getAdhocSubProcessExecutions(string processInstanceId);
 
     /**
      * Gets enabled activities from ad-hoc sub process
@@ -1327,7 +1327,7 @@ interface RuntimeService {
      *     id of the execution that has an ad-hoc sub process as current flow element
      * @return a list of enabled activities
      */
-    List<FlowNode> getEnabledActivitiesFromAdhocSubProcess(string executionId);
+    List!FlowNode getEnabledActivitiesFromAdhocSubProcess(string executionId);
 
     /**
      * Executes an activity in a ad-hoc sub process
@@ -1380,6 +1380,6 @@ interface RuntimeService {
     /**
      * The all events related to the given Process Instance.
      */
-    List<Event> getProcessInstanceEvents(string processInstanceId);
+    List!Event getProcessInstanceEvents(string processInstanceId);
 
 }

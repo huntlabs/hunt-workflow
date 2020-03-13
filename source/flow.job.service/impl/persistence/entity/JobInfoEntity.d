@@ -10,15 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.JobInfoEntity;
 
 import hunt.time.LocalDateTime;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
-import org.flowable.job.api.JobInfo;
+import flow.job.service.api.JobInfo;
+import  flow.job.service.impl.persistence.entity.AbstractJobEntity;
 
-interface JobInfoEntity extends JobInfo, AbstractJobEntity, Entity, HasRevision {
+alias Date = LocalDateTime;
+
+interface JobInfoEntity : JobInfo, AbstractJobEntity, Entity, HasRevision {
 
     string getLockOwner();
 

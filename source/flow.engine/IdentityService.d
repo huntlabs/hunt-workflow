@@ -108,7 +108,7 @@ interface IdentityService {
      *            process definition identifier
      * @return list of potential starter groups
      */
-    List<Group> getPotentialStarterGroups(string processDefinitionId);
+    List!Group getPotentialStarterGroups(string processDefinitionId);
 
     /**
      * Returns the potential starter users for a given process definition.
@@ -117,7 +117,7 @@ interface IdentityService {
      *            process definition identifier
      * @return list of potential starter users
      */
-    List<User> getPotentialStarterUsers(string processDefinitionId);
+    List!User getPotentialStarterUsers(string processDefinitionId);
 
     /**
      * Saves the group. If the group already existed, the group is updated.

@@ -22,8 +22,8 @@ import java.util.zip.GZIPOutputStream;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import org.flowable.job.service.JobServiceConfiguration;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.job.service.JobServiceConfiguration;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

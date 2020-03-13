@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 
 import hunt.time.LocalDateTime;
 
-import org.flowable.job.api.Job;
-
+import flow.job.service.api.Job;
+import flow.job.service.impl.persistence.entity.AbstractJobEntity;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-interface AbstractRuntimeJobEntity extends Job, AbstractJobEntity {
+interface AbstractRuntimeJobEntity : Job, AbstractJobEntity {
 
     void setExecutionId(string executionId);
 

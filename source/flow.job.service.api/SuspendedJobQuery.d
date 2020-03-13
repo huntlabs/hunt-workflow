@@ -10,20 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.api.SuspendedJobQuery;
 
 
 import hunt.time.LocalDateTime;
 
 import flow.common.api.query.Query;
-
+import flow.job.service.api.Job;
 /**
  * Allows programmatic querying of {@link Job}s.
  *
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface SuspendedJobQuery extends Query<SuspendedJobQuery, Job> {
+interface SuspendedJobQuery : Query!(SuspendedJobQuery, Job) {
 
     /** Only select jobs with the given id */
     SuspendedJobQuery jobId(string jobId);

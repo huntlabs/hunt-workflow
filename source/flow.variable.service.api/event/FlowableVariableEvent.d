@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.api.event.FlowableVariableEvent;
 
 import flow.common.api.deleg.event.FlowableEngineEvent;
 import flow.common.api.deleg.event.FlowableEvent;
-import org.flowable.variable.api.types.VariableType;
+import flow.variable.service.api.types.VariableType;
 
 /**
  * An {@link FlowableEvent} related to a single variable.
@@ -22,7 +22,7 @@ import org.flowable.variable.api.types.VariableType;
  * @author Frederik Heremans
  * @author Joram Barrez
  */
-interface FlowableVariableEvent extends FlowableEngineEvent {
+interface FlowableVariableEvent : FlowableEngineEvent {
 
     /**
      * @return the name of the variable involved.

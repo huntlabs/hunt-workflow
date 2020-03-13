@@ -26,9 +26,9 @@ import flow.engine.impl.util.EventInstanceBpmnUtil;
 import flow.event.registry.api.runtime.EventPayloadInstance;
 import flow.event.registry.runtime.EventInstanceImpl;
 import flow.event.registry.model.EventModel;
-import org.flowable.job.service.JobHandler;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.job.service.JobHandler;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  *

@@ -11,7 +11,8 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.HistoryJobProcessor;
+import flow.job.service.HistoryJobProcessorContext;
 /**
  * History job processor which is used to process history job entities during the different history job phases.
  *

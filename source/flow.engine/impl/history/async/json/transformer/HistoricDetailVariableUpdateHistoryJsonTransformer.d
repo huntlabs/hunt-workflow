@@ -12,12 +12,12 @@
  */
 
 
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getBooleanFromJson;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDateFromJson;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDoubleFromJson;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getLongFromJson;
-import static org.flowable.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getBooleanFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDateFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDoubleFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getLongFromJson;
+import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
 
 import java.util.Base64;
 import hunt.collections;
@@ -32,9 +32,9 @@ import flow.engine.impl.persistence.entity.HistoricDetailEntityManager;
 import flow.engine.impl.persistence.entity.HistoricDetailVariableInstanceUpdateEntity;
 import flow.engine.impl.persistence.entity.data.HistoricDetailDataManager;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.service.impl.persistence.entity.HistoryJobEntity;
-import org.flowable.variable.api.types.VariableType;
-import org.flowable.variable.api.types.VariableTypes;
+import flow.job.service.impl.persistence.entity.HistoryJobEntity;
+import flow.variable.service.api.types.VariableType;
+import flow.variable.service.api.types.VariableTypes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

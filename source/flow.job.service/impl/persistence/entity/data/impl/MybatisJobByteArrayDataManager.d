@@ -10,39 +10,117 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.persistence.entity.data.impl.MybatisJobByteArrayDataManager;
 
 
+import hunt.logging;
 import hunt.collection.List;
-
+import hunt.collection.ArrayList;
 import flow.common.db.AbstractDataManager;
-import org.flowable.job.service.impl.persistence.entity.JobByteArrayEntity;
-import org.flowable.job.service.impl.persistence.entity.JobByteArrayEntityImpl;
-import org.flowable.job.service.impl.persistence.entity.data.JobByteArrayDataManager;
+import flow.job.service.impl.persistence.entity.JobByteArrayEntity;
+import flow.job.service.impl.persistence.entity.JobByteArrayEntityImpl;
+import flow.job.service.impl.persistence.entity.data.JobByteArrayDataManager;
+import hunt.entity;
+import flow.common.persistence.entity.data.DataManager;
+import flow.common.AbstractEngineConfiguration;
+import hunt.Exceptions;
 
 /**
  * @author Joram Barrez
  */
-class MybatisJobByteArrayDataManager extends AbstractDataManager<JobByteArrayEntity> implements JobByteArrayDataManager {
+class MybatisJobByteArrayDataManager : EntityRepository!( JobByteArrayEntityImpl , string) , JobByteArrayDataManager {
 
-    @Override
+
     public JobByteArrayEntity create() {
         return new JobByteArrayEntityImpl();
     }
 
-    @Override
-    class<? extends JobByteArrayEntity> getManagedEntityClass() {
-        return JobByteArrayEntityImpl.class;
+    this()
+    {
+       super(entityManagerFactory.createEntityManager());
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<JobByteArrayEntity> findAll() {
-        return getDbSqlSession().selectList("selectJobByteArrays");
+    //class<? extends JobByteArrayEntity> getManagedEntityClass() {
+    //    return JobByteArrayEntityImpl.class;
+    //}
+
+      public JobByteArrayEntity findById(string entityId) {
+        if (entityId is null) {
+          return null;
+        }
+
+        return find(entityId);
+
+        // Cache
+        //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
+        //if (cachedEntity != null) {
+        //  return cachedEntity;
+        //}
+
+        // Database
+        //return getDbSqlSession().selectById(getManagedEntityClass(), entityId, false);
+      }
+      //
+      //@Override
+      public void insert(JobByteArrayEntity entity) {
+        insert(cast(JobByteArrayEntityImpl)entity);
+        //getDbSqlSession().insert(entity);
+      }
+      //
+      //@Override
+      public JobByteArrayEntity update(JobByteArrayEntity entity) {
+        return  update(cast(JobByteArrayEntityImpl)entity);
+        //getDbSqlSession().update(entity);
+        //return entity;
+      }
+      //
+      //@Override
+      public void dele(string id) {
+        JobByteArrayEntity entity = findById(id);
+        if (entity !is null)
+        {
+          remove(cast(JobByteArrayEntityImpl)entity);
+        }
+        //delete(entity);
+      }
+
+      public void dele(JobByteArrayEntity entity) {
+        if (entity !is null)
+        {
+            remove(cast(JobByteArrayEntityImpl)entity);
+        }
+          //getDbSqlSession().delete(entity);
+      }
+
+    public List!JobByteArrayEntity findAll() {
+
+      scope(exit)
+      {
+        _manager.close();
+      }
+
+      JobByteArrayEntityImpl[] array =  _manager.createQuery!(JobByteArrayEntityImpl)("SELECT * FROM JobByteArrayEntityImpl")
+      .getResultList();
+      return new ArrayList!JobByteArrayEntity(array);
+        //return getDbSqlSession().selectList("selectJobByteArrays");
     }
 
-    @Override
+
     public void deleteByteArrayNoRevisionCheck(string byteArrayEntityId) {
-        getDbSqlSession().delete("deleteJobByteArrayNoRevisionCheck", byteArrayEntityId, JobByteArrayEntityImpl.class);
+        scope(exit)
+        {
+          _manager.close();
+        }
+        auto update = _manager.createQuery!(JobByteArrayEntityImpl)("DELETE FROM JobByteArrayEntityImpl u WHERE u.id = :id");
+        update.setParameter("id",byteArrayEntityId);
+        try{
+          update.exec();
+        }
+        catch(Exception e)
+        {
+          logError("deleteByteArrayNoRevisionCheck error : %s",e.msg);
+        }
+        //getDbSqlSession().delete("deleteJobByteArrayNoRevisionCheck", byteArrayEntityId, JobByteArrayEntityImpl.class);
     }
 
 }

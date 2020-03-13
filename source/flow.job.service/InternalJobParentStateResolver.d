@@ -12,12 +12,12 @@
  */
 
 
-import org.flowable.job.api.Job;
+import flow.job.service.api.Job;
 
 /**
  * @author martin.grofcik
  */
 interface InternalJobParentStateResolver {
-    
+
     bool isSuspended(Job job);
 }

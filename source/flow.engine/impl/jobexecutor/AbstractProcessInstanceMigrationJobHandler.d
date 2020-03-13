@@ -15,7 +15,7 @@
 import java.io.IOException;
 
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.service.JobHandler;
+import flow.job.service.JobHandler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +28,7 @@ abstract class AbstractProcessInstanceMigrationJobHandler implements JobHandler 
 
     protected static final string CFG_LABEL_BATCH_ID = "batchId";
     protected static final string CFG_LABEL_BATCH_PART_ID = "batchPartId";
-    
+
     protected static string getBatchIdFromHandlerCfg(string handlerCfg) {
         try {
             JsonNode cfgAsJson = getObjectMapper().readTree(handlerCfg);
@@ -52,7 +52,7 @@ abstract class AbstractProcessInstanceMigrationJobHandler implements JobHandler 
             return null;
         }
     }
-    
+
     public static string getHandlerCfgForBatchId(string batchId) {
         ObjectNode handlerCfg = getObjectMapper().createObjectNode();
         handlerCfg.put(CFG_LABEL_BATCH_ID, batchId);

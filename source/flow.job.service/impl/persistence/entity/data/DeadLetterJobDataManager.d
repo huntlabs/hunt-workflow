@@ -11,24 +11,24 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.persistence.entity.data.DeadLetterJobDataManager;
 import hunt.collection.List;
 
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.DeadLetterJobQueryImpl;
-import org.flowable.job.service.impl.persistence.entity.DeadLetterJobEntity;
+import flow.job.service.api.Job;
+import flow.job.service.impl.DeadLetterJobQueryImpl;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 
 /**
  * @author Tijs Rademakers
  */
-interface DeadLetterJobDataManager extends DataManager<DeadLetterJobEntity> {
+interface DeadLetterJobDataManager : DataManager!DeadLetterJobEntity {
 
-    List<DeadLetterJobEntity> findJobsByExecutionId(string executionId);
+    List!DeadLetterJobEntity findJobsByExecutionId(string executionId);
 
-    List<DeadLetterJobEntity> findJobsByProcessInstanceId(string processInstanceId);
+    List!DeadLetterJobEntity findJobsByProcessInstanceId(string processInstanceId);
 
-    List<Job> findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery);
 
     long findJobCountByQueryCriteria(DeadLetterJobQueryImpl jobQuery);
 

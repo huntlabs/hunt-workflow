@@ -86,14 +86,14 @@ import flow.engine.runtime.ProcessInstance;
 import flow.engine.runtime.ProcessInstanceBuilder;
 import flow.engine.runtime.ProcessInstanceQuery;
 import flow.engine.task.Event;
-import org.flowable.entitylink.api.EntityLink;
+import flow.entitylink.service.api.EntityLink;
 import flow.event.registry.api.EventRegistryEventConsumer;
-import org.flowable.eventsubscription.api.EventSubscriptionQuery;
+import flow.eventsubscription.service.api.EventSubscriptionQuery;
 import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryImpl;
 import flow.form.api.FormInfo;
 import flow.identitylink.api.IdentityLink;
 import flow.identitylink.api.IdentityLinkType;
-import org.flowable.variable.api.persistence.entity.VariableInstance;
+import flow.variable.service.api.persistence.entity.VariableInstance;
 
 /**
  * @author Tom Baeyens

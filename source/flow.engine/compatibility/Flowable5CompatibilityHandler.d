@@ -46,9 +46,9 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //import flow.engine.task.Attachment;
 //import flow.engine.task.Comment;
 //import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
-//import org.flowable.job.api.Job;
+//import flow.job.service.api.Job;
 //import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-//import org.flowable.variable.api.persistence.entity.VariableInstance;
+//import flow.variable.service.api.persistence.entity.VariableInstance;
 //
 //import com.fasterxml.jackson.databind.node.ObjectNode;
 //

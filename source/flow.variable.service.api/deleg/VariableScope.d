@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.variable.service.api.deleg.VariableScope;
 
 
 import hunt.collection;
@@ -18,7 +19,7 @@ import hunt.collection.Map;
 import hunt.collection.Set;
 
 import flow.common.api.variable.VariableContainer;
-import org.flowable.variable.api.persistence.entity.VariableInstance;
+import flow.variable.service.api.persistence.entity.VariableInstance;
 
 /**
  * Interface for class that acts as a scope for variables: i.e. the implementation can be used to set and get variables.
@@ -30,7 +31,7 @@ import org.flowable.variable.api.persistence.entity.VariableInstance;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface VariableScope extends VariableContainer {
+interface VariableScope : VariableContainer {
 
     /**
      * Returns all variables. This will include all variables of parent scopes too.
@@ -40,7 +41,7 @@ interface VariableScope extends VariableContainer {
     /**
      * Returns all variables, as instances of the {@link VariableInstance} interface, which gives more information than only the value (type, execution id, etc.)
      */
-    Map<string, VariableInstance> getVariableInstances();
+    Map!(string, VariableInstance) getVariableInstances();
 
     /**
      * Similar to {@link #getVariables()}, but limited to only the variables with the provided names.
@@ -50,7 +51,7 @@ interface VariableScope extends VariableContainer {
     /**
      * Similar to {@link #getVariableInstances()}, but limited to only the variables with the provided names.
      */
-    Map<string, VariableInstance> getVariableInstances(Collection!string variableNames);
+    Map!(string, VariableInstance) getVariableInstances(Collection!string variableNames);
 
     /**
      * Similar to {@link #getVariables(Collection))}, but with a flag that indicates that all variables should be fetched when fetching the specific variables.
@@ -64,7 +65,7 @@ interface VariableScope extends VariableContainer {
      * Similar to {@link #getVariables(Collection, bool)} but returns the variables as instances of the {@link VariableInstance} interface, which gives more information than only the value
      * (type, execution id, etc.)
      */
-    Map<string, VariableInstance> getVariableInstances(Collection!string variableNames, bool fetchAllVariables);
+    Map!(string, VariableInstance) getVariableInstances(Collection!string variableNames, bool fetchAllVariables);
 
     /**
      * Returns the variable local to this scope only. So, in contrary to {@link #getVariables()}, the variables from the parent scope won't be returned.
@@ -74,7 +75,7 @@ interface VariableScope extends VariableContainer {
     /**
      * Returns the variables local to this scope as instances of the {@link VariableInstance} interface, which provided additional information about the variable.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal();
+    Map!(string, VariableInstance) getVariableInstancesLocal();
 
     /**
      * Similar to {@link #getVariables(Collection)}, but only for variables local to this scope.
@@ -84,7 +85,7 @@ interface VariableScope extends VariableContainer {
     /**
      * Similar to {@link #getVariableInstances(Collection)}, but only for variables local to this scope.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal(Collection!string variableNames);
+    Map!(string, VariableInstance) getVariableInstancesLocal(Collection!string variableNames);
 
     /**
      * Similar to {@link #getVariables(Collection, bool)}, but only for variables local to this scope.
@@ -94,12 +95,11 @@ interface VariableScope extends VariableContainer {
     /**
      * Similar to {@link #getVariableInstances(Collection, bool)}, but only for variables local to this scope.
      */
-    Map<string, VariableInstance> getVariableInstancesLocal(Collection!string variableNames, bool fetchAllVariables);
+    Map!(string, VariableInstance) getVariableInstancesLocal(Collection!string variableNames, bool fetchAllVariables);
 
     /**
      * Returns the variable value for one specific variable. Will look in parent scopes when the variable does not exist on this particular scope.
      */
-    @Override
     Object getVariable(string variableName);
 
     /**
@@ -146,12 +146,12 @@ interface VariableScope extends VariableContainer {
     /**
      * Typed version of the {@link #getVariable(string)} method.
      */
-    <T> T getVariable(string variableName, Class<T> variableClass);
-
-    /**
-     * Typed version of the {@link #getVariableLocal(string)} method.
-     */
-    <T> T getVariableLocal(string variableName, Class<T> variableClass);
+    //<T> T getVariable(string variableName, Class<T> variableClass);
+    //
+    ///**
+    // * Typed version of the {@link #getVariableLocal(string)} method.
+    // */
+    //<T> T getVariableLocal(string variableName, Class<T> variableClass);
 
     /**
      * Returns all the names of the variables for this scope and all parent scopes.
@@ -184,7 +184,6 @@ interface VariableScope extends VariableContainer {
      * @param value
      *            the value of the variable to be set
      */
-    @Override
     void setVariable(string variableName, Object value);
 
     /**
@@ -219,12 +218,12 @@ interface VariableScope extends VariableContainer {
      * @param variables
      *            a map of keys and values for the variables to be set
      */
-    void setVariables(Map<string, ? extends Object> variables);
+    void setVariables(Map!(string,Object) variables);
 
     /**
      * Similar to {@link #setVariables(Map)}, but the variable are set on this scope specifically.
      */
-    void setVariablesLocal(Map<string, ? extends Object> variables);
+    void setVariablesLocal(Map!(string, Object) variables);
 
     /**
      * Returns whether this scope or any parent scope has variables.
@@ -239,7 +238,6 @@ interface VariableScope extends VariableContainer {
     /**
      * Returns whether this scope or any parent scope has a specific variable.
      */
-    @Override
     bool hasVariable(string variableName);
 
     /**
@@ -283,7 +281,6 @@ interface VariableScope extends VariableContainer {
      * - no history is kept for the variable - the variable is only available until a waitstate is reached in the process - transient variables 'shadow' persistent variable (when getVariable('abc')
      * where 'abc' is both persistent and transient, the transient value is returned.
      */
-    @Override
     void setTransientVariable(string variableName, Object variableValue);
 
     /**

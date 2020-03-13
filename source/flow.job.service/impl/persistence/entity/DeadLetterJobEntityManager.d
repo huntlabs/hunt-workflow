@@ -10,34 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.DeadLetterJobEntityManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.impl.DeadLetterJobQueryImpl;
-import org.flowable.job.service.impl.JobQueryImpl;
+import flow.job.service.api.Job;
+import flow.job.service.impl.DeadLetterJobQueryImpl;
+import flow.job.service.impl.JobQueryImpl;
+import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 
 /**
  * @author Tijs Rademakers
  */
-interface DeadLetterJobEntityManager extends EntityManager<DeadLetterJobEntity> {
+interface DeadLetterJobEntityManager : EntityManager!DeadLetterJobEntity {
 
     /**
      * Returns all {@link DeadLetterJobEntity} instances related to an {@link ExecutionEntity}.
      */
-    List<DeadLetterJobEntity> findJobsByExecutionId(string id);
+    List!DeadLetterJobEntity findJobsByExecutionId(string id);
 
     /**
      * Returns all {@link DeadLetterJobEntity} instances related to a process instance
      */
-    List<DeadLetterJobEntity> findJobsByProcessInstanceId(string id);
+    List!DeadLetterJobEntity findJobsByProcessInstanceId(string id);
 
     /**
      * Executes a {@link JobQueryImpl} and returns the matching {@link DeadLetterJobEntity} instances.
      */
-    List<Job> findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery);
+    List!Job findJobsByQueryCriteria(DeadLetterJobQueryImpl jobQuery);
 
     /**
      * Same as {@link #findJobsByQueryCriteria(DeadLetterJobQueryImpl)}, but only returns a count and not the instances itself.

@@ -10,23 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.persistence.entity.data.JobInfoDataManager;
 
 import hunt.collection.List;
 
 import flow.common.Page;
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.job.service.impl.persistence.entity.JobInfoEntity;
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
 
-interface JobInfoDataManager<T extends JobInfoEntity> extends DataManager<T> {
+interface JobInfoDataManager(T) : DataManager!T {
 
-    List<T> findJobsToExecute(Page page);
+    List!T findJobsToExecute(Page page);
 
-    List<T> findJobsByExecutionId(final string executionId);
+    List!T findJobsByExecutionId( string executionId);
 
-    List<T> findJobsByProcessInstanceId(final string processInstanceId);
+    List!T findJobsByProcessInstanceId( string processInstanceId);
 
-    List<T> findExpiredJobs(Page page);
+    List!T findExpiredJobs(Page page);
 
     void updateJobTenantIdForDeployment(string deploymentId, string newTenantId);
 

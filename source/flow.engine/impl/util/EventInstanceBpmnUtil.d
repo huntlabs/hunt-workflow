@@ -34,7 +34,7 @@ import flow.event.registry.api.runtime.EventPayloadInstance;
 import flow.event.registry.runtime.EventPayloadInstanceImpl;
 import flow.event.registry.model.EventModel;
 import flow.event.registry.model.EventPayload;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 
 class EventInstanceBpmnUtil {
 

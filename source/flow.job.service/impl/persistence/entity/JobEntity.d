@@ -11,13 +11,16 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.persistence.entity.JobEntity;
 
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 /**
  * Represents an async job: a piece of logic that needs to be executed asynchronously.
- * 
+ *
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-interface JobEntity extends JobInfoEntity, AbstractRuntimeJobEntity {
+interface JobEntity : JobInfoEntity, AbstractRuntimeJobEntity {
 
 }

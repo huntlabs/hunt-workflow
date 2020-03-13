@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,52 +22,52 @@ import flow.engine.ManagementService;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.test.FlowableRule;
-import org.flowable.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 
 /**
  * @author Tijs Rademakers
  */
 
 class HistoryTestHelper {
-    
+
     public static bool isHistoryLevelAtLeast(HistoryLevel historyLevel, ProcessEngineConfigurationImpl processEngineConfiguration) {
         return isHistoryLevelAtLeast(historyLevel, processEngineConfiguration, 10000);
     }
-    
+
     public static bool isHistoryLevelAtLeast(HistoryLevel historyLevel, ProcessEngineConfigurationImpl processEngineConfiguration, long time) {
         if (processEngineConfiguration.getHistoryLevel().isAtLeast(historyLevel)) {
-            
+
             // When using async history, we need to process all the historic jobs first before the history can be checked
             if (processEngineConfiguration.isAsyncHistoryEnabled()) {
                 waitForJobExecutorToProcessAllHistoryJobs(processEngineConfiguration, processEngineConfiguration.getManagementService(), time, 200);
             }
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     public static void waitForJobExecutorToProcessAllHistoryJobs(FlowableRule activitiRule, long maxMillisToWait, long intervalMillis) {
         waitForJobExecutorToProcessAllHistoryJobs(activitiRule.getProcessEngine().getProcessEngineConfiguration(), activitiRule.getManagementService(), maxMillisToWait, intervalMillis);
     }
 
-    public static void waitForJobExecutorToProcessAllHistoryJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService, 
+    public static void waitForJobExecutorToProcessAllHistoryJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService,
             long maxMillisToWait, long intervalMillis) {
         waitForJobExecutorToProcessAllHistoryJobs(processEngineConfiguration, managementService, maxMillisToWait, intervalMillis, true);
     }
 
-    public static void waitForJobExecutorToProcessAllHistoryJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService, 
+    public static void waitForJobExecutorToProcessAllHistoryJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService,
             long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
 
         ProcessEngineConfigurationImpl processEngineConfigurationImpl = (ProcessEngineConfigurationImpl) processEngineConfiguration;
         if (processEngineConfigurationImpl.isAsyncHistoryEnabled()) {
             AsyncExecutor asyncHistoryExecutor = processEngineConfiguration.getAsyncHistoryExecutor();
-            
+
             if (!asyncHistoryExecutor.isActive()) {
                 asyncHistoryExecutor.start();
             }
-    
+
             try {
                 Timer timer = new Timer();
                 InterruptTask task = new InterruptTask(Thread.currentThread());
@@ -91,7 +91,7 @@ class HistoryTestHelper {
                 if (areJobsAvailable) {
                     throw new FlowableException("time limit of " + maxMillisToWait + " was exceeded");
                 }
-    
+
             } finally {
                 if (shutdownExecutorWhenFinished) {
                     asyncHistoryExecutor.shutdown();
@@ -108,7 +108,7 @@ class HistoryTestHelper {
     public static bool areHistoryJobsAvailable(ManagementService managementService) {
         return !managementService.createHistoryJobQuery().list().isEmpty();
     }
-    
+
     public static bool isHistoricTaskLoggingEnabled(ProcessEngineConfiguration configuration) {
         ProcessEngineConfigurationImpl processEngineConfiguration = (ProcessEngineConfigurationImpl) configuration;
         if (processEngineConfiguration.isEnableHistoricTaskLogging()) {

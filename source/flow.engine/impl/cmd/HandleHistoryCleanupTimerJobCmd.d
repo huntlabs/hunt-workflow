@@ -24,10 +24,10 @@ import flow.engine.ManagementService;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.jobexecutor.BpmnHistoryCleanupJobHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.job.api.Job;
-import org.flowable.job.service.TimerJobService;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
-import org.flowable.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.job.service.api.Job;
+import flow.job.service.TimerJobService;
+import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 class HandleHistoryCleanupTimerJobCmd implements Command<Object>, Serializable {
 

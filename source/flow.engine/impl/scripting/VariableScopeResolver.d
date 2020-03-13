@@ -22,7 +22,7 @@ import flow.common.scripting.Resolver;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 
 /**
  * @author Tom Baeyens

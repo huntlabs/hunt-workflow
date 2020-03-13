@@ -17,8 +17,8 @@ import flow.engine.impl.event.EventHandler;
 import flow.engine.impl.jobexecutor.ProcessEventJobHandler;
 import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
 import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-import org.flowable.job.service.JobService;
-import org.flowable.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.JobService;
+import flow.job.service.impl.persistence.entity.JobEntity;
 
 class EventSubscriptionUtil {
 
