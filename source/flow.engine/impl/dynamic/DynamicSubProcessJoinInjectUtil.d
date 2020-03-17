@@ -38,7 +38,7 @@ import flow.engine.impl.persistence.entity.ResourceEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tijs Rademakers

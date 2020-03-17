@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.AcquiredJobEntities;
 
 import hunt.collection;
 import hunt.collection.HashMap;
@@ -23,13 +23,17 @@ import flow.job.service.impl.persistence.entity.JobInfoEntity;
  */
 class AcquiredJobEntities {
 
-    protected Map<string, JobInfoEntity> acquiredJobs = new HashMap<>();
+    protected Map!(string, JobInfoEntity) acquiredJobs ;// = new HashMap<>();
 
+    this()
+    {
+        acquiredJobs = new HashMap!(string, JobInfoEntity);
+    }
     public void addJob(JobInfoEntity job) {
         acquiredJobs.put(job.getId(), job);
     }
 
-    public Collection<JobInfoEntity> getJobs() {
+    public Collection!JobInfoEntity getJobs() {
         return acquiredJobs.values();
     }
 

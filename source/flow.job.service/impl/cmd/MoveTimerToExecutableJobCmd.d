@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.MoveTimerToExecutableJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -21,25 +20,18 @@ import flow.job.service.api.JobNotFoundException;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-class MoveTimerToExecutableJobCmd implements Command<JobEntity>, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MoveTimerToExecutableJobCmd.class);
+class MoveTimerToExecutableJobCmd : Command!JobEntity {
 
     protected string jobId;
 
-    public MoveTimerToExecutableJobCmd(string jobId) {
+    this(string jobId) {
         this.jobId = jobId;
     }
 
-    @Override
     public JobEntity execute(CommandContext commandContext) {
 
         if (jobId is null) {
@@ -51,10 +43,11 @@ class MoveTimerToExecutableJobCmd implements Command<JobEntity>, Serializable {
         if (timerJob is null) {
             throw new JobNotFoundException(jobId);
         }
+        logInfo("Executing timer job {%s}",timerJob.getId());
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Executing timer job {}", timerJob.getId());
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Executing timer job {}", timerJob.getId());
+        //}
 
         return CommandContextUtil.getJobManager(commandContext).moveTimerJobToExecutableJob(timerJob);
     }

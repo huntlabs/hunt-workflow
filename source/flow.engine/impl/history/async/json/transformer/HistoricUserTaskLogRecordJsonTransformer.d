@@ -22,7 +22,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.history.async.HistoryJsonConstants;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
-import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
+import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

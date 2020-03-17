@@ -11,30 +11,31 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.asyncexecutor.multitenant.TenantAwareExecuteAsyncRunnableFactory;
 
 import flow.common.cfg.multitenant.TenantInfoHolder;
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.asyncexecutor.ExecuteAsyncRunnableFactory;
 import flow.job.service.impl.persistence.entity.JobEntity;
+import hunt.util.Common;
+import flow.job.service.impl.asyncexecutor.multitenant.TenantAwareExecuteAsyncRunnable;
 
 /**
  * Factory that produces a {@link Runnable} that executes a {@link JobEntity}. Can be used to create special implementations for specific tenants.
  *
  * @author Joram Barrez
  */
-class TenantAwareExecuteAsyncRunnableFactory implements ExecuteAsyncRunnableFactory {
+class TenantAwareExecuteAsyncRunnableFactory : ExecuteAsyncRunnableFactory {
 
     protected TenantInfoHolder tenantInfoHolder;
     protected string tenantId;
 
-    public TenantAwareExecuteAsyncRunnableFactory(TenantInfoHolder tenantInfoHolder, string tenantId) {
+    this(TenantInfoHolder tenantInfoHolder, string tenantId) {
         this.tenantInfoHolder = tenantInfoHolder;
         this.tenantId = tenantId;
     }
 
-    @Override
     public Runnable createExecuteAsyncRunnable(JobInfo job, JobServiceConfiguration jobServiceConfiguration) {
         return new TenantAwareExecuteAsyncRunnable(job, jobServiceConfiguration, tenantInfoHolder, tenantId);
     }

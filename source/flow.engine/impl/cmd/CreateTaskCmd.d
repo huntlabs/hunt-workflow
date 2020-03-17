@@ -19,9 +19,9 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.task.service.impl.util.CountingTaskUtil;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.util.CountingTaskUtil;
 
 /**
  * Creates new task by {@link flow.task.api.TaskBuilder}

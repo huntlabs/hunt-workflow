@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.InternalJobCompatibilityManager;
 
 import flow.job.service.api.Job;
 import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;

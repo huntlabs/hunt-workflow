@@ -19,16 +19,16 @@ import java.util.UUID;
 
 import flow.variable.service.api.event.FlowableVariableEvent;
 import flow.variable.service.api.types.VariableType;
-import org.flowable.variable.service.impl.types.BooleanType;
-import org.flowable.variable.service.impl.types.DateType;
-import org.flowable.variable.service.impl.types.DoubleType;
-import org.flowable.variable.service.impl.types.IntegerType;
-import org.flowable.variable.service.impl.types.LongStringType;
-import org.flowable.variable.service.impl.types.LongType;
-import org.flowable.variable.service.impl.types.SerializableType;
-import org.flowable.variable.service.impl.types.ShortType;
-import org.flowable.variable.service.impl.types.StringType;
-import org.flowable.variable.service.impl.types.UUIDType;
+import flow.variable.service.impl.types.BooleanType;
+import flow.variable.service.impl.types.DateType;
+import flow.variable.service.impl.types.DoubleType;
+import flow.variable.service.impl.types.IntegerType;
+import flow.variable.service.impl.types.LongStringType;
+import flow.variable.service.impl.types.LongType;
+import flow.variable.service.impl.types.SerializableType;
+import flow.variable.service.impl.types.ShortType;
+import flow.variable.service.impl.types.StringType;
+import flow.variable.service.impl.types.UUIDType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

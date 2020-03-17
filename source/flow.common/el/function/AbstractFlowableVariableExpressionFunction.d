@@ -14,7 +14,7 @@
 //
 //import java.util.Arrays;
 //import java.util.Collections;
-//import java.util.List;
+//import hunt.collection.List;
 //
 //import flow.common.api.FlowableIllegalArgumentException;
 //import flow.common.api.variable.VariableContainer;
@@ -60,7 +60,7 @@
 //    // Helper methods
 //
 //    protected static Object getVariableValue(VariableContainer variableContainer, String variableName) {
-//        if (variableName == null) {
+//        if (variableName is null) {
 //            throw new FlowableIllegalArgumentException("Variable name passed is null");
 //        }
 //        return variableContainer.getVariable((String) variableName);

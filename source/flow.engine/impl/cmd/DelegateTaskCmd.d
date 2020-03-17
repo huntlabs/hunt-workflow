@@ -16,7 +16,7 @@
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TaskHelper;
 import flow.task.api.DelegationState;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tom Baeyens

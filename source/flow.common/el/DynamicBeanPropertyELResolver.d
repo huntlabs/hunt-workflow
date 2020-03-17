@@ -62,7 +62,7 @@
 //
 //    @Override
 //    public Class<?> getType(ELContext context, Object base, Object property) {
-//        if (base == null || this.getCommonPropertyType(context, base) == null) {
+//        if (base is null || this.getCommonPropertyType(context, base) is null) {
 //            return null;
 //        }
 //
@@ -72,7 +72,7 @@
 //
 //    @Override
 //    public Object getValue(ELContext context, Object base, Object property) {
-//        if (base == null || this.getCommonPropertyType(context, base) == null) {
+//        if (base is null || this.getCommonPropertyType(context, base) is null) {
 //            return null;
 //        }
 //
@@ -94,7 +94,7 @@
 //
 //    @Override
 //    public void setValue(ELContext context, Object base, Object property, Object value) {
-//        if (base == null || this.getCommonPropertyType(context, base) == null) {
+//        if (base is null || this.getCommonPropertyType(context, base) is null) {
 //            return;
 //        }
 //

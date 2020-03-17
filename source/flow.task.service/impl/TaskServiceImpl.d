@@ -18,10 +18,10 @@ import flow.common.service.CommonServiceImpl;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 import flow.task.api.TaskQuery;
-import org.flowable.task.service.TaskService;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntityManager;
+import flow.task.service.TaskService;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntityManager;
 
 /**
  * @author Tom Baeyens

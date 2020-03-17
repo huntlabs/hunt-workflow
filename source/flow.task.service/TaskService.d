@@ -24,7 +24,7 @@ module flow.task.service.TaskService;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 import flow.task.api.TaskQuery;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 import hunt.collection.List;
 

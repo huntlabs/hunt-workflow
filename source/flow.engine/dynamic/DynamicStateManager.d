@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.dynamic.DynamicStateManager;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.runtime.ChangeActivityStateBuilderImpl;

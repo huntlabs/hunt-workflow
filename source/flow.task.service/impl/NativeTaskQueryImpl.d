@@ -20,7 +20,7 @@ import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.task.api.NativeTaskQuery;
 import flow.task.api.Task;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.impl.util.CommandContextUtil;
 
 class NativeTaskQueryImpl extends AbstractNativeQuery<NativeTaskQuery, Task> implements NativeTaskQuery {
 

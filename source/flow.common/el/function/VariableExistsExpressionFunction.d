@@ -33,7 +33,7 @@
 //    }
 //
 //    public static boolean exists(VariableContainer variableContainer, String variableName) {
-//        return getVariableValue(variableContainer, variableName) != null;
+//        return getVariableValue(variableContainer, variableName) !is null;
 //    }
 //
 //}

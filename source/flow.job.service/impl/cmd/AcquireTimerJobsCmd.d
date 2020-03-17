@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.AcquireTimerJobsCmd;
 
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+//import java.util.Calendar;
+//import java.util.GregorianCalendar;
 import hunt.collection.List;
 
 import flow.common.Page;
@@ -23,25 +23,25 @@ import flow.job.service.impl.asyncexecutor.AcquiredTimerJobEntities;
 import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
+import hunt.Exceptions;
 
 /**
  * @author Tijs Rademakers
  */
-class AcquireTimerJobsCmd implements Command<AcquiredTimerJobEntities> {
+class AcquireTimerJobsCmd : Command!AcquiredTimerJobEntities {
 
-    private final AsyncExecutor asyncExecutor;
+    private  AsyncExecutor asyncExecutor;
 
-    public AcquireTimerJobsCmd(AsyncExecutor asyncExecutor) {
+    this(AsyncExecutor asyncExecutor) {
         this.asyncExecutor = asyncExecutor;
     }
 
-    @Override
     public AcquiredTimerJobEntities execute(CommandContext commandContext) {
         AcquiredTimerJobEntities acquiredJobs = new AcquiredTimerJobEntities();
-        List<TimerJobEntity> timerJobs = CommandContextUtil.getTimerJobEntityManager(commandContext)
+        List!TimerJobEntity timerJobs = CommandContextUtil.getTimerJobEntityManager(commandContext)
                 .findTimerJobsToExecute(new Page(0, asyncExecutor.getMaxAsyncJobsDuePerAcquisition()));
 
-        for (TimerJobEntity job : timerJobs) {
+        foreach (TimerJobEntity job ; timerJobs) {
             lockJob(commandContext, job, asyncExecutor.getAsyncJobLockTimeInMillis());
             acquiredJobs.addJob(job);
         }
@@ -50,14 +50,14 @@ class AcquireTimerJobsCmd implements Command<AcquiredTimerJobEntities> {
     }
 
     protected void lockJob(CommandContext commandContext, TimerJobEntity job, int lockTimeInMillis) {
-
+        implementationMissing(false);
         // This will trigger an optimistic locking exception when two concurrent executors
         // try to lock, as the revision will not match.
 
-        GregorianCalendar gregorianCalendar = new GregorianCalendar();
-        gregorianCalendar.setTime(CommandContextUtil.getJobServiceConfiguration(commandContext).getClock().getCurrentTime());
-        gregorianCalendar.add(Calendar.MILLISECOND, lockTimeInMillis);
-        job.setLockOwner(asyncExecutor.getLockOwner());
-        job.setLockExpirationTime(gregorianCalendar.getTime());
+        //GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        //gregorianCalendar.setTime(CommandContextUtil.getJobServiceConfiguration(commandContext).getClock().getCurrentTime());
+        //gregorianCalendar.add(Calendar.MILLISECOND, lockTimeInMillis);
+        //job.setLockOwner(asyncExecutor.getLockOwner());
+        //job.setLockExpirationTime(gregorianCalendar.getTime());
     }
 }

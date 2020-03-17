@@ -43,16 +43,16 @@ import flow.task.api.history.HistoricTaskInstanceQuery;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.api.history.HistoricTaskLogEntryQuery;
 import flow.task.api.history.NativeHistoricTaskLogEntryQuery;
-import org.flowable.task.service.history.NativeHistoricTaskInstanceQuery;
-import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
-import org.flowable.task.service.impl.HistoricTaskLogEntryBuilderImpl;
-import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
-import org.flowable.task.service.impl.NativeHistoricTaskInstanceQueryImpl;
-import org.flowable.task.service.impl.NativeHistoricTaskLogEntryQueryImpl;
+import flow.task.service.history.NativeHistoricTaskInstanceQuery;
+import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.HistoricTaskLogEntryBuilderImpl;
+import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
+import flow.task.service.impl.NativeHistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.NativeHistoricTaskLogEntryQueryImpl;
 import flow.variable.service.api.history.HistoricVariableInstanceQuery;
 import flow.variable.service.api.history.NativeHistoricVariableInstanceQuery;
-import org.flowable.variable.service.impl.HistoricVariableInstanceQueryImpl;
-import org.flowable.variable.service.impl.NativeHistoricVariableInstanceQueryImpl;
+import flow.variable.service.impl.HistoricVariableInstanceQueryImpl;
+import flow.variable.service.impl.NativeHistoricVariableInstanceQueryImpl;
 
 /**
  * @author Tom Baeyens

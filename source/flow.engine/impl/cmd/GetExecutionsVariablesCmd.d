@@ -22,7 +22,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.variable.service.api.persistence.entity.VariableInstance;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**
  * @author Daisuke Yoshimoto

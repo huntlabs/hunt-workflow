@@ -21,9 +21,9 @@ import flow.task.api.history.HistoricTaskInstance;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.api.history.HistoricTaskLogEntryQuery;
 import flow.task.api.history.NativeHistoricTaskLogEntryQuery;
-import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * Service which provides access to {@link HistoricTaskInstanceEntity}.

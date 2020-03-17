@@ -1,0 +1,91 @@
+/* Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+module flow.variable.service.event.impl.FlowableVariableEventImpl;
+
+import flow.common.api.deleg.event.FlowableEngineEventType;
+import flow.common.event.FlowableEngineEventImpl;
+import flow.variable.service.api.event.FlowableVariableEvent;
+import flow.variable.service.api.types.VariableType;
+
+/**
+ * Implementation of {@link FlowableVariableEvent}.
+ *
+ * @author Frederik Heremans
+ */
+class FlowableVariableEventImpl : FlowableEngineEventImpl , FlowableVariableEvent {
+
+    protected string variableName;
+    protected Object variableValue;
+    protected VariableType variableType;
+    protected string taskId;
+    protected string scopeId;
+    protected string scopeType;
+
+    this(FlowableEngineEventType type) {
+        super(type);
+    }
+
+
+    public string getVariableName() {
+        return variableName;
+    }
+
+    public void setVariableName(string variableName) {
+        this.variableName = variableName;
+    }
+
+
+    public Object getVariableValue() {
+        return variableValue;
+    }
+
+    public void setVariableValue(Object variableValue) {
+        this.variableValue = variableValue;
+    }
+
+
+    public VariableType getVariableType() {
+        return variableType;
+    }
+
+    public void setVariableType(VariableType variableType) {
+        this.variableType = variableType;
+    }
+
+
+    public string getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(string taskId) {
+        this.taskId = taskId;
+    }
+
+
+    public string getScopeId() {
+        return scopeId;
+    }
+
+    public void setScopeId(string scopeId) {
+        this.scopeId = scopeId;
+    }
+
+
+    public string getScopeType() {
+        return scopeType;
+    }
+
+    public void setScopeType(string scopeType) {
+        this.scopeType = scopeType;
+    }
+}

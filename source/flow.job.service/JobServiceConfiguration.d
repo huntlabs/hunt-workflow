@@ -27,8 +27,8 @@ import hunt.collection.List;
 import hunt.collection.Map;
 
 import flow.common.AbstractServiceConfiguration;
-import flow.common.calendar.BusinessCalendarManager;
-import flow.common.el.ExpressionManager;
+//import flow.common.calendar.BusinessCalendarManager;
+//import flow.common.el.ExpressionManager;
 import flow.common.history.HistoryLevel;
 import flow.common.interceptor.CommandExecutor;
 import flow.job.service.impl.HistoryJobServiceImpl;
@@ -39,8 +39,8 @@ import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandle
 import flow.job.service.impl.asyncexecutor.DefaultJobManager;
 import flow.job.service.impl.asyncexecutor.FailedJobCommandFactory;
 import flow.job.service.impl.asyncexecutor.JobManager;
-import flow.job.service.impl.history.async.AsyncHistoryJobHandler;
-import flow.job.service.impl.history.async.transformer.HistoryJsonTransformer;
+//import flow.job.service.impl.history.async.AsyncHistoryJobHandler;
+//import flow.job.service.impl.history.async.transformer.HistoryJsonTransformer;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntityManager;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntityManagerImpl;
 import flow.job.service.impl.persistence.entity.HistoryJobEntityManager;
@@ -59,16 +59,25 @@ import flow.job.service.impl.persistence.entity.data.JobByteArrayDataManager;
 import flow.job.service.impl.persistence.entity.data.JobDataManager;
 import flow.job.service.impl.persistence.entity.data.SuspendedJobDataManager;
 import flow.job.service.impl.persistence.entity.data.TimerJobDataManager;
-import flow.job.service.impl.persistence.entity.data.impl.MybatisDeadLetterJobDataManager;
+//import flow.job.service.impl.persistence.entity.data.impl.MybatisDeadLetterJobDataManager;
 import flow.job.service.impl.persistence.entity.data.impl.MybatisHistoryJobDataManager;
 import flow.job.service.impl.persistence.entity.data.impl.MybatisJobByteArrayDataManager;
 import flow.job.service.impl.persistence.entity.data.impl.MybatisJobDataManager;
-import flow.job.service.impl.persistence.entity.data.impl.MybatisSuspendedJobDataManager;
+//import flow.job.service.impl.persistence.entity.data.impl.MybatisSuspendedJobDataManager;
 import flow.job.service.impl.persistence.entity.data.impl.MybatisTimerJobDataManager;
 
 import flow.job.service.JobService;
 import flow.job.service.TimerJobService;
 import flow.job.service.HistoryJobService;
+import flow.job.service.InternalJobManager;
+import flow.job.service.InternalJobCompatibilityManager;
+import flow.job.service.InternalJobParentStateResolver;
+import flow.job.service.JobHandler;
+import flow.job.service.JobProcessor;
+import flow.job.service.HistoryJobHandler;
+import flow.job.service.HistoryJobProcessor;
+import hunt.logging;
+import hunt.Exceptions;
 /**
  * This service configuration contains all settings and instances around job execution and management.
  * Note that a {@link JobServiceConfiguration} is not shared between engines and instantiated for each engine.
@@ -83,9 +92,9 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
     // SERVICES
     // /////////////////////////////////////////////////////////////////
 
-    protected JobService jobService = new JobServiceImpl(this);
-    protected TimerJobService timerJobService = new TimerJobServiceImpl(this);
-    protected HistoryJobService historyJobService = new HistoryJobServiceImpl(this);
+    protected JobService jobService  ;//= new JobServiceImpl(this);
+    protected TimerJobService timerJobService ;// = new TimerJobServiceImpl(this);
+    protected HistoryJobService historyJobService ;// = new HistoryJobServiceImpl(this);
 
     protected JobManager jobManager;
 
@@ -109,8 +118,8 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
 
     protected CommandExecutor commandExecutor;
 
-    protected ExpressionManager expressionManager;
-    protected BusinessCalendarManager businessCalendarManager;
+   // protected ExpressionManager expressionManager;
+   // protected BusinessCalendarManager businessCalendarManager;
 
     protected InternalJobManager internalJobManager;
     protected InternalJobCompatibilityManager internalJobCompatibilityManager;
@@ -121,17 +130,17 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
     protected int asyncExecutorResetExpiredJobsMaxTimeout;
 
     protected string jobExecutionScope;
-    protected Map<string, JobHandler> jobHandlers;
+    protected Map!(string, JobHandler) jobHandlers;
     protected FailedJobCommandFactory failedJobCommandFactory;
-    protected List<AsyncRunnableExecutionExceptionHandler> asyncRunnableExecutionExceptionHandlers;
-    protected List<JobProcessor> jobProcessors;
+    protected List!(AsyncRunnableExecutionExceptionHandler) asyncRunnableExecutionExceptionHandlers;
+    protected List!JobProcessor jobProcessors;
 
     protected AsyncExecutor asyncHistoryExecutor;
     protected int asyncHistoryExecutorNumberOfRetries;
     protected string historyJobExecutionScope;
 
-    protected Map<string, HistoryJobHandler> historyJobHandlers;
-    protected List<HistoryJobProcessor> historyJobProcessors;
+    protected Map!(string, HistoryJobHandler) historyJobHandlers;
+    protected List!HistoryJobProcessor historyJobProcessors;
 
     protected string jobTypeAsyncHistory;
     protected string jobTypeAsyncHistoryZipped;
@@ -141,7 +150,10 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
     protected bool asyncHistoryExecutorMessageQueueMode;
     protected int asyncHistoryJsonGroupingThreshold = 10;
 
-    public JobServiceConfiguration(string engineName) {
+    this (string engineName) {
+        jobService = new JobServiceImpl(this);
+        timerJobService = new TimerJobServiceImpl(this);
+        historyJobService = new HistoryJobServiceImpl(this);
         super(engineName);
     }
 
@@ -154,20 +166,21 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         initEntityManagers();
     }
 
-    @Override
+    override
     public bool isHistoryLevelAtLeast(HistoryLevel level) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Current history level: {}, level required: {}", historyLevel, level);
-        }
+        //if (logger.isDebugEnabled()) {
+        //    logger.debug("Current history level: {}, level required: {}", historyLevel, level);
+        //}
+
         // Comparing enums actually compares the location of values declared in the enum
         return historyLevel.isAtLeast(level);
     }
 
-    @Override
+    override
     public bool isHistoryEnabled() {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Current history level: {}", historyLevel);
-        }
+        //if (logger.isDebugEnabled()) {
+        //    logger.debug("Current history level: {}", historyLevel);
+        //}
         return historyLevel != HistoryLevel.NONE;
     }
 
@@ -188,12 +201,12 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         if (jobDataManager is null) {
             jobDataManager = new MybatisJobDataManager(this);
         }
-        if (deadLetterJobDataManager is null) {
-            deadLetterJobDataManager = new MybatisDeadLetterJobDataManager();
-        }
-        if (suspendedJobDataManager is null) {
-            suspendedJobDataManager = new MybatisSuspendedJobDataManager();
-        }
+        //if (deadLetterJobDataManager is null) {
+        //    deadLetterJobDataManager = new MybatisDeadLetterJobDataManager();
+        //}
+        //if (suspendedJobDataManager is null) {
+        //    suspendedJobDataManager = new MybatisSuspendedJobDataManager();
+        //}
         if (timerJobDataManager is null) {
             timerJobDataManager = new MybatisTimerJobDataManager(this);
         }
@@ -445,36 +458,36 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         return this;
     }
 
-    public ExpressionManager getExpressionManager() {
-        return expressionManager;
-    }
+    //public ExpressionManager getExpressionManager() {
+    //    return expressionManager;
+    //}
+    //
+    //public JobServiceConfiguration setExpressionManager(ExpressionManager expressionManager) {
+    //    this.expressionManager = expressionManager;
+    //    return this;
+    //}
+    //
+    //public BusinessCalendarManager getBusinessCalendarManager() {
+    //    return businessCalendarManager;
+    //}
+    //
+    //public JobServiceConfiguration setBusinessCalendarManager(BusinessCalendarManager businessCalendarManager) {
+    //    this.businessCalendarManager = businessCalendarManager;
+    //    return this;
+    //}
 
-    public JobServiceConfiguration setExpressionManager(ExpressionManager expressionManager) {
-        this.expressionManager = expressionManager;
-        return this;
-    }
-
-    public BusinessCalendarManager getBusinessCalendarManager() {
-        return businessCalendarManager;
-    }
-
-    public JobServiceConfiguration setBusinessCalendarManager(BusinessCalendarManager businessCalendarManager) {
-        this.businessCalendarManager = businessCalendarManager;
-        return this;
-    }
-
-    public Map<string, JobHandler> getJobHandlers() {
+    public Map!(string, JobHandler) getJobHandlers() {
         return jobHandlers;
     }
 
-    public JobServiceConfiguration setJobHandlers(Map<string, JobHandler> jobHandlers) {
+    public JobServiceConfiguration setJobHandlers(Map!(string, JobHandler) jobHandlers) {
         this.jobHandlers = jobHandlers;
         return this;
     }
 
     public JobServiceConfiguration addJobHandler(string type, JobHandler jobHandler) {
         if (this.jobHandlers is null) {
-            this.jobHandlers = new HashMap<>();
+            this.jobHandlers = new HashMap!(string, JobHandler)();
         }
         this.jobHandlers.put(type, jobHandler);
         return this;
@@ -489,27 +502,27 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         return this;
     }
 
-    public List<AsyncRunnableExecutionExceptionHandler> getAsyncRunnableExecutionExceptionHandlers() {
+    public List!AsyncRunnableExecutionExceptionHandler getAsyncRunnableExecutionExceptionHandlers() {
         return asyncRunnableExecutionExceptionHandlers;
     }
 
-    public JobServiceConfiguration setAsyncRunnableExecutionExceptionHandlers(List<AsyncRunnableExecutionExceptionHandler> asyncRunnableExecutionExceptionHandlers) {
+    public JobServiceConfiguration setAsyncRunnableExecutionExceptionHandlers(List!AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandlers) {
         this.asyncRunnableExecutionExceptionHandlers = asyncRunnableExecutionExceptionHandlers;
         return this;
     }
 
-    public Map<string, HistoryJobHandler> getHistoryJobHandlers() {
+    public Map!(string, HistoryJobHandler) getHistoryJobHandlers() {
         return historyJobHandlers;
     }
 
-    public JobServiceConfiguration setHistoryJobHandlers(Map<string, HistoryJobHandler> historyJobHandlers) {
+    public JobServiceConfiguration setHistoryJobHandlers(Map!(string, HistoryJobHandler) historyJobHandlers) {
         this.historyJobHandlers = historyJobHandlers;
         return this;
     }
 
     public JobServiceConfiguration addHistoryJobHandler(string type, HistoryJobHandler historyJobHandler) {
         if (this.historyJobHandlers is null) {
-            this.historyJobHandlers = new HashMap<>();
+            this.historyJobHandlers = new HashMap!(string, HistoryJobHandler)();
         }
         this.historyJobHandlers.put(type, historyJobHandler);
         return this;
@@ -530,29 +543,30 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
      * In this case, both {@link AsyncHistoryJobHandler} instances should be able to handle history jobs from any engine.
      */
     public JobServiceConfiguration mergeHistoryJobHandler(HistoryJobHandler historyJobHandler) {
-        if (historyJobHandlers !is null
-                && historyJobHandler instanceof AsyncHistoryJobHandler
-                && !historyJobHandlers.containsKey(historyJobHandler.getType())) {
-            for (HistoryJobHandler existingHistoryJobHandler : historyJobHandlers.values()) {
-                if (existingHistoryJobHandler.getClass().equals(historyJobHandler.getClass())) {
-                    copyHistoryJsonTransformers((AsyncHistoryJobHandler) historyJobHandler, (AsyncHistoryJobHandler) existingHistoryJobHandler);
-                    copyHistoryJsonTransformers((AsyncHistoryJobHandler) existingHistoryJobHandler, (AsyncHistoryJobHandler) historyJobHandler);
-                }
-            }
-        }
-        addHistoryJobHandler(historyJobHandler.getType(), historyJobHandler);
-        return this;
+        implementationMissing(false);
+        //if (historyJobHandlers !is null
+        //        && cast(AsyncHistoryJobHandler)historyJobHandler !is null
+        //        && !historyJobHandlers.containsKey(historyJobHandler.getType())) {
+        //    for (HistoryJobHandler existingHistoryJobHandler : historyJobHandlers.values()) {
+        //        if (existingHistoryJobHandler.getClass().equals(historyJobHandler.getClass())) {
+        //            copyHistoryJsonTransformers((AsyncHistoryJobHandler) historyJobHandler, (AsyncHistoryJobHandler) existingHistoryJobHandler);
+        //            copyHistoryJsonTransformers((AsyncHistoryJobHandler) existingHistoryJobHandler, (AsyncHistoryJobHandler) historyJobHandler);
+        //        }
+        //    }
+        //}
+        //addHistoryJobHandler(historyJobHandler.getType(), historyJobHandler);
+        //return this;
     }
 
-    protected void copyHistoryJsonTransformers(AsyncHistoryJobHandler source, AsyncHistoryJobHandler target) {
-        source.getHistoryJsonTransformers().forEach((transformerType, transformersList) -> {
-            for (HistoryJsonTransformer historyJsonTransformer : transformersList) {
-                if (!target.getHistoryJsonTransformers().containsKey(transformerType)) {
-                    target.addHistoryJsonTransformer(historyJsonTransformer);
-                }
-            }
-        });
-    }
+    //protected void copyHistoryJsonTransformers(AsyncHistoryJobHandler source, AsyncHistoryJobHandler target) {
+    //    source.getHistoryJsonTransformers().forEach((transformerType, transformersList) -> {
+    //        for (HistoryJsonTransformer historyJsonTransformer : transformersList) {
+    //            if (!target.getHistoryJsonTransformers().containsKey(transformerType)) {
+    //                target.addHistoryJsonTransformer(historyJsonTransformer);
+    //            }
+    //        }
+    //    });
+    //}
 
     public int getAsyncExecutorNumberOfRetries() {
         return asyncExecutorNumberOfRetries;
@@ -572,32 +586,34 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         return this;
     }
 
-    @Override
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
-    }
+    //override
+    //public ObjectMapper getObjectMapper() {
+    //    return objectMapper;
+    //}
+    //
+    //override
+    //public JobServiceConfiguration setObjectMapper(ObjectMapper objectMapper) {
+    //    this.objectMapper = objectMapper;
+    //    return this;
+    //}
 
-    @Override
-    public JobServiceConfiguration setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-        return this;
-    }
-
-    public List<JobProcessor> getJobProcessors() {
+    public List!JobProcessor getJobProcessors() {
         return jobProcessors;
     }
 
-    public JobServiceConfiguration setJobProcessors(List<JobProcessor> jobProcessors) {
-        this.jobProcessors = Collections.unmodifiableList(jobProcessors);
+    public JobServiceConfiguration setJobProcessors(List!JobProcessor jobProcessors) {
+       // this.jobProcessors = Collections.unmodifiableList(jobProcessors);
+        this.jobProcessors = jobProcessors;
         return this;
     }
 
-    public List<HistoryJobProcessor> getHistoryJobProcessors() {
+    public List!HistoryJobProcessor getHistoryJobProcessors() {
         return historyJobProcessors;
     }
 
-    public JobServiceConfiguration setHistoryJobProcessors(List<HistoryJobProcessor> historyJobProcessors) {
-        this.historyJobProcessors = Collections.unmodifiableList(historyJobProcessors);
+    public JobServiceConfiguration setHistoryJobProcessors(List!HistoryJobProcessor historyJobProcessors) {
+        //this.historyJobProcessors = Collections.unmodifiableList(historyJobProcessors);
+        this.historyJobProcessors = historyJobProcessors;
         return this;
     }
 

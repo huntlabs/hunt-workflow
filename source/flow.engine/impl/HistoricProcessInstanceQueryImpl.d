@@ -35,8 +35,8 @@ import flow.engine.impl.cmd.DeleteTaskAndActivityDataOfRemovedHistoricProcessIns
 import flow.engine.impl.context.Context;
 import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.impl.AbstractVariableQueryImpl;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 /**
  * @author Tom Baeyens

@@ -24,7 +24,7 @@ import flow.engine.impl.HistoricDetailQueryImpl;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.history.HistoryManager;
 import flow.engine.impl.persistence.entity.data.HistoricDetailDataManager;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**
  * @author Tom Baeyens

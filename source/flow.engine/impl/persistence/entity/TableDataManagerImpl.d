@@ -57,12 +57,12 @@ import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskLogEntry;
 import flow.task.api.history.HistoricTaskInstance;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.history.HistoricVariableInstance;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

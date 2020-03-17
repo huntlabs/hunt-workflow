@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.JobProcessorContextImpl;
 
 import flow.job.service.JobProcessor;
 import flow.job.service.JobProcessorContext;
@@ -22,37 +22,37 @@ import flow.job.service.impl.persistence.entity.AbstractJobEntity;
  * @author Guy Brand
  * @see JobProcessor
  */
-class JobProcessorContextImpl implements JobProcessorContext {
+class JobProcessorContextImpl : JobProcessorContext {
 
-    protected final Phase phase;
-    protected final AbstractJobEntity jobEntity;
+    protected  Phase phase;
+    protected  AbstractJobEntity jobEntity;
 
-    public JobProcessorContextImpl(Phase phase, AbstractJobEntity jobEntity) {
+    this(Phase phase, AbstractJobEntity jobEntity) {
         this.phase = phase;
         this.jobEntity = jobEntity;
     }
 
-    @Override
+
     public Phase getPhase() {
         return phase;
     }
 
-    @Override
+
     public AbstractJobEntity getJobEntity() {
         return jobEntity;
     }
 
-    @Override
+
     public bool isInPhase(Phase phase) {
         return this.phase.equals(phase);
     }
 
-    @Override
+    override
     public string toString() {
-        return "JobProcessorContextImpl{" +
-                "phase=" + phase +
-                ", jobEntity=" + jobEntity +
-                '}';
+        return "JobProcessorContextImpl{" ;
+                //"phase=" ~ phase ~
+                //", jobEntity=" ~ jobEntity ~
+                //'}';
     }
 
 }

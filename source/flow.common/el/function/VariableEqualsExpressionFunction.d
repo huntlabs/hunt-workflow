@@ -32,7 +32,7 @@
 //    public static boolean equals(VariableContainer variableContainer, String variableName, Object comparedValue) {
 //
 //        Object variableValue = getVariableValue(variableContainer, variableName);
-//        if (comparedValue != null && variableValue != null) {
+//        if (comparedValue !is null && variableValue !is null) {
 //
 //            // Numbers are not necessarily of the expected type due to coming from JUEL,
 //            // (eg. variable can be an Integer but JUEL passes a Long).

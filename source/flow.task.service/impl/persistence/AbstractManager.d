@@ -17,9 +17,9 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.runtime.Clock;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
-import org.flowable.task.service.impl.persistence.entity.TaskEntityManager;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
+import flow.task.service.impl.persistence.entity.TaskEntityManager;
 
 /**
  * @author Tijs Rademakers

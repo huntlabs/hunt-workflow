@@ -12,7 +12,7 @@
 // */
 //
 //
-//import java.util.List;
+//import hunt.collection.List;
 //
 //import flow.common.api.variable.VariableContainer;
 //
@@ -31,7 +31,7 @@
 //    protected static boolean compareVariableValue(VariableContainer variableContainer, String variableName, Object comparedValue, OPERATOR operator) {
 //
 //        Object variableValue = getVariableValue(variableContainer, variableName);
-//        if (comparedValue != null && variableValue != null) {
+//        if (comparedValue !is null && variableValue !is null) {
 //
 //            // See equals method for an explanation why Number instances are handled specifically
 //            if (valuesAreNumbers(comparedValue, variableValue)) {

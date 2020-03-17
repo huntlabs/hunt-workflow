@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.HistoryJobProcessorContextImpl;
 
 import flow.job.service.HistoryJobProcessor;
 import flow.job.service.HistoryJobProcessorContext;
@@ -22,37 +22,37 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
  * @author Guy Brand
  * @see HistoryJobProcessor
  */
-class HistoryJobProcessorContextImpl implements HistoryJobProcessorContext {
+class HistoryJobProcessorContextImpl : HistoryJobProcessorContext {
 
-    protected final Phase phase;
-    protected final HistoryJobEntity historyJobEntity;
+    protected  Phase phase;
+    protected  HistoryJobEntity historyJobEntity;
 
-    public HistoryJobProcessorContextImpl(Phase phase, HistoryJobEntity historyJobEntity) {
+    this(Phase phase, HistoryJobEntity historyJobEntity) {
         this.phase = phase;
         this.historyJobEntity = historyJobEntity;
     }
 
-    @Override
+
     public Phase getPhase() {
         return phase;
     }
 
-    @Override
+
     public HistoryJobEntity getHistoryJobEntity() {
         return historyJobEntity;
     }
 
-    @Override
+
     public bool isInPhase(Phase phase) {
         return this.phase.equals(phase);
     }
 
-    @Override
+    override
     public string toString() {
-        return "HistoryJobProcessorContextImpl{" +
-                "phase=" + phase +
-                ", historyJobEntity=" + historyJobEntity +
-                '}';
+        return "HistoryJobProcessorContextImpl{";
+                //"phase=" + phase +
+                //", historyJobEntity=" + historyJobEntity +
+                //'}';
     }
 
 }

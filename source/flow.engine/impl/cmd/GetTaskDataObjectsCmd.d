@@ -34,7 +34,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.runtime.DataObject;
 import flow.task.api.Task;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
 import com.fasterxml.jackson.databind.JsonNode;

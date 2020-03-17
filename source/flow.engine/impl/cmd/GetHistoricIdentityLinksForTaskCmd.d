@@ -25,7 +25,7 @@ import flow.identitylink.service.HistoricIdentityLinkService;
 import flow.identitylink.api.IdentityLinkType;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import flow.task.api.history.HistoricTaskInstance;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 
 /**
  * @author Frederik Heremans

@@ -27,7 +27,7 @@ import flow.engine.runtime.Execution;
 import flow.engine.task.Comment;
 import flow.engine.task.Event;
 import flow.task.api.Task;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tom Baeyens

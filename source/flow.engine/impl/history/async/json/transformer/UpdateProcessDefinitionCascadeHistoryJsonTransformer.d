@@ -28,9 +28,9 @@ import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import flow.task.api.history.HistoricTaskInstance;
-import org.flowable.task.service.HistoricTaskService;
-import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.HistoricTaskService;
+import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

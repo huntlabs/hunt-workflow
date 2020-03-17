@@ -44,11 +44,11 @@ import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEnt
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.history.HistoricTaskInstance;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.service.HistoricTaskService;
-import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.task.service.HistoricTaskService;
+import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

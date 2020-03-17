@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.dynamic.PropertiesParser;
 
 import flow.bpmn.model.FlowElement;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+//import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Created by Pardo David on 5/12/2016.
  */
 interface PropertiesParser {
-    ObjectNode parseElement(FlowElement flowElement, ObjectNode flowElementNode, ObjectMapper mapper);
+  //  ObjectNode parseElement(FlowElement flowElement, ObjectNode flowElementNode, ObjectMapper mapper);
 
     bool supports(FlowElement flowElement);
 }

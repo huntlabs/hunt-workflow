@@ -29,7 +29,7 @@ import flow.idm.engine.impl.cmd.GetTableCountCmd;
 import flow.idm.engine.impl.cmd.GetTableMetaDataCmd;
 import flow.idm.engine.impl.cmd.GetTableNameCmd;
 import flow.idm.engine.impl.util.CommandContextUtil;
-
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -54,7 +54,9 @@ class IdmManagementServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration 
 
 
     public TablePageQuery createTablePageQuery() {
-        return new TablePageQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+        //return new TablePageQueryImpl(commandExecutor);
     }
 
 

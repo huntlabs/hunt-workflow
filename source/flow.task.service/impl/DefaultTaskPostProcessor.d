@@ -12,8 +12,8 @@
  */
 
 
-import org.flowable.task.service.TaskPostProcessor;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.TaskPostProcessor;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 class DefaultTaskPostProcessor implements TaskPostProcessor {
     @Override

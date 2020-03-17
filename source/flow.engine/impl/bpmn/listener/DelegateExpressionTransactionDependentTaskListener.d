@@ -18,7 +18,7 @@ import flow.bpmn.model.Task;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.TransactionDependentTaskListener;
-import org.flowable.variable.service.impl.el.NoExecutionVariableScope;
+import flow.variable.service.impl.el.NoExecutionVariableScope;
 
 /**
  * @author Yvo Swillens

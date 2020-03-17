@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.ExecuteJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -24,26 +23,19 @@ import flow.job.service.InternalJobCompatibilityManager;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.asyncexecutor.FailedJobListener;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class ExecuteJobCmd implements Command<Object>, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteJobCmd.class);
+class ExecuteJobCmd : Command!Object {
 
     protected string jobId;
 
-    public ExecuteJobCmd(string jobId) {
+    this(string jobId) {
         this.jobId = jobId;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
 
         if (jobId is null) {
@@ -56,9 +48,9 @@ class ExecuteJobCmd implements Command<Object>, Serializable {
             throw new JobNotFoundException(jobId);
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Executing job {}", job.getId());
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Executing job {}", job.getId());
+        //}
 
         JobServiceConfiguration jobServiceConfiguration = CommandContextUtil.getJobServiceConfiguration(commandContext);
         InternalJobCompatibilityManager internalJobCompatibilityManager = jobServiceConfiguration.getInternalJobCompatibilityManager();

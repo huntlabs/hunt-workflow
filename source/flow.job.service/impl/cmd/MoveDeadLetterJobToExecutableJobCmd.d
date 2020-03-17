@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.MoveDeadLetterJobToExecutableJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -21,27 +20,20 @@ import flow.job.service.api.JobNotFoundException;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-class MoveDeadLetterJobToExecutableJobCmd implements Command<JobEntity>, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MoveDeadLetterJobToExecutableJobCmd.class);
+class MoveDeadLetterJobToExecutableJobCmd : Command!JobEntity {
 
     protected string jobId;
     protected int retries;
 
-    public MoveDeadLetterJobToExecutableJobCmd(string jobId, int retries) {
+    this(string jobId, int retries) {
         this.jobId = jobId;
         this.retries = retries;
     }
 
-    @Override
     public JobEntity execute(CommandContext commandContext) {
 
         if (jobId is null) {
@@ -52,10 +44,11 @@ class MoveDeadLetterJobToExecutableJobCmd implements Command<JobEntity>, Seriali
         if (job is null) {
             throw new JobNotFoundException(jobId);
         }
+        logInfo("Moving deadletter job to executable job table {%s}",job.getId());
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Moving deadletter job to executable job table {}", job.getId());
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Moving deadletter job to executable job table {}", job.getId());
+        //}
 
         return CommandContextUtil.getJobManager(commandContext).moveDeadLetterJobToExecutableJob(job, retries);
     }

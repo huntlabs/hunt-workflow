@@ -22,10 +22,11 @@ module flow.engine.deleg.event.impl.FlowableProcessStartedEventImpl;
 
 
 import hunt.collection.Map;
-
+import hunt.Object;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.deleg.event.FlowableProcessStartedEvent;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
+import flow.engine.deleg.event.impl.FlowableEntityWithVariablesEventImpl;
 
 /**
  * An {@link flow.engine.deleg.event.FlowableCancelledEvent} implementation.
@@ -34,18 +35,19 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
  */
 class FlowableProcessStartedEventImpl : FlowableEntityWithVariablesEventImpl , FlowableProcessStartedEvent {
 
-    protected final string nestedProcessInstanceId;
+    protected  string nestedProcessInstanceId;
 
-    protected final string nestedProcessDefinitionId;
-    this( Object entity,  Map variables,  bool localScope) {
+    protected  string nestedProcessDefinitionId;
+
+    this( Object entity,  IObject variables,  bool localScope) {
         super(entity, variables, localScope, FlowableEngineEventType.PROCESS_STARTED);
-        if (entity instanceof ExecutionEntity) {
-            ExecutionEntity executionEntity = (ExecutionEntity) entity;
+         ExecutionEntity executionEntity = cast(ExecutionEntity) entity;
+        if (executionEntity !is null) {
             if (!executionEntity.isProcessInstanceType()) {
                 executionEntity = executionEntity.getParent();
             }
 
-            final ExecutionEntity superExecution = executionEntity.getSuperExecution();
+             ExecutionEntity superExecution = executionEntity.getSuperExecution();
             if (superExecution !is null) {
                 this.nestedProcessDefinitionId = superExecution.getProcessDefinitionId();
                 this.nestedProcessInstanceId = superExecution.getProcessInstanceId();
@@ -60,12 +62,10 @@ class FlowableProcessStartedEventImpl : FlowableEntityWithVariablesEventImpl , F
         }
     }
 
-    @Override
     public string getNestedProcessInstanceId() {
         return this.nestedProcessInstanceId;
     }
 
-    @Override
     public string getNestedProcessDefinitionId() {
         return this.nestedProcessDefinitionId;
     }

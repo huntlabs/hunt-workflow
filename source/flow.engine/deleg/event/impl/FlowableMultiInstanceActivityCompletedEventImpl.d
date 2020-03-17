@@ -11,19 +11,19 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.deleg.event.impl.FlowableMultiInstanceActivityCompletedEventImpl;
- 
- 
- 
+
+
+
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.deleg.event.FlowableMultiInstanceActivityCompletedEvent;
-
+import flow.engine.deleg.event.impl.FlowableMultiInstanceActivityEventImpl;
 /**
  * Implementation of an {@link flow.engine.deleg.event.FlowableMultiInstanceActivityCompletedEvent}.
  *
@@ -39,7 +39,7 @@ class FlowableMultiInstanceActivityCompletedEventImpl : FlowableMultiInstanceAct
         super(type);
     }
 
-    @Override
+
     public int getNumberOfInstances() {
         return numberOfInstances;
     }
@@ -48,7 +48,7 @@ class FlowableMultiInstanceActivityCompletedEventImpl : FlowableMultiInstanceAct
         this.numberOfInstances = numberOfInstances;
     }
 
-    @Override
+
     public int getNumberOfActiveInstances() {
         return numberOfActiveInstances;
     }
@@ -57,7 +57,7 @@ class FlowableMultiInstanceActivityCompletedEventImpl : FlowableMultiInstanceAct
         this.numberOfActiveInstances = numberOfActiveInstances;
     }
 
-    @Override
+
     public int getNumberOfCompletedInstances() {
         return numberOfCompletedInstances;
     }

@@ -14,7 +14,7 @@
 
 import flow.bpmn.model.UserTask;
 import flow.engine.deleg.DelegateExecution;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 class CreateUserTaskAfterContext {
 

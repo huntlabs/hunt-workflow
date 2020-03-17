@@ -21,12 +21,12 @@ import flow.identitylink.service.IdentityLinkServiceConfiguration;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntityManager;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntityManager;
 import flow.idm.api.IdmEngineConfigurationApi;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
-import org.flowable.task.service.impl.persistence.entity.TaskEntityManager;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
-import org.flowable.variable.service.VariableServiceConfiguration;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntityManager;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
+import flow.task.service.impl.persistence.entity.TaskEntityManager;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
+import flow.variable.service.VariableServiceConfiguration;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntityManager;
 
 class CommandContextUtil {
 

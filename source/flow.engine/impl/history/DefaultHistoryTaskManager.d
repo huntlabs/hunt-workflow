@@ -19,8 +19,8 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ActivityInstanceEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.service.history.InternalHistoryTaskManager;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.history.InternalHistoryTaskManager;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 class DefaultHistoryTaskManager implements InternalHistoryTaskManager {
 

@@ -79,8 +79,8 @@ import flow.task.api.NativeTaskQuery;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 import flow.task.api.TaskQuery;
-import org.flowable.task.service.impl.NativeTaskQueryImpl;
-import org.flowable.task.service.impl.TaskQueryImpl;
+import flow.task.service.impl.NativeTaskQueryImpl;
+import flow.task.service.impl.TaskQueryImpl;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
 /**

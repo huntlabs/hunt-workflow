@@ -21,7 +21,7 @@ import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.task.api.history.HistoricTaskLogEntry;
 import flow.task.api.history.HistoricTaskLogEntryQuery;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.impl.util.CommandContextUtil;
 
 /**
  * @author martin.grofcik

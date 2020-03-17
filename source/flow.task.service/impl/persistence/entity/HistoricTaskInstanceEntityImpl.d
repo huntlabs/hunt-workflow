@@ -22,10 +22,10 @@ import hunt.collection.Map;
 
 import flow.common.context.Context;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.util.CommandContextUtil;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInitializingList;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.util.CommandContextUtil;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInitializingList;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 /**
  * @author Tom Baeyens

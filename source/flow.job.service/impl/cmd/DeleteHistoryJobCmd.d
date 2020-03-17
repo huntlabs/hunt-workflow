@@ -11,8 +11,7 @@
  * limitations under the License.
  */
 
-
-import java.io.Serializable;
+module flow.job.service.impl.cmd.DeleteHistoryJobCmd;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -24,31 +23,26 @@ import flow.job.service.api.Job;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Tijs Rademakers
  */
 
-class DeleteHistoryJobCmd implements Command<Object>, Serializable {
+class DeleteHistoryJobCmd : Command!Object {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteHistoryJobCmd.class);
-    private static final long serialVersionUID = 1L;
 
     protected string historyJobId;
 
-    public DeleteHistoryJobCmd(string historyJobId) {
+    this(string historyJobId) {
         this.historyJobId = historyJobId;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
         HistoryJobEntity jobToDelete = getJobToDelete(commandContext);
 
         sendCancelEvent(jobToDelete);
 
-        CommandContextUtil.getHistoryJobEntityManager(commandContext).delete(jobToDelete);
+        CommandContextUtil.getHistoryJobEntityManager(commandContext).dele(jobToDelete);
         return null;
     }
 
@@ -64,13 +58,13 @@ class DeleteHistoryJobCmd implements Command<Object>, Serializable {
         if (historyJobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Deleting job {}", historyJobId);
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Deleting job {}", historyJobId);
+        //}
 
         HistoryJobEntity job = CommandContextUtil.getHistoryJobEntityManager(commandContext).findById(historyJobId);
         if (job is null) {
-            throw new FlowableObjectNotFoundException("No history job found with id '" + historyJobId + "'", Job.class);
+            throw new FlowableObjectNotFoundException("No history job found with id '" ~ historyJobId);
         }
 
         return job;

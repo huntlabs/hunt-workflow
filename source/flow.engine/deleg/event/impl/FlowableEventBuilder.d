@@ -56,7 +56,27 @@ import flow.job.service.api.Job;
 import flow.task.api.Task;
 import flow.variable.service.api.event.FlowableVariableEvent;
 import flow.variable.service.api.types.VariableType;
-
+import flow.engine.deleg.event.impl.FlowableProcessEventImpl;
+import flow.engine.deleg.event.impl.FlowableEntityEventImpl;
+import flow.engine.deleg.event.impl.FlowableProcessStartedEventImpl;
+import flow.engine.deleg.event.impl.FlowableEntityWithVariablesEventImpl;
+import flow.engine.deleg.event.impl.FlowableJobRescheduledEventImpl;
+import flow.engine.deleg.event.impl.FlowableSequenceFlowTakenEventImpl;
+import flow.engine.deleg.event.impl.FlowableEntityExceptionEventImpl;
+import flow.engine.deleg.event.impl.FlowableActivityEventImpl;
+import flow.engine.deleg.event.impl.FlowableMultiInstanceActivityEventImpl;
+import flow.engine.deleg.event.impl.FlowableMultiInstanceActivityCompletedEventImpl;
+import flow.engine.deleg.event.impl.FlowableActivityCancelledEventImpl;
+import flow.engine.deleg.event.impl.FlowableMultiInstanceActivityCancelledEventImpl;
+import flow.engine.deleg.event.impl.FlowableProcessCancelledEventImpl;
+import flow.engine.deleg.event.impl.FlowableProcessTerminatedEventImpl;
+import flow.engine.deleg.event.impl.FlowableSignalEventImpl;
+import flow.engine.deleg.event.impl.FlowableConditionalEventImpl;
+import flow.engine.deleg.event.impl.FlowableMessageEventImpl;
+import flow.engine.deleg.event.impl.FlowableEscalationEventImpl;
+import flow.engine.deleg.event.impl.FlowableErrorEventImpl;
+import flow.engine.deleg.event.impl.FlowableVariableEventImpl;
+import hunt.Object;
 /**
  * Builder class used to create {@link FlowableEvent} implementations.
  *
@@ -108,9 +128,9 @@ class FlowableEventBuilder {
      *         {@link Object} if possible.
      */
    // @SuppressWarnings("rawtypes")
-    public static FlowableProcessStartedEvent createProcessStartedEvent(final Object entity,
-            final Map variables, final bool localScope) {
-        final FlowableProcessStartedEventImpl newEvent = new FlowableProcessStartedEventImpl(entity, variables, localScope);
+    public static FlowableProcessStartedEvent createProcessStartedEvent( Object entity,
+            IObject  variables,  bool localScope) {
+        FlowableProcessStartedEventImpl newEvent = new FlowableProcessStartedEventImpl(entity, variables, localScope);
 
         // In case an execution-context is active, populate the event fields related to the execution
         populateEventWithCurrentContext(newEvent);
@@ -128,7 +148,7 @@ class FlowableEventBuilder {
      *         {@link Object} if possible.
      */
     //@SuppressWarnings("rawtypes")
-    public static FlowableEntityWithVariablesEvent createEntityWithVariablesEvent(FlowableEngineEventType type, Object entity, Map variables, bool localScope) {
+    public static FlowableEntityWithVariablesEvent createEntityWithVariablesEvent(FlowableEngineEventType type, Object entity, IObject variables, bool localScope) {
         FlowableEntityWithVariablesEventImpl newEvent = new FlowableEntityWithVariablesEventImpl(entity, variables, localScope, type);
 
         // In case an execution-context is active, populate the event fields
@@ -242,8 +262,9 @@ class FlowableEventBuilder {
         newEvent.setProcessDefinitionId(processDefinitionId);
         newEvent.setProcessInstanceId(processInstanceId);
 
-        if (flowElement instanceof FlowNode) {
-            FlowNode flowNode = (FlowNode) flowElement;
+        FlowNode flowNode = cast(FlowNode) flowElement;
+        if (flowNode !is null) {
+
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
             if (behaviour !is null) {
@@ -264,15 +285,15 @@ class FlowableEventBuilder {
         newEvent.setProcessDefinitionId(processDefinitionId);
         newEvent.setProcessInstanceId(processInstanceId);
 
-        if (flowElement instanceof FlowNode) {
-            FlowNode flowNode = (FlowNode) flowElement;
+        FlowNode flowNode = cast(FlowNode) flowElement;
+        if (FlowNode !is null) {
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
             if (behaviour !is null) {
                 newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
             }
 
-            newEvent.setSequential(((Activity) flowNode).getLoopCharacteristics().isSequential());
+            newEvent.setSequential((cast(Activity) flowNode).getLoopCharacteristics().isSequential());
         }
 
         return newEvent;
@@ -292,15 +313,15 @@ class FlowableEventBuilder {
         newEvent.setProcessDefinitionId(processDefinitionId);
         newEvent.setProcessInstanceId(processInstanceId);
 
-        if (flowElement instanceof FlowNode) {
-            FlowNode flowNode = (FlowNode) flowElement;
+         FlowNode flowNode = cast(FlowNode) flowElement;
+        if (FlowNode !is null) {
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
             if (behaviour !is null) {
                 newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
             }
 
-            newEvent.setSequential(((Activity) flowNode).getLoopCharacteristics().isSequential());
+            newEvent.setSequential((cast(Activity) flowNode).getLoopCharacteristics().isSequential());
         }
 
         return newEvent;
@@ -427,20 +448,26 @@ class FlowableEventBuilder {
     }
 
     protected static void populateEventWithCurrentContext(FlowableEngineEventImpl event) {
-        if (event instanceof FlowableEntityEvent) {
-            Object persistedObject = ((FlowableEntityEvent) event).getEntity();
-            if (persistedObject instanceof Job) {
-                event.setExecutionId(((Job) persistedObject).getExecutionId());
-                event.setProcessInstanceId(((Job) persistedObject).getProcessInstanceId());
-                event.setProcessDefinitionId(((Job) persistedObject).getProcessDefinitionId());
+        FlowableEntityEvent f =  cast(FlowableEntityEvent) event;
+        if (f !is null) {
+            Object persistedObject = f.getEntity();
+            Job j =  cast(Job) persistedObject;
+            DelegateExecution d = cast(DelegateExecution) persistedObject;
+            IdentityLinkEntity idLink = cast(IdentityLinkEntity) persistedObject;
+            ProcessDefinition p = cast(ProcessDefinition)persistedObject;
+            Task task = cast(Task)persistedObject;
+            if (j !is null) {
+                event.setExecutionId(j.getExecutionId());
+                event.setProcessInstanceId(j.getProcessInstanceId());
+                event.setProcessDefinitionId(j.getProcessDefinitionId());
 
-            } else if (persistedObject instanceof DelegateExecution) {
-                event.setExecutionId(((DelegateExecution) persistedObject).getId());
-                event.setProcessInstanceId(((DelegateExecution) persistedObject).getProcessInstanceId());
-                event.setProcessDefinitionId(((DelegateExecution) persistedObject).getProcessDefinitionId());
+            } else if (d !is null) {
+                event.setExecutionId(d.getId());
+                event.setProcessInstanceId(d.getProcessInstanceId());
+                event.setProcessDefinitionId(d.getProcessDefinitionId());
 
-            } else if (persistedObject instanceof IdentityLinkEntity) {
-                IdentityLinkEntity idLink = (IdentityLinkEntity) persistedObject;
+            } else if (idLink  !is null) {
+
                 if (idLink.getProcessDefinitionId() !is null) {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
 
@@ -452,13 +479,13 @@ class FlowableEventBuilder {
                     event.setProcessDefinitionId(idLink.getProcessDefId());
                 }
 
-            } else if (persistedObject instanceof Task) {
-                event.setProcessInstanceId(((Task) persistedObject).getProcessInstanceId());
-                event.setExecutionId(((Task) persistedObject).getExecutionId());
-                event.setProcessDefinitionId(((Task) persistedObject).getProcessDefinitionId());
+            } else if (task !is null) {
+                event.setProcessInstanceId(task.getProcessInstanceId());
+                event.setExecutionId(task.getExecutionId());
+                event.setProcessDefinitionId(task.getProcessDefinitionId());
 
-            } else if (persistedObject instanceof ProcessDefinition) {
-                event.setProcessDefinitionId(((ProcessDefinition) persistedObject).getId());
+            } else if (p !is null) {
+                event.setProcessDefinitionId(p.getId());
             }
         }
     }

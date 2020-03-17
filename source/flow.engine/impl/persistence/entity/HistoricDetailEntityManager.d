@@ -19,7 +19,7 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.engine.history.HistoricDetail;
 import flow.engine.impl.HistoricDetailQueryImpl;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**
  * @author Joram Barrez

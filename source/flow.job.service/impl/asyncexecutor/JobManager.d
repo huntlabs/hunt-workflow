@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.asyncexecutor.JobManager;
 
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;

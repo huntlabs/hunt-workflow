@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.SuspendedJobQueryImpl;
 
-
-import java.io.Serializable;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -25,14 +24,13 @@ import flow.common.query.AbstractQuery;
 import flow.job.service.api.Job;
 import flow.job.service.api.SuspendedJobQuery;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import flow.job.service.impl.JobQueryProperty;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implements SuspendedJobQuery, Serializable {
+class SuspendedJobQueryImpl : AbstractQuery!(SuspendedJobQuery, Job) , SuspendedJobQuery {
 
-    private static final long serialVersionUID = 1L;
     protected string id;
     protected string processInstanceId;
     protected string executionId;
@@ -60,18 +58,18 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
     protected bool retriesLeft;
     protected bool noRetriesLeft;
 
-    public SuspendedJobQueryImpl() {
+    this() {
     }
 
-    public SuspendedJobQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public SuspendedJobQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+
     public SuspendedJobQueryImpl jobId(string jobId) {
         if (jobId is null) {
             throw new FlowableIllegalArgumentException("Provided job id is null");
@@ -80,7 +78,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl processInstanceId(string processInstanceId) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
@@ -89,7 +87,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl processDefinitionId(string processDefinitionId) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
@@ -98,7 +96,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl elementId(string elementId) {
         if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
@@ -107,7 +105,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl elementName(string elementName) {
         if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
@@ -116,7 +114,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
@@ -125,7 +123,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl subScopeId(string subScopeId) {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
@@ -134,7 +132,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
@@ -143,7 +141,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
@@ -152,7 +150,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided case instance id is null");
@@ -162,7 +160,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided case definition id is null");
@@ -172,7 +170,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided plan item instance id is null");
@@ -182,7 +180,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl executionId(string executionId) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
@@ -191,7 +189,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl handlerType(string handlerType) {
         if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
@@ -200,19 +198,19 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl withRetriesLeft() {
         retriesLeft = true;
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl executable() {
         executable = true;
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl timers() {
         if (onlyMessages) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -221,7 +219,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl messages() {
         if (onlyTimers) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -230,7 +228,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl duedateHigherThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -239,7 +237,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl duedateLowerThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -272,19 +270,19 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl noRetriesLeft() {
         noRetriesLeft = true;
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl withException() {
         this.withException = true;
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl exceptionMessage(string exceptionMessage) {
         if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
@@ -293,7 +291,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl jobTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
@@ -302,7 +300,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl jobTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
@@ -311,7 +309,7 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
         return this;
     }
 
-    @Override
+
     public SuspendedJobQueryImpl jobWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -319,45 +317,45 @@ class SuspendedJobQueryImpl extends AbstractQuery<SuspendedJobQuery, Job> implem
 
     // sorting //////////////////////////////////////////
 
-    @Override
+
     public SuspendedJobQuery orderByJobDuedate() {
         return orderBy(JobQueryProperty.DUEDATE);
     }
 
-    @Override
+
     public SuspendedJobQuery orderByExecutionId() {
         return orderBy(JobQueryProperty.EXECUTION_ID);
     }
 
-    @Override
+
     public SuspendedJobQuery orderByJobId() {
         return orderBy(JobQueryProperty.JOB_ID);
     }
 
-    @Override
+
     public SuspendedJobQuery orderByProcessInstanceId() {
         return orderBy(JobQueryProperty.PROCESS_INSTANCE_ID);
     }
 
-    @Override
+
     public SuspendedJobQuery orderByJobRetries() {
         return orderBy(JobQueryProperty.RETRIES);
     }
 
-    @Override
+
     public SuspendedJobQuery orderByTenantId() {
         return orderBy(JobQueryProperty.TENANT_ID);
     }
 
     // results //////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getSuspendedJobEntityManager(commandContext).findJobCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<Job> executeList(CommandContext commandContext) {
+
+    public List!Job executeList(CommandContext commandContext) {
         return CommandContextUtil.getSuspendedJobEntityManager(commandContext).findJobsByQueryCriteria(this);
     }
 

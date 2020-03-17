@@ -43,7 +43,7 @@ import flow.form.api.FormFieldHandler;
 import flow.form.api.FormInfo;
 import flow.form.api.FormRepositoryService;
 import flow.form.api.FormService;
-import org.flowable.variable.service.impl.el.NoExecutionVariableScope;
+import flow.variable.service.impl.el.NoExecutionVariableScope;
 
 /**
  * @author Tom Baeyens

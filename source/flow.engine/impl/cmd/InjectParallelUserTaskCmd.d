@@ -38,7 +38,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 class InjectParallelUserTaskCmd extends AbstractDynamicInjectionCmd implements Command<Void> {
 

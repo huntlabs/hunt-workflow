@@ -33,7 +33,7 @@ import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.ProcessInstance;
 import flow.engine.task.Attachment;
 import flow.task.api.Task;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tom Baeyens

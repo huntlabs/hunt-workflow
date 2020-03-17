@@ -31,7 +31,7 @@ import flow.engine.impl.history.HistoryManager;
 import flow.engine.impl.persistence.entity.data.ActivityInstanceDataManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ActivityInstance;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author martin.grofcik

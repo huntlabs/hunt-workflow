@@ -39,7 +39,7 @@ import flow.engine.impl.util.ExecutionHelper;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.task.service.deleg.BaseTaskListener;
 import flow.task.service.deleg.TaskListener;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Joram Barrez

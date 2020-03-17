@@ -12,7 +12,7 @@
 // */
 //
 //
-//import java.util.Collection;
+//import hunt.collection;
 //
 //import org.apache.commons.lang3.StringUtils;
 //import flow.common.api.variable.VariableContainer;
@@ -42,7 +42,7 @@
 //    @SuppressWarnings({ "rawtypes"})
 //    public static boolean containsAny(VariableContainer variableContainer, String variableName, Object... values) {
 //        Object variableValue = getVariableValue(variableContainer, variableName);
-//        if (variableValue != null) {
+//        if (variableValue !is null) {
 //            if (variableValue instanceof String) {
 //                String variableStringValue = (String) variableValue;
 //                for (Object value : values) {

@@ -18,7 +18,7 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.task.api.history.HistoricTaskLogEntry;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
+import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
 
 /**
  * @author martin.grofcik

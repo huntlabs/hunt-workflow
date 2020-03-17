@@ -29,7 +29,7 @@
 //
 //    public static Object getOrDefault(VariableContainer variableContainer, String variableName, Object value) {
 //        Object variableValue = getVariableValue(variableContainer, variableName);
-//        if (variableValue != null) {
+//        if (variableValue !is null) {
 //            return variableValue;
 //        } else {
 //            return value;

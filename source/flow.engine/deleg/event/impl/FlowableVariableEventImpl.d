@@ -24,7 +24,7 @@ module flow.engine.deleg.event.impl.FlowableVariableEventImpl;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.variable.service.api.event.FlowableVariableEvent;
 import flow.variable.service.api.types.VariableType;
-
+import flow.engine.deleg.event.impl.FlowableProcessEventImpl;
 /**
  * Implementation of {@link FlowableVariableEvent}.
  *
@@ -43,7 +43,7 @@ class FlowableVariableEventImpl : FlowableProcessEventImpl , FlowableVariableEve
         super(type);
     }
 
-    @Override
+
     public string getVariableName() {
         return variableName;
     }
@@ -52,7 +52,7 @@ class FlowableVariableEventImpl : FlowableProcessEventImpl , FlowableVariableEve
         this.variableName = variableName;
     }
 
-    @Override
+
     public Object getVariableValue() {
         return variableValue;
     }
@@ -61,7 +61,7 @@ class FlowableVariableEventImpl : FlowableProcessEventImpl , FlowableVariableEve
         this.variableValue = variableValue;
     }
 
-    @Override
+
     public VariableType getVariableType() {
         return variableType;
     }
@@ -70,7 +70,7 @@ class FlowableVariableEventImpl : FlowableProcessEventImpl , FlowableVariableEve
         this.variableType = variableType;
     }
 
-    @Override
+
     public string getTaskId() {
         return taskId;
     }
@@ -79,7 +79,7 @@ class FlowableVariableEventImpl : FlowableProcessEventImpl , FlowableVariableEve
         this.taskId = taskId;
     }
 
-    @Override
+
     public string getScopeId() {
         return scopeId;
     }
@@ -88,7 +88,7 @@ class FlowableVariableEventImpl : FlowableProcessEventImpl , FlowableVariableEve
         this.scopeId = scopeId;
     }
 
-    @Override
+
     public string getScopeType() {
         return scopeType;
     }

@@ -53,7 +53,7 @@ class MybatisJobByteArrayDataManager : EntityRepository!( JobByteArrayEntityImpl
 
         // Cache
         //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
-        //if (cachedEntity != null) {
+        //if (cachedEntity !is null) {
         //  return cachedEntity;
         //}
 

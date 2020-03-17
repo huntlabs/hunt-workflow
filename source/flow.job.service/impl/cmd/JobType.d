@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.cmd.JobType;
 
 import flow.job.service.impl.persistence.entity.JobEntity;
 
@@ -19,7 +20,7 @@ import flow.job.service.impl.persistence.entity.JobEntity;
  *
  * @author Joram Barrez
  */
-public enum JobType {
+enum JobType {
 
     ASYNC, TIMER, SUSPENDED, DEADLETTER
 

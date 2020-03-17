@@ -11,22 +11,22 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.deleg.event.impl.FlowableProcessTerminatedEventImpl;
- 
- 
- 
+
+
+
 
 
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.deleg.event.FlowableProcessTerminatedEvent;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-
+import flow.engine.deleg.event.impl.FlowableEntityEventImpl;
 /**
  * An {@link FlowableProcessTerminatedEvent} implementation.
  *
@@ -39,16 +39,15 @@ class FlowableProcessTerminatedEventImpl : FlowableEntityEventImpl , FlowablePro
     this(ExecutionEntity execution, Object cause) {
         super(execution, FlowableEngineEventType.PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT);
         if (!execution.isProcessInstanceType()) {
-            throw new FlowableException("Execution '"+ execution +"' is not a processInstance");
+            throw new FlowableException("Execution '"~ execution ~"' is not a processInstance");
         }
-        
+
         this.executionId = execution.getId();
         this.processInstanceId = execution.getProcessInstanceId();
         this.processDefinitionId = execution.getProcessDefinitionId();
         this.cause = cause;
     }
 
-    @Override
     public Object getCause() {
         return cause;
     }

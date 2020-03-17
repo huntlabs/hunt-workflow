@@ -10,45 +10,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.asyncexecutor.DefaultDebuggerExecutionExceptionHandler;
 
-
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandler;
+import hunt.Exceptions;
+import hunt.logging;
 /**
  * Swallow exception for the debugger executions and add debugger breakpoint again to the suspended jobs.
  *
  * @author martin.grofcik
  */
-class DefaultDebuggerExecutionExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
+class DefaultDebuggerExecutionExceptionHandler : AsyncRunnableExecutionExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDebuggerExecutionExceptionHandler.class);
-    private static final string HANDLER_TYPE_BREAK_POINT = "breakpoint";
+    private static  string HANDLER_TYPE_BREAK_POINT = "breakpoint";
 
-    @Override
-    public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
-        if (HANDLER_TYPE_BREAK_POINT.equals(job.getJobHandlerType())) {
-            LOGGER.debug("break point execution throws an exception which will be swallowed", exception);
-            jobServiceConfiguration.getCommandExecutor().execute(
-                    commandContext -> {
-                        JobEntity jobEntity = jobServiceConfiguration.getJobService().findJobById(job.getId());
-                        SuspendedJobEntity suspendedJobEntity = jobServiceConfiguration.getJobService().moveJobToSuspendedJob(jobEntity);
-                        if (exception !is null) {
-                            LOGGER.info("Debugger exception ", exception);
-                            suspendedJobEntity.setExceptionMessage(exception.getMessage());
-                            suspendedJobEntity.setExceptionStacktrace(ExceptionUtils.getStackTrace(exception));
-                        }
-                        return null;
-                    }
-            );
-            return true;
-        }
-        return false;
+    public bool handleException( JobServiceConfiguration jobServiceConfiguration,  JobInfo job,  Throwable exception) {
+        implementationMissing(false);
+        return true;
+        //if (HANDLER_TYPE_BREAK_POINT == (job.getJobHandlerType())) {
+        //    LOGGER.debug("break point execution throws an exception which will be swallowed", exception);
+        //    jobServiceConfiguration.getCommandExecutor().execute(
+        //            commandContext -> {
+        //                JobEntity jobEntity = jobServiceConfiguration.getJobService().findJobById(job.getId());
+        //                SuspendedJobEntity suspendedJobEntity = jobServiceConfiguration.getJobService().moveJobToSuspendedJob(jobEntity);
+        //                if (exception !is null) {
+        //                    LOGGER.info("Debugger exception ", exception);
+        //                    suspendedJobEntity.setExceptionMessage(exception.getMessage());
+        //                    suspendedJobEntity.setExceptionStacktrace(ExceptionUtils.getStackTrace(exception));
+        //                }
+        //                return null;
+        //            }
+        //    );
+        //    return true;
+        //}
+        //return false;
     }
 
 }

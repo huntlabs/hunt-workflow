@@ -21,7 +21,7 @@ import flow.common.api.deleg.Expression;
 import flow.engine.form.AbstractFormType;
 import flow.engine.form.FormProperty;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-import org.flowable.variable.service.impl.el.NoExecutionVariableScope;
+import flow.variable.service.impl.el.NoExecutionVariableScope;
 
 /**
  * @author Tom Baeyens

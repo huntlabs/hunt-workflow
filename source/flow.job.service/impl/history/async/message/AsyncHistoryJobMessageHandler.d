@@ -11,10 +11,11 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.history.async.message.AsyncHistoryJobMessageHandler;
 
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
-import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * An implementation of this interface needs to be injected into an {@link AsyncHistoryJobMessageReceiver} instance.

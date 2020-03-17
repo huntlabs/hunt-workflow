@@ -38,10 +38,10 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubsc
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableInitializingList;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableScopeImpl;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.impl.persistence.entity.VariableInitializingList;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

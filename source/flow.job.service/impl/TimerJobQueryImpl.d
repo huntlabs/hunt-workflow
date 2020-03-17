@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.TimerJobQueryImpl;
 
-
-import java.io.Serializable;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -25,14 +24,13 @@ import flow.common.query.AbstractQuery;
 import flow.job.service.api.Job;
 import flow.job.service.api.TimerJobQuery;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import flow.job.service.impl.JobQueryProperty;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements TimerJobQuery, Serializable {
+class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
 
-    private static final long serialVersionUID = 1L;
     protected string id;
     protected string processInstanceId;
     protected string executionId;
@@ -57,18 +55,18 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
     protected string tenantIdLike;
     protected bool withoutTenantId;
 
-    public TimerJobQueryImpl() {
+    this() {
     }
 
-    public TimerJobQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public TimerJobQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+
     public TimerJobQueryImpl jobId(string jobId) {
         if (jobId is null) {
             throw new FlowableIllegalArgumentException("Provided job id is null");
@@ -77,7 +75,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl processInstanceId(string processInstanceId) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
@@ -86,7 +84,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl processDefinitionId(string processDefinitionId) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
@@ -95,7 +93,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl elementId(string elementId) {
         if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
@@ -104,7 +102,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl elementName(string elementName) {
         if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
@@ -113,7 +111,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
@@ -122,7 +120,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl subScopeId(string subScopeId) {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
@@ -131,7 +129,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
@@ -140,7 +138,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
@@ -149,7 +147,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided case instance id is null");
@@ -159,7 +157,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided case definition id is null");
@@ -169,7 +167,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided plan item instance id is null");
@@ -179,7 +177,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl executionId(string executionId) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
@@ -188,7 +186,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl handlerType(string handlerType) {
         if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
@@ -197,13 +195,13 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl executable() {
         executable = true;
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl timers() {
         if (onlyMessages) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -212,7 +210,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl messages() {
         if (onlyTimers) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -221,7 +219,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl duedateHigherThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -230,7 +228,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl duedateLowerThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -239,13 +237,13 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl withException() {
         this.withException = true;
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl exceptionMessage(string exceptionMessage) {
         if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
@@ -254,7 +252,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl jobTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tentant id is null");
@@ -263,7 +261,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl jobTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tentant id is null");
@@ -272,7 +270,7 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
         return this;
     }
 
-    @Override
+
     public TimerJobQueryImpl jobWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -280,45 +278,45 @@ class TimerJobQueryImpl extends AbstractQuery<TimerJobQuery, Job> implements Tim
 
     // sorting //////////////////////////////////////////
 
-    @Override
+
     public TimerJobQuery orderByJobDuedate() {
         return orderBy(JobQueryProperty.DUEDATE);
     }
 
-    @Override
+
     public TimerJobQuery orderByExecutionId() {
         return orderBy(JobQueryProperty.EXECUTION_ID);
     }
 
-    @Override
+
     public TimerJobQuery orderByJobId() {
         return orderBy(JobQueryProperty.JOB_ID);
     }
 
-    @Override
+
     public TimerJobQuery orderByProcessInstanceId() {
         return orderBy(JobQueryProperty.PROCESS_INSTANCE_ID);
     }
 
-    @Override
+
     public TimerJobQuery orderByJobRetries() {
         return orderBy(JobQueryProperty.RETRIES);
     }
 
-    @Override
+
     public TimerJobQuery orderByTenantId() {
         return orderBy(JobQueryProperty.TENANT_ID);
     }
 
     // results //////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getTimerJobEntityManager(commandContext).findJobCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<Job> executeList(CommandContext commandContext) {
+
+    public List!Job executeList(CommandContext commandContext) {
         return CommandContextUtil.getTimerJobEntityManager(commandContext).findJobsByQueryCriteria(this);
     }
 

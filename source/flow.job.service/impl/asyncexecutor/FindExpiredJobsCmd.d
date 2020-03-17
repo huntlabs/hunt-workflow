@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.FindExpiredJobsCmd;
 
 import hunt.collection.List;
 
@@ -23,18 +23,17 @@ import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 /**
  * @author Joram Barrez
  */
-class FindExpiredJobsCmd implements Command<List<? extends JobInfoEntity>> {
+class FindExpiredJobsCmd : Command!(List!JobInfoEntity) {
 
     protected int pageSize;
-    protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
+    protected JobInfoEntityManager!JobInfoEntity jobEntityManager;
 
-    public FindExpiredJobsCmd(int pageSize, JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager) {
+    this(int pageSize, JobInfoEntityManager!JobInfoEntity jobEntityManager) {
         this.pageSize = pageSize;
         this.jobEntityManager = jobEntityManager;
     }
 
-    @Override
-    public List<? extends JobInfoEntity> execute(CommandContext commandContext) {
+    public List!JobInfoEntity execute(CommandContext commandContext) {
         return jobEntityManager.findExpiredJobs(new Page(0, pageSize));
     }
 

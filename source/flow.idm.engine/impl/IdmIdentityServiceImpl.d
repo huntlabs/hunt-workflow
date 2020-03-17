@@ -62,6 +62,7 @@ import flow.idm.engine.impl.cmd.SetUserInfoCmd;
 import flow.idm.engine.impl.cmd.SetUserPictureCmd;
 import flow.idm.engine.impl.cmd.UpdateUserPasswordCmd;
 import flow.idm.engine.impl.persistence.entity.IdentityInfoEntity;
+import hunt.Exceptions;
 
 /**
  * @author Tijs Rademakers
@@ -100,7 +101,9 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public NativeUserQuery createNativeUserQuery() {
-        return new NativeUserQueryImpl(commandExecutor);
+        implementationMissing(false);
+      //  return new NativeUserQueryImpl(commandExecutor);
+        return null;
     }
 
 
@@ -110,7 +113,9 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public NativeGroupQuery createNativeGroupQuery() {
-        return new NativeGroupQueryImpl(commandExecutor);
+       // return new NativeGroupQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
     }
 
 
@@ -129,13 +134,14 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
     }
 
 
-    public boolean checkPassword(string userId, string password) {
+    public bool checkPassword(string userId, string password) {
         return commandExecutor.execute(new CheckPassword(userId, password));
     }
 
 
     public void setAuthenticatedUserId(string authenticatedUserId) {
-        Authentication.setAuthenticatedUserId(authenticatedUserId);
+        implementationMissing(false);
+       // Authentication.setAuthenticatedUserId(authenticatedUserId);
     }
 
 
@@ -165,7 +171,9 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public NativeTokenQuery createNativeTokenQuery() {
-        return new NativeTokenQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+       // return new NativeTokenQueryImpl(commandExecutor);
     }
 
 

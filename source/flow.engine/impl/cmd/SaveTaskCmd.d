@@ -30,10 +30,10 @@ import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.TaskHelper;
 import flow.task.api.Task;
 import flow.task.api.TaskInfo;
-import org.flowable.task.service.TaskService;
-import org.flowable.task.service.event.impl.FlowableTaskEventBuilder;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.TaskService;
+import flow.task.service.event.impl.FlowableTaskEventBuilder;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Joram Barrez

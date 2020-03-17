@@ -47,9 +47,9 @@ import flow.engine.impl.util.TaskHelper;
 import flow.engine.interceptor.CreateUserTaskAfterContext;
 import flow.engine.interceptor.CreateUserTaskBeforeContext;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.service.TaskService;
-import org.flowable.task.service.event.impl.FlowableTaskEventBuilder;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.TaskService;
+import flow.task.service.event.impl.FlowableTaskEventBuilder;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

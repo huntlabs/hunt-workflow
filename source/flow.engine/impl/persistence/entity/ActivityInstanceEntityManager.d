@@ -20,7 +20,7 @@ import flow.bpmn.model.FlowElement;
 import flow.common.persistence.entity.EntityManager;
 import flow.engine.impl.ActivityInstanceQueryImpl;
 import flow.engine.runtime.ActivityInstance;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author martin.grofcik

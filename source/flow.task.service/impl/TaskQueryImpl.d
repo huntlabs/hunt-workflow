@@ -32,13 +32,13 @@ import flow.idm.api.IdmIdentityService;
 import flow.task.api.DelegationState;
 import flow.task.api.Task;
 import flow.task.api.TaskQuery;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.util.CommandContextUtil;
 import flow.variable.service.api.types.VariableTypes;
-import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
-import org.flowable.variable.service.impl.QueryVariableValue;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.AbstractVariableQueryImpl;
+import flow.variable.service.impl.QueryVariableValue;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**
  * @author Joram Barrez

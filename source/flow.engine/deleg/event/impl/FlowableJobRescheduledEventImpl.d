@@ -24,6 +24,7 @@ module flow.engine.deleg.event.impl.FlowableJobRescheduledEventImpl;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.deleg.event.FlowableJobRescheduledEvent;
 import flow.job.service.api.Job;
+import flow.engine.deleg.event.impl.FlowableEntityEventImpl;
 
 class FlowableJobRescheduledEventImpl : FlowableEntityEventImpl , FlowableJobRescheduledEvent {
 
@@ -37,7 +38,6 @@ class FlowableJobRescheduledEventImpl : FlowableEntityEventImpl , FlowableJobRes
         this.rescheduledJobId = rescheduledJobId;
     }
 
-    @Override
     public string getRescheduledJobId() {
         return rescheduledJobId;
     }

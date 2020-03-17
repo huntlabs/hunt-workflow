@@ -22,9 +22,9 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.task.api.history.HistoricTaskLogEntryType;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

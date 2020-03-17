@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.UnlockExclusiveJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -20,35 +19,29 @@ import flow.common.interceptor.CommandContext;
 import flow.job.service.api.Job;
 import flow.job.service.InternalJobManager;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class UnlockExclusiveJobCmd implements Command<Object>, Serializable {
+class UnlockExclusiveJobCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnlockExclusiveJobCmd.class);
 
     protected Job job;
 
-    public UnlockExclusiveJobCmd(Job job) {
+    this(Job job) {
         this.job = job;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
 
         if (job is null) {
             throw new FlowableIllegalArgumentException("job is null");
         }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Unlocking exclusive job {}", job.getId());
-        }
+        logInfo("Unlocking exclusive job {%s}",job.getId());
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Unlocking exclusive job {}", job.getId());
+        //}
 
         if (job.isExclusive()) {
             if (job.getProcessInstanceId() !is null || job.getScopeId() !is null) {

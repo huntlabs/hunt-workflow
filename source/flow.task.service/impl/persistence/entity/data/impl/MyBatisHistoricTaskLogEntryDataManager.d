@@ -18,10 +18,10 @@ import hunt.collection.Map;
 
 import flow.common.db.AbstractDataManager;
 import flow.task.api.history.HistoricTaskLogEntry;
-import org.flowable.task.service.impl.HistoricTaskLogEntryQueryImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityImpl;
-import org.flowable.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
+import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityImpl;
+import flow.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
 
 /**
  * @author martin.grofcik

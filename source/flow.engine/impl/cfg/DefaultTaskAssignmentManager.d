@@ -21,8 +21,8 @@ import flow.engine.impl.util.TaskHelper;
 import flow.identitylink.api.IdentityLink;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.Task;
-import org.flowable.task.service.InternalTaskAssignmentManager;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.InternalTaskAssignmentManager;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tijs Rademakers

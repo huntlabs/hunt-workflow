@@ -26,13 +26,13 @@ import flow.task.api.TaskBuilder;
 import flow.task.api.TaskInfo;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.api.history.HistoricTaskLogEntryType;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.event.impl.FlowableTaskEventBuilder;
-import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
-import org.flowable.task.service.impl.TaskQueryImpl;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.persistence.entity.data.TaskDataManager;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.event.impl.FlowableTaskEventBuilder;
+import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
+import flow.task.service.impl.TaskQueryImpl;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.persistence.entity.data.TaskDataManager;
+import flow.task.service.impl.util.CommandContextUtil;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

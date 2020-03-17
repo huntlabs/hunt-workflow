@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.DefaultAsyncRunnableExecutionExceptionHandler;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -23,29 +23,23 @@ import flow.job.service.JobServiceConfiguration;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandler;
+import flow.job.service.impl.asyncexecutor.FailedJobCommandFactory;
+import hunt.Object;
 /**
  * @author martin.grofcik
  */
-class DefaultAsyncRunnableExecutionExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
+class DefaultAsyncRunnableExecutionExceptionHandler : AsyncRunnableExecutionExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAsyncRunnableExecutionExceptionHandler.class);
-
-    @Override
-    public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
-        jobServiceConfiguration.getCommandExecutor().execute(new Command<Void>() {
-
-            @Override
+    public bool handleException( JobServiceConfiguration jobServiceConfiguration,  JobInfo job,  Throwable exception) {
+        jobServiceConfiguration.getCommandExecutor().execute(new class Command!Void {
             public Void execute(CommandContext commandContext) {
 
                 // Finally, Throw the exception to indicate the ExecuteAsyncJobCmd failed
-                string message = "Job " + job.getId() + " failed";
-                LOGGER.error(message, exception);
-
-                if (job instanceof AbstractRuntimeJobEntity) {
-                    AbstractRuntimeJobEntity runtimeJob = (AbstractRuntimeJobEntity) job;
+                string message = "Job " ~ job.getId() ~ " failed";
+               // LOGGER.error(message, exception);
+                AbstractRuntimeJobEntity runtimeJob = cast(AbstractRuntimeJobEntity) job;
+                if (runtimeJob !is null) {
                     InternalJobCompatibilityManager internalJobCompatibilityManager = jobServiceConfiguration.getInternalJobCompatibilityManager();
                     if (internalJobCompatibilityManager !is null && internalJobCompatibilityManager.isFlowable5Job(runtimeJob)) {
                         internalJobCompatibilityManager.handleFailedV5Job(runtimeJob, exception);
@@ -55,9 +49,9 @@ class DefaultAsyncRunnableExecutionExceptionHandler implements AsyncRunnableExec
 
                 CommandConfig commandConfig = jobServiceConfiguration.getCommandExecutor().getDefaultConfig().transactionRequiresNew();
                 FailedJobCommandFactory failedJobCommandFactory = jobServiceConfiguration.getFailedJobCommandFactory();
-                Command<Object> cmd = failedJobCommandFactory.getCommand(job.getId(), exception);
+                Command!Object cmd = failedJobCommandFactory.getCommand(job.getId(), exception);
 
-                LOGGER.trace("Using FailedJobCommandFactory '{}' and command of type '{}'", failedJobCommandFactory.getClass(), cmd.getClass());
+                //LOGGER.trace("Using FailedJobCommandFactory '{}' and command of type '{}'", failedJobCommandFactory.getClass(), cmd.getClass());
                 jobServiceConfiguration.getCommandExecutor().execute(commandConfig, cmd);
 
                 // Dispatch an event, indicating job execution failed in a

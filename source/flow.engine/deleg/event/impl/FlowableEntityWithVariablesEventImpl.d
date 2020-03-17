@@ -26,7 +26,8 @@ import hunt.collection.Map;
 import flow.common.api.deleg.event.FlowableEngineEntityEvent;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.deleg.event.FlowableEntityWithVariablesEvent;
-
+import flow.engine.deleg.event.impl.FlowableEntityEventImpl;
+import hunt.Object;
 /**
  * Base class for all {@link FlowableEngineEntityEvent} implementations, related to entities with variables.
  *
@@ -34,22 +35,20 @@ import flow.engine.deleg.event.FlowableEntityWithVariablesEvent;
  */
 class FlowableEntityWithVariablesEventImpl : FlowableEntityEventImpl , FlowableEntityWithVariablesEvent {
 
-    protected Map variables;
+    protected IObject variables;
     protected bool localScope;
 
-    this(Object entity, Map variables, bool localScope, FlowableEngineEventType type) {
+    this(Object entity, IObject variables, bool localScope, FlowableEngineEventType type) {
         super(entity, type);
 
         this.variables = variables;
         this.localScope = localScope;
     }
 
-    @Override
-    public Map getVariables() {
+    public IObject getVariables() {
         return variables;
     }
 
-    @Override
     public bool isLocalScope() {
         return localScope;
     }

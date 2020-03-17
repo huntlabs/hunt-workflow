@@ -12,7 +12,7 @@
  */
 
 
-import org.flowable.variable.service.impl.persistence.entity.VariableScopeImpl;
+import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
 
 abstract class AbstractTaskServiceVariableScopeEntity extends VariableScopeImpl {
 

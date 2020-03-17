@@ -24,8 +24,8 @@ import flow.engine.runtime.ActivityInstance;
 import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

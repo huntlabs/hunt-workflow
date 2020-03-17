@@ -20,8 +20,8 @@ import hunt.collection.Map;
 
 import flow.common.context.Context;
 import flow.engine.ProcessEngineConfiguration;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInitializingList;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInitializingList;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 /**
  * @author Tom Baeyens

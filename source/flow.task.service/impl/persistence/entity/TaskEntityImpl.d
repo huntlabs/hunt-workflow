@@ -33,14 +33,14 @@ import flow.identitylink.api.IdentityLinkType;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntityManager;
 import flow.task.api.DelegationState;
-import org.flowable.task.service.InternalTaskAssignmentManager;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.util.CommandContextUtil;
-import org.flowable.task.service.impl.util.CountingTaskUtil;
-import org.flowable.variable.service.impl.persistence.entity.VariableInitializingList;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableScopeImpl;
+import flow.task.service.InternalTaskAssignmentManager;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.util.CommandContextUtil;
+import flow.task.service.impl.util.CountingTaskUtil;
+import flow.variable.service.impl.persistence.entity.VariableInitializingList;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.cmd.UnacquireOwnedJobsCmd;
 
 import hunt.collection.List;
 
@@ -19,29 +19,26 @@ import flow.common.interceptor.CommandContext;
 import flow.job.service.api.Job;
 import flow.job.service.impl.JobQueryImpl;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import hunt.logging;
+import hunt.Object;
 
-class UnacquireOwnedJobsCmd implements Command<Void> {
+class UnacquireOwnedJobsCmd : Command!Void {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnacquireOwnedJobsCmd.class);
+    private  string lockOwner;
+    private  string tenantId;
 
-    private final string lockOwner;
-    private final string tenantId;
-
-    public UnacquireOwnedJobsCmd(string lockOwner, string tenantId) {
+    this(string lockOwner, string tenantId) {
         this.lockOwner = lockOwner;
         this.tenantId = tenantId;
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
         JobQueryImpl jobQuery = new JobQueryImpl(commandContext);
         jobQuery.lockOwner(lockOwner);
         jobQuery.jobTenantId(tenantId);
 
-        List<Job> jobs = CommandContextUtil.getJobEntityManager(commandContext).findJobsByQueryCriteria(jobQuery);
-        for (Job job : jobs) {
+        List!Job jobs = CommandContextUtil.getJobEntityManager(commandContext).findJobsByQueryCriteria(jobQuery);
+        foreach (Job job ; jobs) {
             logJobUnlocking(job);
             CommandContextUtil.getJobManager(commandContext).unacquire(job);
         }
@@ -49,8 +46,9 @@ class UnacquireOwnedJobsCmd implements Command<Void> {
     }
 
     protected void logJobUnlocking(Job job) {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Unacquiring job {} with owner {} and tenantId {}", job, lockOwner, tenantId);
-        }
+        logInfo("Unacquiring job {} with owner {%s} and tenantId {%s}",lockOwner,tenantId);
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Unacquiring job {} with owner {} and tenantId {}", job, lockOwner, tenantId);
+        //}
     }
 }

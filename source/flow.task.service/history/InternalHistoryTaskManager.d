@@ -15,7 +15,7 @@
 import hunt.time.LocalDateTime;
 
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 interface InternalHistoryTaskManager {
 

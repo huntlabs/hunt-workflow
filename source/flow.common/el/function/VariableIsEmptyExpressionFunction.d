@@ -13,7 +13,7 @@
 //
 //
 //import java.util.Arrays;
-//import java.util.Collection;
+//import hunt.collection;
 //
 //import org.apache.commons.lang3.StringUtils;
 //import flow.common.api.variable.VariableContainer;
@@ -49,7 +49,7 @@
 //    @SuppressWarnings("rawtypes")
 //    public static boolean isEmpty(VariableContainer variableContainer, String variableName) {
 //        Object variableValue = getVariableValue(variableContainer, variableName);
-//        if (variableValue == null)  {
+//        if (variableValue is null)  {
 //            return true;
 //
 //        } else if (variableValue instanceof String) {

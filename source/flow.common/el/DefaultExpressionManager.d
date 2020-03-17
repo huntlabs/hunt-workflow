@@ -13,8 +13,8 @@
 //
 //
 //import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Map;
+//import hunt.collection.List;
+//import hunt.collection.Map;
 //
 //import flow.common.api.deleg.Expression;
 //import flow.common.api.deleg.FlowableExpressionEnhancer;
@@ -67,19 +67,19 @@
 //
 //        if (isCacheEnabled(text)) {
 //            Expression cachedExpression = expressionCache.get(text);
-//            if (cachedExpression != null) {
+//            if (cachedExpression !is null) {
 //                return cachedExpression;
 //            }
 //        }
 //
-//        if (parsingElContext == null) {
+//        if (parsingElContext is null) {
 //            this.parsingElContext = new ParsingElContext(functionDelegates);
-//        } else if (parsingElContext.getFunctionMapper() != null && parsingElContext.getFunctionMapper() instanceof FlowableFunctionMapper) {
+//        } else if (parsingElContext.getFunctionMapper() !is null && parsingElContext.getFunctionMapper() instanceof FlowableFunctionMapper) {
 //            ((FlowableFunctionMapper) parsingElContext.getFunctionMapper()).setFunctionDelegates(functionDelegates);
 //        }
 //
 //        String expressionText = text.trim();
-//        if (expressionEnhancers != null) {
+//        if (expressionEnhancers !is null) {
 //            for (FlowableExpressionEnhancer expressionEnhancer : expressionEnhancers) {
 //                expressionText = expressionEnhancer.enhance(expressionText);
 //            }
@@ -96,7 +96,7 @@
 //    }
 //
 //    protected boolean isCacheEnabled(String text) {
-//        return expressionCache != null && (expressionTextLengthCacheLimit < 0 || text.length() <= expressionTextLengthCacheLimit);
+//        return expressionCache !is null && (expressionTextLengthCacheLimit < 0 || text.length() <= expressionTextLengthCacheLimit);
 //    }
 //
 //    protected Expression createJuelExpression(String expression, ValueExpression valueExpression) {
@@ -116,7 +116,7 @@
 //    protected ELResolver createElResolver(VariableContainer variableContainer) {
 //        List<ELResolver> elResolvers = new ArrayList<>();
 //        elResolvers.add(createVariableElResolver(variableContainer));
-//        if (beans != null) {
+//        if (beans !is null) {
 //            elResolvers.add(new ReadOnlyMapELResolver(beans));
 //        }
 //        elResolvers.add(new ArrayELResolver());
@@ -124,7 +124,7 @@
 //        elResolvers.add(new MapELResolver());
 //        elResolvers.add(new JsonNodeELResolver());
 //        ELResolver beanElResolver = createBeanElResolver();
-//        if (beanElResolver != null) {
+//        if (beanElResolver !is null) {
 //            elResolvers.add(beanElResolver);
 //        }
 //

@@ -95,7 +95,6 @@ interface DelegateExecution : VariableScope {
     /**
      * Returns the tenant id, if any is set before on the process definition or process instance.
      */
-    @Override
     string getTenantId();
 
     /**
@@ -128,7 +127,7 @@ interface DelegateExecution : VariableScope {
     /**
      * returns the list of execution of which this execution the parent of.
      */
-    List<? extends DelegateExecution> getExecutions();
+    List!DelegateExecution getExecutions();
 
     /* State management */
 

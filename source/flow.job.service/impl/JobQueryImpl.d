@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.JobQueryImpl;
 
 
-
-import java.io.Serializable;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -25,15 +24,13 @@ import flow.common.query.AbstractQuery;
 import flow.job.service.api.Job;
 import flow.job.service.api.JobQuery;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import flow.job.service.impl.JobQueryProperty;
 /**
  * @author Joram Barrez
  * @author Tom Baeyens
  * @author Falko Menge
  */
-class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     protected string id;
     protected string processInstanceId;
     protected string executionId;
@@ -61,18 +58,18 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
     protected bool onlyLocked;
     protected bool onlyUnlocked;
 
-    public JobQueryImpl() {
+    this() {
     }
 
-    public JobQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public JobQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+
     public JobQuery jobId(string jobId) {
         if (jobId is null) {
             throw new FlowableIllegalArgumentException("Provided job id is null");
@@ -81,7 +78,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl processInstanceId(string processInstanceId) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
@@ -90,7 +87,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl processDefinitionId(string processDefinitionId) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
@@ -99,7 +96,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl elementId(string elementId) {
         if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
@@ -108,7 +105,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl elementName(string elementName) {
         if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
@@ -117,7 +114,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
@@ -126,7 +123,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl subScopeId(string subScopeId) {
         if (subScopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
@@ -135,7 +132,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
@@ -144,7 +141,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
@@ -153,7 +150,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided case instance id is null");
@@ -163,7 +160,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided case definition id is null");
@@ -173,7 +170,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided plan item instance id is null");
@@ -183,7 +180,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl executionId(string executionId) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
@@ -192,7 +189,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQueryImpl handlerType(string handlerType) {
         if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
@@ -201,7 +198,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery timers() {
         if (onlyMessages) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -210,7 +207,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery messages() {
         if (onlyTimers) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -219,7 +216,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery duedateHigherThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -228,7 +225,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery duedateLowerThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -237,13 +234,13 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery withException() {
         this.withException = true;
         return this;
     }
 
-    @Override
+
     public JobQuery exceptionMessage(string exceptionMessage) {
         if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
@@ -252,7 +249,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery jobTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
@@ -261,7 +258,7 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery jobTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
@@ -270,25 +267,25 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
         return this;
     }
 
-    @Override
+
     public JobQuery jobWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
     }
 
-    @Override
+
     public JobQuery lockOwner(string lockOwner) {
         this.lockOwner = lockOwner;
         return this;
     }
 
-    @Override
+
     public JobQuery locked() {
         this.onlyLocked = true;
         return this;
     }
 
-    @Override
+
     public JobQuery unlocked() {
         this.onlyUnlocked = true;
         return this;
@@ -296,45 +293,45 @@ class JobQueryImpl extends AbstractQuery<JobQuery, Job> implements JobQuery, Ser
 
     // sorting //////////////////////////////////////////
 
-    @Override
+
     public JobQuery orderByJobDuedate() {
         return orderBy(JobQueryProperty.DUEDATE);
     }
 
-    @Override
+
     public JobQuery orderByExecutionId() {
         return orderBy(JobQueryProperty.EXECUTION_ID);
     }
 
-    @Override
+
     public JobQuery orderByJobId() {
         return orderBy(JobQueryProperty.JOB_ID);
     }
 
-    @Override
+
     public JobQuery orderByProcessInstanceId() {
         return orderBy(JobQueryProperty.PROCESS_INSTANCE_ID);
     }
 
-    @Override
+
     public JobQuery orderByJobRetries() {
         return orderBy(JobQueryProperty.RETRIES);
     }
 
-    @Override
+
     public JobQuery orderByTenantId() {
         return orderBy(JobQueryProperty.TENANT_ID);
     }
 
     // results //////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getJobEntityManager(commandContext).findJobCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<Job> executeList(CommandContext commandContext) {
+
+    public List!Job executeList(CommandContext commandContext) {
         return CommandContextUtil.getJobEntityManager(commandContext).findJobsByQueryCriteria(this);
     }
 

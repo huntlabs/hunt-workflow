@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.asyncexecutor.FailedJobListener;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -23,35 +23,31 @@ import flow.common.interceptor.CommandExecutor;
 import flow.job.service.api.Job;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Frederik Heremans
  * @author Saeid Mirzaei
  * @author Joram Barrez
  */
-class FailedJobListener implements CommandContextCloseListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(FailedJobListener.class);
+class FailedJobListener : CommandContextCloseListener {
 
     protected CommandExecutor commandExecutor;
     protected Job job;
 
-    public FailedJobListener(CommandExecutor commandExecutor, Job job) {
+    this(CommandExecutor commandExecutor, Job job) {
         this.commandExecutor = commandExecutor;
         this.job = job;
     }
 
-    @Override
+
     public void closing(CommandContext commandContext) {
     }
 
-    @Override
+
     public void afterSessionsFlush(CommandContext commandContext) {
     }
 
-    @Override
+
     public void closed(CommandContext context) {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -60,7 +56,7 @@ class FailedJobListener implements CommandContextCloseListener {
         }
     }
 
-    @Override
+
     public void closeFailure(CommandContext commandContext) {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -70,9 +66,10 @@ class FailedJobListener implements CommandContextCloseListener {
 
         CommandConfig commandConfig = commandExecutor.getDefaultConfig().transactionRequiresNew();
         FailedJobCommandFactory failedJobCommandFactory = CommandContextUtil.getJobServiceConfiguration().getFailedJobCommandFactory();
-        Command<Object> cmd = failedJobCommandFactory.getCommand(job.getId(), commandContext.getException());
+        Command!Object cmd = failedJobCommandFactory.getCommand(job.getId(), commandContext.getException());
 
-        LOGGER.trace("Using FailedJobCommandFactory '{}' and command of type '{}'", failedJobCommandFactory.getClass(), cmd.getClass());
+
+        //LOGGER.trace("Using FailedJobCommandFactory '{}' and command of type '{}'", failedJobCommandFactory.getClass(), cmd.getClass());
         commandExecutor.execute(commandConfig, cmd);
     }
 

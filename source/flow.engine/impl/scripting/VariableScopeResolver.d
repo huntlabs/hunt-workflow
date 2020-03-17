@@ -21,7 +21,7 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.scripting.Resolver;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.deleg.VariableScope;
 
 /**

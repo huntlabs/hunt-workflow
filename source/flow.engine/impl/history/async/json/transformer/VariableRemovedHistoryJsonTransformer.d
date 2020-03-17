@@ -21,8 +21,8 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.history.async.HistoryJsonConstants;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
-import org.flowable.variable.service.HistoricVariableService;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.HistoricVariableService;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

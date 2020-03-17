@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.message.AsyncJobMessageReceiver;
 
 import hunt.collection.List;
 
@@ -22,7 +22,8 @@ import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.JobQueryImpl;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.JobEntityManager;
-
+import flow.job.service.impl.asyncexecutor.message.AsyncJobMessageHandler;
+import hunt.Object;
 /**
  * Experimental.
  *
@@ -42,11 +43,11 @@ class AsyncJobMessageReceiver {
     protected JobServiceConfiguration jobServiceConfiguration;
     protected AsyncJobMessageHandler asyncJobMessageHandler;
 
-    public AsyncJobMessageReceiver() {
+    this() {
 
     }
 
-    public AsyncJobMessageReceiver(JobServiceConfiguration jobServiceConfiguration, AsyncJobMessageHandler asyncJobMessageHandler) {
+    this(JobServiceConfiguration jobServiceConfiguration, AsyncJobMessageHandler asyncJobMessageHandler) {
         this.jobServiceConfiguration = jobServiceConfiguration;
         this.asyncJobMessageHandler = asyncJobMessageHandler;
     }
@@ -59,29 +60,27 @@ class AsyncJobMessageReceiver {
             throw new FlowableException("Programmatic error: this class needs an AsyncJobMessageHandler instance.");
         }
 
-        jobServiceConfiguration.getCommandExecutor().execute(new Command<Void>() {
-
-            @Override
+        jobServiceConfiguration.getCommandExecutor().execute(new class Command!Void {
             public Void execute(CommandContext commandContext) {
                 JobEntityManager jobEntityManager = jobServiceConfiguration.getJobEntityManager();
 
                 JobQueryImpl query = new JobQueryImpl();
                 query.jobId(jobId);
 
-                List<Job> jobs = jobEntityManager.findJobsByQueryCriteria(query);
+                List!Job jobs = jobEntityManager.findJobsByQueryCriteria(query);
                 if (jobs is null || jobs.isEmpty()) {
                     throw new FlowableException("No job found for job id " + jobId);
                 }
                 if (jobs.size() > 1) {
                     throw new FlowableException("Multiple results for job id " + jobId);
                 }
-                if (!(jobs.get(0) instanceof JobEntity)) {
-                    throw new FlowableException("Job with id " + jobId + " is not an instance of job entity, cannot handle this job");
+                if (cast(JobEntity)(jobs.get(0) is null)) {
+                    throw new FlowableException("Job with id " ~ jobId ~ " is not an instance of job entity, cannot handle this job");
                 }
 
-                JobEntity jobEntity = (JobEntity) jobs.get(0);
+                JobEntity jobEntity = cast(JobEntity) jobs.get(0);
                 if (asyncJobMessageHandler.handleJob(jobEntity)) {
-                    jobEntityManager.delete(jobEntity);
+                    jobEntityManager.dele(jobEntity);
                 }
                 return null;
             }

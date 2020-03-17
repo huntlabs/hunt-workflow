@@ -19,7 +19,7 @@ import flow.common.persistence.entity.EntityManager;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 import flow.task.api.TaskInfo;
-import org.flowable.task.service.impl.TaskQueryImpl;
+import flow.task.service.impl.TaskQueryImpl;
 
 interface TaskEntityManager extends EntityManager<TaskEntity> {
 

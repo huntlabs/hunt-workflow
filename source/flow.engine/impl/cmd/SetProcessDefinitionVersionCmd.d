@@ -32,7 +32,7 @@ import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ProcessInstance;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * {@link Command} that changes the process definition version of an existing process instance.

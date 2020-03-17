@@ -35,8 +35,8 @@ import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.history.async.AsyncHistorySession;
 import flow.job.service.impl.history.async.AsyncHistorySession.AsyncHistorySessionData;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

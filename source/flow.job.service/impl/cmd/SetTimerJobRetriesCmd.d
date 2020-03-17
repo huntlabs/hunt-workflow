@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.cmd.SetTimerJobRetriesCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -25,29 +24,27 @@ import flow.job.service.api.Job;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import hunt.Object;
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-class SetTimerJobRetriesCmd implements Command<Void>, Serializable {
+class SetTimerJobRetriesCmd : Command!Void {
 
-    private static final long serialVersionUID = 1L;
+    private  string jobId;
+    private  int retries;
 
-    private final string jobId;
-    private final int retries;
-
-    public SetTimerJobRetriesCmd(string jobId, int retries) {
+    this(string jobId, int retries) {
         if (jobId is null || jobId.length() < 1) {
-            throw new FlowableIllegalArgumentException("The job id is mandatory, but '" + jobId + "' has been provided.");
+            throw new FlowableIllegalArgumentException("The job id is mandatory, but '" ~ jobId ~ "' has been provided.");
         }
         if (retries < 0) {
-            throw new FlowableIllegalArgumentException("The number of job retries must be a non-negative Integer, but '" + retries + "' has been provided.");
+            throw new FlowableIllegalArgumentException("The number of job retries must be a non-negative Integer, but '" ~ retries ~ "' has been provided.");
         }
         this.jobId = jobId;
         this.retries = retries;
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
         TimerJobEntity job = CommandContextUtil.getTimerJobEntityManager(commandContext).findById(jobId);
         if (job !is null) {
@@ -59,7 +56,7 @@ class SetTimerJobRetriesCmd implements Command<Void>, Serializable {
                 eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, job));
             }
         } else {
-            throw new FlowableObjectNotFoundException("No timer job found with id '" + jobId + "'.", Job.class);
+            throw new FlowableObjectNotFoundException("No timer job found with id '" ~ jobId ~ "'.");
         }
         return null;
     }

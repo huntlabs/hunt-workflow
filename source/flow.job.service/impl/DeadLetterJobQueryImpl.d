@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.DeadLetterJobQueryImpl;
 
-
-import java.io.Serializable;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -25,14 +24,13 @@ import flow.common.query.AbstractQuery;
 import flow.job.service.api.DeadLetterJobQuery;
 import flow.job.service.api.Job;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import flow.job.service.impl.JobQueryProperty;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> implements DeadLetterJobQuery, Serializable {
+class DeadLetterJobQueryImpl : AbstractQuery!(DeadLetterJobQuery, Job) , DeadLetterJobQuery {
 
-    private static final long serialVersionUID = 1L;
     protected string id;
     protected string processInstanceId;
     protected string executionId;
@@ -57,18 +55,18 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
     protected string tenantIdLike;
     protected bool withoutTenantId;
 
-    public DeadLetterJobQueryImpl() {
+    this() {
     }
 
-    public DeadLetterJobQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public DeadLetterJobQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl jobId(string jobId) {
         if (jobId is null) {
             throw new FlowableIllegalArgumentException("Provided job id is null");
@@ -77,7 +75,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl processInstanceId(string processInstanceId) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
@@ -86,7 +84,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl processDefinitionId(string processDefinitionId) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
@@ -95,7 +93,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl elementId(string elementId) {
         if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
@@ -104,7 +102,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl elementName(string elementName) {
         if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
@@ -113,7 +111,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl scopeId(string scopeId) {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
@@ -122,7 +120,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl subScopeId(string subScopeId) {
         if (subScopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
@@ -131,7 +129,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl scopeType(string scopeType) {
         if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
@@ -140,7 +138,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
@@ -149,7 +147,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQuery caseInstanceId(string caseInstanceId) {
         if (caseInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided case instance id is null");
@@ -159,7 +157,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQuery caseDefinitionId(string caseDefinitionId) {
         if (caseDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided case definition id is null");
@@ -169,7 +167,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQuery planItemInstanceId(string planItemInstanceId) {
         if (planItemInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided plan item instance id is null");
@@ -179,7 +177,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl executionId(string executionId) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
@@ -188,7 +186,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl handlerType(string handlerType) {
         if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
@@ -197,13 +195,13 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl executable() {
         executable = true;
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl timers() {
         if (onlyMessages) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -212,7 +210,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl messages() {
         if (onlyTimers) {
             throw new FlowableIllegalArgumentException("Cannot combine onlyTimers() with onlyMessages() in the same query");
@@ -221,7 +219,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl duedateHigherThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -230,7 +228,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl duedateLowerThan(Date date) {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
@@ -239,13 +237,13 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl withException() {
         this.withException = true;
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl exceptionMessage(string exceptionMessage) {
         if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
@@ -254,7 +252,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl jobTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tentant id is null");
@@ -263,7 +261,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl jobTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tentant id is null");
@@ -272,7 +270,7 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
         return this;
     }
 
-    @Override
+
     public DeadLetterJobQueryImpl jobWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -280,45 +278,45 @@ class DeadLetterJobQueryImpl extends AbstractQuery<DeadLetterJobQuery, Job> impl
 
     // sorting //////////////////////////////////////////
 
-    @Override
+
     public DeadLetterJobQuery orderByJobDuedate() {
         return orderBy(JobQueryProperty.DUEDATE);
     }
 
-    @Override
+
     public DeadLetterJobQuery orderByExecutionId() {
         return orderBy(JobQueryProperty.EXECUTION_ID);
     }
 
-    @Override
+
     public DeadLetterJobQuery orderByJobId() {
         return orderBy(JobQueryProperty.JOB_ID);
     }
 
-    @Override
+
     public DeadLetterJobQuery orderByProcessInstanceId() {
         return orderBy(JobQueryProperty.PROCESS_INSTANCE_ID);
     }
 
-    @Override
+
     public DeadLetterJobQuery orderByJobRetries() {
         return orderBy(JobQueryProperty.RETRIES);
     }
 
-    @Override
+
     public DeadLetterJobQuery orderByTenantId() {
         return orderBy(JobQueryProperty.TENANT_ID);
     }
 
     // results //////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getDeadLetterJobEntityManager(commandContext).findJobCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<Job> executeList(CommandContext commandContext) {
+
+    public List!Job executeList(CommandContext commandContext) {
         return CommandContextUtil.getDeadLetterJobEntityManager(commandContext).findJobsByQueryCriteria(this);
     }
 

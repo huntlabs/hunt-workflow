@@ -12,7 +12,7 @@
 // */
 //
 //
-//import java.util.Collection;
+//import hunt.collection;
 //import java.util.Iterator;
 //
 //import org.apache.commons.lang3.StringUtils;
@@ -44,7 +44,7 @@
 //    @SuppressWarnings({ "rawtypes"})
 //    public static boolean contains(VariableContainer variableContainer, String variableName, Object... values) {
 //        Object variableValue = getVariableValue(variableContainer, variableName);
-//        if (variableValue != null) {
+//        if (variableValue !is null) {
 //            if (variableValue instanceof String) {
 //                String variableStringValue = (String) variableValue;
 //                for (Object value : values) {
@@ -107,9 +107,9 @@
 //        Iterator<JsonNode> iterator = arrayNode.iterator();
 //        while (iterator.hasNext()) {
 //            JsonNode jsonNode = iterator.next();
-//            if (value == null && jsonNode.isNull()) {
+//            if (value is null && jsonNode.isNull()) {
 //                return true;
-//            } else if (value != null) {
+//            } else if (value !is null) {
 //                if (value instanceof String && jsonNode.isTextual() && StringUtils.equals(jsonNode.asText(), (String) value)) {
 //                    return true;
 //                } else if (value instanceof Number && jsonNode.isLong() && jsonNode.longValue() == ((Number) value).longValue()) {

@@ -31,13 +31,13 @@ import flow.idm.api.Group;
 import flow.idm.api.IdmIdentityService;
 import flow.task.api.history.HistoricTaskInstance;
 import flow.task.api.history.HistoricTaskInstanceQuery;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.util.CommandContextUtil;
 import flow.variable.service.api.types.VariableTypes;
-import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
-import org.flowable.variable.service.impl.QueryVariableValue;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.impl.AbstractVariableQueryImpl;
+import flow.variable.service.impl.QueryVariableValue;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 /**
  * @author Tom Baeyens

@@ -19,9 +19,9 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.CountingExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.eventsubscription.service.api.EventSubscription;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**
  * @author Tijs Rademakers

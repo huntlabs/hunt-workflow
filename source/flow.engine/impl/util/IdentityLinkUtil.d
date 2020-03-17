@@ -19,10 +19,10 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.history.HistoricTaskLogEntryType;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

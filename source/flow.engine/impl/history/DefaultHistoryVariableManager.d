@@ -16,8 +16,8 @@
 import hunt.time.LocalDateTime;
 
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import org.flowable.variable.service.history.InternalHistoryVariableManager;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.history.InternalHistoryVariableManager;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 class DefaultHistoryVariableManager implements InternalHistoryVariableManager {
 

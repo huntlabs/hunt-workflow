@@ -27,14 +27,14 @@ import flow.task.api.history.HistoricTaskInstance;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.api.history.HistoricTaskLogEntryQuery;
 import flow.task.api.history.NativeHistoricTaskLogEntryQuery;
-import org.flowable.task.service.HistoricTaskService;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.HistoricTaskService;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.util.CommandContextUtil;
 
 /**
  * @author Tom Baeyens

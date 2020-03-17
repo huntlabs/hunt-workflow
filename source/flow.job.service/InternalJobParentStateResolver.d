@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.InternalJobParentStateResolver;
 
 import flow.job.service.api.Job;
 

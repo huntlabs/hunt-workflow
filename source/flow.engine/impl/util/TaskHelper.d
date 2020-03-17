@@ -40,16 +40,16 @@ import flow.task.api.DelegationState;
 import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskInstance;
 import flow.task.api.history.HistoricTaskLogEntryType;
-import org.flowable.task.service.HistoricTaskService;
-import org.flowable.task.service.TaskService;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.event.impl.FlowableVariableEventBuilder;
-import org.flowable.variable.service.impl.persistence.entity.VariableByteArrayRef;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.task.service.HistoricTaskService;
+import flow.task.service.TaskService;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.event.impl.FlowableVariableEventBuilder;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

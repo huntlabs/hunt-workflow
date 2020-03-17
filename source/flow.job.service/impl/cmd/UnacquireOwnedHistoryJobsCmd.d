@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.cmd.UnacquireOwnedHistoryJobsCmd;
 
 import hunt.collection.List;
 
@@ -19,24 +19,25 @@ import flow.common.interceptor.CommandContext;
 import flow.job.service.api.HistoryJob;
 import flow.job.service.impl.HistoryJobQueryImpl;
 import flow.job.service.impl.util.CommandContextUtil;
+import hunt.Object;
 
-class UnacquireOwnedHistoryJobsCmd implements Command<Void> {
 
-    private final string lockOwner;
-    private final string tenantId;
+class UnacquireOwnedHistoryJobsCmd : Command!Void {
 
-    public UnacquireOwnedHistoryJobsCmd(string lockOwner, string tenantId) {
+    private  string lockOwner;
+    private  string tenantId;
+
+    this(string lockOwner, string tenantId) {
         this.lockOwner = lockOwner;
         this.tenantId = tenantId;
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
         HistoryJobQueryImpl jobQuery = new HistoryJobQueryImpl(commandContext);
         jobQuery.lockOwner(lockOwner);
         jobQuery.jobTenantId(tenantId);
-        List<HistoryJob> jobs = CommandContextUtil.getHistoryJobEntityManager(commandContext).findHistoryJobsByQueryCriteria(jobQuery);
-        for (HistoryJob job : jobs) {
+        List!HistoryJob jobs = CommandContextUtil.getHistoryJobEntityManager(commandContext).findHistoryJobsByQueryCriteria(jobQuery);
+        foreach (HistoryJob job ; jobs) {
             CommandContextUtil.getJobManager(commandContext).unacquire(job);
         }
         return null;

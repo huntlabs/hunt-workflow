@@ -53,7 +53,7 @@ class MybatisHistoricIdentityLinkDataManager extends AbstractDataManager!Histori
 
       // Cache
       //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
-      //if (cachedEntity != null) {
+      //if (cachedEntity !is null) {
       //  return cachedEntity;
       //}
 

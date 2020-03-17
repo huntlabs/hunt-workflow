@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.cmd.GetJobExceptionStacktraceCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -22,23 +21,21 @@ import flow.common.interceptor.CommandContext;
 import flow.job.service.api.Job;
 import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import flow.job.service.impl.cmd.JobType;
 /**
  * @author Frederik Heremans
  * @author Joram Barrez
  */
-class GetJobExceptionStacktraceCmd implements Command!string, Serializable {
+class GetJobExceptionStacktraceCmd : Command!string {
 
-    private static final long serialVersionUID = 1L;
     private string jobId;
     protected JobType jobType;
 
-    public GetJobExceptionStacktraceCmd(string jobId, JobType jobType) {
+    this(string jobId, JobType jobType) {
         this.jobId = jobId;
         this.jobType = jobType;
     }
 
-    @Override
     public string execute(CommandContext commandContext) {
         if (jobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
@@ -61,7 +58,7 @@ class GetJobExceptionStacktraceCmd implements Command!string, Serializable {
         }
 
         if (job is null) {
-            throw new FlowableObjectNotFoundException("No job found with id " + jobId, Job.class);
+            throw new FlowableObjectNotFoundException("No job found with id " ~ jobId);
         }
 
         return job.getExceptionStacktrace();

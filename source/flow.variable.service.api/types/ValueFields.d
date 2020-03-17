@@ -13,7 +13,8 @@
 
 module flow.variable.service.api.types.ValueFields;
 
-
+import hunt.Long;
+import hunt.Double;
 /**
  * Common interface for regular and historic variable entities.
  *
@@ -79,22 +80,22 @@ interface ValueFields {
     /**
      * @return the long value, if any, or null.
      */
-    long getLongValue();
+    Long getLongValue();
 
     /**
      * Sets the long value. A value of null is allowed.
      */
-    void setLongValue(long longValue);
+    void setLongValue(Long longValue);
 
     /**
      * @return the double value, if any, or null.
      */
-    double getDoubleValue();
+    Double getDoubleValue();
 
     /**
      * Sets the double value. A value of null is allowed.
      */
-    void setDoubleValue(double doubleValue);
+    void setDoubleValue(Double doubleValue);
 
     /**
      * @return the byte array value, if any, or null.

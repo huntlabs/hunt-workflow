@@ -16,9 +16,9 @@ import hunt.collection.ArrayList;
 import hunt.collections;
 import hunt.collection.List;
 
-import org.flowable.batch.service.impl.persistence.entity.BatchByteArrayEntityImpl;
-import org.flowable.batch.service.impl.persistence.entity.BatchEntityImpl;
-import org.flowable.batch.service.impl.persistence.entity.BatchPartEntityImpl;
+import flow.batch.service.impl.persistence.entity.BatchByteArrayEntityImpl;
+import flow.batch.service.impl.persistence.entity.BatchEntityImpl;
+import flow.batch.service.impl.persistence.entity.BatchPartEntityImpl;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.PropertyEntityImpl;
 import flow.engine.impl.persistence.entity.ActivityInstanceEntityImpl;
@@ -54,11 +54,11 @@ import flow.job.service.impl.persistence.entity.JobByteArrayEntityImpl;
 import flow.job.service.impl.persistence.entity.JobEntityImpl;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntityImpl;
 import flow.job.service.impl.persistence.entity.TimerJobEntityImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
-import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntityImpl;
-import org.flowable.variable.service.impl.persistence.entity.VariableByteArrayEntityImpl;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntityImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
+import flow.task.service.impl.persistence.entity.TaskEntityImpl;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntityImpl;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayEntityImpl;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntityImpl;
 
 /**
  * Maintains a list of all the entities in order of dependency.

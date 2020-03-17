@@ -11,8 +11,8 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.cmd.DeleteDeadLetterJobCmd;
 
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -24,31 +24,25 @@ import flow.job.service.api.Job;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
 
-class DeleteDeadLetterJobCmd implements Command<Object>, Serializable {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteDeadLetterJobCmd.class);
-    private static final long serialVersionUID = 1L;
+class DeleteDeadLetterJobCmd : Command!Object {
 
     protected string timerJobId;
 
-    public DeleteDeadLetterJobCmd(string timerJobId) {
+    this(string timerJobId) {
         this.timerJobId = timerJobId;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
         DeadLetterJobEntity jobToDelete = getJobToDelete(commandContext);
 
         sendCancelEvent(jobToDelete);
 
-        CommandContextUtil.getDeadLetterJobEntityManager(commandContext).delete(jobToDelete);
+        CommandContextUtil.getDeadLetterJobEntityManager(commandContext).dele(jobToDelete);
         return null;
     }
 
@@ -64,13 +58,14 @@ class DeleteDeadLetterJobCmd implements Command<Object>, Serializable {
         if (timerJobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Deleting job {}", timerJobId);
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Deleting job {}", timerJobId);
+        //}
+        logInfo("Deleting job {%s}",timerJobId);
 
         DeadLetterJobEntity job = CommandContextUtil.getDeadLetterJobEntityManager(commandContext).findById(timerJobId);
         if (job is null) {
-            throw new FlowableObjectNotFoundException("No dead letter job found with id '" + timerJobId + "'", Job.class);
+            throw new FlowableObjectNotFoundException("No dead letter job found with id '" ~ timerJobId ~ "'");
         }
 
         return job;

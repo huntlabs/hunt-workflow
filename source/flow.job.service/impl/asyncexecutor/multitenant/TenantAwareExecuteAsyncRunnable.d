@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.asyncexecutor.multitenant.TenantAwareExecuteAsyncRunnable;
 
 import flow.common.cfg.multitenant.TenantInfoHolder;
 import flow.job.service.api.JobInfo;
@@ -23,18 +23,18 @@ import flow.job.service.impl.asyncexecutor.ExecuteAsyncRunnable;
  *
  * @author Joram Barrez
  */
-class TenantAwareExecuteAsyncRunnable extends ExecuteAsyncRunnable {
+class TenantAwareExecuteAsyncRunnable : ExecuteAsyncRunnable {
 
     protected TenantInfoHolder tenantInfoHolder;
     protected string tenantId;
 
-    public TenantAwareExecuteAsyncRunnable(JobInfo job, JobServiceConfiguration jobServiceConfiguration, TenantInfoHolder tenantInfoHolder, string tenantId) {
+    this(JobInfo job, JobServiceConfiguration jobServiceConfiguration, TenantInfoHolder tenantInfoHolder, string tenantId) {
         super(job, jobServiceConfiguration, jobServiceConfiguration.getJobEntityManager(), null);
         this.tenantInfoHolder = tenantInfoHolder;
         this.tenantId = tenantId;
     }
 
-    @Override
+    override
     public void run() {
         tenantInfoHolder.setCurrentTenantId(tenantId);
         super.run();

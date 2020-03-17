@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.job.service.impl.cmd.CancelJobsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
@@ -25,30 +24,29 @@ import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
+import hunt.Object;
 
 /**
  * Send job cancelled event and delete job
  *
  * @author Tom Baeyens
  */
-class CancelJobsCmd implements Command<Void>, Serializable {
+class CancelJobsCmd : Command!Void {
 
-    private static final long serialVersionUID = 1L;
     List!string jobIds;
 
-    public CancelJobsCmd(List!string jobIds) {
+    this(List!string jobIds) {
         this.jobIds = jobIds;
     }
 
-    public CancelJobsCmd(string jobId) {
+    this(string jobId) {
         this.jobIds = new ArrayList<>();
         jobIds.add(jobId);
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
         JobEntity jobToDelete = null;
-        for (string jobId : jobIds) {
+        foreach (string jobId ; jobIds) {
             jobToDelete = CommandContextUtil.getJobEntityManager(commandContext).findById(jobId);
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
@@ -59,7 +57,7 @@ class CancelJobsCmd implements Command<Void>, Serializable {
                         .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, jobToDelete));
                 }
 
-                CommandContextUtil.getJobEntityManager(commandContext).delete(jobToDelete);
+                CommandContextUtil.getJobEntityManager(commandContext).dele(jobToDelete);
 
             } else {
                 TimerJobEntity timerJobToDelete = CommandContextUtil.getTimerJobEntityManager(commandContext).findById(jobId);
@@ -71,7 +69,7 @@ class CancelJobsCmd implements Command<Void>, Serializable {
                             .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, timerJobToDelete));
                     }
 
-                    CommandContextUtil.getTimerJobEntityManager(commandContext).delete(timerJobToDelete);
+                    CommandContextUtil.getTimerJobEntityManager(commandContext).dele(timerJobToDelete);
                 }
             }
         }

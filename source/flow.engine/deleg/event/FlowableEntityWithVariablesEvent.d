@@ -22,6 +22,7 @@ module flow.engine.deleg.event.FlowableEntityWithVariablesEvent;
 
 
 import hunt.collection.Map;
+import hunt.Object;
 
 import flow.common.api.deleg.event.FlowableEntityEvent;
 
@@ -35,7 +36,7 @@ interface FlowableEntityWithVariablesEvent : FlowableEntityEvent {
     /**
      * @return the variables created together with the entity.
      */
-    Map getVariables();
+    IObject getVariables();
 
     bool isLocalScope();
 }

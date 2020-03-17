@@ -37,7 +37,7 @@ import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 abstract class AbstractDynamicInjectionCmd {
 

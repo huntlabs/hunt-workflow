@@ -14,10 +14,10 @@
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
-import org.flowable.task.service.impl.persistence.CountingTaskEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.event.impl.FlowableVariableEventBuilder;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.task.service.impl.persistence.CountingTaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.event.impl.FlowableVariableEventBuilder;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**
  * @author Tijs Rademakers
@@ -59,7 +59,7 @@ class CountingTaskUtil {
         if (CommandContextUtil.getTaskServiceConfiguration() is null) {
             return false;
         }
-        
+
         return CommandContextUtil.getTaskServiceConfiguration().isEnableTaskRelationshipCounts();
     }
 

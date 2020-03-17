@@ -17,8 +17,8 @@ import hunt.collection.Map;
 
 import flow.common.persistence.entity.data.DataManager;
 import flow.task.api.Task;
-import org.flowable.task.service.impl.TaskQueryImpl;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.TaskQueryImpl;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tijs Rademakers

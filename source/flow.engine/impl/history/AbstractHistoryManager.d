@@ -38,9 +38,9 @@ import flow.engine.repository.ProcessDefinition;
 import flow.engine.task.Event;
 import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
-import org.flowable.task.service.HistoricTaskService;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.task.service.HistoricTaskService;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -31,7 +31,7 @@ import flow.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import flow.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 //import org.flowable.image.ProcessDiagramGenerator;
 import flow.job.service.impl.asyncexecutor.AsyncExecutor;
-import org.flowable.task.service.TaskPostProcessor;
+import flow.task.service.TaskPostProcessor;
 import flow.engine.ProcessEngines;
 import flow.engine.ProcessEngine;
 import hunt.Exceptions;

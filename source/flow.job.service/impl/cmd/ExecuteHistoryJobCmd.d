@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.cmd.ExecuteHistoryJobCmd;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -20,25 +20,21 @@ import flow.job.service.api.HistoryJob;
 import flow.job.service.api.JobNotFoundException;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.Object;
+import hunt.logging;
 /**
  * Executes a {@link HistoryJob} directly (not through the async history executor).
  *
  * @author Joram Barrez
  */
-class ExecuteHistoryJobCmd implements Command<Void> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteHistoryJobCmd.class);
+class ExecuteHistoryJobCmd : Command!Void {
 
     protected string historyJobId;
 
-    public ExecuteHistoryJobCmd(string historyJobId) {
+    this(string historyJobId) {
         this.historyJobId = historyJobId;
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
         if (historyJobId is null) {
             throw new FlowableIllegalArgumentException("historyJobId is null");
@@ -48,16 +44,17 @@ class ExecuteHistoryJobCmd implements Command<Void> {
         if (historyJobEntity is null) {
             throw new JobNotFoundException(historyJobId);
         }
+        logInfo("Executing historyJob {%s}", historyJobEntity.getId());
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Executing historyJob {}", historyJobEntity.getId());
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Executing historyJob {}", historyJobEntity.getId());
+        //}
 
         try {
             CommandContextUtil.getJobManager(commandContext).execute(historyJobEntity);
         } catch (Throwable exception) {
             // Finally, Throw the exception to indicate the failure
-            throw new FlowableException("HistoryJob " + historyJobId + " failed", exception);
+            throw new FlowableException("HistoryJob " ~ historyJobId ~ " failed", exception);
         }
 
         return null;

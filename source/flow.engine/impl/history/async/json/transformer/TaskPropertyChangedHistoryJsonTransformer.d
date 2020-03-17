@@ -25,7 +25,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.history.async.HistoryJsonConstants;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

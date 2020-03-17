@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.HistoryJobServiceImpl;
 
 import hunt.collection.List;
 
@@ -18,33 +18,34 @@ import flow.job.service.api.HistoryJob;
 import flow.job.service.HistoryJobService;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
-
+import flow.job.service.impl.ServiceImpl;
+import flow.job.service.impl.HistoryJobQueryImpl;
 /**
  * @author Tijs Rademakers
  */
-class HistoryJobServiceImpl extends ServiceImpl implements HistoryJobService {
+class HistoryJobServiceImpl : ServiceImpl , HistoryJobService {
 
-    public HistoryJobServiceImpl(JobServiceConfiguration jobServiceConfiguration) {
+    this(JobServiceConfiguration jobServiceConfiguration) {
         super(jobServiceConfiguration);
     }
 
-    @Override
-    public List<HistoryJob> findHistoryJobsByQueryCriteria(HistoryJobQueryImpl query) {
+
+    public List!HistoryJob findHistoryJobsByQueryCriteria(HistoryJobQueryImpl query) {
         return getHistoryJobEntityManager().findHistoryJobsByQueryCriteria(query);
     }
 
-    @Override
+
     public HistoryJobEntity createHistoryJob() {
         return getHistoryJobEntityManager().create();
     }
 
-    @Override
+
     public void scheduleHistoryJob(HistoryJobEntity historyJob) {
         getJobManager().scheduleHistoryJob(historyJob);
     }
 
-    @Override
+
     public void deleteHistoryJob(HistoryJobEntity historyJob) {
-        getHistoryJobEntityManager().delete(historyJob);
+        getHistoryJobEntityManager().dele(historyJob);
     }
 }

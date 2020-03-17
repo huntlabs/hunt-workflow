@@ -30,8 +30,8 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import flow.variable.service.api.types.VariableType;
 import flow.variable.service.api.types.VariableTypes;
-import org.flowable.variable.service.HistoricVariableService;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.HistoricVariableService;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

@@ -22,7 +22,7 @@ module flow.engine.deleg.CustomPropertiesResolver;
 
 
 import hunt.collection.Map;
-
+import flow.engine.deleg.DelegateExecution;
 /**
  * Can be used to pass a custom properties {@link java.util.HashMap} to a {@link TransactionDependentExecutionListener} or to a {@link TransactionDependentTaskListener}
  *

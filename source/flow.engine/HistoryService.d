@@ -46,7 +46,7 @@ import flow.task.api.history.HistoricTaskLogEntry;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.api.history.HistoricTaskLogEntryQuery;
 import flow.task.api.history.NativeHistoricTaskLogEntryQuery;
-import org.flowable.task.service.history.NativeHistoricTaskInstanceQuery;
+import flow.task.service.history.NativeHistoricTaskInstanceQuery;
 import flow.variable.service.api.history.HistoricVariableInstance;
 import flow.variable.service.api.history.HistoricVariableInstanceQuery;
 import flow.variable.service.api.history.NativeHistoricVariableInstanceQuery;

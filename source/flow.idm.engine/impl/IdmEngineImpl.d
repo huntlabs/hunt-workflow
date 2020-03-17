@@ -22,21 +22,19 @@ import flow.idm.api.IdmManagementService;
 import flow.idm.engine.IdmEngine;
 import flow.idm.engine.IdmEngineConfiguration;
 import flow.idm.engine.IdmEngines;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
 class IdmEngineImpl : IdmEngine {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IdmEngineImpl.class);
-
-    protected String name;
+    protected string name;
     protected IdmIdentityService identityService;
     protected IdmManagementService managementService;
     protected IdmEngineConfiguration engineConfiguration;
     protected CommandExecutor commandExecutor;
 
-    public IdmEngineImpl(IdmEngineConfiguration engineConfiguration) {
+    this(IdmEngineConfiguration engineConfiguration) {
         this.engineConfiguration = engineConfiguration;
         this.name = engineConfiguration.getEngineName();
         this.identityService = engineConfiguration.getIdmIdentityService();
@@ -48,27 +46,26 @@ class IdmEngineImpl : IdmEngine {
         }
 
         if (name is null) {
-            LOGGER.info("default flowable IdmEngine created");
+            logInfo("default flowable IdmEngine created");
         } else {
-            LOGGER.info("IdmEngine {} created", name);
+            logInfo("IdmEngine {%s} created", name);
         }
 
-        IdmEngines.registerIdmEngine(this);
+        //IdmEngines.registerIdmEngine(this);
 
         if (engineConfiguration.getEngineLifecycleListeners() !is null) {
-            for (EngineLifecycleListener engineLifecycleListener : engineConfiguration.getEngineLifecycleListeners()) {
+            foreach (EngineLifecycleListener engineLifecycleListener ; engineConfiguration.getEngineLifecycleListeners()) {
                 engineLifecycleListener.onEngineBuilt(this);
             }
         }
     }
 
-    @Override
     public void close() {
-        IdmEngines.unregister(this);
+      //  IdmEngines.unregister(this);
         engineConfiguration.close();
 
         if (engineConfiguration.getEngineLifecycleListeners() !is null) {
-            for (EngineLifecycleListener engineLifecycleListener : engineConfiguration.getEngineLifecycleListeners()) {
+            foreach (EngineLifecycleListener engineLifecycleListener ; engineConfiguration.getEngineLifecycleListeners()) {
                 engineLifecycleListener.onEngineClosed(this);
             }
         }
@@ -77,22 +74,22 @@ class IdmEngineImpl : IdmEngine {
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    @Override
-    public String getName() {
+
+    public string getName() {
         return name;
     }
 
-    @Override
+
     public IdmIdentityService getIdmIdentityService() {
         return identityService;
     }
 
-    @Override
+
     public IdmManagementService getIdmManagementService() {
         return managementService;
     }
 
-    @Override
+
     public IdmEngineConfiguration getIdmEngineConfiguration() {
         return engineConfiguration;
     }

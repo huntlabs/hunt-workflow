@@ -11,19 +11,20 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.deleg.event.impl.FlowableSequenceFlowTakenEventImpl;
- 
- 
- 
+
+
+
 
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.engine.deleg.event.FlowableSequenceFlowTakenEvent;
+import flow.engine.deleg.event.impl.FlowableProcessEventImpl;
 
 /**
  * @author Joram Barrez
@@ -44,7 +45,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         super(type);
     }
 
-    @Override
+
     public string getId() {
         return id;
     }
@@ -53,7 +54,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.id = id;
     }
 
-    @Override
+
     public string getSourceActivityId() {
         return sourceActivityId;
     }
@@ -62,7 +63,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.sourceActivityId = sourceActivityId;
     }
 
-    @Override
+
     public string getSourceActivityName() {
         return sourceActivityName;
     }
@@ -71,7 +72,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.sourceActivityName = sourceActivityName;
     }
 
-    @Override
+
     public string getSourceActivityType() {
         return sourceActivityType;
     }
@@ -80,7 +81,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.sourceActivityType = sourceActivityType;
     }
 
-    @Override
+
     public string getTargetActivityId() {
         return targetActivityId;
     }
@@ -89,7 +90,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.targetActivityId = targetActivityId;
     }
 
-    @Override
+
     public string getTargetActivityName() {
         return targetActivityName;
     }
@@ -98,7 +99,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.targetActivityName = targetActivityName;
     }
 
-    @Override
+
     public string getTargetActivityType() {
         return targetActivityType;
     }
@@ -107,7 +108,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.targetActivityType = targetActivityType;
     }
 
-    @Override
+
     public string getSourceActivityBehaviorClass() {
         return sourceActivityBehaviorClass;
     }
@@ -116,7 +117,7 @@ class FlowableSequenceFlowTakenEventImpl : FlowableProcessEventImpl , FlowableSe
         this.sourceActivityBehaviorClass = sourceActivityBehaviorClass;
     }
 
-    @Override
+
     public string getTargetActivityBehaviorClass() {
         return targetActivityBehaviorClass;
     }

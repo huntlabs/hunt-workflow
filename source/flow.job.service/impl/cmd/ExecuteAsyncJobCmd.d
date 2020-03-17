@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.ExecuteAsyncJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -23,32 +22,26 @@ import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.JobInfoEntity;
 import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class ExecuteAsyncJobCmd implements Command<Object>, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteAsyncJobCmd.class);
+class ExecuteAsyncJobCmd : Command!Object {
 
     protected string jobId;
-    protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
-
-    public ExecuteAsyncJobCmd(string jobId) {
+    //protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
+    protected JobInfoEntityManager!JobInfoEntity jobEntityManager;
+    this(string jobId) {
         this.jobId = jobId;
     }
 
-    public ExecuteAsyncJobCmd(string jobId, JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager) {
+    this(string jobId, JobInfoEntityManager!JobInfoEntity jobEntityManager) {
         this.jobId = jobId;
         this.jobEntityManager = jobEntityManager;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
 
         if (jobEntityManager is null) {
@@ -67,14 +60,15 @@ class ExecuteAsyncJobCmd implements Command<Object>, Serializable {
 
         JobInfoEntity job = jobEntityManager.findById(jobId);
         if (job is null) {
-            LOGGER.debug("Job does not exist anymore and will not be executed. It has most likely been deleted "
-                    + "as part of another concurrent part of the process instance.");
+            logError("Job does not exist anymore and will not be executed. It has most likely been deleted
+                     as part of another concurrent part of the process instance.");
             return null;
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Executing async job {}", job.getId());
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Executing async job {}", job.getId());
+        //}
+        logInfo("Executing async job {%s}",job.getId);
 
         CommandContextUtil.getJobManager(commandContext).execute(job);
 

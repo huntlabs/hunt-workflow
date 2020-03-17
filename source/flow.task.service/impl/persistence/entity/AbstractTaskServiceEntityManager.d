@@ -17,8 +17,8 @@ import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.persistence.entity.AbstractServiceEngineEntityManager;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.data.DataManager;
-import org.flowable.task.service.TaskServiceConfiguration;
-import org.flowable.task.service.event.impl.FlowableTaskEventBuilder;
+import flow.task.service.TaskServiceConfiguration;
+import flow.task.service.event.impl.FlowableTaskEventBuilder;
 
 /**
  * @author Joram Barrez

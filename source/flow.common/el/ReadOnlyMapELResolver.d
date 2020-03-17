@@ -15,7 +15,7 @@
 //
 //import java.beans.FeatureDescriptor;
 //import java.util.Iterator;
-//import java.util.Map;
+//import hunt.collection.Map;
 //
 //import flow.common.api.FlowableException;
 //import flow.common.javax.el.ELContext;
@@ -37,7 +37,7 @@
 //
 //    @Override
 //    public Object getValue(ELContext context, Object base, Object property) {
-//        if (base == null) {
+//        if (base is null) {
 //            if (wrappedMap.containsKey(property)) {
 //                context.setPropertyResolved(true);
 //                return wrappedMap.get(property);
@@ -53,7 +53,7 @@
 //
 //    @Override
 //    public void setValue(ELContext context, Object base, Object property, Object value) {
-//        if (base == null) {
+//        if (base is null) {
 //            if (wrappedMap.containsKey(property)) {
 //                throw new FlowableException("Cannot set value of '" + property + "', it's readonly!");
 //            }

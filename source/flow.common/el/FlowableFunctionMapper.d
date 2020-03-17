@@ -14,7 +14,7 @@
 //
 //
 //import java.lang.reflect.Method;
-//import java.util.List;
+//import hunt.collection.List;
 //
 //import flow.common.api.deleg.FlowableFunctionDelegate;
 //import flow.common.javax.el.FunctionMapper;
@@ -38,7 +38,7 @@
 //
 //    @Override
 //    public Method resolveFunction(String prefix, String localName) {
-//        if (functionDelegates != null) {
+//        if (functionDelegates !is null) {
 //            for (FlowableFunctionDelegate functionDelegate : functionDelegates) {
 //                if (functionDelegate.prefix().equals(prefix) && functionDelegate.localName().equals(localName)) {
 //                    return functionDelegate.functionMethod();

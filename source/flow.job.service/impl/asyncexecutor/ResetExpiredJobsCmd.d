@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.ResetExpiredJobsCmd;
 
 import hunt.collection;
 
@@ -19,23 +19,22 @@ import flow.common.interceptor.CommandContext;
 import flow.job.service.impl.persistence.entity.JobInfoEntity;
 import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  */
-class ResetExpiredJobsCmd implements Command<Void> {
+class ResetExpiredJobsCmd : Command!Void {
 
     protected Collection!string jobIds;
-    protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
+    protected JobInfoEntityManager!JobInfoEntity jobEntityManager;
 
-    public ResetExpiredJobsCmd(Collection!string jobsIds, JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager) {
+    this(Collection!string jobsIds, JobInfoEntityManager!JobInfoEntity jobEntityManager) {
         this.jobIds = jobsIds;
         this.jobEntityManager = jobEntityManager;
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
-        for (string jobId : jobIds) {
+        foreach (string jobId ; jobIds) {
             JobInfoEntity job = jobEntityManager.findById(jobId);
             CommandContextUtil.getJobManager(commandContext).unacquire(job);
             jobEntityManager.resetExpiredJob(jobId);

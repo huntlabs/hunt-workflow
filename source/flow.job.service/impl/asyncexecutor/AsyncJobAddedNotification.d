@@ -10,30 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.AsyncJobAddedNotification;
 
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandContextCloseListener;
 import flow.job.service.impl.persistence.entity.JobInfoEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 
 /**
  * @author Joram Barrez
  */
-class AsyncJobAddedNotification implements CommandContextCloseListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AsyncJobAddedNotification.class);
+class AsyncJobAddedNotification : CommandContextCloseListener {
 
     protected JobInfoEntity job;
     protected AsyncExecutor asyncExecutor;
 
-    public AsyncJobAddedNotification(JobInfoEntity job, AsyncExecutor asyncExecutor) {
+    this(JobInfoEntity job, AsyncExecutor asyncExecutor) {
         this.job = job;
         this.asyncExecutor = asyncExecutor;
     }
 
-    @Override
     public void closed(CommandContext commandContext) {
         execute(commandContext);
     }
@@ -42,15 +38,12 @@ class AsyncJobAddedNotification implements CommandContextCloseListener {
         asyncExecutor.executeAsyncJob(job);
     }
 
-    @Override
     public void closing(CommandContext commandContext) {
     }
 
-    @Override
     public void afterSessionsFlush(CommandContext commandContext) {
     }
 
-    @Override
     public void closeFailure(CommandContext commandContext) {
     }
 

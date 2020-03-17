@@ -11,40 +11,67 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.JobQueryProperty;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
 import flow.job.service.api.JobQuery;
+import std.concurrency : initOnce;
 
 /**
  * Contains the possible properties that can be used in a {@link JobQuery}.
  *
  * @author Joram Barrez
  */
-class JobQueryProperty implements QueryProperty {
+class JobQueryProperty : QueryProperty {
 
-    private static final long serialVersionUID = 1L;
 
-    private static final Map<string, JobQueryProperty> properties = new HashMap<>();
+    //private static  Map!(string, JobQueryProperty) properties ;// = new HashMap<>();
 
-    public static final JobQueryProperty JOB_ID = new JobQueryProperty("ID_");
-    public static final JobQueryProperty PROCESS_INSTANCE_ID = new JobQueryProperty("RES.PROCESS_INSTANCE_ID_");
-    public static final JobQueryProperty EXECUTION_ID = new JobQueryProperty("RES.EXECUTION_ID_");
-    public static final JobQueryProperty DUEDATE = new JobQueryProperty("RES.DUEDATE_");
-    public static final JobQueryProperty RETRIES = new JobQueryProperty("RES.RETRIES_");
-    public static final JobQueryProperty TENANT_ID = new JobQueryProperty("RES.TENANT_ID_");
+    //public static  JobQueryProperty JOB_ID = new JobQueryProperty("ID_");
+    //public static  JobQueryProperty PROCESS_INSTANCE_ID = new JobQueryProperty("RES.PROCESS_INSTANCE_ID_");
+    //public static  JobQueryProperty EXECUTION_ID = new JobQueryProperty("RES.EXECUTION_ID_");
+    //public static  JobQueryProperty DUEDATE = new JobQueryProperty("RES.DUEDATE_");
+    //public static  JobQueryProperty RETRIES = new JobQueryProperty("RES.RETRIES_");
+    //public static  JobQueryProperty TENANT_ID = new JobQueryProperty("RES.TENANT_ID_");
 
+  static Map!(string,JobQueryProperty) properties() {
+    __gshared Map!(string,JobQueryProperty) inst;
+    return initOnce!inst(new HashMap!(string,JobQueryProperty));
+  }
+  static JobQueryProperty JOB_ID() {
+    __gshared JobQueryProperty inst;
+    return initOnce!inst(new JobQueryProperty("ID_"));
+  }
+  static JobQueryProperty PROCESS_INSTANCE_ID() {
+    __gshared JobQueryProperty inst;
+    return initOnce!inst(new JobQueryProperty("RES.PROCESS_INSTANCE_ID_"));
+  }
+  static JobQueryProperty EXECUTION_ID() {
+    __gshared JobQueryProperty inst;
+    return initOnce!inst(new JobQueryProperty("RES.EXECUTION_ID_"));
+  }
+  static JobQueryProperty DUEDATE() {
+    __gshared JobQueryProperty inst;
+    return initOnce!inst(new JobQueryProperty("RES.DUEDATE_"));
+  }
+  static JobQueryProperty RETRIES() {
+    __gshared JobQueryProperty inst;
+    return initOnce!inst(new JobQueryProperty("RES.RETRIES_"));
+  }
+  static JobQueryProperty TENANT_ID() {
+    __gshared JobQueryProperty inst;
+    return initOnce!inst(new JobQueryProperty("RES.TENANT_ID_"));
+  }
     private string name;
 
-    public JobQueryProperty(string name) {
+    this(string name) {
         this.name = name;
         properties.put(name, this);
     }
 
-    @Override
     public string getName() {
         return name;
     }

@@ -10,38 +10,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-import flow.common.cfg.multitenant.TenantInfoHolder;
-import flow.job.service.impl.asyncexecutor.AcquireAsyncJobsDueRunnable;
-import flow.job.service.impl.asyncexecutor.AsyncExecutor;
-
-/**
- * Extends the default {@link AcquireAsyncJobsDueRunnable} by setting the 'tenant' context before executing.
- *
- * @author Joram Barrez
- */
-class TenantAwareAcquireAsyncJobsDueRunnable extends AcquireAsyncJobsDueRunnable {
-
-    protected TenantInfoHolder tenantInfoHolder;
-    protected string tenantId;
-
-    public TenantAwareAcquireAsyncJobsDueRunnable(AsyncExecutor asyncExecutor, TenantInfoHolder tenantInfoHolder, string tenantId) {
-        super("flowable-tenant-" + tenantId + "-" + asyncExecutor.getJobServiceConfiguration().getEngineName() + "-acquire-jobs",
-                asyncExecutor, asyncExecutor.getJobServiceConfiguration().getJobEntityManager());
-        this.tenantInfoHolder = tenantInfoHolder;
-        this.tenantId = tenantId;
-    }
-
-    protected ExecutorPerTenantAsyncExecutor getTenantAwareAsyncExecutor() {
-        return (ExecutorPerTenantAsyncExecutor) asyncExecutor;
-    }
-
-    @Override
-    public synchronized void run() {
-        tenantInfoHolder.setCurrentTenantId(tenantId);
-        super.run();
-        tenantInfoHolder.clearCurrentTenantId();
-    }
-
-}
+//module flow.job.service.impl.asyncexecutor.multitenant.TenantAwareResetExpiredJobsRunnable;
+//
+//import flow.common.cfg.multitenant.TenantInfoHolder;
+//import flow.job.service.impl.asyncexecutor.AcquireAsyncJobsDueRunnable;
+//import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+//
+///**
+// * Extends the default {@link AcquireAsyncJobsDueRunnable} by setting the 'tenant' context before executing.
+// *
+// * @author Joram Barrez
+// */
+//class TenantAwareAcquireAsyncJobsDueRunnable extends AcquireAsyncJobsDueRunnable {
+//
+//    protected TenantInfoHolder tenantInfoHolder;
+//    protected string tenantId;
+//
+//    public TenantAwareAcquireAsyncJobsDueRunnable(AsyncExecutor asyncExecutor, TenantInfoHolder tenantInfoHolder, string tenantId) {
+//        super("flowable-tenant-" + tenantId + "-" + asyncExecutor.getJobServiceConfiguration().getEngineName() + "-acquire-jobs",
+//                asyncExecutor, asyncExecutor.getJobServiceConfiguration().getJobEntityManager());
+//        this.tenantInfoHolder = tenantInfoHolder;
+//        this.tenantId = tenantId;
+//    }
+//
+//    protected ExecutorPerTenantAsyncExecutor getTenantAwareAsyncExecutor() {
+//        return (ExecutorPerTenantAsyncExecutor) asyncExecutor;
+//    }
+//
+//    @Override
+//    public synchronized void run() {
+//        tenantInfoHolder.setCurrentTenantId(tenantId);
+//        super.run();
+//        tenantInfoHolder.clearCurrentTenantId();
+//    }
+//
+//}

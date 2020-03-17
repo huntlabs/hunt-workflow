@@ -15,7 +15,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)}
 
-module flow.task.service.impl.persistence.TaskEntity;
+module flow.task.service.impl.persistence.entity.TaskEntity;
 
 
 
@@ -31,7 +31,7 @@ import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.Task;
 import flow.task.service.deleg.DelegateTask;
 import flow.variable.service.api.deleg.VariableScope;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
 /**
  * @author Joram Barrez

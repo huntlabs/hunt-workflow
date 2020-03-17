@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.MoveJobToDeadLetterJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -21,25 +20,18 @@ import flow.job.service.api.JobNotFoundException;
 import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-class MoveJobToDeadLetterJobCmd implements Command<DeadLetterJobEntity>, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MoveJobToDeadLetterJobCmd.class);
+class MoveJobToDeadLetterJobCmd : Command!DeadLetterJobEntity {
 
     protected string jobId;
 
-    public MoveJobToDeadLetterJobCmd(string jobId) {
+    this(string jobId) {
         this.jobId = jobId;
     }
 
-    @Override
     public DeadLetterJobEntity execute(CommandContext commandContext) {
 
         if (jobId is null) {
@@ -55,9 +47,11 @@ class MoveJobToDeadLetterJobCmd implements Command<DeadLetterJobEntity>, Seriali
             throw new JobNotFoundException(jobId);
         }
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Moving job to deadletter job table {}", job.getId());
-        }
+        logInfo("Moving job to deadletter job table {%s}",job.getId());
+
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Moving job to deadletter job table {}", job.getId());
+        //}
 
         DeadLetterJobEntity deadLetterJob = CommandContextUtil.getJobManager(commandContext).moveJobToDeadLetterJob(job);
 

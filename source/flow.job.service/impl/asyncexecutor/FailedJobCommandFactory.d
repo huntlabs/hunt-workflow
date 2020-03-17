@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.FailedJobCommandFactory;
 
 import flow.common.interceptor.Command;
 
 interface FailedJobCommandFactory {
 
-    public Command<Object> getCommand(string jobId, Throwable exception);
+    public Command!Object getCommand(string jobId, Throwable exception);
 
 }

@@ -36,7 +36,7 @@
 //
 //    @Override
 //    public Object getValue(ELContext context, Object base, Object property) {
-//        if (base == null) {
+//        if (base is null) {
 //            String variable = (String) property; // according to javadoc, can only be a String
 //            if (LOGGED_IN_USER_KEY.equals(property)) {
 //                context.setPropertyResolved(true);
@@ -55,7 +55,7 @@
 //
 //    @Override
 //    public boolean isReadOnly(ELContext context, Object base, Object property) {
-//        if (base == null) {
+//        if (base is null) {
 //            String variable = (String) property;
 //            return !variableContainer.hasVariable(variable);
 //        }
@@ -64,7 +64,7 @@
 //
 //    @Override
 //    public void setValue(ELContext context, Object base, Object property, Object value) {
-//        if (base == null) {
+//        if (base is null) {
 //            String variable = (String) property;
 //            if (variableContainer.hasVariable(variable)) {
 //                context.setPropertyResolved(true);

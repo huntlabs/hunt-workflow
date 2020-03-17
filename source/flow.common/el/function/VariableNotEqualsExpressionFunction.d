@@ -35,7 +35,7 @@
 //        // (it's effectively ignored) - unless it's compared to null itself)
 //
 //        Object actualValue = getVariableValue(variableContainer, variableName);
-//        if (actualValue != null) {
+//        if (actualValue !is null) {
 //            return !VariableEqualsExpressionFunction.equals(variableContainer, variableName, variableValue);
 //        }
 //

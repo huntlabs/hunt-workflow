@@ -23,7 +23,6 @@ import flow.engine.form.FormType;
  */
 abstract class AbstractFormType : FormType {
 
-    private static  long serialVersionUID = 1L;
 
     abstract Object convertFormValueToModelValue(string propertyValue);
 

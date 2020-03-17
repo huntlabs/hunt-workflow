@@ -71,8 +71,8 @@ import flow.identitylink.service.impl.persistence.entity.data.impl.cachematcher.
 import flow.job.service.JobService;
 import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 import flow.variable.service.api.persistence.entity.VariableInstance;
-import org.flowable.variable.service.impl.persistence.entity.VariableByteArrayRef;
-import org.flowable.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

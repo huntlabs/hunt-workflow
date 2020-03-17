@@ -29,7 +29,7 @@
 //    public static Object base64(VariableContainer variableContainer, String variableName) {
 //        Object value = getVariableValue(variableContainer, variableName);
 //
-//        if (value == null) {
+//        if (value is null) {
 //            return null;
 //        } else if (value instanceof Byte[] || value instanceof byte[]) {
 //            return java.util.Base64.getEncoder().encodeToString( (byte[]) value);

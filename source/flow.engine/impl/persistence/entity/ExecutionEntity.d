@@ -30,7 +30,7 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubsc
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tom Baeyens

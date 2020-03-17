@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.asyncexecutor.DefaultJobManager;
 
-
-import java.util.Calendar;
+//import java.util.Calendar;
 import hunt.time.LocalDateTime;
-import java.util.GregorianCalendar;
+//import java.util.GregorianCalendar;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -54,28 +54,32 @@ import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntityManager;
 import flow.job.service.impl.util.CommandContextUtil;
 import flow.variable.service.api.deleg.VariableScope;
-import org.flowable.variable.service.impl.el.NoExecutionVariableScope;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.variable.service.impl.el.NoExecutionVariableScope;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import flow.job.service.impl.asyncexecutor.JobManager;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.asyncexecutor.JobAddedTransactionListener;
+import hunt.logging;
+import hunt.Exceptions;
 
-import com.fasterxml.jackson.databind.JsonNode;
 
-class DefaultJobManager implements JobManager {
+//import com.fasterxml.jackson.databind.JsonNode;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultJobManager.class);
+class DefaultJobManager : JobManager {
 
-    public static final string CYCLE_TYPE = "cycle";
+    public static  string CYCLE_TYPE = "cycle";
 
     protected JobServiceConfiguration jobServiceConfiguration;
 
-    public DefaultJobManager() {
+    this() {
     }
 
-    public DefaultJobManager(JobServiceConfiguration jobServiceConfiguration) {
+    this(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
     }
 
-    @Override
+
     public void createAsyncJob(JobEntity jobEntity, bool exclusive) {
         // When the async executor is activated, the job is directly passed on to the async executor thread
         if (isAsyncExecutorActive()) {
@@ -86,7 +90,7 @@ class DefaultJobManager implements JobManager {
         }
     }
 
-    @Override
+
     public void scheduleAsyncJob(JobEntity jobEntity) {
         callJobProcessors(JobProcessorContext.Phase.BEFORE_CREATE, jobEntity);
         jobServiceConfiguration.getJobEntityManager().insert(jobEntity);
@@ -100,7 +104,7 @@ class DefaultJobManager implements JobManager {
         }
     }
 
-    @Override
+
     public void scheduleTimerJob(TimerJobEntity timerJob) {
         scheduleTimer(timerJob);
         sendTimerScheduledEvent(timerJob);
@@ -122,7 +126,7 @@ class DefaultJobManager implements JobManager {
         }
     }
 
-    @Override
+
     public JobEntity moveTimerJobToExecutableJob(TimerJobEntity timerJob) {
         if (timerJob is null) {
             throw new FlowableException("Empty timer job can not be scheduled");
@@ -131,22 +135,24 @@ class DefaultJobManager implements JobManager {
         JobEntity executableJob = createExecutableJobFromOtherJob(timerJob);
         bool insertSuccessful = jobServiceConfiguration.getJobEntityManager().insertJobEntity(executableJob);
         if (insertSuccessful) {
-            jobServiceConfiguration.getTimerJobEntityManager().delete(timerJob);
+            jobServiceConfiguration.getTimerJobEntityManager().dele(timerJob);
             triggerExecutorIfNeeded(executableJob);
             return executableJob;
         }
         return null;
     }
 
-    @Override
+
     public TimerJobEntity moveJobToTimerJob(AbstractRuntimeJobEntity job) {
         TimerJobEntity timerJob = createTimerJobFromOtherJob(job);
         bool insertSuccessful = jobServiceConfiguration.getTimerJobEntityManager().insertTimerJobEntity(timerJob);
         if (insertSuccessful) {
-            if (job instanceof JobEntity) {
-                jobServiceConfiguration.getJobEntityManager().delete((JobEntity) job);
-            } else if (job instanceof SuspendedJobEntity) {
-                jobServiceConfiguration.getSuspendedJobEntityManager().delete((SuspendedJobEntity) job);
+            JobEntity jb  = cast(JobEntity)job;
+            SuspendedJobEntity sj = cast(SuspendedJobEntity)job;
+            if (jb !is null) {
+                jobServiceConfiguration.getJobEntityManager().dele(jb);
+            } else if (sj !is null) {
+                jobServiceConfiguration.getSuspendedJobEntityManager().dele(sj);
             }
 
             return timerJob;
@@ -154,53 +160,56 @@ class DefaultJobManager implements JobManager {
         return null;
     }
 
-    @Override
+
     public SuspendedJobEntity moveJobToSuspendedJob(AbstractRuntimeJobEntity job) {
         SuspendedJobEntity suspendedJob = createSuspendedJobFromOtherJob(job);
         jobServiceConfiguration.getSuspendedJobEntityManager().insert(suspendedJob);
-        if (job instanceof TimerJobEntity) {
-            jobServiceConfiguration.getTimerJobEntityManager().delete((TimerJobEntity) job);
-
-        } else if (job instanceof JobEntity) {
-            jobServiceConfiguration.getJobEntityManager().delete((JobEntity) job);
+        TimerJobEntity tj = cast(TimerJobEntity)job;
+        JobEntity jb = cast(JobEntity)job;
+        if (tj !is null) {
+            jobServiceConfiguration.getTimerJobEntityManager().dele(tj);
+        } else if (jb !is null) {
+            jobServiceConfiguration.getJobEntityManager().dele(jb);
         }
 
         return suspendedJob;
     }
 
-    @Override
+
     public AbstractRuntimeJobEntity activateSuspendedJob(SuspendedJobEntity job) {
         AbstractRuntimeJobEntity activatedJob = null;
-        if (Job.JOB_TYPE_TIMER.equals(job.getJobType())) {
+        if (Job.JOB_TYPE_TIMER == (job.getJobType())) {
             activatedJob = createTimerJobFromOtherJob(job);
-            jobServiceConfiguration.getTimerJobEntityManager().insert((TimerJobEntity) activatedJob);
+            jobServiceConfiguration.getTimerJobEntityManager().insert(cast(TimerJobEntity) activatedJob);
 
         } else {
             activatedJob = createExecutableJobFromOtherJob(job);
-            JobEntity jobEntity = (JobEntity) activatedJob;
+            JobEntity jobEntity = cast(JobEntity) activatedJob;
             jobServiceConfiguration.getJobEntityManager().insert(jobEntity);
             triggerExecutorIfNeeded(jobEntity);
         }
 
-        jobServiceConfiguration.getSuspendedJobEntityManager().delete(job);
+        jobServiceConfiguration.getSuspendedJobEntityManager().dele(job);
         return activatedJob;
     }
 
-    @Override
+
     public DeadLetterJobEntity moveJobToDeadLetterJob(AbstractRuntimeJobEntity job) {
         DeadLetterJobEntity deadLetterJob = createDeadLetterJobFromOtherJob(job);
         jobServiceConfiguration.getDeadLetterJobEntityManager().insert(deadLetterJob);
-        if (job instanceof TimerJobEntity) {
-            jobServiceConfiguration.getTimerJobEntityManager().delete((TimerJobEntity) job);
+        TimerJobEntity tj = cast(TimerJobEntity)job;
+        JobEntity jb = cast(JobEntity)job;
+        if (tj !is null) {
+            jobServiceConfiguration.getTimerJobEntityManager().dele(tj);
 
-        } else if (job instanceof JobEntity) {
-            jobServiceConfiguration.getJobEntityManager().delete((JobEntity) job);
+        } else if (jb !is null) {
+            jobServiceConfiguration.getJobEntityManager().dele(jb);
         }
 
         return deadLetterJob;
     }
 
-    @Override
+
     public JobEntity moveDeadLetterJobToExecutableJob(DeadLetterJobEntity deadLetterJobEntity, int retries) {
         if (deadLetterJobEntity is null) {
             throw new FlowableIllegalArgumentException("Null job provided");
@@ -210,24 +219,26 @@ class DefaultJobManager implements JobManager {
         executableJob.setRetries(retries);
         bool insertSuccessful = jobServiceConfiguration.getJobEntityManager().insertJobEntity(executableJob);
         if (insertSuccessful) {
-            jobServiceConfiguration.getDeadLetterJobEntityManager().delete(deadLetterJobEntity);
+            jobServiceConfiguration.getDeadLetterJobEntityManager().dele(deadLetterJobEntity);
             triggerExecutorIfNeeded(executableJob);
             return executableJob;
         }
         return null;
     }
 
-    @Override
+
     public void execute(JobInfo job) {
-        if (job instanceof HistoryJobEntity) {
-            callHistoryJobProcessors(HistoryJobProcessorContext.Phase.BEFORE_EXECUTE, (HistoryJobEntity) job);
-            executeHistoryJob((HistoryJobEntity) job);
-        } else if (job instanceof JobEntity) {
-            callJobProcessors(JobProcessorContext.Phase.BEFORE_EXECUTE, (JobEntity) job);
-            if (Job.JOB_TYPE_MESSAGE.equals(((Job) job).getJobType())) {
-                executeMessageJob((JobEntity) job);
-            } else if (Job.JOB_TYPE_TIMER.equals(((Job) job).getJobType())) {
-                executeTimerJob((JobEntity) job);
+        HistoryJobEntity hj = cast(HistoryJobEntity)job;
+        JobEntity jb = cast(JobEntity)job;
+        if (hj !is null) {
+            callHistoryJobProcessors(HistoryJobProcessorContext.Phase.BEFORE_EXECUTE, hj);
+            executeHistoryJob(hj);
+        } else if (jb !is null) {
+            callJobProcessors(JobProcessorContext.Phase.BEFORE_EXECUTE, jb);
+            if (Job.JOB_TYPE_MESSAGE == ((cast(Job) job).getJobType())) {
+                executeMessageJob(jb);
+            } else if (Job.JOB_TYPE_TIMER == ((cast(Job) job).getJobType())) {
+                executeTimerJob(jb);
             }
 
         } else {
@@ -235,12 +246,12 @@ class DefaultJobManager implements JobManager {
         }
     }
 
-    @Override
+
     public void unacquire(JobInfo job) {
+        HistoryJob hj = cast (HistoryJob)job;
+        if (hj !is null) {
 
-        if (job instanceof HistoryJob) {
-
-            HistoryJobEntity jobEntity = (HistoryJobEntity) job;
+            HistoryJobEntity jobEntity = cast(HistoryJobEntity) job;
 
             HistoryJobEntity newJobEntity = jobServiceConfiguration.getHistoryJobEntityManager().create();
             copyHistoryJobInfo(newJobEntity, jobEntity);
@@ -250,13 +261,13 @@ class DefaultJobManager implements JobManager {
             jobServiceConfiguration.getHistoryJobEntityManager().insert(newJobEntity);
             jobServiceConfiguration.getHistoryJobEntityManager().deleteNoCascade(jobEntity);
 
-        } else if (job instanceof JobEntity) {
+        } else if ( cast(JobEntity)job !is null) {
 
             // Deleting the old job and inserting it again with another id,
             // will avoid that the job is immediately is picked up again (for example
             // when doing lots of exclusive jobs for the same process instance)
 
-            JobEntity jobEntity = (JobEntity) job;
+            JobEntity jobEntity = cast(JobEntity) job;
 
             JobEntity newJobEntity = jobServiceConfiguration.getJobEntityManager().create();
             copyJobInfo(newJobEntity, jobEntity);
@@ -264,7 +275,7 @@ class DefaultJobManager implements JobManager {
             newJobEntity.setLockExpirationTime(null);
             newJobEntity.setLockOwner(null);
             jobServiceConfiguration.getJobEntityManager().insert(newJobEntity);
-            jobServiceConfiguration.getJobEntityManager().delete(jobEntity.getId());
+            jobServiceConfiguration.getJobEntityManager().dele(jobEntity.getId());
 
             // We're not calling triggerExecutorIfNeeded here after the insert. The unacquire happened
             // for a reason (eg queue full or exclusive lock failure). No need to try it immediately again,
@@ -281,10 +292,10 @@ class DefaultJobManager implements JobManager {
 
     }
 
-    @Override
+
     public void unacquireWithDecrementRetries(JobInfo job) {
-        if (job instanceof HistoryJob) {
-            HistoryJobEntity historyJobEntity = (HistoryJobEntity) job;
+        if ( cast(HistoryJob)job !is null ) {
+            HistoryJobEntity historyJobEntity = cast(HistoryJobEntity) job;
 
             if (historyJobEntity.getRetries() > 0) {
                 HistoryJobEntity newHistoryJobEntity = jobServiceConfiguration.getHistoryJobEntityManager().create();
@@ -299,11 +310,11 @@ class DefaultJobManager implements JobManager {
                 jobServiceConfiguration.getHistoryJobEntityManager().deleteNoCascade(historyJobEntity);
 
             } else {
-                jobServiceConfiguration.getHistoryJobEntityManager().delete(historyJobEntity);
+                jobServiceConfiguration.getHistoryJobEntityManager().dele(historyJobEntity);
             }
 
         } else {
-            JobEntity jobEntity = (JobEntity) job;
+            JobEntity jobEntity = cast(JobEntity) job;
 
             JobEntity newJobEntity = jobServiceConfiguration.getJobEntityManager().create();
             copyJobInfo(newJobEntity, jobEntity);
@@ -320,7 +331,7 @@ class DefaultJobManager implements JobManager {
                 jobServiceConfiguration.getDeadLetterJobEntityManager().insert(deadLetterJob);
             }
 
-            jobServiceConfiguration.getJobEntityManager().delete(jobEntity.getId());
+            jobServiceConfiguration.getJobEntityManager().dele(jobEntity.getId());
 
             // We're not calling triggerExecutorIfNeeded here after the insert. The unacquire happened
             // for a reason (eg queue full or exclusive lock failure). No need to try it immediately again,
@@ -332,14 +343,14 @@ class DefaultJobManager implements JobManager {
     protected void executeMessageJob(JobEntity jobEntity) {
         executeJobHandler(jobEntity);
         if (jobEntity.getId() !is null) {
-            CommandContextUtil.getJobEntityManager().delete(jobEntity);
+            CommandContextUtil.getJobEntityManager().dele(jobEntity);
         }
     }
 
     protected void executeHistoryJob(HistoryJobEntity historyJobEntity) {
         executeHistoryJobHandler(historyJobEntity);
         if (historyJobEntity.getId() !is null) {
-            CommandContextUtil.getHistoryJobEntityManager().delete(historyJobEntity);
+            CommandContextUtil.getHistoryJobEntityManager().dele(historyJobEntity);
         }
     }
 
@@ -360,19 +371,21 @@ class DefaultJobManager implements JobManager {
         }
 
         if (timerEntity.getDuedate() !is null && !isValidTime(timerEntity, timerEntity.getDuedate(), variableScope)) {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Timer {} fired. but the dueDate is after the endDate.  Deleting timer.", timerEntity.getId());
-            }
-            jobServiceConfiguration.getJobEntityManager().delete(timerEntity);
+            logInfo("Timer {%s} fired. but the dueDate is after the endDate.  Deleting timer.", timerEntity.getId());
+            //if (LOGGER.isDebugEnabled()) {
+            //    LOGGER.debug("Timer {} fired. but the dueDate is after the endDate.  Deleting timer.", timerEntity.getId());
+            //}
+            jobServiceConfiguration.getJobEntityManager().dele(timerEntity);
             return;
         }
 
         executeJobHandler(timerEntity);
-        jobServiceConfiguration.getJobEntityManager().delete(timerEntity);
+        jobServiceConfiguration.getJobEntityManager().dele(timerEntity);
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Timer {} fired. Deleting timer.", timerEntity.getId());
-        }
+        logInfo("Timer {%s} fired. Deleting timer.",timerEntity.getId());
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Timer {} fired. Deleting timer.", timerEntity.getId());
+        //}
 
         if (timerEntity.getRepeat() !is null) {
             TimerJobEntity newTimerJobEntity = timerJobEntityManager.createAndCalculateNextTimer(timerEntity, variableScope);
@@ -396,7 +409,7 @@ class DefaultJobManager implements JobManager {
             variableScope = NoExecutionVariableScope.getSharedInstance();
         }
 
-        Map<string, JobHandler> jobHandlers = jobServiceConfiguration.getJobHandlers();
+        Map!(string, JobHandler) jobHandlers = jobServiceConfiguration.getJobHandlers();
         if (jobEntity.getJobHandlerType() !is null) {
 
             if (jobHandlers !is null) {
@@ -404,46 +417,47 @@ class DefaultJobManager implements JobManager {
                 if (jobHandler !is null) {
                     jobHandler.execute(jobEntity, jobEntity.getJobHandlerConfiguration(), variableScope, getCommandContext());
                 } else {
-                    throw new FlowableException("No job handler registered for type " + jobEntity.getJobHandlerType() +
-                                    " in job config for engine: " + jobServiceConfiguration.getEngineName());
+                    throw new FlowableException("No job handler registered for type " ~ jobEntity.getJobHandlerType() ~
+                                    " in job config for engine: " ~ jobServiceConfiguration.getEngineName());
                 }
 
             } else {
-                throw new FlowableException("No job handler registered for type " + jobEntity.getJobHandlerType() +
-                                " in job config for engine: " + jobServiceConfiguration.getEngineName());
+                throw new FlowableException("No job handler registered for type " ~ jobEntity.getJobHandlerType() ~
+                                " in job config for engine: " ~ jobServiceConfiguration.getEngineName());
             }
 
         } else {
-            throw new FlowableException("Job has no job handler type in job config for engine: " + jobServiceConfiguration.getEngineName());
+            throw new FlowableException("Job has no job handler type in job config for engine: " ~ jobServiceConfiguration.getEngineName());
         }
     }
 
     protected void executeHistoryJobHandler(HistoryJobEntity historyJobEntity) {
-        Map<string, HistoryJobHandler> jobHandlers = jobServiceConfiguration.getHistoryJobHandlers();
+        Map!(string, HistoryJobHandler) jobHandlers = jobServiceConfiguration.getHistoryJobHandlers();
         if (historyJobEntity.getJobHandlerType() !is null) {
             if (jobHandlers !is null) {
                 HistoryJobHandler jobHandler = jobHandlers.get(historyJobEntity.getJobHandlerType());
                 if (jobHandler !is null) {
                     jobHandler.execute(historyJobEntity, historyJobEntity.getJobHandlerConfiguration(), getCommandContext());
                 } else {
-                    throw new FlowableException("No history job handler registered for type " + historyJobEntity.getJobHandlerType() +
-                                    " in job config for engine: " + jobServiceConfiguration.getEngineName());
+                    throw new FlowableException("No history job handler registered for type " ~ historyJobEntity.getJobHandlerType() ~
+                                    " in job config for engine: " ~ jobServiceConfiguration.getEngineName());
                 }
 
             } else {
-                throw new FlowableException("No history job handler registered for type " + historyJobEntity.getJobHandlerType() +
-                                " in job config for engine: " + jobServiceConfiguration.getEngineName());
+                throw new FlowableException("No history job handler registered for type " ~ historyJobEntity.getJobHandlerType() ~
+                                " in job config for engine: " ~ jobServiceConfiguration.getEngineName());
             }
 
         } else {
-            throw new FlowableException("Async history job has no job handler type in job config for engine: " + jobServiceConfiguration.getEngineName());
+            throw new FlowableException("Async history job has no job handler type in job config for engine: " ~ jobServiceConfiguration.getEngineName());
         }
     }
 
     protected bool isValidTime(JobEntity timerEntity, Date newTimerDate, VariableScope variableScope) {
-        BusinessCalendar businessCalendar = jobServiceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
-                getBusinessCalendarName(timerEntity, variableScope));
-        return businessCalendar.validateDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations(), timerEntity.getEndDate(), newTimerDate);
+        implementationMissing(false);
+        //BusinessCalendar businessCalendar = jobServiceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
+        //        getBusinessCalendarName(timerEntity, variableScope));
+        //return businessCalendar.validateDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations(), timerEntity.getEndDate(), newTimerDate);
     }
 
     protected void hintAsyncExecutor(JobEntity job) {
@@ -468,35 +482,39 @@ class DefaultJobManager implements JobManager {
         }
     }
 
-    @Override
+
     public string getBusinessCalendarName(JobEntity timerEntity, VariableScope variableScope) {
-        string calendarValue = null;
-        if (StringUtils.isNotEmpty(timerEntity.getJobHandlerConfiguration())) {
-            try {
-                JsonNode jobConfigNode = jobServiceConfiguration.getObjectMapper().readTree(timerEntity.getJobHandlerConfiguration());
-                JsonNode calendarNameNode = jobConfigNode.get("calendarName");
-                if (calendarNameNode !is null && !calendarNameNode.isNull()) {
-                    calendarValue = calendarNameNode.asText();
-                }
-
-            } catch (Exception e) {
-                // ignore JSON exception
-            }
-        }
-
-        return getBusinessCalendarName(calendarValue, variableScope);
+        implementationMissing(false);
+        return null;
+        //string calendarValue = null;
+        //if (timerEntity.getJobHandlerConfiguration() !is null && timerEntity.getJobHandlerConfiguration().length != 0) {
+        //    try {
+        //        JsonNode jobConfigNode = jobServiceConfiguration.getObjectMapper().readTree(timerEntity.getJobHandlerConfiguration());
+        //        JsonNode calendarNameNode = jobConfigNode.get("calendarName");
+        //        if (calendarNameNode !is null && !calendarNameNode.isNull()) {
+        //            calendarValue = calendarNameNode.asText();
+        //        }
+        //
+        //    } catch (Exception e) {
+        //        // ignore JSON exception
+        //    }
+        //}
+        //
+        //return getBusinessCalendarName(calendarValue, variableScope);
     }
 
     protected string getBusinessCalendarName(string calendarName, VariableScope variableScope) {
-        string businessCalendarName = CYCLE_TYPE;
-        if (StringUtils.isNotEmpty(calendarName)) {
-            businessCalendarName = (string) CommandContextUtil.getJobServiceConfiguration().getExpressionManager()
-                    .createExpression(calendarName).getValue(variableScope);
-        }
-        return businessCalendarName;
+        implementationMissing(false);
+        return null;
+        //string businessCalendarName = CYCLE_TYPE;
+        //if (StringUtils.isNotEmpty(calendarName)) {
+        //    businessCalendarName = (string) CommandContextUtil.getJobServiceConfiguration().getExpressionManager()
+        //            .createExpression(calendarName).getValue(variableScope);
+        //}
+        //return businessCalendarName;
     }
 
-    @Override
+
     public HistoryJobEntity scheduleHistoryJob(HistoryJobEntity historyJobEntity) {
         callHistoryJobProcessors(HistoryJobProcessorContext.Phase.BEFORE_CREATE, historyJobEntity);
         jobServiceConfiguration.getHistoryJobEntityManager().insert(historyJobEntity);
@@ -519,7 +537,7 @@ class DefaultJobManager implements JobManager {
 
     protected void createAsyncHistoryHintListeners(HistoryJobEntity historyJobEntity) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
-        AsyncHistorySession asyncHistorySession = commandContext.getSession(AsyncHistorySession.class);
+        AsyncHistorySession asyncHistorySession = commandContext.getSession(typeid(AsyncHistorySession));
         if (asyncHistorySession !is null) {
             TransactionContext transactionContext = asyncHistorySession.getTransactionContext();
             if (transactionContext !is null) {
@@ -552,7 +570,7 @@ class DefaultJobManager implements JobManager {
         jobEntity.setExclusive(exclusive);
     }
 
-    @Override
+
     public JobEntity createExecutableJobFromOtherJob(AbstractRuntimeJobEntity job) {
         JobEntity executableJob = jobServiceConfiguration.getJobEntityManager().create();
         copyJobInfo(executableJob, job);
@@ -568,28 +586,28 @@ class DefaultJobManager implements JobManager {
         return executableJob;
     }
 
-    @Override
+
     public TimerJobEntity createTimerJobFromOtherJob(AbstractRuntimeJobEntity otherJob) {
         TimerJobEntity timerJob = jobServiceConfiguration.getTimerJobEntityManager().create();
         copyJobInfo(timerJob, otherJob);
         return timerJob;
     }
 
-    @Override
+
     public SuspendedJobEntity createSuspendedJobFromOtherJob(AbstractRuntimeJobEntity otherJob) {
         SuspendedJobEntity suspendedJob = jobServiceConfiguration.getSuspendedJobEntityManager().create();
         copyJobInfo(suspendedJob, otherJob);
         return suspendedJob;
     }
 
-    @Override
+
     public DeadLetterJobEntity createDeadLetterJobFromOtherJob(AbstractRuntimeJobEntity otherJob) {
         DeadLetterJobEntity deadLetterJob = jobServiceConfiguration.getDeadLetterJobEntityManager().create();
         copyJobInfo(deadLetterJob, otherJob);
         return deadLetterJob;
     }
 
-    @Override
+
     public AbstractRuntimeJobEntity copyJobInfo(AbstractRuntimeJobEntity copyToJob, AbstractRuntimeJobEntity copyFromJob) {
         copyToJob.setDuedate(copyFromJob.getDuedate());
         copyToJob.setEndDate(copyFromJob.getEndDate());
@@ -650,7 +668,7 @@ class DefaultJobManager implements JobManager {
         return jobServiceConfiguration;
     }
 
-    @Override
+
     public void setJobServiceConfiguration(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
     }
@@ -682,7 +700,7 @@ class DefaultJobManager implements JobManager {
     protected void callJobProcessors(JobProcessorContext.Phase processorType, AbstractJobEntity abstractJobEntity) {
         if (jobServiceConfiguration.getJobProcessors() !is null) {
             JobProcessorContextImpl jobProcessorContext = new JobProcessorContextImpl(processorType, abstractJobEntity);
-            for (JobProcessor jobProcessor : jobServiceConfiguration.getJobProcessors()) {
+            foreach (JobProcessor jobProcessor ; jobServiceConfiguration.getJobProcessors()) {
                 jobProcessor.process(jobProcessorContext);
             }
         }
@@ -691,7 +709,7 @@ class DefaultJobManager implements JobManager {
     protected void callHistoryJobProcessors(HistoryJobProcessorContext.Phase processorType, HistoryJobEntity historyJobEntity) {
         if (jobServiceConfiguration.getHistoryJobProcessors() !is null) {
             HistoryJobProcessorContextImpl historyJobProcessorContext = new HistoryJobProcessorContextImpl(processorType, historyJobEntity);
-            for (HistoryJobProcessor historyJobProcessor : jobServiceConfiguration.getHistoryJobProcessors()) {
+            foreach (HistoryJobProcessor historyJobProcessor ; jobServiceConfiguration.getHistoryJobProcessors()) {
                 historyJobProcessor.process(historyJobProcessorContext);
             }
         }

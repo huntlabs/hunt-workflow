@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.asyncexecutor.multitenant.TenantAwareAsyncExecutor;
 
 import hunt.collection.Set;
 
@@ -22,7 +22,7 @@ import flow.job.service.impl.asyncexecutor.AsyncExecutor;
  *
  * @author Joram Barrez
  */
-interface TenantAwareAsyncExecutor extends AsyncExecutor {
+interface TenantAwareAsyncExecutor : AsyncExecutor {
 
     Set!string getTenantIds();
 

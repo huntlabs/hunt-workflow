@@ -11,8 +11,8 @@
  * limitations under the License.
  */
 
-
-import hunt.collections;
+module flow.job.service.impl.asyncexecutor.UnacquireAsyncHistoryJobExceptionHandler;
+import hunt.collection;
 import hunt.collection.Set;
 
 import flow.common.interceptor.Command;
@@ -21,18 +21,16 @@ import flow.common.interceptor.CommandContext;
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.util.CommandContextUtil;
+import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandler;
 
-class UnacquireAsyncHistoryJobExceptionHandler implements AsyncRunnableExecutionExceptionHandler {
+class UnacquireAsyncHistoryJobExceptionHandler : AsyncRunnableExecutionExceptionHandler {
 
-    @Override
-    public bool handleException(final JobServiceConfiguration jobServiceConfiguration, final JobInfo job, final Throwable exception) {
+    public bool handleException( JobServiceConfiguration jobServiceConfiguration,  JobInfo job,  Throwable exception) {
         if (job !is null && getAsyncHistoryJobHandlerTypes(jobServiceConfiguration).contains(job.getJobHandlerType())) {
-            return jobServiceConfiguration.getCommandExecutor().execute(new Command<bool>() {
-                @Override
+            return jobServiceConfiguration.getCommandExecutor().execute(new class Command!bool {
                 public bool execute(CommandContext commandContext) {
                     CommandConfig commandConfig = jobServiceConfiguration.getCommandExecutor().getDefaultConfig().transactionRequiresNew();
-                    return jobServiceConfiguration.getCommandExecutor().execute(commandConfig, new Command<bool>() {
-                        @Override
+                    return jobServiceConfiguration.getCommandExecutor().execute(commandConfig, new class Command!bool {
                         public bool execute(CommandContext commandContext2) {
                             CommandContextUtil.getJobManager(commandContext2).unacquireWithDecrementRetries(job);
                             return true;

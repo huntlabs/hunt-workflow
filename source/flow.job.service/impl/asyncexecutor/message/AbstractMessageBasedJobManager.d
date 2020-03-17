@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.job.service.impl.asyncexecutor.message.AbstractMessageBasedJobManager;
 import hunt.time.LocalDateTime;
 
 import flow.common.cfg.TransactionContext;
@@ -27,43 +27,39 @@ import flow.job.service.impl.history.async.AsyncHistorySession;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.JobInfoEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
 /**
  * Abstract class that contains the main logic to send information about an async history data job to a message queue.
  * Subclasses are responsible for implementing the actual sending logic.
  *
  * @author Joram Barrez
  */
-abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
+abstract class AbstractMessageBasedJobManager : DefaultJobManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMessageBasedJobManager.class);
 
-    public AbstractMessageBasedJobManager() {
+    this() {
         super(null);
     }
 
-    public AbstractMessageBasedJobManager(JobServiceConfiguration jobServiceConfiguration) {
+    this(JobServiceConfiguration jobServiceConfiguration) {
         super(jobServiceConfiguration);
     }
 
-    @Override
+    override
     protected void triggerExecutorIfNeeded(final JobEntity jobEntity) {
         prepareAndSendMessage(jobEntity);
     }
 
-    @Override
+    override
     protected void triggerAsyncHistoryExecutorIfNeeded(HistoryJobEntity jobEntity) {
         prepareAndSendMessage(jobEntity);
     }
 
-    @Override
+    override
     public void unacquire(JobInfo job) {
 
-        if (job instanceof JobInfoEntity) {
-            JobInfoEntity jobInfoEntity = (JobInfoEntity) job;
-
+        JobInfoEntity jobInfoEntity = cast(JobInfoEntity) job;
+        if (jobInfoEntity !is null) {
             // When unacquiring, we up the lock time again., so that it isn't cleared by the reset expired thread.
             jobInfoEntity.setLockExpirationTime(new Date(jobServiceConfiguration.getClock().getCurrentTime().getTime()
                     + jobServiceConfiguration.getAsyncExecutor().getAsyncJobLockTimeInMillis()));
@@ -72,10 +68,10 @@ abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
         prepareAndSendMessage(job);
     }
 
-    @Override
+    override
     public void unacquireWithDecrementRetries(JobInfo job) {
-        if (job instanceof HistoryJob) {
-            HistoryJobEntity historyJobEntity = (HistoryJobEntity) job;
+        HistoryJobEntity historyJobEntity = cast(HistoryJobEntity) job;
+        if (historyJobEntity !is null) {
             if (historyJobEntity.getRetries() > 0) {
                 historyJobEntity.setRetries(historyJobEntity.getRetries() - 1);
                 unacquire(historyJobEntity);
@@ -87,7 +83,7 @@ abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
         }
     }
 
-    protected void prepareAndSendMessage(final JobInfo job) {
+    protected void prepareAndSendMessage( JobInfo job) {
 
         // If it's an async job, the transaction context is still active
         // If it's an async history job, the transaction context might be gone (due to the command context
@@ -95,23 +91,23 @@ abstract class AbstractMessageBasedJobManager extends DefaultJobManager {
 
         TransactionContext transactionContext = Context.getTransactionContext();
         if (transactionContext is null) {
-            if (job instanceof HistoryJobEntity) {
+            if ( cast(HistoryJobEntity)job !is null) {
                 CommandContext commandContext = Context.getCommandContext();
-                AsyncHistorySession asyncHistorySession = commandContext.getSession(AsyncHistorySession.class);
+                AsyncHistorySession asyncHistorySession = commandContext.getSession(typeid(AsyncHistorySession));
                 transactionContext = asyncHistorySession.getTransactionContext();
             }
         }
 
         if (transactionContext !is null) {
-            transactionContext.addTransactionListener(TransactionState.COMMITTED, new TransactionListener() {
-                @Override
+            transactionContext.addTransactionListener(TransactionState.COMMITTED, new class TransactionListener {
                 public void execute(CommandContext commandContext) {
                     sendMessage(job);
                 }
             });
 
         } else {
-            LOGGER.warn("Could not send message for job {}: no transaction context active nor is it a history job", job.getId());
+
+          //  LOGGER.warn("Could not send message for job {}: no transaction context active nor is it a history job", job.getId());
 
         }
 

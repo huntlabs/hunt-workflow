@@ -17,9 +17,9 @@ import hunt.collection.Map;
 
 import flow.common.persistence.entity.data.DataManager;
 import flow.task.api.history.HistoricTaskInstance;
-import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Joram Barrez

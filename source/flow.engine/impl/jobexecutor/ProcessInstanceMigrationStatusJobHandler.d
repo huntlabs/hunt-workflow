@@ -17,7 +17,7 @@ import hunt.collection.List;
 import flow.batch.service.api.Batch;
 import flow.batch.service.api.BatchPart;
 import flow.batch.service.api.BatchService;
-import org.flowable.batch.service.impl.persistence.entity.BatchEntity;
+import flow.batch.service.impl.persistence.entity.BatchEntity;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.migration.ProcessInstanceBatchMigrationResult;

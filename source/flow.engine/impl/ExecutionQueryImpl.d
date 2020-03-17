@@ -32,7 +32,7 @@ import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.Execution;
 import flow.engine.runtime.ExecutionQuery;
 import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryValue;
-import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
+import flow.variable.service.impl.AbstractVariableQueryImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;

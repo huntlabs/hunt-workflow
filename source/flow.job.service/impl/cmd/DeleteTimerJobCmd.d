@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.cmd.DeleteTimerJobCmd;
 
 import java.io.Serializable;
 
@@ -32,24 +32,21 @@ import org.slf4j.LoggerFactory;
  * @author Tijs Rademakers
  */
 
-class DeleteTimerJobCmd implements Command<Object>, Serializable {
+class DeleteTimerJobCmd : Command!Object {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteTimerJobCmd.class);
-    private static final long serialVersionUID = 1L;
 
     protected string timerJobId;
 
-    public DeleteTimerJobCmd(string timerJobId) {
+    this(string timerJobId) {
         this.timerJobId = timerJobId;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
         TimerJobEntity jobToDelete = getJobToDelete(commandContext);
 
         sendCancelEvent(commandContext, jobToDelete);
 
-        CommandContextUtil.getTimerJobEntityManager(commandContext).delete(jobToDelete);
+        CommandContextUtil.getTimerJobEntityManager(commandContext).dele(jobToDelete);
         return null;
     }
 
@@ -65,13 +62,13 @@ class DeleteTimerJobCmd implements Command<Object>, Serializable {
         if (timerJobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Deleting job {}", timerJobId);
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Deleting job {}", timerJobId);
+        //}
 
         TimerJobEntity job = CommandContextUtil.getTimerJobEntityManager(commandContext).findById(timerJobId);
         if (job is null) {
-            throw new FlowableObjectNotFoundException("No timer job found with id '" + timerJobId + "'", Job.class);
+            throw new FlowableObjectNotFoundException("No timer job found with id '" ~ timerJobId ~ "'");
         }
 
         // We need to check if the job was locked, ie acquired by the job acquisition thread

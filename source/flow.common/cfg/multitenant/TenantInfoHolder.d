@@ -18,8 +18,7 @@
 
 module flow.common.cfg.multitenant.TenantInfoHolder;
 
-
-
+import hunt.collection;
 
 
 /**
@@ -31,26 +30,26 @@ module flow.common.cfg.multitenant.TenantInfoHolder;
  *
  * @author Joram Barrez
  */
-//interface TenantInfoHolder {
-//
-//    /**
-//     * Returns all known tenant identifiers.
-//     */
-//    Collection!string getAllTenants();
-//
-//    /**
-//     * Sets the current tenant identifier.
-//     */
-//    void setCurrentTenantId(string tenantid);
-//
-//    /**
-//     * Returns the current tenant identifier.
-//     */
-//    string getCurrentTenantId();
-//
-//    /**
-//     * Clears the current tenant identifier settings.
-//     */
-//    void clearCurrentTenantId();
-//
-//}
+interface TenantInfoHolder {
+
+    /**
+     * Returns all known tenant identifiers.
+     */
+    Collection!string getAllTenants();
+
+    /**
+     * Sets the current tenant identifier.
+     */
+    void setCurrentTenantId(string tenantid);
+
+    /**
+     * Returns the current tenant identifier.
+     */
+    string getCurrentTenantId();
+
+    /**
+     * Clears the current tenant identifier settings.
+     */
+    void clearCurrentTenantId();
+
+}

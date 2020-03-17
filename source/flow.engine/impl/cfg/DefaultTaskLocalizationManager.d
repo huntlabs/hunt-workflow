@@ -18,8 +18,8 @@ import flow.engine.impl.context.BpmnOverrideContext;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskInstance;
-import org.flowable.task.service.InternalTaskLocalizationManager;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.InternalTaskLocalizationManager;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;

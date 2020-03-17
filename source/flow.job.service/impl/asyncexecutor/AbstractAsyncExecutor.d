@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.asyncexecutor.AbstractAsyncExecutor;
 
-
-import java.util.LinkedList;
-import java.util.UUID;
+import hunt.collection.LinkedList;
+import std.uuid;
 
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
@@ -21,24 +21,26 @@ import flow.job.service.impl.cmd.UnacquireOwnedJobsCmd;
 import flow.job.service.impl.persistence.entity.JobInfoEntity;
 import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
+import flow.job.service.impl.asyncexecutor.AcquireTimerJobsRunnable;
+import flow.job.service.impl.asyncexecutor.AcquireAsyncJobsDueRunnable;
+import flow.job.service.impl.asyncexecutor.ResetExpiredJobsRunnable;
+import flow.job.service.impl.asyncexecutor.ExecuteAsyncRunnableFactory;
+import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandler;
+import hunt.util.Common;
 
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  * @author Marcus Klimstra
  */
-abstract class AbstractAsyncExecutor implements AsyncExecutor {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAsyncExecutor.class);
-
+abstract class AbstractAsyncExecutor : AsyncExecutor {
     private string tenantId;
 
     protected bool timerRunnableNeeded = true; // default true for backwards compatibility (History Async executor came later)
     protected AcquireTimerJobsRunnable timerJobRunnable;
     protected string acquireRunnableThreadName;
-    protected JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager;
+    protected JobInfoEntityManager!JobInfoEntity jobEntityManager;
     protected AcquireAsyncJobsDueRunnable asyncJobsDueRunnable;
     protected string resetExpiredRunnableName;
     protected ResetExpiredJobsRunnable resetExpiredJobsRunnable;
@@ -57,7 +59,7 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
     protected int defaultAsyncJobAcquireWaitTimeInMillis = 10 * 1000;
     protected int defaultQueueSizeFullWaitTime;
 
-    protected string lockOwner = UUID.randomUUID().toString();
+    protected string lockOwner  ;//= UUID.randomUUID().toString();
     protected int timerLockTimeInMillis = 5 * 60 * 1000;
     protected int asyncJobLockTimeInMillis = 5 * 60 * 1000;
     protected int retryWaitTimeInMillis = 500;
@@ -67,11 +69,17 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
 
     // Job queue used when async executor is not yet started and jobs are already added.
     // This is mainly used for testing purpose.
-    protected LinkedList<JobInfo> temporaryJobQueue = new LinkedList<>();
+    protected LinkedList!JobInfo temporaryJobQueue ;//= new LinkedList<>();
 
     protected JobServiceConfiguration jobServiceConfiguration;
 
-    @Override
+    this()
+    {
+      temporaryJobQueue = new LinkedList!JobInfo;
+      lockOwner = randomUUID().toString();
+    }
+
+
     public bool executeAsyncJob(final JobInfo job) {
         if (isMessageQueueMode) {
             // When running with a message queue based job executor,
@@ -105,7 +113,7 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
     }
 
     /** Starts the async executor */
-    @Override
+
     public void start() {
         if (isActive) {
             return;
@@ -113,7 +121,7 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
 
         isActive = true;
 
-        LOGGER.info("Starting up the async job executor [{}].", getClass().getName());
+       // LOGGER.info("Starting up the async job executor [{}].", getClass().getName());
 
         initializeJobEntityManager();
         initializeRunnables();
@@ -132,18 +140,18 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
             timerJobRunnable = new AcquireTimerJobsRunnable(this, jobServiceConfiguration.getJobManager());
         }
 
-        JobInfoEntityManager<? extends JobInfoEntity> jobEntityManagerToUse = jobEntityManager !is null
+        JobInfoEntityManager!JobInfoEntity jobEntityManagerToUse = jobEntityManager !is null
                 ? jobEntityManager : CommandContextUtil.getJobServiceConfiguration().getJobEntityManager();
 
         if (resetExpiredJobsRunnable is null) {
             string resetRunnableName = resetExpiredRunnableName !is null ?
-                    resetExpiredRunnableName : "flowable-" + getJobServiceConfiguration().getEngineName() + "-reset-expired-jobs";
+                    resetExpiredRunnableName : "flowable-" ~ getJobServiceConfiguration().getEngineName() ~ "-reset-expired-jobs";
             resetExpiredJobsRunnable = new ResetExpiredJobsRunnable(resetRunnableName, this, jobEntityManagerToUse);
         }
 
         if (!isMessageQueueMode && asyncJobsDueRunnable is null) {
             string acquireJobsRunnableName = acquireRunnableThreadName !is null ?
-                    acquireRunnableThreadName : "flowable-" + getJobServiceConfiguration().getEngineName() + "-acquire-async-jobs";
+                    acquireRunnableThreadName : "flowable-" ~ getJobServiceConfiguration().getEngineName() ~ "-acquire-async-jobs";
             asyncJobsDueRunnable = new AcquireAsyncJobsDueRunnable(acquireJobsRunnableName, this, jobEntityManagerToUse);
         }
     }
@@ -158,12 +166,12 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
     }
 
     /** Shuts down the whole job executor */
-    @Override
+
     public synchronized void shutdown() {
         if (!isActive) {
             return;
         }
-        LOGGER.info("Shutting down the async job executor [{}].", getClass().getName());
+       // LOGGER.info("Shutting down the async job executor [{}].", getClass().getName());
 
         stopRunnables();
         shutdownAdditionalComponents();
@@ -191,27 +199,27 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
 
     /* getters and setters */
 
-    @Override
+
     public JobServiceConfiguration getJobServiceConfiguration() {
         return jobServiceConfiguration;
     }
 
-    @Override
+
     public void setJobServiceConfiguration(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
     }
 
-    @Override
+
     public bool isAutoActivate() {
         return isAutoActivate;
     }
 
-    @Override
+
     public void setAutoActivate(bool isAutoActivate) {
         this.isAutoActivate = isAutoActivate;
     }
 
-    @Override
+
     public bool isActive() {
         return isActive;
     }
@@ -224,7 +232,7 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
         this.isMessageQueueMode = isMessageQueueMode;
     }
 
-    @Override
+
     public string getLockOwner() {
         return lockOwner;
     }
@@ -233,62 +241,62 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
         this.lockOwner = lockOwner;
     }
 
-    @Override
+
     public int getTimerLockTimeInMillis() {
         return timerLockTimeInMillis;
     }
 
-    @Override
+
     public void setTimerLockTimeInMillis(int timerLockTimeInMillis) {
         this.timerLockTimeInMillis = timerLockTimeInMillis;
     }
 
-    @Override
+
     public int getAsyncJobLockTimeInMillis() {
         return asyncJobLockTimeInMillis;
     }
 
-    @Override
+
     public void setAsyncJobLockTimeInMillis(int asyncJobLockTimeInMillis) {
         this.asyncJobLockTimeInMillis = asyncJobLockTimeInMillis;
     }
 
-    @Override
+
     public int getMaxTimerJobsPerAcquisition() {
         return maxTimerJobsPerAcquisition;
     }
 
-    @Override
+
     public void setMaxTimerJobsPerAcquisition(int maxTimerJobsPerAcquisition) {
         this.maxTimerJobsPerAcquisition = maxTimerJobsPerAcquisition;
     }
 
-    @Override
+
     public int getMaxAsyncJobsDuePerAcquisition() {
         return maxAsyncJobsDuePerAcquisition;
     }
 
-    @Override
+
     public void setMaxAsyncJobsDuePerAcquisition(int maxAsyncJobsDuePerAcquisition) {
         this.maxAsyncJobsDuePerAcquisition = maxAsyncJobsDuePerAcquisition;
     }
 
-    @Override
+
     public int getDefaultTimerJobAcquireWaitTimeInMillis() {
         return defaultTimerJobAcquireWaitTimeInMillis;
     }
 
-    @Override
+
     public void setDefaultTimerJobAcquireWaitTimeInMillis(int defaultTimerJobAcquireWaitTimeInMillis) {
         this.defaultTimerJobAcquireWaitTimeInMillis = defaultTimerJobAcquireWaitTimeInMillis;
     }
 
-    @Override
+
     public int getDefaultAsyncJobAcquireWaitTimeInMillis() {
         return defaultAsyncJobAcquireWaitTimeInMillis;
     }
 
-    @Override
+
     public void setDefaultAsyncJobAcquireWaitTimeInMillis(int defaultAsyncJobAcquireWaitTimeInMillis) {
         this.defaultAsyncJobAcquireWaitTimeInMillis = defaultAsyncJobAcquireWaitTimeInMillis;
     }
@@ -297,12 +305,12 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
         this.timerJobRunnable = timerJobRunnable;
     }
 
-    @Override
+
     public int getDefaultQueueSizeFullWaitTimeInMillis() {
         return defaultQueueSizeFullWaitTime;
     }
 
-    @Override
+
     public void setDefaultQueueSizeFullWaitTimeInMillis(int defaultQueueSizeFullWaitTime) {
         this.defaultQueueSizeFullWaitTime = defaultQueueSizeFullWaitTime;
     }
@@ -319,7 +327,7 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
         this.acquireRunnableThreadName = acquireRunnableThreadName;
     }
 
-    public void setJobEntityManager(JobInfoEntityManager<? extends JobInfoEntity> jobEntityManager) {
+    public void setJobEntityManager(JobInfoEntityManager!JobInfoEntity jobEntityManager) {
         this.jobEntityManager = jobEntityManager;
     }
 
@@ -331,32 +339,32 @@ abstract class AbstractAsyncExecutor implements AsyncExecutor {
         this.resetExpiredJobsRunnable = resetExpiredJobsRunnable;
     }
 
-    @Override
+
     public int getRetryWaitTimeInMillis() {
         return retryWaitTimeInMillis;
     }
 
-    @Override
+
     public void setRetryWaitTimeInMillis(int retryWaitTimeInMillis) {
         this.retryWaitTimeInMillis = retryWaitTimeInMillis;
     }
 
-    @Override
+
     public int getResetExpiredJobsInterval() {
         return resetExpiredJobsInterval;
     }
 
-    @Override
+
     public void setResetExpiredJobsInterval(int resetExpiredJobsInterval) {
         this.resetExpiredJobsInterval = resetExpiredJobsInterval;
     }
 
-    @Override
+
     public int getResetExpiredJobsPageSize() {
         return resetExpiredJobsPageSize;
     }
 
-    @Override
+
     public void setResetExpiredJobsPageSize(int resetExpiredJobsPageSize) {
         this.resetExpiredJobsPageSize = resetExpiredJobsPageSize;
     }

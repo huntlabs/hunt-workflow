@@ -19,7 +19,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.task.api.TaskInfo;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.impl.util.CommandContextUtil;
 
 /**
  * @author martin.grofcik

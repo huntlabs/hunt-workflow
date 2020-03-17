@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.cmd.MoveSuspendedJobToExecutableJobCmd;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -20,22 +20,18 @@ import flow.job.service.api.JobNotFoundException;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
 
-import java.io.Serializable;
 
 /**
  * @author martin.grofcik
  */
-class MoveSuspendedJobToExecutableJobCmd implements Command<Job>, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class MoveSuspendedJobToExecutableJobCmd : Command!Job {
 
     protected string jobId;
 
-    public MoveSuspendedJobToExecutableJobCmd(string jobId) {
+    this(string jobId) {
         this.jobId = jobId;
     }
 
-    @Override
     public Job execute(CommandContext commandContext) {
 
         if (jobId is null) {

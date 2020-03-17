@@ -95,13 +95,13 @@
 //                public FeatureDescriptor next() {
 //                    Object key = keys.next();
 //                    FeatureDescriptor feature = new FeatureDescriptor();
-//                    feature.setDisplayName(key == null ? "null" : key.toString());
+//                    feature.setDisplayName(key is null ? "null" : key.toString());
 //                    feature.setName(feature.getDisplayName());
 //                    feature.setShortDescription("");
 //                    feature.setExpert(true);
 //                    feature.setHidden(false);
 //                    feature.setPreferred(true);
-//                    feature.setValue(TYPE, key == null ? "null" : key.getClass());
+//                    feature.setValue(TYPE, key is null ? "null" : key.getClass());
 //                    feature.setValue(RESOLVABLE_AT_DESIGN_TIME, true);
 //                    return feature;
 //
@@ -135,7 +135,7 @@
 //     */
 //    @Override
 //    public Class<?> getType(ELContext context, Object base, Object property) {
-//        if (context == null) {
+//        if (context is null) {
 //            throw new NullPointerException("context is null");
 //        }
 //        Class<?> result = null;
@@ -167,13 +167,13 @@
 //     */
 //    @Override
 //    public Object getValue(ELContext context, Object base, Object property) {
-//        if (context == null) {
+//        if (context is null) {
 //            throw new NullPointerException("context is null");
 //        }
 //        Object result = null;
 //        if (isResolvable(base)) {
 //            JsonNode resultNode = getResultNode((JsonNode) base, property);
-//            if (resultNode != null && resultNode.isValueNode()) {
+//            if (resultNode !is null && resultNode.isValueNode()) {
 //                if (resultNode.isBoolean()) {
 //                    result = resultNode.asBoolean();
 //                } else if (resultNode.isShort() || resultNode.isInt()) {
@@ -228,7 +228,7 @@
 //     */
 //    @Override
 //    public boolean isReadOnly(ELContext context, Object base, Object property) {
-//        if (context == null) {
+//        if (context is null) {
 //            throw new NullPointerException("context is null");
 //        }
 //        if (isResolvable(base)) {
@@ -265,7 +265,7 @@
 //     */
 //    @Override
 //    public void setValue(ELContext context, Object base, Object property, Object value) {
-//        if (context == null) {
+//        if (context is null) {
 //            throw new NullPointerException("context is null");
 //        }
 //        if (base instanceof ObjectNode) {
@@ -285,7 +285,7 @@
 //            } else if (value instanceof Double) {
 //                node.put(property.toString(), (Double) value);
 //
-//            } else if (value != null) {
+//            } else if (value !is null) {
 //                node.put(property.toString(), value.toString());
 //
 //            } else {
@@ -300,7 +300,7 @@
 //     *
 //     * @param base
 //     *            The bean to analyze.
-//     * @return base != null
+//     * @return base !is null
 //     */
 //    private final boolean isResolvable(Object base) {
 //        return base instanceof JsonNode;

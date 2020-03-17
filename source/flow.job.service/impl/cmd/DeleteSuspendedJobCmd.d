@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.DeleteSuspendedJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -24,31 +23,25 @@ import flow.job.service.api.Job;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
 
-class DeleteSuspendedJobCmd implements Command<Object>, Serializable {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteSuspendedJobCmd.class);
-    private static final long serialVersionUID = 1L;
+class DeleteSuspendedJobCmd : Command!Object {
 
     protected string suspendedJobId;
 
-    public DeleteSuspendedJobCmd(string suspendedJobId) {
+    this(string suspendedJobId) {
         this.suspendedJobId = suspendedJobId;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
         SuspendedJobEntity jobToDelete = getJobToDelete(commandContext);
 
         sendCancelEvent(jobToDelete);
 
-        CommandContextUtil.getSuspendedJobEntityManager(commandContext).delete(jobToDelete);
+        CommandContextUtil.getSuspendedJobEntityManager(commandContext).dele(jobToDelete);
         return null;
     }
 
@@ -64,13 +57,13 @@ class DeleteSuspendedJobCmd implements Command<Object>, Serializable {
         if (suspendedJobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Deleting job {}", suspendedJobId);
-        }
-
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Deleting job {}", suspendedJobId);
+        //}
+        logInfo("Deleting job {%s}",suspendedJobId);
         SuspendedJobEntity job = CommandContextUtil.getSuspendedJobEntityManager(commandContext).findById(suspendedJobId);
         if (job is null) {
-            throw new FlowableObjectNotFoundException("No suspended job found with id '" + suspendedJobId + "'", Job.class);
+            throw new FlowableObjectNotFoundException("No suspended job found with id '" ~ suspendedJobId ~ "'");
         }
 
         return job;

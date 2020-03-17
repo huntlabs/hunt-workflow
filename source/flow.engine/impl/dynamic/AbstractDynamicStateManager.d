@@ -84,8 +84,8 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEve
 import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 import flow.job.service.TimerJobService;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
-import org.flowable.task.service.TaskService;
-import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
+import flow.task.service.TaskService;
+import flow.task.service.impl.persistence.entity.TaskEntityImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

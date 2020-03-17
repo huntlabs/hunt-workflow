@@ -22,10 +22,10 @@ import flow.engine.history.HistoricDetail;
 import flow.engine.history.HistoricDetailQuery;
 import flow.engine.impl.persistence.entity.HistoricDetailVariableInstanceUpdateEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.variable.service.impl.types.HistoricJPAEntityListVariableType;
-import org.flowable.variable.service.impl.types.HistoricJPAEntityVariableType;
-import org.flowable.variable.service.impl.types.JPAEntityListVariableType;
-import org.flowable.variable.service.impl.types.JPAEntityVariableType;
+import flow.variable.service.impl.types.HistoricJPAEntityListVariableType;
+import flow.variable.service.impl.types.HistoricJPAEntityVariableType;
+import flow.variable.service.impl.types.JPAEntityListVariableType;
+import flow.variable.service.impl.types.JPAEntityVariableType;
 
 /**
  * @author Tom Baeyens

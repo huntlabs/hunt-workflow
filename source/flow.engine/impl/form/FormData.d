@@ -16,7 +16,7 @@ import hunt.collection;
 import hunt.collection.Map;
 import hunt.collection.Set;
 
-import org.flowable.task.service.impl.persistence.entity.TaskEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
 /**
  * @author Tom Baeyens

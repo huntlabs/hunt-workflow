@@ -24,13 +24,13 @@ import flow.engine.history.ProcessInstanceHistoryLog;
 import flow.engine.history.ProcessInstanceHistoryLogQuery;
 import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.task.service.impl.HistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 import flow.variable.service.api.history.HistoricVariableInstance;
-import org.flowable.variable.service.impl.HistoricVariableInstanceQueryImpl;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
-import org.flowable.variable.service.impl.types.CacheableVariable;
-import org.flowable.variable.service.impl.types.JPAEntityListVariableType;
-import org.flowable.variable.service.impl.types.JPAEntityVariableType;
+import flow.variable.service.impl.HistoricVariableInstanceQueryImpl;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.impl.types.CacheableVariable;
+import flow.variable.service.impl.types.JPAEntityListVariableType;
+import flow.variable.service.impl.types.JPAEntityVariableType;
 
 /**
  * @author Joram Barrez

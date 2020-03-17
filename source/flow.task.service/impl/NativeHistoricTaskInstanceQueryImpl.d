@@ -19,8 +19,8 @@ import flow.common.query.AbstractNativeQuery;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.task.api.history.HistoricTaskInstance;
-import org.flowable.task.service.history.NativeHistoricTaskInstanceQuery;
-import org.flowable.task.service.impl.util.CommandContextUtil;
+import flow.task.service.history.NativeHistoricTaskInstanceQuery;
+import flow.task.service.impl.util.CommandContextUtil;
 
 class NativeHistoricTaskInstanceQueryImpl extends AbstractNativeQuery<NativeHistoricTaskInstanceQuery, HistoricTaskInstance> implements NativeHistoricTaskInstanceQuery {
 

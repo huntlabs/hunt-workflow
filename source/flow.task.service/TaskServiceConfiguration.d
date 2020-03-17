@@ -21,21 +21,21 @@ import flow.common.AbstractServiceConfiguration;
 import flow.idm.api.IdmIdentityService;
 import flow.task.api.TaskQueryInterceptor;
 import flow.task.api.history.HistoricTaskQueryInterceptor;
-import org.flowable.task.service.history.InternalHistoryTaskManager;
-import org.flowable.task.service.impl.HistoricTaskServiceImpl;
-import org.flowable.task.service.impl.TaskServiceImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManagerImpl;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
-import org.flowable.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManagerImpl;
-import org.flowable.task.service.impl.persistence.entity.TaskEntityManager;
-import org.flowable.task.service.impl.persistence.entity.TaskEntityManagerImpl;
-import org.flowable.task.service.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
-import org.flowable.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
-import org.flowable.task.service.impl.persistence.entity.data.TaskDataManager;
-import org.flowable.task.service.impl.persistence.entity.data.impl.MyBatisHistoricTaskLogEntryDataManager;
-import org.flowable.task.service.impl.persistence.entity.data.impl.MybatisHistoricTaskInstanceDataManager;
-import org.flowable.task.service.impl.persistence.entity.data.impl.MybatisTaskDataManager;
+import flow.task.service.history.InternalHistoryTaskManager;
+import flow.task.service.impl.HistoricTaskServiceImpl;
+import flow.task.service.impl.TaskServiceImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManagerImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManagerImpl;
+import flow.task.service.impl.persistence.entity.TaskEntityManager;
+import flow.task.service.impl.persistence.entity.TaskEntityManagerImpl;
+import flow.task.service.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
+import flow.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
+import flow.task.service.impl.persistence.entity.data.TaskDataManager;
+import flow.task.service.impl.persistence.entity.data.impl.MyBatisHistoricTaskLogEntryDataManager;
+import flow.task.service.impl.persistence.entity.data.impl.MybatisHistoricTaskInstanceDataManager;
+import flow.task.service.impl.persistence.entity.data.impl.MybatisTaskDataManager;
 
 class TaskServiceConfiguration extends AbstractServiceConfiguration {
 

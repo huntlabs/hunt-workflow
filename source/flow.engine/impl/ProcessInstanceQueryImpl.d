@@ -30,7 +30,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ProcessInstance;
 import flow.engine.runtime.ProcessInstanceQuery;
 import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryValue;
-import org.flowable.variable.service.impl.AbstractVariableQueryImpl;
+import flow.variable.service.impl.AbstractVariableQueryImpl;
 
 /**
  * @author Tom Baeyens

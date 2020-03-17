@@ -10,34 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.job.service.impl.asyncexecutor.JobAddedTransactionListener;
 
 import flow.common.cfg.TransactionListener;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.job.service.api.JobInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class JobAddedTransactionListener implements TransactionListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobAddedTransactionListener.class);
+class JobAddedTransactionListener : TransactionListener {
 
     protected JobInfo job;
     protected AsyncExecutor asyncExecutor;
     protected CommandExecutor commandExecutor;
 
-    public JobAddedTransactionListener(JobInfo job, AsyncExecutor asyncExecutor, CommandExecutor commandExecutor) {
+    this(JobInfo job, AsyncExecutor asyncExecutor, CommandExecutor commandExecutor) {
         this.job = job;
         this.asyncExecutor = asyncExecutor;
         this.commandExecutor = commandExecutor;
     }
 
-    @Override
     public void execute(CommandContext commandContext) {
         // No need to wrap this call in a new command context, as otherwise the
         // call to the executeAsyncJob would require a new database connection and transaction

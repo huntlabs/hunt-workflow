@@ -19,7 +19,7 @@ import hunt.collection.List;
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
 import flow.task.api.history.HistoricTaskInstance;
-import org.flowable.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 /**
  * @author Tom Baeyens

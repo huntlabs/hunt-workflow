@@ -42,12 +42,12 @@ import flow.idm.engine.impl.IdmEngineImpl;
 import flow.idm.engine.impl.IdmIdentityServiceImpl;
 import flow.idm.engine.impl.IdmManagementServiceImpl;
 import flow.idm.engine.impl.SchemaOperationsIdmEngineBuild;
-import flow.idm.engine.impl.authentication.BlankSalt;
-import flow.idm.engine.impl.authentication.ClearTextPasswordEncoder;
+//import flow.idm.engine.impl.authentication.BlankSalt;
+//import flow.idm.engine.impl.authentication.ClearTextPasswordEncoder;
 import flow.idm.engine.impl.cfg.StandaloneIdmEngineConfiguration;
 import flow.idm.engine.impl.cfg.StandaloneInMemIdmEngineConfiguration;
-import flow.idm.engine.impl.db.EntityDependencyOrder;
-import flow.idm.engine.impl.db.IdmDbSchemaManager;
+//import flow.idm.engine.impl.db.EntityDependencyOrder;
+//import flow.idm.engine.impl.db.IdmDbSchemaManager;
 import flow.idm.engine.impl.persistence.entity.ByteArrayEntityManager;
 import flow.idm.engine.impl.persistence.entity.ByteArrayEntityManagerImpl;
 import flow.idm.engine.impl.persistence.entity.GroupEntityManager;
@@ -211,18 +211,20 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
 
 
     public void initSchemaManager() {
-        super.initSchemaManager();
-        if (this.schemaManager is null) {
-            this.schemaManager = new IdmDbSchemaManager();
-        }
+        implementationMissing(false);
+        //super.initSchemaManager();
+        //if (this.schemaManager is null) {
+        //    this.schemaManager = new IdmDbSchemaManager();
+        //}
     }
 
     public void initSchemaManagementCommand() {
-        if (schemaManagementCmd is null) {
-            if (usingRelationalDatabase && databaseSchemaUpdate !is null) {
-                this.schemaManagementCmd = new SchemaOperationsIdmEngineBuild();
-            }
-        }
+        implementationMissing(false);
+        //if (schemaManagementCmd is null) {
+        //    if (usingRelationalDatabase && databaseSchemaUpdate !is null) {
+        //        this.schemaManagementCmd = new SchemaOperationsIdmEngineBuild();
+        //    }
+        //}
     }
 
     // services
@@ -286,9 +288,9 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
         if (idmPropertyEntityManager is null) {
             idmPropertyEntityManager = new PropertyEntityManagerImpl(this, idmPropertyDataManager);
         }
-        if (tableDataManager is null) {
-            tableDataManager = new TableDataManagerImpl(this);
-        }
+        //if (tableDataManager is null) {
+        //    tableDataManager = new TableDataManagerImpl(this);
+        //}
         if (tokenEntityManager is null) {
             tokenEntityManager = new TokenEntityManagerImpl(this, tokenDataManager);
         }
@@ -307,38 +309,38 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
 
 
     public void initDbSqlSessionFactory() {
-        if (dbSqlSessionFactory is null) {
-            dbSqlSessionFactory = createDbSqlSessionFactory();
-            dbSqlSessionFactory.setDatabaseType(databaseType);
-            dbSqlSessionFactory.setSqlSessionFactory(sqlSessionFactory);
-            dbSqlSessionFactory.setDatabaseTablePrefix(databaseTablePrefix);
-            dbSqlSessionFactory.setTablePrefixIsSchema(tablePrefixIsSchema);
-            dbSqlSessionFactory.setDatabaseCatalog(databaseCatalog);
-            dbSqlSessionFactory.setDatabaseSchema(databaseSchema);
-            addSessionFactory(dbSqlSessionFactory);
-        }
+        //if (dbSqlSessionFactory is null) {
+        //    dbSqlSessionFactory = createDbSqlSessionFactory();
+        //    dbSqlSessionFactory.setDatabaseType(databaseType);
+        //    dbSqlSessionFactory.setSqlSessionFactory(sqlSessionFactory);
+        //    dbSqlSessionFactory.setDatabaseTablePrefix(databaseTablePrefix);
+        //    dbSqlSessionFactory.setTablePrefixIsSchema(tablePrefixIsSchema);
+        //    dbSqlSessionFactory.setDatabaseCatalog(databaseCatalog);
+        //    dbSqlSessionFactory.setDatabaseSchema(databaseSchema);
+        //    addSessionFactory(dbSqlSessionFactory);
+        //}
         initDbSqlSessionFactoryEntitySettings();
     }
 
 
-    public DbSqlSessionFactory createDbSqlSessionFactory() {
-        return new DbSqlSessionFactory(usePrefixId);
-    }
-
-
-    protected void initDbSqlSessionFactoryEntitySettings() {
-        defaultInitDbSqlSessionFactoryEntitySettings(EntityDependencyOrder.INSERT_ORDER, EntityDependencyOrder.DELETE_ORDER);
-    }
-
-    public void initPasswordEncoder() {
-        if (passwordEncoder is null) {
-            passwordEncoder = ClearTextPasswordEncoder.getInstance();
-        }
-
-        if (passwordSalt is null) {
-            passwordSalt = BlankSalt.getInstance();
-        }
-    }
+    //public DbSqlSessionFactory createDbSqlSessionFactory() {
+    //    return new DbSqlSessionFactory(usePrefixId);
+    //}
+    //
+    //
+    //protected void initDbSqlSessionFactoryEntitySettings() {
+    //    defaultInitDbSqlSessionFactoryEntitySettings(EntityDependencyOrder.INSERT_ORDER, EntityDependencyOrder.DELETE_ORDER);
+    //}
+    //
+    //public void initPasswordEncoder() {
+    //    if (passwordEncoder is null) {
+    //        passwordEncoder = ClearTextPasswordEncoder.getInstance();
+    //    }
+    //
+    //    if (passwordSalt is null) {
+    //        passwordSalt = BlankSalt.getInstance();
+    //    }
+    //}
 
     // command executors
     // ////////////////////////////////////////////////////////
@@ -395,17 +397,17 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
         this.eventDispatcher.setEnabled(enableEventDispatcher);
 
         if (eventListeners !is null) {
-            for (FlowableEventListener listenerToAdd : eventListeners) {
+            foreach (FlowableEventListener listenerToAdd ; eventListeners) {
                 this.eventDispatcher.addEventListener(listenerToAdd);
             }
         }
 
         if (typedEventListeners !is null) {
-            for (Entry<string, List<FlowableEventListener>> listenersToAdd : typedEventListeners.entrySet()) {
+            for (MapEntry!(string, List!FlowableEventListener) listenersToAdd ; typedEventListeners) {
                 // Extract types from the given string
                 FlowableIdmEventType[] types = FlowableIdmEventType.getTypesFromString(listenersToAdd.getKey());
 
-                for (FlowableEventListener listenerToAdd : listenersToAdd.getValue()) {
+                foreach (FlowableEventListener listenerToAdd ; listenersToAdd.getValue()) {
                     this.eventDispatcher.addEventListener(listenerToAdd, types);
                 }
             }
@@ -458,7 +460,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setJdbcPingEnabled(boolean jdbcPingEnabled) {
+    public IdmEngineConfiguration setJdbcPingEnabled(bool jdbcPingEnabled) {
         this.jdbcPingEnabled = jdbcPingEnabled;
         return this;
     }
@@ -494,7 +496,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setTransactionsExternallyManaged(boolean transactionsExternallyManaged) {
+    public IdmEngineConfiguration setTransactionsExternallyManaged(bool transactionsExternallyManaged) {
         this.transactionsExternallyManaged = transactionsExternallyManaged;
         return this;
     }
@@ -512,7 +514,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setBeans(Map<Object, Object> beans) {
+    public IdmEngineConfiguration setBeans(Map!(Object, Object) beans) {
         this.beans = beans;
         return this;
     }
@@ -719,37 +721,37 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-        this.sqlSessionFactory = sqlSessionFactory;
-        return this;
-    }
+    //public IdmEngineConfiguration setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+    //    this.sqlSessionFactory = sqlSessionFactory;
+    //    return this;
+    //}
+    //
+    //
+    //public IdmEngineConfiguration setTransactionFactory(TransactionFactory transactionFactory) {
+    //    this.transactionFactory = transactionFactory;
+    //    return this;
+    //}
+    //
+    //
+    //public IdmEngineConfiguration setCustomMybatisMappers(Set<Class<?>> customMybatisMappers) {
+    //    this.customMybatisMappers = customMybatisMappers;
+    //    return this;
+    //}
 
 
-    public IdmEngineConfiguration setTransactionFactory(TransactionFactory transactionFactory) {
-        this.transactionFactory = transactionFactory;
-        return this;
-    }
-
-
-    public IdmEngineConfiguration setCustomMybatisMappers(Set<Class<?>> customMybatisMappers) {
-        this.customMybatisMappers = customMybatisMappers;
-        return this;
-    }
-
-
-    public IdmEngineConfiguration setCustomMybatisXMLMappers(Set<string> customMybatisXMLMappers) {
+    public IdmEngineConfiguration setCustomMybatisXMLMappers(Set!string customMybatisXMLMappers) {
         this.customMybatisXMLMappers = customMybatisXMLMappers;
         return this;
     }
 
 
-    public IdmEngineConfiguration setCustomSessionFactories(List<SessionFactory> customSessionFactories) {
+    public IdmEngineConfiguration setCustomSessionFactories(List!SessionFactory customSessionFactories) {
         this.customSessionFactories = customSessionFactories;
         return this;
     }
 
 
-    public IdmEngineConfiguration setUsingRelationalDatabase(boolean usingRelationalDatabase) {
+    public IdmEngineConfiguration setUsingRelationalDatabase(bool usingRelationalDatabase) {
         this.usingRelationalDatabase = usingRelationalDatabase;
         return this;
     }
@@ -779,19 +781,19 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setTablePrefixIsSchema(boolean tablePrefixIsSchema) {
+    public IdmEngineConfiguration setTablePrefixIsSchema(bool tablePrefixIsSchema) {
         this.tablePrefixIsSchema = tablePrefixIsSchema;
         return this;
     }
 
-    public PasswordEncoder getPasswordEncoder() {
-        return passwordEncoder;
-    }
-
-    public IdmEngineConfiguration setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-        return this;
-    }
+    //public PasswordEncoder getPasswordEncoder() {
+    //    return passwordEncoder;
+    //}
+    //
+    //public IdmEngineConfiguration setPasswordEncoder(PasswordEncoder passwordEncoder) {
+    //    this.passwordEncoder = passwordEncoder;
+    //    return this;
+    //}
 
     public PasswordSalt getPasswordSalt() {
         return passwordSalt;
@@ -803,7 +805,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setSessionFactories(Map<Class<?>, SessionFactory> sessionFactories) {
+    public IdmEngineConfiguration setSessionFactories(Map!(TypeInfo, SessionFactory) sessionFactories) {
         this.sessionFactories = sessionFactories;
         return this;
     }
@@ -815,7 +817,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setEnableEventDispatcher(boolean enableEventDispatcher) {
+    public IdmEngineConfiguration setEnableEventDispatcher(bool enableEventDispatcher) {
         this.enableEventDispatcher = enableEventDispatcher;
         return this;
     }
@@ -827,13 +829,13 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setEventListeners(List<FlowableEventListener> eventListeners) {
+    public IdmEngineConfiguration setEventListeners(List!FlowableEventListener eventListeners) {
         this.eventListeners = eventListeners;
         return this;
     }
 
 
-    public IdmEngineConfiguration setTypedEventListeners(Map<string, List<FlowableEventListener>> typedEventListeners) {
+    public IdmEngineConfiguration setTypedEventListeners(Map!(string, List!FlowableEventListener) typedEventListeners) {
         this.typedEventListeners = typedEventListeners;
         return this;
     }

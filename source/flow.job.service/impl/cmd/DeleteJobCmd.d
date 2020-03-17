@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.job.service.impl.cmd.DeleteJobCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -27,26 +26,21 @@ import flow.job.service.JobServiceConfiguration;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Saeid Mirzaei
  * @author Joram Barrez
  */
 
-class DeleteJobCmd implements Command<Object>, Serializable {
+class DeleteJobCmd : Command!Object {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteJobCmd.class);
-    private static final long serialVersionUID = 1L;
 
     protected string jobId;
 
-    public DeleteJobCmd(string jobId) {
+    this(string jobId) {
         this.jobId = jobId;
     }
 
-    @Override
     public Object execute(CommandContext commandContext) {
         JobEntity jobToDelete = getJobToDelete(commandContext);
 
@@ -59,7 +53,7 @@ class DeleteJobCmd implements Command<Object>, Serializable {
 
         sendCancelEvent(jobToDelete);
 
-        CommandContextUtil.getJobEntityManager(commandContext).delete(jobToDelete);
+        CommandContextUtil.getJobEntityManager(commandContext).dele(jobToDelete);
         return null;
     }
 
@@ -75,13 +69,13 @@ class DeleteJobCmd implements Command<Object>, Serializable {
         if (jobId is null) {
             throw new FlowableIllegalArgumentException("jobId is null");
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Deleting job {}", jobId);
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Deleting job {}", jobId);
+        //}
 
         JobEntity job = CommandContextUtil.getJobEntityManager(commandContext).findById(jobId);
         if (job is null) {
-            throw new FlowableObjectNotFoundException("No job found with id '" + jobId + "'", Job.class);
+            throw new FlowableObjectNotFoundException("No job found with id '" ~ jobId ~ "'");
         }
 
         // We need to check if the job was locked, ie acquired by the job acquisition thread
