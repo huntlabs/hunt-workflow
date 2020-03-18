@@ -36,7 +36,7 @@ class BooleanType : VariableType {
 
     public Object getValue(ValueFields valueFields) {
         if (valueFields.getLongValue() !is null) {
-            return valueFields.getLongValue() == 1;
+            return valueFields.getLongValue().longValue == 1 ? Boolean.TRUE(): Boolean.FALSE();
         }
         return null;
     }

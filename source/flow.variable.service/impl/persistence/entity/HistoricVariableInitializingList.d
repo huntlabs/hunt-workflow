@@ -11,52 +11,51 @@
  * limitations under the License.
  */
 
+module flow.variable.service.impl.persistence.entity.HistoricVariableInitializingList;
 
-
-import java.util.ArrayList;
+import hunt.collection.ArrayList;
 import hunt.collection;
 
 import flow.common.context.Context;
 import flow.variable.service.impl.types.CacheableVariable;
-import flow.variable.service.impl.types.JPAEntityListVariableType;
-import flow.variable.service.impl.types.JPAEntityVariableType;
-
+//import flow.variable.service.impl.types.JPAEntityListVariableType;
+//import flow.variable.service.impl.types.JPAEntityVariableType;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 /**
  * List that initialises binary variable values if command-context is active.
  *
  * @author Frederik Heremans
  */
-class HistoricVariableInitializingList extends ArrayList<HistoricVariableInstanceEntity> {
+class HistoricVariableInitializingList : ArrayList!HistoricVariableInstanceEntity {
 
-    private static final long serialVersionUID = 1L;
 
-    @Override
+    override
     public void add(int index, HistoricVariableInstanceEntity e) {
         super.add(index, e);
         initializeVariable(e);
     }
 
-    @Override
-    public boolean add(HistoricVariableInstanceEntity e) {
+    override
+    public bool add(HistoricVariableInstanceEntity e) {
         initializeVariable(e);
         return super.add(e);
     }
 
-    @Override
-    public boolean addAll(Collection<? extends HistoricVariableInstanceEntity> c) {
-        for (HistoricVariableInstanceEntity e : c) {
+    override
+    public bool addAll(Collection!HistoricVariableInstanceEntity c) {
+        foreach (HistoricVariableInstanceEntity e ; c) {
             initializeVariable(e);
         }
         return super.addAll(c);
     }
 
-    @Override
-    public boolean addAll(int index, Collection<? extends HistoricVariableInstanceEntity> c) {
-        for (HistoricVariableInstanceEntity e : c) {
-            initializeVariable(e);
-        }
-        return super.addAll(index, c);
-    }
+    //override
+    //public boolean addAll(int index, Collection<? extends HistoricVariableInstanceEntity> c) {
+    //    for (HistoricVariableInstanceEntity e : c) {
+    //        initializeVariable(e);
+    //    }
+    //    return super.addAll(index, c);
+    //}
 
     /**
      * If the passed {@link HistoricVariableInstanceEntity} is a binary variable and the command-context is active, the variable value is fetched to ensure the byte-array is populated.
@@ -66,9 +65,9 @@ class HistoricVariableInitializingList extends ArrayList<HistoricVariableInstanc
             e.getValue();
 
             // make sure JPA entities are cached for later retrieval
-            if (JPAEntityVariableType.TYPE_NAME.equals(e.getVariableType().getTypeName()) || JPAEntityListVariableType.TYPE_NAME.equals(e.getVariableType().getTypeName())) {
-                ((CacheableVariable) e.getVariableType()).setForceCacheable(true);
-            }
+            //if (JPAEntityVariableType.TYPE_NAME.equals(e.getVariableType().getTypeName()) || JPAEntityListVariableType.TYPE_NAME.equals(e.getVariableType().getTypeName())) {
+            //    ((CacheableVariable) e.getVariableType()).setForceCacheable(true);
+            //}
         }
     }
 }

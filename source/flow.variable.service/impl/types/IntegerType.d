@@ -10,31 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.types.IntegerType;
 
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
-
+import hunt.Integer;
 /**
  * @author Joram Barrez
  */
-class IntegerType implements VariableType {
+class IntegerType : VariableType {
 
-    public static final String TYPE_NAME = "integer";
+    public static  string TYPE_NAME = "integer";
 
-    private static final long serialVersionUID = 1L;
 
-    @Override
-    public String getTypeName() {
+    public string getTypeName() {
         return TYPE_NAME;
     }
 
-    @Override
-    public boolean isCachable() {
+
+    public bool isCachable() {
         return true;
     }
 
-    @Override
+
     public Object getValue(ValueFields valueFields) {
         if (valueFields.getLongValue() !is null) {
             return Integer.valueOf(valueFields.getLongValue().intValue());
@@ -42,18 +40,18 @@ class IntegerType implements VariableType {
         return null;
     }
 
-    @Override
+
     public void setValue(Object value, ValueFields valueFields) {
         if (value !is null) {
-            valueFields.setLongValue(((Integer) value).longValue());
-            valueFields.setTextValue(value.toString());
+            valueFields.setLongValue((cast(Integer) value).longValue());
+            valueFields.setTextValue((cast(Integer)value).toString());
         } else {
             valueFields.setLongValue(null);
             valueFields.setTextValue(null);
         }
     }
 
-    @Override
+
     public boolean isAbleToStore(Object value) {
         if (value is null) {
             return true;

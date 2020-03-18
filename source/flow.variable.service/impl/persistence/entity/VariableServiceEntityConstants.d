@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.persistence.entity.VariableServiceEntityConstants;
 
 class VariableServiceEntityConstants {
 
-    public static final String VARIABLE_SERVICE_ID_PREFIX = "VAR-";
+    public static  string VARIABLE_SERVICE_ID_PREFIX = "VAR-";
 
 }

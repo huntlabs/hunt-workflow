@@ -12,13 +12,14 @@
  */
 
 module flow.variable.service.impl.QueryVariableValue;
+
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.variable.service.api.types.VariableType;
 import flow.variable.service.api.types.VariableTypes;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import flow.variable.service.impl.types.ByteArrayType;
-import flow.variable.service.impl.types.JPAEntityListVariableType;
-import flow.variable.service.impl.types.JPAEntityVariableType;
+//import flow.variable.service.impl.types.JPAEntityListVariableType;
+//import flow.variable.service.impl.types.JPAEntityVariableType;
 import flow.variable.service.impl.util.CommandContextUtil;
 import flow.variable.service.impl.QueryOperator;
 /**
@@ -44,13 +45,10 @@ class QueryVariableValue  {
     public void initialize(VariableTypes types) {
         if (variableInstanceEntity is null) {
             VariableType type = types.findVariableType(value);
-            if (type instanceof ByteArrayType) {
+            if (cast(ByteArrayType)types !is null) {
                 throw new FlowableIllegalArgumentException("Variables of type ByteArray cannot be used to query");
-            } else if (type instanceof JPAEntityVariableType && operator != QueryOperator.EQUALS) {
-                throw new FlowableIllegalArgumentException("JPA entity variables can only be used in 'variableValueEquals'");
-            } else if (type instanceof JPAEntityListVariableType) {
-                throw new FlowableIllegalArgumentException("Variables containing a list of JPA entities cannot be used to query");
-            } else {
+            }
+            else {
                 // Type implementation determines which fields are set on the entity
                 variableInstanceEntity = CommandContextUtil.getVariableInstanceEntityManager().create(name, type, value);
             }

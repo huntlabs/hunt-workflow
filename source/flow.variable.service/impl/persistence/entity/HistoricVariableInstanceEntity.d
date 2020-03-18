@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 
 import hunt.time.LocalDateTime;
 
@@ -20,34 +20,35 @@ import flow.common.persistence.entity.Entity;
 import flow.variable.service.api.history.HistoricVariableInstance;
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 
 /**
  * @author Christian Lipphardt (camunda)
  * @author Joram Barrez
  */
-interface HistoricVariableInstanceEntity extends ValueFields, HistoricVariableInstance, Entity, HasRevision {
+interface HistoricVariableInstanceEntity : ValueFields, HistoricVariableInstance, Entity, HasRevision {
 
     VariableType getVariableType();
 
-    void setName(String name);
+    void setName(string name);
 
     void setVariableType(VariableType variableType);
 
-    void setProcessInstanceId(String processInstanceId);
+    void setProcessInstanceId(string processInstanceId);
 
-    void setTaskId(String taskId);
+    void setTaskId(string taskId);
 
     void setCreateTime(Date createTime);
 
     void setLastUpdatedTime(Date lastUpdatedTime);
 
-    void setExecutionId(String executionId);
+    void setExecutionId(string executionId);
 
-    void setScopeId(String scopeId);
+    void setScopeId(string scopeId);
 
-    void setSubScopeId(String subScopeId);
+    void setSubScopeId(string subScopeId);
 
-    void setScopeType(String scopeType);
+    void setScopeType(string scopeType);
 
     VariableByteArrayRef getByteArrayRef();
 

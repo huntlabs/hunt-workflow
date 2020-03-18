@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.persistence.entity.data.HistoricVariableInstanceDataManager;
 
 import hunt.collection.List;
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.persistence.entity.data.DataManager;
 import flow.variable.service.api.history.HistoricVariableInstance;
@@ -23,25 +23,25 @@ import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEnt
 /**
  * @author Joram Barrez
  */
-interface HistoricVariableInstanceDataManager extends DataManager<HistoricVariableInstanceEntity> {
+interface HistoricVariableInstanceDataManager : DataManager!HistoricVariableInstanceEntity {
 
-    List<HistoricVariableInstanceEntity> findHistoricVariableInstancesByProcessInstanceId(String processInstanceId);
+    List!HistoricVariableInstanceEntity findHistoricVariableInstancesByProcessInstanceId(string processInstanceId);
 
-    List<HistoricVariableInstanceEntity> findHistoricVariableInstancesByTaskId(String taskId);
+    List!HistoricVariableInstanceEntity findHistoricVariableInstancesByTaskId(string taskId);
 
     long findHistoricVariableInstanceCountByQueryCriteria(HistoricVariableInstanceQueryImpl historicProcessVariableQuery);
 
-    List<HistoricVariableInstance> findHistoricVariableInstancesByQueryCriteria(HistoricVariableInstanceQueryImpl historicProcessVariableQuery);
+    List!HistoricVariableInstance findHistoricVariableInstancesByQueryCriteria(HistoricVariableInstanceQueryImpl historicProcessVariableQuery);
 
-    HistoricVariableInstanceEntity findHistoricVariableInstanceByVariableInstanceId(String variableInstanceId);
+    HistoricVariableInstanceEntity findHistoricVariableInstanceByVariableInstanceId(string variableInstanceId);
 
-    List<HistoricVariableInstanceEntity> findHistoricalVariableInstancesByScopeIdAndScopeType(String scopeId, String scopeType);
+    List!HistoricVariableInstanceEntity findHistoricalVariableInstancesByScopeIdAndScopeType(string scopeId, string scopeType);
 
-    List<HistoricVariableInstanceEntity> findHistoricalVariableInstancesBySubScopeIdAndScopeType(String subScopeId, String scopeType);
+    List!HistoricVariableInstanceEntity findHistoricalVariableInstancesBySubScopeIdAndScopeType(string subScopeId, string scopeType);
 
-    List<HistoricVariableInstance> findHistoricVariableInstancesByNativeQuery(Map<String, Object> parameterMap);
+    List!HistoricVariableInstance findHistoricVariableInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
-    long findHistoricVariableInstanceCountByNativeQuery(Map<String, Object> parameterMap);
+    long findHistoricVariableInstanceCountByNativeQuery(Map!(string, Object) parameterMap);
 
     void deleteHistoricVariableInstancesForNonExistingProcessInstances();
 

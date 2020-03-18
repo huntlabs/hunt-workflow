@@ -11,23 +11,23 @@
  * limitations under the License.
  */
 
-
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import flow.common.api.FlowableException;
-import flow.common.interceptor.Session;
-
-/**
- * @author Frederik Heremans
- */
-interface EntityManagerSession extends Session {
-    /**
-     * Get an {@link EntityManager} instance associated with this session.
-     *
-     * @throws FlowableException
-     *             when no {@link EntityManagerFactory} instance is configured for the process engine.
-     */
-    EntityManager getEntityManager();
-}
+//module flow.variable.service.impl.types.DefaultVariableTypes;
+//
+//import javax.persistence.EntityManager;
+//import javax.persistence.EntityManagerFactory;
+//
+//import flow.common.api.FlowableException;
+//import flow.common.interceptor.Session;
+//
+///**
+// * @author Frederik Heremans
+// */
+//interface EntityManagerSession extends Session {
+//    /**
+//     * Get an {@link EntityManager} instance associated with this session.
+//     *
+//     * @throws FlowableException
+//     *             when no {@link EntityManagerFactory} instance is configured for the process engine.
+//     */
+//    EntityManager getEntityManager();
+//}

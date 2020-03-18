@@ -11,13 +11,13 @@
  * limitations under the License.
  */
 
-
+module flow.variable.service.impl.util.CommandContextUtil;
 import flow.common.api.FlowableException;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.HasExpressionManagerEngineConfiguration;
 import flow.common.context.Context;
 import flow.common.db.DbSqlSession;
-import flow.common.el.ExpressionManager;
+//import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.EngineConfigurationConstants;
 import flow.variable.service.VariableServiceConfiguration;
@@ -33,19 +33,19 @@ class CommandContextUtil {
 
     public static VariableServiceConfiguration getVariableServiceConfiguration(CommandContext commandContext) {
         if (commandContext !is null) {
-            return (VariableServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
+            return cast(VariableServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
                             .get(EngineConfigurationConstants.KEY_VARIABLE_SERVICE_CONFIG);
         }
         return null;
     }
 
-    public static DbSqlSession getDbSqlSession() {
-        return getDbSqlSession(getCommandContext());
-    }
-
-    public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
-        return commandContext.getSession(DbSqlSession.class);
-    }
+    //public static DbSqlSession getDbSqlSession() {
+    //    return getDbSqlSession(getCommandContext());
+    //}
+    //
+    //public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
+    //    return commandContext.getSession(DbSqlSession.class);
+    //}
 
     public static VariableInstanceEntityManager getVariableInstanceEntityManager() {
         return getVariableInstanceEntityManager(getCommandContext());
@@ -75,11 +75,11 @@ class CommandContextUtil {
         return Context.getCommandContext();
     }
 
-    public static ExpressionManager getExpressionManager() {
-        AbstractEngineConfiguration currentEngineConfiguration = getCommandContext().getCurrentEngineConfiguration();
-        if (currentEngineConfiguration instanceof HasExpressionManagerEngineConfiguration) {
-            return ((HasExpressionManagerEngineConfiguration) currentEngineConfiguration).getExpressionManager();
-        }
-        throw new FlowableException("Unable to obtain expression manager from the current engine configuration: " + currentEngineConfiguration);
-    }
+    //public static ExpressionManager getExpressionManager() {
+    //    AbstractEngineConfiguration currentEngineConfiguration = getCommandContext().getCurrentEngineConfiguration();
+    //    if (currentEngineConfiguration instanceof HasExpressionManagerEngineConfiguration) {
+    //        return ((HasExpressionManagerEngineConfiguration) currentEngineConfiguration).getExpressionManager();
+    //    }
+    //    throw new FlowableException("Unable to obtain expression manager from the current engine configuration: " + currentEngineConfiguration);
+    //}
 }

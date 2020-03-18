@@ -10,52 +10,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.variable.service.impl.types.InstantType;
 
-
-import java.time.Instant;
-
+//import java.time.Instant;
+import hunt.time.LocalDateTime;
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
-
+import hunt.Long;
 /**
  * @author Filip Hrisafov
  */
-class InstantType implements VariableType {
+class InstantType : VariableType {
 
-    public static final String TYPE_NAME = "instant";
+    public static  string TYPE_NAME = "instant";
 
-    @Override
-    public String getTypeName() {
+
+    public string getTypeName() {
         return TYPE_NAME;
     }
 
-    @Override
-    public boolean isCachable() {
+
+    public bool isCachable() {
         return true;
     }
 
-    @Override
-    public boolean isAbleToStore(Object value) {
+
+    public bool isAbleToStore(Object value) {
         if (value is null) {
             return true;
         }
-        return Instant.class.isAssignableFrom(value.getClass());
+        return cast(LocalDateTime)value !is null? true:false;
+        //return Instant.class.isAssignableFrom(value.getClass());
     }
 
-    @Override
+
     public Object getValue(ValueFields valueFields) {
         Long longValue = valueFields.getLongValue();
         if (longValue !is null) {
-            return Instant.ofEpochMilli(longValue);
+            return LocalDateTime.ofEpochMilli(longValue.longValue());
         }
         return null;
     }
 
-    @Override
+
     public void setValue(Object value, ValueFields valueFields) {
         if (value !is null) {
-            Instant instant = (Instant) value;
-            valueFields.setLongValue(instant.toEpochMilli());
+            LocalDateTime instant = cast(LocalDateTime) value;
+            valueFields.setLongValue(new Long(instant.toEpochMilli()));
         } else {
             valueFields.setLongValue(null);
         }

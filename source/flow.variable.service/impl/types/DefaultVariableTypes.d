@@ -10,71 +10,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.variable.service.impl.types.DefaultVariableTypes;
 
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
 import hunt.collection.List;
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
 import flow.variable.service.api.types.VariableType;
 import flow.variable.service.api.types.VariableTypes;
-
 /**
  * @author Tom Baeyens
  */
-class DefaultVariableTypes implements VariableTypes, Serializable {
+class DefaultVariableTypes : VariableTypes {
 
-    private static final long serialVersionUID = 1L;
+    private  List!VariableType typesList ;//= new ArrayList<>();
+    private  Map!(string, VariableType) typesMap  ;//= new HashMap<>();
 
-    private final List<VariableType> typesList = new ArrayList<>();
-    private final Map<String, VariableType> typesMap = new HashMap<>();
+    this()
+    {
+      typesList = new ArrayList!VariableType;
+      typesMap = new HashMap!(string, VariableType);
+    }
 
-    @Override
     public DefaultVariableTypes addType(VariableType type) {
         return addType(type, typesList.size());
     }
 
-    @Override
+
     public DefaultVariableTypes addType(VariableType type, int index) {
         typesList.add(index, type);
         typesMap.put(type.getTypeName(), type);
         return this;
     }
 
-    public void setTypesList(List<VariableType> typesList) {
+    public void setTypesList(List!VariableType typesList) {
         this.typesList.clear();
         this.typesList.addAll(typesList);
         this.typesMap.clear();
-        for (VariableType type : typesList) {
+        foreach (VariableType type ; typesList) {
             typesMap.put(type.getTypeName(), type);
         }
     }
 
-    @Override
-    public VariableType getVariableType(String typeName) {
+
+    public VariableType getVariableType(string typeName) {
         return typesMap.get(typeName);
     }
 
-    @Override
+
     public VariableType findVariableType(Object value) {
-        for (VariableType type : typesList) {
+        foreach (VariableType type ; typesList) {
             if (type.isAbleToStore(value)) {
                 return type;
             }
         }
-        throw new FlowableException("couldn't find a variable type that is able to serialize " + value);
+        throw new FlowableException("couldn't find a variable type that is able to serialize " );
     }
 
-    @Override
+
     public int getTypeIndex(VariableType type) {
         return typesList.indexOf(type);
     }
 
-    @Override
-    public int getTypeIndex(String typeName) {
+
+    public int getTypeIndex(string typeName) {
         VariableType type = typesMap.get(typeName);
         if (type !is null) {
             return getTypeIndex(type);
@@ -83,7 +84,7 @@ class DefaultVariableTypes implements VariableTypes, Serializable {
         }
     }
 
-    @Override
+
     public VariableTypes removeType(VariableType type) {
         typesList.remove(type);
         typesMap.remove(type.getTypeName());

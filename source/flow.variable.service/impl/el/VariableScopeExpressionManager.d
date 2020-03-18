@@ -12,7 +12,7 @@
  */
 
 
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.api.variable.VariableContainer;
 import flow.common.el.DefaultExpressionManager;

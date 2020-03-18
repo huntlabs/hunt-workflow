@@ -29,7 +29,8 @@ import flow.variable.service.impl.persistence.entity.data.VariableInstanceDataMa
 import flow.variable.service.impl.persistence.entity.data.impl.MybatisHistoricVariableInstanceDataManager;
 import flow.variable.service.impl.persistence.entity.data.impl.MybatisVariableByteArrayDataManager;
 import flow.variable.service.impl.persistence.entity.data.impl.MybatisVariableInstanceDataManager;
-
+import flow.variable.service.VariableService;
+import flow.variable.service.HistoricVariableService;
 /**
  * @author Tijs Rademakers
  */
@@ -41,8 +42,8 @@ class VariableServiceConfiguration : AbstractServiceConfiguration {
     // SERVICES
     // /////////////////////////////////////////////////////////////////
 
-    protected VariableService variableService = new VariableServiceImpl(this);
-    protected HistoricVariableService historicVariableService = new HistoricVariableServiceImpl(this);
+    protected VariableService variableService  ;//= new VariableServiceImpl(this);
+    protected HistoricVariableService historicVariableService ;// = new HistoricVariableServiceImpl(this);
 
     // DATA MANAGERS ///////////////////////////////////////////////////
 
@@ -62,7 +63,7 @@ class VariableServiceConfiguration : AbstractServiceConfiguration {
 
     protected int maxLengthString;
 
-    protected boolean loggingSessionEnabled;
+    protected bool loggingSessionEnabled;
 
     /**
      * This flag determines whether variables of the type 'serializable' will be tracked. This means that, when true, in a JavaDelegate you can write
@@ -73,10 +74,12 @@ class VariableServiceConfiguration : AbstractServiceConfiguration {
      *
      * By default true for backwards compatibility.
      */
-    protected boolean serializableVariableTypeTrackDeserializedObjects = true;
+    protected bool serializableVariableTypeTrackDeserializedObjects = true;
 
-    public VariableServiceConfiguration(String engineName) {
+    this(string engineName) {
         super(engineName);
+        variableService = new VariableServiceImpl(this);
+        historicVariableService = new HistoricVariableServiceImpl(this);
     }
 
     // init
@@ -220,20 +223,20 @@ class VariableServiceConfiguration : AbstractServiceConfiguration {
         return this;
     }
 
-    public boolean isLoggingSessionEnabled() {
+    public bool isLoggingSessionEnabled() {
         return loggingSessionEnabled;
     }
 
-    public VariableServiceConfiguration setLoggingSessionEnabled(boolean loggingSessionEnabled) {
+    public VariableServiceConfiguration setLoggingSessionEnabled(bool loggingSessionEnabled) {
         this.loggingSessionEnabled = loggingSessionEnabled;
         return this;
     }
 
-    public boolean isSerializableVariableTypeTrackDeserializedObjects() {
+    public bool isSerializableVariableTypeTrackDeserializedObjects() {
         return serializableVariableTypeTrackDeserializedObjects;
     }
 
-    public void setSerializableVariableTypeTrackDeserializedObjects(boolean serializableVariableTypeTrackDeserializedObjects) {
+    public void setSerializableVariableTypeTrackDeserializedObjects(bool serializableVariableTypeTrackDeserializedObjects) {
         this.serializableVariableTypeTrackDeserializedObjects = serializableVariableTypeTrackDeserializedObjects;
     }
 }

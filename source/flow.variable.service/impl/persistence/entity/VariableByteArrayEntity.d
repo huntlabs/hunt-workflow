@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.persistence.entity.VariableByteArrayEntity;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
@@ -20,17 +20,17 @@ import flow.common.persistence.entity.Entity;
  * @author Marcus Klimstra (CGI)
  * @author Joram Barrez
  */
-interface VariableByteArrayEntity extends Entity, HasRevision {
+interface VariableByteArrayEntity : Entity, HasRevision {
 
     byte[] getBytes();
 
-    String getName();
+    string getName();
 
-    void setName(String name);
+    void setName(string name);
 
-    String getDeploymentId();
+    string getDeploymentId();
 
-    void setDeploymentId(String deploymentId);
+    void setDeploymentId(string deploymentId);
 
     void setBytes(byte[] bytes);
 

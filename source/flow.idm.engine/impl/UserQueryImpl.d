@@ -86,7 +86,7 @@ class UserQueryImpl : AbstractQuery!(UserQuery, User) , UserQuery, QueryCacheVal
         if (id is null) {
             throw new FlowableIllegalArgumentException("Provided id is null");
         }
-        this.idIgnoreCase = id.toLowerCase();
+        this.idIgnoreCase = toLower!string(id);
         return this;
     }
 

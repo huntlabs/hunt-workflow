@@ -10,110 +10,152 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.variable.service.impl.persistence.entity.VariableInstanceEntityImpl;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
-
+import flow.variable.service.impl.persistence.entity.AbstractVariableServiceEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import hunt.Long;
+import hunt.Double;
+import hunt.entity;
+import hunt.text.StringBuilder;
+import hunt.Exceptions;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 /**
  * @author Tom Baeyens
  * @author Marcus Klimstra (CGI)
  * @author Joram Barrez
  */
-class VariableInstanceEntityImpl extends AbstractVariableServiceEntity implements VariableInstanceEntity, ValueFields, Serializable {
+@Table("ACT_RU_VARIABLE")
+class VariableInstanceEntityImpl : AbstractVariableServiceEntity , Model, VariableInstanceEntity, ValueFields {
+    mixin MakeModel;
 
-    private static final long serialVersionUID = 1L;
+    @PrimaryKey
+    @Column("ID_")
+    string id;
 
-    protected String name;
-    protected VariableType type;
-    protected String typeName;
+     @Column("NAME_")
+     string name;
 
-    protected String executionId;
-    protected String processInstanceId;
-    protected String processDefinitionId;
-    protected String taskId;
-    protected String scopeId;
-    protected String subScopeId;
-    protected String scopeType;
+     @Column("TYPE_")
+     string typeName;
 
-    protected Long longValue;
-    protected Double doubleValue;
-    protected String textValue;
-    protected String textValue2;
-    protected VariableByteArrayRef byteArrayRef;
+     @Column("EXECUTION_ID_")
+     string executionId;
 
-    protected Object cachedValue;
-    protected boolean forcedUpdate;
-    protected boolean deleted;
+     @Column("PROC_INST_ID_")
+     string processInstanceId;
 
-    public VariableInstanceEntityImpl() {
+     @Column("TASK_ID_")
+     string taskId;
 
+     @Column("SCOPE_ID_")
+     string scopeId;
+
+     @Column("SUB_SCOPE_ID_")
+     string subScopeId;
+
+     @Column("SCOPE_TYPE_")
+     string scopeType;
+
+     @Column("LONG_")
+     long longValue;
+
+     @Column("DOUBLE_")
+     double doubleValue;
+
+     @Column("TEXT_")
+     string textValue;
+
+     @Column("TEXT2_")
+     string textValue2;
+
+      @Column("REV_")
+      int rev;
+
+     private bool forcedUpdate;
+     private bool deleted;
+
+     private VariableByteArrayRef byteArrayRef;
+     private VariableType type;
+     private Object cachedValue;
+     private string processDefinitionId;
+
+    this() {
+        rev = 1;
     }
 
-    @Override
     public Object getPersistentState() {
-        Map<String, Object> persistentState = new HashMap<>();
-        persistentState.put("name", name);
-        if (type !is null) {
-            persistentState.put("typeName", type.getTypeName());
-        }
-        persistentState.put("executionId", executionId);
-        persistentState.put("scopeId", scopeId);
-        persistentState.put("subScopeId", subScopeId);
-        persistentState.put("scopeType", scopeType);
-        persistentState.put("longValue", longValue);
-        persistentState.put("doubleValue", doubleValue);
-        persistentState.put("textValue", textValue);
-        persistentState.put("textValue2", textValue2);
-        if (byteArrayRef !is null && byteArrayRef.getId() !is null) {
-            persistentState.put("byteArrayValueId", byteArrayRef.getId());
-        }
-        if (forcedUpdate) {
-            persistentState.put("forcedUpdate", Boolean.TRUE);
-        }
-        return persistentState;
+        return this;
+        //Map<string, Object> persistentState = new HashMap<>();
+        //persistentState.put("name", name);
+        //if (type !is null) {
+        //    persistentState.put("typeName", type.getTypeName());
+        //}
+        //persistentState.put("executionId", executionId);
+        //persistentState.put("scopeId", scopeId);
+        //persistentState.put("subScopeId", subScopeId);
+        //persistentState.put("scopeType", scopeType);
+        //persistentState.put("longValue", longValue);
+        //persistentState.put("doubleValue", doubleValue);
+        //persistentState.put("textValue", textValue);
+        //persistentState.put("textValue2", textValue2);
+        //if (byteArrayRef !is null && byteArrayRef.getId() !is null) {
+        //    persistentState.put("byteArrayValueId", byteArrayRef.getId());
+        //}
+        //if (forcedUpdate) {
+        //    persistentState.put("forcedUpdate", Boolean.TRUE);
+        //}
+        //return persistentState;
     }
 
-    @Override
+    public string getId() {
+        return id;
+    }
+
+
+    public void setId(string id) {
+        this.id = id;
+    }
+
     public void forceUpdate() {
         forcedUpdate = true;
     }
 
-    @Override
-    public void setExecutionId(String executionId) {
+
+    public void setExecutionId(string executionId) {
         this.executionId = executionId;
     }
 
-    @Override
-    public void setProcessInstanceId(String processInstanceId) {
+
+    public void setProcessInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
-    public void setProcessDefinitionId(String processDefinitionId) {
+
+    public void setProcessDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
     // byte array value ///////////////////////////////////////////////////////////
 
-    @Override
+
     public byte[] getBytes() {
         ensureByteArrayRefInitialized();
         return byteArrayRef.getBytes();
     }
 
-    @Override
+
     public void setBytes(byte[] bytes) {
-        ensureByteArrayRefInitialized();
-        byteArrayRef.setValue("var-" + name, bytes);
+        implementationMissing(false);
+        //ensureByteArrayRefInitialized();
+        //byteArrayRef.setValue("var-" + name, bytes);
     }
 
-    @Override
+
     public VariableByteArrayRef getByteArrayRef() {
         return byteArrayRef;
     }
@@ -126,7 +168,7 @@ class VariableInstanceEntityImpl extends AbstractVariableServiceEntity implement
 
     // value //////////////////////////////////////////////////////////////////////
 
-    @Override
+
     public Object getValue() {
         if (!type.isCachable() || cachedValue is null) {
             cachedValue = type.getValue(this);
@@ -134,7 +176,7 @@ class VariableInstanceEntityImpl extends AbstractVariableServiceEntity implement
         return cachedValue;
     }
 
-    @Override
+
     public void setValue(Object value) {
         type.setValue(value, this);
         typeName = type.getTypeName();
@@ -143,18 +185,18 @@ class VariableInstanceEntityImpl extends AbstractVariableServiceEntity implement
 
     // getters and setters ////////////////////////////////////////////////////////
 
-    @Override
-    public void setName(String name) {
+
+    public void setName(string name) {
         this.name = name;
     }
 
-    @Override
-    public String getName() {
+
+    public string getName() {
         return name;
     }
 
-    @Override
-    public String getTypeName() {
+
+    public string getTypeName() {
         if (typeName !is null) {
             return typeName;
         } else if (type !is null) {
@@ -164,130 +206,130 @@ class VariableInstanceEntityImpl extends AbstractVariableServiceEntity implement
         }
     }
 
-    @Override
-    public void setTypeName(String typeName) {
+
+    public void setTypeName(string typeName) {
         this.typeName = typeName;
     }
 
-    @Override
+
     public VariableType getType() {
         return type;
     }
 
-    @Override
+
     public void setType(VariableType type) {
         this.type = type;
     }
 
-    @Override
-    public String getProcessInstanceId() {
+
+    public string getProcessInstanceId() {
         return processInstanceId;
     }
 
-    @Override
-    public String getProcessDefinitionId() {
+
+    public string getProcessDefinitionId() {
         return processDefinitionId;
     }
 
-    @Override
-    public String getTaskId() {
+
+    public string getTaskId() {
         return taskId;
     }
 
-    @Override
-    public void setTaskId(String taskId) {
+
+    public void setTaskId(string taskId) {
         this.taskId = taskId;
     }
 
-    @Override
-    public String getExecutionId() {
+
+    public string getExecutionId() {
         return executionId;
     }
 
-    @Override
-    public String getScopeId() {
+
+    public string getScopeId() {
         return scopeId;
     }
 
-    @Override
-    public void setScopeId(String scopeId) {
+
+    public void setScopeId(string scopeId) {
         this.scopeId = scopeId;
     }
 
-    @Override
-    public String getSubScopeId() {
+
+    public string getSubScopeId() {
         return subScopeId;
     }
 
-    @Override
-    public void setSubScopeId(String subScopeId) {
+
+    public void setSubScopeId(string subScopeId) {
         this.subScopeId = subScopeId;
     }
 
-    @Override
-    public String getScopeType() {
+
+    public string getScopeType() {
         return scopeType;
     }
 
-    @Override
-    public void setScopeType(String scopeType) {
+
+    public void setScopeType(string scopeType) {
         this.scopeType = scopeType;
     }
 
-    @Override
+
     public Long getLongValue() {
         return longValue;
     }
 
-    @Override
+
     public void setLongValue(Long longValue) {
         this.longValue = longValue;
     }
 
-    @Override
+
     public Double getDoubleValue() {
         return doubleValue;
     }
 
-    @Override
+
     public void setDoubleValue(Double doubleValue) {
         this.doubleValue = doubleValue;
     }
 
-    @Override
-    public String getTextValue() {
+
+    public string getTextValue() {
         return textValue;
     }
 
-    @Override
-    public void setTextValue(String textValue) {
+
+    public void setTextValue(string textValue) {
         this.textValue = textValue;
     }
 
-    @Override
-    public String getTextValue2() {
+
+    public string getTextValue2() {
         return textValue2;
     }
 
-    @Override
-    public void setTextValue2(String textValue2) {
+
+    public void setTextValue2(string textValue2) {
         this.textValue2 = textValue2;
     }
 
-    @Override
+
     public Object getCachedValue() {
         return cachedValue;
     }
 
-    @Override
+
     public void setCachedValue(Object cachedValue) {
         this.cachedValue = cachedValue;
     }
 
     // misc methods ///////////////////////////////////////////////////////////////
 
-    @Override
-    public String toString() {
+    override
+    public string toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("VariableInstanceEntity[");
         sb.append("id=").append(id);
@@ -300,10 +342,10 @@ class VariableInstanceEntityImpl extends AbstractVariableServiceEntity implement
             sb.append(", doubleValue=").append(doubleValue);
         }
         if (textValue !is null) {
-            sb.append(", textValue=").append(StringUtils.abbreviate(textValue, 40));
+            sb.append(", textValue=").append(textValue);
         }
         if (textValue2 !is null) {
-            sb.append(", textValue2=").append(StringUtils.abbreviate(textValue2, 40));
+            sb.append(", textValue2=").append(textValue2);
         }
         if (byteArrayRef !is null && byteArrayRef.getId() !is null) {
             sb.append(", byteArrayValueId=").append(byteArrayRef.getId());

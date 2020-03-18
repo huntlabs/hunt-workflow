@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.persistence.entity.AbstractVariableServiceEntity;
 
 import flow.common.persistence.entity.AbstractEntity;
+import flow.variable.service.impl.persistence.entity.VariableServiceEntityConstants;
 
-public abstract class AbstractVariableServiceEntity extends AbstractEntity {
+abstract class AbstractVariableServiceEntity : AbstractEntity {
 
-    @Override
-    public String getIdPrefix() {
+    public string getIdPrefix() {
         return VariableServiceEntityConstants.VARIABLE_SERVICE_ID_PREFIX;
     }
 }

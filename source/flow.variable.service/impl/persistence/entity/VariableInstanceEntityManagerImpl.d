@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.variable.service.impl.persistence.entity.VariableInstanceEntityManagerImpl;
 
 import hunt.collection;
 import hunt.collection.List;
@@ -21,29 +21,31 @@ import flow.common.persistence.entity.AbstractServiceEngineEntityManager;
 import flow.variable.service.api.types.VariableType;
 import flow.variable.service.VariableServiceConfiguration;
 import flow.variable.service.impl.persistence.entity.data.VariableInstanceDataManager;
-
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntityManager;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  * @author Saeid Mirzaei
  */
 class VariableInstanceEntityManagerImpl
-    extends AbstractServiceEngineEntityManager<VariableServiceConfiguration, VariableInstanceEntity, VariableInstanceDataManager>
-    implements VariableInstanceEntityManager {
+    : AbstractServiceEngineEntityManager!(VariableServiceConfiguration, VariableInstanceEntity, VariableInstanceDataManager)
+    , VariableInstanceEntityManager {
 
-    public VariableInstanceEntityManagerImpl(VariableServiceConfiguration variableServiceConfiguration, VariableInstanceDataManager variableInstanceDataManager) {
+    this(VariableServiceConfiguration variableServiceConfiguration, VariableInstanceDataManager variableInstanceDataManager) {
         super(variableServiceConfiguration, variableInstanceDataManager);
     }
 
-    @Override
-    public VariableInstanceEntity create(String name, VariableType type, Object value) {
+
+    public VariableInstanceEntity create(string name, VariableType type, Object value) {
         VariableInstanceEntity variableInstance = create(name, type);
         variableInstance.setValue(value);
         return variableInstance;
     }
 
-    @Override
-    public VariableInstanceEntity create(String name, VariableType type) {
+
+    public VariableInstanceEntity create(string name, VariableType type) {
         VariableInstanceEntity variableInstance = create();
         variableInstance.setName(name);
         variableInstance.setType(type);
@@ -51,98 +53,98 @@ class VariableInstanceEntityManagerImpl
         return variableInstance;
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesByTaskId(String taskId) {
+
+    public List!VariableInstanceEntity findVariableInstancesByTaskId(string taskId) {
         return dataManager.findVariableInstancesByTaskId(taskId);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesByTaskIds(Set<String> taskIds) {
+
+    public List!VariableInstanceEntity findVariableInstancesByTaskIds(Set!string taskIds) {
         return dataManager.findVariableInstancesByTaskIds(taskIds);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesByExecutionId(final String executionId) {
+
+    public List!VariableInstanceEntity findVariableInstancesByExecutionId(final string executionId) {
         return dataManager.findVariableInstancesByExecutionId(executionId);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesByExecutionIds(Set<String> executionIds) {
+
+    public List!VariableInstanceEntity findVariableInstancesByExecutionIds(Set!string executionIds) {
         return dataManager.findVariableInstancesByExecutionIds(executionIds);
     }
 
-    @Override
-    public VariableInstanceEntity findVariableInstanceByExecutionAndName(String executionId, String variableName) {
+
+    public VariableInstanceEntity findVariableInstanceByExecutionAndName(string executionId, string variableName) {
         return dataManager.findVariableInstanceByExecutionAndName(executionId, variableName);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesByExecutionAndNames(String executionId, Collection<String> names) {
+
+    public List!VariableInstanceEntity findVariableInstancesByExecutionAndNames(string executionId, Collection!string names) {
         return dataManager.findVariableInstancesByExecutionAndNames(executionId, names);
     }
 
-    @Override
-    public VariableInstanceEntity findVariableInstanceByTaskAndName(String taskId, String variableName) {
+
+    public VariableInstanceEntity findVariableInstanceByTaskAndName(string taskId, string variableName) {
         return dataManager.findVariableInstanceByTaskAndName(taskId, variableName);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesByTaskAndNames(String taskId, Collection<String> names) {
+
+    public List!VariableInstanceEntity findVariableInstancesByTaskAndNames(string taskId, Collection!string names) {
         return dataManager.findVariableInstancesByTaskAndNames(taskId, names);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstanceByScopeIdAndScopeType(String scopeId, String scopeType) {
+
+    public List!VariableInstanceEntity findVariableInstanceByScopeIdAndScopeType(string scopeId, string scopeType) {
         return dataManager.findVariableInstanceByScopeIdAndScopeType(scopeId, scopeType);
     }
 
-    @Override
-    public VariableInstanceEntity findVariableInstanceByScopeIdAndScopeTypeAndName(String scopeId, String scopeType, String variableName) {
+
+    public VariableInstanceEntity findVariableInstanceByScopeIdAndScopeTypeAndName(string scopeId, string scopeType, string variableName) {
         return dataManager.findVariableInstanceByScopeIdAndScopeTypeAndName(scopeId, scopeType, variableName);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesByScopeIdAndScopeTypeAndNames(String scopeId, String scopeType, Collection<String> variableNames) {
+
+    public List!VariableInstanceEntity findVariableInstancesByScopeIdAndScopeTypeAndNames(string scopeId, string scopeType, Collection!string variableNames) {
         return dataManager.findVariableInstancesByScopeIdAndScopeTypeAndNames(scopeId, scopeType, variableNames);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstanceBySubScopeIdAndScopeType(String subScopeId, String scopeType) {
+
+    public List!VariableInstanceEntity findVariableInstanceBySubScopeIdAndScopeType(string subScopeId, string scopeType) {
         return dataManager.findVariableInstanceBySubScopeIdAndScopeType(subScopeId, scopeType);
     }
 
-    @Override
-    public VariableInstanceEntity findVariableInstanceBySubScopeIdAndScopeTypeAndName(String subScopeId, String scopeType, String variableName) {
+
+    public VariableInstanceEntity findVariableInstanceBySubScopeIdAndScopeTypeAndName(string subScopeId, string scopeType, string variableName) {
         return dataManager.findVariableInstanceBySubScopeIdAndScopeTypeAndName(subScopeId, scopeType, variableName);
     }
 
-    @Override
-    public List<VariableInstanceEntity> findVariableInstancesBySubScopeIdAndScopeTypeAndNames(String subScopeId, String scopeType, Collection<String> variableNames) {
+
+    public List!VariableInstanceEntity findVariableInstancesBySubScopeIdAndScopeTypeAndNames(string subScopeId, string scopeType, Collection!string variableNames) {
         return dataManager.findVariableInstancesBySubScopeIdAndScopeTypeAndNames(subScopeId, scopeType, variableNames);
     }
 
-    @Override
-    public void delete(VariableInstanceEntity entity, boolean fireDeleteEvent) {
-        super.delete(entity, false);
+
+    public void dele(VariableInstanceEntity entity, bool fireDeleteEvent) {
+        super.dele(entity, false);
         VariableByteArrayRef byteArrayRef = entity.getByteArrayRef();
         if (byteArrayRef !is null) {
-            byteArrayRef.delete();
+            byteArrayRef.dele();
         }
         entity.setDeleted(true);
     }
 
-    @Override
-    public void deleteVariablesByTaskId(String taskId) {
+
+    public void deleteVariablesByTaskId(string taskId) {
         dataManager.deleteVariablesByTaskId(taskId);
     }
 
-    @Override
-    public void deleteVariablesByExecutionId(String executionId) {
+
+    public void deleteVariablesByExecutionId(string executionId) {
         dataManager.deleteVariablesByExecutionId(executionId);
     }
 
-    @Override
-    public void deleteByScopeIdAndScopeType(String scopeId, String scopeType) {
+
+    public void deleteByScopeIdAndScopeType(string scopeId, string scopeType) {
         dataManager.deleteByScopeIdAndScopeType(scopeId, scopeType);
     }
 

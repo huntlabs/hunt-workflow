@@ -11,11 +11,11 @@
  * limitations under the License.
  */
 
-
+module flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntityManagerImpl;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
-import java.util.Map;
+import hunt.collection.Map;
 
 import flow.common.history.HistoryLevel;
 import flow.common.persistence.entity.AbstractServiceEngineEntityManager;
@@ -23,20 +23,22 @@ import flow.variable.service.api.history.HistoricVariableInstance;
 import flow.variable.service.VariableServiceConfiguration;
 import flow.variable.service.impl.HistoricVariableInstanceQueryImpl;
 import flow.variable.service.impl.persistence.entity.data.HistoricVariableInstanceDataManager;
-
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
+import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntityManager;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 /**
  * @author Christian Lipphardt (camunda)
  * @author Joram Barrez
  */
 class HistoricVariableInstanceEntityManagerImpl
-    extends AbstractServiceEngineEntityManager<VariableServiceConfiguration, HistoricVariableInstanceEntity, HistoricVariableInstanceDataManager>
-    implements HistoricVariableInstanceEntityManager {
+    : AbstractServiceEngineEntityManager!(VariableServiceConfiguration, HistoricVariableInstanceEntity, HistoricVariableInstanceDataManager)
+    , HistoricVariableInstanceEntityManager {
 
-    public HistoricVariableInstanceEntityManagerImpl(VariableServiceConfiguration variableServiceConfiguration, HistoricVariableInstanceDataManager historicVariableInstanceDataManager) {
+    this(VariableServiceConfiguration variableServiceConfiguration, HistoricVariableInstanceDataManager historicVariableInstanceDataManager) {
         super(variableServiceConfiguration, historicVariableInstanceDataManager);
     }
 
-    @Override
+
     public HistoricVariableInstanceEntity createAndInsert(VariableInstanceEntity variableInstance, Date createTime) {
         HistoricVariableInstanceEntity historicVariableInstance = dataManager.create();
         historicVariableInstance.setId(variableInstance.getId());
@@ -60,7 +62,7 @@ class HistoricVariableInstanceEntityManagerImpl
         return historicVariableInstance;
     }
 
-    @Override
+
     public void copyVariableValue(HistoricVariableInstanceEntity historicVariableInstance, VariableInstanceEntity variableInstance, Date updateTime) {
         historicVariableInstance.setTextValue(variableInstance.getTextValue());
         historicVariableInstance.setTextValue2(variableInstance.getTextValue2());
@@ -75,81 +77,81 @@ class HistoricVariableInstanceEntityManagerImpl
         historicVariableInstance.setLastUpdatedTime(updateTime);
     }
 
-    @Override
-    public void delete(HistoricVariableInstanceEntity entity, boolean fireDeleteEvent) {
-        super.delete(entity, fireDeleteEvent);
+
+    public void dele(HistoricVariableInstanceEntity entity, bool fireDeleteEvent) {
+        super.dele(entity, fireDeleteEvent);
 
         if (entity.getByteArrayRef() !is null) {
-            entity.getByteArrayRef().delete();
+            entity.getByteArrayRef().dele();
         }
     }
 
-    @Override
-    public void deleteHistoricVariableInstanceByProcessInstanceId(final String historicProcessInstanceId) {
+
+    public void deleteHistoricVariableInstanceByProcessInstanceId( string historicProcessInstanceId) {
         if (serviceConfiguration.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
-            List<HistoricVariableInstanceEntity> historicProcessVariables = dataManager.findHistoricVariableInstancesByProcessInstanceId(historicProcessInstanceId);
-            for (HistoricVariableInstanceEntity historicProcessVariable : historicProcessVariables) {
-                delete(historicProcessVariable);
+            List!HistoricVariableInstanceEntity historicProcessVariables = dataManager.findHistoricVariableInstancesByProcessInstanceId(historicProcessInstanceId);
+            foreach (HistoricVariableInstanceEntity historicProcessVariable ; historicProcessVariables) {
+                dele(historicProcessVariable);
             }
         }
     }
 
-    @Override
+
     public long findHistoricVariableInstanceCountByQueryCriteria(HistoricVariableInstanceQueryImpl historicProcessVariableQuery) {
         return dataManager.findHistoricVariableInstanceCountByQueryCriteria(historicProcessVariableQuery);
     }
 
-    @Override
-    public List<HistoricVariableInstance> findHistoricVariableInstancesByQueryCriteria(HistoricVariableInstanceQueryImpl historicProcessVariableQuery) {
+
+    public List!HistoricVariableInstance findHistoricVariableInstancesByQueryCriteria(HistoricVariableInstanceQueryImpl historicProcessVariableQuery) {
         return dataManager.findHistoricVariableInstancesByQueryCriteria(historicProcessVariableQuery);
     }
 
-    @Override
-    public HistoricVariableInstanceEntity findHistoricVariableInstanceByVariableInstanceId(String variableInstanceId) {
+
+    public HistoricVariableInstanceEntity findHistoricVariableInstanceByVariableInstanceId(string variableInstanceId) {
         return dataManager.findHistoricVariableInstanceByVariableInstanceId(variableInstanceId);
     }
 
-    @Override
-    public List<HistoricVariableInstanceEntity> findHistoricalVariableInstancesByScopeIdAndScopeType(String scopeId, String scopeType) {
+
+    public List!HistoricVariableInstanceEntity findHistoricalVariableInstancesByScopeIdAndScopeType(string scopeId, string scopeType) {
         return dataManager.findHistoricalVariableInstancesByScopeIdAndScopeType(scopeId, scopeType);
     }
 
-    @Override
-    public List<HistoricVariableInstanceEntity> findHistoricalVariableInstancesBySubScopeIdAndScopeType(String subScopeId, String scopeType) {
+
+    public List!HistoricVariableInstanceEntity findHistoricalVariableInstancesBySubScopeIdAndScopeType(string subScopeId, string scopeType) {
         return dataManager.findHistoricalVariableInstancesBySubScopeIdAndScopeType(subScopeId, scopeType);
     }
 
-    @Override
-    public void deleteHistoricVariableInstancesByTaskId(String taskId) {
+
+    public void deleteHistoricVariableInstancesByTaskId(string taskId) {
         if (serviceConfiguration.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
-            List<HistoricVariableInstanceEntity> historicProcessVariables = dataManager.findHistoricVariableInstancesByTaskId(taskId);
-            for (HistoricVariableInstanceEntity historicProcessVariable : historicProcessVariables) {
-                delete(historicProcessVariable);
+            List!HistoricVariableInstanceEntity historicProcessVariables = dataManager.findHistoricVariableInstancesByTaskId(taskId);
+            foreach (HistoricVariableInstanceEntity historicProcessVariable ; historicProcessVariables) {
+                dele(historicProcessVariable);
             }
         }
     }
 
-    @Override
+
     public void deleteHistoricVariableInstancesForNonExistingProcessInstances() {
         if (serviceConfiguration.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
             dataManager.deleteHistoricVariableInstancesForNonExistingProcessInstances();
         }
     }
 
-    @Override
+
     public void deleteHistoricVariableInstancesForNonExistingCaseInstances() {
         if (serviceConfiguration.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
             dataManager.deleteHistoricVariableInstancesForNonExistingCaseInstances();
         }
     }
 
-    @Override
-    public List<HistoricVariableInstance> findHistoricVariableInstancesByNativeQuery(Map<String, Object> parameterMap) {
+
+    public List!HistoricVariableInstance findHistoricVariableInstancesByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricVariableInstancesByNativeQuery(parameterMap);
     }
 
-    @Override
-    public long findHistoricVariableInstanceCountByNativeQuery(Map<String, Object> parameterMap) {
+
+    public long findHistoricVariableInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricVariableInstanceCountByNativeQuery(parameterMap);
     }
 

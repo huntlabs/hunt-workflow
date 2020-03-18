@@ -10,26 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.persistence.entity.VariableByteArrayEntityManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayEntity;
 
 /**
  * @author Joram Barrez
  */
-interface VariableByteArrayEntityManager extends EntityManager<VariableByteArrayEntity> {
+interface VariableByteArrayEntityManager : EntityManager!VariableByteArrayEntity {
 
     /**
      * Returns all {@link VariableByteArrayEntity}.
      */
-    List<VariableByteArrayEntity> findAll();
+    List!VariableByteArrayEntity findAll();
 
     /**
      * Deletes the {@link VariableByteArrayEntity} with the given id from the database. Important: this operation will NOT do any optimistic locking, to avoid loading the bytes in memory. So use this method
      * only in conjunction with an entity that has optimistic locking!.
      */
-    void deleteByteArrayById(String byteArrayEntityId);
+    void deleteByteArrayById(string byteArrayEntityId);
 
 }

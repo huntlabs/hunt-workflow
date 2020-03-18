@@ -15,7 +15,7 @@
 
 import hunt.collection;
 import java.util.Collections;
-import java.util.Map;
+import hunt.collection.Map;
 import hunt.collection.Set;
 
 import flow.variable.service.api.delegate.VariableScope;

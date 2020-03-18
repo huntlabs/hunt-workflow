@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.types.CacheableVariable;
 
 
 /**
@@ -21,5 +21,5 @@
  */
 interface CacheableVariable {
 
-    public void setForceCacheable(boolean forceCachedValue);
+    public void setForceCacheable(bool forceCachedValue);
 }

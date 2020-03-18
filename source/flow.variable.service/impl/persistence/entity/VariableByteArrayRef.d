@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 
-
-import java.io.Serializable;
 
 import flow.variable.service.impl.util.CommandContextUtil;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayEntity;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayEntityManager;
 
 /**
  * <p>
@@ -23,28 +24,26 @@ import flow.variable.service.impl.util.CommandContextUtil;
  *
  * @author Marcus Klimstra (CGI)
  */
-class VariableByteArrayRef implements Serializable {
+class VariableByteArrayRef {
 
-    private static final long serialVersionUID = 1L;
-
-    private String id;
-    private String name;
+    private string id;
+    private string name;
     private VariableByteArrayEntity entity;
-    protected boolean deleted;
+    protected bool deleted;
 
-    public VariableByteArrayRef() {
+    this() {
     }
 
     // Only intended to be used by ByteArrayRefTypeHandler
-    public VariableByteArrayRef(String id) {
+    this(string id) {
         this.id = id;
     }
 
-    public String getId() {
+    public string getId() {
         return id;
     }
 
-    public String getName() {
+    public string getName() {
         return name;
     }
 
@@ -53,7 +52,7 @@ class VariableByteArrayRef implements Serializable {
         return (entity !is null ? entity.getBytes() : null);
     }
 
-    public void setValue(String name, byte[] bytes) {
+    public void setValue(string name, byte[] bytes) {
         this.name = name;
         setBytes(bytes);
     }
@@ -79,12 +78,12 @@ class VariableByteArrayRef implements Serializable {
         return entity;
     }
 
-    public void delete() {
+    public void dele() {
         if (!deleted && id !is null) {
             if (entity !is null) {
                 // if the entity has been loaded already,
                 // we might as well use the safer optimistic locking delete.
-                CommandContextUtil.getByteArrayEntityManager().delete(entity);
+                CommandContextUtil.getByteArrayEntityManager().dele(entity);
             } else {
                 CommandContextUtil.getByteArrayEntityManager().deleteByteArrayById(id);
             }
@@ -101,7 +100,7 @@ class VariableByteArrayRef implements Serializable {
         }
     }
 
-    public boolean isDeleted() {
+    public bool isDeleted() {
         return deleted;
     }
 
@@ -119,8 +118,8 @@ class VariableByteArrayRef implements Serializable {
         return copy;
     }
 
-    @Override
-    public String toString() {
-        return "ByteArrayRef[id=" + id + ", name=" + name + ", entity=" + entity + (deleted ? ", deleted]" : "]");
+    override
+    public string toString() {
+        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity=" ~  (deleted ? ", deleted]" : "]");
     }
 }

@@ -11,42 +11,61 @@
  * limitations under the License.
  */
 
+module flow.variable.service.impl.HistoricVariableInstanceQueryProperty;
 
-
-import java.util.HashMap;
-import java.util.Map;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
 import flow.variable.service.api.history.HistoricVariableInstanceQuery;
-
+import std.concurrency : initOnce;
 /**
  * Contains the possible properties which can be used in a {@link HistoricVariableInstanceQuery}.
  *
  * @author Tijs Rademakers
  */
-class HistoricVariableInstanceQueryProperty implements QueryProperty {
+class HistoricVariableInstanceQueryProperty : QueryProperty {
 
-    private static final long serialVersionUID = 1L;
 
-    private static final Map<String, HistoricVariableInstanceQueryProperty> properties = new HashMap<>();
+   // private static final Map<string, HistoricVariableInstanceQueryProperty> properties = new HashMap<>();
 
-    public static final HistoricVariableInstanceQueryProperty PROCESS_INSTANCE_ID = new HistoricVariableInstanceQueryProperty("PROC_INST_ID_");
-    public static final HistoricVariableInstanceQueryProperty SCOPE_ID = new HistoricVariableInstanceQueryProperty("SCOPE_ID_");
-    public static final HistoricVariableInstanceQueryProperty VARIABLE_NAME = new HistoricVariableInstanceQueryProperty("NAME_");
+    //public static final HistoricVariableInstanceQueryProperty PROCESS_INSTANCE_ID = new HistoricVariableInstanceQueryProperty("PROC_INST_ID_");
+    //public static final HistoricVariableInstanceQueryProperty SCOPE_ID = new HistoricVariableInstanceQueryProperty("SCOPE_ID_");
+    //public static final HistoricVariableInstanceQueryProperty VARIABLE_NAME = new HistoricVariableInstanceQueryProperty("NAME_");
 
-    private String name;
+    private string name;
 
-    public HistoricVariableInstanceQueryProperty(String name) {
+
+     static Map!(string, HistoricVariableInstanceQueryProperty)  properties() {
+       __gshared Map!(string, HistoricVariableInstanceQueryProperty)  inst;
+       return initOnce!inst(new HashMap!(string, HistoricVariableInstanceQueryProperty));
+     }
+
+    static HistoricVariableInstanceQueryProperty  PROCESS_INSTANCE_ID() {
+      __gshared HistoricVariableInstanceQueryProperty  inst;
+      return initOnce!inst(new HistoricVariableInstanceQueryProperty("PROC_INST_ID_"));
+    }
+
+  static HistoricVariableInstanceQueryProperty  SCOPE_ID() {
+    __gshared HistoricVariableInstanceQueryProperty  inst;
+    return initOnce!inst(new HistoricVariableInstanceQueryProperty("SCOPE_ID_"));
+  }
+
+  static HistoricVariableInstanceQueryProperty  VARIABLE_NAME() {
+    __gshared HistoricVariableInstanceQueryProperty  inst;
+    return initOnce!inst(new HistoricVariableInstanceQueryProperty("NAME_"));
+  }
+
+    this(string name) {
         this.name = name;
         properties.put(name, this);
     }
 
-    @Override
-    public String getName() {
+    public string getName() {
         return name;
     }
 
-    public static HistoricVariableInstanceQueryProperty findByName(String propertyName) {
+    public static HistoricVariableInstanceQueryProperty findByName(string propertyName) {
         return properties.get(propertyName);
     }
 }

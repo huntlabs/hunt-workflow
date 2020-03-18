@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.variable.service.impl.persistence.entity.data.VariableByteArrayDataManager;
 import hunt.collection.List;
 
 import flow.common.persistence.entity.data.DataManager;
@@ -20,10 +20,10 @@ import flow.variable.service.impl.persistence.entity.VariableByteArrayEntity;
 /**
  * @author Joram Barrez
  */
-interface VariableByteArrayDataManager extends DataManager<VariableByteArrayEntity> {
+interface VariableByteArrayDataManager : DataManager!VariableByteArrayEntity {
 
-    List<VariableByteArrayEntity> findAll();
+    List!VariableByteArrayEntity findAll();
 
-    void deleteByteArrayNoRevisionCheck(String byteArrayEntityId);
+    void deleteByteArrayNoRevisionCheck(string byteArrayEntityId);
 
 }

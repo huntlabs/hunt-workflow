@@ -57,7 +57,7 @@ abstract class AbstractQuery(T , U) : ListQueryParameterObject , Command!Object,
 
     public T orderBy(QueryProperty property) {
         this.orderProperty = property;
-        return (T) this;
+        return cast(T) this;
     }
 
 
@@ -65,7 +65,7 @@ abstract class AbstractQuery(T , U) : ListQueryParameterObject , Command!Object,
     public T orderBy(QueryProperty property, NullHandlingOnOrder nullHandlingOnOrder) {
         orderBy(property);
         this.nullHandlingOnOrder = nullHandlingOnOrder;
-        return (T) this;
+        return cast(T) this;
     }
 
 

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.variable.service.impl.persistence.AbstractManager;
 
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
@@ -24,11 +24,11 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntityManag
 /**
  * @author Tijs Rademakers
  */
-public abstract class AbstractManager {
+abstract class AbstractManager {
 
     protected VariableServiceConfiguration variableServiceConfiguration;
 
-    public AbstractManager(VariableServiceConfiguration variableServiceConfiguration) {
+    this(VariableServiceConfiguration variableServiceConfiguration) {
         this.variableServiceConfiguration = variableServiceConfiguration;
     }
 
@@ -38,9 +38,9 @@ public abstract class AbstractManager {
         return Context.getCommandContext();
     }
 
-    protected <T> T getSession(Class<T> sessionClass) {
-        return getCommandContext().getSession(sessionClass);
-    }
+    //protected <T> T getSession(Class<T> sessionClass) {
+    //    return getCommandContext().getSession(sessionClass);
+    //}
 
     // Engine scoped
 

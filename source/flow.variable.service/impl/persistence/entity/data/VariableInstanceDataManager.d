@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.persistence.entity.data.VariableInstanceDataManager;
 
 import hunt.collection;
 import hunt.collection.List;
@@ -22,40 +22,40 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 /**
  * @author Joram Barrez
  */
-interface VariableInstanceDataManager extends DataManager<VariableInstanceEntity> {
+interface VariableInstanceDataManager : DataManager!VariableInstanceEntity {
 
-    List<VariableInstanceEntity> findVariableInstancesByTaskId(String taskId);
+    List!VariableInstanceEntity findVariableInstancesByTaskId(string taskId);
 
-    List<VariableInstanceEntity> findVariableInstancesByTaskIds(Set<String> taskIds);
+    List!VariableInstanceEntity findVariableInstancesByTaskIds(Set!string taskIds);
 
-    List<VariableInstanceEntity> findVariableInstancesByExecutionId(String executionId);
+    List!VariableInstanceEntity findVariableInstancesByExecutionId(string executionId);
 
-    List<VariableInstanceEntity> findVariableInstancesByExecutionIds(Set<String> executionIds);
+    List!VariableInstanceEntity findVariableInstancesByExecutionIds(Set!string executionIds);
 
-    VariableInstanceEntity findVariableInstanceByExecutionAndName(String executionId, String variableName);
+    VariableInstanceEntity findVariableInstanceByExecutionAndName(string executionId, string variableName);
 
-    List<VariableInstanceEntity> findVariableInstancesByExecutionAndNames(String executionId, Collection<String> names);
+    List!VariableInstanceEntity findVariableInstancesByExecutionAndNames(string executionId, Collection!string names);
 
-    VariableInstanceEntity findVariableInstanceByTaskAndName(String taskId, String variableName);
+    VariableInstanceEntity findVariableInstanceByTaskAndName(string taskId, string variableName);
 
-    List<VariableInstanceEntity> findVariableInstancesByTaskAndNames(String taskId, Collection<String> names);
+    List!VariableInstanceEntity findVariableInstancesByTaskAndNames(string taskId, Collection!string names);
 
-    List<VariableInstanceEntity> findVariableInstanceByScopeIdAndScopeType(String scopeId, String scopeType);
+    List!VariableInstanceEntity findVariableInstanceByScopeIdAndScopeType(string scopeId, string scopeType);
 
-    VariableInstanceEntity findVariableInstanceByScopeIdAndScopeTypeAndName(String scopeId, String scopeType, String variableName);
+    VariableInstanceEntity findVariableInstanceByScopeIdAndScopeTypeAndName(string scopeId, string scopeType, string variableName);
 
-    List<VariableInstanceEntity> findVariableInstancesByScopeIdAndScopeTypeAndNames(String scopeId, String scopeType, Collection<String> variableNames);
+    List!VariableInstanceEntity findVariableInstancesByScopeIdAndScopeTypeAndNames(string scopeId, string scopeType, Collection!string variableNames);
 
-    List<VariableInstanceEntity> findVariableInstanceBySubScopeIdAndScopeType(String subScopeId, String scopeType);
+    List!VariableInstanceEntity findVariableInstanceBySubScopeIdAndScopeType(string subScopeId, string scopeType);
 
-    VariableInstanceEntity findVariableInstanceBySubScopeIdAndScopeTypeAndName(String subScopeId, String scopeType, String variableName);
+    VariableInstanceEntity findVariableInstanceBySubScopeIdAndScopeTypeAndName(string subScopeId, string scopeType, string variableName);
 
-    List<VariableInstanceEntity> findVariableInstancesBySubScopeIdAndScopeTypeAndNames(String subScopeId, String scopeType, Collection<String> variableNames);
+    List!VariableInstanceEntity findVariableInstancesBySubScopeIdAndScopeTypeAndNames(string subScopeId, string scopeType, Collection!string variableNames);
 
-    void deleteVariablesByTaskId(String taskId);
+    void deleteVariablesByTaskId(string taskId);
 
-    void deleteVariablesByExecutionId(String executionId);
+    void deleteVariablesByExecutionId(string executionId);
 
-    void deleteByScopeIdAndScopeType(String scopeId, String scopeType);
+    void deleteByScopeIdAndScopeType(string scopeId, string scopeType);
 
 }

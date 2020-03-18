@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.variable.service.impl.persistence.entity.TransientVariableInstance;
 
-
-import flow.variable.service.api.delegate.VariableScope;
+import flow.variable.service.api.deleg.VariableScope;
 import flow.variable.service.api.persistence.entity.VariableInstance;
-
+import hunt.Long;
+import hunt.Double;
 /**
  * A dummy implementation of {@link VariableInstance}, used for storing transient variables on a {@link VariableScope}, as the {@link VariableScope} works with instances of {@link VariableInstance}
  * and not with raw key/values.
@@ -23,185 +24,185 @@ import flow.variable.service.api.persistence.entity.VariableInstance;
  *
  * @author Joram Barrez
  */
-class TransientVariableInstance implements VariableInstance {
+class TransientVariableInstance : VariableInstance {
 
-    public static final String TYPE_TRANSIENT = "transient";
+    public static  string TYPE_TRANSIENT = "transient";
 
-    protected String variableName;
+    protected string variableName;
     protected Object variableValue;
 
-    public TransientVariableInstance(String variableName, Object variableValue) {
+    this(string variableName, Object variableValue) {
         this.variableName = variableName;
         this.variableValue = variableValue;
     }
 
-    @Override
-    public String getName() {
+
+    public string getName() {
         return variableName;
     }
 
-    @Override
-    public String getTextValue() {
+
+    public string getTextValue() {
         return null;
     }
 
-    @Override
-    public void setTextValue(String textValue) {
+
+    public void setTextValue(string textValue) {
 
     }
 
-    @Override
-    public String getTextValue2() {
+
+    public string getTextValue2() {
         return null;
     }
 
-    @Override
-    public void setTextValue2(String textValue2) {
+
+    public void setTextValue2(string textValue2) {
 
     }
 
-    @Override
+
     public Long getLongValue() {
         return null;
     }
 
-    @Override
+
     public void setLongValue(Long longValue) {
 
     }
 
-    @Override
+
     public Double getDoubleValue() {
         return null;
     }
 
-    @Override
+
     public void setDoubleValue(Double doubleValue) {
 
     }
 
-    @Override
+
     public byte[] getBytes() {
         return null;
     }
 
-    @Override
+
     public void setBytes(byte[] bytes) {
 
     }
 
-    @Override
+
     public Object getCachedValue() {
         return null;
     }
 
-    @Override
+
     public void setCachedValue(Object cachedValue) {
 
     }
 
-    @Override
-    public String getId() {
+
+    public string getId() {
         return null;
     }
 
-    @Override
-    public void setId(String id) {
+
+    public void setId(string id) {
 
     }
 
-    @Override
-    public void setName(String name) {
+
+    public void setName(string name) {
 
     }
 
-    @Override
-    public void setProcessInstanceId(String processInstanceId) {
+
+    public void setProcessInstanceId(string processInstanceId) {
 
     }
 
-    @Override
-    public void setProcessDefinitionId(String processDefinitionId) {
+
+    public void setProcessDefinitionId(string processDefinitionId) {
 
     }
 
-    @Override
-    public void setExecutionId(String executionId) {
+
+    public void setExecutionId(string executionId) {
 
     }
 
-    @Override
+
     public Object getValue() {
         return variableValue;
     }
 
-    @Override
+
     public void setValue(Object value) {
         variableValue = value;
     }
 
-    @Override
-    public String getTypeName() {
+
+    public string getTypeName() {
         return TYPE_TRANSIENT;
     }
 
-    @Override
-    public void setTypeName(String typeName) {
+
+    public void setTypeName(string typeName) {
 
     }
 
-    @Override
-    public String getProcessInstanceId() {
+
+    public string getProcessInstanceId() {
         return null;
     }
 
-    @Override
-    public String getProcessDefinitionId() {
+
+    public string getProcessDefinitionId() {
         return null;
     }
 
-    @Override
-    public String getTaskId() {
+
+    public string getTaskId() {
         return null;
     }
 
-    @Override
-    public void setTaskId(String taskId) {
+
+    public void setTaskId(string taskId) {
 
     }
 
-    @Override
-    public String getExecutionId() {
+
+    public string getExecutionId() {
         return null;
     }
 
-    @Override
-    public String getScopeId() {
+
+    public string getScopeId() {
         return null;
     }
 
-    @Override
-    public String getScopeType() {
+
+    public string getScopeType() {
         return null;
     }
 
-    @Override
-    public void setScopeId(String scopeId) {
+
+    public void setScopeId(string scopeId) {
 
     }
 
-    @Override
-    public String getSubScopeId() {
+
+    public string getSubScopeId() {
         return null;
     }
 
-    @Override
-    public void setSubScopeId(String subScopeId) {
+
+    public void setSubScopeId(string subScopeId) {
 
     }
 
-    @Override
-    public void setScopeType(String scopeType) {
+
+    public void setScopeType(string scopeType) {
 
     }
 

@@ -11,33 +11,35 @@
  * limitations under the License.
  */
 
-
+module flow.variable.service.impl.persistence.entity.VariableByteArrayEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.AbstractServiceEngineEntityManager;
 import flow.variable.service.VariableServiceConfiguration;
 import flow.variable.service.impl.persistence.entity.data.VariableByteArrayDataManager;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayEntity;
+import flow.variable.service.impl.persistence.entity.VariableByteArrayEntityManager;
 
 /**
  * @author Joram Barrez
  * @author Marcus Klimstra (CGI)
  */
 class VariableByteArrayEntityManagerImpl
-    extends AbstractServiceEngineEntityManager<VariableServiceConfiguration, VariableByteArrayEntity, VariableByteArrayDataManager>
-    implements VariableByteArrayEntityManager {
+    : AbstractServiceEngineEntityManager!(VariableServiceConfiguration, VariableByteArrayEntity, VariableByteArrayDataManager)
+    , VariableByteArrayEntityManager {
 
-    public VariableByteArrayEntityManagerImpl(VariableServiceConfiguration variableServiceConfiguration, VariableByteArrayDataManager byteArrayDataManager) {
+    this(VariableServiceConfiguration variableServiceConfiguration, VariableByteArrayDataManager byteArrayDataManager) {
         super(variableServiceConfiguration, byteArrayDataManager);
     }
 
-    @Override
-    public List<VariableByteArrayEntity> findAll() {
+
+    public List!VariableByteArrayEntity findAll() {
         return dataManager.findAll();
     }
 
-    @Override
-    public void deleteByteArrayById(String byteArrayEntityId) {
+
+    public void deleteByteArrayById(string byteArrayEntityId) {
         dataManager.deleteByteArrayNoRevisionCheck(byteArrayEntityId);
     }
 

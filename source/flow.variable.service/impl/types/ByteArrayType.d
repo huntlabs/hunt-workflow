@@ -10,45 +10,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.variable.service.impl.types.ByteArrayType;
 
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
-
+import hunt.String;
 /**
  * @author Tom Baeyens
  */
-class ByteArrayType implements VariableType {
+class ByteArrayType : VariableType {
 
-    public static final String TYPE_NAME = "bytes";
+    public static  string TYPE_NAME = "bytes";
 
-    private static final long serialVersionUID = 1L;
 
-    @Override
-    public String getTypeName() {
+
+    public string getTypeName() {
         return TYPE_NAME;
     }
 
-    @Override
-    public boolean isCachable() {
+
+    public bool isCachable() {
         return true;
     }
 
-    @Override
+
     public Object getValue(ValueFields valueFields) {
         return valueFields.getBytes();
     }
 
-    @Override
+
     public void setValue(Object value, ValueFields valueFields) {
-        valueFields.setBytes((byte[]) value);
+        valueFields.setBytes(cast(byte[]) (cast(String)value.value));
     }
 
-    @Override
-    public boolean isAbleToStore(Object value) {
+
+    public bool isAbleToStore(Object value) {
         if (value is null) {
             return true;
         }
-        return byte[].class.isAssignableFrom(value.getClass());
+        return cast(String)value !is null? true: false;
+        //return byte[].class.isAssignableFrom(value.getClass());
     }
 }
