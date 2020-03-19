@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.data.impl.MyBatisHistoricTaskLogEntryDataManager;
 
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -22,71 +22,137 @@ import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
 import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityImpl;
 import flow.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
-
+import hunt.logging;
+import hunt.entity;
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
 /**
  * @author martin.grofcik
  */
-class MyBatisHistoricTaskLogEntryDataManager extends AbstractDataManager<HistoricTaskLogEntryEntity> implements HistoricTaskLogEntryDataManager {
+class MyBatisHistoricTaskLogEntryDataManager : EntityRepository!( HistoricTaskLogEntryEntityImpl , string) , HistoricTaskLogEntryDataManager {
 
-    @Override
-    class<? extends HistoricTaskLogEntryEntity> getManagedEntityClass() {
-        return HistoricTaskLogEntryEntityImpl.class;
+    //
+    //class<? extends HistoricTaskLogEntryEntity> getManagedEntityClass() {
+    //    return HistoricTaskLogEntryEntityImpl.class;
+    //}
+    this()
+    {
+      super(entityManagerFactory.createEntityManager());
     }
 
-    @Override
+
+  public HistoricTaskLogEntryEntity findById(string entityId) {
+    if (entityId is null) {
+      return null;
+    }
+
+    return find(entityId);
+
+    // Cache
+    //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
+    //if (cachedEntity !is null) {
+    //  return cachedEntity;
+    //}
+
+    // Database
+    //return getDbSqlSession().selectById(getManagedEntityClass(), entityId, false);
+  }
+      //
+      public void insert(HistoricTaskLogEntryEntity entity) {
+        insert(cast(HistoricTaskLogEntryEntityImpl)entity);
+        //getDbSqlSession().insert(entity);
+      }
+      public HistoricTaskLogEntryEntity update(HistoricTaskLogEntryEntity entity) {
+        return  update(cast(HistoricTaskLogEntryEntityImpl)entity);
+        //getDbSqlSession().update(entity);
+        //return entity;
+      }
+      public void dele(string id) {
+        HistoricTaskLogEntryEntity entity = findById(id);
+        if (entity !is null)
+        {
+          remove(cast(HistoricTaskLogEntryEntityImpl)entity);
+        }
+        //delete(entity);
+      }
+
+      public void dele(HistoricTaskLogEntryEntity entity) {
+        if (entity !is null)
+        {
+          remove(cast(HistoricTaskLogEntryEntityImpl)entity);
+        }
+        //getDbSqlSession().delete(entity);
+      }
+
     public HistoricTaskLogEntryEntity create() {
         return new HistoricTaskLogEntryEntityImpl();
     }
 
-    @Override
+
     public long findHistoricTaskLogEntriesCountByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery) {
-        return (Long) getDbSqlSession().selectOne("selectHistoricTaskLogEntriesCountByQueryCriteria", taskLogEntryQuery);
+        implementationMissing(false);
+        return 0;
+        //return (Long) getDbSqlSession().selectOne("selectHistoricTaskLogEntriesCountByQueryCriteria", taskLogEntryQuery);
     }
 
-    @Override
-    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery) {
-        return getDbSqlSession().selectList("selectHistoricTaskLogEntriesByQueryCriteria", taskLogEntryQuery);
+
+    public List!HistoricTaskLogEntry findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery) {
+       // return getDbSqlSession().selectList("selectHistoricTaskLogEntriesByQueryCriteria", taskLogEntryQuery);
+        implementationMissing(false);
+        return null;
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntry(long logEntryNumber) {
-        getDbSqlSession().delete("deleteHistoricTaskLogEntryByLogNumber", logEntryNumber, HistoricTaskLogEntryEntityImpl.class);
+        implementationMissing(false);
+
+       // getDbSqlSession().delete("deleteHistoricTaskLogEntryByLogNumber", logEntryNumber, HistoricTaskLogEntryEntityImpl.class);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesByProcessDefinitionId(string processDefinitionId) {
-        getDbSqlSession().delete("deleteHistoricTaskLogEntriesByProcessDefinitionId", processDefinitionId, HistoricTaskLogEntryEntityImpl.class);
+        implementationMissing(false);
+
+       // getDbSqlSession().delete("deleteHistoricTaskLogEntriesByProcessDefinitionId", processDefinitionId, HistoricTaskLogEntryEntityImpl.class);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesByScopeDefinitionId(string scopeType, string scopeDefinitionId) {
-        Map!(string, string) params = new HashMap<>(2);
-        params.put("scopeDefinitionId", scopeDefinitionId);
-        params.put("scopeType", scopeType);
-        getDbSqlSession().delete("deleteHistoricTaskLogEntriesByScopeDefinitionId", params, HistoricTaskLogEntryEntityImpl.class);
+        implementationMissing(false);
+        //Map!(string, string) params = new HashMap<>(2);
+        //params.put("scopeDefinitionId", scopeDefinitionId);
+        //params.put("scopeType", scopeType);
+        //getDbSqlSession().delete("deleteHistoricTaskLogEntriesByScopeDefinitionId", params, HistoricTaskLogEntryEntityImpl.class);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesByTaskId(string taskId) {
-        getDbSqlSession().delete("deleteHistoricTaskLogEntriesByTaskId", taskId, HistoricTaskLogEntryEntityImpl.class);
+        implementationMissing(false);
+       // getDbSqlSession().delete("deleteHistoricTaskLogEntriesByTaskId", taskId, HistoricTaskLogEntryEntityImpl.class);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForNonExistingProcessInstances() {
-        getDbSqlSession().delete("bulkDeleteHistoricTaskLogEntriesForNonExistingProcessInstances", null, HistoricTaskLogEntryEntityImpl.class);
+        implementationMissing(false);
+        //getDbSqlSession().delete("bulkDeleteHistoricTaskLogEntriesForNonExistingProcessInstances", null, HistoricTaskLogEntryEntityImpl.class);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForNonExistingCaseInstances() {
-        getDbSqlSession().delete("bulkDeleteHistoricTaskLogEntriesForNonExistingCaseInstances", null, HistoricTaskLogEntryEntityImpl.class);
+        implementationMissing(false);
+        //getDbSqlSession().delete("bulkDeleteHistoricTaskLogEntriesForNonExistingCaseInstances", null, HistoricTaskLogEntryEntityImpl.class);
     }
 
-    @Override
+
     public long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
-        return (Long) getDbSqlSession().selectOne("selectHistoricTaskLogEntriesCountByNativeQueryCriteria", nativeHistoricTaskLogEntryQuery);
+        implementationMissing(false);
+        return 0;
+        //return (Long) getDbSqlSession().selectOne("selectHistoricTaskLogEntriesCountByNativeQueryCriteria", nativeHistoricTaskLogEntryQuery);
     }
-    @Override
-    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
-        return getDbSqlSession().selectListWithRawParameter("selectHistoricTaskLogEntriesByNativeQueryCriteria", nativeHistoricTaskLogEntryQuery);
+
+    public List!HistoricTaskLogEntry findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
+        implementationMissing(false);
+        return null;
+       // return getDbSqlSession().selectListWithRawParameter("selectHistoricTaskLogEntriesByNativeQueryCriteria", nativeHistoricTaskLogEntryQuery);
     }
 }

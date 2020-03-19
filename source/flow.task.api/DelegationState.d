@@ -19,24 +19,38 @@
 module flow.task.api.DelegationState;
 
 
-
-
+import hunt.Enum;
+import std.concurrency : initOnce;
 
 /**
  * Defines the different states of delegation that a task can be in.
  *
  * @author Tom Baeyens
  */
-enum DelegationState {
+class DelegationState :AbstractEnum!DelegationState{
 
+    this(string name, int val)
+    {
+        super(name,val);
+    }
+
+    static DelegationState PENDING() {
+      __gshared DelegationState  inst;
+      return initOnce!inst(inst = new DelegationState!("PENDING", 0));
+    }
+
+     static DelegationState RESOLVED() {
+       __gshared DelegationState  inst;
+       return initOnce!inst(inst = new DelegationState!("RESOLVED", 1));
+     }
     /**
      * The owner delegated the task and wants to review the result after the assignee has resolved the task. When the assignee completes the task, the task is marked as {@link #RESOLVED} and sent back
      * to the owner. When that happens, the owner is set as the assignee so that the owner gets this task back in the ToDo.
      */
-    PENDING,
+    //PENDING,
 
     /**
      * The assignee has resolved the task, the assignee was set to the owner again and the owner now finds this task back in the ToDo list for review. The owner now is able to complete the task.
      */
-    RESOLVED
+    //RESOLVED
 }

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.impl.TaskServiceImpl;
 import hunt.collection.List;
 
 import flow.common.service.CommonServiceImpl;
@@ -22,88 +22,88 @@ import flow.task.service.TaskService;
 import flow.task.service.TaskServiceConfiguration;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.task.service.impl.persistence.entity.TaskEntityManager;
-
+import flow.task.service.impl.TaskQueryImpl;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class TaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration> implements TaskService {
+class TaskServiceImpl : CommonServiceImpl!TaskServiceConfiguration , TaskService {
 
-    public TaskServiceImpl(TaskServiceConfiguration taskServiceConfiguration) {
+    this(TaskServiceConfiguration taskServiceConfiguration) {
         super(taskServiceConfiguration);
     }
 
-    @Override
+
     public TaskEntity getTask(string id) {
         return getTaskEntityManager().findById(id);
     }
 
-    @Override
-    public List<TaskEntity> findTasksByExecutionId(string executionId) {
+
+    public List!TaskEntity findTasksByExecutionId(string executionId) {
         return getTaskEntityManager().findTasksByExecutionId(executionId);
     }
 
-    @Override
-    public List<TaskEntity> findTasksByProcessInstanceId(string processInstanceId) {
+
+    public List!TaskEntity findTasksByProcessInstanceId(string processInstanceId) {
         return getTaskEntityManager().findTasksByProcessInstanceId(processInstanceId);
     }
 
-    @Override
-    public List<Task> findTasksByParentTaskId(string parentTaskId) {
+
+    public List!Task findTasksByParentTaskId(string parentTaskId) {
         return getTaskEntityManager().findTasksByParentTaskId(parentTaskId);
     }
 
-    @Override
-    public List<TaskEntity> findTasksBySubScopeIdScopeType(string subScopeId, string scopeType) {
+
+    public List!TaskEntity findTasksBySubScopeIdScopeType(string subScopeId, string scopeType) {
         return getTaskEntityManager().findTasksBySubScopeIdAndScopeType(subScopeId, scopeType);
     }
 
-    @Override
+
     public TaskQuery createTaskQuery() {
         return new TaskQueryImpl();
     }
 
-    @Override
+
     public void changeTaskAssignee(TaskEntity taskEntity, string userId) {
         getTaskEntityManager().changeTaskAssignee(taskEntity, userId);
     }
 
-    @Override
+
     public void changeTaskOwner(TaskEntity taskEntity, string ownerId) {
         getTaskEntityManager().changeTaskOwner(taskEntity, ownerId);
     }
 
-    @Override
+
     public void updateTaskTenantIdForDeployment(string deploymentId, string tenantId) {
         getTaskEntityManager().updateTaskTenantIdForDeployment(deploymentId, tenantId);
     }
 
-    @Override
+
     public void updateTask(TaskEntity taskEntity, bool fireUpdateEvent) {
         getTaskEntityManager().update(taskEntity, fireUpdateEvent);
     }
 
-    @Override
+
     public void updateAllTaskRelatedEntityCountFlags(bool configProperty) {
         getTaskEntityManager().updateAllTaskRelatedEntityCountFlags(configProperty);
     }
 
-    @Override
+
     public TaskEntity createTask() {
         return getTaskEntityManager().create();
     }
 
-    @Override
+
     public void insertTask(TaskEntity taskEntity, bool fireCreateEvent) {
         getTaskEntityManager().insert(taskEntity, fireCreateEvent);
     }
 
-    @Override
+
     public void deleteTask(TaskEntity task, bool fireEvents) {
-        getTaskEntityManager().delete(task, fireEvents);
+        getTaskEntityManager().dele(task, fireEvents);
     }
 
-    @Override
+
     public void deleteTasksByExecutionId(string executionId) {
         getTaskEntityManager().deleteTasksByExecutionId(executionId);
     }
@@ -112,7 +112,7 @@ class TaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration> implem
         return configuration.getTaskEntityManager();
     }
 
-    @Override
+
     public TaskEntity createTask(TaskBuilder taskBuilder) {
         return getTaskEntityManager().createTask(taskBuilder);
     }

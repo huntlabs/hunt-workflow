@@ -30,6 +30,7 @@ import flow.identitylink.api.IdentityLink;
 import flow.identitylink.api.IdentityLinkType;
 import flow.task.api.DelegationState;
 import flow.variable.service.api.deleg.VariableScope;
+alias Date = LocalDateTime;
 
 /**
  * @author Joram Barrez
@@ -90,7 +91,6 @@ interface DelegateTask : VariableScope {
     bool isSuspended();
 
     /** The tenant identifier of this task */
-    @Override
     string getTenantId();
 
     /** The form key for the user task */

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 
 import hunt.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import flow.task.api.history.HistoricTaskLogEntry;
 /**
  * @author martin.grofcik
  */
-interface HistoricTaskLogEntryEntity extends HistoricTaskLogEntry, Entity {
+interface HistoricTaskLogEntryEntity : HistoricTaskLogEntry, Entity {
 
     void setLogNumber(long logNumber);
 

@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+module flow.task.service.event.impl.FlowableTaskEventBuilder;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEntityEvent;
@@ -40,10 +41,11 @@ class FlowableTaskEventBuilder {
     }
 
     protected static void populateEventWithCurrentContext(FlowableEngineEventImpl event) {
-        if (event instanceof FlowableEntityEvent) {
-            Object persistedObject = ((FlowableEntityEvent) event).getEntity();
-            if (persistedObject instanceof Task) {
-                Task taskObject = (Task) persistedObject;
+        FlowableEntityEvent f = cast(FlowableEntityEvent)event;
+        if (f !is null) {
+            Object persistedObject = f.getEntity();
+            Task taskObject = cast(Task) persistedObject;
+            if (taskObject !is null) {
                 event.setProcessInstanceId(taskObject.getProcessInstanceId());
                 event.setExecutionId(taskObject.getExecutionId());
                 event.setProcessDefinitionId(taskObject.getProcessDefinitionId());

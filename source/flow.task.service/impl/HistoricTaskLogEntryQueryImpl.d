@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
@@ -22,11 +22,12 @@ import flow.common.interceptor.CommandExecutor;
 import flow.task.api.history.HistoricTaskLogEntry;
 import flow.task.api.history.HistoricTaskLogEntryQuery;
 import flow.task.service.impl.util.CommandContextUtil;
+import flow.task.service.impl.HistoricTaskLogEntryQueryProperty;
 
 /**
  * @author martin.grofcik
  */
-class HistoricTaskLogEntryQueryImpl extends AbstractQuery<HistoricTaskLogEntryQuery, HistoricTaskLogEntry> implements HistoricTaskLogEntryQuery {
+class HistoricTaskLogEntryQueryImpl : AbstractQuery!(HistoricTaskLogEntryQuery, HistoricTaskLogEntry) , HistoricTaskLogEntryQuery {
 
     protected string taskId;
     protected string type;
@@ -43,103 +44,103 @@ class HistoricTaskLogEntryQueryImpl extends AbstractQuery<HistoricTaskLogEntryQu
     protected long fromLogNumber = -1;
     protected long toLogNumber = -1;
 
-    public HistoricTaskLogEntryQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery taskId(string taskId) {
         this.taskId = taskId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery type(string type) {
         this.type = type;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery userId(string userId) {
         this.userId = userId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery processInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery processDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery scopeId(string scopeId) {
         this.scopeId = scopeId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery scopeDefinitionId(string scopeDefinitionId) {
         this.scopeDefinitionId = scopeDefinitionId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery caseInstanceId(string caseInstanceId) {
         this.scopeId = caseInstanceId;
         this.scopeType = ScopeTypes.CMMN;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery caseDefinitionId(string caseDefinitionId) {
         this.scopeDefinitionId = caseDefinitionId;
         this.scopeType = ScopeTypes.CMMN;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery subScopeId(string subScopeId) {
         this.subScopeId = subScopeId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery scopeType(string scopeType) {
         this.scopeType = scopeType;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery from(Date fromDate) {
         this.fromDate = fromDate;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery to(Date toDate) {
         this.toDate = toDate;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery tenantId(string tenantId) {
         this.tenantId = tenantId;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery fromLogNumber(long fromLogNumber) {
         this.fromLogNumber = fromLogNumber;
         return this;
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery toLogNumber(long toLogNumber) {
         this.toLogNumber = toLogNumber;
         return this;
@@ -201,22 +202,22 @@ class HistoricTaskLogEntryQueryImpl extends AbstractQuery<HistoricTaskLogEntryQu
         return toLogNumber;
     }
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getHistoricTaskLogEntryEntityManager(commandContext).findHistoricTaskLogEntriesCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<HistoricTaskLogEntry> executeList(CommandContext commandContext) {
+
+    public List!HistoricTaskLogEntry executeList(CommandContext commandContext) {
         return CommandContextUtil.getHistoricTaskLogEntryEntityManager(commandContext).findHistoricTaskLogEntriesByQueryCriteria(this);
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery orderByLogNumber() {
         orderBy(HistoricTaskLogEntryQueryProperty.LOG_NUMBER);
         return this;
     }
-    @Override
+
     public HistoricTaskLogEntryQuery orderByTimeStamp() {
         orderBy(HistoricTaskLogEntryQueryProperty.TIME_STAMP);
         return this;

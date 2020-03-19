@@ -21,7 +21,7 @@ module flow.common.interceptor.CommandContext;
 
 //import hunt.collection.ArrayList;
 //import hunt.collection.HashMap;
-//import java.util.LinkedList;
+//import hunt.collection.LinkedList;
 //import hunt.collection.List;
 //import hunt.collection.Map;
 

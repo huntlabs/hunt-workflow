@@ -31,12 +31,12 @@ abstract class AbstractEntityNoRevision : Entity {
 
 
     public string getId() {
-        return id;
+        return null;
     }
 
 
     public void setId(string id) {
-        this.id = id;
+
     }
 
 

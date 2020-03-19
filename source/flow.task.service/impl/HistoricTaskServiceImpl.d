@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.HistoricTaskServiceImpl;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
-import java.util.Objects;
 
-import flow.common.identity.Authentication;
+//import flow.common.identity.Authentication;
 import flow.common.interceptor.CommandExecutor;
 import flow.common.service.CommonServiceImpl;
 import flow.identitylink.api.IdentityLinkType;
@@ -35,63 +34,65 @@ import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.task.service.impl.util.CommandContextUtil;
+import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
+import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
 
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration> implements HistoricTaskService {
+class HistoricTaskServiceImpl : CommonServiceImpl!TaskServiceConfiguration , HistoricTaskService {
 
-    public HistoricTaskServiceImpl(TaskServiceConfiguration taskServiceConfiguration) {
+    this(TaskServiceConfiguration taskServiceConfiguration) {
         super(taskServiceConfiguration);
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity getHistoricTask(string id) {
         return getHistoricTaskInstanceEntityManager().findById(id);
     }
 
-    @Override
-    public List<HistoricTaskInstanceEntity> findHistoricTasksByParentTaskId(string parentTaskId) {
+
+    public List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId) {
         return getHistoricTaskInstanceEntityManager().findHistoricTasksByParentTaskId(parentTaskId);
     }
 
-    @Override
-    public List<HistoricTaskInstanceEntity> findHistoricTasksByProcessInstanceId(string processInstanceId) {
+
+    public List!HistoricTaskInstanceEntity findHistoricTasksByProcessInstanceId(string processInstanceId) {
         return getHistoricTaskInstanceEntityManager().findHistoricTasksByProcessInstanceId(processInstanceId);
     }
 
-    @Override
-    public List<HistoricTaskInstance> findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
+
+    public List!HistoricTaskInstance findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
         return getHistoricTaskInstanceEntityManager().findHistoricTaskInstancesByQueryCriteria(historicTaskInstanceQuery);
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity createHistoricTask() {
         return getHistoricTaskInstanceEntityManager().create();
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity createHistoricTask(TaskEntity taskEntity) {
         return getHistoricTaskInstanceEntityManager().create(taskEntity);
     }
 
-    @Override
+
     public void updateHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireUpdateEvent) {
         getHistoricTaskInstanceEntityManager().update(historicTaskInstanceEntity, fireUpdateEvent);
     }
 
-    @Override
+
     public void insertHistoricTask(HistoricTaskInstanceEntity historicTaskInstanceEntity, bool fireCreateEvent) {
         getHistoricTaskInstanceEntityManager().insert(historicTaskInstanceEntity, fireCreateEvent);
     }
 
-    @Override
+
     public void deleteHistoricTask(HistoricTaskInstanceEntity HistoricTaskInstance) {
-        getHistoricTaskInstanceEntityManager().delete(HistoricTaskInstance);
+        getHistoricTaskInstanceEntityManager().dele(HistoricTaskInstance);
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity recordTaskCreated(TaskEntity task) {
         HistoricTaskInstanceEntityManager historicTaskInstanceEntityManager = getHistoricTaskInstanceEntityManager();
         HistoricTaskInstanceEntity historicTaskInstanceEntity = historicTaskInstanceEntityManager.create(task);
@@ -99,7 +100,7 @@ class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration
         return historicTaskInstanceEntity;
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity recordTaskEnd(TaskEntity task, string deleteReason, Date endTime) {
         HistoricTaskInstanceEntity historicTaskInstanceEntity = getHistoricTaskInstanceEntityManager().findById(task.getId());
         if (historicTaskInstanceEntity !is null) {
@@ -108,7 +109,7 @@ class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration
         return historicTaskInstanceEntity;
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity recordTaskInfoChange(TaskEntity taskEntity, Date changeTime) {
         HistoricTaskInstanceEntity historicTaskInstance = getHistoricTaskInstanceEntityManager().findById(taskEntity.getId());
         if (historicTaskInstance !is null) {
@@ -137,12 +138,12 @@ class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration
         return historicTaskInstance;
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntry(long logNumber) {
         getHistoricTaskLogEntryEntityManager().deleteHistoricTaskLogEntry(logNumber);
     }
 
-    @Override
+
     public void addHistoricTaskLogEntry(TaskInfo task, string logEntryType, string data) {
         if (this.configuration.isEnableHistoricTaskLogging()) {
             HistoricTaskLogEntryEntity taskLogEntry = getHistoricTaskLogEntryEntityManager().create();
@@ -162,69 +163,69 @@ class HistoricTaskServiceImpl extends CommonServiceImpl<TaskServiceConfiguration
         }
     }
 
-    @Override
+
     public void createHistoricTaskLogEntry(HistoricTaskLogEntryBuilder historicTaskLogEntryBuilder) {
         if (this.configuration.isEnableHistoricTaskLogging()) {
             getHistoricTaskLogEntryEntityManager().createHistoricTaskLogEntry(historicTaskLogEntryBuilder);
         }
     }
 
-    @Override
+
     public HistoricTaskLogEntryQuery createHistoricTaskLogEntryQuery(CommandExecutor commandExecutor) {
         return new HistoricTaskLogEntryQueryImpl(commandExecutor);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForProcessDefinition(string processDefinitionId) {
         if (this.configuration.isEnableHistoricTaskLogging()) {
             getHistoricTaskLogEntryEntityManager().deleteHistoricTaskLogEntriesForProcessDefinition(processDefinitionId);
         }
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForScopeDefinition(string scopeType, string scopeDefinitionId) {
         if (this.configuration.isEnableHistoricTaskLogging()) {
             getHistoricTaskLogEntryEntityManager().deleteHistoricTaskLogEntriesForScopeDefinition(scopeType, scopeDefinitionId);
         }
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForTaskId(string taskId) {
         if (this.configuration.isEnableHistoricTaskLogging()) {
             getHistoricTaskLogEntryEntityManager().deleteHistoricTaskLogEntriesForTaskId(taskId);
         }
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForNonExistingProcessInstances() {
         if (this.configuration.isEnableHistoricTaskLogging()) {
             getHistoricTaskLogEntryEntityManager().deleteHistoricTaskLogEntriesForNonExistingProcessInstances();
         }
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForNonExistingCaseInstances() {
         if (this.configuration.isEnableHistoricTaskLogging()) {
             getHistoricTaskLogEntryEntityManager().deleteHistoricTaskLogEntriesForNonExistingCaseInstances();
         }
     }
 
-    @Override
+
     public void deleteHistoricTaskInstances(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
         getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstances(historicTaskInstanceQuery);
     }
 
-    @Override
+
     public void deleteHistoricTaskInstancesForNonExistingProcessInstances() {
         getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstancesForNonExistingProcessInstances();
     }
 
-    @Override
+
     public void deleteHistoricTaskInstancesForNonExistingCaseInstances() {
         getHistoricTaskInstanceEntityManager().deleteHistoricTaskInstancesForNonExistingCaseInstances();
     }
 
-    @Override
+
     public NativeHistoricTaskLogEntryQuery createNativeHistoricTaskLogEntryQuery(CommandExecutor commandExecutor) {
         return new NativeHistoricTaskLogEntryQueryImpl(commandExecutor);
     }

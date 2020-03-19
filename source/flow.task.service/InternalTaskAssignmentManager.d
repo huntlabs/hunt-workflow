@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.InternalTaskAssignmentManager;
 
 import hunt.collection.List;
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.util.CountingTaskUtil;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -18,7 +18,7 @@ import flow.task.service.impl.persistence.CountingTaskEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.event.impl.FlowableVariableEventBuilder;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
-
+import flow.task.service.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
@@ -26,7 +26,7 @@ class CountingTaskUtil {
 
     public static void handleDeleteVariableInstanceEntityCount(VariableInstanceEntity variableInstance, bool fireDeleteEvent) {
         if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
-            CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskEntityManager().findById(variableInstance.getTaskId());
+            CountingTaskEntity countingTaskEntity = cast(CountingTaskEntity) CommandContextUtil.getTaskEntityManager().findById(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() - 1);
             }
@@ -45,7 +45,7 @@ class CountingTaskUtil {
 
     public static void handleInsertVariableInstanceEntityCount(VariableInstanceEntity variableInstance) {
         if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
-            CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskEntityManager().findById(variableInstance.getTaskId());
+            CountingTaskEntity countingTaskEntity = cast(CountingTaskEntity) CommandContextUtil.getTaskEntityManager().findById(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() + 1);
             }
@@ -64,8 +64,9 @@ class CountingTaskUtil {
     }
 
     public static bool isTaskRelatedEntityCountEnabled(TaskEntity taskEntity) {
-        if (taskEntity instanceof CountingTaskEntity) {
-            return isTaskRelatedEntityCountEnabled((CountingTaskEntity) taskEntity);
+        CountingTaskEntity c =  cast(CountingTaskEntity) taskEntity;
+        if (c !is null) {
+            return isTaskRelatedEntityCountEnabled(c);
         }
         return false;
     }

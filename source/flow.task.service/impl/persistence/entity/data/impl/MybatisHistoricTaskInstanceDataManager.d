@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.task.service.impl.persistence.entity.data.impl.MybatisHistoricTaskInstanceDataManager;
 
-
-import hunt.collections;
+import hunt.collection;
 import hunt.collection.List;
 import hunt.collection.Map;
 
@@ -24,110 +24,189 @@ import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.task.service.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
 import flow.task.service.impl.util.CommandContextUtil;
-
+import hunt.logging;
+import hunt.entity;
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
 /**
  * @author Joram Barrez
  */
-class MybatisHistoricTaskInstanceDataManager extends AbstractDataManager<HistoricTaskInstanceEntity> implements HistoricTaskInstanceDataManager {
+class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskInstanceEntity , HistoricTaskInstanceDataManager {
 
-    @Override
-    class<? extends HistoricTaskInstanceEntity> getManagedEntityClass() {
-        return HistoricTaskInstanceEntityImpl.class;
+    //
+    //class<? extends HistoricTaskInstanceEntity> getManagedEntityClass() {
+    //    return HistoricTaskInstanceEntityImpl.class;
+    //}
+   this()
+   {
+     super(entityManagerFactory.createEntityManager());
+   }
+
+
+    public HistoricTaskInstanceEntity findById(string entityId) {
+      if (entityId is null) {
+        return null;
+      }
+
+      return find(entityId);
+
+      // Cache
+      //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
+      //if (cachedEntity !is null) {
+      //  return cachedEntity;
+      //}
+
+      // Database
+      //return getDbSqlSession().selectById(getManagedEntityClass(), entityId, false);
     }
+      //
+      public void insert(HistoricTaskInstanceEntity entity) {
+        insert(cast(HistoricTaskInstanceEntityImpl)entity);
+        //getDbSqlSession().insert(entity);
+      }
+      public HistoricTaskInstanceEntity update(HistoricTaskInstanceEntity entity) {
+        return  update(cast(HistoricTaskInstanceEntityImpl)entity);
+        //getDbSqlSession().update(entity);
+        //return entity;
+      }
+      public void dele(string id) {
+        HistoricTaskInstanceEntity entity = findById(id);
+        if (entity !is null)
+        {
+          remove(cast(HistoricTaskInstanceEntityImpl)entity);
+        }
+        //delete(entity);
+      }
 
-    @Override
+      public void dele(HistoricTaskInstanceEntity entity) {
+        if (entity !is null)
+        {
+          remove(cast(HistoricTaskInstanceEntityImpl)entity);
+        }
+        //getDbSqlSession().delete(entity);
+      }
+
+
     public HistoricTaskInstanceEntity create() {
         return new HistoricTaskInstanceEntityImpl();
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity create(TaskEntity task) {
         return new HistoricTaskInstanceEntityImpl(task);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<HistoricTaskInstanceEntity> findHistoricTasksByParentTaskId(string parentTaskId) {
-        return getDbSqlSession().selectList("selectHistoricTasksByParentTaskId", parentTaskId);
+
+
+    public List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId) {
+        scope(exit)
+        {
+          _manager.close();
+        }
+        auto select = _manager.createQuery!(HistoricTaskInstanceEntityImpl)("SELECT * FROM HistoricTaskInstanceEntityImpl u where u.parentTaskId = :parentTaskId");
+        select.setParameter("parentTaskId",parentTaskId);
+        HistoricTaskInstanceEntityImpl[] ls = select.getResultList();
+        return new ArrayList!HistoricTaskInstanceEntity(ls);
+       // return getDbSqlSession().selectList("selectHistoricTasksByParentTaskId", parentTaskId);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<HistoricTaskInstanceEntity> findHistoricTasksByProcessInstanceId(string processInstanceId) {
-        return getDbSqlSession().selectList("selectHistoricTaskInstancesByProcessInstanceId", processInstanceId);
+
+
+    public List!HistoricTaskInstanceEntity findHistoricTasksByProcessInstanceId(string processInstanceId) {
+        scope(exit)
+        {
+          _manager.close();
+        }
+        auto select = _manager.createQuery!(HistoricTaskInstanceEntityImpl)("SELECT * FROM HistoricTaskInstanceEntityImpl u where u.processInstanceId = :processInstanceId");
+        select.setParameter("processInstanceId",processInstanceId);
+        HistoricTaskInstanceEntityImpl[] ls = select.getResultList();
+        return new ArrayList!HistoricTaskInstanceEntity(ls);
+        //return getDbSqlSession().selectList("selectHistoricTaskInstancesByProcessInstanceId", processInstanceId);
     }
 
-    @Override
+
     public long findHistoricTaskInstanceCountByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
-        return (Long) getDbSqlSession().selectOne("selectHistoricTaskInstanceCountByQueryCriteria", historicTaskInstanceQuery);
+        implementationMissing(false);
+        return 0;
+        //return (Long) getDbSqlSession().selectOne("selectHistoricTaskInstanceCountByQueryCriteria", historicTaskInstanceQuery);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<HistoricTaskInstance> findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
-        return getDbSqlSession().selectList("selectHistoricTaskInstancesByQueryCriteria", historicTaskInstanceQuery, getManagedEntityClass());
+
+
+    public List!HistoricTaskInstance findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
+        implementationMissing(false);
+        return null;
+      //return getDbSqlSession().selectList("selectHistoricTaskInstancesByQueryCriteria", historicTaskInstanceQuery, getManagedEntityClass());
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<HistoricTaskInstance> findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
+
+
+    public List!HistoricTaskInstance findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
         // paging doesn't work for combining task instances and variables
         // due to an outer join, so doing it in-memory
-
-        int firstResult = historicTaskInstanceQuery.getFirstResult();
-        int maxResults = historicTaskInstanceQuery.getMaxResults();
-
-        // setting max results, limit to 20000 results for performance reasons
-        if (historicTaskInstanceQuery.getTaskVariablesLimit() !is null) {
-            historicTaskInstanceQuery.setMaxResults(historicTaskInstanceQuery.getTaskVariablesLimit());
-        } else {
-            historicTaskInstanceQuery.setMaxResults(CommandContextUtil.getTaskServiceConfiguration().getHistoricTaskQueryLimit());
-        }
-        historicTaskInstanceQuery.setFirstResult(0);
-
-        List<HistoricTaskInstance> instanceList = getDbSqlSession().selectListWithRawParameterNoCacheLoadAndStore(
-                        "selectHistoricTaskInstancesWithRelatedEntitiesByQueryCriteria", historicTaskInstanceQuery, getManagedEntityClass());
-
-        if (instanceList !is null && !instanceList.isEmpty()) {
-            if (firstResult > 0) {
-                if (firstResult <= instanceList.size()) {
-                    int toIndex = firstResult + Math.min(maxResults, instanceList.size() - firstResult);
-                    return instanceList.subList(firstResult, toIndex);
-                } else {
-                    return Collections.EMPTY_LIST;
-                }
-            } else {
-                int toIndex = maxResults > 0 ?  Math.min(maxResults, instanceList.size()) : instanceList.size();
-                return instanceList.subList(0, toIndex);
-            }
-        }
-
-        return instanceList;
+        implementationMissing(false);
+        return null;
+        //int firstResult = historicTaskInstanceQuery.getFirstResult();
+        //int maxResults = historicTaskInstanceQuery.getMaxResults();
+        //
+        //// setting max results, limit to 20000 results for performance reasons
+        //if (historicTaskInstanceQuery.getTaskVariablesLimit() !is null) {
+        //    historicTaskInstanceQuery.setMaxResults(historicTaskInstanceQuery.getTaskVariablesLimit());
+        //} else {
+        //    historicTaskInstanceQuery.setMaxResults(CommandContextUtil.getTaskServiceConfiguration().getHistoricTaskQueryLimit());
+        //}
+        //historicTaskInstanceQuery.setFirstResult(0);
+        //
+        //List!HistoricTaskInstance instanceList = getDbSqlSession().selectListWithRawParameterNoCacheLoadAndStore(
+        //                "selectHistoricTaskInstancesWithRelatedEntitiesByQueryCriteria", historicTaskInstanceQuery, getManagedEntityClass());
+        //
+        //if (instanceList !is null && !instanceList.isEmpty()) {
+        //    if (firstResult > 0) {
+        //        if (firstResult <= instanceList.size()) {
+        //            int toIndex = firstResult + Math.min(maxResults, instanceList.size() - firstResult);
+        //            return instanceList.subList(firstResult, toIndex);
+        //        } else {
+        //            return Collections.EMPTY_LIST;
+        //        }
+        //    } else {
+        //        int toIndex = maxResults > 0 ?  Math.min(maxResults, instanceList.size()) : instanceList.size();
+        //        return instanceList.subList(0, toIndex);
+        //    }
+        //}
+        //
+        //return instanceList;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<HistoricTaskInstance> findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap) {
-        return getDbSqlSession().selectListWithRawParameter("selectHistoricTaskInstanceByNativeQuery", parameterMap);
+
+
+    public List!HistoricTaskInstance findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap) {
+        implementationMissing(false);
+        return null;
+        //return getDbSqlSession().selectListWithRawParameter("selectHistoricTaskInstanceByNativeQuery", parameterMap);
     }
 
-    @Override
+
     public long findHistoricTaskInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
-        return (Long) getDbSqlSession().selectOne("selectHistoricTaskInstanceCountByNativeQuery", parameterMap);
+        implementationMissing(false);
+        return null;
+      //  return (Long) getDbSqlSession().selectOne("selectHistoricTaskInstanceCountByNativeQuery", parameterMap);
     }
 
-    @Override
+
     public void deleteHistoricTaskInstances(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
-        getDbSqlSession().delete("bulkDeleteHistoricTaskInstances", historicTaskInstanceQuery, HistoricTaskInstanceEntityImpl.class);
+        implementationMissing(false);
+        //getDbSqlSession().delete("bulkDeleteHistoricTaskInstances", historicTaskInstanceQuery, HistoricTaskInstanceEntityImpl.class);
     }
 
-    @Override
+
     public void deleteHistoricTaskInstancesForNonExistingProcessInstances() {
-        getDbSqlSession().delete("bulkDeleteHistoricTaskInstancesForNonExistingProcessInstances", null, HistoricTaskInstanceEntityImpl.class);
+        implementationMissing(false);
+        //getDbSqlSession().delete("bulkDeleteHistoricTaskInstancesForNonExistingProcessInstances", null, HistoricTaskInstanceEntityImpl.class);
     }
 
-    @Override
+
     public void deleteHistoricTaskInstancesForNonExistingCaseInstances() {
-        getDbSqlSession().delete("bulkDeleteHistoricTaskInstancesForNonExistingCaseInstances", null, HistoricTaskInstanceEntityImpl.class);
+        implementationMissing(false);
+       // getDbSqlSession().delete("bulkDeleteHistoricTaskInstancesForNonExistingCaseInstances", null, HistoricTaskInstanceEntityImpl.class);
     }
 }

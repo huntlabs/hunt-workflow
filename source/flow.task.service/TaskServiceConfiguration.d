@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.TaskServiceConfiguration;
 
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import hunt.Exceptions;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.AbstractServiceConfiguration;
@@ -36,10 +36,16 @@ import flow.task.service.impl.persistence.entity.data.TaskDataManager;
 import flow.task.service.impl.persistence.entity.data.impl.MyBatisHistoricTaskLogEntryDataManager;
 import flow.task.service.impl.persistence.entity.data.impl.MybatisHistoricTaskInstanceDataManager;
 import flow.task.service.impl.persistence.entity.data.impl.MybatisTaskDataManager;
+import flow.task.service.TaskService;
+import flow.task.service.HistoricTaskService;
+import flow.task.service.InternalTaskVariableScopeResolver;
+import flow.task.service.InternalTaskLocalizationManager;
+import flow.task.service.InternalTaskAssignmentManager;
+import flow.task.service.TaskPostProcessor;
 
-class TaskServiceConfiguration extends AbstractServiceConfiguration {
+class TaskServiceConfiguration : AbstractServiceConfiguration {
 
-    public static final string DEFAULT_MYBATIS_MAPPING_FILE = "org/flowable/task/service/db/mapping/mappings.xml";
+    public static  string DEFAULT_MYBATIS_MAPPING_FILE = "org/flowable/task/service/db/mapping/mappings.xml";
 
     // SERVICES
     // /////////////////////////////////////////////////////////////////
@@ -78,7 +84,7 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
     // Events
     protected bool enableHistoricTaskLogging;
 
-    public TaskServiceConfiguration(string engineName) {
+    this(string engineName) {
         super(engineName);
     }
 
@@ -120,7 +126,8 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
 
     public void initTaskPostProcessor() {
         if (taskPostProcessor is null) {
-            taskPostProcessor = taskBuilder -> taskBuilder;
+            implementationMissing(false);
+            //taskPostProcessor = taskBuilder -> taskBuilder;
         }
     }
 
@@ -294,26 +301,26 @@ class TaskServiceConfiguration extends AbstractServiceConfiguration {
         return this;
     }
 
-    @Override
+    override
     public TaskServiceConfiguration setEnableEventDispatcher(bool enableEventDispatcher) {
         this.enableEventDispatcher = enableEventDispatcher;
         return this;
     }
 
-    @Override
+    override
     public TaskServiceConfiguration setEventDispatcher(FlowableEventDispatcher eventDispatcher) {
         this.eventDispatcher = eventDispatcher;
         return this;
     }
 
-    @Override
-    public TaskServiceConfiguration setEventListeners(List<FlowableEventListener> eventListeners) {
+    override
+    public TaskServiceConfiguration setEventListeners(List!FlowableEventListener eventListeners) {
         this.eventListeners = eventListeners;
         return this;
     }
 
-    @Override
-    public TaskServiceConfiguration setTypedEventListeners(Map<string, List<FlowableEventListener>> typedEventListeners) {
+    override
+    public TaskServiceConfiguration setTypedEventListeners(Map!(string, List!FlowableEventListener) typedEventListeners) {
         this.typedEventListeners = typedEventListeners;
         return this;
     }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.data.TaskDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -23,27 +23,27 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tijs Rademakers
  */
-interface TaskDataManager extends DataManager<TaskEntity> {
+interface TaskDataManager : DataManager!TaskEntity {
 
-    List<TaskEntity> findTasksByExecutionId(final string executionId);
+    List!TaskEntity findTasksByExecutionId( string executionId);
 
-    List<TaskEntity> findTasksByProcessInstanceId(string processInstanceId);
+    List!TaskEntity findTasksByProcessInstanceId(string processInstanceId);
 
-    List<TaskEntity> findTasksByScopeIdAndScopeType(string scopeId, string scopeType);
+    List!TaskEntity findTasksByScopeIdAndScopeType(string scopeId, string scopeType);
 
-    List<TaskEntity> findTasksBySubScopeIdAndScopeType(string subScopeId, string scopeType);
+    List!TaskEntity findTasksBySubScopeIdAndScopeType(string subScopeId, string scopeType);
 
-    List<Task> findTasksByQueryCriteria(TaskQueryImpl taskQuery);
+    List!Task findTasksByQueryCriteria(TaskQueryImpl taskQuery);
 
-    List<Task> findTasksWithRelatedEntitiesByQueryCriteria(TaskQueryImpl taskQuery);
+    List!Task findTasksWithRelatedEntitiesByQueryCriteria(TaskQueryImpl taskQuery);
 
     long findTaskCountByQueryCriteria(TaskQueryImpl taskQuery);
 
-    List<Task> findTasksByNativeQuery(Map!(string, Object) parameterMap);
+    List!Task findTasksByNativeQuery(Map!(string, Object) parameterMap);
 
     long findTaskCountByNativeQuery(Map!(string, Object) parameterMap);
 
-    List<Task> findTasksByParentTaskId(string parentTaskId);
+    List!Task findTasksByParentTaskId(string parentTaskId);
 
     void updateTaskTenantIdForDeployment(string deploymentId, string newTenantId);
 

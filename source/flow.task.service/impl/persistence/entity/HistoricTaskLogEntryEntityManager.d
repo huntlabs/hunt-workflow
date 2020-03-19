@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -19,21 +19,22 @@ import flow.common.persistence.entity.EntityManager;
 import flow.task.api.history.HistoricTaskLogEntry;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 
 /**
  * @author martin.grofcik
  */
-interface HistoricTaskLogEntryEntityManager extends EntityManager<HistoricTaskLogEntryEntity> {
+interface HistoricTaskLogEntryEntityManager : EntityManager!HistoricTaskLogEntryEntity {
 
     void deleteHistoricTaskLogEntry(long logNr);
 
     void createHistoricTaskLogEntry(HistoricTaskLogEntryBuilder historicTaskLogEntryBuilder);
 
-    List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery);
+    List!HistoricTaskLogEntry findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery);
 
     long findHistoricTaskLogEntriesCountByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery);
 
-    List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
+    List!HistoricTaskLogEntry findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
 
     long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
 

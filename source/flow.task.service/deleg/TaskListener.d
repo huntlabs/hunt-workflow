@@ -20,7 +20,7 @@
 module flow.task.service.deleg.TaskListener;
 
  import flow.task.service.deleg.BaseTaskListener;
-
+import flow.task.service.deleg.DelegateTask;
 
 /**
  * @author Joram Barrez

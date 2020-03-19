@@ -13,7 +13,7 @@
 
 
 import hunt.collection.ArrayList;
-import java.util.LinkedList;
+import hunt.collection.LinkedList;
 import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;

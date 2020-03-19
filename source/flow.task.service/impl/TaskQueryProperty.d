@@ -11,46 +11,111 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.impl.TaskQueryProperty;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
 import flow.task.api.TaskQuery;
-
+import std.concurrency : initOnce;
 /**
  * Contains the possible properties that can be used in a {@link TaskQuery}.
  *
  * @author Joram Barrez
  */
-class TaskQueryProperty implements QueryProperty {
+class TaskQueryProperty : QueryProperty {
 
-    private static final long serialVersionUID = 1L;
+  //  private static final Map<string, TaskQueryProperty> properties = new HashMap<>();
 
-    private static final Map<string, TaskQueryProperty> properties = new HashMap<>();
-
-    public static final TaskQueryProperty TASK_ID = new TaskQueryProperty("RES.ID_");
-    public static final TaskQueryProperty NAME = new TaskQueryProperty("RES.NAME_");
-    public static final TaskQueryProperty DESCRIPTION = new TaskQueryProperty("RES.DESCRIPTION_");
-    public static final TaskQueryProperty PRIORITY = new TaskQueryProperty("RES.PRIORITY_");
-    public static final TaskQueryProperty ASSIGNEE = new TaskQueryProperty("RES.ASSIGNEE_");
-    public static final TaskQueryProperty OWNER = new TaskQueryProperty("RES.OWNER_");
-    public static final TaskQueryProperty CREATE_TIME = new TaskQueryProperty("RES.CREATE_TIME_");
-    public static final TaskQueryProperty PROCESS_INSTANCE_ID = new TaskQueryProperty("RES.PROC_INST_ID_");
-    public static final TaskQueryProperty EXECUTION_ID = new TaskQueryProperty("RES.EXECUTION_ID_");
-    public static final TaskQueryProperty PROCESS_DEFINITION_ID = new TaskQueryProperty("RES.PROC_DEF_ID_");
-    public static final TaskQueryProperty DUE_DATE = new TaskQueryProperty("RES.DUE_DATE_");
-    public static final TaskQueryProperty TENANT_ID = new TaskQueryProperty("RES.TENANT_ID_");
-    public static final TaskQueryProperty TASK_DEFINITION_KEY = new TaskQueryProperty("RES.TASK_DEF_KEY_");
+    //public static final TaskQueryProperty TASK_ID = new TaskQueryProperty("RES.ID_");
+    //public static final TaskQueryProperty NAME = new TaskQueryProperty("RES.NAME_");
+    //public static final TaskQueryProperty DESCRIPTION = new TaskQueryProperty("RES.DESCRIPTION_");
+    //public static final TaskQueryProperty PRIORITY = new TaskQueryProperty("RES.PRIORITY_");
+    //public static final TaskQueryProperty ASSIGNEE = new TaskQueryProperty("RES.ASSIGNEE_");
+    //public static final TaskQueryProperty OWNER = new TaskQueryProperty("RES.OWNER_");
+    //public static final TaskQueryProperty CREATE_TIME = new TaskQueryProperty("RES.CREATE_TIME_");
+    //public static final TaskQueryProperty PROCESS_INSTANCE_ID = new TaskQueryProperty("RES.PROC_INST_ID_");
+    //public static final TaskQueryProperty EXECUTION_ID = new TaskQueryProperty("RES.EXECUTION_ID_");
+    //public static final TaskQueryProperty PROCESS_DEFINITION_ID = new TaskQueryProperty("RES.PROC_DEF_ID_");
+    //public static final TaskQueryProperty DUE_DATE = new TaskQueryProperty("RES.DUE_DATE_");
+    //public static final TaskQueryProperty TENANT_ID = new TaskQueryProperty("RES.TENANT_ID_");
+    //public static final TaskQueryProperty TASK_DEFINITION_KEY = new TaskQueryProperty("RES.TASK_DEF_KEY_");
 
     private string name;
 
-    public TaskQueryProperty(string name) {
+    static Map!(string,TaskQueryProperty) properties() {
+      __gshared Map!(string,TaskQueryProperty) inst;
+      return initOnce!inst(new HashMap!(string,TaskQueryProperty));
+    }
+
+    static TaskQueryProperty TASK_ID() {
+      __gshared TaskQueryProperty inst;
+      return initOnce!inst(new TaskQueryProperty("RES.ID_"));
+    }
+
+  static TaskQueryProperty NAME() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.NAME_"));
+  }
+
+  static TaskQueryProperty DESCRIPTION() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.DESCRIPTION_"));
+  }
+
+  static TaskQueryProperty PRIORITY() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.PRIORITY_"));
+  }
+
+  static TaskQueryProperty ASSIGNEE() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.ASSIGNEE_"));
+  }
+
+  static TaskQueryProperty OWNER() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.OWNER_"));
+  }
+
+  static TaskQueryProperty CREATE_TIME() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.CREATE_TIME_"));
+  }
+
+  static TaskQueryProperty PROCESS_INSTANCE_ID() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.PROC_INST_ID_"));
+  }
+
+  static TaskQueryProperty EXECUTION_ID() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.EXECUTION_ID_"));
+  }
+
+  static TaskQueryProperty PROCESS_DEFINITION_ID() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.PROC_DEF_ID_"));
+  }
+
+  static TaskQueryProperty DUE_DATE() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.DUE_DATE_"));
+  }
+
+  static TaskQueryProperty TENANT_ID() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.TENANT_ID_"));
+  }
+  static TaskQueryProperty TASK_DEFINITION_KEY() {
+    __gshared TaskQueryProperty inst;
+    return initOnce!inst(new TaskQueryProperty("RES.TASK_DEF_KEY_"));
+  }
+    this(string name) {
         this.name = name;
         properties.put(name, this);
     }
 
-    @Override
     public string getName() {
         return name;
     }

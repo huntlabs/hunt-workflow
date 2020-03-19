@@ -11,9 +11,9 @@
  * limitations under the License.
  */
 
+module flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManagerImpl;
 
-
-import hunt.collections;
+import hunt.collection;
 import hunt.collection.List;
 import hunt.collection.Map;
 
@@ -21,35 +21,36 @@ import flow.task.api.history.HistoricTaskInstance;
 import flow.task.service.TaskServiceConfiguration;
 import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 import flow.task.service.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
-
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
 class HistoricTaskInstanceEntityManagerImpl
-    extends AbstractTaskServiceEntityManager<HistoricTaskInstanceEntity, HistoricTaskInstanceDataManager>
-    implements HistoricTaskInstanceEntityManager {
+    : AbstractTaskServiceEntityManager!(HistoricTaskInstanceEntity, HistoricTaskInstanceDataManager)
+    , HistoricTaskInstanceEntityManager {
 
-    public HistoricTaskInstanceEntityManagerImpl(TaskServiceConfiguration taskServiceConfiguration, HistoricTaskInstanceDataManager historicTaskInstanceDataManager) {
+    this(TaskServiceConfiguration taskServiceConfiguration, HistoricTaskInstanceDataManager historicTaskInstanceDataManager) {
         super(taskServiceConfiguration, historicTaskInstanceDataManager);
     }
 
-    @Override
+
     public HistoricTaskInstanceEntity create(TaskEntity task) {
         return dataManager.create(task);
     }
 
-    @Override
-    public List<HistoricTaskInstanceEntity> findHistoricTasksByParentTaskId(string parentTaskId) {
+
+    public List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId) {
         return dataManager.findHistoricTasksByParentTaskId(parentTaskId);
     }
 
-    @Override
-    public List<HistoricTaskInstanceEntity> findHistoricTasksByProcessInstanceId(string processInstanceId) {
+
+    public List!HistoricTaskInstanceEntity findHistoricTasksByProcessInstanceId(string processInstanceId) {
         return dataManager.findHistoricTasksByProcessInstanceId(processInstanceId);
     }
 
-    @Override
+
     public long findHistoricTaskInstanceCountByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
         if (serviceConfiguration.isHistoryEnabled()) {
             return dataManager.findHistoricTaskInstanceCountByQueryCriteria(historicTaskInstanceQuery);
@@ -57,45 +58,45 @@ class HistoricTaskInstanceEntityManagerImpl
         return 0;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<HistoricTaskInstance> findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
+
+
+    public List!HistoricTaskInstance findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
         if (serviceConfiguration.isHistoryEnabled()) {
             return dataManager.findHistoricTaskInstancesByQueryCriteria(historicTaskInstanceQuery);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList!HistoricTaskInstance;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<HistoricTaskInstance> findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
+
+
+    public List!HistoricTaskInstance findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
         if (serviceConfiguration.isHistoryEnabled()) {
             return dataManager.findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(historicTaskInstanceQuery);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList!HistoricTaskInstance;
     }
 
-    @Override
-    public List<HistoricTaskInstance> findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap) {
+
+    public List!HistoricTaskInstance findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricTaskInstancesByNativeQuery(parameterMap);
     }
 
-    @Override
+
     public long findHistoricTaskInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findHistoricTaskInstanceCountByNativeQuery(parameterMap);
     }
 
-    @Override
+
     public void deleteHistoricTaskInstances(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery) {
         dataManager.deleteHistoricTaskInstances(historicTaskInstanceQuery);
     }
 
-    @Override
+
     public void deleteHistoricTaskInstancesForNonExistingProcessInstances() {
         dataManager.deleteHistoricTaskInstancesForNonExistingProcessInstances();
     }
 
-    @Override
+
     public void deleteHistoricTaskInstancesForNonExistingCaseInstances() {
         dataManager.deleteHistoricTaskInstancesForNonExistingCaseInstances();
     }

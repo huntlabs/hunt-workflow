@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.AbstractTaskServiceEntityManager;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEntityEvent;
@@ -23,14 +23,14 @@ import flow.task.service.event.impl.FlowableTaskEventBuilder;
 /**
  * @author Joram Barrez
  */
-abstract class AbstractTaskServiceEntityManager<EntityImpl extends Entity, DM extends DataManager<EntityImpl>>
-    extends AbstractServiceEngineEntityManager<TaskServiceConfiguration, EntityImpl, DM> {
+abstract class AbstractTaskServiceEntityManager(EntityImpl, DM)
+    : AbstractServiceEngineEntityManager!(TaskServiceConfiguration, EntityImpl, DM) {
 
-    public AbstractTaskServiceEntityManager(TaskServiceConfiguration taskServiceConfiguration, DM dataManager) {
+    this(TaskServiceConfiguration taskServiceConfiguration, DM dataManager) {
         super(taskServiceConfiguration, dataManager);
     }
 
-    @Override
+    override
     protected FlowableEntityEvent createEntityEvent(FlowableEngineEventType eventType, Entity entity) {
         return FlowableTaskEventBuilder.createEntityEvent(eventType, entity);
     }

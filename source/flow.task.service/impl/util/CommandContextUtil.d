@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.util.CommandContextUtil;
 
 import flow.common.context.Context;
 import flow.common.db.DbSqlSession;
@@ -36,7 +36,7 @@ class CommandContextUtil {
 
     public static TaskServiceConfiguration getTaskServiceConfiguration(CommandContext commandContext) {
         if (commandContext !is null) {
-            return (TaskServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
+            return cast(TaskServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
                             .get(EngineConfigurationConstants.KEY_TASK_SERVICE_CONFIG);
         }
         return null;
@@ -48,7 +48,7 @@ class CommandContextUtil {
 
     public static IdmEngineConfigurationApi getIdmEngineConfiguration(CommandContext commandContext) {
         if (commandContext !is null) {
-            return (IdmEngineConfigurationApi) commandContext.getCurrentEngineConfiguration().getEngineConfigurations()
+            return cast(IdmEngineConfigurationApi) commandContext.getCurrentEngineConfiguration().getEngineConfigurations()
                             .get(EngineConfigurationConstants.KEY_IDM_ENGINE_CONFIG);
         }
         return null;
@@ -60,7 +60,7 @@ class CommandContextUtil {
 
     public static VariableServiceConfiguration getVariableServiceConfiguration(CommandContext commandContext) {
         if (commandContext !is null) {
-            return (VariableServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
+            return cast(VariableServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
                             .get(EngineConfigurationConstants.KEY_VARIABLE_SERVICE_CONFIG);
         }
         return null;
@@ -72,7 +72,7 @@ class CommandContextUtil {
 
     public static IdentityLinkServiceConfiguration getIdentityLinkServiceConfiguration(CommandContext commandContext) {
         if (commandContext !is null) {
-            return (IdentityLinkServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
+            return cast(IdentityLinkServiceConfiguration) commandContext.getCurrentEngineConfiguration().getServiceConfigurations()
                             .get(EngineConfigurationConstants.KEY_IDENTITY_LINK_SERVICE_CONFIG);
         }
         return null;
@@ -86,13 +86,13 @@ class CommandContextUtil {
         return getIdentityLinkServiceConfiguration(commandContext).getHistoricIdentityLinkService();
     }
 
-    public static DbSqlSession getDbSqlSession() {
-        return getDbSqlSession(getCommandContext());
-    }
-
-    public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
-        return commandContext.getSession(DbSqlSession.class);
-    }
+    //public static DbSqlSession getDbSqlSession() {
+    //    return getDbSqlSession(getCommandContext());
+    //}
+    //
+    //public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
+    //    return commandContext.getSession(DbSqlSession.class);
+    //}
 
     public static TaskEntityManager getTaskEntityManager() {
         return getTaskEntityManager(getCommandContext());

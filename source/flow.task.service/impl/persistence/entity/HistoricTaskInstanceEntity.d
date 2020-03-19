@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
@@ -25,7 +25,7 @@ import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEnt
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface HistoricTaskInstanceEntity extends Entity, HistoricTaskInstance, HasRevision {
+interface HistoricTaskInstanceEntity : Entity, HistoricTaskInstance, HasRevision {
 
     void setExecutionId(string executionId);
 
@@ -63,9 +63,9 @@ interface HistoricTaskInstanceEntity extends Entity, HistoricTaskInstance, HasRe
 
     void setLastUpdateTime(Date lastUpdateTime);
 
-    List<HistoricVariableInstanceEntity> getQueryVariables();
+    List!HistoricVariableInstanceEntity getQueryVariables();
 
-    void setQueryVariables(List<HistoricVariableInstanceEntity> queryVariables);
+    void setQueryVariables(List!HistoricVariableInstanceEntity queryVariables);
 
     void markEnded(string deleteReason, Date endTime);
 
@@ -88,14 +88,13 @@ interface HistoricTaskInstanceEntity extends Entity, HistoricTaskInstance, HasRe
     /**
      * @deprecated use {@link #setCreateTime(Date)} instead
      */
-    @Deprecated
-    default void setStartTime(Date startTime) {
+    final void setStartTime(Date startTime) {
         setCreateTime(startTime);
     }
 
     void setEndTime(Date endTime);
 
-    void setDurationInMillis(Long durationInMillis);
+    void setDurationInMillis(long durationInMillis);
 
     void setDeleteReason(string deleteReason);
 

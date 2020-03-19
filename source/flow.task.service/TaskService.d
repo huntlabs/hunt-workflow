@@ -38,13 +38,13 @@ interface TaskService {
 
     TaskEntity getTask(string id);
 
-    List<TaskEntity> findTasksByExecutionId(string executionId);
+    List!TaskEntity findTasksByExecutionId(string executionId);
 
-    List<TaskEntity> findTasksByProcessInstanceId(string processInstanceId);
+    List!TaskEntity findTasksByProcessInstanceId(string processInstanceId);
 
-    List<Task> findTasksByParentTaskId(string parentTaskId);
+    List!Task findTasksByParentTaskId(string parentTaskId);
 
-    List<TaskEntity> findTasksBySubScopeIdScopeType(string subScopeId, string scopeType);
+    List!TaskEntity findTasksBySubScopeIdScopeType(string subScopeId, string scopeType);
 
     TaskQuery createTaskQuery();
 

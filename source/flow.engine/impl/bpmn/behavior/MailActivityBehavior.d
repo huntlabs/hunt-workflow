@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import hunt.collection;
 import hunt.collections;
-import java.util.LinkedList;
+import hunt.collection.LinkedList;
 import hunt.collection.List;
 import hunt.collection.Map;
 

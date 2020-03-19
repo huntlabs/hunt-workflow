@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -23,17 +23,17 @@ import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 /**
  * author martin.grofcik
  */
-interface HistoricTaskLogEntryDataManager extends DataManager<HistoricTaskLogEntryEntity> {
+interface HistoricTaskLogEntryDataManager : DataManager!HistoricTaskLogEntryEntity {
 
     void deleteHistoricTaskLogEntry(long logEntryNumber);
 
     long findHistoricTaskLogEntriesCountByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery);
 
-    List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery);
+    List!HistoricTaskLogEntry findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery);
 
     long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
 
-    List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
+    List!HistoricTaskLogEntry findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery);
 
     void deleteHistoricTaskLogEntriesByProcessDefinitionId(string processDefinitionId);
 

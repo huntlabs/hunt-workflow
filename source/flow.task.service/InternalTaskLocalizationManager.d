@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.InternalTaskLocalizationManager;
 
 import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskInstance;

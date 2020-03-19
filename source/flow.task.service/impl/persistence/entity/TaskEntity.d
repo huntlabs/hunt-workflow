@@ -37,12 +37,11 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface TaskEntity extends VariableScope, Task, DelegateTask, Entity, HasRevision {
+interface TaskEntity : VariableScope, Task, DelegateTask, Entity, HasRevision {
 
     void setExecutionId(string executionId);
 
-    @Override
-    List<IdentityLinkEntity> getIdentityLinks();
+    List!IdentityLinkEntity getIdentityLinks();
 
     void setCreateTime(Date createTime);
 
@@ -72,7 +71,7 @@ interface TaskEntity extends VariableScope, Task, DelegateTask, Entity, HasRevis
 
     void setTaskDefinitionKey(string taskDefinitionKey);
 
-    Map<string, VariableInstanceEntity> getVariableInstanceEntities();
+    Map!(string, VariableInstanceEntity) getVariableInstanceEntities();
 
     void forceUpdate();
 
@@ -86,5 +85,5 @@ interface TaskEntity extends VariableScope, Task, DelegateTask, Entity, HasRevis
 
     void setOwnerValue(string owner);
 
-    List<VariableInstanceEntity> getQueryVariables();
+    List!(VariableInstanceEntity) getQueryVariables();
 }

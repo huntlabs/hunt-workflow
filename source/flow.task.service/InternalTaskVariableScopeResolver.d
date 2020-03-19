@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.InternalTaskVariableScopeResolver;
 
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.impl.persistence.entity.VariableScopeImpl;

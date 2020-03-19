@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.BaseTaskBuilderImpl;
 
 import flow.common.interceptor.CommandExecutor;
 import flow.identitylink.api.IdentityLinkInfo;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 
-import hunt.collections;
+import hunt.collection;
 import hunt.time.LocalDateTime;
 import hunt.collection.Set;
 
@@ -26,7 +26,7 @@ import hunt.collection.Set;
  *
  * @author martin.grofcik
  */
-abstract class BaseTaskBuilderImpl implements TaskBuilder {
+abstract class BaseTaskBuilderImpl : TaskBuilder {
     protected CommandExecutor commandExecutor;
     protected string id;
     protected string name;
@@ -43,188 +43,189 @@ abstract class BaseTaskBuilderImpl implements TaskBuilder {
     protected string taskDefinitionKey;
     protected string scopeId;
     protected string scopeType;
-    protected Set<? extends IdentityLinkInfo> identityLinks = Collections.EMPTY_SET;
+    protected Set!IdentityLinkInfo identityLinks  ;//= Collections.EMPTY_SET;
 
-    public BaseTaskBuilderImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
+        identityLinks  = Collections.emptySet!IdentityLinkInfo;
     }
 
-    @Override
+
     abstract Task create();
 
-    @Override
+
     public TaskBuilder id(string id) {
         this.id = id;
         return this;
     }
 
-    @Override
+
     public TaskBuilder name(string name) {
         this.name = name;
         return this;
     }
 
-    @Override
+
     public TaskBuilder description(string description) {
         this.description = description;
         return this;
     }
 
-    @Override
+
     public TaskBuilder priority(int priority) {
         this.priority = priority;
         return this;
     }
 
-    @Override
+
     public TaskBuilder owner(string ownerId) {
         this.ownerId = ownerId;
         return this;
     }
 
-    @Override
+
     public TaskBuilder assignee(string assigneId) {
         this.assigneeId = assigneId;
         return this;
     }
 
-    @Override
+
     public TaskBuilder dueDate(Date dueDate) {
         this.dueDate = dueDate;
         return this;
     }
 
-    @Override
+
     public TaskBuilder category(string category) {
         this.category = category;
         return this;
     }
 
-    @Override
+
     public TaskBuilder parentTaskId(string parentTaskId) {
         this.parentTaskId = parentTaskId;
         return this;
     }
 
-    @Override
+
     public TaskBuilder tenantId(string tenantId) {
         this.tenantId = tenantId;
         return this;
     }
 
-    @Override
+
     public TaskBuilder formKey(string formKey) {
         this.formKey = formKey;
         return this;
     }
 
-    @Override
+
     public TaskBuilder taskDefinitionId(string taskDefinitionId) {
         this.taskDefinitionId = taskDefinitionId;
         return this;
     }
 
-    @Override
+
     public TaskBuilder taskDefinitionKey(string taskDefinitionKey) {
         this.taskDefinitionKey = taskDefinitionKey;
         return this;
     }
 
-    @Override
-    public TaskBuilder identityLinks(Set<? extends IdentityLinkInfo> identityLinks) {
+
+    public TaskBuilder identityLinks(Set!IdentityLinkInfo identityLinks) {
         this.identityLinks = identityLinks;
         return this;
     }
 
-    @Override
+
     public TaskBuilder scopeId(string scopeId) {
         this.scopeId = scopeId;
         return this;
     }
 
-    @Override
+
     public TaskBuilder scopeType(string scopeType) {
         this.scopeType = scopeType;
         return this;
     }
 
-    @Override
+
     public string getId() {
         return id;
     }
 
-    @Override
+
     public string getName() {
         return name;
     }
 
-    @Override
+
     public string getDescription() {
         return description;
     }
 
-    @Override
+
     public int getPriority() {
         return priority;
     }
 
-    @Override
+
     public string getOwner() {
         return ownerId;
     }
 
-    @Override
+
     public string getAssignee() {
         return assigneeId;
     }
 
-    @Override
+
     public string getTaskDefinitionId() {
         return taskDefinitionId;
     }
 
-    @Override
+
     public string getTaskDefinitionKey() {
         return taskDefinitionKey;
     }
 
-    @Override
+
     public Date getDueDate() {
         return dueDate;
     }
 
-    @Override
+
     public string getCategory() {
         return category;
     }
 
-    @Override
+
     public string getParentTaskId() {
         return parentTaskId;
     }
 
-    @Override
+
     public string getTenantId() {
         return tenantId;
     }
 
-    @Override
+
     public string getFormKey() {
         return formKey;
     }
 
 
-    @Override
-    public Set<? extends IdentityLinkInfo> getIdentityLinks() {
+
+    public Set!IdentityLinkInfo getIdentityLinks() {
         return identityLinks;
     }
 
-    @Override
+
     public string getScopeId() {
         return this.scopeId;
     }
 
-    @Override
+
     public string getScopeType() {
         return this.scopeType;
     }

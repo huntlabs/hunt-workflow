@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.impl.persistence.AbstractManager;
 
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
@@ -28,7 +28,7 @@ abstract class AbstractManager {
 
     protected TaskServiceConfiguration taskServiceConfiguration;
 
-    public AbstractManager(TaskServiceConfiguration taskServiceConfiguration) {
+    this(TaskServiceConfiguration taskServiceConfiguration) {
         this.taskServiceConfiguration = taskServiceConfiguration;
     }
 
@@ -38,9 +38,9 @@ abstract class AbstractManager {
         return Context.getCommandContext();
     }
 
-    protected <T> T getSession(Class<T> sessionClass) {
-        return getCommandContext().getSession(sessionClass);
-    }
+    //protected <T> T getSession(Class<T> sessionClass) {
+    //    return getCommandContext().getSession(sessionClass);
+    //}
 
     // Engine scoped
 

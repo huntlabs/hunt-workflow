@@ -22,12 +22,11 @@ module flow.task.service.deleg.BaseTaskListener;
 
 
 
-import java.io.Serializable;
 
 /**
  * @author Yvo Swillens
  */
-interface BaseTaskListener : Serializable {
+interface BaseTaskListener  {
 
     string EVENTNAME_CREATE = "create";
     string EVENTNAME_ASSIGNMENT = "assignment";

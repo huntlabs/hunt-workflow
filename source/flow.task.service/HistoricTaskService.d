@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.HistoricTaskService;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
@@ -35,11 +35,11 @@ interface HistoricTaskService {
 
     HistoricTaskInstanceEntity getHistoricTask(string id);
 
-    List<HistoricTaskInstanceEntity> findHistoricTasksByParentTaskId(string parentTaskId);
+    List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId);
 
-    List<HistoricTaskInstanceEntity> findHistoricTasksByProcessInstanceId(string processInstanceId);
+    List!HistoricTaskInstanceEntity findHistoricTasksByProcessInstanceId(string processInstanceId);
 
-    List<HistoricTaskInstance> findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
+    List!HistoricTaskInstance findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
     HistoricTaskInstanceEntity createHistoricTask();
 

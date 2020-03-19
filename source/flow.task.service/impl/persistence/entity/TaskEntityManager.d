@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.TaskEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -20,8 +20,9 @@ import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 import flow.task.api.TaskInfo;
 import flow.task.service.impl.TaskQueryImpl;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 
-interface TaskEntityManager extends EntityManager<TaskEntity> {
+interface TaskEntityManager : EntityManager!TaskEntity {
 
     /**
      * Creates {@link TaskEntity} according to {@link TaskInfo} template
@@ -35,25 +36,25 @@ interface TaskEntityManager extends EntityManager<TaskEntity> {
 
     void changeTaskOwner(TaskEntity taskEntity, string owner);
 
-    List<TaskEntity> findTasksByExecutionId(string executionId);
+    List!TaskEntity findTasksByExecutionId(string executionId);
 
-    List<TaskEntity> findTasksByProcessInstanceId(string processInstanceId);
+    List!TaskEntity findTasksByProcessInstanceId(string processInstanceId);
 
-    List<TaskEntity> findTasksByScopeIdAndScopeType(string scopeId, string scopeType);
+    List!TaskEntity findTasksByScopeIdAndScopeType(string scopeId, string scopeType);
 
-    List<TaskEntity> findTasksBySubScopeIdAndScopeType(string subScopeId, string scopeType);
+    List!TaskEntity findTasksBySubScopeIdAndScopeType(string subScopeId, string scopeType);
 
-    List<Task> findTasksByQueryCriteria(TaskQueryImpl taskQuery);
+    List!Task findTasksByQueryCriteria(TaskQueryImpl taskQuery);
 
-    List<Task> findTasksWithRelatedEntitiesByQueryCriteria(TaskQueryImpl taskQuery);
+    List!Task findTasksWithRelatedEntitiesByQueryCriteria(TaskQueryImpl taskQuery);
 
     long findTaskCountByQueryCriteria(TaskQueryImpl taskQuery);
 
-    List<Task> findTasksByNativeQuery(Map!(string, Object) parameterMap);
+    List!Task findTasksByNativeQuery(Map!(string, Object) parameterMap);
 
     long findTaskCountByNativeQuery(Map!(string, Object) parameterMap);
 
-    List<Task> findTasksByParentTaskId(string parentTaskId);
+    List!Task findTasksByParentTaskId(string parentTaskId);
 
     void updateTaskTenantIdForDeployment(string deploymentId, string newTenantId);
 

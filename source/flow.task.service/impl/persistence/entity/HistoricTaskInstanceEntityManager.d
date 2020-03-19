@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,25 +18,26 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.task.api.history.HistoricTaskInstance;
 import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
-
+import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-interface HistoricTaskInstanceEntityManager extends EntityManager<HistoricTaskInstanceEntity> {
+interface HistoricTaskInstanceEntityManager : EntityManager!HistoricTaskInstanceEntity {
 
     HistoricTaskInstanceEntity create(TaskEntity task);
 
-    List<HistoricTaskInstanceEntity> findHistoricTasksByParentTaskId(string parentTaskId);
+    List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId);
 
-    List<HistoricTaskInstanceEntity> findHistoricTasksByProcessInstanceId(string processInstanceId);
+    List!HistoricTaskInstanceEntity findHistoricTasksByProcessInstanceId(string processInstanceId);
 
     long findHistoricTaskInstanceCountByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
-    List<HistoricTaskInstance> findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
+    List!HistoricTaskInstance findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
-    List<HistoricTaskInstance> findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
+    List!HistoricTaskInstance findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
-    List<HistoricTaskInstance> findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap);
+    List!HistoricTaskInstance findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
     long findHistoricTaskInstanceCountByNativeQuery(Map!(string, Object) parameterMap);
 

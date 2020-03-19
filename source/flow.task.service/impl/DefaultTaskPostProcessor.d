@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.DefaultTaskPostProcessor;
 
 import flow.task.service.TaskPostProcessor;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 
-class DefaultTaskPostProcessor implements TaskPostProcessor {
-    @Override
+class DefaultTaskPostProcessor : TaskPostProcessor {
     public TaskEntity enrich(TaskEntity taskEntity) {
         return taskEntity;
     }

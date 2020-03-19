@@ -11,13 +11,12 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
-import java.util.Objects;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -26,7 +25,7 @@ import flow.common.api.scop.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-import flow.common.persistence.cache.EntityCache;
+//import flow.common.persistence.cache.EntityCache;
 import flow.idm.api.Group;
 import flow.idm.api.IdmIdentityService;
 import flow.task.api.history.HistoricTaskInstance;
@@ -38,15 +37,16 @@ import flow.variable.service.api.types.VariableTypes;
 import flow.variable.service.impl.AbstractVariableQueryImpl;
 import flow.variable.service.impl.QueryVariableValue;
 import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
-
+import flow.task.service.impl.HistoricTaskInstanceQueryProperty;
+import hunt.Exceptions;
+import std.string;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTaskInstanceQuery, HistoricTaskInstance>
-        implements HistoricTaskInstanceQuery, QueryCacheValues {
+class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskInstanceQuery, HistoricTaskInstance)
+        , HistoricTaskInstanceQuery, QueryCacheValues {
 
-    private static final long serialVersionUID = 1L;
     protected string taskDefinitionId;
     protected string processDefinitionId;
     protected string processDefinitionKey;
@@ -102,9 +102,9 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     protected string involvedUser;
     protected Collection!string involvedGroups;
     protected bool ignoreAssigneeValue;
-    protected Integer taskPriority;
-    protected Integer taskMinPriority;
-    protected Integer taskMaxPriority;
+    protected int taskPriority;
+    protected int taskMinPriority;
+    protected int taskMaxPriority;
     protected bool finished;
     protected bool unfinished;
     protected bool processFinished;
@@ -130,26 +130,29 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     protected bool withLocalizationFallback;
     protected bool includeTaskLocalVariables;
     protected bool includeProcessVariables;
-    protected Integer taskVariablesLimit;
+    protected int taskVariablesLimit;
     protected bool includeIdentityLinks;
-    protected List<HistoricTaskInstanceQueryImpl> orQueryObjects = new ArrayList<>();
+    protected List!HistoricTaskInstanceQueryImpl orQueryObjects  ;//= new ArrayList<>();
     protected HistoricTaskInstanceQueryImpl currentOrQueryObject;
 
     protected bool inOrStatement;
 
-    public HistoricTaskInstanceQueryImpl() {
+    this() {
+        orQueryObjects = new ArrayList!HistoricTaskInstanceQueryImpl;
     }
 
-    public HistoricTaskInstanceQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
+        orQueryObjects = new ArrayList!HistoricTaskInstanceQueryImpl;
     }
 
-    public HistoricTaskInstanceQueryImpl(CommandExecutor commandExecutor, string databaseType) {
+    this(CommandExecutor commandExecutor, string databaseType) {
         super(commandExecutor);
         this.databaseType = databaseType;
+        orQueryObjects = new ArrayList!HistoricTaskInstanceQueryImpl;
     }
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
 
@@ -161,10 +164,10 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return CommandContextUtil.getHistoricTaskInstanceEntityManager(commandContext).findHistoricTaskInstanceCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<HistoricTaskInstance> executeList(CommandContext commandContext) {
+
+    public List!HistoricTaskInstance executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
-        List<HistoricTaskInstance> tasks = null;
+        List!HistoricTaskInstance tasks = null;
 
         TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration(commandContext);
         if (taskServiceConfiguration.getHistoricTaskQueryInterceptor() !is null) {
@@ -187,7 +190,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
 
         if (tasks !is null && taskServiceConfiguration.getInternalTaskLocalizationManager() !is null && taskServiceConfiguration.isEnableLocalization()) {
-            for (HistoricTaskInstance task : tasks) {
+            foreach (HistoricTaskInstance task ; tasks) {
                 taskServiceConfiguration.getInternalTaskLocalizationManager().localize(task, locale, withLocalizationFallback);
             }
         }
@@ -199,30 +202,31 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return tasks;
     }
 
-    protected void addCachedVariableForQueryById(CommandContext commandContext, List<HistoricTaskInstance> results, bool local) {
-        for (HistoricTaskInstance task : results) {
-            if (Objects.equals(taskId, task.getId())) {
-
-                EntityCache entityCache = commandContext.getSession(EntityCache.class);
-                List<HistoricVariableInstanceEntity> cachedVariableEntities = entityCache.findInCache(HistoricVariableInstanceEntity.class);
-                for (HistoricVariableInstanceEntity cachedVariableEntity : cachedVariableEntities) {
-
-                    if (local) {
-                        if (task.getId().equals(cachedVariableEntity.getTaskId())) {
-                            ((HistoricTaskInstanceEntity) task).getQueryVariables().add(cachedVariableEntity);
-                        }
-                    } else {
-                        if (task.getProcessInstanceId().equals(cachedVariableEntity.getProcessInstanceId())) {
-                            ((HistoricTaskInstanceEntity) task).getQueryVariables().add(cachedVariableEntity);
-                        }
-                    }
-                }
-
-            }
-        }
+    protected void addCachedVariableForQueryById(CommandContext commandContext, List!HistoricTaskInstance results, bool local) {
+        implementationMissing(false);
+        //foreach (HistoricTaskInstance task ; results) {
+        //    if (Objects.equals(taskId, task.getId())) {
+        //
+        //        EntityCache entityCache = commandContext.getSession(EntityCache.class);
+        //        List<HistoricVariableInstanceEntity> cachedVariableEntities = entityCache.findInCache(HistoricVariableInstanceEntity.class);
+        //        for (HistoricVariableInstanceEntity cachedVariableEntity : cachedVariableEntities) {
+        //
+        //            if (local) {
+        //                if (task.getId().equals(cachedVariableEntity.getTaskId())) {
+        //                    ((HistoricTaskInstanceEntity) task).getQueryVariables().add(cachedVariableEntity);
+        //                }
+        //            } else {
+        //                if (task.getProcessInstanceId().equals(cachedVariableEntity.getProcessInstanceId())) {
+        //                    ((HistoricTaskInstanceEntity) task).getQueryVariables().add(cachedVariableEntity);
+        //                }
+        //            }
+        //        }
+        //
+        //    }
+        //}
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl processInstanceId(string processInstanceId) {
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceId = processInstanceId;
@@ -232,7 +236,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl processInstanceIdIn(Collection!string processInstanceIds) {
         if (processInstanceIds is null) {
             throw new FlowableIllegalArgumentException("Process instance id list is null");
@@ -240,7 +244,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         if (processInstanceIds.isEmpty()) {
             throw new FlowableIllegalArgumentException("Process instance id list is empty");
         }
-        for (string processInstanceId : processInstanceIds) {
+        foreach (string processInstanceId ; processInstanceIds) {
             if (processInstanceId is null) {
                 throw new FlowableIllegalArgumentException("None of the given process instance ids can be null");
             }
@@ -254,7 +258,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl processInstanceBusinessKey(string processInstanceBusinessKey) {
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceBusinessKey = processInstanceBusinessKey;
@@ -264,7 +268,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl processInstanceBusinessKeyLike(string processInstanceBusinessKeyLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
@@ -274,17 +278,17 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processInstanceBusinessKeyLikeIgnoreCase(string processInstanceBusinessKeyLikeIgnoreCase) {
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceBusinessKeyLikeIgnoreCase = processInstanceBusinessKeyLikeIgnoreCase.toLowerCase();
         } else {
-            this.processInstanceBusinessKeyLikeIgnoreCase = processInstanceBusinessKeyLikeIgnoreCase.toLowerCase();
+            this.processInstanceBusinessKeyLikeIgnoreCase = toLower!string(processInstanceBusinessKeyLikeIgnoreCase);
         }
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl executionId(string executionId) {
         if (inOrStatement) {
             this.currentOrQueryObject.executionId = executionId;
@@ -294,7 +298,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl caseInstanceId(string caseInstanceId) {
         if (inOrStatement) {
             currentOrQueryObject.scopeId(caseInstanceId);
@@ -306,7 +310,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl caseDefinitionId(string caseDefinitionId) {
         if (inOrStatement) {
             currentOrQueryObject.scopeDefinitionId(caseDefinitionId);
@@ -318,7 +322,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl processInstanceIdWithChildren(string processInstanceId) {
         if (inOrStatement) {
             currentOrQueryObject.processInstanceIdWithChildren(processInstanceId);
@@ -328,7 +332,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl caseInstanceIdWithChildren(string caseInstanceId) {
         if (inOrStatement) {
             currentOrQueryObject.caseInstanceIdWithChildren(caseInstanceId);
@@ -338,7 +342,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl planItemInstanceId(string planItemInstanceId) {
         if (inOrStatement) {
             currentOrQueryObject.subScopeId(planItemInstanceId);
@@ -350,7 +354,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl scopeId(string scopeId) {
         if (inOrStatement) {
             currentOrQueryObject.scopeId = scopeId;
@@ -360,7 +364,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl subScopeId(string subScopeId) {
         if (inOrStatement) {
             currentOrQueryObject.subScopeId = subScopeId;
@@ -370,7 +374,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl scopeType(string scopeType) {
         if (inOrStatement) {
             currentOrQueryObject.scopeType = scopeType;
@@ -380,7 +384,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl scopeDefinitionId(string scopeDefinitionId) {
         if (inOrStatement) {
             currentOrQueryObject.scopeDefinitionId = scopeDefinitionId;
@@ -390,7 +394,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery propagatedStageInstanceId(string propagatedStageInstanceId) {
         if (inOrStatement) {
             currentOrQueryObject.propagatedStageInstanceId = propagatedStageInstanceId;
@@ -400,7 +404,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl taskDefinitionId(string taskDefinitionId) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionId = taskDefinitionId;
@@ -410,7 +414,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl processDefinitionId(string processDefinitionId) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionId = processDefinitionId;
@@ -420,7 +424,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processDefinitionKey(string processDefinitionKey) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKey = processDefinitionKey;
@@ -430,7 +434,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processDefinitionKeyLike(string processDefinitionKeyLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeyLike = processDefinitionKeyLike;
@@ -440,17 +444,17 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processDefinitionKeyLikeIgnoreCase(string processDefinitionKeyLikeIgnoreCase) {
         if (inOrStatement) {
-            this.currentOrQueryObject.processDefinitionKeyLikeIgnoreCase = processDefinitionKeyLikeIgnoreCase.toLowerCase();
+            this.currentOrQueryObject.processDefinitionKeyLikeIgnoreCase = toLower!string(processDefinitionKeyLikeIgnoreCase);
         } else {
             this.processDefinitionKeyLikeIgnoreCase = processDefinitionKeyLikeIgnoreCase.toLowerCase();
         }
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processDefinitionKeyIn(Collection!string processDefinitionKeys) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeys = processDefinitionKeys;
@@ -460,7 +464,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processDefinitionName(string processDefinitionName) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionName = processDefinitionName;
@@ -470,7 +474,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processDefinitionNameLike(string processDefinitionNameLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionNameLike = processDefinitionNameLike;
@@ -480,7 +484,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processCategoryIn(Collection!string processCategoryInList) {
         if (processCategoryInList is null) {
             throw new FlowableIllegalArgumentException("Process category list is null");
@@ -488,7 +492,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         if (processCategoryInList.isEmpty()) {
             throw new FlowableIllegalArgumentException("Process category list is empty");
         }
-        for (string processCategory : processCategoryInList) {
+        foreach (string processCategory ; processCategoryInList) {
             if (processCategory is null) {
                 throw new FlowableIllegalArgumentException("None of the given process categories can be null");
             }
@@ -502,7 +506,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processCategoryNotIn(Collection!string processCategoryNotInList) {
         if (processCategoryNotInList is null) {
             throw new FlowableIllegalArgumentException("Process category list is null");
@@ -510,7 +514,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         if (processCategoryNotInList.isEmpty()) {
             throw new FlowableIllegalArgumentException("Process category list is empty");
         }
-        for (string processCategory : processCategoryNotInList) {
+        foreach (string processCategory ;processCategoryNotInList) {
             if (processCategory is null) {
                 throw new FlowableIllegalArgumentException("None of the given process categories can be null");
             }
@@ -524,7 +528,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery deploymentId(string deploymentId) {
         if (inOrStatement) {
             this.currentOrQueryObject.deploymentId = deploymentId;
@@ -534,7 +538,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery deploymentIdIn(Collection!string deploymentIds) {
         if (inOrStatement) {
             currentOrQueryObject.deploymentIds = deploymentIds;
@@ -544,7 +548,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery cmmnDeploymentId(string cmmnDeploymentId) {
         if (inOrStatement) {
             currentOrQueryObject.cmmnDeploymentId = cmmnDeploymentId;
@@ -554,7 +558,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery cmmnDeploymentIdIn(Collection!string cmmnDeploymentIds) {
         if (inOrStatement) {
             currentOrQueryObject.cmmnDeploymentIds = cmmnDeploymentIds;
@@ -564,7 +568,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskId(string taskId) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskId = taskId;
@@ -574,7 +578,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskName(string taskName) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskName = taskName;
@@ -584,7 +588,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskNameIn(Collection!string taskNameList) {
         if (taskNameList is null) {
             throw new FlowableIllegalArgumentException("Task name list is null");
@@ -611,7 +615,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskNameInIgnoreCase(Collection!string taskNameList) {
         if (taskNameList is null) {
             throw new FlowableIllegalArgumentException("Task name list is null");
@@ -619,7 +623,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         if (taskNameList.isEmpty()) {
             throw new FlowableIllegalArgumentException("Task name list is empty");
         }
-        for (string taskName : taskNameList) {
+        foreach (string taskName ; taskNameList) {
             if (taskName is null) {
                 throw new FlowableIllegalArgumentException("None of the given task names can be null");
             }
@@ -635,10 +639,10 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and nameLikeIgnoreCase");
         }
 
-        final int nameListSize = taskNameList.size();
-        final Collection!string caseIgnoredTaskNameList = new ArrayList<>(nameListSize);
-        for (string taskName : taskNameList) {
-            caseIgnoredTaskNameList.add(taskName.toLowerCase());
+         int nameListSize = taskNameList.size();
+         Collection!string caseIgnoredTaskNameList = new ArrayList!string(nameListSize);
+        foreach (string taskName ;taskNameList) {
+            caseIgnoredTaskNameList.add(toLower!string(taskName));
         }
 
         if (inOrStatement) {
@@ -649,7 +653,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskNameLike(string taskNameLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskNameLike = taskNameLike;
@@ -659,7 +663,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskNameLikeIgnoreCase(string taskNameLikeIgnoreCase) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLowerCase();
@@ -669,7 +673,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskParentTaskId(string parentTaskId) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskParentTaskId = parentTaskId;
@@ -679,7 +683,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDescription(string taskDescription) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDescription = taskDescription;
@@ -689,7 +693,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDescriptionLike(string taskDescriptionLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDescriptionLike = taskDescriptionLike;
@@ -699,17 +703,17 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDescriptionLikeIgnoreCase(string taskDescriptionLikeIgnoreCase) {
         if (inOrStatement) {
-            this.currentOrQueryObject.taskDescriptionLikeIgnoreCase = taskDescriptionLikeIgnoreCase.toLowerCase();
+            this.currentOrQueryObject.taskDescriptionLikeIgnoreCase = toLower!string(taskDescriptionLikeIgnoreCase);
         } else {
-            this.taskDescriptionLikeIgnoreCase = taskDescriptionLikeIgnoreCase.toLowerCase();
+            this.taskDescriptionLikeIgnoreCase = toLower!string(taskDescriptionLikeIgnoreCase);
         }
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDeleteReason(string taskDeleteReason) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDeleteReason = taskDeleteReason;
@@ -719,7 +723,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDeleteReasonLike(string taskDeleteReasonLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDeleteReasonLike = taskDeleteReasonLike;
@@ -729,7 +733,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskAssignee(string taskAssignee) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskAssignee = taskAssignee;
@@ -739,7 +743,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskAssigneeLike(string taskAssigneeLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskAssigneeLike = taskAssigneeLike;
@@ -749,17 +753,17 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskAssigneeLikeIgnoreCase(string taskAssigneeLikeIgnoreCase) {
         if (inOrStatement) {
-            this.currentOrQueryObject.taskAssigneeLikeIgnoreCase = taskAssigneeLikeIgnoreCase.toLowerCase();
+            this.currentOrQueryObject.taskAssigneeLikeIgnoreCase = toLower!string(taskAssigneeLikeIgnoreCase);
         } else {
-            this.taskAssigneeLikeIgnoreCase = taskAssigneeLikeIgnoreCase.toLowerCase();
+            this.taskAssigneeLikeIgnoreCase = toLower!string(taskAssigneeLikeIgnoreCase);
         }
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskAssigneeIds(Collection!string assigneeIds) {
         if (assigneeIds is null) {
             throw new FlowableIllegalArgumentException("Task assignee list is null");
@@ -767,7 +771,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         if (assigneeIds.isEmpty()) {
             throw new FlowableIllegalArgumentException("Task assignee list is empty");
         }
-        for (string assignee : assigneeIds) {
+        foreach (string assignee ; assigneeIds) {
             if (assignee is null) {
                 throw new FlowableIllegalArgumentException("None of the given task assignees can be null");
             }
@@ -791,7 +795,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskOwner(string taskOwner) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskOwner = taskOwner;
@@ -801,7 +805,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskOwnerLike(string taskOwnerLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskOwnerLike = taskOwnerLike;
@@ -811,17 +815,17 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskOwnerLikeIgnoreCase(string taskOwnerLikeIgnoreCase) {
         if (inOrStatement) {
-            this.currentOrQueryObject.taskOwnerLikeIgnoreCase = taskOwnerLikeIgnoreCase.toLowerCase();
+            this.currentOrQueryObject.taskOwnerLikeIgnoreCase = toLower!string(taskOwnerLikeIgnoreCase);
         } else {
-            this.taskOwnerLikeIgnoreCase = taskOwnerLikeIgnoreCase.toLowerCase();
+            this.taskOwnerLikeIgnoreCase = toLower!string(taskOwnerLikeIgnoreCase);
         }
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery finished() {
         if (inOrStatement) {
             this.currentOrQueryObject.finished = true;
@@ -831,7 +835,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery unfinished() {
         if (inOrStatement) {
             this.currentOrQueryObject.unfinished = true;
@@ -841,7 +845,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableName, variableValue);
@@ -851,7 +855,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue);
@@ -861,7 +865,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value);
@@ -871,7 +875,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value);
@@ -881,7 +885,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue);
@@ -891,7 +895,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value);
@@ -901,7 +905,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value);
@@ -911,7 +915,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value);
@@ -921,7 +925,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value);
@@ -931,7 +935,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueLike(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLike(name, value);
@@ -941,7 +945,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, true);
@@ -951,7 +955,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableExists(name, true);
@@ -961,7 +965,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskVariableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, true);
@@ -971,7 +975,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableName, variableValue, false);
@@ -981,7 +985,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, false);
@@ -991,7 +995,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, false);
@@ -1001,7 +1005,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, false);
@@ -1011,7 +1015,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, false);
@@ -1021,7 +1025,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value, false);
@@ -1031,7 +1035,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, false);
@@ -1041,7 +1045,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value, false);
@@ -1051,7 +1055,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, false);
@@ -1061,7 +1065,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueLike(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLike(name, value, false);
@@ -1071,7 +1075,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -1081,7 +1085,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableExists(name, false);
@@ -1091,7 +1095,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processVariableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -1101,7 +1105,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDefinitionKey(string taskDefinitionKey) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionKey = taskDefinitionKey;
@@ -1111,7 +1115,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDefinitionKeyLike(string taskDefinitionKeyLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionKeyLike = taskDefinitionKeyLike;
@@ -1121,7 +1125,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDefinitionKeys(Collection!string taskDefinitionKeys) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionKeys = taskDefinitionKeys;
@@ -1131,8 +1135,8 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
-    public HistoricTaskInstanceQuery taskPriority(Integer taskPriority) {
+
+    public HistoricTaskInstanceQuery taskPriority(int taskPriority) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskPriority = taskPriority;
         } else {
@@ -1141,8 +1145,8 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
-    public HistoricTaskInstanceQuery taskMinPriority(Integer taskMinPriority) {
+
+    public HistoricTaskInstanceQuery taskMinPriority(int taskMinPriority) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskMinPriority = taskMinPriority;
         } else {
@@ -1151,8 +1155,8 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
-    public HistoricTaskInstanceQuery taskMaxPriority(Integer taskMaxPriority) {
+
+    public HistoricTaskInstanceQuery taskMaxPriority(int taskMaxPriority) {
         if (inOrStatement) {
             this.currentOrQueryObject.taskMaxPriority = taskMaxPriority;
         } else {
@@ -1161,7 +1165,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processFinished() {
         if (inOrStatement) {
             this.currentOrQueryObject.processFinished = true;
@@ -1171,7 +1175,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery processUnfinished() {
         if (inOrStatement) {
             this.currentOrQueryObject.processUnfinished = true;
@@ -1181,19 +1185,19 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     protected void ensureVariablesInitialized() {
         VariableTypes types = CommandContextUtil.getVariableServiceConfiguration().getVariableTypes();
-        for (QueryVariableValue var : queryVariableValues) {
+        foreach (QueryVariableValue var ; queryVariableValues) {
             var.initialize(types);
         }
 
-        for (HistoricTaskInstanceQueryImpl orQueryObject : orQueryObjects) {
+        foreach (HistoricTaskInstanceQueryImpl orQueryObject ; orQueryObjects) {
             orQueryObject.ensureVariablesInitialized();
         }
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDueDate(Date dueDate) {
         if (inOrStatement) {
             this.currentOrQueryObject.dueDate = dueDate;
@@ -1203,7 +1207,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDueAfter(Date dueAfter) {
         if (inOrStatement) {
             this.currentOrQueryObject.dueAfter = dueAfter;
@@ -1213,7 +1217,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskDueBefore(Date dueBefore) {
         if (inOrStatement) {
             this.currentOrQueryObject.dueBefore = dueBefore;
@@ -1223,7 +1227,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCreatedOn(Date creationDate) {
         if (inOrStatement) {
             this.currentOrQueryObject.creationDate = creationDate;
@@ -1233,7 +1237,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCreatedBefore(Date creationBeforeDate) {
         if (inOrStatement) {
             this.currentOrQueryObject.creationBeforeDate = creationBeforeDate;
@@ -1243,7 +1247,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCreatedAfter(Date creationAfterDate) {
         if (inOrStatement) {
             this.currentOrQueryObject.creationAfterDate = creationAfterDate;
@@ -1253,7 +1257,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCompletedOn(Date completedDate) {
         if (inOrStatement) {
             this.currentOrQueryObject.completedDate = completedDate;
@@ -1263,7 +1267,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCompletedBefore(Date completedBeforeDate) {
         if (inOrStatement) {
             this.currentOrQueryObject.completedBeforeDate = completedBeforeDate;
@@ -1273,7 +1277,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCompletedAfter(Date completedAfterDate) {
         if (inOrStatement) {
             this.currentOrQueryObject.completedAfterDate = completedAfterDate;
@@ -1283,7 +1287,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery withoutTaskDueDate() {
         if (inOrStatement) {
             this.currentOrQueryObject.withoutDueDate = true;
@@ -1293,7 +1297,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCategory(string category) {
         if (inOrStatement) {
             this.currentOrQueryObject.category = category;
@@ -1303,7 +1307,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskWithFormKey() {
         if (inOrStatement) {
             currentOrQueryObject.withFormKey = true;
@@ -1313,7 +1317,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskFormKey(string formKey) {
         if (formKey is null) {
             throw new FlowableIllegalArgumentException("Task formKey is null");
@@ -1327,7 +1331,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCandidateUser(string candidateUser) {
         if (candidateUser is null) {
             throw new FlowableIllegalArgumentException("Candidate user is null");
@@ -1341,7 +1345,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCandidateGroup(string candidateGroup) {
         if (candidateGroup is null) {
             throw new FlowableIllegalArgumentException("Candidate group is null");
@@ -1359,7 +1363,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskCandidateGroupIn(Collection!string candidateGroups) {
         if (candidateGroups is null) {
             throw new FlowableIllegalArgumentException("Candidate group list is null");
@@ -1381,7 +1385,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskInvolvedUser(string involvedUser) {
         if (involvedUser is null) {
             throw new FlowableIllegalArgumentException("involved user is null");
@@ -1395,7 +1399,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskInvolvedGroups(Collection!string involvedGroups) {
         if (involvedGroups is null) {
             throw new FlowableIllegalArgumentException("Involved groups are null");
@@ -1411,7 +1415,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery ignoreAssigneeValue() {
         if (inOrStatement) {
             this.currentOrQueryObject.ignoreAssigneeValue = true;
@@ -1421,7 +1425,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("task tenant id is null");
@@ -1434,7 +1438,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("task tenant id is null");
@@ -1447,7 +1451,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskWithoutTenantId() {
         if (inOrStatement) {
             this.currentOrQueryObject.withoutTenantId = true;
@@ -1457,7 +1461,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery taskWithoutDeleteReason() {
         if (inOrStatement) {
             this.currentOrQueryObject.withoutDeleteReason = true;
@@ -1467,47 +1471,47 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery locale(string locale) {
         this.locale = locale;
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery withLocalizationFallback() {
         withLocalizationFallback = true;
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery includeTaskLocalVariables() {
         this.includeTaskLocalVariables = true;
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery includeProcessVariables() {
         this.includeProcessVariables = true;
         return this;
     }
 
-    @Override
-    public HistoricTaskInstanceQuery limitTaskVariables(Integer taskVariablesLimit) {
+
+    public HistoricTaskInstanceQuery limitTaskVariables(int taskVariablesLimit) {
         this.taskVariablesLimit = taskVariablesLimit;
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery includeIdentityLinks() {
         this.includeIdentityLinks = true;
         return this;
     }
 
-    public Integer getTaskVariablesLimit() {
+    public int getTaskVariablesLimit() {
         return taskVariablesLimit;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery or() {
         if (inOrStatement) {
             throw new FlowableException("the query is already in an or statement");
@@ -1519,7 +1523,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery endOr() {
         if (!inOrStatement) {
             throw new FlowableException("endOr() can only be called after calling or()");
@@ -1533,43 +1537,43 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     // ordering
     // /////////////////////////////////////////////////////////////////
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByTaskId() {
         orderBy(HistoricTaskInstanceQueryProperty.HISTORIC_TASK_INSTANCE_ID);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByHistoricActivityInstanceId() {
         orderBy(HistoricTaskInstanceQueryProperty.PROCESS_DEFINITION_ID);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByProcessDefinitionId() {
         orderBy(HistoricTaskInstanceQueryProperty.PROCESS_DEFINITION_ID);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByProcessInstanceId() {
         orderBy(HistoricTaskInstanceQueryProperty.PROCESS_INSTANCE_ID);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByExecutionId() {
         orderBy(HistoricTaskInstanceQueryProperty.EXECUTION_ID);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByHistoricTaskInstanceDuration() {
         orderBy(HistoricTaskInstanceQueryProperty.DURATION);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByHistoricTaskInstanceEndTime() {
         orderBy(HistoricTaskInstanceQueryProperty.END);
         return this;
@@ -1580,82 +1584,82 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByHistoricTaskInstanceStartTime() {
         orderBy(HistoricTaskInstanceQueryProperty.START);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByTaskCreateTime() {
         return orderByHistoricTaskInstanceStartTime();
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByTaskName() {
         orderBy(HistoricTaskInstanceQueryProperty.TASK_NAME);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByTaskDescription() {
         orderBy(HistoricTaskInstanceQueryProperty.TASK_DESCRIPTION);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByTaskAssignee() {
         orderBy(HistoricTaskInstanceQueryProperty.TASK_ASSIGNEE);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByTaskOwner() {
         orderBy(HistoricTaskInstanceQueryProperty.TASK_OWNER);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByTaskDueDate() {
         orderBy(HistoricTaskInstanceQueryProperty.TASK_DUE_DATE);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByDueDateNullsFirst() {
         return orderBy(HistoricTaskInstanceQueryProperty.TASK_DUE_DATE, NullHandlingOnOrder.NULLS_FIRST);
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByDueDateNullsLast() {
         return orderBy(HistoricTaskInstanceQueryProperty.TASK_DUE_DATE, NullHandlingOnOrder.NULLS_LAST);
     }
 
-    @Override
+
     public HistoricTaskInstanceQueryImpl orderByDeleteReason() {
         orderBy(HistoricTaskInstanceQueryProperty.DELETE_REASON);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByTaskDefinitionKey() {
         orderBy(HistoricTaskInstanceQueryProperty.TASK_DEFINITION_KEY);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByTaskPriority() {
         orderBy(HistoricTaskInstanceQueryProperty.TASK_PRIORITY);
         return this;
     }
 
-    @Override
+
     public HistoricTaskInstanceQuery orderByTenantId() {
         orderBy(HistoricTaskInstanceQueryProperty.TENANT_ID_);
         return this;
     }
 
-    @Override
+
     protected void checkQueryOk() {
         super.checkQueryOk();
         // In case historic query variables are included, an additional order-by
@@ -1691,32 +1695,33 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
     }
 
     protected Collection!string getGroupsForCandidateUser(string candidateUser) {
-        Collection!string groupIds = new ArrayList<>();
+        Collection!string groupIds = new ArrayList!stringstringstringstringstringstringstringstringstringstringstringstringvstring();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService !is null) {
-            List<Group> groups = idmIdentityService.createGroupQuery().groupMember(candidateUser).list();
-            for (Group group : groups) {
+            List!Group groups = idmIdentityService.createGroupQuery().groupMember(candidateUser).list();
+            foreach (Group group ; groups) {
                 groupIds.add(group.getId());
             }
         }
         return groupIds;
     }
 
-    @Override
-    public void delete() {
-        if (commandExecutor !is null) {
-            commandExecutor.execute(context -> {
-                CommandContextUtil.getHistoricTaskInstanceEntityManager(context).deleteHistoricTaskInstances(this);
-                return null;
-            });
-        } else {
-            CommandContextUtil.getHistoricTaskInstanceEntityManager(Context.getCommandContext()).deleteHistoricTaskInstances(this);
-        }
+
+    public void dele() {
+        implementationMissing(false);
+        //if (commandExecutor !is null) {
+        //    commandExecutor.execute(context -> {
+        //        CommandContextUtil.getHistoricTaskInstanceEntityManager(context).deleteHistoricTaskInstances(this);
+        //        return null;
+        //    });
+        //} else {
+        //    CommandContextUtil.getHistoricTaskInstanceEntityManager(Context.getCommandContext()).deleteHistoricTaskInstances(this);
+        //}
     }
 
-    @Override
+
     public void deleteWithRelatedData() {
-        delete();
+        dele();
     }
 
     // getters and setters
@@ -1826,15 +1831,15 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return caseInstanceIdWithChildren;
     }
 
-    public Integer getTaskPriority() {
+    public int getTaskPriority() {
         return taskPriority;
     }
 
-    public Integer getTaskMinPriority() {
+    public int getTaskMinPriority() {
         return taskMinPriority;
     }
 
-    public Integer getTaskMaxPriority() {
+    public int getTaskMaxPriority() {
         return taskMaxPriority;
     }
 
@@ -1978,7 +1983,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return taskId;
     }
 
-    @Override
+
     public string getId() {
         return taskId;
     }
@@ -2059,7 +2064,7 @@ class HistoricTaskInstanceQueryImpl extends AbstractVariableQueryImpl<HistoricTa
         return locale;
     }
 
-    public List<HistoricTaskInstanceQueryImpl> getOrQueryObjects() {
+    public List!HistoricTaskInstanceQueryImpl getOrQueryObjects() {
         return orQueryObjects;
     }
 }

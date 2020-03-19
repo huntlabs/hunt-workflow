@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.history.NativeHistoricTaskInstanceQuery;
 
 import flow.common.api.query.NativeQuery;
 import flow.task.api.history.HistoricTaskInstance;
@@ -21,6 +21,6 @@ import flow.task.api.history.HistoricTaskInstanceQuery;
  *
  * @author Bernd Ruecker (camunda)
  */
-interface NativeHistoricTaskInstanceQuery extends NativeQuery<NativeHistoricTaskInstanceQuery, HistoricTaskInstance> {
+interface NativeHistoricTaskInstanceQuery : NativeQuery!(NativeHistoricTaskInstanceQuery, HistoricTaskInstance) {
 
 }

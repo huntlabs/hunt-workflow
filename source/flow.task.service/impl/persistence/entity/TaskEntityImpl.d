@@ -10,19 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.task.service.impl.persistence.entity.TaskEntityImpl;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.HashSet;
-import java.util.LinkedList;
+import hunt.collection.LinkedList;
 import hunt.collection.List;
 import hunt.collection.Map;
 import hunt.collection.Set;
-
+import hunt.Enum;
 import flow.common.api.FlowableException;
 import flow.common.api.scop.ScopeTypes;
 import flow.common.context.Context;
@@ -41,167 +40,227 @@ import flow.task.service.impl.util.CountingTaskUtil;
 import flow.variable.service.impl.persistence.entity.VariableInitializingList;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import flow.task.service.impl.persistence.entity.AbstractTaskServiceVariableScopeEntity;
+import flow.task.service.impl.persistence.entity.TaskEntity;
+import hunt.entity;
+alias Date = LocalDateTime;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  * @author Falko Menge
  * @author Tijs Rademakers
  */
-class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements TaskEntity, CountingTaskEntity, Serializable {
+@Table("ACT_RU_TASK")
+class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity, CountingTaskEntity {
+    mixin MakeModel;
 
-    public static final string DELETE_REASON_COMPLETED = "completed";
-    public static final string DELETE_REASON_DELETED = "deleted";
+    private static  string DELETE_REASON_COMPLETED = "completed";
+    private static  string DELETE_REASON_DELETED = "deleted";
 
-    private static final long serialVersionUID = 1L;
+     @PrimaryKey
+     @Column("ID_")
+     string id;
 
-    protected string owner;
-    protected int assigneeUpdatedCount; // needed for v5 compatibility
-    protected string originalAssignee; // needed for v5 compatibility
-    protected string assignee;
-    protected DelegationState delegationState;
+     @Column("OWNER_")
+     string owner;
 
-    protected string parentTaskId;
+     @Column("ASSIGNEE_")
+     string assignee;
 
-    protected string name;
-    protected string localizedName;
-    protected string description;
-    protected string localizedDescription;
-    protected int priority = DEFAULT_PRIORITY;
-    protected Date createTime; // The time when the task has been created
-    protected Date dueDate;
-    protected int suspensionState = SuspensionState.ACTIVE.getStateCode();
-    protected string category;
+     @Column("PARENT_TASK_ID_")
+     string parentTaskId;
 
-    protected bool isIdentityLinksInitialized;
-    protected List<IdentityLinkEntity> taskIdentityLinkEntities = new ArrayList<>();
+     @Column("NAME_")
+     string name;
 
-    protected string executionId;
-    protected string processInstanceId;
-    protected string processDefinitionId;
-    protected string taskDefinitionId;
+     @Column("DESCRIPTION_")
+     string description;
 
-    protected string scopeId;
-    protected string subScopeId;
-    protected string scopeType;
-    protected string scopeDefinitionId;
-    protected string propagatedStageInstanceId;
+     @Column("PRIORITY_")
+     int priority = DEFAULT_PRIORITY;
 
-    protected string taskDefinitionKey;
-    protected string formKey;
+     @Column("CREATE_TIME_")
+     long createTime; // The time when the task has been created
 
-    protected bool isCanceled;
+     @Column("DUE_DATE_")
+     long dueDate;
 
-    private bool isCountEnabled;
-    protected int variableCount;
-    protected int identityLinkCount;
-    protected int subTaskCount;
+     @Column("SUSPENSION_STATE_")
+     int suspensionState ;//= SuspensionState.ACTIVE.getStateCode();
 
-    protected Date claimTime;
+     @Column("CATEGORY_")
+     string category;
 
-    protected string tenantId = TaskServiceConfiguration.NO_TENANT_ID;
+     @Column("EXECUTION_ID_")
+     string executionId;
+
+     @Column("PROC_INST_ID_")
+     string processInstanceId;
+
+     @Column("PROC_DEF_ID_")
+     string processDefinitionId;
+
+     @Column("TASK_DEF_ID_")
+     string taskDefinitionId;
+
+     @Column("SCOPE_ID_")
+     string scopeId;
+
+     @Column("SUB_SCOPE_ID_")
+     string subScopeId;
+
+     @Column("SCOPE_TYPE_")
+     string scopeType;
+
+     @Column("SCOPE_DEFINITION_ID_")
+     string scopeDefinitionId;
+
+     @Column("PROPAGATED_STAGE_INST_ID_")
+     string propagatedStageInstanceId;
+
+     @Column("TASK_DEF_KEY_")
+     string taskDefinitionKey;
+
+     @Column("FORM_KEY_")
+     string formKey;
+
+
+     @Column("IS_COUNT_ENABLED_")
+     bool isCountEnabled;
+
+     @Column("VAR_COUNT_")
+     int variableCount;
+
+     @Column("ID_LINK_COUNT_")
+     int identityLinkCount;
+
+     @Column("SUB_TASK_COUNT_")
+     int subTaskCount;
+
+     @Column("CLAIM_TIME_")
+     long claimTime;
+
+     @Column("TENANT_ID_")
+     string tenantId;//= TaskServiceConfiguration.NO_TENANT_ID;
 
     // Non-persisted
-    protected string eventName;
-    protected string eventHandlerId;
-    protected List<VariableInstanceEntity> queryVariables;
-    protected List<IdentityLinkEntity> queryIdentityLinks;
-    protected bool forcedUpdate;
+     private string eventName;
+     private string eventHandlerId;
+     private List!VariableInstanceEntity queryVariables;
+     private List!IdentityLinkEntity queryIdentityLinks;
+     private  List!IdentityLinkEntity taskIdentityLinkEntities  ;//= new ArrayList<>();
+     private int assigneeUpdatedCount; // needed for v5 compatibility
+     private string originalAssignee; // needed for v5 compatibility
+     private DelegationState delegationState;
+     private string localizedName;
+     private string localizedDescription;
+     private bool isIdentityLinksInitialized;
+     private bool isCanceled;
+     private bool forcedUpdate;
 
 
-    public TaskEntityImpl() {
-
+    this() {
+        suspensionState = SuspensionState.ACTIVE.getStateCode();
+        tenantId = TaskServiceConfiguration.NO_TENANT_ID;
+        taskIdentityLinkEntities = new ArrayList!IdentityLinkEntity;
     }
 
-    @Override
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap<>();
-        persistentState.put("assignee", this.assignee);
-        persistentState.put("owner", this.owner);
-        persistentState.put("name", this.name);
-        persistentState.put("priority", this.priority);
-        persistentState.put("category", this.category);
-        persistentState.put("formKey", this.formKey);
-        if (executionId !is null) {
-            persistentState.put("executionId", this.executionId);
-        }
-        if (processInstanceId !is null) {
-            persistentState.put("processInstanceId", this.processInstanceId);
-        }
-        if (processDefinitionId !is null) {
-            persistentState.put("processDefinitionId", this.processDefinitionId);
-        }
-        if (taskDefinitionId !is null) {
-            persistentState.put("taskDefinitionId", this.taskDefinitionId);
-        }
-        if (taskDefinitionKey !is null) {
-            persistentState.put("taskDefinitionKey", this.taskDefinitionKey);
-        }
-        if (scopeId !is null) {
-            persistentState.put("scopeId", this.scopeId);
-        }
-        if (subScopeId !is null) {
-            persistentState.put("subScopeId", this.subScopeId);
-        }
-        if (scopeType !is null) {
-            persistentState.put("scopeType", this.scopeType);
-        }
-        if (scopeDefinitionId !is null) {
-            persistentState.put("scopeDefinitionId", this.scopeDefinitionId);
-        }
-        if (propagatedStageInstanceId !is null) {
-            persistentState.put("propagatedStageInstanceId", propagatedStageInstanceId);
-        }
-        if (createTime !is null) {
-            persistentState.put("createTime", this.createTime);
-        }
-        if (description !is null) {
-            persistentState.put("description", this.description);
-        }
-        if (dueDate !is null) {
-            persistentState.put("dueDate", this.dueDate);
-        }
-        if (parentTaskId !is null) {
-            persistentState.put("parentTaskId", this.parentTaskId);
-        }
-        if (delegationState !is null) {
-            persistentState.put("delegationState", this.delegationState);
-            persistentState.put("delegationStateString", getDelegationStateString());
-        }
-
-        persistentState.put("suspensionState", this.suspensionState);
-
-        if (forcedUpdate) {
-            persistentState.put("forcedUpdate", bool.TRUE);
-        }
-
-        if (claimTime !is null) {
-            persistentState.put("claimTime", this.claimTime);
-        }
-
-        persistentState.put("isCountEnabled", this.isCountEnabled);
-        persistentState.put("variableCount", this.variableCount);
-        persistentState.put("identityLinkCount", this.identityLinkCount);
-        persistentState.put("subTaskCount", this.subTaskCount);
-
-        return persistentState;
+        //Map!(string, Object) persistentState = new HashMap<>();
+        //persistentState.put("assignee", this.assignee);
+        //persistentState.put("owner", this.owner);
+        //persistentState.put("name", this.name);
+        //persistentState.put("priority", this.priority);
+        //persistentState.put("category", this.category);
+        //persistentState.put("formKey", this.formKey);
+        //if (executionId !is null) {
+        //    persistentState.put("executionId", this.executionId);
+        //}
+        //if (processInstanceId !is null) {
+        //    persistentState.put("processInstanceId", this.processInstanceId);
+        //}
+        //if (processDefinitionId !is null) {
+        //    persistentState.put("processDefinitionId", this.processDefinitionId);
+        //}
+        //if (taskDefinitionId !is null) {
+        //    persistentState.put("taskDefinitionId", this.taskDefinitionId);
+        //}
+        //if (taskDefinitionKey !is null) {
+        //    persistentState.put("taskDefinitionKey", this.taskDefinitionKey);
+        //}
+        //if (scopeId !is null) {
+        //    persistentState.put("scopeId", this.scopeId);
+        //}
+        //if (subScopeId !is null) {
+        //    persistentState.put("subScopeId", this.subScopeId);
+        //}
+        //if (scopeType !is null) {
+        //    persistentState.put("scopeType", this.scopeType);
+        //}
+        //if (scopeDefinitionId !is null) {
+        //    persistentState.put("scopeDefinitionId", this.scopeDefinitionId);
+        //}
+        //if (propagatedStageInstanceId !is null) {
+        //    persistentState.put("propagatedStageInstanceId", propagatedStageInstanceId);
+        //}
+        //if (createTime !is null) {
+        //    persistentState.put("createTime", this.createTime);
+        //}
+        //if (description !is null) {
+        //    persistentState.put("description", this.description);
+        //}
+        //if (dueDate !is null) {
+        //    persistentState.put("dueDate", this.dueDate);
+        //}
+        //if (parentTaskId !is null) {
+        //    persistentState.put("parentTaskId", this.parentTaskId);
+        //}
+        //if (delegationState !is null) {
+        //    persistentState.put("delegationState", this.delegationState);
+        //    persistentState.put("delegationStateString", getDelegationStateString());
+        //}
+        //
+        //persistentState.put("suspensionState", this.suspensionState);
+        //
+        //if (forcedUpdate) {
+        //    persistentState.put("forcedUpdate", bool.TRUE);
+        //}
+        //
+        //if (claimTime !is null) {
+        //    persistentState.put("claimTime", this.claimTime);
+        //}
+        //
+        //persistentState.put("isCountEnabled", this.isCountEnabled);
+        //persistentState.put("variableCount", this.variableCount);
+        //persistentState.put("identityLinkCount", this.identityLinkCount);
+        //persistentState.put("subTaskCount", this.subTaskCount);
+        //
+        //return persistentState;
+        return this;
     }
 
-    @Override
+
+    public string getId() {
+        return id;
+    }
+
+
+    public void setId(string id) {
+        this.id = id;
+    }
+
     public void forceUpdate() {
         this.forcedUpdate = true;
     }
 
     // variables //////////////////////////////////////////////////////////////////
 
-    @Override
+
     protected VariableScopeImpl getParentVariableScope() {
         return CommandContextUtil.getTaskServiceConfiguration().getInternalTaskVariableScopeResolver().resolveParentVariableScope(this);
     }
 
-    @Override
+
     protected void initializeVariableInstanceBackPointer(VariableInstanceEntity variableInstance) {
         variableInstance.setTaskId(id);
         if (ScopeTypes.CMMN.equals(this.scopeType)) {
@@ -215,17 +274,17 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     protected void addLoggingSessionInfo(ObjectNode loggingNode) {
         // TODO
     }
 
-    @Override
-    protected List<VariableInstanceEntity> loadVariableInstances() {
+
+    protected List!VariableInstanceEntity loadVariableInstances() {
         return CommandContextUtil.getVariableInstanceEntityManager().findVariableInstancesByTaskId(id);
     }
 
-    @Override
+
     protected VariableInstanceEntity createVariableInstance(string variableName, Object value) {
         VariableInstanceEntity variableInstance = super.createVariableInstance(variableName, value);
 
@@ -235,7 +294,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
 
     }
 
-    @Override
+
     protected void deleteVariableInstanceForExplicitUserCall(VariableInstanceEntity variableInstance) {
         super.deleteVariableInstanceForExplicitUserCall(variableInstance);
 
@@ -244,19 +303,19 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
 
     // task assignment ////////////////////////////////////////////////////////////
 
-    @Override
+
     public Set!IdentityLink getCandidates() {
-        Set!IdentityLink potentialOwners = new HashSet<>();
-        for (IdentityLinkEntity identityLinkEntity : getIdentityLinks()) {
-            if (IdentityLinkType.CANDIDATE.equals(identityLinkEntity.getType())) {
+        Set!IdentityLink potentialOwners = new HashSet!IdentityLink();
+        foreach (IdentityLinkEntity identityLinkEntity ; getIdentityLinks()) {
+            if (IdentityLinkType.CANDIDATE == (identityLinkEntity.getType())) {
                 potentialOwners.add(identityLinkEntity);
             }
         }
         return potentialOwners;
     }
 
-    @Override
-    public List<IdentityLinkEntity> getIdentityLinks() {
+
+    public List!IdentityLinkEntity getIdentityLinks() {
         if (!isIdentityLinksInitialized) {
             if (queryIdentityLinks is null) {
                 taskIdentityLinkEntities = CommandContextUtil.getIdentityLinkEntityManager().findIdentityLinksByTaskId(id);
@@ -269,24 +328,24 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         return taskIdentityLinkEntities;
     }
 
-    @Override
+
     public void setName(string taskName) {
         this.name = taskName;
     }
 
-    @Override
+
     public void setDescription(string description) {
         this.description = description;
     }
 
-    @Override
+
     public void setAssignee(string assignee) {
         this.originalAssignee = this.assignee;
         this.assignee = assignee;
         assigneeUpdatedCount++;
     }
 
-    @Override
+
     public void setAssigneeValue(string assignee) {
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
         if (taskAssignmentManager !is null) {
@@ -298,12 +357,12 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     public void setOwner(string owner) {
         this.owner = owner;
     }
 
-    @Override
+
     public void setOwnerValue(string owner) {
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
         if (taskAssignmentManager !is null) {
@@ -313,22 +372,22 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+        this.dueDate = dueDate.toEpochMilli;
     }
 
-    @Override
+
     public void setPriority(int priority) {
         this.priority = priority;
     }
 
-    @Override
+
     public void setCategory(string category) {
         this.category = category;
     }
 
-    @Override
+
     public void addUserIdentityLink(string userId, string identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         IdentityLinkEntity identityLink = identityLinkEntityManager.addTaskIdentityLink(this.id, userId, null, identityLinkType);
@@ -338,7 +397,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     public void addGroupIdentityLink(string groupId, string identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         IdentityLinkEntity identityLink = identityLinkEntityManager.addTaskIdentityLink(this.id, null, groupId, identityLinkType);
@@ -348,52 +407,52 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     public void deleteCandidateUser(string userId) {
         deleteUserIdentityLink(userId, IdentityLinkType.CANDIDATE);
     }
 
-    @Override
+
     public void deleteCandidateGroup(string groupId) {
         deleteGroupIdentityLink(groupId, IdentityLinkType.CANDIDATE);
     }
 
-    @Override
+
     public void deleteUserIdentityLink(string userId, string identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         identityLinkEntityManager.deleteTaskIdentityLink(this.id, getIdentityLinks(), userId, null, identityLinkType);
     }
 
-    @Override
+
     public void deleteGroupIdentityLink(string groupId, string identityLinkType) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         identityLinkEntityManager.deleteTaskIdentityLink(this.id, getIdentityLinks(), null, groupId,identityLinkType);
     }
 
-    @Override
+
     public void setParentTaskId(string parentTaskId) {
         this.parentTaskId = parentTaskId;
     }
 
-    @Override
+
     public string getFormKey() {
         return formKey;
     }
 
-    @Override
+
     public void setFormKey(string formKey) {
         this.formKey = formKey;
     }
 
     // Override from VariableScopeImpl
 
-    @Override
+
     protected bool isPropagateToHistoricVariable() {
         return true;
     }
 
     // Overridden to avoid fetching *all* variables (as is the case in the super // call)
-    @Override
+
     protected VariableInstanceEntity getSpecificVariable(string variableName) {
         CommandContext commandContext = Context.getCommandContext();
         if (commandContext is null) {
@@ -404,8 +463,8 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         return variableInstance;
     }
 
-    @Override
-    protected List<VariableInstanceEntity> getSpecificVariables(Collection!string variableNames) {
+
+    protected List!VariableInstanceEntity getSpecificVariables(Collection!string variableNames) {
         CommandContext commandContext = Context.getCommandContext();
         if (commandContext is null) {
             throw new FlowableException("lazy loading outside command context");
@@ -415,7 +474,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
 
     // regular getters and setters ////////////////////////////////////////////////////////
 
-    @Override
+
     public string getName() {
         if (localizedName !is null && localizedName.length() > 0) {
             return localizedName;
@@ -428,12 +487,12 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         return localizedName;
     }
 
-    @Override
+
     public void setLocalizedName(string localizedName) {
         this.localizedName = localizedName;
     }
 
-    @Override
+
     public string getDescription() {
         if (localizedDescription !is null && localizedDescription.length() > 0) {
             return localizedDescription;
@@ -446,112 +505,112 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         return localizedDescription;
     }
 
-    @Override
+
     public void setLocalizedDescription(string localizedDescription) {
         this.localizedDescription = localizedDescription;
     }
 
-    @Override
+
     public Date getDueDate() {
-        return dueDate;
+        return LocalDateTime.ofEpochMilli(dueDate);
     }
 
-    @Override
+
     public int getPriority() {
         return priority;
     }
 
-    @Override
+
     public Date getCreateTime() {
-        return createTime;
+        return LocalDateTime.ofEpochMilli(createTime);
     }
 
-    @Override
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    @Override
+
     public string getExecutionId() {
         return executionId;
     }
 
-    @Override
+
     public string getProcessInstanceId() {
         return processInstanceId;
     }
 
-    @Override
+
     public string getProcessDefinitionId() {
         return processDefinitionId;
     }
 
-    @Override
+
     public void setProcessDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
+
     public string getTaskDefinitionId() {
         return taskDefinitionId;
     }
 
-    @Override
+
     public void setTaskDefinitionId(string taskDefinitionId) {
         this.taskDefinitionId = taskDefinitionId;
     }
 
-    @Override
+
     public string getScopeId() {
         return scopeId;
     }
 
-    @Override
+
     public void setScopeId(string scopeId) {
         this.scopeId = scopeId;
     }
 
-    @Override
+
     public string getSubScopeId() {
         return subScopeId;
     }
 
-    @Override
+
     public void setSubScopeId(string subScopeId) {
         this.subScopeId = subScopeId;
     }
 
-    @Override
+
     public string getScopeType() {
         return scopeType;
     }
 
-    @Override
+
     public void setScopeType(string scopeType) {
         this.scopeType = scopeType;
     }
 
-    @Override
+
     public string getScopeDefinitionId() {
         return scopeDefinitionId;
     }
 
-    @Override
+
     public void setScopeDefinitionId(string scopeDefinitionId) {
         this.scopeDefinitionId = scopeDefinitionId;
     }
 
-    @Override
+
     public void setPropagatedStageInstanceId(string propagatedStageInstanceId) {
         this.propagatedStageInstanceId = propagatedStageInstanceId;
     }
 
-    @Override
+
     public string getPropagatedStageInstanceId() {
         return propagatedStageInstanceId;
     }
 
-    @Override
+
     public string getAssignee() {
         return assignee;
     }
@@ -565,57 +624,57 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     public string getTaskDefinitionKey() {
         return taskDefinitionKey;
     }
 
-    @Override
+
     public void setTaskDefinitionKey(string taskDefinitionKey) {
         this.taskDefinitionKey = taskDefinitionKey;
     }
 
-    @Override
+
     public string getEventName() {
         return eventName;
     }
 
-    @Override
+
     public void setEventName(string eventName) {
         this.eventName = eventName;
     }
 
-    @Override
+
     public string getEventHandlerId() {
         return eventHandlerId;
     }
 
-    @Override
+
     public void setEventHandlerId(string eventHandlerId) {
         this.eventHandlerId = eventHandlerId;
     }
 
-    @Override
+
     public void setExecutionId(string executionId) {
         this.executionId = executionId;
     }
 
-    @Override
+
     public void setProcessInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
+
     public string getOwner() {
         return owner;
     }
 
-    @Override
+
     public DelegationState getDelegationState() {
         return delegationState;
     }
 
-    @Override
+
     public void addCandidateUser(string userId) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         IdentityLinkEntity identityLink = identityLinkEntityManager.addCandidateUser(this.id, userId);
@@ -625,17 +684,17 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     public void addCandidateUsers(Collection!string candidateUsers) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
-        List<IdentityLinkEntity> identityLinks = identityLinkEntityManager.addCandidateUsers(this.id, candidateUsers);
+        List!IdentityLinkEntity identityLinks = identityLinkEntityManager.addCandidateUsers(this.id, candidateUsers);
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
         if (taskAssignmentManager !is null) {
             taskAssignmentManager.addCandidateUsers(this, convertToIdentityLinks(identityLinks));
         }
     }
 
-    @Override
+
     public void addCandidateGroup(string groupId) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
         IdentityLinkEntity identityLink = identityLinkEntityManager.addCandidateGroup(this.id, groupId);
@@ -645,18 +704,18 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         }
     }
 
-    @Override
+
     public void addCandidateGroups(Collection!string candidateGroups) {
         IdentityLinkEntityManager identityLinkEntityManager = CommandContextUtil.getIdentityLinkEntityManager();
-        List<IdentityLinkEntity> identityLinks = identityLinkEntityManager.addCandidateGroups(this.id, candidateGroups);
+        List!IdentityLinkEntity identityLinks = identityLinkEntityManager.addCandidateGroups(this.id, candidateGroups);
         InternalTaskAssignmentManager taskAssignmentManager = getTaskAssignmentManager();
         if (taskAssignmentManager !is null) {
             taskAssignmentManager.addCandidateGroups(this, convertToIdentityLinks(identityLinks));
         }
     }
 
-    protected List!IdentityLink convertToIdentityLinks(List<IdentityLinkEntity> identityLinks) {
-        List!IdentityLink identityLinkObjects = new ArrayList<>(identityLinks);
+    protected List!IdentityLink convertToIdentityLinks(List!IdentityLinkEntity identityLinks) {
+        List!IdentityLink identityLinkObjects = new ArrayList!IdentityLink(identityLinks);
         return identityLinkObjects;
     }
 
@@ -669,7 +728,7 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         return null;
     }
 
-    @Override
+
     public void setDelegationState(DelegationState delegationState) {
         this.delegationState = delegationState;
     }
@@ -679,65 +738,65 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
     }
 
     public void setDelegationStateString(string delegationStateString) {
-        this.delegationState = (delegationStateString !is null ? DelegationState.valueOf(DelegationState.class, delegationStateString) : null);
+        this.delegationState = (delegationStateString !is null ? valueOf!DelegationState(delegationStateString) : null);
     }
 
-    @Override
+
     public bool isDeleted() {
         return isDeleted;
     }
 
-    @Override
+
     public void setDeleted(bool isDeleted) {
         this.isDeleted = isDeleted;
     }
 
-    @Override
+
     public bool isCanceled() {
         return isCanceled;
     }
 
-    @Override
+
     public void setCanceled(bool isCanceled) {
         this.isCanceled = isCanceled;
     }
 
-    @Override
+
     public string getParentTaskId() {
         return parentTaskId;
     }
 
-    @Override
-    public Map<string, VariableInstanceEntity> getVariableInstanceEntities() {
+
+    public Map!(string, VariableInstanceEntity) getVariableInstanceEntities() {
         ensureVariableInstancesInitialized();
         return variableInstances;
     }
 
-    @Override
+
     public int getSuspensionState() {
         return suspensionState;
     }
 
-    @Override
+
     public void setSuspensionState(int suspensionState) {
         this.suspensionState = suspensionState;
     }
 
-    @Override
+
     public string getCategory() {
         return category;
     }
 
-    @Override
+
     public bool isSuspended() {
         return suspensionState == SuspensionState.SUSPENDED.getStateCode();
     }
 
-    @Override
+
     public Map!(string, Object) getTaskLocalVariables() {
-        Map!(string, Object) variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap!(string, Object)();
         if (queryVariables !is null) {
-            for (VariableInstanceEntity variableInstance : queryVariables) {
+            foreach (VariableInstanceEntity variableInstance ; queryVariables) {
                 if (variableInstance.getId() !is null && variableInstance.getTaskId() !is null) {
                     variables.put(variableInstance.getName(), variableInstance.getValue());
                 }
@@ -746,11 +805,11 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         return variables;
     }
 
-    @Override
+
     public Map!(string, Object) getProcessVariables() {
-        Map!(string, Object) variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap!(string, Object)();
         if (queryVariables !is null) {
-            for (VariableInstanceEntity variableInstance : queryVariables) {
+            foreach (VariableInstanceEntity variableInstance ; queryVariables) {
                 if (variableInstance.getId() !is null && variableInstance.getTaskId() is null) {
                     variables.put(variableInstance.getName(), variableInstance.getValue());
                 }
@@ -759,90 +818,91 @@ class TaskEntityImpl extends AbstractTaskServiceVariableScopeEntity implements T
         return variables;
     }
 
-    @Override
+
     public string getTenantId() {
         return tenantId;
     }
 
-    @Override
+
     public void setTenantId(string tenantId) {
         this.tenantId = tenantId;
     }
 
-    @Override
-    public List<VariableInstanceEntity> getQueryVariables() {
+
+    public List!VariableInstanceEntity getQueryVariables() {
         if (queryVariables is null && Context.getCommandContext() !is null) {
             queryVariables = new VariableInitializingList();
         }
         return queryVariables;
     }
 
-    public void setQueryVariables(List<VariableInstanceEntity> queryVariables) {
+    public void setQueryVariables(List!VariableInstanceEntity queryVariables) {
         this.queryVariables = queryVariables;
     }
 
-    public List<IdentityLinkEntity> getQueryIdentityLinks() {
+    public List!IdentityLinkEntity getQueryIdentityLinks() {
         if (queryIdentityLinks is null) {
-            queryIdentityLinks = new LinkedList<>();
+            queryIdentityLinks = new LinkedList!IdentityLinkEntity();
         }
         return queryIdentityLinks;
     }
 
-    public void setQueryIdentityLinks(List<IdentityLinkEntity> identityLinks) {
+    public void setQueryIdentityLinks(List!IdentityLinkEntity identityLinks) {
         queryIdentityLinks = identityLinks;
     }
 
-    @Override
+
     public Date getClaimTime() {
-        return claimTime;
+        return LocalDateTime.ofEpochMilli(claimTime);
     }
 
-    @Override
+
     public void setClaimTime(Date claimTime) {
-        this.claimTime = claimTime;
+        this.claimTime = claimTime.toEpochMilli();
     }
 
-    @Override
+
+    override
     public string toString() {
-        return "Task[id=" + id + ", name=" + name + "]";
+        return "Task[id=" ~ id ~ ", name=" ~ name ~ "]";
     }
 
-    @Override
+
     public bool isCountEnabled() {
         return isCountEnabled;
     }
 
-    @Override
+
     public void setCountEnabled(bool isCountEnabled) {
         this.isCountEnabled = isCountEnabled;
     }
 
-    @Override
+
     public void setVariableCount(int variableCount) {
         this.variableCount = variableCount;
     }
 
-    @Override
+
     public int getVariableCount() {
         return variableCount;
     }
 
-    @Override
+
     public void setIdentityLinkCount(int identityLinkCount) {
         this.identityLinkCount = identityLinkCount;
     }
 
-    @Override
+
     public int getIdentityLinkCount() {
         return identityLinkCount;
     }
 
-    @Override
+
     public int getSubTaskCount() {
         return subTaskCount;
     }
 
-    @Override
+
     public void setSubTaskCount(int subTaskCount) {
         this.subTaskCount = subTaskCount;
     }

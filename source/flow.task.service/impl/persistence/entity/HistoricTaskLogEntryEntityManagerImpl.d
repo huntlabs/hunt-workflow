@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManagerImpl;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -20,68 +20,70 @@ import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.service.TaskServiceConfiguration;
 import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
 import flow.task.service.impl.persistence.entity.data.HistoricTaskLogEntryDataManager;
-
+import flow.task.service.impl.persistence.entity.AbstractTaskServiceEntityManager;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
+import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
 /**
  * @author martin.grofcik
  */
 class HistoricTaskLogEntryEntityManagerImpl
-    extends AbstractTaskServiceEntityManager<HistoricTaskLogEntryEntity, HistoricTaskLogEntryDataManager>
-    implements HistoricTaskLogEntryEntityManager {
+    : AbstractTaskServiceEntityManager!(HistoricTaskLogEntryEntity, HistoricTaskLogEntryDataManager)
+    , HistoricTaskLogEntryEntityManager {
 
-    public HistoricTaskLogEntryEntityManagerImpl(TaskServiceConfiguration taskServiceConfiguration, HistoricTaskLogEntryDataManager taskLogDataManager) {
+    this(TaskServiceConfiguration taskServiceConfiguration, HistoricTaskLogEntryDataManager taskLogDataManager) {
         super(taskServiceConfiguration, taskLogDataManager);
     }
 
-    @Override
-    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery) {
+
+    public List!HistoricTaskLogEntry findHistoricTaskLogEntriesByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery) {
         return getDataManager().findHistoricTaskLogEntriesByQueryCriteria(taskLogEntryQuery);
     }
 
-    @Override
+
     public long findHistoricTaskLogEntriesCountByQueryCriteria(HistoricTaskLogEntryQueryImpl taskLogEntryQuery) {
         return getDataManager().findHistoricTaskLogEntriesCountByQueryCriteria(taskLogEntryQuery);
     }
 
-    @Override
-    public List<HistoricTaskLogEntry> findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
+
+    public List!HistoricTaskLogEntry findHistoricTaskLogEntriesByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
         return getDataManager().findHistoricTaskLogEntriesByNativeQueryCriteria(nativeHistoricTaskLogEntryQuery);
     }
-    @Override
+
     public long findHistoricTaskLogEntriesCountByNativeQueryCriteria(Map!(string, Object) nativeHistoricTaskLogEntryQuery) {
         return getDataManager().findHistoricTaskLogEntriesCountByNativeQueryCriteria(nativeHistoricTaskLogEntryQuery);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntry(long logNr) {
         getDataManager().deleteHistoricTaskLogEntry(logNr);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForProcessDefinition(string processDefinitionId) {
         getDataManager().deleteHistoricTaskLogEntriesByProcessDefinitionId(processDefinitionId);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForScopeDefinition(string scopeType, string scopeDefinitionId) {
         getDataManager().deleteHistoricTaskLogEntriesByScopeDefinitionId(scopeType, scopeDefinitionId);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForTaskId(string taskId) {
         getDataManager().deleteHistoricTaskLogEntriesByTaskId(taskId);
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForNonExistingProcessInstances() {
         getDataManager().deleteHistoricTaskLogEntriesForNonExistingProcessInstances();
     }
 
-    @Override
+
     public void deleteHistoricTaskLogEntriesForNonExistingCaseInstances() {
         getDataManager().deleteHistoricTaskLogEntriesForNonExistingCaseInstances();
     }
 
-    @Override
+
     public void createHistoricTaskLogEntry(HistoricTaskLogEntryBuilder historicTaskLogEntryBuilder) {
         HistoricTaskLogEntryEntity historicTaskLogEntryEntity = getDataManager().create();
         historicTaskLogEntryEntity.setUserId(historicTaskLogEntryBuilder.getUserId());

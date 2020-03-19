@@ -10,16 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.SingleCachedEntityMatcher;
 
 import flow.common.persistence.entity.Entity;
 
 /**
  * Interface to express a condition whether or not one specific cached entity should be used in the return result of a query.
- * 
+ *
  * @author Joram Barrez
  */
-interface SingleCachedEntityMatcher<EntityImpl extends Entity> {
+interface SingleCachedEntityMatcher(EntityImpl) {
 
     bool isRetained(EntityImpl entity, Object param);
 

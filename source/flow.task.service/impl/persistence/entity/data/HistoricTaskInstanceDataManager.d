@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.task.service.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
 import hunt.collection.List;
 import hunt.collection.Map;
 
@@ -24,21 +24,21 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-interface HistoricTaskInstanceDataManager extends DataManager<HistoricTaskInstanceEntity> {
+interface HistoricTaskInstanceDataManager : DataManager!HistoricTaskInstanceEntity {
 
     HistoricTaskInstanceEntity create(TaskEntity task);
 
-    List<HistoricTaskInstanceEntity> findHistoricTasksByParentTaskId(string parentTaskId);
+    List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId);
 
-    List<HistoricTaskInstanceEntity> findHistoricTasksByProcessInstanceId(string processInstanceId);
+    List!HistoricTaskInstanceEntity findHistoricTasksByProcessInstanceId(string processInstanceId);
 
     long findHistoricTaskInstanceCountByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
-    List<HistoricTaskInstance> findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
+    List!HistoricTaskInstance findHistoricTaskInstancesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
-    List<HistoricTaskInstance> findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
+    List!HistoricTaskInstance findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(HistoricTaskInstanceQueryImpl historicTaskInstanceQuery);
 
-    List<HistoricTaskInstance> findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap);
+    List!HistoricTaskInstance findHistoricTaskInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
     long findHistoricTaskInstanceCountByNativeQuery(Map!(string, Object) parameterMap);
 

@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.task.service.impl.persistence.entity.AbstractTaskServiceEntity;
 
 import flow.common.persistence.entity.AbstractEntity;
+import flow.task.service.impl.persistence.entity.TaskServiceEntityConstants;
 
-abstract class AbstractTaskServiceEntity extends AbstractEntity {
+abstract class AbstractTaskServiceEntity : AbstractEntity {
 
-    @Override
     public string getIdPrefix() {
         return TaskServiceEntityConstants.TASK_SERVICE_ID_PREFIX;
     }

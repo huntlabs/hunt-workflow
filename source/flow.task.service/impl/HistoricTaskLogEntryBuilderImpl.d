@@ -10,45 +10,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.task.service.impl.HistoricTaskLogEntryBuilderImpl;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.identity.Authentication;
+//import flow.common.identity.Authentication;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.task.api.TaskInfo;
 import flow.task.service.impl.util.CommandContextUtil;
-
+import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
+import hunt.Object;
+import hunt.Exceptions;
 /**
  * @author martin.grofcik
  */
-class HistoricTaskLogEntryBuilderImpl extends BaseHistoricTaskLogEntryBuilderImpl implements Command<Void> {
+class HistoricTaskLogEntryBuilderImpl : BaseHistoricTaskLogEntryBuilderImpl , Command!Void {
 
     protected CommandExecutor commandExecutor;
 
-    public HistoricTaskLogEntryBuilderImpl(CommandExecutor commandExecutor, TaskInfo task) {
+    this(CommandExecutor commandExecutor, TaskInfo task) {
         super(task);
         this.commandExecutor = commandExecutor;
     }
 
-    public HistoricTaskLogEntryBuilderImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
     }
 
-    @Override
+    override
     public void create() {
         this.commandExecutor.execute(this);
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
-        if (StringUtils.isEmpty(getTaskId())) {
+        if (getTaskId() is null || getTaskId().length == 0) {
             throw new FlowableIllegalArgumentException("Empty taskId is not allowed for HistoricTaskLogEntry");
         }
-        if (StringUtils.isEmpty(getUserId())) {
-            userId(Authentication.getAuthenticatedUserId());
+        if (getUserId() is null || getUserId().length == 0) {
+          implementationMissing(false);
+            //userId(Authentication.getAuthenticatedUserId());
         }
         if (timeStamp is null) {
             timeStamp(CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime());
