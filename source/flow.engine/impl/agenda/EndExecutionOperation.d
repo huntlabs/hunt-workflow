@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.EndExecutionOperation;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -45,9 +45,9 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.agenda.AbstractOperation;
+import hunt.logging;
+import hunt.Exceptions;
 /**
  * This operations ends an execution and follows the typical BPMN rules to continue the process (if possible).
  *
@@ -57,22 +57,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Joram Barrez
  */
-class EndExecutionOperation extends AbstractOperation {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(EndExecutionOperation.class);
+class EndExecutionOperation : AbstractOperation {
 
     protected bool forceSynchronous;
 
-    public EndExecutionOperation(CommandContext commandContext, ExecutionEntity execution) {
+    this(CommandContext commandContext, ExecutionEntity execution) {
         super(commandContext, execution);
     }
 
-    public EndExecutionOperation(CommandContext commandContext, ExecutionEntity execution, bool forceSynchronous) {
+    this(CommandContext commandContext, ExecutionEntity execution, bool forceSynchronous) {
         this(commandContext, execution);
         this.forceSynchronous = forceSynchronous;
     }
 
-    @Override
     public void run() {
         if (execution.isProcessInstanceType()) {
             handleProcessInstanceExecution(execution);
@@ -85,7 +82,8 @@ class EndExecutionOperation extends AbstractOperation {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
 
         string processInstanceId = processInstanceExecution.getId(); // No parent execution == process instance id
-        LOGGER.debug("No parent execution found. Verifying if process instance {} can be stopped.", processInstanceId);
+       // LOGGER.debug("No parent execution found. Verifying if process instance {} can be stopped.", processInstanceId);
+         logInfo("No parent execution found. Verifying if process instance {%s} can be stopped. ",processInstanceId);
 
         ExecutionEntity superExecution = processInstanceExecution.getSuperExecution();
         if (!forceSynchronous && isAsyncCompleteCallActivity(superExecution)) {
@@ -96,34 +94,34 @@ class EndExecutionOperation extends AbstractOperation {
         // copy variables before destroying the ended sub process instance (call activity)
         SubProcessActivityBehavior subProcessActivityBehavior = null;
         if (superExecution !is null) {
-            FlowNode superExecutionElement = (FlowNode) superExecution.getCurrentFlowElement();
-            subProcessActivityBehavior = (SubProcessActivityBehavior) superExecutionElement.getBehavior();
+            FlowNode superExecutionElement = cast(FlowNode) superExecution.getCurrentFlowElement();
+            subProcessActivityBehavior = cast(SubProcessActivityBehavior) superExecutionElement.getBehavior();
             try {
                 subProcessActivityBehavior.completing(superExecution, processInstanceExecution);
             } catch (RuntimeException e) {
-                LOGGER.error("Error while completing sub process of execution {}", processInstanceExecution, e);
+                logError("Error while completing sub process of execution {%s}", e.msg);
                 throw e;
             } catch (Exception e) {
-                LOGGER.error("Error while completing sub process of execution {}", processInstanceExecution, e);
-                throw new FlowableException("Error while completing sub process of execution " + processInstanceExecution, e);
+              logError("Error while completing sub process of execution {%s}", e.msg);
+                throw new FlowableException("Error while completing sub process of execution " ~  e.msg);
             }
         }
 
         int activeExecutions = getNumberOfActiveChildExecutionsForProcessInstance(executionEntityManager, processInstanceId);
         if (activeExecutions == 0) {
-            LOGGER.debug("No active executions found. Ending process instance {}", processInstanceId);
+            logInfo("No active executions found. Ending process instance {%s}", processInstanceId);
 
             // note the use of execution here vs processinstance execution for getting the flow element
             executionEntityManager.deleteProcessInstanceExecutionEntity(processInstanceId,
                     execution.getCurrentFlowElement() !is null ? execution.getCurrentFlowElement().getId() : null, null, false, false, true);
         } else {
-            LOGGER.debug("Active executions found. Process instance {} will not be ended.", processInstanceId);
+          logInfo("Active executions found. Process instance {%s} will not be ended.", processInstanceId);
         }
 
         Process process = ProcessDefinitionUtil.getProcess(processInstanceExecution.getProcessDefinitionId());
 
         // Execute execution listeners for process end.
-        if (CollectionUtil.isNotEmpty(process.getExecutionListeners())) {
+        if (!(process.getExecutionListeners().isEmpty())) {
             executeExecutionListeners(process, processInstanceExecution, ExecutionListener.EVENTNAME_END);
         }
 
@@ -133,11 +131,11 @@ class EndExecutionOperation extends AbstractOperation {
             try {
                 subProcessActivityBehavior.completed(superExecution);
             } catch (RuntimeException e) {
-                LOGGER.error("Error while completing sub process of execution {}", processInstanceExecution, e);
+              logError("Error while completing sub process of execution {%s}", e.msg);
                 throw e;
             } catch (Exception e) {
-                LOGGER.error("Error while completing sub process of execution {}", processInstanceExecution, e);
-                throw new FlowableException("Error while completing sub process of execution " + processInstanceExecution, e);
+              logError("Error while completing sub process of execution {%s}", e.msg);
+                throw new FlowableException("Error while completing sub process of execution " ~ e.msg);
             }
 
         }
@@ -145,9 +143,9 @@ class EndExecutionOperation extends AbstractOperation {
 
     protected bool isAsyncCompleteCallActivity(ExecutionEntity superExecution) {
         if (superExecution !is null) {
-            FlowNode superExecutionFlowNode = (FlowNode) superExecution.getCurrentFlowElement();
-            if (superExecutionFlowNode instanceof CallActivity) {
-                CallActivity callActivity = (CallActivity) superExecutionFlowNode;
+            FlowNode superExecutionFlowNode = cast(FlowNode) superExecution.getCurrentFlowElement();
+             CallActivity callActivity = cast(CallActivity) superExecutionFlowNode;
+            if (callActivity !is null) {
                 return callActivity.isCompleteAsync();
             }
         }
@@ -192,10 +190,10 @@ class EndExecutionOperation extends AbstractOperation {
         }
 
         // Delete current execution
-        LOGGER.debug("Ending execution {}", execution.getId());
+        logInfo("Ending execution {%s}", execution.getId());
         executionEntityManager.deleteExecutionAndRelatedData(execution, null, false);
 
-        LOGGER.debug("Parent execution found. Continuing process using execution {}", parentExecution.getId());
+        logInfo("Parent execution found. Continuing process using execution {%s}", parentExecution.getId());
 
         // When ending an execution in a multi instance subprocess , special care is needed
         if (isEndEventInMultiInstanceSubprocess(execution)) {
@@ -204,14 +202,12 @@ class EndExecutionOperation extends AbstractOperation {
         }
 
         SubProcess subProcess = execution.getCurrentFlowElement().getSubProcess();
-
-        if (subProcess instanceof EventSubProcess) {
-            EventSubProcess eventSubProcess = (EventSubProcess) subProcess;
-
+        EventSubProcess eventSubProcess = cast(EventSubProcess) subProcess;
+        if (eventSubProcess !is null) {
             bool hasNonInterruptingStartEvent = false;
-            for (FlowElement eventSubElement : eventSubProcess.getFlowElements()) {
-                if (eventSubElement instanceof StartEvent) {
-                    StartEvent subStartEvent = (StartEvent) eventSubElement;
+            foreach (FlowElement eventSubElement ; eventSubProcess.getFlowElements()) {
+                 StartEvent subStartEvent = cast(StartEvent) eventSubElement;
+                if (subStartEvent !is null) {
                     if (!subStartEvent.isInterrupting()) {
                         hasNonInterruptingStartEvent = true;
                         break;
@@ -229,8 +225,8 @@ class EndExecutionOperation extends AbstractOperation {
 
                 ExecutionEntity subProcessParentExecution = parentExecution.getParent();
                 if (getNumberOfActiveChildExecutionsForExecution(executionEntityManager, subProcessParentExecution.getId()) == 0) {
-                    if (subProcessParentExecution.getCurrentFlowElement() instanceof SubProcess) {
-                        SubProcess parentSubProcess = (SubProcess) subProcessParentExecution.getCurrentFlowElement();
+                    SubProcess parentSubProcess = cast(SubProcess) subProcessParentExecution.getCurrentFlowElement();
+                    if (parentSubProcess !is null) {
                         if (parentSubProcess.getOutgoingFlows().size() > 0) {
                             ExecutionEntity executionToContinue = handleSubProcessEnd(executionEntityManager, subProcessParentExecution, parentSubProcess);
                             agenda.planTakeOutgoingSequenceFlowsOperation(executionToContinue, true);
@@ -248,22 +244,22 @@ class EndExecutionOperation extends AbstractOperation {
 
         // If there are no more active child executions, the process can be continued
         // If not (eg an embedded subprocess still has active elements, we cannot continue)
-        List<ExecutionEntity> eventScopeExecutions = getEventScopeExecutions(executionEntityManager, parentExecution);
+        List!ExecutionEntity eventScopeExecutions = getEventScopeExecutions(executionEntityManager, parentExecution);
 
         // Event scoped executions need to be deleted when there are no active siblings anymore,
         // unless instances of the event subprocess itself. If there are no active siblings anymore,
         // the current scope had ended and the event subprocess start event should stop listening to any trigger.
         if (!eventScopeExecutions.isEmpty()) {
-            List<? extends ExecutionEntity> childExecutions = parentExecution.getExecutions();
+            List!ExecutionEntity childExecutions = parentExecution.getExecutions();
             bool activeSiblings = false;
-            for (ExecutionEntity childExecutionEntity : childExecutions) {
+            foreach (ExecutionEntity childExecutionEntity ; childExecutions) {
                 if (!isInEventSubProcess(childExecutionEntity) && childExecutionEntity.isActive() && !childExecutionEntity.isEnded()) {
                     activeSiblings = true;
                 }
             }
 
             if (!activeSiblings) {
-                for (ExecutionEntity eventScopeExecution : eventScopeExecutions) {
+                foreach (ExecutionEntity eventScopeExecution ; eventScopeExecutions) {
                     executionEntityManager.deleteExecutionAndRelatedData(eventScopeExecution, null, false);
                 }
             }
@@ -315,16 +311,16 @@ class EndExecutionOperation extends AbstractOperation {
         executionToContinue.setActive(false);
 
         bool hasCompensation = false;
-        if (subProcess instanceof Transaction) {
+        if ( cast(Transaction)subProcess !is null) {
             hasCompensation = true;
         } else {
-            for (FlowElement subElement : subProcess.getFlowElements()) {
-                if (subElement instanceof Activity) {
-                    Activity subActivity = (Activity) subElement;
-                    if (CollectionUtil.isNotEmpty(subActivity.getBoundaryEvents())) {
-                        for (BoundaryEvent boundaryEvent : subActivity.getBoundaryEvents()) {
-                            if (CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) &&
-                                    boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition) {
+            foreach (FlowElement subElement ; subProcess.getFlowElements()) {
+                Activity subActivity = cast(Activity) subElement;
+                if (subActivity !is null) {
+                    if (!subActivity.getBoundaryEvents().isEmpty) {
+                        foreach (BoundaryEvent boundaryEvent ; subActivity.getBoundaryEvents()) {
+                            if (!boundaryEvent.getEventDefinitions().isEmpty &&
+                            (cast (CompensateEventDefinition)boundaryEvent.getEventDefinitions().get(0)) !is null) {
 
                                 hasCompensation = true;
                                 break;
@@ -355,12 +351,12 @@ class EndExecutionOperation extends AbstractOperation {
         ExecutionEntity executionToContinue = null;
 
         if (!parentExecution.isProcessInstanceType()
-                && !(parentExecution.getCurrentFlowElement() instanceof SubProcess)) {
+                && cast(SubProcess)(parentExecution.getCurrentFlowElement() is null)) {
             parentExecution.setCurrentFlowElement(execution.getCurrentFlowElement());
         }
 
-        if (execution.getCurrentFlowElement() instanceof SubProcess) {
-            SubProcess currentSubProcess = (SubProcess) execution.getCurrentFlowElement();
+         SubProcess currentSubProcess = cast(SubProcess) execution.getCurrentFlowElement();
+        if (currentSubProcess !is null) {
             if (currentSubProcess.getOutgoingFlows().size() > 0) {
                 // create a new execution to take the outgoing sequence flows
                 executionToContinue = executionEntityManager.createChildExecution(parentExecution);
@@ -387,10 +383,10 @@ class EndExecutionOperation extends AbstractOperation {
     }
 
     protected void handleMultiInstanceSubProcess(ExecutionEntityManager executionEntityManager, ExecutionEntity parentExecution) {
-        List<ExecutionEntity> activeChildExecutions = getActiveChildExecutionsForExecution(executionEntityManager, parentExecution.getId());
+        List!ExecutionEntity activeChildExecutions = getActiveChildExecutionsForExecution(executionEntityManager, parentExecution.getId());
         bool containsOtherChildExecutions = false;
-        for (ExecutionEntity activeExecution : activeChildExecutions) {
-            if (!activeExecution.getId().equals(execution.getId())) {
+        foreach (ExecutionEntity activeExecution ; activeChildExecutions) {
+            if (activeExecution.getId() != (execution.getId())) {
                 containsOtherChildExecutions = true;
             }
         }
@@ -403,28 +399,29 @@ class EndExecutionOperation extends AbstractOperation {
             agenda.planDestroyScopeOperation(parentExecution);
 
             SubProcess subProcess = execution.getCurrentFlowElement().getSubProcess();
-            MultiInstanceActivityBehavior multiInstanceBehavior = (MultiInstanceActivityBehavior) subProcess.getBehavior();
+            MultiInstanceActivityBehavior multiInstanceBehavior = cast(MultiInstanceActivityBehavior) subProcess.getBehavior();
             parentExecution.setCurrentFlowElement(subProcess);
             multiInstanceBehavior.leave(parentExecution);
         }
     }
 
     protected bool isEndEventInMultiInstanceSubprocess(ExecutionEntity executionEntity) {
-        if (executionEntity.getCurrentFlowElement() instanceof EndEvent) {
-            SubProcess subProcess = ((EndEvent) execution.getCurrentFlowElement()).getSubProcess();
+        EndEvent e =  cast(EndEvent)executionEntity.getCurrentFlowElement();
+        if (e !is null) {
+            SubProcess subProcess = e.getSubProcess();
             return !executionEntity.getParent().isProcessInstanceType()
                     && subProcess !is null
                     && subProcess.getLoopCharacteristics() !is null
-                    && subProcess.getBehavior() instanceof MultiInstanceActivityBehavior;
+                    && cast(MultiInstanceActivityBehavior)subProcess.getBehavior() !is null;
         }
         return false;
     }
 
     protected int getNumberOfActiveChildExecutionsForProcessInstance(ExecutionEntityManager executionEntityManager, string processInstanceId) {
-        Collection<ExecutionEntity> executions = executionEntityManager.findChildExecutionsByProcessInstanceId(processInstanceId);
+        Collection!ExecutionEntity executions = executionEntityManager.findChildExecutionsByProcessInstanceId(processInstanceId);
         int activeExecutions = 0;
-        for (ExecutionEntity execution : executions) {
-            if (execution.isActive() && !processInstanceId.equals(execution.getId())) {
+        foreach (ExecutionEntity execution ; executions) {
+            if (execution.isActive() && processInstanceId != (execution.getId())) {
                 activeExecutions++;
             }
         }
@@ -432,12 +429,12 @@ class EndExecutionOperation extends AbstractOperation {
     }
 
     protected int getNumberOfActiveChildExecutionsForExecution(ExecutionEntityManager executionEntityManager, string executionId) {
-        List<ExecutionEntity> executions = executionEntityManager.findChildExecutionsByParentExecutionId(executionId);
+        List!ExecutionEntity executions = executionEntityManager.findChildExecutionsByParentExecutionId(executionId);
         int activeExecutions = 0;
 
         // Filter out the boundary events
-        for (ExecutionEntity activeExecution : executions) {
-            if (!(activeExecution.getCurrentFlowElement() instanceof BoundaryEvent)) {
+        foreach (ExecutionEntity activeExecution ; executions) {
+            if (cast(BoundaryEvent)(activeExecution.getCurrentFlowElement()) is null) {
                 activeExecutions++;
             }
         }
@@ -445,12 +442,12 @@ class EndExecutionOperation extends AbstractOperation {
         return activeExecutions;
     }
 
-    protected List<ExecutionEntity> getActiveChildExecutionsForExecution(ExecutionEntityManager executionEntityManager, string executionId) {
-        List<ExecutionEntity> activeChildExecutions = new ArrayList<>();
-        List<ExecutionEntity> executions = executionEntityManager.findChildExecutionsByParentExecutionId(executionId);
+    protected List!ExecutionEntity getActiveChildExecutionsForExecution(ExecutionEntityManager executionEntityManager, string executionId) {
+        List!ExecutionEntity activeChildExecutions = new ArrayList!ExecutionEntity();
+        List!ExecutionEntity executions = executionEntityManager.findChildExecutionsByParentExecutionId(executionId);
 
-        for (ExecutionEntity activeExecution : executions) {
-            if (!(activeExecution.getCurrentFlowElement() instanceof BoundaryEvent)) {
+        foreach (ExecutionEntity activeExecution ; executions) {
+            if (cast(BoundaryEvent)(activeExecution.getCurrentFlowElement()) is null) {
                 activeChildExecutions.add(activeExecution);
             }
         }
@@ -458,10 +455,10 @@ class EndExecutionOperation extends AbstractOperation {
         return activeChildExecutions;
     }
 
-    protected List<ExecutionEntity> getEventScopeExecutions(ExecutionEntityManager executionEntityManager, ExecutionEntity parentExecution) {
-        List<ExecutionEntity> eventScopeExecutions = new ArrayList<>(1);
-        List<ExecutionEntity> executions = executionEntityManager.findChildExecutionsByParentExecutionId(parentExecution.getId());
-        for (ExecutionEntity childExecution : executions) {
+    protected List!ExecutionEntity getEventScopeExecutions(ExecutionEntityManager executionEntityManager, ExecutionEntity parentExecution) {
+        List!ExecutionEntity eventScopeExecutions = new ArrayList!ExecutionEntity(1);
+        List!ExecutionEntity executions = executionEntityManager.findChildExecutionsByParentExecutionId(parentExecution.getId());
+        foreach (ExecutionEntity childExecution ; executions) {
             if (childExecution.isEventScope()) {
                 eventScopeExecutions.add(childExecution);
 
@@ -471,8 +468,8 @@ class EndExecutionOperation extends AbstractOperation {
     }
 
     protected bool allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
-        for (ExecutionEntity childExecutionEntity : parentExecutionEntity.getExecutions()) {
-            if (executionEntityToIgnore is null || !executionEntityToIgnore.getId().equals(childExecutionEntity.getId())) {
+        foreach (ExecutionEntity childExecutionEntity ; parentExecutionEntity.getExecutions()) {
+            if (executionEntityToIgnore is null || executionEntityToIgnore.getId() != (childExecutionEntity.getId())) {
                 if (!childExecutionEntity.isEnded()) {
                     return false;
                 }
@@ -489,7 +486,7 @@ class EndExecutionOperation extends AbstractOperation {
     protected bool isInEventSubProcess(ExecutionEntity executionEntity) {
         ExecutionEntity currentExecutionEntity = executionEntity;
         while (currentExecutionEntity !is null) {
-            if (currentExecutionEntity.getCurrentFlowElement() instanceof EventSubProcess) {
+            if (cast(EventSubProcess)(currentExecutionEntity.getCurrentFlowElement()) !is null) {
                 return true;
             }
             currentExecutionEntity = currentExecutionEntity.getParent();

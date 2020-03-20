@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.ModelEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,17 +18,17 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.engine.impl.ModelQueryImpl;
 import flow.engine.repository.Model;
-
+import flow.engine.impl.persistence.entity.ModelEntity;
 /**
  * @author Joram Barrez
  */
-interface ModelEntityManager extends EntityManager<ModelEntity> {
+interface ModelEntityManager : EntityManager!ModelEntity {
 
     void insertEditorSourceForModel(string modelId, byte[] modelSource);
 
     void insertEditorSourceExtraForModel(string modelId, byte[] modelSource);
 
-    List<Model> findModelsByQueryCriteria(ModelQueryImpl query);
+    List!Model findModelsByQueryCriteria(ModelQueryImpl query);
 
     long findModelCountByQueryCriteria(ModelQueryImpl query);
 
@@ -36,7 +36,7 @@ interface ModelEntityManager extends EntityManager<ModelEntity> {
 
     byte[] findEditorSourceExtraByModelId(string modelId);
 
-    List<Model> findModelsByNativeQuery(Map!(string, Object) parameterMap);
+    List!Model findModelsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findModelCountByNativeQuery(Map!(string, Object) parameterMap);
 

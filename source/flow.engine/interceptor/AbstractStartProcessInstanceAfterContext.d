@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.AbstractStartProcessInstanceAfterContext;
 
 import hunt.collection.Map;
 
@@ -28,11 +28,11 @@ class AbstractStartProcessInstanceAfterContext {
     protected Process process;
     protected ProcessDefinition processDefinition;
 
-    public AbstractStartProcessInstanceAfterContext() {
+    this() {
 
     }
 
-    public AbstractStartProcessInstanceAfterContext(ExecutionEntity processInstance, ExecutionEntity childExecution, Map!(string, Object) variables,
+    this(ExecutionEntity processInstance, ExecutionEntity childExecution, Map!(string, Object) variables,
                     FlowElement initialFlowElement, Process process, ProcessDefinition processDefinition) {
 
         this.processInstance = processInstance;

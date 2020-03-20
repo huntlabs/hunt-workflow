@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.HistoricProcessInstanceQueryInterceptor;
 
 import hunt.collection.List;
 
@@ -21,5 +21,5 @@ interface HistoricProcessInstanceQueryInterceptor {
 
     void beforeHistoricProcessInstanceQueryExecute(HistoricProcessInstanceQuery processInstanceQuery);
 
-    void afterHistoricProcessInstanceQueryExecute(HistoricProcessInstanceQuery processInstanceQuery, List<HistoricProcessInstance> processInstances);
+    void afterHistoricProcessInstanceQueryExecute(HistoricProcessInstanceQuery processInstanceQuery, List!HistoricProcessInstance processInstances);
 }

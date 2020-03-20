@@ -11,174 +11,202 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.persistence.entity.ModelEntityImpl;
 
-
-import java.io.Serializable;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
-
+import flow.engine.impl.persistence.entity.ModelEntity;
+import hunt.entity;
 import flow.engine.ProcessEngineConfiguration;
+import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
+alias Date = LocalDateTime;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class ModelEntityImpl extends AbstractBpmnEngineEntity implements ModelEntity, Serializable {
+@Table("ACT_RE_MODEL")
+class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
+  mixin MakeModel;
 
-    private static final long serialVersionUID = 1L;
+   @PrimaryKey
+   @Column("ID_")
+    string id;
 
-    protected string name;
-    protected string key;
-    protected string category;
-    protected Date createTime;
-    protected Date lastUpdateTime;
-    protected Integer version = 1;
-    protected string metaInfo;
-    protected string deploymentId;
-    protected string editorSourceValueId;
-    protected string editorSourceExtraValueId;
-    protected string tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
+    @Column("NAME_")
+    string name;
 
-    public ModelEntityImpl() {
+  @Column("KEY_")
+    string key;
 
+  @Column("CATEGORY_")
+    string category;
+
+  @Column("CREATE_TIME_")
+    long createTime;
+
+  @Column("LAST_UPDATE_TIME_")
+    long lastUpdateTime;
+
+  @Column("VERSION_")
+    int ver  ;//= 1;
+
+  @Column("META_INFO_")
+    string metaInfo;
+
+  @Column("DEPLOYMENT_ID_")
+    string deploymentId;
+
+  @Column("EDITOR_SOURCE_VALUE_ID_")
+    string editorSourceValueId;
+
+  @Column("EDITOR_SOURCE_EXTRA_VALUE_ID_")
+    string editorSourceExtraValueId;
+
+  @Column("TENANT_ID_")
+    string tenantId  ;//= ProcessEngineConfiguration.NO_TENANT_ID;
+
+    this() {
+        tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
+        ver  = 1;
     }
 
-    @Override
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap<>();
-        persistentState.put("name", this.name);
-        persistentState.put("key", key);
-        persistentState.put("category", this.category);
-        persistentState.put("createTime", this.createTime);
-        persistentState.put("lastUpdateTime", lastUpdateTime);
-        persistentState.put("version", this.version);
-        persistentState.put("metaInfo", this.metaInfo);
-        persistentState.put("deploymentId", deploymentId);
-        persistentState.put("editorSourceValueId", this.editorSourceValueId);
-        persistentState.put("editorSourceExtraValueId", this.editorSourceExtraValueId);
-        persistentState.put("tenantId", this.tenantId);
-        return persistentState;
+        return this;
+        //Map!(string, Object) persistentState = new HashMap<>();
+        //persistentState.put("name", this.name);
+        //persistentState.put("key", key);
+        //persistentState.put("category", this.category);
+        //persistentState.put("createTime", this.createTime);
+        //persistentState.put("lastUpdateTime", lastUpdateTime);
+        //persistentState.put("version", this.version);
+        //persistentState.put("metaInfo", this.metaInfo);
+        //persistentState.put("deploymentId", deploymentId);
+        //persistentState.put("editorSourceValueId", this.editorSourceValueId);
+        //persistentState.put("editorSourceExtraValueId", this.editorSourceExtraValueId);
+        //persistentState.put("tenantId", this.tenantId);
+        //return persistentState;
     }
 
     // getters and setters ////////////////////////////////////////////////////////
 
-    @Override
+
     public string getName() {
         return name;
     }
 
-    @Override
+
     public void setName(string name) {
         this.name = name;
     }
 
-    @Override
+
     public string getKey() {
         return key;
     }
 
-    @Override
+
     public void setKey(string key) {
         this.key = key;
     }
 
-    @Override
+
     public string getCategory() {
         return category;
     }
 
-    @Override
+
     public void setCategory(string category) {
         this.category = category;
     }
 
-    @Override
+
     public Date getCreateTime() {
-        return createTime;
+        return Date.ofEpochMilli(createTime);
     }
 
-    @Override
+
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        this.createTime = createTime.toEpochMilli();
     }
 
-    @Override
+
     public Date getLastUpdateTime() {
-        return lastUpdateTime;
+        return Date.ofEpochMilli(lastUpdateTime);
     }
 
-    @Override
+
     public void setLastUpdateTime(Date lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    @Override
-    public Integer getVersion() {
-        return version;
+
+    public int getVersion() {
+        return ver;
     }
 
-    @Override
-    public void setVersion(Integer version) {
-        this.version = version;
+
+    public void setVersion(int ver) {
+        this.ver = ver;
     }
 
-    @Override
+
     public string getMetaInfo() {
         return metaInfo;
     }
 
-    @Override
+
     public void setMetaInfo(string metaInfo) {
         this.metaInfo = metaInfo;
     }
 
-    @Override
+
     public string getDeploymentId() {
         return deploymentId;
     }
 
-    @Override
+
     public void setDeploymentId(string deploymentId) {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+
     public string getEditorSourceValueId() {
         return editorSourceValueId;
     }
 
-    @Override
+
     public void setEditorSourceValueId(string editorSourceValueId) {
         this.editorSourceValueId = editorSourceValueId;
     }
 
-    @Override
+
     public string getEditorSourceExtraValueId() {
         return editorSourceExtraValueId;
     }
 
-    @Override
+
     public void setEditorSourceExtraValueId(string editorSourceExtraValueId) {
         this.editorSourceExtraValueId = editorSourceExtraValueId;
     }
 
-    @Override
+
     public string getTenantId() {
         return tenantId;
     }
 
-    @Override
+
     public void setTenantId(string tenantId) {
         this.tenantId = tenantId;
     }
 
-    @Override
+
     public bool hasEditorSource() {
         return this.editorSourceValueId !is null;
     }
 
-    @Override
+
     public bool hasEditorSourceExtra() {
         return this.editorSourceExtraValueId !is null;
     }

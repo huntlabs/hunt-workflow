@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.AbstractManager;
 
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
@@ -39,11 +39,12 @@ import flow.job.service.impl.asyncexecutor.AsyncExecutor;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
+
 abstract class AbstractManager {
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public AbstractManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
@@ -53,9 +54,9 @@ abstract class AbstractManager {
         return Context.getCommandContext();
     }
 
-    protected <T> T getSession(Class<T> sessionClass) {
-        return getCommandContext().getSession(sessionClass);
-    }
+    //protected <T> T getSession(Class<T> sessionClass) {
+    //    return getCommandContext().getSession(sessionClass);
+    //}
 
     // Engine scoped
 

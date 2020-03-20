@@ -10,35 +10,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.DebugFlowableEngineAgenda;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.runtime.ProcessDebugger;
+import flow.engine.impl.agenda.DefaultFlowableEngineAgenda;
+import flow.engine.impl.agenda.DebugContinueProcessOperation;
 
 /**
  * This {@link flow.engine.FlowableEngineAgenda} schedules operations which allow debugging
  */
-class DebugFlowableEngineAgenda extends DefaultFlowableEngineAgenda {
+class DebugFlowableEngineAgenda : DefaultFlowableEngineAgenda {
 
     protected ProcessDebugger processDebugger;
 
-    public DebugFlowableEngineAgenda(CommandContext commandContext, ProcessDebugger processDebugger) {
+    this(CommandContext commandContext, ProcessDebugger processDebugger) {
         super(commandContext);
         this.processDebugger = processDebugger;
     }
 
-    @Override
+    override
     public void planContinueProcessOperation(ExecutionEntity execution) {
         planOperation(new DebugContinueProcessOperation(processDebugger, commandContext, execution), execution);
     }
 
-    @Override
+    override
     public void planContinueProcessSynchronousOperation(ExecutionEntity execution) {
         planOperation(new DebugContinueProcessOperation(processDebugger, commandContext, execution, true, false), execution);
     }
 
-    @Override
+    override
     public void planContinueProcessInCompensation(ExecutionEntity execution) {
         planOperation(new DebugContinueProcessOperation(processDebugger, commandContext, execution, false, true), execution);
     }

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.ExecutionEntityImpl;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -42,8 +42,9 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.impl.persistence.entity.VariableInitializingList;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import flow.engine.impl.persistence.entity.ExecutionEntity;
+import flow.engine.impl.persistence.entity.AbstractBpmnEngineVariableScopeEntity;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tom Baeyens
@@ -53,9 +54,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Joram Barrez
  */
 
-class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implements ExecutionEntity, CountingExecutionEntity {
-
-    private static final long serialVersionUID = 1L;
+class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , ExecutionEntity, CountingExecutionEntity {
 
     // current position /////////////////////////////////////////////////////////
 
@@ -73,7 +72,7 @@ class ExecutionEntityImpl extends AbstractBpmnEngineVariableScopeEntity implemen
     protected ExecutionEntityImpl parent;
 
     /** nested executions representing scopes or concurrent paths */
-    protected List<ExecutionEntityImpl> executions;
+    protected List!ExecutionEntityImpl executions;
 
     /** super execution, not-null if this execution is part of a subprocess */
     protected ExecutionEntityImpl superExecution;

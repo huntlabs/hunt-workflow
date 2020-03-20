@@ -1,73 +1,99 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.persistence.entity.ResourceEntityImpl;
 
-
-
-import java.io.Serializable;
-
+import flow.engine.impl.persistence.entity.AbstractBpmnEngineNoRevisionEntity;
+import flow.engine.impl.persistence.entity.ResourceEntity;
+import hunt.entity;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class ResourceEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements ResourceEntity, Serializable {
 
-    private static final long serialVersionUID = 1L;
+@Table("ACT_GE_BYTEARRAY")
+class ResourceEntityImpl : AbstractBpmnEngineNoRevisionEntity , Model, ResourceEntity {
+    mixin MakeModel;
 
-    protected string name;
-    protected byte[] bytes;
-    protected string deploymentId;
-    protected bool generated;
+    @PrimaryKey
+    @Column("ID_")
+    string id;
 
-    public ResourceEntityImpl() {
+    @Column("NAME_")
+    string name;
 
+    @Column("BYTES_")
+    byte[] bytes;
+
+    @Column("DEPLOYMENT_ID_")
+    string deploymentId;
+
+    @Column("GENERATED_")
+    bool generated;
+
+    @Column("REV_")
+    int rev;
+
+    this() {
+        rev = 1;
     }
 
-    @Override
+    override
+    public string getId() {
+      return id;
+    }
+
+    override
+    public void setId(string id) {
+        this.id = id;
+    }
+
+
     public string getName() {
         return name;
     }
 
-    @Override
+
     public void setName(string name) {
         this.name = name;
     }
 
-    @Override
+
     public byte[] getBytes() {
         return bytes;
     }
 
-    @Override
+
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
 
-    @Override
+
     public string getDeploymentId() {
         return deploymentId;
     }
 
-    @Override
+
     public void setDeploymentId(string deploymentId) {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+
     public Object getPersistentState() {
-        return ResourceEntityImpl.class;
+        return this;
+        //return ResourceEntityImpl.class;
     }
 
-    @Override
+
     public void setGenerated(bool generated) {
         this.generated = generated;
     }
@@ -75,15 +101,15 @@ class ResourceEntityImpl extends AbstractBpmnEngineNoRevisionEntity implements R
     /**
      * Indicated whether or not the resource has been generated while deploying rather than being actual part of the deployment.
      */
-    @Override
+
     public bool isGenerated() {
         return generated;
     }
 
     // common methods //////////////////////////////////////////////////////////
 
-    @Override
+    override
     public string toString() {
-        return "ResourceEntity[id=" + id + ", name=" + name + "]";
+        return "ResourceEntity[id=" ~ id ~ ", name=" ~ name ~ "]";
     }
 }

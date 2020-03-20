@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.ModelEntity;
 
 
 import hunt.time.LocalDateTime;
@@ -19,11 +19,12 @@ import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
 import flow.engine.repository.Model;
 
+alias Date = LocalDateTime;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-interface ModelEntity extends Model, HasRevision, Entity {
+interface ModelEntity : Model, HasRevision, Entity {
 
     void setCreateTime(Date createTime);
 

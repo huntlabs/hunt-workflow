@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.InternalProcessLocalizationManager;
 
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.runtime.ProcessInstance;

@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.DefaultFlowableEngineAgendaFactory;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.FlowableEngineAgenda;
 import flow.engine.FlowableEngineAgendaFactory;
+import flow.engine.impl.agenda.DefaultFlowableEngineAgenda;
 
-class DefaultFlowableEngineAgendaFactory implements FlowableEngineAgendaFactory {
+class DefaultFlowableEngineAgendaFactory : FlowableEngineAgendaFactory {
 
-    @Override
     public FlowableEngineAgenda createAgenda(CommandContext commandContext) {
         return new DefaultFlowableEngineAgenda(commandContext);
     }

@@ -1,105 +1,123 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.persistence.entity.ByteArrayEntityImpl;
 
-
-import java.io.Serializable;
-import java.util.Arrays;
-
-import org.apache.commons.lang3.StringUtils;
-
+import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
+import flow.engine.impl.persistence.entity.ByteArrayEntity;
+import hunt.entity;
 /**
  * @author Tom Baeyens
  * @author Marcus Klimstra (CGI)
  * @author Joram Barrez
  */
-class ByteArrayEntityImpl extends AbstractBpmnEngineEntity implements ByteArrayEntity, Serializable {
+@Table("ACT_GE_BYTEARRAY")
+class ByteArrayEntityImpl : AbstractBpmnEngineEntity , Model, ByteArrayEntity {
 
-    private static final long serialVersionUID = 1L;
+   mixin MakeModel;
 
-    protected string name;
-    protected byte[] bytes;
-    protected string deploymentId;
+     @PrimaryKey
+     @Column("ID_")
+     string id;
 
-    public ByteArrayEntityImpl() {
+     @Column("NAME_")
+     string name;
+
+     @Column("BYTES_")
+     byte[] bytes;
+
+     @Column("DEPLOYMENT_ID_")
+     string deploymentId;
+
+    this() {
 
     }
 
-    @Override
+    public string getId() {
+        return id;
+    }
+
+
+    public void setId(string id) {
+        this.id = id;
+    }
+
     public byte[] getBytes() {
         return bytes;
     }
 
-    @Override
+
     public Object getPersistentState() {
         return new PersistentState(name, bytes);
     }
 
     // getters and setters ////////////////////////////////////////////////////////
 
-    @Override
+
     public string getName() {
         return name;
     }
 
-    @Override
+
     public void setName(string name) {
         this.name = name;
     }
 
-    @Override
+
     public string getDeploymentId() {
         return deploymentId;
     }
 
-    @Override
+
     public void setDeploymentId(string deploymentId) {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+
     public void setBytes(byte[] bytes) {
         this.bytes = bytes;
     }
 
-    @Override
+    override
     public string toString() {
-        return "ByteArrayEntity[id=" + id + ", name=" + name + ", size=" + (bytes !is null ? bytes.length : 0) + "]";
+        return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name  ~ "]";
     }
 
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
-    private static class PersistentState {
+    class PersistentState {
 
-        private final string name;
-        private final byte[] bytes;
+        private  string name;
+        private  byte[] bytes;
 
-        public PersistentState(string name, byte[] bytes) {
+        this(string name, byte[] bytes) {
             this.name = name;
             this.bytes = bytes;
         }
 
-        @Override
-        public bool equals(Object obj) {
-            if (obj instanceof PersistentState) {
-                PersistentState other = (PersistentState) obj;
-                return StringUtils.equals(this.name, other.name) && Arrays.equals(this.bytes, other.bytes);
+        override
+        public bool opEquals(Object obj) {
+             PersistentState other = cast(PersistentState) obj;
+            if (other !is null) {
+                return (this.name == other.name) && (this.bytes.length == other.bytes.length);
             }
             return false;
         }
 
-        @Override
-        public int hashCode() {
-            throw new UnsupportedOperationException();
+
+        override
+        public size_t toHash() {
+            return 1;
+            //throw new UnsupportedOperationException();
         }
 
     }

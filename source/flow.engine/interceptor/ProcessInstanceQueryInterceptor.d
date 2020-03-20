@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.ProcessInstanceQueryInterceptor;
 
 import hunt.collection.List;
 
@@ -21,5 +21,5 @@ interface ProcessInstanceQueryInterceptor {
 
     void beforeProcessInstanceQueryExecute(ProcessInstanceQuery processInstanceQuery);
 
-    void afterProcessInstanceQueryExecute(ProcessInstanceQuery processInstanceQuery, List<ProcessInstance> processInstances);
+    void afterProcessInstanceQueryExecute(ProcessInstanceQuery processInstanceQuery, List!ProcessInstance processInstances);
 }

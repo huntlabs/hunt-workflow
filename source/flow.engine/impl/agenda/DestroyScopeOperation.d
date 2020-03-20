@@ -10,28 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.DestroyScopeOperation;
 
 import flow.common.api.FlowableException;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.agenda.AbstractOperation;
 /**
  * Destroys a scope (for example a subprocess): this means that all child executions, tasks, jobs, variables, etc within that scope are deleted.
- * 
+ *
  * The typical example is an interrupting boundary event that is on the boundary of a subprocess and is triggered. At that point, everything within the subprocess would need to be destroyed.
- * 
+ *
  * @author Joram Barrez
  */
-class DestroyScopeOperation extends AbstractOperation {
+class DestroyScopeOperation : AbstractOperation {
 
-    public DestroyScopeOperation(CommandContext commandContext, ExecutionEntity execution) {
+    this(CommandContext commandContext, ExecutionEntity execution) {
         super(commandContext, execution);
     }
 
-    @Override
     public void run() {
 
         // Find the actual scope that needs to be destroyed.
@@ -53,7 +52,7 @@ class DestroyScopeOperation extends AbstractOperation {
         if (scopeExecution.isActive()) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityEnd(scopeExecution, scopeExecution.getDeleteReason());
         }
-        executionEntityManager.delete(scopeExecution);
+        executionEntityManager.dele(scopeExecution);
     }
 
 }

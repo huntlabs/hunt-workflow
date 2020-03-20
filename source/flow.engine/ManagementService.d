@@ -61,17 +61,17 @@ interface ManagementService {
     /**
      * Get the mapping containing {table name, row count} entries of the database schema.
      */
-    Map<string, Long> getTableCount();
+    Map!(string, long) getTableCount();
 
     /**
      * Gets the table name (including any configured prefix) for an entity like Task, Execution or the like.
      */
-    string getTableName(Class<?> entityClass);
+    string getTableName(TypeInfo entityClass);
 
     /**
      * Gets the table name for an entity like Task, Execution or the like.
      */
-    string getTableName(Class<?> entityClass, bool includePrefix);
+    string getTableName(TypeInfo entityClass, bool includePrefix);
 
     /**
      * Gets the metadata (column names, column types, etc.) of a certain table. Returns null when no table exists with the given name.
@@ -337,17 +337,17 @@ interface ManagementService {
 
     void handleHistoryCleanupTimerJob();
 
-    List<Batch> getAllBatches();
+    List!Batch getAllBatches();
 
-    List<Batch> findBatchesBySearchKey(string searchKey);
+    List!Batch findBatchesBySearchKey(string searchKey);
 
     string getBatchDocument(string batchId);
 
     BatchPart getBatchPart(string batchPartId);
 
-    List<BatchPart> findBatchPartsByBatchId(string batchId);
+    List!BatchPart findBatchPartsByBatchId(string batchId);
 
-    List<BatchPart> findBatchPartsByBatchIdAndStatus(string batchId, string status);
+    List!BatchPart findBatchPartsByBatchIdAndStatus(string batchId, string status);
 
     string getBatchPartDocument(string batchPartId);
 
@@ -375,7 +375,7 @@ interface ManagementService {
      *            the command, cannot be null.
      * @return the result of command execution
      */
-    <T> T executeCommand(Command<T> command);
+    Object executeCommand(CommandAbstract command);
 
     /**
      * Executes a given command with the specified {@link CommandConfig}.
@@ -386,7 +386,7 @@ interface ManagementService {
      *            the command, cannot be null.
      * @return the result of command execution
      */
-    <T> T executeCommand(CommandConfig config, Command<T> command);
+    Object executeCommand(CommandConfig config, CommandAbstract command);
 
     /**
      * Acquire a lock manager for the requested lock.
@@ -398,26 +398,26 @@ interface ManagementService {
      *
      * @return the lock manager for the given lock
      */
-    LockManager getLockManager(string lockName);
+   // LockManager getLockManager(string lockName);
 
     /**
      * Executes the sql contained in the {@link CustomSqlExecution} parameter.
      */
-    <MapperType, ResultType> ResultType executeCustomSql(CustomSqlExecution<MapperType, ResultType> customSqlExecution);
+    //<MapperType, ResultType> ResultType executeCustomSql(CustomSqlExecution<MapperType, ResultType> customSqlExecution);
 
     /**
      * Returns a list of event log entries, describing everything the engine has processed. Note that the event logging must specifically must be enabled in the process engine configuration.
      *
      * Passing null as arguments will effectively fetch ALL event log entries. Be careful, as this list might be huge!
      */
-    List<EventLogEntry> getEventLogEntries(Long startLogNr, Long pageSize);
+    List!EventLogEntry getEventLogEntries(long startLogNr, long pageSize);
 
     /**
      * Returns a list of event log entries for a specific process instance id. Note that the event logging must specifically must be enabled in the process engine configuration.
      *
      * Passing null as arguments will effectively fetch ALL event log entries. Be careful, as this list might be huge!
      */
-    List<EventLogEntry> getEventLogEntriesByProcessInstanceId(string processInstanceId);
+    List!EventLogEntry getEventLogEntriesByProcessInstanceId(string processInstanceId);
 
     /**
      * Delete a EventLogEntry. Typically only used in testing, as deleting log entries defeats the whole purpose of keeping a log.

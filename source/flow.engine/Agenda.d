@@ -11,12 +11,13 @@
  * limitations under the License.
  */
 
+module flow.engine.Agenda;
 
 /**
  * This interface exposes independent agenda methods.
- * 
+ *
  * @deprecated in 6.2.0, use the {@link flow.common.agenda.Agenda} in the common module instead.
  */
-//interface Agenda : flow.common.agenda.Agenda {
-//
-//}
+interface Agenda : flow.common.agenda.Agenda {
+
+}

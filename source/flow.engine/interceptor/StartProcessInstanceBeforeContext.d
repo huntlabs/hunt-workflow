@@ -10,15 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.StartProcessInstanceBeforeContext;
 
 import hunt.collection.Map;
 
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Process;
 import flow.engine.repository.ProcessDefinition;
+import flow.engine.interceptor.AbstractStartProcessInstanceBeforeContext;
 
-class StartProcessInstanceBeforeContext extends AbstractStartProcessInstanceBeforeContext {
+class StartProcessInstanceBeforeContext : AbstractStartProcessInstanceBeforeContext {
 
     protected string callbackId;
     protected string callbackType;
@@ -30,11 +31,11 @@ class StartProcessInstanceBeforeContext extends AbstractStartProcessInstanceBefo
     protected string overrideDefinitionTenantId;
     protected string predefinedProcessInstanceId;
 
-    public StartProcessInstanceBeforeContext() {
+    this() {
 
     }
 
-    public StartProcessInstanceBeforeContext(string businessKey, string processInstanceName,
+    this(string businessKey, string processInstanceName,
                     string callbackId, string callbackType, string referenceId, string referenceType,
                     Map!(string, Object) variables, Map!(string, Object) transientVariables, string tenantId,
                     string initiatorVariableName, string initialActivityId, FlowElement initialFlowElement, Process process,

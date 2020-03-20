@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.DebugFlowableEngineAgendaFactory;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.FlowableEngineAgenda;
 import flow.engine.FlowableEngineAgendaFactory;
 import flow.engine.runtime.ProcessDebugger;
+import flow.engine.impl.agenda.DebugFlowableEngineAgenda;
 
-class DebugFlowableEngineAgendaFactory implements FlowableEngineAgendaFactory {
+class DebugFlowableEngineAgendaFactory : FlowableEngineAgendaFactory {
 
     protected ProcessDebugger debugger;
 
@@ -25,7 +26,6 @@ class DebugFlowableEngineAgendaFactory implements FlowableEngineAgendaFactory {
         this.debugger = debugger;
     }
 
-    @Override
     public FlowableEngineAgenda createAgenda(CommandContext commandContext) {
         return new DebugFlowableEngineAgenda(commandContext, debugger);
     }

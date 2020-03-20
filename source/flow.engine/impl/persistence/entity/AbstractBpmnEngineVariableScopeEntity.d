@@ -10,15 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.AbstractBpmnEngineVariableScopeEntity;
 
 import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
+import flow.engine.impl.persistence.entity.BpmnEngineEntityConstants;
 
-abstract class AbstractBpmnEngineVariableScopeEntity extends VariableScopeImpl {
+abstract class AbstractBpmnEngineVariableScopeEntity : VariableScopeImpl {
 
-    private static final long serialVersionUID = 1L;
-
-    @Override
     public string getIdPrefix() {
         return BpmnEngineEntityConstants.BPMN_ENGINE_ID_PREFIX;
     }

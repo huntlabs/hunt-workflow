@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.ContinueMultiInstanceOperation;
 
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.FlowNode;
@@ -18,7 +18,6 @@ import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.CommandContext;
-import flow.common.util.CollectionUtil;
 import flow.engine.deleg.BpmnError;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
@@ -29,11 +28,11 @@ import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.jobexecutor.AsyncContinuationJobHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.logging.LogMDC;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.engine.impl.agenda.AbstractOperation;
+import hunt.Exceptions;
+import hunt.logging;
 
 /**
  * Special operation when executing an instance of a multi-instance. It's similar to the {@link ContinueProcessOperation}, but simpler, as it doesn't need to cater for as many use cases.
@@ -41,26 +40,25 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class ContinueMultiInstanceOperation extends AbstractOperation {
+class ContinueMultiInstanceOperation : AbstractOperation {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ContinueMultiInstanceOperation.class);
 
     protected ExecutionEntity multiInstanceRootExecution;
     protected int loopCounter;
 
-    public ContinueMultiInstanceOperation(CommandContext commandContext, ExecutionEntity execution, ExecutionEntity multiInstanceRootExecution, int loopCounter) {
+    this(CommandContext commandContext, ExecutionEntity execution, ExecutionEntity multiInstanceRootExecution, int loopCounter) {
         super(commandContext, execution);
         this.multiInstanceRootExecution = multiInstanceRootExecution;
         this.loopCounter = loopCounter;
     }
 
-    @Override
     public void run() {
         FlowElement currentFlowElement = getCurrentFlowElement(execution);
-        if (currentFlowElement instanceof FlowNode) {
-            continueThroughMultiInstanceFlowNode((FlowNode) currentFlowElement);
+        FlowNode f = cast(FlowNode)currentFlowElement;
+        if (f !is null) {
+            continueThroughMultiInstanceFlowNode(f);
         } else {
-            throw new RuntimeException("Programmatic error: no valid multi instance flow node, type: " + currentFlowElement + ". Halting.");
+            throw new RuntimeException("Programmatic error: no valid multi instance flow node, type: " ~ ". Halting.");
         }
     }
 
@@ -77,13 +75,13 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(execution);
 
         // Execution listener
-        if (CollectionUtil.isNotEmpty(flowNode.getExecutionListeners())) {
+        if (!(flowNode.getExecutionListeners().isEmpty)) {
             executeExecutionListeners(flowNode, ExecutionListener.EVENTNAME_START);
         }
 
         // Execute actual behavior
-        ActivityBehavior activityBehavior = (ActivityBehavior) flowNode.getBehavior();
-        LOGGER.debug("Executing activityBehavior {} on activity '{}' with execution {}", activityBehavior.getClass(), flowNode.getId(), execution.getId());
+        ActivityBehavior activityBehavior = cast(ActivityBehavior) flowNode.getBehavior();
+        logInfo("Executing activityBehavior {} on activity '{%s}' with execution {%s}", flowNode.getId(), execution.getId());
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FlowableEventDispatcher eventDispatcher = null;
@@ -102,9 +100,10 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
             // re-throw business fault so that it can be caught by an Error Intermediate Event or Error Event Sub-Process in the process
             ErrorPropagation.propagateError(error, execution);
         } catch (RuntimeException e) {
-            if (LogMDC.isMDCEnabled()) {
-                LogMDC.putMDCExecution(execution);
-            }
+            implementationMissing(false);
+            //if (LogMDC.isMDCEnabled()) {
+            //    LogMDC.putMDCExecution(execution);
+            //}
             throw e;
         }
     }
@@ -132,11 +131,11 @@ class ContinueMultiInstanceOperation extends AbstractOperation {
     }
 
     protected ActivityBehavior setLoopCounterVariable(FlowNode flowNode) {
-        ActivityBehavior activityBehavior = (ActivityBehavior) flowNode.getBehavior();
-        if (!(activityBehavior instanceof MultiInstanceActivityBehavior)) {
-            throw new FlowableException("Programmatic error: expected multi instance activity behavior, but got " + activityBehavior.getClass());
+        ActivityBehavior activityBehavior = cast(ActivityBehavior) flowNode.getBehavior();
+        if (cast(MultiInstanceActivityBehavior)activityBehavior is null) {
+            throw new FlowableException("Programmatic error: expected multi instance activity behavior, but got ");
         }
-        MultiInstanceActivityBehavior multiInstanceActivityBehavior = (MultiInstanceActivityBehavior) activityBehavior;
+        MultiInstanceActivityBehavior multiInstanceActivityBehavior = cast(MultiInstanceActivityBehavior) activityBehavior;
         string elementIndexVariable = multiInstanceActivityBehavior.getCollectionElementIndexVariable();
         if (!flowNode.isAsynchronous()) {
             execution.setVariableLocal(elementIndexVariable, loopCounter);

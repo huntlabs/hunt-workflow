@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.TableDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -24,13 +24,13 @@ import flow.engine.impl.TablePageQueryImpl;
  */
 interface TableDataManager {
 
-    Map<string, Long> getTableCount();
+    Map!(string, long) getTableCount();
 
     List!string getTablesPresentInDatabase();
 
     TablePage getTablePage(TablePageQueryImpl tablePageQuery, int firstResult, int maxResults);
 
-    string getTableName(Class<?> entityClass, bool withPrefix);
+    //string getTableName(Class<?> entityClass, bool withPrefix);
 
     TableMetaData getTableMetaData(string tableName);
 

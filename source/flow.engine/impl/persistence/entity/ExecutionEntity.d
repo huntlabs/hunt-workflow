@@ -11,11 +11,10 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.persistence.entity.ExecutionEntity;
 
-
-import static java.util.Comparator.comparing;
-
-import java.util.Comparator;
+import hunt.util.Comparator;
+//import java.util.Comparator;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -31,6 +30,7 @@ import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.engine.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * @author Tom Baeyens
@@ -40,9 +40,9 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Joram Barrez
  */
 
-interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance, Entity, AlwaysUpdatedPersistentObject, HasRevision {
+interface ExecutionEntity : DelegateExecution, Execution, ProcessInstance, Entity, AlwaysUpdatedPersistentObject, HasRevision {
 
-    Comparator<ExecutionEntity> EXECUTION_ENTITY_START_TIME_ASC_COMPARATOR = comparing(ProcessInstance::getStartTime);
+    //Comparator!ExecutionEntity EXECUTION_ENTITY_START_TIME_ASC_COMPARATOR = comparing(ProcessInstance::getStartTime);
 
     void setBusinessKey(string businessKey);
 
@@ -52,7 +52,7 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
 
     void setProcessDefinitionName(string processDefinitionName);
 
-    void setProcessDefinitionVersion(Integer processDefinitionVersion);
+    void setProcessDefinitionVersion(int processDefinitionVersion);
 
     void setDeploymentId(string deploymentId);
 
@@ -60,7 +60,6 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
 
     void setProcessInstance(ExecutionEntity processInstance);
 
-    @Override
     ExecutionEntity getParent();
 
     void setParent(ExecutionEntity parent);
@@ -79,20 +78,19 @@ interface ExecutionEntity extends DelegateExecution, Execution, ProcessInstance,
 
     void setRootProcessInstance(ExecutionEntity rootProcessInstance);
 
-    @Override
-    List<? extends ExecutionEntity> getExecutions();
+    List!ExecutionEntity getExecutions();
 
     void addChildExecution(ExecutionEntity executionEntity);
 
-    List<TaskEntity> getTasks();
+    List!TaskEntity getTasks();
 
-    List<EventSubscriptionEntity> getEventSubscriptions();
+    List!EventSubscriptionEntity getEventSubscriptions();
 
-    List<JobEntity> getJobs();
+    List!JobEntity getJobs();
 
-    List<TimerJobEntity> getTimerJobs();
+    List!TimerJobEntity getTimerJobs();
 
-    List<IdentityLinkEntity> getIdentityLinks();
+    List!IdentityLinkEntity getIdentityLinks();
 
     void setProcessInstanceId(string processInstanceId);
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.AbstractOperation;
 
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.HasExecutionListeners;
@@ -22,6 +22,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
+import hunt.util.Common;
 
 /**
  * Abstract superclass for all operation interfaces (which are {@link Runnable} instances), exposing some shared helper methods and member fields to subclasses.
@@ -30,17 +31,17 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
  *
  * @author Joram Barrez
  */
-abstract class AbstractOperation implements Runnable {
+abstract class AbstractOperation : Runnable {
 
     protected CommandContext commandContext;
     protected FlowableEngineAgenda agenda;
     protected ExecutionEntity execution;
 
-    public AbstractOperation() {
+    this() {
 
     }
 
-    public AbstractOperation(CommandContext commandContext, ExecutionEntity execution) {
+    this(CommandContext commandContext, ExecutionEntity execution) {
         this.commandContext = commandContext;
         this.execution = execution;
         this.agenda = CommandContextUtil.getAgenda(commandContext);

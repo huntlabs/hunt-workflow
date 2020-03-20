@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.DefaultCandidateManager;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
@@ -18,19 +18,20 @@ import hunt.collection.List;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.AbstractManager;
 import flow.idm.api.Group;
+import flow.engine.CandidateManager;
+import flow.engine.IdentityService;
 
-class DefaultCandidateManager extends AbstractManager implements CandidateManager {
+class DefaultCandidateManager : AbstractManager , CandidateManager {
 
-    public DefaultCandidateManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 
-    @Override
     public List!string getGroupsForCandidateUser(string candidateUser) {
         IdentityService identityService = getProcessEngineConfiguration().getIdentityService();
-        List<Group> groups = identityService.createGroupQuery().groupMember(candidateUser).list();
-        List!string groupIds = new ArrayList<>();
-        for (Group group : groups) {
+        List!Group groups = identityService.createGroupQuery().groupMember(candidateUser).list();
+        List!string groupIds = new ArrayList!string();
+        foreach (Group group ; groups) {
             groupIds.add(group.getId());
         }
         return groupIds;

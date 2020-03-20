@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.CreateUserTaskBeforeContext;
 
 import hunt.collection.List;
 
@@ -34,11 +34,11 @@ class CreateUserTaskBeforeContext {
     protected List!string candidateUsers;
     protected List!string candidateGroups;
 
-    public CreateUserTaskBeforeContext() {
+    this() {
 
     }
 
-    public CreateUserTaskBeforeContext(UserTask userTask, DelegateExecution execution, string name, string description, string dueDate,
+    this(UserTask userTask, DelegateExecution execution, string name, string description, string dueDate,
                     string priority, string category, string formKey, string skipExpression, string assignee, string owner,
                     List!string candidateUsers, List!string candidateGroups) {
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.AbstractStartProcessInstanceBeforeContext;
 
 import hunt.collection.Map;
 
@@ -28,11 +28,11 @@ class AbstractStartProcessInstanceBeforeContext {
     protected Process process;
     protected ProcessDefinition processDefinition;
 
-    public AbstractStartProcessInstanceBeforeContext() {
+    this() {
 
     }
 
-    public AbstractStartProcessInstanceBeforeContext(string businessKey, string processInstanceName, Map!(string, Object) variables,
+    this(string businessKey, string processInstanceName, Map!(string, Object) variables,
                     string initialActivityId, FlowElement initialFlowElement, Process process, ProcessDefinition processDefinition) {
 
         this.businessKey = businessKey;

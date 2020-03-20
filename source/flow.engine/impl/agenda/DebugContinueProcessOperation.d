@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.DebugContinueProcessOperation;
 
 import flow.bpmn.model.FlowNode;
 import flow.common.interceptor.CommandContext;
@@ -19,6 +19,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ProcessDebugger;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.engine.impl.agenda.ContinueProcessOperation;
 
 /**
  * This class extends {@link ContinueProcessOperation} with the possibility to check whether execution is trying to
@@ -26,24 +27,24 @@ import flow.job.service.impl.persistence.entity.JobEntity;
  *
  * @author martin.grofcik
  */
-class DebugContinueProcessOperation extends ContinueProcessOperation {
+class DebugContinueProcessOperation : ContinueProcessOperation {
 
-    public static final string HANDLER_TYPE_BREAK_POINT = "breakpoint";
+    public static  string HANDLER_TYPE_BREAK_POINT = "breakpoint";
     protected ProcessDebugger debugger;
 
-    public DebugContinueProcessOperation(ProcessDebugger debugger, CommandContext commandContext,
+    this(ProcessDebugger debugger, CommandContext commandContext,
                                          ExecutionEntity execution, bool forceSynchronousOperation,
                                          bool inCompensation) {
         super(commandContext, execution, forceSynchronousOperation, inCompensation);
         this.debugger = debugger;
     }
 
-    public DebugContinueProcessOperation(ProcessDebugger debugger, CommandContext commandContext, ExecutionEntity execution) {
+    this(ProcessDebugger debugger, CommandContext commandContext, ExecutionEntity execution) {
         super(commandContext, execution);
         this.debugger = debugger;
     }
 
-    @Override
+    override
     protected void continueThroughFlowNode(FlowNode flowNode) {
         if (debugger.isBreakpoint(execution)) {
             breakExecution(flowNode);

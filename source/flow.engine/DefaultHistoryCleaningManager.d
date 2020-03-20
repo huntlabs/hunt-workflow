@@ -10,29 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.DefaultHistoryCleaningManager;
 
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+//import java.util.Calendar;
+//import java.util.GregorianCalendar;
+import hunt.Exceptions;
 
 import flow.engine.impl.HistoricProcessInstanceQueryImpl;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import flow.engine.HistoryCleaningManager;
 
-class DefaultHistoryCleaningManager implements HistoryCleaningManager {
-    
+class DefaultHistoryCleaningManager : HistoryCleaningManager {
+
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
-    
-    public DefaultHistoryCleaningManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    @Override
     public HistoricProcessInstanceQueryImpl createHistoricProcessInstanceCleaningQuery() {
-        int days = processEngineConfiguration.getCleanInstancesEndedAfterNumberOfDays();
-        Calendar cal = new GregorianCalendar();
-        cal.add(Calendar.DAY_OF_YEAR, -days);
-        HistoricProcessInstanceQueryImpl historicProcessInstanceQuery = new HistoricProcessInstanceQueryImpl(processEngineConfiguration.getCommandExecutor());
-        historicProcessInstanceQuery.finishedBefore(cal.getTime());
-        return historicProcessInstanceQuery;
+        implementationMissing(false);
+        return null;
+        //int days = processEngineConfiguration.getCleanInstancesEndedAfterNumberOfDays();
+        //Calendar cal = new GregorianCalendar();
+        //cal.add(Calendar.DAY_OF_YEAR, -days);
+        //HistoricProcessInstanceQueryImpl historicProcessInstanceQuery = new HistoricProcessInstanceQueryImpl(processEngineConfiguration.getCommandExecutor());
+        //historicProcessInstanceQuery.finishedBefore(cal.getTime());
+        //return historicProcessInstanceQuery;
     }
 }

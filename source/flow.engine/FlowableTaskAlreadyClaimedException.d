@@ -10,21 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.FlowableTaskAlreadyClaimedException;
 
 /**
  * This exception is thrown when you try to claim a task that is already claimed by someone else.
- * 
+ *
  * @author Jorg Heymans
  * @author Falko Menge
  * @deprecated use {@link flow.common.api.FlowableTaskAlreadyClaimedException}
  */
-@Deprecated
-class FlowableTaskAlreadyClaimedException extends flow.common.api.FlowableTaskAlreadyClaimedException {
+class FlowableTaskAlreadyClaimedException : flow.common.api.FlowableTaskAlreadyClaimedException {
 
-    private static final long serialVersionUID = 1L;
 
-    public FlowableTaskAlreadyClaimedException(string taskId, string taskAssignee) {
+    this(string taskId, string taskAssignee) {
         super(taskId, taskAssignee);
     }
 }

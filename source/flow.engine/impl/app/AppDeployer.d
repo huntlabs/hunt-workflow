@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.app.AppDeployer;
 
 
 import hunt.collection.Map;
@@ -22,29 +22,25 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.deploy.DeploymentManager;
 import flow.engine.impl.persistence.entity.DeploymentEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.logging;
+import std.algorithm;
 /**
  * @author Tijs Rademakers
  */
-class AppDeployer implements EngineDeployer {
+class AppDeployer : EngineDeployer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppDeployer.class);
-
-    @Override
     public void deploy(EngineDeployment deployment, Map!(string, Object) deploymentSettings) {
-        LOGGER.debug("Processing app deployment {}", deployment.getName());
+        logInfo("Processing app deployment {%s}", deployment.getName());
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         DeploymentManager deploymentManager = processEngineConfiguration.getDeploymentManager();
 
         Object appResourceObject = null;
-        DeploymentEntity deploymentEntity = (DeploymentEntity) deployment;
-        Map<string, EngineResource> resources = deploymentEntity.getResources();
-        for (string resourceName : resources.keySet()) {
-            if (resourceName.endsWith(".app")) {
-                LOGGER.info("Processing app resource {}", resourceName);
+        DeploymentEntity deploymentEntity = cast(DeploymentEntity) deployment;
+        Map!(string, EngineResource) resources = deploymentEntity.getResources();
+        foreach (string resourceName ; resources.byKey()) {
+            if (endsWith(resourceName,".app")) {
+                logInfo("Processing app resource {%s}", resourceName);
 
                 EngineResource resourceEntity = resources.get(resourceName);
                 byte[] resourceBytes = resourceEntity.getBytes();

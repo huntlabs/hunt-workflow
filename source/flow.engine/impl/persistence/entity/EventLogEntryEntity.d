@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.EventLogEntryEntity;
 
 import hunt.time.LocalDateTime;
 
@@ -22,7 +22,7 @@ import flow.engine.event.EventLogEntry;
  *
  * @author Joram Barrez
  */
-interface EventLogEntryEntity extends Entity, EventLogEntry {
+interface EventLogEntryEntity : Entity, EventLogEntry {
 
     void setLogNumber(long logNumber);
 

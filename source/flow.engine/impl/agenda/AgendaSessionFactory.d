@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.AgendaSessionFactory;
 
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.Session;
@@ -18,20 +18,18 @@ import flow.common.interceptor.SessionFactory;
 import flow.engine.FlowableEngineAgenda;
 import flow.engine.FlowableEngineAgendaFactory;
 
-class AgendaSessionFactory implements SessionFactory {
-    
+class AgendaSessionFactory : SessionFactory {
+
     protected FlowableEngineAgendaFactory flowableEngineAgendaFactory;
-    
-    public AgendaSessionFactory(FlowableEngineAgendaFactory flowableEngineAgendaFactory) {
+
+    this(FlowableEngineAgendaFactory flowableEngineAgendaFactory) {
         this.flowableEngineAgendaFactory = flowableEngineAgendaFactory;
     }
 
-    @Override
-    class<?> getSessionType() {
-        return FlowableEngineAgenda.class;
+    TypeInfo getSessionType() {
+        return typeid(FlowableEngineAgenda);
     }
 
-    @Override
     public Session openSession(CommandContext commandContext) {
         return flowableEngineAgendaFactory.createAgenda(commandContext);
     }

@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-import hunt.collection.List;
-import hunt.collection.Map;
-
-import flow.engine.deleg.DelegateExecution;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-interface DecisionTableVariableManager {
-
-    void setVariablesOnExecution(List<Map<string, Object>> executionResult, string decisionKey, DelegateExecution execution, ObjectMapper objectMapper);
-
-}
+//module flow.engine.DecisionTableVariableManager;
+//
+//import hunt.collection.List;
+//import hunt.collection.Map;
+//
+//import flow.engine.deleg.DelegateExecution;
+//
+//import com.fasterxml.jackson.databind.ObjectMapper;
+//
+//interface DecisionTableVariableManager {
+//
+//    void setVariablesOnExecution(List<Map<string, Object>> executionResult, string decisionKey, DelegateExecution execution, ObjectMapper objectMapper);
+//
+//}

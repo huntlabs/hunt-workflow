@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.agenda.DefaultFlowableEngineAgenda;
 
-
+import flow.engine.impl.agenda.ContinueProcessOperation;
 import flow.common.agenda.AbstractAgenda;
 import flow.common.context.Context;
 import flow.common.interceptor.Command;
@@ -21,9 +22,15 @@ import flow.engine.FlowableEngineAgenda;
 import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.util.Common;
+import hunt.logging;
+import flow.engine.impl.agenda.ContinueMultiInstanceOperation;
+import flow.engine.impl.agenda.TakeOutgoingSequenceFlowsOperation;
+import flow.engine.impl.agenda.EndExecutionOperation;
+import flow.engine.impl.agenda.TriggerExecutionOperation;
+import flow.engine.impl.agenda.EvaluateConditionalEventsOperation;
+import flow.engine.impl.agenda.DestroyScopeOperation;
+import flow.engine.impl.agenda.ExecuteInactiveBehaviorsOperation;
 /**
  * For each API call (and thus {@link Command}) being executed, a new agenda instance is created. On this agenda, operations are put, which the {@link CommandExecutor} will keep executing until all
  * are executed.
@@ -34,21 +41,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Joram Barrez
  */
-class DefaultFlowableEngineAgenda extends AbstractAgenda implements FlowableEngineAgenda {
+class DefaultFlowableEngineAgenda : AbstractAgenda , FlowableEngineAgenda {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultFlowableEngineAgenda.class);
-
-    public DefaultFlowableEngineAgenda(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
     /**
      * Generic method to plan a {@link Runnable}.
      */
-    @Override
+
     public void planOperation(Runnable operation, ExecutionEntity executionEntity) {
         operations.add(operation);
-        LOGGER.debug("Operation {} added to agenda", operation.getClass());
+        logInfo("Operation {} added to agenda");
 
         if (executionEntity !is null) {
             CommandContextUtil.addInvolvedExecution(commandContext, executionEntity);
@@ -57,62 +62,62 @@ class DefaultFlowableEngineAgenda extends AbstractAgenda implements FlowableEngi
 
     /* SPECIFIC operations */
 
-    @Override
+
     public void planContinueProcessOperation(ExecutionEntity execution) {
         planOperation(new ContinueProcessOperation(commandContext, execution), execution);
     }
 
-    @Override
+
     public void planContinueProcessSynchronousOperation(ExecutionEntity execution) {
         planOperation(new ContinueProcessOperation(commandContext, execution, true, false), execution);
     }
 
-    @Override
+
     public void planContinueProcessInCompensation(ExecutionEntity execution) {
         planOperation(new ContinueProcessOperation(commandContext, execution, false, true), execution);
     }
 
-    @Override
+
     public void planContinueMultiInstanceOperation(ExecutionEntity execution, ExecutionEntity multiInstanceRootExecution, int loopCounter) {
         planOperation(new ContinueMultiInstanceOperation(commandContext, execution, multiInstanceRootExecution, loopCounter), execution);
     }
 
-    @Override
+
     public void planTakeOutgoingSequenceFlowsOperation(ExecutionEntity execution, bool evaluateConditions) {
         planOperation(new TakeOutgoingSequenceFlowsOperation(commandContext, execution, evaluateConditions), execution);
     }
 
-    @Override
+
     public void planEndExecutionOperation(ExecutionEntity execution) {
         planOperation(new EndExecutionOperation(commandContext, execution), execution);
     }
 
-    @Override
+
     public void planEndExecutionOperationSynchronous(ExecutionEntity execution) {
         planOperation(new EndExecutionOperation(commandContext, execution, true), execution);
     }
 
-    @Override
+
     public void planTriggerExecutionOperation(ExecutionEntity execution) {
         planOperation(new TriggerExecutionOperation(commandContext, execution), execution);
     }
 
-    @Override
+
     public void planAsyncTriggerExecutionOperation(ExecutionEntity execution) {
         planOperation(new TriggerExecutionOperation(commandContext, execution, true), execution);
     }
 
-    @Override
+
     public void planEvaluateConditionalEventsOperation(ExecutionEntity execution) {
         planOperation(new EvaluateConditionalEventsOperation(commandContext, execution), execution);
     }
 
-    @Override
+
     public void planDestroyScopeOperation(ExecutionEntity execution) {
         planOperation(new DestroyScopeOperation(commandContext, execution), execution);
     }
 
-    @Override
+
     public void planExecuteInactiveBehaviorsOperation() {
         planOperation(new ExecuteInactiveBehaviorsOperation(commandContext));
     }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.agenda.TriggerExecutionOperation;
 
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.FlowElement;
@@ -25,6 +25,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.engine.impl.agenda.AbstractOperation;
 
 /**
  * Operation that triggers a wait state and continues the process, leaving that activity.
@@ -34,35 +35,34 @@ import flow.job.service.impl.persistence.entity.JobEntity;
  *
  * @author Joram Barrez
  */
-class TriggerExecutionOperation extends AbstractOperation {
+class TriggerExecutionOperation : AbstractOperation {
 
     protected bool triggerAsync;
 
-    public TriggerExecutionOperation(CommandContext commandContext, ExecutionEntity execution) {
+    this(CommandContext commandContext, ExecutionEntity execution) {
         super(commandContext, execution);
     }
 
-    public TriggerExecutionOperation(CommandContext commandContext, ExecutionEntity execution, bool triggerAsync) {
+    this(CommandContext commandContext, ExecutionEntity execution, bool triggerAsync) {
         super(commandContext, execution);
         this.triggerAsync = triggerAsync;
     }
 
-    @Override
     public void run() {
         FlowElement currentFlowElement = getCurrentFlowElement(execution);
-        if (currentFlowElement instanceof FlowNode) {
-
-            ActivityBehavior activityBehavior = (ActivityBehavior) ((FlowNode) currentFlowElement).getBehavior();
-            if (activityBehavior instanceof TriggerableActivityBehavior) {
-
-                if (currentFlowElement instanceof BoundaryEvent
-                        || currentFlowElement instanceof ServiceTask) { // custom service task with no automatic leave (will not have a activity-start history entry in ContinueProcessOperation)
+        FlowNode f = cast(FlowNode)currentFlowElement;
+        if (f !is null) {
+            ActivityBehavior activityBehavior = cast(ActivityBehavior) f.getBehavior();
+            TriggerableActivityBehavior t = cast(TriggerableActivityBehavior)activityBehavior;
+            if (t !is null) {
+                if (cast(BoundaryEvent)currentFlowElement !is null
+                        || cast(ServiceTask)currentFlowElement !is null) { // custom service task with no automatic leave (will not have a activity-start history entry in ContinueProcessOperation)
 
                     CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(execution);
                 }
 
                 if (!triggerAsync) {
-                    ((TriggerableActivityBehavior) activityBehavior).trigger(execution, null, null);
+                    t.trigger(execution, null, null);
 
                 } else {
                     JobService jobService = CommandContextUtil.getJobService();
@@ -85,20 +85,19 @@ class TriggerExecutionOperation extends AbstractOperation {
 
 
             } else {
-                throw new FlowableException("Cannot trigger execution with id " + execution.getId()
-                    + " : the activityBehavior " + activityBehavior.getClass() + " does not implement the "
-                    + TriggerableActivityBehavior.class.getName() + " interface");
+                throw new FlowableException("Cannot trigger execution with id " ~ execution.getId()
+                    ~ " : the activityBehavior "   ~ " does not implement the "
+                     ~" interface");
 
             }
 
         } else if (currentFlowElement is null) {
-            throw new FlowableException("Cannot trigger execution with id " + execution.getId()
-                    + " : no current flow element found. Check the execution id that is being passed "
-                    + "(it should not be a process instance execution, but a child execution currently referencing a flow element).");
+            throw new FlowableException("Cannot trigger execution with id " ~ execution.getId()
+                    ~ " : no current flow element found. Check the execution id that is being passed "
+                    ~ "(it should not be a process instance execution, but a child execution currently referencing a flow element).");
 
         } else {
-            throw new FlowableException("Programmatic error: cannot trigger execution, invalid flowelement type found: "
-                    + currentFlowElement.getClass().getName() + ".");
+            throw new FlowableException("Programmatic error: cannot trigger execution, invalid flowelement type found: ");
 
         }
     }

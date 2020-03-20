@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.ProcessMigrationService;
 import flow.batch.service.api.Batch;
 import flow.engine.migration.ProcessInstanceBatchMigrationResult;
 import flow.engine.migration.ProcessInstanceMigrationBuilder;

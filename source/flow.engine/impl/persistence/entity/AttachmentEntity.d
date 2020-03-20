@@ -11,18 +11,19 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.AttachmentEntity;
 
 import hunt.time.LocalDateTime;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
 import flow.engine.task.Attachment;
+import flow.engine.impl.persistence.entity.ByteArrayEntity;
 
 /**
  * @author Joram Barrez
  */
-interface AttachmentEntity extends Attachment, Entity, HasRevision {
+interface AttachmentEntity : Attachment, Entity, HasRevision {
 
     void setType(string type);
 
@@ -40,13 +41,13 @@ interface AttachmentEntity extends Attachment, Entity, HasRevision {
 
     void setUserId(string userId);
 
-    @Override
+
     string getUserId();
 
-    @Override
+
     Date getTime();
 
-    @Override
+
     void setTime(Date time);
 
 }

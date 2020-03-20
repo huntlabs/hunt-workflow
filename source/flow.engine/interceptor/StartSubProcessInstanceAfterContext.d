@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.StartSubProcessInstanceAfterContext;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -21,17 +21,17 @@ import flow.bpmn.model.Process;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
 
-class StartSubProcessInstanceAfterContext extends AbstractStartProcessInstanceAfterContext {
+class StartSubProcessInstanceAfterContext : AbstractStartProcessInstanceAfterContext {
 
     protected ExecutionEntity callActivityExecution;
-    protected List<IOParameter> inParameters;
+    protected List!IOParameter inParameters;
 
-    public StartSubProcessInstanceAfterContext() {
+    this() {
 
     }
 
-    public StartSubProcessInstanceAfterContext(ExecutionEntity processInstance, ExecutionEntity childExecution, Map!(string, Object) variables,
-                    ExecutionEntity callActivityExecution, List<IOParameter> inParameters, FlowElement initialFlowElement,
+    this(ExecutionEntity processInstance, ExecutionEntity childExecution, Map!(string, Object) variables,
+                    ExecutionEntity callActivityExecution, List!IOParameter inParameters, FlowElement initialFlowElement,
                     Process process, ProcessDefinition processDefinition) {
 
         super(processInstance, childExecution, variables, initialFlowElement, process, processDefinition);
@@ -48,11 +48,11 @@ class StartSubProcessInstanceAfterContext extends AbstractStartProcessInstanceAf
         this.callActivityExecution = callActivityExecution;
     }
 
-    public List<IOParameter> getInParameters() {
+    public List!IOParameter getInParameters() {
         return inParameters;
     }
 
-    public void setInParameters(List<IOParameter> inParameters) {
+    public void setInParameters(List!IOParameter inParameters) {
         this.inParameters = inParameters;
     }
 }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.StartProcessInstanceAfterContext;
 
 import hunt.collection.Map;
 
@@ -18,16 +18,17 @@ import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Process;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
+import flow.engine.interceptor.AbstractStartProcessInstanceAfterContext;
 
-class StartProcessInstanceAfterContext extends AbstractStartProcessInstanceAfterContext {
+class StartProcessInstanceAfterContext : AbstractStartProcessInstanceAfterContext {
 
     protected Map!(string, Object) transientVariables;
 
-    public StartProcessInstanceAfterContext() {
+    this() {
 
     }
 
-    public StartProcessInstanceAfterContext(ExecutionEntity processInstance, ExecutionEntity childExecution, Map!(string, Object) variables,
+    this(ExecutionEntity processInstance, ExecutionEntity childExecution, Map!(string, Object) variables,
                     Map!(string, Object) transientVariables, FlowElement initialFlowElement, Process process, ProcessDefinition processDefinition) {
 
         super(processInstance, childExecution, variables, initialFlowElement, process, processDefinition);

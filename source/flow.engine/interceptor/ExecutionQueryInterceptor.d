@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.ExecutionQueryInterceptor;
 
 import hunt.collection.List;
 
@@ -21,5 +21,5 @@ interface ExecutionQueryInterceptor {
 
     void beforeExecutionQueryExecute(ExecutionQuery executionQuery);
 
-    void afterExecutionQueryExecute(ExecutionQuery executionQuery, List<Execution> executions);
+    void afterExecutionQueryExecute(ExecutionQuery executionQuery, List!Execution executions);
 }

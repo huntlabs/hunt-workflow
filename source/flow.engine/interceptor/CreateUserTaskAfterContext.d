@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.interceptor.CreateUserTaskAfterContext;
 
 import flow.bpmn.model.UserTask;
 import flow.engine.deleg.DelegateExecution;
@@ -22,11 +22,11 @@ class CreateUserTaskAfterContext {
     protected TaskEntity taskEntity;
     protected DelegateExecution execution;
 
-    public CreateUserTaskAfterContext() {
+    this() {
 
     }
 
-    public CreateUserTaskAfterContext(UserTask userTask, TaskEntity taskEntity, DelegateExecution execution) {
+    this(UserTask userTask, TaskEntity taskEntity, DelegateExecution execution) {
         this.userTask = userTask;
         this.taskEntity = taskEntity;
         this.execution = execution;

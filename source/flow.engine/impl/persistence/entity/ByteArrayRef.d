@@ -10,33 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.persistence.entity.ByteArrayRef;
 
-
-import java.io.Serializable;
 
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.persistence.entity.ByteArrayEntity;
+import flow.engine.impl.persistence.entity.ByteArrayEntityManager;
 /**
  * <p>
  * Encapsulates the logic for transparently working with {@link ByteArrayEntity} .
  * </p>
- * 
+ *
  * @author Marcus Klimstra (CGI)
  */
-class ByteArrayRef implements Serializable {
+class ByteArrayRef {
 
-    private static final long serialVersionUID = 1L;
 
     private string id;
     private string name;
     private ByteArrayEntity entity;
     protected bool deleted;
 
-    public ByteArrayRef() {
+    this() {
     }
 
     // Only intended to be used by ByteArrayRefTypeHandler
-    public ByteArrayRef(string id) {
+    this(string id) {
         this.id = id;
     }
 
@@ -79,12 +78,12 @@ class ByteArrayRef implements Serializable {
         return entity;
     }
 
-    public void delete() {
+    public void dele() {
         if (!deleted && id !is null) {
             if (entity !is null) {
                 // if the entity has been loaded already,
                 // we might as well use the safer optimistic locking delete.
-                CommandContextUtil.getByteArrayEntityManager().delete(entity);
+                CommandContextUtil.getByteArrayEntityManager().dele(entity);
             } else {
                 CommandContextUtil.getByteArrayEntityManager().deleteByteArrayById(id);
             }
@@ -104,7 +103,7 @@ class ByteArrayRef implements Serializable {
     public bool isDeleted() {
         return deleted;
     }
-    
+
     /**
      * This makes a copy of this {@link ByteArrayRef}: a new
      * {@link ByteArrayRef} instance will be created, however with the same id,
@@ -119,8 +118,8 @@ class ByteArrayRef implements Serializable {
         return copy;
     }
 
-    @Override
+    override
     public string toString() {
-        return "ByteArrayRef[id=" + id + ", name=" + name + ", entity=" + entity + (deleted ? ", deleted]" : "]");
+        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity="  ~ (deleted ? ", deleted]" : "]");
     }
 }
