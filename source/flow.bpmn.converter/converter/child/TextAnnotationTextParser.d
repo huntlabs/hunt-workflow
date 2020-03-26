@@ -10,29 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.TextAnnotationTextParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.TextAnnotation;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-public class TextAnnotationTextParser extends BaseChildElementParser {
+class TextAnnotationTextParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_TEXT_ANNOTATION_TEXT;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof TextAnnotation))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(TextAnnotation)parentElement is null)
             return;
 
-        ((TextAnnotation) parentElement).setText(xtr.getElementText());
+        (cast(TextAnnotation) parentElement).setText(xtr.getElementText());
     }
 }

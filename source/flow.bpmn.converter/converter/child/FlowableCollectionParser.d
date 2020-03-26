@@ -10,72 +10,113 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.FlowableCollectionParser;
 
-
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.CollectionHandler;
 import flow.bpmn.model.ImplementationType;
 import flow.bpmn.model.MultiInstanceLoopCharacteristics;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
 /**
  * @author Lori Small
  */
-public class FlowableCollectionParser extends BaseChildElementParser {
+class FlowableCollectionParser : BaseChildElementParser {
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof MultiInstanceLoopCharacteristics)) {
+  void loopNexSibling(Element n , MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics , bool readyWithFormProperty)
+  {
+    Element node = n;
+    while(!readyWithFormProperty && node !is null && node.getType == NodeType.Element)
+    {
+      //DOSOMETHING
+      if (icmp(ELEMENT_MULTIINSTANCE_COLLECTION_STRING,(node.getName())) == 0) {
+        // it is a string value
+        multiInstanceLoopCharacteristics.setCollectionString(node.getText());
+
+      } else if (icmp(ELEMENT_MULTIINSTANCE_COLLECTION_EXPRESSION,(node.getName())) == 0) {
+        // it is an expression
+        multiInstanceLoopCharacteristics.setInputDataItem(node.getName());
+
+      }
+
+      Element child  = node.firstNode;
+      if(child !is null && child.getType == NodeType.Element)
+      {
+        //writefln(child.toString);
+        //DOSOMETHING
+        if (icmp(ELEMENT_MULTIINSTANCE_COLLECTION_STRING,(child.getName())) == 0) {
+          // it is a string value
+          multiInstanceLoopCharacteristics.setCollectionString(child.getText());
+
+        } else if (icmp(ELEMENT_MULTIINSTANCE_COLLECTION_EXPRESSION,(child.getName())) == 0) {
+          // it is an expression
+          multiInstanceLoopCharacteristics.setInputDataItem(child.getName());
+
+        }
+        loopNexSibling(child.nextSibling , multiInstanceLoopCharacteristics ,readyWithFormProperty);
+      }
+      node = node.nextSibling;
+    }
+  }
+
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(MultiInstanceLoopCharacteristics)parentElement is null) {
             return;
         }
 
-        MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics = (MultiInstanceLoopCharacteristics) parentElement;
+        MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics = cast(MultiInstanceLoopCharacteristics) parentElement;
 
         CollectionHandler collectionHandler = null;
 
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_MULTIINSTANCE_COLLECTION_CLASS))) {
+        if (xtr.firstAttribute(ATTRIBUTE_MULTIINSTANCE_COLLECTION_CLASS) !is null && xtr.firstAttribute(ATTRIBUTE_MULTIINSTANCE_COLLECTION_CLASS).getValue.length != 0) {
             collectionHandler = new CollectionHandler();
-        	collectionHandler.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_MULTIINSTANCE_COLLECTION_CLASS));
+        	collectionHandler.setImplementation(xtr.firstAttribute(ATTRIBUTE_MULTIINSTANCE_COLLECTION_CLASS).getValue);
         	collectionHandler.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
 
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_MULTIINSTANCE_COLLECTION_DELEGATEEXPRESSION))) {
+        } else if (xtr.firstAttribute(ATTRIBUTE_MULTIINSTANCE_COLLECTION_DELEGATEEXPRESSION) !is null && xtr.firstAttribute(ATTRIBUTE_MULTIINSTANCE_COLLECTION_DELEGATEEXPRESSION).getValue.length != 0) {
             collectionHandler = new CollectionHandler();
-        	collectionHandler.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_MULTIINSTANCE_COLLECTION_DELEGATEEXPRESSION));
+        	collectionHandler.setImplementation(xtr.firstAttribute(ATTRIBUTE_MULTIINSTANCE_COLLECTION_DELEGATEEXPRESSION).getValue);
         	collectionHandler.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
         }
 
-        if (collectionHandler != null)  {
+        if (collectionHandler !is null)  {
             BpmnXMLUtil.addXMLLocation(collectionHandler, xtr);
             multiInstanceLoopCharacteristics.setHandler(collectionHandler);
         }
 
-        boolean readyWithCollection = false;
+        bool readyWithCollection = false;
         try {
-            while (!readyWithCollection && xtr.hasNext()) {
-                xtr.next();
-                if (xtr.isStartElement() && ELEMENT_MULTIINSTANCE_COLLECTION_STRING.equalsIgnoreCase(xtr.getLocalName())) {
-            		// it is a string value
-                    multiInstanceLoopCharacteristics.setCollectionString(xtr.getElementText());
-
-                } else if (xtr.isStartElement() && ELEMENT_MULTIINSTANCE_COLLECTION_EXPRESSION.equalsIgnoreCase(xtr.getLocalName())) {
-            		// it is an expression
-                    multiInstanceLoopCharacteristics.setInputDataItem(xtr.getElementText());
-
-                } else if (xtr.isEndElement() && getElementName().equalsIgnoreCase(xtr.getLocalName())) {
-                	readyWithCollection = true;
-                }
-            }
+              if(xtr !is null)
+              {
+                loopNexSibling(xtr.firstNode, multiInstanceLoopCharacteristics ,readyWithCollection);
+              }
+            //while (!readyWithCollection && xtr.hasNext()) {
+            //    xtr.next();
+            //    if (xtr.isStartElement() && ELEMENT_MULTIINSTANCE_COLLECTION_STRING.equalsIgnoreCase(xtr.getLocalName())) {
+            //		// it is a string value
+            //        multiInstanceLoopCharacteristics.setCollectionString(xtr.getElementText());
+            //
+            //    } else if (xtr.isStartElement() && ELEMENT_MULTIINSTANCE_COLLECTION_EXPRESSION.equalsIgnoreCase(xtr.getLocalName())) {
+            //		// it is an expression
+            //        multiInstanceLoopCharacteristics.setInputDataItem(xtr.getElementText());
+            //
+            //    } else if (xtr.isEndElement() && getElementName().equalsIgnoreCase(xtr.getLocalName())) {
+            //    	readyWithCollection = true;
+            //    }
+            //}
         } catch (Exception e) {
-            LOGGER.warn("Error parsing collection child elements", e);
+            logError("Error parsing collection child elements %s", e.msg);
         }
     }
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_MULTIINSTANCE_COLLECTION;
     }
 }

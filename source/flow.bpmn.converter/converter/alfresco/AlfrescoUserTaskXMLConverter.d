@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.alfresco.AlfrescoUserTaskXMLConverter;
 
 import flow.bpmn.converter.converter.UserTaskXMLConverter;
 import flow.bpmn.model.BaseElement;
@@ -19,11 +19,11 @@ import flow.bpmn.model.alfresco.AlfrescoUserTask;
 /**
  * @author Tijs Rademakers
  */
-public class AlfrescoUserTaskXMLConverter extends UserTaskXMLConverter {
+class AlfrescoUserTaskXMLConverter : UserTaskXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return AlfrescoUserTask.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(AlfrescoUserTask);
     }
 
 }

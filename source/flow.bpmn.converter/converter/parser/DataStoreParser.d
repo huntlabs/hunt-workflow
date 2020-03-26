@@ -10,35 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.DataStoreParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.DataStore;
+import hunt.xml;
 
 /**
  * @author Tijs Rademakers
  */
-public class DataStoreParser implements BpmnXMLConstants {
+class DataStoreParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-        String id = xtr.getAttributeValue(null, ATTRIBUTE_ID);
-        if (StringUtils.isNotEmpty(id)) {
+    public void parse(Element xtr, BpmnModel model)  {
+        string id = xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue;
+        if (id.length != 0) {
 
             DataStore dataStore = new DataStore();
-            dataStore.setId(xtr.getAttributeValue(null, ATTRIBUTE_ID));
+            dataStore.setId(id);
 
-            String name = xtr.getAttributeValue(null, ATTRIBUTE_NAME);
-            if (StringUtils.isNotEmpty(name)) {
+            string name = xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue;
+            if (name.length != 0) {
                 dataStore.setName(name);
             }
 
-            String itemSubjectRef = xtr.getAttributeValue(null, ATTRIBUTE_ITEM_SUBJECT_REF);
-            if (StringUtils.isNotEmpty(itemSubjectRef)) {
+            string itemSubjectRef = xtr.firstAttribute(ATTRIBUTE_ITEM_SUBJECT_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ITEM_SUBJECT_REF).getValue;
+            if (itemSubjectRef.length != 0) {
                 dataStore.setItemSubjectRef(itemSubjectRef);
             }
 

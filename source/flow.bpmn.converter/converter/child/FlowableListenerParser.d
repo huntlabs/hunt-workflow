@@ -10,49 +10,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.FlowableListenerParser;
 
-
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
+import flow.bpmn.converter.converter.child.FieldExtensionParser;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.FlowableListener;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ImplementationType;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  * @author Yvo Swillens
  */
-public abstract class FlowableListenerParser extends BaseChildElementParser {
+abstract class FlowableListenerParser : BaseChildElementParser {
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
 
         FlowableListener listener = new FlowableListener();
         BpmnXMLUtil.addXMLLocation(listener, xtr);
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CLASS))) {
-            listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CLASS));
+        if (xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS).getValue.length != 0) {
+            listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS).getValue);
             listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_EXPRESSION))) {
-            listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_EXPRESSION));
+        } else if (xtr.firstAttribute(ATTRIBUTE_LISTENER_EXPRESSION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_EXPRESSION).getValue.length != 0) {
+            listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_EXPRESSION).getValue);
             listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_DELEGATEEXPRESSION))) {
-            listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_DELEGATEEXPRESSION));
+        } else if (xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION).getValue.length !=0) {
+            listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION).getValue);
             listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
         }
-        listener.setEvent(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_EVENT));
-        listener.setOnTransaction(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_ON_TRANSACTION));
+        listener.setEvent(xtr.firstAttribute(ATTRIBUTE_LISTENER_EVENT) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_EVENT).getValue);
+        listener.setOnTransaction(xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION).getValue);
 
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_CLASS))) {
-            listener.setCustomPropertiesResolverImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_CLASS));
+        if (xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_CLASS) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_CLASS).getValue.length != 0) {
+            listener.setCustomPropertiesResolverImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_CLASS).getValue);
             listener.setCustomPropertiesResolverImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_EXPRESSION))) {
-            listener.setCustomPropertiesResolverImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_EXPRESSION));
+        } else if (xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_EXPRESSION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_EXPRESSION).getValue.length != 0) {
+            listener.setCustomPropertiesResolverImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_EXPRESSION).getValue);
             listener.setCustomPropertiesResolverImplementationType(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION);
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_DELEGATEEXPRESSION))) {
-            listener.setCustomPropertiesResolverImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_DELEGATEEXPRESSION));
+        } else if (xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_DELEGATEEXPRESSION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_DELEGATEEXPRESSION).getValue.length != 0) {
+            listener.setCustomPropertiesResolverImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_CUSTOM_PROPERTIES_RESOLVER_DELEGATEEXPRESSION).getValue);
             listener.setCustomPropertiesResolverImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
         }
         addListenerToParent(listener, parentElement);

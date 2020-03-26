@@ -10,44 +10,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.AssociationXMLConverter;
 
-
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.Association;
 import flow.bpmn.model.AssociationDirection;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
+import hunt.Enum;
+import std.uni, std.stdio;
 /**
  * @author Tijs Rademakers
  */
-public class AssociationXMLConverter extends BaseBpmnXMLConverter {
+class AssociationXMLConverter : BaseBpmnXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return Association.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(Association);
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_ASSOCIATION;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         Association association = new Association();
         BpmnXMLUtil.addXMLLocation(association, xtr);
-        association.setSourceRef(xtr.getAttributeValue(null, ATTRIBUTE_FLOW_SOURCE_REF));
-        association.setTargetRef(xtr.getAttributeValue(null, ATTRIBUTE_FLOW_TARGET_REF));
-        association.setId(xtr.getAttributeValue(null, ATTRIBUTE_ID));
+        association.setSourceRef(xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF).getValue());
+        association.setTargetRef(xtr.firstAttribute(ATTRIBUTE_FLOW_TARGET_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_TARGET_REF).getValue);
+        association.setId(xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue);
 
-        String associationDirectionString = xtr.getAttributeValue(null, ATTRIBUTE_ASSOCIATION_DIRECTION);
-        if (StringUtils.isNotEmpty(associationDirectionString)) {
-            AssociationDirection associationDirection = AssociationDirection.valueOf(associationDirectionString.toUpperCase());
+        string associationDirectionString = xtr.firstAttribute(ATTRIBUTE_ASSOCIATION_DIRECTION) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ASSOCIATION_DIRECTION).getValue;
+        if (associationDirectionString.length != 0) {
+            AssociationDirection associationDirection = valueOf!AssociationDirection(associationDirectionString.toUpper());
 
             association.setAssociationDirection(associationDirection);
         }
@@ -57,18 +57,18 @@ public class AssociationXMLConverter extends BaseBpmnXMLConverter {
         return association;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        Association association = (Association) element;
-        writeDefaultAttribute(ATTRIBUTE_FLOW_SOURCE_REF, association.getSourceRef(), xtw);
-        writeDefaultAttribute(ATTRIBUTE_FLOW_TARGET_REF, association.getTargetRef(), xtw);
-        AssociationDirection associationDirection = association.getAssociationDirection();
-        if (associationDirection != null) {
-            writeDefaultAttribute(ATTRIBUTE_ASSOCIATION_DIRECTION, associationDirection.getValue(), xtw);
-        }
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    Association association = (Association) element;
+    //    writeDefaultAttribute(ATTRIBUTE_FLOW_SOURCE_REF, association.getSourceRef(), xtw);
+    //    writeDefaultAttribute(ATTRIBUTE_FLOW_TARGET_REF, association.getTargetRef(), xtw);
+    //    AssociationDirection associationDirection = association.getAssociationDirection();
+    //    if (associationDirection !is null) {
+    //        writeDefaultAttribute(ATTRIBUTE_ASSOCIATION_DIRECTION, associationDirection.getValue(), xtw);
+    //    }
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //}
 }

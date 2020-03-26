@@ -10,65 +10,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.SequenceFlowXMLConverter;
 
-
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.SequenceFlow;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
 
 /**
  * @author Tijs Rademakers
  */
-public class SequenceFlowXMLConverter extends BaseBpmnXMLConverter {
+class SequenceFlowXMLConverter : BaseBpmnXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return SequenceFlow.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(SequenceFlow);
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_SEQUENCE_FLOW;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         SequenceFlow sequenceFlow = new SequenceFlow();
         BpmnXMLUtil.addXMLLocation(sequenceFlow, xtr);
-        sequenceFlow.setSourceRef(xtr.getAttributeValue(null, ATTRIBUTE_FLOW_SOURCE_REF));
-        sequenceFlow.setTargetRef(xtr.getAttributeValue(null, ATTRIBUTE_FLOW_TARGET_REF));
-        sequenceFlow.setName(xtr.getAttributeValue(null, ATTRIBUTE_NAME));
-        sequenceFlow.setSkipExpression(xtr.getAttributeValue(null, ATTRIBUTE_FLOW_SKIP_EXPRESSION));
+        sequenceFlow.setSourceRef(xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF).getValue);
+        sequenceFlow.setTargetRef(xtr.firstAttribute(ATTRIBUTE_FLOW_TARGET_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_TARGET_REF).getValue);
+        sequenceFlow.setName(xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
+        sequenceFlow.setSkipExpression(xtr.firstAttribute(ATTRIBUTE_FLOW_SKIP_EXPRESSION) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_SKIP_EXPRESSION).getValue);
 
         parseChildElements(getXMLElementName(), sequenceFlow, model, xtr);
 
         return sequenceFlow;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        SequenceFlow sequenceFlow = (SequenceFlow) element;
-        writeDefaultAttribute(ATTRIBUTE_FLOW_SOURCE_REF, sequenceFlow.getSourceRef(), xtw);
-        writeDefaultAttribute(ATTRIBUTE_FLOW_TARGET_REF, sequenceFlow.getTargetRef(), xtw);
-        if (StringUtils.isNotEmpty(sequenceFlow.getSkipExpression())) {
-            writeDefaultAttribute(ATTRIBUTE_FLOW_SKIP_EXPRESSION, sequenceFlow.getSkipExpression(), xtw);
-        }
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        SequenceFlow sequenceFlow = (SequenceFlow) element;
-
-        if (StringUtils.isNotEmpty(sequenceFlow.getConditionExpression())) {
-            xtw.writeStartElement(ELEMENT_FLOW_CONDITION);
-            xtw.writeAttribute(XSI_PREFIX, XSI_NAMESPACE, "type", "tFormalExpression");
-            xtw.writeCData(sequenceFlow.getConditionExpression());
-            xtw.writeEndElement();
-        }
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    SequenceFlow sequenceFlow = (SequenceFlow) element;
+    //    writeDefaultAttribute(ATTRIBUTE_FLOW_SOURCE_REF, sequenceFlow.getSourceRef(), xtw);
+    //    writeDefaultAttribute(ATTRIBUTE_FLOW_TARGET_REF, sequenceFlow.getTargetRef(), xtw);
+    //    if (StringUtils.isNotEmpty(sequenceFlow.getSkipExpression())) {
+    //        writeDefaultAttribute(ATTRIBUTE_FLOW_SKIP_EXPRESSION, sequenceFlow.getSkipExpression(), xtw);
+    //    }
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    SequenceFlow sequenceFlow = (SequenceFlow) element;
+    //
+    //    if (StringUtils.isNotEmpty(sequenceFlow.getConditionExpression())) {
+    //        xtw.writeStartElement(ELEMENT_FLOW_CONDITION);
+    //        xtw.writeAttribute(XSI_PREFIX, XSI_NAMESPACE, "type", "tFormalExpression");
+    //        xtw.writeCData(sequenceFlow.getConditionExpression());
+    //        xtw.writeEndElement();
+    //    }
+    //}
 }

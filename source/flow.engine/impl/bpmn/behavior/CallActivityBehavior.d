@@ -11,15 +11,13 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.CallActivityBehavior;
 
 import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.CallActivity;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.IOParameter;
@@ -52,10 +50,8 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.interceptor.StartSubProcessInstanceAfterContext;
 import flow.engine.interceptor.StartSubProcessInstanceBeforeContext;
 import flow.engine.repository.ProcessDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import static flow.engine.impl.bpmn.helper.DynamicPropertyUtil.getActiveValue;
+import  flow.engine.impl.bpmn.helper.DynamicPropertyUtil.getActiveValue;
 
 /**
  * Implementation of the BPMN 2.0 call activity (limited currently to calling a subprocess and not (yet) a global task).

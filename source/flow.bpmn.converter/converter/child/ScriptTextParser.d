@@ -10,29 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.ScriptTextParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ScriptTask;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class ScriptTextParser extends BaseChildElementParser {
+class ScriptTextParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ATTRIBUTE_TASK_SCRIPT_TEXT;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof ScriptTask))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(ScriptTask) is null)
             return;
 
-        ((ScriptTask) parentElement).setScript(xtr.getElementText());
+        (cast(ScriptTask) parentElement).setScript(xtr.getText());
     }
 }

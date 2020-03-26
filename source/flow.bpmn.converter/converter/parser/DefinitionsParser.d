@@ -10,50 +10,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.DefinitionsParser;
 
-
-import java.util.Arrays;
+import hunt.collection.ArrayList;
 import hunt.collection.List;
 
-import javax.xml.stream.XMLStreamReader;
 
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ExtensionAttribute;
-
+import hunt.xml;
+import std.concurrency : initOnce;
 /**
  * @author Tijs Rademakers
  */
-public class DefinitionsParser implements BpmnXMLConstants {
+class DefinitionsParser : BpmnXMLConstants {
 
-    protected static final List<ExtensionAttribute> defaultAttributes = Arrays.asList(new ExtensionAttribute(TYPE_LANGUAGE_ATTRIBUTE), new ExtensionAttribute(EXPRESSION_LANGUAGE_ATTRIBUTE),
-            new ExtensionAttribute(TARGET_NAMESPACE_ATTRIBUTE));
+    //protected static final List!ExtensionAttribute defaultAttributes = Arrays.asList(new ExtensionAttribute(TYPE_LANGUAGE_ATTRIBUTE), new ExtensionAttribute(EXPRESSION_LANGUAGE_ATTRIBUTE),
+    //        new ExtensionAttribute(TARGET_NAMESPACE_ATTRIBUTE));
 
-    @SuppressWarnings("unchecked")
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-        model.setTargetNamespace(xtr.getAttributeValue(null, TARGET_NAMESPACE_ATTRIBUTE));
-        for (int i = 0; i < xtr.getNamespaceCount(); i++) {
-            String prefix = xtr.getNamespacePrefix(i);
-            if (StringUtils.isNotEmpty(prefix)) {
-                model.addNamespace(prefix, xtr.getNamespaceURI(i));
-            }
-        }
+    static List!ExtensionAttribute defaultAttributes() {
+      __gshared List!ExtensionAttribute inst;
+      return initOnce!inst(new ArrayList!ExtensionAttribute([new ExtensionAttribute(TYPE_LANGUAGE_ATTRIBUTE),
+      new ExtensionAttribute(EXPRESSION_LANGUAGE_ATTRIBUTE),
+      new ExtensionAttribute(TARGET_NAMESPACE_ATTRIBUTE)
+      ]));
+    }
 
-        for (int i = 0; i < xtr.getAttributeCount(); i++) {
-            ExtensionAttribute extensionAttribute = new ExtensionAttribute();
-            extensionAttribute.setName(xtr.getAttributeLocalName(i));
-            extensionAttribute.setValue(xtr.getAttributeValue(i));
-            if (StringUtils.isNotEmpty(xtr.getAttributeNamespace(i))) {
-                extensionAttribute.setNamespace(xtr.getAttributeNamespace(i));
-            }
-            if (StringUtils.isNotEmpty(xtr.getAttributePrefix(i))) {
-                extensionAttribute.setNamespacePrefix(xtr.getAttributePrefix(i));
-            }
-            if (!BpmnXMLUtil.isBlacklisted(extensionAttribute, defaultAttributes)) {
-                model.addDefinitionsAttribute(extensionAttribute);
-            }
-        }
+    public void parse(Element xtr, BpmnModel model)  {
+        //model.setTargetNamespace(xtr.firstAttribute(TARGET_NAMESPACE_ATTRIBUTE) is null ? "" : xtr.firstAttribute(TARGET_NAMESPACE_ATTRIBUTE).getValue());
+        //for (int i = 0; i < xtr.getNamespaceCount(); i++) {
+        //    String prefix = xtr.getNamespacePrefix(i);
+        //    if (StringUtils.isNotEmpty(prefix)) {
+        //        model.addNamespace(prefix, xtr.getNamespaceURI(i));
+        //    }
+        //}
+        //
+        //for (int i = 0; i < xtr.getAttributeCount(); i++) {
+        //    ExtensionAttribute extensionAttribute = new ExtensionAttribute();
+        //    extensionAttribute.setName(xtr.getAttributeLocalName(i));
+        //    extensionAttribute.setValue(xtr.getAttributeValue(i));
+        //    if (StringUtils.isNotEmpty(xtr.getAttributeNamespace(i))) {
+        //        extensionAttribute.setNamespace(xtr.getAttributeNamespace(i));
+        //    }
+        //    if (StringUtils.isNotEmpty(xtr.getAttributePrefix(i))) {
+        //        extensionAttribute.setNamespacePrefix(xtr.getAttributePrefix(i));
+        //    }
+        //    if (!BpmnXMLUtil.isBlacklisted(extensionAttribute, defaultAttributes)) {
+        //        model.addDefinitionsAttribute(extensionAttribute);
+        //    }
+        //}
     }
 }

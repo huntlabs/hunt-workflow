@@ -10,47 +10,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
+module flow.bpmn.converter.converter.CatchEventXMLConverter;
 
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.IntermediateCatchEvent;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class CatchEventXMLConverter extends BaseBpmnXMLConverter {
+class CatchEventXMLConverter : BaseBpmnXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return IntermediateCatchEvent.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(IntermediateCatchEvent);
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_EVENT_CATCH;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         IntermediateCatchEvent catchEvent = new IntermediateCatchEvent();
         BpmnXMLUtil.addXMLLocation(catchEvent, xtr);
         parseChildElements(getXMLElementName(), catchEvent, model, xtr);
         return catchEvent;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        IntermediateCatchEvent catchEvent = (IntermediateCatchEvent) element;
-        writeEventDefinitions(catchEvent, catchEvent.getEventDefinitions(), model, xtw);
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    IntermediateCatchEvent catchEvent = (IntermediateCatchEvent) element;
+    //    writeEventDefinitions(catchEvent, catchEvent.getEventDefinitions(), model, xtw);
+    //}
 }

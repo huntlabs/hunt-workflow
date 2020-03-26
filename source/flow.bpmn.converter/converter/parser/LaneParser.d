@@ -10,26 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.LaneParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Lane;
 import flow.bpmn.model.Process;
-
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class LaneParser implements BpmnXMLConstants {
+class LaneParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, Process activeProcess, BpmnModel model) throws Exception {
+    public void parse(Element xtr, Process activeProcess, BpmnModel model)  {
         Lane lane = new Lane();
         BpmnXMLUtil.addXMLLocation(lane, xtr);
-        lane.setId(xtr.getAttributeValue(null, ATTRIBUTE_ID));
-        lane.setName(xtr.getAttributeValue(null, ATTRIBUTE_NAME));
+        lane.setId(xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue);
+        lane.setName(xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
         lane.setParentProcess(activeProcess);
         activeProcess.getLanes().add(lane);
         BpmnXMLUtil.parseChildElements(ELEMENT_LANE, lane, xtr, model);

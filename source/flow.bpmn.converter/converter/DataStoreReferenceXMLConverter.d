@@ -10,59 +10,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.DataStoreReferenceXMLConverter;
 
-
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.DataStoreReference;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class DataStoreReferenceXMLConverter extends BaseBpmnXMLConverter {
+class DataStoreReferenceXMLConverter : BaseBpmnXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return DataStoreReference.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(DataStoreReference);
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_DATA_STORE_REFERENCE;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         DataStoreReference dataStoreRef = new DataStoreReference();
         BpmnXMLUtil.addXMLLocation(dataStoreRef, xtr);
         parseChildElements(getXMLElementName(), dataStoreRef, model, xtr);
         return dataStoreRef;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        DataStoreReference dataStoreRef = (DataStoreReference) element;
-        if (StringUtils.isNotEmpty(dataStoreRef.getDataStoreRef())) {
-            xtw.writeAttribute(ATTRIBUTE_DATA_STORE_REF, dataStoreRef.getDataStoreRef());
-        }
-
-        if (StringUtils.isNotEmpty(dataStoreRef.getItemSubjectRef())) {
-            xtw.writeAttribute(ATTRIBUTE_ITEM_SUBJECT_REF, dataStoreRef.getItemSubjectRef());
-        }
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        DataStoreReference dataStoreRef = (DataStoreReference) element;
-        if (StringUtils.isNotEmpty(dataStoreRef.getDataState())) {
-            xtw.writeStartElement(ELEMENT_DATA_STATE);
-            xtw.writeAttribute(ATTRIBUTE_NAME, dataStoreRef.getDataState());
-            xtw.writeEndElement();
-        }
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    DataStoreReference dataStoreRef = (DataStoreReference) element;
+    //    if (StringUtils.isNotEmpty(dataStoreRef.getDataStoreRef())) {
+    //        xtw.writeAttribute(ATTRIBUTE_DATA_STORE_REF, dataStoreRef.getDataStoreRef());
+    //    }
+    //
+    //    if (StringUtils.isNotEmpty(dataStoreRef.getItemSubjectRef())) {
+    //        xtw.writeAttribute(ATTRIBUTE_ITEM_SUBJECT_REF, dataStoreRef.getItemSubjectRef());
+    //    }
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    DataStoreReference dataStoreRef = (DataStoreReference) element;
+    //    if (StringUtils.isNotEmpty(dataStoreRef.getDataState())) {
+    //        xtw.writeStartElement(ELEMENT_DATA_STATE);
+    //        xtw.writeAttribute(ATTRIBUTE_NAME, dataStoreRef.getDataState());
+    //        xtw.writeEndElement();
+    //    }
+    //}
 }

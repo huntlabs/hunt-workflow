@@ -98,7 +98,7 @@ class CommandContextUtil {
 
     public static ProcessEngineConfigurationImpl getProcessEngineConfiguration(CommandContext commandContext) {
         if (commandContext !is null) {
-            return (ProcessEngineConfigurationImpl) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_PROCESS_ENGINE_CONFIG);
+            return cast(ProcessEngineConfigurationImpl) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_PROCESS_ENGINE_CONFIG);
         }
         return null;
     }
@@ -109,7 +109,7 @@ class CommandContextUtil {
     }
 
     public static VariableServiceConfiguration getVariableServiceConfiguration(CommandContext commandContext) {
-        return (VariableServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+        return cast(VariableServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
             .get(EngineConfigurationConstants.KEY_VARIABLE_SERVICE_CONFIG);
     }
 
@@ -143,7 +143,7 @@ class CommandContextUtil {
     }
 
     public static IdentityLinkServiceConfiguration getIdentityLinkServiceConfiguration(CommandContext commandContext) {
-        return (IdentityLinkServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+        return cast(IdentityLinkServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
             .get(EngineConfigurationConstants.KEY_IDENTITY_LINK_SERVICE_CONFIG);
     }
 
@@ -177,7 +177,7 @@ class CommandContextUtil {
     }
 
     public static EntityLinkServiceConfiguration getEntityLinkServiceConfiguration(CommandContext commandContext) {
-        return (EntityLinkServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+        return cast(EntityLinkServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
             .get(EngineConfigurationConstants.KEY_ENTITY_LINK_SERVICE_CONFIG);
     }
 

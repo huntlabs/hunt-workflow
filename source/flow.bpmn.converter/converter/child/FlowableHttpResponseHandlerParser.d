@@ -10,45 +10,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.FlowableHttpResponseHandlerParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.FlowableHttpResponseHandler;
 import flow.bpmn.model.HttpServiceTask;
 import flow.bpmn.model.ImplementationType;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import flow.bpmn.converter.converter.child.FieldExtensionParser;
 /**
  * @author Tijs Rademakers
  */
-public class FlowableHttpResponseHandlerParser extends BaseChildElementParser {
+class FlowableHttpResponseHandlerParser : BaseChildElementParser {
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
 
         FlowableHttpResponseHandler responseHandler = new FlowableHttpResponseHandler();
         BpmnXMLUtil.addXMLLocation(responseHandler, xtr);
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CLASS))) {
-            responseHandler.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CLASS));
+        if (xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS).getValue.length != 0) {
+            responseHandler.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS).getValue);
             responseHandler.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
 
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_DELEGATEEXPRESSION))) {
-            responseHandler.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_DELEGATEEXPRESSION));
+        } else if (xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION).getValue.length != 0) {
+            responseHandler.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION).getValue);
             responseHandler.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
         }
 
-        if (parentElement instanceof HttpServiceTask) {
-            ((HttpServiceTask) parentElement).setHttpResponseHandler(responseHandler);
+        if (cast(HttpServiceTask)parentElement !is null) {
+            (cast(HttpServiceTask) parentElement).setHttpResponseHandler(responseHandler);
             parseChildElements(xtr, responseHandler, model, new FieldExtensionParser());
         }
     }
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_HTTP_RESPONSE_HANDLER;
     }
 }

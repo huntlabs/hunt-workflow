@@ -10,47 +10,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.MessageFlowParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.MessageFlow;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class MessageFlowParser implements BpmnXMLConstants {
+class MessageFlowParser : BpmnXMLConstants {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(MessageFlowParser.class.getName());
-
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-        String id = xtr.getAttributeValue(null, ATTRIBUTE_ID);
-        if (StringUtils.isNotEmpty(id)) {
+    public void parse(Element xtr, BpmnModel model)  {
+        string id = xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue;
+        if (id.length != 0) {
             MessageFlow messageFlow = new MessageFlow();
             messageFlow.setId(id);
 
-            String name = xtr.getAttributeValue(null, ATTRIBUTE_NAME);
-            if (StringUtils.isNotEmpty(name)) {
+            string name = xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue;
+            if (name.length != 0) {
                 messageFlow.setName(name);
             }
 
-            String sourceRef = xtr.getAttributeValue(null, ATTRIBUTE_FLOW_SOURCE_REF);
-            if (StringUtils.isNotEmpty(sourceRef)) {
+            string sourceRef = xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF).getValue;
+            if (sourceRef.length != 0) {
                 messageFlow.setSourceRef(sourceRef);
             }
 
-            String targetRef = xtr.getAttributeValue(null, ATTRIBUTE_FLOW_TARGET_REF);
-            if (StringUtils.isNotEmpty(targetRef)) {
+            string targetRef = xtr.firstAttribute(ATTRIBUTE_FLOW_TARGET_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_TARGET_REF).getValue;
+            if (targetRef.length != 0) {
                 messageFlow.setTargetRef(targetRef);
             }
 
-            String messageRef = xtr.getAttributeValue(null, ATTRIBUTE_MESSAGE_REF);
-            if (StringUtils.isNotEmpty(messageRef)) {
+            string messageRef = xtr.firstAttribute(ATTRIBUTE_MESSAGE_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_MESSAGE_REF).getValue;
+            if (messageRef.length != 0) {
                 messageFlow.setMessageRef(messageRef);
             }
 

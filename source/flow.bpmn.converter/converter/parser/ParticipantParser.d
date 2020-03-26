@@ -10,32 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.ParticipantParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Pool;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.xml;
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-public class ParticipantParser implements BpmnXMLConstants {
+class ParticipantParser : BpmnXMLConstants {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(ParticipantParser.class.getName());
+    public void parse(Element xtr, BpmnModel model)  {
 
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_ID))) {
+        if (xtr.firstAttribute(ATTRIBUTE_ID) !is null && xtr.firstAttribute(ATTRIBUTE_ID).getValue.length != 0) {
             Pool pool = new Pool();
-            pool.setId(xtr.getAttributeValue(null, ATTRIBUTE_ID));
-            pool.setName(xtr.getAttributeValue(null, ATTRIBUTE_NAME));
-            pool.setProcessRef(xtr.getAttributeValue(null, ATTRIBUTE_PROCESS_REF));
+            pool.setId(xtr.firstAttribute(ATTRIBUTE_ID).getValue);
+            pool.setName(xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
+            pool.setProcessRef(xtr.firstAttribute(ATTRIBUTE_PROCESS_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_PROCESS_REF).getValue);
             BpmnXMLUtil.parseChildElements(ELEMENT_PARTICIPANT, pool, xtr, model);
             model.getPools().add(pool);
         }

@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.TerminateEventDefinitionParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
@@ -20,21 +19,25 @@ import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.EndEvent;
 import flow.bpmn.model.Event;
 import flow.bpmn.model.TerminateEventDefinition;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-public class TerminateEventDefinitionParser extends BaseChildElementParser {
+class TerminateEventDefinitionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_TERMINATEDEFINITION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof EndEvent)) {
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(EndEvent)parentElement is null) {
             return;
         }
 
@@ -46,21 +49,21 @@ public class TerminateEventDefinitionParser extends BaseChildElementParser {
         BpmnXMLUtil.addXMLLocation(eventDefinition, xtr);
         BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_TERMINATEDEFINITION, eventDefinition, xtr, model);
 
-        ((Event) parentElement).getEventDefinitions().add(eventDefinition);
+        (cast(Event) parentElement).getEventDefinitions().add(eventDefinition);
     }
 
-    protected void parseTerminateAllAttribute(XMLStreamReader xtr, TerminateEventDefinition eventDefinition) {
-        String terminateAllValue = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TERMINATE_ALL, xtr);
-        if ("true".equals(terminateAllValue)) {
+    protected void parseTerminateAllAttribute(Element xtr, TerminateEventDefinition eventDefinition) {
+        string terminateAllValue = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TERMINATE_ALL, xtr);
+        if ("true" == terminateAllValue) {
             eventDefinition.setTerminateAll(true);
         } else {
             eventDefinition.setTerminateAll(false);
         }
     }
 
-    protected void parseTerminateMultiInstanceAttribute(XMLStreamReader xtr, TerminateEventDefinition eventDefinition) {
-        String terminateMiValue = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TERMINATE_MULTI_INSTANCE, xtr);
-        if ("true".equals(terminateMiValue)) {
+    protected void parseTerminateMultiInstanceAttribute(Element xtr, TerminateEventDefinition eventDefinition) {
+        string terminateMiValue = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TERMINATE_MULTI_INSTANCE, xtr);
+        if ("true" == terminateMiValue) {
             eventDefinition.setTerminateMultiInstance(true);
         } else {
             eventDefinition.setTerminateMultiInstance(false);

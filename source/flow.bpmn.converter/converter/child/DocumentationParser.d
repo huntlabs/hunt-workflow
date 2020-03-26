@@ -10,34 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.DocumentationParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Process;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class DocumentationParser extends BaseChildElementParser {
+class DocumentationParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return "documentation";
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        String docText = xtr.getElementText();
-        if (StringUtils.isNotEmpty(docText)) {
-            if (parentElement instanceof FlowElement) {
-                ((FlowElement) parentElement).setDocumentation(docText.trim());
-            } else if (parentElement instanceof Process) {
-                ((Process) parentElement).setDocumentation(docText.trim());
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        string docText = xtr.getText();
+        if (docText.length != 0) {
+            if (cast(FlowElement)parentElement !is null) {
+                (cast(FlowElement) parentElement).setDocumentation(docText);
+            } else if (cast(Process)parentElement !is null) {
+                (cast(Process) parentElement).setDocumentation(docText);
             }
         }
     }

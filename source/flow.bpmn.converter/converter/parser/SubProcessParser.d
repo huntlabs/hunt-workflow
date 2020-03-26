@@ -10,45 +10,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.parser.SubProcessParser;
 
 import hunt.collection.List;
 
-import javax.xml.stream.XMLStreamReader;
 
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.AdhocSubProcess;
 import flow.bpmn.model.EventSubProcess;
 import flow.bpmn.model.Process;
 import flow.bpmn.model.SubProcess;
 import flow.bpmn.model.Transaction;
-
+import hunt.xml;
+import std.string;
+import std.uni;
 /**
  * @author Tijs Rademakers
  */
-public class SubProcessParser implements BpmnXMLConstants {
+class SubProcessParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, List<SubProcess> activeSubProcessList, Process activeProcess) {
+    public void parse(Element xtr, List!SubProcess activeSubProcessList, Process activeProcess) {
         SubProcess subProcess = null;
-        if (ELEMENT_TRANSACTION.equalsIgnoreCase(xtr.getLocalName())) {
+        if (icmp(ELEMENT_TRANSACTION,(xtr.getName())) == 0) {
             subProcess = new Transaction();
 
-        } else if (ELEMENT_ADHOC_SUBPROCESS.equalsIgnoreCase(xtr.getLocalName())) {
+        } else if (icmp(ELEMENT_ADHOC_SUBPROCESS,xtr.getName()) == 0) {
             AdhocSubProcess adhocSubProcess = new AdhocSubProcess();
-            String orderingAttributeValue = xtr.getAttributeValue(null, ATTRIBUTE_ORDERING);
-            if (StringUtils.isNotEmpty(orderingAttributeValue)) {
+            string orderingAttributeValue = xtr.firstAttribute(ATTRIBUTE_ORDERING) is null ? "" :  xtr.firstAttribute(ATTRIBUTE_ORDERING).getValue;
+            if (orderingAttributeValue.length != 0) {
                 adhocSubProcess.setOrdering(orderingAttributeValue);
             }
 
-            if (ATTRIBUTE_VALUE_FALSE.equalsIgnoreCase(xtr.getAttributeValue(null, ATTRIBUTE_CANCEL_REMAINING_INSTANCES))) {
+            if (icmp(ATTRIBUTE_VALUE_FALSE ,xtr.firstAttribute(ATTRIBUTE_CANCEL_REMAINING_INSTANCES)) == 0) {
                 adhocSubProcess.setCancelRemainingInstances(false);
             }
 
             subProcess = adhocSubProcess;
 
-        } else if (ATTRIBUTE_VALUE_TRUE.equalsIgnoreCase(xtr.getAttributeValue(null, ATTRIBUTE_TRIGGERED_BY))) {
+        } else if (icmp(ATTRIBUTE_VALUE_TRUE,xtr.firstAttribute(ATTRIBUTE_TRIGGERED_BY) is null ? "" : xtr.firstAttribute(ATTRIBUTE_TRIGGERED_BY).getValue ) == 0) {
             subProcess = new EventSubProcess();
 
         } else {
@@ -58,32 +58,32 @@ public class SubProcessParser implements BpmnXMLConstants {
         BpmnXMLUtil.addXMLLocation(subProcess, xtr);
         activeSubProcessList.add(subProcess);
 
-        subProcess.setId(xtr.getAttributeValue(null, ATTRIBUTE_ID));
-        subProcess.setName(xtr.getAttributeValue(null, ATTRIBUTE_NAME));
+        subProcess.setId(xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue);
+        subProcess.setName(xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
 
-        boolean async = false;
-        String asyncString = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS, xtr);
-        if (ATTRIBUTE_VALUE_TRUE.equalsIgnoreCase(asyncString)) {
+        bool async = false;
+        string asyncString = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS, xtr);
+        if (icmp(ATTRIBUTE_VALUE_TRUE,asyncString is null ? "" : asyncString) == 0) {
             async = true;
         }
 
-        boolean notExclusive = false;
-        String exclusiveString = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_EXCLUSIVE, xtr);
-        if (ATTRIBUTE_VALUE_FALSE.equalsIgnoreCase(exclusiveString)) {
+        bool notExclusive = false;
+        string exclusiveString = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_EXCLUSIVE, xtr);
+        if (icmp(ATTRIBUTE_VALUE_FALSE,exclusiveString is null ? "" : exclusiveString) == 0) {
             notExclusive = true;
         }
 
-        boolean forCompensation = false;
-        String compensationString = xtr.getAttributeValue(null, ATTRIBUTE_ACTIVITY_ISFORCOMPENSATION);
-        if (ATTRIBUTE_VALUE_TRUE.equalsIgnoreCase(compensationString)) {
+        bool forCompensation = false;
+        string compensationString = xtr.firstAttribute(ATTRIBUTE_ACTIVITY_ISFORCOMPENSATION) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ACTIVITY_ISFORCOMPENSATION).getValue;
+        if (icmp(ATTRIBUTE_VALUE_TRUE,compensationString) == 0) {
             forCompensation = true;
         }
 
         subProcess.setAsynchronous(async);
         subProcess.setNotExclusive(notExclusive);
         subProcess.setForCompensation(forCompensation);
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_DEFAULT))) {
-            subProcess.setDefaultFlow(xtr.getAttributeValue(null, ATTRIBUTE_DEFAULT));
+        if (xtr.firstAttribute(ATTRIBUTE_DEFAULT) !is null && xtr.firstAttribute(ATTRIBUTE_DEFAULT).getValue.length != 0) {
+            subProcess.setDefaultFlow(xtr.firstAttribute(ATTRIBUTE_DEFAULT).getValue);
         }
 
         if (activeSubProcessList.size() > 1) {

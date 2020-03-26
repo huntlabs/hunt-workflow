@@ -10,41 +10,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.CompensateEventDefinitionParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.CompensateEventDefinition;
 import flow.bpmn.model.Event;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import hunt.Boolean;
 /**
  * @author Tijs Rademakers
  */
-public class CompensateEventDefinitionParser extends BaseChildElementParser {
+class CompensateEventDefinitionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_COMPENSATEDEFINITION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof Event))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(Event)parentElement is null)
             return;
 
         CompensateEventDefinition eventDefinition = new CompensateEventDefinition();
         BpmnXMLUtil.addXMLLocation(eventDefinition, xtr);
-        eventDefinition.setActivityRef(xtr.getAttributeValue(null, ATTRIBUTE_COMPENSATE_ACTIVITYREF));
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION))) {
-            eventDefinition.setWaitForCompletion(Boolean.parseBoolean(xtr.getAttributeValue(null, ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION)));
+        eventDefinition.setActivityRef(xtr.firstAttribute(ATTRIBUTE_COMPENSATE_ACTIVITYREF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_COMPENSATE_ACTIVITYREF).getValue);
+        if (xtr.firstAttribute(ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION) !is null && xtr.firstAttribute(ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION).getValue.length != 0) {
+            eventDefinition.setWaitForCompletion(Boolean.parseBoolean(xtr.firstAttribute(ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION) is null ? "" : xtr.firstAttribute(ATTRIBUTE_COMPENSATE_WAITFORCOMPLETION).getValue));
         }
 
         BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_COMPENSATEDEFINITION, eventDefinition, xtr, model);
 
-        ((Event) parentElement).getEventDefinitions().add(eventDefinition);
+        (cast(Event) parentElement).getEventDefinitions().add(eventDefinition);
     }
 }

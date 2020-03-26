@@ -10,29 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.ConditionalEventDefinitionParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ConditionalEventDefinition;
 import flow.bpmn.model.Event;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-public class ConditionalEventDefinitionParser extends BaseChildElementParser {
+class ConditionalEventDefinitionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_CONDITIONALDEFINITION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof Event))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(Event)parentElement is null)
             return;
 
         ConditionalEventDefinition eventDefinition = new ConditionalEventDefinition();
@@ -41,6 +44,6 @@ public class ConditionalEventDefinitionParser extends BaseChildElementParser {
 
         BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_CONDITIONALDEFINITION, eventDefinition, xtr, model);
 
-        ((Event) parentElement).getEventDefinitions().add(eventDefinition);
+        (cast(Event) parentElement).getEventDefinitions().add(eventDefinition);
     }
 }

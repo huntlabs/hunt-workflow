@@ -10,52 +10,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.MessageEventDefinitionParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Event;
 import flow.bpmn.model.MessageEventDefinition;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import std.string;
 /**
  * @author Tijs Rademakers
  */
-public class MessageEventDefinitionParser extends BaseChildElementParser {
+class MessageEventDefinitionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_MESSAGEDEFINITION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof Event))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(Event)parentElement is null)
             return;
 
         MessageEventDefinition eventDefinition = new MessageEventDefinition();
         BpmnXMLUtil.addXMLLocation(eventDefinition, xtr);
-        eventDefinition.setMessageRef(xtr.getAttributeValue(null, ATTRIBUTE_MESSAGE_REF));
+        eventDefinition.setMessageRef(xtr.firstAttribute(ATTRIBUTE_MESSAGE_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_MESSAGE_REF).getValue);
         eventDefinition.setMessageExpression(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_MESSAGE_EXPRESSION, xtr));
 
-        if (!StringUtils.isEmpty(eventDefinition.getMessageRef())) {
+        if (eventDefinition.getMessageRef !is null && eventDefinition.getMessageRef.length != 0) {
 
             int indexOfP = eventDefinition.getMessageRef().indexOf(':');
             if (indexOfP != -1) {
-                String prefix = eventDefinition.getMessageRef().substring(0, indexOfP);
-                String resolvedNamespace = model.getNamespace(prefix);
-                String messageRef = eventDefinition.getMessageRef().substring(indexOfP + 1);
+                string prefix = eventDefinition.getMessageRef()[0 .. indexOfP];
+                string resolvedNamespace = model.getNamespace(prefix);
+                string messageRef = eventDefinition.getMessageRef()[indexOfP + 1 .. $];
 
-                if (resolvedNamespace == null) {
+                if (resolvedNamespace is null) {
                     // if it's an invalid prefix will consider this is not a namespace prefix so will be used as part of the stringReference
-                    messageRef = prefix + ":" + messageRef;
-                } else if (!resolvedNamespace.equalsIgnoreCase(model.getTargetNamespace())) {
+                    messageRef = prefix ~ ":" ~ messageRef;
+                } else if (icmp(resolvedNamespace,(model.getTargetNamespace())) != 0) {
                     // if it's a valid namespace prefix but it's not the targetNamespace then we'll use it as a valid namespace
                     // (even out editor does not support defining namespaces it is still a valid xml file)
-                    messageRef = resolvedNamespace + ":" + messageRef;
+                    messageRef = resolvedNamespace ~ ":" ~ messageRef;
                 }
                 eventDefinition.setMessageRef(messageRef);
             } else {
@@ -65,6 +68,6 @@ public class MessageEventDefinitionParser extends BaseChildElementParser {
 
         BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_MESSAGEDEFINITION, eventDefinition, xtr, model);
 
-        ((Event) parentElement).getEventDefinitions().add(eventDefinition);
+        (cast(Event) parentElement).getEventDefinitions().add(eventDefinition);
     }
 }

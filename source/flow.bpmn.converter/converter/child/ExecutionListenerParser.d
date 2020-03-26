@@ -10,36 +10,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.ExecutionListenerParser;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.FlowableListener;
 import flow.bpmn.model.HasExecutionListeners;
 import flow.bpmn.model.SequenceFlow;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.bpmn.converter.converter.child.FlowableListenerParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-public class ExecutionListenerParser extends FlowableListenerParser {
+class ExecutionListenerParser : FlowableListenerParser {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExecutionListenerParser.class);
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EXECUTION_LISTENER;
     }
 
-    @Override
+    override
     public void addListenerToParent(FlowableListener listener, BaseElement parentElement) {
-        if (parentElement instanceof HasExecutionListeners) {
-            if (StringUtils.isEmpty(listener.getEvent()) && parentElement instanceof SequenceFlow) {
+        if (cast(HasExecutionListeners)parentElement !is null) {
+            if ((listener.getEvent().length != 0) &&  cast(SequenceFlow)parentElement !is null) {
                 // No event type on a sequenceflow = 'take' implied
                 listener.setEvent("take");
             }
-            ((HasExecutionListeners) parentElement).getExecutionListeners().add(listener);
+            (cast(HasExecutionListeners) parentElement).getExecutionListeners().add(listener);
         }
     }
 }

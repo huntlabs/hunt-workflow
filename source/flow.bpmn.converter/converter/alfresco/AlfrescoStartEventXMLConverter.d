@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.alfresco.AlfrescoStartEventXMLConverter;
 
 import flow.bpmn.converter.converter.StartEventXMLConverter;
 import flow.bpmn.model.BaseElement;
@@ -19,11 +19,11 @@ import flow.bpmn.model.alfresco.AlfrescoStartEvent;
 /**
  * @author Tijs Rademakers
  */
-public class AlfrescoStartEventXMLConverter extends StartEventXMLConverter {
+class AlfrescoStartEventXMLConverter : StartEventXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return AlfrescoStartEvent.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(AlfrescoStartEvent);
     }
 
 }

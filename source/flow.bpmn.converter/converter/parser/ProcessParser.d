@@ -10,51 +10,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.parser.ProcessParser;
 
 import hunt.collection.List;
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.exp.ProcessExport;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Process;
-
+import hunt.xml;
+import std.string;
+import hunt.Boolean;
 /**
  * @author Tijs Rademakers
  */
-public class ProcessParser implements BpmnXMLConstants {
+class ProcessParser : BpmnXMLConstants {
 
-    public Process parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    public Process parse(Element xtr, BpmnModel model)  {
         Process process = null;
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_ID))) {
-            String processId = xtr.getAttributeValue(null, ATTRIBUTE_ID);
+        if (xtr.firstAttribute(ATTRIBUTE_ID) !is null && xtr.firstAttribute(ATTRIBUTE_ID).getValue.length != 0) {
+            auto processId = xtr.firstAttribute(ATTRIBUTE_ID);
             process = new Process();
-            process.setId(processId);
+            process.setId(processId.getValue);
             BpmnXMLUtil.addXMLLocation(process, xtr);
-            process.setName(xtr.getAttributeValue(null, ATTRIBUTE_NAME));
-            if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_PROCESS_EXECUTABLE))) {
-                process.setExecutable(Boolean.parseBoolean(xtr.getAttributeValue(null, ATTRIBUTE_PROCESS_EXECUTABLE)));
+            process.setName(xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
+            if (xtr.firstAttribute(ATTRIBUTE_PROCESS_EXECUTABLE) !is null && xtr.firstAttribute(ATTRIBUTE_PROCESS_EXECUTABLE).getValue.length != 0) {
+                process.setExecutable(Boolean.parseBoolean(xtr.firstAttribute(ATTRIBUTE_PROCESS_EXECUTABLE) is null ? "" : xtr.firstAttribute(ATTRIBUTE_PROCESS_EXECUTABLE).getValue));
             }
 
-            String candidateUsersString = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_CANDIDATE_USERS, xtr);
-            if (StringUtils.isNotEmpty(candidateUsersString)) {
-                List<String> candidateUsers = BpmnXMLUtil.parseDelimitedList(candidateUsersString);
+            string candidateUsersstring = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_CANDIDATE_USERS, xtr);
+            if (candidateUsersstring !is null && candidateUsersstring.length != 0) {
+                List!string candidateUsers = BpmnXMLUtil.parseDelimitedList(candidateUsersstring);
                 process.setCandidateStarterUsers(candidateUsers);
             }
 
-            String candidateGroupsString = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_CANDIDATE_GROUPS, xtr);
-            if (StringUtils.isNotEmpty(candidateGroupsString)) {
-                List<String> candidateGroups = BpmnXMLUtil.parseDelimitedList(candidateGroupsString);
+            string candidateGroupsstring = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_CANDIDATE_GROUPS, xtr);
+            if (candidateGroupsstring !is null && candidateGroupsstring.length != 0) {
+                List!string candidateGroups = BpmnXMLUtil.parseDelimitedList(candidateGroupsstring);
                 process.setCandidateStarterGroups(candidateGroups);
             }
 
-            if (StringUtils.isNotEmpty(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_EAGER_EXECUTION_FETCHING, xtr))) {
+            if (BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_EAGER_EXECUTION_FETCHING, xtr) !is null && BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_EAGER_EXECUTION_FETCHING, xtr).length != 0) {
                 process.setEnableEagerExecutionTreeFetching(
-                        Boolean.parseBoolean(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_EAGER_EXECUTION_FETCHING, xtr)));
+                        Boolean.parseBoolean(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_EAGER_EXECUTION_FETCHING, xtr) is null ? "" : BpmnXMLUtil.getAttributeValue(ATTRIBUTE_PROCESS_EAGER_EXECUTION_FETCHING, xtr)));
             }
 
             BpmnXMLUtil.addCustomAttributes(xtr, process, ProcessExport.defaultProcessAttributes);

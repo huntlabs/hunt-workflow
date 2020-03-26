@@ -10,41 +10,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.ItemDefinitionParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ItemDefinition;
-
+import hunt.xml;
+import std.string;
 /**
  * @author Tijs Rademakers
  */
-public class ItemDefinitionParser implements BpmnXMLConstants {
+class ItemDefinitionParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_ID))) {
-            String itemDefinitionId = model.getTargetNamespace() + ":" + xtr.getAttributeValue(null, ATTRIBUTE_ID);
-            String structureRef = xtr.getAttributeValue(null, ATTRIBUTE_STRUCTURE_REF);
-            if (StringUtils.isNotEmpty(structureRef)) {
+    public void parse(Element xtr, BpmnModel model)  {
+        if (xtr.firstAttribute(ATTRIBUTE_ID) !is null && xtr.firstAttribute(ATTRIBUTE_ID).getValue.length != 0) {
+            string itemDefinitionId = model.getTargetNamespace() ~ ":" ~ xtr.firstAttribute(ATTRIBUTE_ID).getValue;
+            string structureRef = xtr.firstAttribute(ATTRIBUTE_STRUCTURE_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_STRUCTURE_REF).getValue;
+            if (structureRef.length != 0) {
                 ItemDefinition item = new ItemDefinition();
                 item.setId(itemDefinitionId);
                 BpmnXMLUtil.addXMLLocation(item, xtr);
 
                 int indexOfP = structureRef.indexOf(':');
                 if (indexOfP != -1) {
-                    String prefix = structureRef.substring(0, indexOfP);
-                    String resolvedNamespace = model.getNamespace(prefix);
-                    structureRef = resolvedNamespace + ":" + structureRef.substring(indexOfP + 1);
+                    string prefix = structureRef[0 .. indexOfP];
+                    string resolvedNamespace = model.getNamespace(prefix);
+                    structureRef = resolvedNamespace ~ ":" ~ structureRef[indexOfP + 1 .. $];
                 } else {
-                    structureRef = model.getTargetNamespace() + ":" + structureRef;
+                    structureRef = model.getTargetNamespace() ~ ":" ~ structureRef;
                 }
 
                 item.setStructureRef(structureRef);
-                item.setItemKind(xtr.getAttributeValue(null, ATTRIBUTE_ITEM_KIND));
+                item.setItemKind(xtr.firstAttribute(ATTRIBUTE_ITEM_KIND) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ITEM_KIND).getValue);
                 BpmnXMLUtil.parseChildElements(ELEMENT_ITEM_DEFINITION, item, xtr, model);
                 model.addItemDefinition(itemDefinitionId, item);
             }

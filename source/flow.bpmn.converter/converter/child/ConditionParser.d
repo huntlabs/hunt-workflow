@@ -10,29 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.child.ConditionParser;
 
 import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ConditionalEventDefinition;
+import hunt.xml;
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 
 /**
  * @author Tijs Rademakers
  */
-public class ConditionParser extends BaseChildElementParser {
+class ConditionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_CONDITION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof ConditionalEventDefinition))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(ConditionalEventDefinition)parentElement is null )
             return;
 
-        ((ConditionalEventDefinition) parentElement).setConditionExpression(xtr.getElementText().trim());
+        (cast(ConditionalEventDefinition) parentElement).setConditionExpression(xtr.getText());
     }
 }

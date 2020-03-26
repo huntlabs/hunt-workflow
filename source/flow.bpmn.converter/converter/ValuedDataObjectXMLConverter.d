@@ -10,16 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.ValuedDataObjectXMLConverter;
 
-
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import hunt.collection.List;
-import java.util.regex.Pattern;
+//import java.util.regex.Pattern;
 
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BooleanDataObject;
@@ -32,50 +28,55 @@ import flow.bpmn.model.ItemDefinition;
 import flow.bpmn.model.LongDataObject;
 import flow.bpmn.model.StringDataObject;
 import flow.bpmn.model.ValuedDataObject;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
+import hunt.text.Pattern;
+import hunt.logging;
+import hunt.Exceptions;
 /**
  * @author Lori Small
  * @author Tijs Rademakers
  */
-public class ValuedDataObjectXMLConverter extends BaseBpmnXMLConverter {
+class ValuedDataObjectXMLConverter : BaseBpmnXMLConverter {
 
-    private final Pattern xmlChars = Pattern.compile("[<>&]");
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    protected boolean didWriteExtensionStartElement;
+   // private  Pattern xmlChars = Pattern.compile("[<>&]");
+    //private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    protected bool didWriteExtensionStartElement;
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return ValuedDataObject.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return ValuedDataObject;
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_DATA_OBJECT;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         ValuedDataObject dataObject = null;
         ItemDefinition itemSubjectRef = new ItemDefinition();
 
-        String structureRef = xtr.getAttributeValue(null, ATTRIBUTE_DATA_ITEM_REF);
-        if (StringUtils.isNotEmpty(structureRef) && structureRef.contains(":")) {
-            String dataType = structureRef.substring(structureRef.indexOf(':') + 1);
+        string structureRef = xtr.firstAttribute(ATTRIBUTE_DATA_ITEM_REF) is null ? "" :  xtr.firstAttribute(ATTRIBUTE_DATA_ITEM_REF).getValue;
+        if ((structureRef.length != 0) && structureRef.contains(":")) {
+            string dataType = structureRef[structureRef.indexOf(':') + 1 .. $];
 
-            if (dataType.equals("string")) {
+            if (dataType == ("string")) {
                 dataObject = new StringDataObject();
-            } else if (dataType.equals("int")) {
+            } else if (dataType == ("int")) {
                 dataObject = new IntegerDataObject();
-            } else if (dataType.equals("long")) {
+            } else if (dataType == ("long")) {
                 dataObject = new LongDataObject();
-            } else if (dataType.equals("double")) {
+            } else if (dataType == ("double")) {
                 dataObject = new DoubleDataObject();
-            } else if (dataType.equals("boolean")) {
+            } else if (dataType == ("boolean")) {
                 dataObject = new BooleanDataObject();
-            } else if (dataType.equals("datetime")) {
+            } else if (dataType == ("datetime")) {
                 dataObject = new DateDataObject();
             } else {
-                LOGGER.error("Error converting {}, invalid data type: {}", xtr.getAttributeValue(null, ATTRIBUTE_DATA_NAME), dataType);
+                logError("Error converting {%s}, invalid data type: {%s}", xtr.toString, dataType);
             }
 
         } else {
@@ -84,9 +85,9 @@ public class ValuedDataObjectXMLConverter extends BaseBpmnXMLConverter {
             structureRef = "xsd:string";
         }
 
-        if (dataObject != null) {
-            dataObject.setId(xtr.getAttributeValue(null, ATTRIBUTE_DATA_ID));
-            dataObject.setName(xtr.getAttributeValue(null, ATTRIBUTE_DATA_NAME));
+        if (dataObject !is null) {
+            dataObject.setId(xtr.firstAttribute(ATTRIBUTE_DATA_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_DATA_ID).getValue);
+            dataObject.setName(xtr.firstAttribute(ATTRIBUTE_DATA_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_DATA_NAME).getValue);
 
             BpmnXMLUtil.addXMLLocation(dataObject, xtr);
 
@@ -95,15 +96,16 @@ public class ValuedDataObjectXMLConverter extends BaseBpmnXMLConverter {
 
             parseChildElements(getXMLElementName(), dataObject, model, xtr);
 
-            List<ExtensionElement> valuesElement = dataObject.getExtensionElements().get("value");
-            if (valuesElement != null && !valuesElement.isEmpty()) {
+            List!ExtensionElement valuesElement = dataObject.getExtensionElements().get("value");
+            if (valuesElement !is null && !valuesElement.isEmpty()) {
                 ExtensionElement valueElement = valuesElement.get(0);
-                if (StringUtils.isNotEmpty(valueElement.getElementText())) {
-                    if (dataObject instanceof DateDataObject) {
+                if (valueElement.getElementText() !is null && valueElement.getElementText().length != 0) {
+                    if (cast(DateDataObject)dataObject !is null ) {
                         try {
-                            dataObject.setValue(sdf.parse(valueElement.getElementText()));
+                            implementationMissing(false);
+                          //  dataObject.setValue(sdf.parse(valueElement.getElementText()));
                         } catch (Exception e) {
-                            LOGGER.error("Error converting {}; message={}", dataObject.getName(), e.getMessage());
+                            logError("Error converting {%s}; message={%s}", dataObject.getName(), e.getMessage());
                         }
                     } else {
                         dataObject.setValue(valueElement.getElementText());
@@ -118,47 +120,47 @@ public class ValuedDataObjectXMLConverter extends BaseBpmnXMLConverter {
         return dataObject;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        ValuedDataObject dataObject = (ValuedDataObject) element;
-        if (dataObject.getItemSubjectRef() != null && StringUtils.isNotEmpty(dataObject.getItemSubjectRef().getStructureRef())) {
-            writeDefaultAttribute(ATTRIBUTE_DATA_ITEM_REF, dataObject.getItemSubjectRef().getStructureRef(), xtw);
-        }
-    }
-
-    @Override
-    protected boolean writeExtensionChildElements(BaseElement element, boolean didWriteExtensionStartElement, XMLStreamWriter xtw) throws Exception {
-        ValuedDataObject dataObject = (ValuedDataObject) element;
-
-        if (StringUtils.isNotEmpty(dataObject.getId()) && dataObject.getValue() != null) {
-
-            if (!didWriteExtensionStartElement) {
-                xtw.writeStartElement(ELEMENT_EXTENSIONS);
-                didWriteExtensionStartElement = true;
-            }
-
-            xtw.writeStartElement(FLOWABLE_EXTENSIONS_PREFIX, ELEMENT_DATA_VALUE, FLOWABLE_EXTENSIONS_NAMESPACE);
-            if (dataObject.getValue() != null) {
-                String value = null;
-                if (dataObject instanceof DateDataObject) {
-                    value = sdf.format(dataObject.getValue());
-                } else {
-                    value = dataObject.getValue().toString();
-                }
-
-                if (dataObject instanceof StringDataObject && xmlChars.matcher(value).find()) {
-                    xtw.writeCData(value);
-                } else {
-                    xtw.writeCharacters(value);
-                }
-            }
-            xtw.writeEndElement();
-        }
-
-        return didWriteExtensionStartElement;
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    ValuedDataObject dataObject = (ValuedDataObject) element;
+    //    if (dataObject.getItemSubjectRef() !is null && StringUtils.isNotEmpty(dataObject.getItemSubjectRef().getStructureRef())) {
+    //        writeDefaultAttribute(ATTRIBUTE_DATA_ITEM_REF, dataObject.getItemSubjectRef().getStructureRef(), xtw);
+    //    }
+    //}
+    //
+    //override
+    //protected bool writeExtensionChildElements(BaseElement element, bool didWriteExtensionStartElement, XMLStreamWriter xtw)  {
+    //    ValuedDataObject dataObject = (ValuedDataObject) element;
+    //
+    //    if (StringUtils.isNotEmpty(dataObject.getId()) && dataObject.getValue() !is null) {
+    //
+    //        if (!didWriteExtensionStartElement) {
+    //            xtw.writeStartElement(ELEMENT_EXTENSIONS);
+    //            didWriteExtensionStartElement = true;
+    //        }
+    //
+    //        xtw.writeStartElement(FLOWABLE_EXTENSIONS_PREFIX, ELEMENT_DATA_VALUE, FLOWABLE_EXTENSIONS_NAMESPACE);
+    //        if (dataObject.getValue() !is null) {
+    //            String value = null;
+    //            if (dataObject instanceof DateDataObject) {
+    //                value = sdf.format(dataObject.getValue());
+    //            } else {
+    //                value = dataObject.getValue().toString();
+    //            }
+    //
+    //            if (dataObject instanceof StringDataObject && xmlChars.matcher(value).find()) {
+    //                xtw.writeCData(value);
+    //            } else {
+    //                xtw.writeCharacters(value);
+    //            }
+    //        }
+    //        xtw.writeEndElement();
+    //    }
+    //
+    //    return didWriteExtensionStartElement;
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //}
 }

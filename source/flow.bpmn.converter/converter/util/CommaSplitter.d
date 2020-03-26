@@ -10,40 +10,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.util.CommaSplitter;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
-
+import core.stdc.string : strlen;
+import std.string;
 /**
  * @author Saeid Mirzaei, Tijs Rademakers
  */
 
-public class CommaSplitter {
+class CommaSplitter {
 
     // split the given spring using commas if they are not inside an expression
-    public static List<String> splitCommas(String st) {
-        List<String> result = new ArrayList<>();
+    public static List!string splitCommas(string st) {
+        List!string result = new ArrayList!string();
         int offset = 0;
-
-        boolean inExpression = false;
-        for (int i = 0; i < st.length(); i++) {
-            if (!inExpression && st.charAt(i) == ',') {
+        bool inExpression = false;
+        auto ss = toStringz(st);
+        for(int i = 0 ; i < st.length ; ++ i) {
+            if (!inExpression && ss[i] == ',') {
                 if ((i - offset) > 1) {
-                    result.add(st.substring(offset, i));
+                    result.add(st[offset .. i]);
                 }
                 offset = i + 1;
 
-            } else if ((st.charAt(i) == '$' || st.charAt(i) == '#') && st.charAt(i + 1) == '{') {
+            } else if ((ss[i] == '$' ||  ss[i] == '#') &&  ss[i + 1] == '{') {
                 inExpression = true;
 
-            } else if (st.charAt(i) == '}') {
+            } else if (ss[i] == '}') {
                 inExpression = false;
             }
         }
 
         if ((st.length() - offset) > 1) {
-            result.add(st.substring(offset));
+            result.add(st[offset .. $]);
         }
         return result;
     }

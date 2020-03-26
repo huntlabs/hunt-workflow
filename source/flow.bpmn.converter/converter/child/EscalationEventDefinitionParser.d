@@ -10,37 +10,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.EscalationEventDefinitionParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.EscalationEventDefinition;
 import flow.bpmn.model.Event;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
 /**
  * @author Tijs Rademakers
  */
-public class EscalationEventDefinitionParser extends BaseChildElementParser {
+class EscalationEventDefinitionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_ESCALATIONDEFINITION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof Event))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(Event)parentElement is null)
             return;
 
         EscalationEventDefinition eventDefinition = new EscalationEventDefinition();
         BpmnXMLUtil.addXMLLocation(eventDefinition, xtr);
-        eventDefinition.setEscalationCode(xtr.getAttributeValue(null, ATTRIBUTE_ESCALATION_REF));
+        eventDefinition.setEscalationCode(xtr.firstAttribute(ATTRIBUTE_ESCALATION_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ESCALATION_REF).getValue);
 
         BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_ESCALATIONDEFINITION, eventDefinition, xtr, model);
 
-        ((Event) parentElement).getEventDefinitions().add(eventDefinition);
+        (cast(Event) parentElement).getEventDefinitions().add(eventDefinition);
     }
 }

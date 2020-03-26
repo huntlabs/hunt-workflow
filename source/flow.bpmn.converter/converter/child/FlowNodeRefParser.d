@@ -10,30 +10,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.FlowNodeRefParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Lane;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class FlowNodeRefParser extends BaseChildElementParser {
+class FlowNodeRefParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_FLOWNODE_REF;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof Lane))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(Lane)parentElement is null)
             return;
 
-        Lane lane = (Lane) parentElement;
-        lane.getFlowReferences().add(xtr.getElementText());
+        Lane lane = cast(Lane) parentElement;
+        lane.getFlowReferences().add(xtr.getText());
     }
 }

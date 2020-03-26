@@ -15,7 +15,7 @@ import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
-public class XMLException : RuntimeException {
+class XMLException : RuntimeException {
 
 
     this(string message) {

@@ -10,43 +10,77 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.BaseChildElementParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import hunt.xml;
+import hunt.Exceptions;
 
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import std.string;
 /**
  * @author Tijs Rademakers
  */
-public abstract class BaseChildElementParser implements BpmnXMLConstants {
+abstract class BaseChildElementParser : BpmnXMLConstants {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(BaseChildElementParser.class);
 
-    public abstract String getElementName();
+    public abstract string getElementName();
 
-    public abstract void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception;
+    public abstract void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model);
 
-    protected void parseChildElements(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model, BaseChildElementParser parser) throws Exception {
-        boolean readyWithChildElements = false;
-        while (!readyWithChildElements && xtr.hasNext()) {
-            xtr.next();
-            if (xtr.isStartElement()) {
-                if (parser.getElementName().equals(xtr.getLocalName())) {
-                    parser.parseChildElement(xtr, parentElement, model);
-                }
+  void loopNexSibling(Element n , BaseElement parentElement, BpmnModel model, BaseChildElementParser parser)
+  {
+    Element node = n;
+    while(node !is null && node.getType == NodeType.Element)
+    {
+      //DOSOMETHING
+      if (parser.getElementName() == (node.getName())) {
+          parser.parseChildElement(node, parentElement, model);
+      }
 
-            } else if (xtr.isEndElement() && getElementName().equalsIgnoreCase(xtr.getLocalName())) {
-                readyWithChildElements = true;
-            }
+      Element child  = node.firstNode;
+      if(child !is null && child.getType == NodeType.Element)
+      {
+        //writefln(child.toString);
+        //DOSOMETHING
+        if (parser.getElementName() == (child.getName())) {
+          parser.parseChildElement(child, parentElement, model);
         }
+
+        loopNexSibling(child.nextSibling , parentElement ,model ,parser);
+      }
+      node = node.nextSibling;
+    }
+  }
+
+    protected void parseChildElements(Element xtr, BaseElement parentElement, BpmnModel model, BaseChildElementParser parser) {
+        //implementationMissing(false);
+        //loopNexSibling(xtr, parentElement, model, parser);
+        if (xtr !is null)
+        {
+            loopNexSibling(xtr.firstNode, parentElement, model, parser);
+        }
+        //while (!readyWithChildElements && xtr.hasNext()) {
+        //    xtr.next();
+        //    if (xtr.isStartElement()) {
+        //        if (parser.getElementName().equals(xtr.getLocalName())) {
+        //            parser.parseChildElement(xtr, parentElement, model);
+        //        }
+        //
+        //    } else if (xtr.isEndElement() && getElementName().equalsIgnoreCase(xtr.getLocalName())) {
+        //        readyWithChildElements = true;
+        //    }
+        //}
     }
 
-    public boolean accepts(BaseElement element) {
-        return element != null;
+    public bool accepts(BaseElement element) {
+        return element !is null;
     }
 }

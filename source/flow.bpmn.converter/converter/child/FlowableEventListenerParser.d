@@ -10,68 +10,70 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.FlowableEventListenerParser;
 
-
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.EventListener;
 import flow.bpmn.model.ImplementationType;
 import flow.bpmn.model.Process;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import std.string;
 /**
  * @author Frederik Heremans
  */
-public class FlowableEventListenerParser extends BaseChildElementParser {
+class FlowableEventListenerParser : BaseChildElementParser {
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
         EventListener listener = new EventListener();
         BpmnXMLUtil.addXMLLocation(listener, xtr);
 
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CLASS))) {
-            listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_CLASS));
+        if (xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS).getValue.length != 0) {
+            listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_CLASS).getValue);
             listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_CLASS);
 
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_DELEGATEEXPRESSION))) {
-            listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_DELEGATEEXPRESSION));
+        } else if (xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION).getValue.length != 0) {
+            listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_DELEGATEEXPRESSION).getValue);
             listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION);
 
-        } else if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_THROW_EVENT_TYPE))) {
-            String eventType = xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_THROW_EVENT_TYPE);
-            if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_SIGNAL.equals(eventType)) {
+        } else if (xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_EVENT_TYPE) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_EVENT_TYPE).getValue.length != 0) {
+            string eventType = xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_EVENT_TYPE).getValue;
+            if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_SIGNAL == (eventType)) {
                 listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT);
-                listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_THROW_SIGNAL_EVENT_NAME));
-            } else if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_GLOBAL_SIGNAL.equals(eventType)) {
+                listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_SIGNAL_EVENT_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_SIGNAL_EVENT_NAME).getValue);
+            } else if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_GLOBAL_SIGNAL == (eventType)) {
                 listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT);
-                listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_THROW_SIGNAL_EVENT_NAME));
-            } else if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_MESSAGE.equals(eventType)) {
+                listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_SIGNAL_EVENT_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_SIGNAL_EVENT_NAME).getValue);
+            } else if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_MESSAGE == (eventType)) {
                 listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT);
-                listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_THROW_MESSAGE_EVENT_NAME));
-            } else if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_ERROR.equals(eventType)) {
+                listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_MESSAGE_EVENT_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_MESSAGE_EVENT_NAME).getValue);
+            } else if (ATTRIBUTE_LISTENER_THROW_EVENT_TYPE_ERROR == (eventType)) {
                 listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT);
-                listener.setImplementation(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_THROW_ERROR_EVENT_CODE));
+                listener.setImplementation(xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_ERROR_EVENT_CODE) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_THROW_ERROR_EVENT_CODE).getValue);
             } else {
                 listener.setImplementationType(ImplementationType.IMPLEMENTATION_TYPE_INVALID_THROW_EVENT);
             }
         }
 
-        listener.setEvents(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_EVENTS));
-        listener.setEntityType(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_ENTITY_TYPE));
+        listener.setEvents(xtr.firstAttribute(ATTRIBUTE_LISTENER_EVENTS) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_EVENTS).getValue);
+        listener.setEntityType(xtr.firstAttribute(ATTRIBUTE_LISTENER_ENTITY_TYPE) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_ENTITY_TYPE));
 
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_ON_TRANSACTION))){
-            listener.setOnTransaction(xtr.getAttributeValue(null, ATTRIBUTE_LISTENER_ON_TRANSACTION));
+        if (xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION).getValue.length != 0){
+            listener.setOnTransaction(xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION).getValue);
         }
 
-        Process parentProcess = (Process) parentElement;
+        Process parentProcess = cast(Process) parentElement;
         parentProcess.getEventListeners().add(listener);
     }
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_LISTENER;
     }
 }

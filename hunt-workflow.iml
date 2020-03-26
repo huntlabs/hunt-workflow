@@ -10,10 +10,11 @@
     <orderEntry type="library" name="hunt-1.4.2+commit.2.g62b4281" level="project" />
     <orderEntry type="library" name="hunt-entity-2.5.3" level="project" />
     <orderEntry type="library" name="hunt-database-2.0.0" level="project" />
-    <orderEntry type="library" name="hunt-net-0.4.5" level="project" />
+    <orderEntry type="library" name="hunt-net-0.4.6" level="project" />
     <orderEntry type="library" name="hunt-openssl-1.0.1" level="project" />
     <orderEntry type="library" name="hunt-sql-1.3.0" level="project" />
     <orderEntry type="library" name="hunt-validation-0.2.3" level="project" />
+    <orderEntry type="library" name="hunt-xml-1.0.0-rc.1+commit.2.g9ae66e2" level="project" />
     <orderEntry type="library" name="hunt-time-1.0.0+commit.3.gb4f160a" level="project" />
   </component>
 </module>

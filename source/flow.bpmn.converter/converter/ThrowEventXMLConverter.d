@@ -10,46 +10,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.ThrowEventXMLConverter;
 
-
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
 
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ThrowEvent;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class ThrowEventXMLConverter extends BaseBpmnXMLConverter {
+class ThrowEventXMLConverter : BaseBpmnXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return ThrowEvent.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(ThrowEvent);
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_EVENT_THROW;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         ThrowEvent throwEvent = new ThrowEvent();
         BpmnXMLUtil.addXMLLocation(throwEvent, xtr);
         parseChildElements(getXMLElementName(), throwEvent, model, xtr);
         return throwEvent;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        ThrowEvent throwEvent = (ThrowEvent) element;
-        writeEventDefinitions(throwEvent, throwEvent.getEventDefinitions(), model, xtw);
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    ThrowEvent throwEvent = (ThrowEvent) element;
+    //    writeEventDefinitions(throwEvent, throwEvent.getEventDefinitions(), model, xtw);
+    //}
 }

@@ -10,32 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.DataStateParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.DataStore;
 import flow.bpmn.model.DataStoreReference;
+import hunt.xml;
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 
 /**
  * @author Tijs Rademakers
  */
-public class DataStateParser extends BaseChildElementParser {
+class DataStateParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_DATA_STATE;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (parentElement instanceof DataStore) {
-            ((DataStore) parentElement).setDataState(xtr.getAttributeValue(null, ATTRIBUTE_NAME));
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(DataStore)parentElement !is null ) {
+            (cast(DataStore) parentElement).setDataState(xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
 
-        } else if (parentElement instanceof DataStoreReference) {
-            ((DataStoreReference) parentElement).setDataState(xtr.getAttributeValue(null, ATTRIBUTE_NAME));
+        } else if ( cast(DataStoreReference)parentElement !is null) {
+            (cast(DataStoreReference) parentElement).setDataState(xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
         }
     }
 }

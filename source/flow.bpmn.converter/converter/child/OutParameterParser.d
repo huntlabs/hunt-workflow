@@ -11,49 +11,51 @@
  * limitations under the License.
  */
 
+module flow.bpmn.converter.converter.child.OutParameterParser;
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.CallActivity;
 import flow.bpmn.model.CaseServiceTask;
 import flow.bpmn.model.IOParameter;
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
 
-public class OutParameterParser extends BaseChildElementParser {
+class OutParameterParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_OUT_PARAMETERS;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        String source = xtr.getAttributeValue(null, ATTRIBUTE_IOPARAMETER_SOURCE);
-        String sourceExpression = xtr.getAttributeValue(null, ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION);
-        String target = xtr.getAttributeValue(null, ATTRIBUTE_IOPARAMETER_TARGET);
-        if ((StringUtils.isNotEmpty(source) || StringUtils.isNotEmpty(sourceExpression)) && StringUtils.isNotEmpty(target)) {
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        auto source = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_SOURCE);
+        auto sourceExpression = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION);
+        auto target = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_TARGET);
+        if ((source !is null && source.getValue.length != 0 || sourceExpression !is null && sourceExpression.getValue.length != 0) && (target !is null && target.getValue.length != 0)) {
 
             IOParameter parameter = new IOParameter();
-            if (StringUtils.isNotEmpty(sourceExpression)) {
-                parameter.setSourceExpression(sourceExpression);
+            if (sourceExpression !is null && sourceExpression.getValue.length != 0) {
+                parameter.setSourceExpression(sourceExpression.getValue);
             } else {
-                parameter.setSource(source);
+                parameter.setSource(source.getValue);
             }
 
-            parameter.setTarget(target);
+            parameter.setTarget(target.getValue);
 
-            String transientValue = xtr.getAttributeValue(null, ATTRIBUTE_IOPARAMETER_TRANSIENT);
-            if ("true".equalsIgnoreCase(transientValue)) {
+            auto transientValue = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_TRANSIENT);
+            if (transientValue !is null && icmp("true",transientValue) == 0) {
                 parameter.setTransient(true);
             }
 
-            if (parentElement instanceof CallActivity) {
-                ((CallActivity) parentElement).getOutParameters().add(parameter);
+            if (  cast(CallActivity)parentElement !is null ) {
+                (cast(CallActivity) parentElement).getOutParameters().add(parameter);
 
-            } else if (parentElement instanceof CaseServiceTask) {
-                ((CaseServiceTask) parentElement).getOutParameters().add(parameter);
+            } else if (cast(CaseServiceTask)parentElement !is null) {
+                (cast(CaseServiceTask) parentElement).getOutParameters().add(parameter);
             }
         }
     }

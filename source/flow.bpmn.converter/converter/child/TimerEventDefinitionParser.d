@@ -10,40 +10,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.TimerEventDefinitionParser;
 
-
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Event;
 import flow.bpmn.model.TimerEventDefinition;
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import std.string;
 
 /**
  * @author Tijs Rademakers
  */
-public class TimerEventDefinitionParser extends BaseChildElementParser {
+class TimerEventDefinitionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_TIMERDEFINITION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof Event))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(Event)parentElement is null)
             return;
 
         TimerEventDefinition eventDefinition = new TimerEventDefinition();
-        String calendarName = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_CALENDAR_NAME, xtr);
-        if (StringUtils.isNotEmpty(calendarName)) {
+        string calendarName = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_CALENDAR_NAME, xtr);
+        if (calendarName !is null && calendarName.length != 0) {
             eventDefinition.setCalendarName(calendarName);
         }
         BpmnXMLUtil.addXMLLocation(eventDefinition, xtr);
         BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_TIMERDEFINITION, eventDefinition, xtr, model);
 
-        ((Event) parentElement).getEventDefinitions().add(eventDefinition);
+        (cast(Event) parentElement).getEventDefinitions().add(eventDefinition);
     }
 }

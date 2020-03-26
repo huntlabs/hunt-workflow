@@ -11,46 +11,46 @@
  * limitations under the License.
  */
 
-
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
+module flow.bpmn.converter.converter.ComplexGatewayXMLConverter;
 
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ComplexGateway;
 import flow.bpmn.model.ExclusiveGateway;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class ComplexGatewayXMLConverter extends BaseBpmnXMLConverter {
+class ComplexGatewayXMLConverter : BaseBpmnXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
+    override
+    public TypeInfo getBpmnElementType() {
         // complex gateway is not supported so transform it to exclusive gateway
-        return ComplexGateway.class;
+        return typeid(ComplexGateway);
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_GATEWAY_COMPLEX;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         ExclusiveGateway gateway = new ExclusiveGateway();
         BpmnXMLUtil.addXMLLocation(gateway, xtr);
         parseChildElements(getXMLElementName(), gateway, model, xtr);
         return gateway;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //
+    //}
 }

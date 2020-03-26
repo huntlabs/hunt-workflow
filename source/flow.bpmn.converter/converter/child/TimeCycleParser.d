@@ -10,36 +10,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.TimeCycleParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.TimerEventDefinition;
 
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class TimeCycleParser extends BaseChildElementParser {
+class TimeCycleParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ATTRIBUTE_TIMER_CYCLE;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof TimerEventDefinition))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(TimerEventDefinition)parentElement is null)
             return;
 
-        TimerEventDefinition eventDefinition = (TimerEventDefinition) parentElement;
+        TimerEventDefinition eventDefinition = cast(TimerEventDefinition) parentElement;
 
-        if (StringUtils.isNotEmpty(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_END_DATE, xtr))) {
+
+        if (BpmnXMLUtil.getAttributeValue(ATTRIBUTE_END_DATE, xtr) !is null && BpmnXMLUtil.getAttributeValue(ATTRIBUTE_END_DATE, xtr).length != 0) {
             eventDefinition.setEndDate(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_END_DATE, xtr));
         }
-        eventDefinition.setTimeCycle(xtr.getElementText());
+        eventDefinition.setTimeCycle(xtr.getText());
     }
 }

@@ -10,19 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.CaseServiceTaskXMLConverter;
 
-
+import flow.bpmn.converter.converter.ServiceTaskXMLConverter;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.CaseServiceTask;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class CaseServiceTaskXMLConverter extends ServiceTaskXMLConverter {
+class CaseServiceTaskXMLConverter : ServiceTaskXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return CaseServiceTask.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(CaseServiceTask);
     }
 
 }

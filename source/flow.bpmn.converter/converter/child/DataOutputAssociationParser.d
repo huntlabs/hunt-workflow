@@ -10,36 +10,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.DataOutputAssociationParser;
 
-
-import javax.xml.stream.XMLStreamReader;
-
+import flow.bpmn.converter.converter.child.DataAssociationParser;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.Activity;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.DataAssociation;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import std.string;
 /**
  * @author Tijs Rademakers
  */
-public class DataOutputAssociationParser extends BaseChildElementParser {
+class DataOutputAssociationParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_OUTPUT_ASSOCIATION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
 
-        if (!(parentElement instanceof Activity))
+        if (cast(Activity)parentElement is null)
             return;
 
         DataAssociation dataAssociation = new DataAssociation();
         BpmnXMLUtil.addXMLLocation(dataAssociation, xtr);
         DataAssociationParser.parseDataAssociation(dataAssociation, getElementName(), xtr);
 
-        ((Activity) parentElement).getDataOutputAssociations().add(dataAssociation);
+        (cast(Activity) parentElement).getDataOutputAssociations().add(dataAssociation);
     }
 }

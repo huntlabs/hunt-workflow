@@ -10,26 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.ImportParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Import;
-
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class ImportParser implements BpmnXMLConstants {
+class ImportParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    public void parse(Element xtr, BpmnModel model)  {
         Import importObject = new Import();
         BpmnXMLUtil.addXMLLocation(importObject, xtr);
-        importObject.setImportType(xtr.getAttributeValue(null, ATTRIBUTE_IMPORT_TYPE));
-        importObject.setNamespace(xtr.getAttributeValue(null, ATTRIBUTE_NAMESPACE));
-        importObject.setLocation(xtr.getAttributeValue(null, ATTRIBUTE_LOCATION));
+        importObject.setImportType(xtr.firstAttribute(ATTRIBUTE_IMPORT_TYPE) is null ? "" : xtr.firstAttribute(ATTRIBUTE_IMPORT_TYPE).getValue);
+        importObject.setNamespace(xtr.firstAttribute(ATTRIBUTE_NAMESPACE) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAMESPACE).getValue);
+        importObject.setLocation(xtr.firstAttribute(ATTRIBUTE_LOCATION) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LOCATION).getValue);
         model.getImports().add(importObject);
     }
 }

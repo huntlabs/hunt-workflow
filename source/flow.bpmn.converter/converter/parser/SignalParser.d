@@ -10,29 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.SignalParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Signal;
-
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class SignalParser implements BpmnXMLConstants {
+class SignalParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-        String signalId = xtr.getAttributeValue(null, ATTRIBUTE_ID);
-        String signalName = xtr.getAttributeValue(null, ATTRIBUTE_NAME);
+    public void parse(Element xtr, BpmnModel model)  {
+        auto signalId = xtr.firstAttribute(ATTRIBUTE_ID);
+        auto signalName = xtr.firstAttribute(ATTRIBUTE_NAME);
 
-        Signal signal = new Signal(signalId, signalName);
+        Signal signal = new Signal(signalId is null ? "" : signalId.getValue, signalName is null ? "" : signalName.getValue);
 
-        String scope = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_SCOPE, xtr);
-        if (scope != null) {
-            signal.setScope(scope);
+        string scop = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_SCOPE, xtr);
+        if (scop !is null) {
+            signal.setScope(scop);
         }
 
         BpmnXMLUtil.addXMLLocation(signal, xtr);

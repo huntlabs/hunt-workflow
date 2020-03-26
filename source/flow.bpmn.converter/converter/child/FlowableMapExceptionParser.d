@@ -10,51 +10,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.exceptions.XMLException;
+module flow.bpmn.converter.converter.child.FlowableMapExceptionParser;
+import hunt.Exceptions;
 import flow.bpmn.model.Activity;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.MapExceptionEntry;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import std.string;
 /**
  * @author Saeid Mirzaei
  */
 
-public class FlowableMapExceptionParser extends BaseChildElementParser {
+class FlowableMapExceptionParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return MAP_EXCEPTION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof Activity))
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        if (cast(Activity)parentElement is null)
             return;
 
-        String errorCode = xtr.getAttributeValue(null, MAP_EXCEPTION_ERRORCODE);
-        String andChildren = xtr.getAttributeValue(null, MAP_EXCEPTION_ANDCHILDREN);
-        String rootCause = xtr.getAttributeValue(null, MAP_EXCEPTION_ROOTCAUSE);
-        String exceptionClass = xtr.getElementText();
-        boolean hasChildrenBool = false;
+        auto errorCode = xtr.firstAttribute(MAP_EXCEPTION_ERRORCODE);
+        auto andChildren = xtr.firstAttribute(MAP_EXCEPTION_ANDCHILDREN);
+        auto rootCause = xtr.firstAttribute(MAP_EXCEPTION_ROOTCAUSE);
+        string exceptionClass = xtr.getText();
+        bool hasChildrenBool = false;
 
-        if (StringUtils.isEmpty(andChildren) || andChildren.toLowerCase().equals("false")) {
+        if ((andChildren !is null && andChildren.getValue.length != 0) || icmp(andChildren is null ? "" : andChildren.getValue,"false") == 0) {
             hasChildrenBool = false;
-        } else if (andChildren.toLowerCase().equals("true")) {
+        } else if (icmp(andChildren,"true") == 0) {
             hasChildrenBool = true;
         } else {
-            throw new XMLException("'" + andChildren + "' is not valid boolean in mapException with errorCode=" + errorCode + " and class=" + exceptionClass);
+            logError("XMLException andChildren is not valid bool in mapException with errorCode");
+           // throw new XMLException("'" + andChildren + "' is not valid bool in mapException with errorCode=" + errorCode + " and class=" + exceptionClass);
         }
 
-        if (StringUtils.isEmpty(errorCode) || StringUtils.isEmpty(errorCode.trim())) {
-            throw new XMLException("No errorCode defined mapException with errorCode=" + errorCode + " and class=" + exceptionClass);
+        if ((errorCode is null || errorCode.getValue.length == 0) ) {
+            logError("No errorCode defined mapException with errorCode");
+          //  throw new XMLException("No errorCode defined mapException with errorCode=" + errorCode + " and class=" + exceptionClass);
         }
 
-        ((Activity) parentElement).getMapExceptions().add(new MapExceptionEntry(errorCode, exceptionClass, hasChildrenBool, rootCause));
+        (cast(Activity) parentElement).getMapExceptions().add(new MapExceptionEntry(errorCode.getValue, exceptionClass, hasChildrenBool, rootCause.getValue));
     }
 }

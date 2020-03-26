@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.bpmn.behavior.BpmnActivityBehavior;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableException;
@@ -32,10 +31,7 @@ import flow.job.service.impl.persistence.entity.TimerJobEntity;
  *
  * @author Joram Barrez
  */
-class BpmnActivityBehavior implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+class BpmnActivityBehavior {
     /**
      * Performs the default outgoing BPMN 2.0 behavior, which is having parallel paths of executions for the outgoing sequence flow.
      *
@@ -53,15 +49,15 @@ class BpmnActivityBehavior implements Serializable {
      */
     protected void dispatchJobCanceledEvents(ExecutionEntity activityExecution) {
         if (activityExecution !is null) {
-            List<JobEntity> jobs = activityExecution.getJobs();
+            List!JobEntity jobs = activityExecution.getJobs();
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-                for (JobEntity job : jobs) {
+                foreach (JobEntity job ; jobs) {
                     eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
                 }
 
-                List<TimerJobEntity> timerJobs = activityExecution.getTimerJobs();
-                for (TimerJobEntity job : timerJobs) {
+                List!TimerJobEntity timerJobs = activityExecution.getTimerJobs();
+                foreach (TimerJobEntity job ; timerJobs) {
                     eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
                 }
             }

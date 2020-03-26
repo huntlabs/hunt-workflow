@@ -10,41 +10,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.MessageParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Message;
-
+import hunt.xml;
+import std.string;
 /**
  * @author Tijs Rademakers
  */
-public class MessageParser implements BpmnXMLConstants {
+class MessageParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-        if (StringUtils.isNotEmpty(xtr.getAttributeValue(null, ATTRIBUTE_ID))) {
-            String messageId = xtr.getAttributeValue(null, ATTRIBUTE_ID);
-            String messageName = xtr.getAttributeValue(null, ATTRIBUTE_NAME);
-            String itemRef = parseItemRef(xtr.getAttributeValue(null, ATTRIBUTE_ITEM_REF), model);
-            Message message = new Message(messageId, messageName, itemRef);
+    public void parse(Element xtr, BpmnModel model)  {
+        if (xtr.firstAttribute(ATTRIBUTE_ID) !is null && xtr.firstAttribute(ATTRIBUTE_ID).getValue.length != 0) {
+            auto messageId = xtr.firstAttribute(ATTRIBUTE_ID);
+            auto messageName = xtr.firstAttribute(ATTRIBUTE_NAME);
+            string itemRef = parseItemRef(xtr.firstAttribute(ATTRIBUTE_ITEM_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ITEM_REF).getValue, model);
+            Message message = new Message(messageId is null ? "" : messageId.getValue, messageName is null ? "" : messageName.getValue, itemRef);
             BpmnXMLUtil.addXMLLocation(message, xtr);
             BpmnXMLUtil.parseChildElements(ELEMENT_MESSAGE, message, xtr, model);
             model.addMessage(message);
         }
     }
 
-    protected String parseItemRef(String itemRef, BpmnModel model) {
-        String result = null;
-        if (StringUtils.isNotEmpty(itemRef)) {
+    protected string parseItemRef(string itemRef, BpmnModel model) {
+        string result;
+        if (itemRef.length != 0) {
             int indexOfP = itemRef.indexOf(':');
             if (indexOfP != -1) {
-                String prefix = itemRef.substring(0, indexOfP);
-                String resolvedNamespace = model.getNamespace(prefix);
-                result = resolvedNamespace + ":" + itemRef.substring(indexOfP + 1);
+                string prefix = itemRef[0 .. indexOfP];
+                string resolvedNamespace = model.getNamespace(prefix);
+                result = resolvedNamespace ~ ":" ~ itemRef[indexOfP + 1 .. $];
             } else {
                 result = itemRef;
             }

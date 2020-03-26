@@ -10,36 +10,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.parser.ResourceParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Resource;
 import flow.bpmn.model.UserTask;
-
+import hunt.xml;
+import flow.bpmn.model.Process;
 /**
  * @author Tim Stephenson
  */
-public class ResourceParser implements BpmnXMLConstants {
+class ResourceParser : BpmnXMLConstants {
 
-    public void parse(XMLStreamReader xtr, BpmnModel model) throws Exception {
-        String resourceId = xtr.getAttributeValue(null, ATTRIBUTE_ID);
-        String resourceName = xtr.getAttributeValue(null, ATTRIBUTE_NAME);
+    public void parse(Element xtr, BpmnModel model)  {
+        string resourceId = xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue;
+        string resourceName = xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue;
 
         Resource resource;
         if (model.containsResourceId(resourceId)) {
             resource = model.getResource(resourceId);
             resource.setName(resourceName);
-            for (flow.bpmn.model.Process process : model.getProcesses()) {
-                for (FlowElement fe : process.getFlowElements()) {
-                    if (fe instanceof UserTask
-                            && ((UserTask) fe).getCandidateGroups().contains(resourceId)) {
-                        ((UserTask) fe).getCandidateGroups().remove(resourceId);
-                        ((UserTask) fe).getCandidateGroups().add(resourceName);
+            foreach (flow.bpmn.model.Process process ; model.getProcesses()) {
+                foreach (FlowElement fe ; process.getFlowElements()) {
+                    if (cast(UserTask)fe !is null
+                            && (cast(UserTask) fe).getCandidateGroups().contains(resourceId)) {
+                        (cast(UserTask) fe).getCandidateGroups().remove(resourceId);
+                        (cast(UserTask) fe).getCandidateGroups().add(resourceName);
                     }
                 }
             }

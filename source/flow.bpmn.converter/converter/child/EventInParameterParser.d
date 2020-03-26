@@ -10,33 +10,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.EventInParameterParser;
 
 
-import javax.xml.stream.XMLStreamReader;
-
-import org.apache.commons.lang3.StringUtils;
+import hunt.Exceptions;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ExtensionAttribute;
 import flow.bpmn.model.IOParameter;
 import flow.bpmn.model.SendEventServiceTask;
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
+import hunt.logging;
+import std.string;
+import std.algorithm;
 
-public class EventInParameterParser extends BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+class EventInParameterParser : BaseChildElementParser {
+
+    override
+    public string getElementName() {
         return ELEMENT_EVENT_IN_PARAMETER;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        String source = xtr.getAttributeValue(null, ATTRIBUTE_IOPARAMETER_SOURCE);
-        String sourceExpression = xtr.getAttributeValue(null, ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION);
-        String target = xtr.getAttributeValue(null, ATTRIBUTE_IOPARAMETER_TARGET);
-        if ((StringUtils.isNotEmpty(source) || StringUtils.isNotEmpty(sourceExpression)) && StringUtils.isNotEmpty(target)) {
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        auto source = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_SOURCE);
+        auto sourceExpression = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION);
+        auto target = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_TARGET);
+        if (((source !is null && source.getValue().length != 0) || (sourceExpression !is null && sourceExpression.getValue().length != 0)) && (target !is null && target.getValue().length != 0)) {
 
             IOParameter parameter = new IOParameter();
-            if (StringUtils.isNotEmpty(sourceExpression)) {
+            if (sourceExpression !is null && sourceExpression.getValue().length != 0) {
                 parameter.setSourceExpression(sourceExpression);
             } else {
                 parameter.setSource(source);
@@ -44,27 +51,31 @@ public class EventInParameterParser extends BaseChildElementParser {
 
             parameter.setTarget(target);
 
-            for (int i = 0; i < xtr.getAttributeCount(); i++) {
-                String attributeName = xtr.getAttributeLocalName(i);
-                if (ATTRIBUTE_IOPARAMETER_SOURCE.equals(attributeName) || ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION.equals(attributeName) ||
-                                ATTRIBUTE_IOPARAMETER_TARGET.equals(attributeName)) {
-
+            Attribute arr = xtr.firstAttribute();
+            while (arr !is null) {
+                string attributeName = arr.getName;
+                if (ATTRIBUTE_IOPARAMETER_SOURCE == (attributeName) || ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION == (attributeName) ||
+                                ATTRIBUTE_IOPARAMETER_TARGET == (attributeName)) {
+                   arr = arr.nextAttribute;
                     continue;
                 }
 
                 ExtensionAttribute extensionAttribute = new ExtensionAttribute();
                 extensionAttribute.setName(attributeName);
-                extensionAttribute.setValue(xtr.getAttributeValue(i));
-                if (StringUtils.isNotEmpty(xtr.getAttributeNamespace(i))) {
-                    extensionAttribute.setNamespace(xtr.getAttributeNamespace(i));
+                extensionAttribute.setValue(getName.getValue());
+                if (startsWith(arr.getName(),"xmlns")) {
+                    extensionAttribute.setNamespace(arr.getValue());
                 }
-                if (StringUtils.isNotEmpty(xtr.getAttributePrefix(i))) {
-                    extensionAttribute.setNamespacePrefix(xtr.getAttributePrefix(i));
+                if (startsWith(arr.getName(),"xmlns:")) {
+                    long index = arr.getName().indexOf(":");
+                    extensionAttribute.setNamespacePrefix(arr.getName[index + 1 .. $]);
                 }
                 parameter.addAttribute(extensionAttribute);
+
+                arr = arr.nextAttribute;
             }
 
-            ((SendEventServiceTask) parentElement).getEventInParameters().add(parameter);
+            (cast(SendEventServiceTask) parentElement).getEventInParameters().add(parameter);
         }
     }
 }

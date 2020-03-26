@@ -10,30 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.TimeDurationParser;
 
-
-import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.TimerEventDefinition;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class TimeDurationParser extends BaseChildElementParser {
+class TimeDurationParser : BaseChildElementParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ATTRIBUTE_TIMER_DURATION;
     }
 
-    @Override
-    public void parseChildElement(XMLStreamReader xtr, BaseElement parentElement, BpmnModel model) throws Exception {
-        if (!(parentElement instanceof TimerEventDefinition))
-            return;
-
-        TimerEventDefinition eventDefinition = (TimerEventDefinition) parentElement;
-        eventDefinition.setTimeDuration(xtr.getElementText());
+    override
+    public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+        TimerEventDefinition eventDefinition = cast(TimerEventDefinition) parentElement;
+        if (eventDefinition is null) return;
+        eventDefinition.setTimeDuration(xtr.getText());
     }
 }

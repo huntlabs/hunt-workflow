@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.HttpServiceTaskXMLConverter;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.HttpServiceTask;
-
+import flow.bpmn.converter.converter.ServiceTaskXMLConverter;
 /**
  * @author Tijs Rademakers
  */
-public class HttpServiceTaskXMLConverter extends ServiceTaskXMLConverter {
+class HttpServiceTaskXMLConverter : ServiceTaskXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return HttpServiceTask.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(HttpServiceTask);
     }
 }

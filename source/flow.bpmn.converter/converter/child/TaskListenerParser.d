@@ -10,26 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.bpmn.converter.converter.child.TaskListenerParser;
 
-
+import flow.bpmn.converter.converter.child.FlowableListenerParser;
 import flow.bpmn.model.FlowableListener;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.UserTask;
-
+import flow.bpmn.converter.converter.child.BaseChildElementParser;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import hunt.xml;
+import std.uni;
 /**
  * @author Tijs Rademakers
  */
-public class TaskListenerParser extends FlowableListenerParser {
+class TaskListenerParser : FlowableListenerParser {
 
-    @Override
-    public String getElementName() {
+    override
+    public string getElementName() {
         return ELEMENT_TASK_LISTENER;
     }
 
-    @Override
+    override
     public void addListenerToParent(FlowableListener listener, BaseElement parentElement) {
-        if (parentElement instanceof UserTask) {
-            ((UserTask) parentElement).getTaskListeners().add(listener);
+        if ( cast(UserTask)parentElement !is null ) {
+            (cast(UserTask) parentElement).getTaskListeners().add(listener);
         }
     }
 }

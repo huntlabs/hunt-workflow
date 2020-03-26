@@ -10,66 +10,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.TextAnnotationXMLConverter;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.converter.child.BaseChildElementParser;
 import flow.bpmn.converter.converter.child.TextAnnotationTextParser;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.TextAnnotation;
-
+import flow.bpmn.converter.constants.BpmnXMLConstants;
+import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
+import hunt.xml;
 /**
  * @author Tijs Rademakers
  */
-public class TextAnnotationXMLConverter extends BaseBpmnXMLConverter {
+class TextAnnotationXMLConverter : BaseBpmnXMLConverter {
 
-    protected Map<String, BaseChildElementParser> childParserMap = new HashMap<>();
+    protected Map!(string, BaseChildElementParser) childParserMap  ;//= new HashMap<>();
 
-    public TextAnnotationXMLConverter() {
+    this() {
+        childParserMap = new HashMap!(string, BaseChildElementParser);
         TextAnnotationTextParser annotationTextParser = new TextAnnotationTextParser();
         childParserMap.put(annotationTextParser.getElementName(), annotationTextParser);
     }
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return TextAnnotation.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(TextAnnotation);
     }
 
-    @Override
-    protected String getXMLElementName() {
+    override
+    protected string getXMLElementName() {
         return ELEMENT_TEXT_ANNOTATION;
     }
 
-    @Override
-    protected BaseElement convertXMLToElement(XMLStreamReader xtr, BpmnModel model) throws Exception {
+    override
+    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         TextAnnotation textAnnotation = new TextAnnotation();
         BpmnXMLUtil.addXMLLocation(textAnnotation, xtr);
-        textAnnotation.setTextFormat(xtr.getAttributeValue(null, ATTRIBUTE_TEXTFORMAT));
+        textAnnotation.setTextFormat(xtr.firstAttribute(ATTRIBUTE_TEXTFORMAT) is null ? "" : xtr.firstAttribute(ATTRIBUTE_TEXTFORMAT).getValue);
         parseChildElements(getXMLElementName(), textAnnotation, childParserMap, model, xtr);
         return textAnnotation;
     }
 
-    @Override
-    protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        TextAnnotation textAnnotation = (TextAnnotation) element;
-        writeDefaultAttribute(ATTRIBUTE_TEXTFORMAT, textAnnotation.getTextFormat(), xtw);
-    }
-
-    @Override
-    protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw) throws Exception {
-        TextAnnotation textAnnotation = (TextAnnotation) element;
-        if (StringUtils.isNotEmpty(textAnnotation.getText())) {
-            xtw.writeStartElement(ELEMENT_TEXT_ANNOTATION_TEXT);
-            xtw.writeCharacters(textAnnotation.getText());
-            xtw.writeEndElement();
-        }
-    }
+    //override
+    //protected void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    TextAnnotation textAnnotation = (TextAnnotation) element;
+    //    writeDefaultAttribute(ATTRIBUTE_TEXTFORMAT, textAnnotation.getTextFormat(), xtw);
+    //}
+    //
+    //override
+    //protected void writeAdditionalChildElements(BaseElement element, BpmnModel model, XMLStreamWriter xtw)  {
+    //    TextAnnotation textAnnotation = (TextAnnotation) element;
+    //    if (stringUtils.isNotEmpty(textAnnotation.getText())) {
+    //        xtw.writeStartElement(ELEMENT_TEXT_ANNOTATION_TEXT);
+    //        xtw.writeCharacters(textAnnotation.getText());
+    //        xtw.writeEndElement();
+    //    }
+    //}
 }

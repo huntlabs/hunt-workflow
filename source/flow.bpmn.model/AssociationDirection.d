@@ -21,20 +21,20 @@ class AssociationDirection :AbstractEnum!AssociationDirection {
 
    static AssociationDirection NONE() {
          __gshared AssociationDirection  inst;
-         return initOnce!inst(inst = new AssociationDirection!("None", 0));
+         return initOnce!inst(inst = new AssociationDirection!("NONE", 0));
      }
 
      static AssociationDirection ONE() {
        __gshared AssociationDirection  inst;
-       return initOnce!inst(inst = new AssociationDirection!("One", 1));
+       return initOnce!inst(inst = new AssociationDirection!("ONE", 1));
      }
 
        static AssociationDirection BOTH() {
          __gshared AssociationDirection  inst;
-         return initOnce!inst(inst = new AssociationDirection!("Both", 2));
+         return initOnce!inst(inst = new AssociationDirection!("BOTH", 2));
        }
 
-    final string value;
+    string value;
 
     this(string value ,int v) {
         this.value = value;

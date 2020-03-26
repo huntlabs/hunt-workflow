@@ -10,19 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.bpmn.converter.converter.SendEventServiceTaskXMLConverter;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.SendEventServiceTask;
+import flow.bpmn.converter.converter.ServiceTaskXMLConverter;
 
 /**
  * @author Tijs Rademakers
  */
-public class SendEventServiceTaskXMLConverter extends ServiceTaskXMLConverter {
+class SendEventServiceTaskXMLConverter : ServiceTaskXMLConverter {
 
-    @Override
-    public Class<? extends BaseElement> getBpmnElementType() {
-        return SendEventServiceTask.class;
+    override
+    public TypeInfo getBpmnElementType() {
+        return typeid(SendEventServiceTask);
     }
 
 }
