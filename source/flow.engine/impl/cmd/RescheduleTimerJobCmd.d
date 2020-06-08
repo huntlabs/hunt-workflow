@@ -24,7 +24,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TimerUtil;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
-class RescheduleTimerJobCmd implements Command<TimerJobEntity>, Serializable {
+class RescheduleTimerJobCmd implements Command!TimerJobEntity, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,7 +59,7 @@ class RescheduleTimerJobCmd implements Command<TimerJobEntity>, Serializable {
         this.calendarName = calendarName;
     }
 
-    @Override
+    override
     public TimerJobEntity execute(CommandContext commandContext) {
         TimerEventDefinition ted = new TimerEventDefinition();
         ted.setTimeDate(timeDate);

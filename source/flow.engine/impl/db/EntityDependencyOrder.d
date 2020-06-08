@@ -41,11 +41,11 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntityImpl;
 import flow.engine.impl.persistence.entity.ResourceEntityImpl;
 import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntityImpl;
 import org.flowable.entitylink.service.impl.persistence.entity.HistoricEntityLinkEntityImpl;
-import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntityImpl;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityImpl;
-import org.flowable.eventsubscription.service.impl.persistence.entity.GenericEventSubscriptionEntityImpl;
-import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntityImpl;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntityImpl;
+import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntityImpl;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityImpl;
+import flow.eventsubscription.service.impl.persistence.entity.GenericEventSubscriptionEntityImpl;
+import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntityImpl;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntityImpl;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntityImpl;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntityImpl;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntityImpl;
@@ -65,8 +65,8 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntityImpl;
  */
 class EntityDependencyOrder {
 
-    public static List<Class<? extends Entity>> DELETE_ORDER = new ArrayList<>();
-    public static List<Class<? extends Entity>> INSERT_ORDER;
+    public static List<Class<? : Entity>> DELETE_ORDER = new ArrayList<>();
+    public static List<Class<? : Entity>> INSERT_ORDER;
 
     static {
 

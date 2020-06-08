@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.AdhocSubProcessActivityBehavior;
 
 import hunt.collection;
 import hunt.collection.HashMap;
@@ -22,17 +22,16 @@ import flow.bpmn.model.SubProcess;
 import flow.bpmn.model.ValuedDataObject;
 import flow.common.api.FlowableException;
 import flow.engine.deleg.DelegateExecution;
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 
 /**
  * Implementation of the BPMN 2.0 ad-hoc subprocess.
  *
  * @author Tijs Rademakers
  */
-class AdhocSubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
+class AdhocSubProcessActivityBehavior : AbstractBpmnActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         SubProcess subProcess = getSubProcessFromExecution(execution);
         execution.setScope(true);
@@ -47,19 +46,19 @@ class AdhocSubProcessActivityBehavior extends AbstractBpmnActivityBehavior {
     protected SubProcess getSubProcessFromExecution(DelegateExecution execution) {
         FlowElement flowElement = execution.getCurrentFlowElement();
         SubProcess subProcess = null;
-        if (flowElement instanceof SubProcess) {
-            subProcess = (SubProcess) flowElement;
+        if (cast(SubProcess)flowElement !is null) {
+            subProcess = cast(SubProcess) flowElement;
         } else {
-            throw new FlowableException("Programmatic error: sub process behaviour can only be applied" + " to a SubProcess instance, but got an instance of " + flowElement);
+            throw new FlowableException("Programmatic error: sub process behaviour can only be applied" ~ " to a SubProcess instance, but got an instance of " );
         }
         return subProcess;
     }
 
-    protected Map!(string, Object) processDataObjects(Collection<ValuedDataObject> dataObjects) {
-        Map!(string, Object) variablesMap = new HashMap<>();
+    protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {
+        Map!(string, Object) variablesMap = new HashMap!(string, Object)();
         // convert data objects to process variables
         if (dataObjects !is null) {
-            for (ValuedDataObject dataObject : dataObjects) {
+            foreach (ValuedDataObject dataObject ; dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }
         }

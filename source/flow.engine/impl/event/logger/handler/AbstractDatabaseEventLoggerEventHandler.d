@@ -86,17 +86,17 @@ abstract class AbstractDatabaseEventLoggerEventHandler implements EventLoggerEve
 
     }
 
-    @Override
+    override
     public void setEvent(FlowableEvent event) {
         this.event = event;
     }
 
-    @Override
+    override
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 
-    @Override
+    override
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }

@@ -28,7 +28,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class CompleteAdhocSubProcessCmd implements Command<Void>, Serializable {
+class CompleteAdhocSubProcessCmd implements Command!Void, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ class CompleteAdhocSubProcessCmd implements Command<Void>, Serializable {
         this.executionId = executionId;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity execution = executionEntityManager.findById(executionId);
@@ -50,7 +50,7 @@ class CompleteAdhocSubProcessCmd implements Command<Void>, Serializable {
             throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
         }
 
-        List<? extends ExecutionEntity> childExecutions = execution.getExecutions();
+        List<? : ExecutionEntity> childExecutions = execution.getExecutions();
         if (childExecutions.size() > 0) {
             throw new FlowableException("Ad-hoc sub process has running child executions that need to be completed first");
         }

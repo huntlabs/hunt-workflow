@@ -31,7 +31,7 @@ module flow.engine.compatibility.DefaultFlowable5CompatibilityHandlerFactory;
 //
 //    protected string compatibilityHandlerClassName;
 //
-//    @Override
+//    override
 //    public Flowable5CompatibilityHandler createFlowable5CompatibilityHandler() {
 //
 //        if (compatibilityHandlerClassName is null) {

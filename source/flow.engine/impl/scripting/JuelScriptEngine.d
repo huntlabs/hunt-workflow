@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,12 +52,12 @@ import flow.engine.impl.bpmn.data.ItemInstance;
 
 /**
  * ScriptEngine that used JUEL for script evaluation and compilation (JSR-223).
- * 
+ *
  * Uses EL 1.1 if available, to resolve expressions. Otherwise it reverts to EL 1.0, using {@link ExpressionFactoryResolver}.
- * 
+ *
  * @author Frederik Heremans
  */
-class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
+class JuelScriptEngine : AbstractScriptEngine implements Compilable {
 
     private ScriptEngineFactory scriptEngineFactory;
     private ExpressionFactory expressionFactory;
@@ -72,30 +72,30 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
         this(null);
     }
 
-    @Override
+    override
     public CompiledScript compile(string script) throws ScriptException {
         ValueExpression expr = parse(script, context);
         return new JuelCompiledScript(expr);
     }
 
-    @Override
+    override
     public CompiledScript compile(Reader reader) throws ScriptException {
         // Create a string based on the reader and compile it
         return compile(readFully(reader));
     }
 
-    @Override
+    override
     public Object eval(string script, ScriptContext scriptContext) throws ScriptException {
         ValueExpression expr = parse(script, scriptContext);
         return evaluateExpression(expr, scriptContext);
     }
 
-    @Override
+    override
     public Object eval(Reader reader, ScriptContext scriptContext) throws ScriptException {
         return eval(readFully(reader), scriptContext);
     }
 
-    @Override
+    override
     public ScriptEngineFactory getFactory() {
         synchronized (this) {
             if (scriptEngineFactory is null) {
@@ -105,7 +105,7 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
         return scriptEngineFactory;
     }
 
-    @Override
+    override
     public Bindings createBindings() {
         return new SimpleBindings();
     }
@@ -176,17 +176,17 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
             VariableMapper varMapper = new ScriptContextVariableMapper(scriptCtx);
             FunctionMapper funcMapper = new ScriptContextFunctionMapper(scriptCtx);
 
-            @Override
+            override
             public ELResolver getELResolver() {
                 return resolver;
             }
 
-            @Override
+            override
             public VariableMapper getVariableMapper() {
                 return varMapper;
             }
 
-            @Override
+            override
             public FunctionMapper getFunctionMapper() {
                 return funcMapper;
             }
@@ -243,10 +243,10 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
 
     /**
      * Class representing a compiled script using JUEL.
-     * 
+     *
      * @author Frederik Heremans
      */
-    private class JuelCompiledScript extends CompiledScript {
+    private class JuelCompiledScript : CompiledScript {
 
         private ValueExpression valueExpression;
 
@@ -254,13 +254,13 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
             this.valueExpression = valueExpression;
         }
 
-        @Override
+        override
         public ScriptEngine getEngine() {
             // Return outer class instance
             return JuelScriptEngine.this;
         }
 
-        @Override
+        override
         public Object eval(ScriptContext ctx) throws ScriptException {
             return evaluateExpression(valueExpression, ctx);
         }
@@ -268,10 +268,10 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
 
     /**
      * ValueMapper that uses the ScriptContext to get variable values or value expressions.
-     * 
+     *
      * @author Frederik Heremans
      */
-    private class ScriptContextVariableMapper extends VariableMapper {
+    private class ScriptContextVariableMapper : VariableMapper {
 
         private ScriptContext scriptContext;
 
@@ -279,7 +279,7 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
             this.scriptContext = scriptCtx;
         }
 
-        @Override
+        override
         public ValueExpression resolveVariable(string variableName) {
             int scope = scriptContext.getAttributesScope(variableName);
             if (scope != -1) {
@@ -295,7 +295,7 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
             return null;
         }
 
-        @Override
+        override
         public ValueExpression setVariable(string name, ValueExpression value) {
             ValueExpression previousValue = resolveVariable(name);
             scriptContext.setAttribute(name, value, ScriptContext.ENGINE_SCOPE);
@@ -305,10 +305,10 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
 
     /**
      * FunctionMapper that uses the ScriptContext to resolve functions in EL.
-     * 
+     *
      * @author Frederik Heremans
      */
-    private static class ScriptContextFunctionMapper extends FunctionMapper {
+    private static class ScriptContextFunctionMapper : FunctionMapper {
 
         private ScriptContext scriptContext;
 
@@ -320,7 +320,7 @@ class JuelScriptEngine extends AbstractScriptEngine implements Compilable {
             return prefix + ":" + localName;
         }
 
-        @Override
+        override
         public Method resolveFunction(string prefix, string localName) {
             string functionName = getFullFunctionName(prefix, localName);
             int scope = scriptContext.getAttributesScope(functionName);

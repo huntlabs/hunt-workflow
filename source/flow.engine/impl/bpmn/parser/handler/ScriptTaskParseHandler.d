@@ -22,16 +22,16 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-class ScriptTaskParseHandler extends AbstractActivityBpmnParseHandler<ScriptTask> {
+class ScriptTaskParseHandler : AbstractActivityBpmnParseHandler!ScriptTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ScriptTaskParseHandler.class);
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ScriptTask.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ScriptTask scriptTask) {
 
         if (StringUtils.isEmpty(scriptTask.getScript())) {

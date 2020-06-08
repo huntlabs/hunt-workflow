@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.impl.MybatisDeploymentDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -22,52 +22,120 @@ import flow.engine.impl.persistence.entity.DeploymentEntityImpl;
 import flow.engine.impl.persistence.entity.data.AbstractProcessDataManager;
 import flow.engine.impl.persistence.entity.data.DeploymentDataManager;
 import flow.engine.repository.Deployment;
-
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
+import flow.common.runtime.Clock;
+import hunt.logging;
+import hunt.collection.ArrayList;
+import hunt.entity;
 /**
  * @author Joram Barrez
  */
-class MybatisDeploymentDataManager extends AbstractProcessDataManager<DeploymentEntity> implements DeploymentDataManager {
+class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , string) , DeploymentDataManager {
 
-    public MybatisDeploymentDataManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
-        super(processEngineConfiguration);
+    private ProcessEngineConfigurationImpl processEngineConfiguration;
+
+
+    public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
+      return processEngineConfiguration;
     }
 
-    @Override
-    class<? extends DeploymentEntity> getManagedEntityClass() {
-        return DeploymentEntityImpl.class;
+    public Clock getClock() {
+      return processEngineConfiguration.getClock();
     }
 
-    @Override
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
+      this.processEngineConfiguration = processEngineConfiguration;
+      super(entityManagerFactory.createEntityManager());
+    }
+
+    //
+    //class<? : DeploymentEntity> getManagedEntityClass() {
+    //    return DeploymentEntityImpl.class;
+    //}
+
+  public DeploymentEntity findById(string entityId) {
+    if (entityId is null) {
+      return null;
+    }
+
+    return find(entityId);
+  }
+  //
+  public void insert(DeploymentEntity entity) {
+    insert(cast(DeploymentEntityImpl)entity);
+    //getDbSqlSession().insert(entity);
+  }
+  public DeploymentEntity update(DeploymentEntity entity) {
+    return  update(cast(DeploymentEntityImpl)entity);
+    //getDbSqlSession().update(entity);
+    //return entity;
+  }
+  public void dele(string id) {
+    DeploymentEntity entity = findById(id);
+    if (entity !is null)
+    {
+      remove(cast(DeploymentEntityImpl)entity);
+    }
+    //delete(entity);
+  }
+
+  public void dele(DeploymentEntity entity) {
+    if (entity !is null)
+    {
+      remove(cast(DeploymentEntityImpl)entity);
+    }
+    //getDbSqlSession().delete(entity);
+  }
+
+
     public DeploymentEntity create() {
         return new DeploymentEntityImpl();
     }
 
-    @Override
+
     public long findDeploymentCountByQueryCriteria(DeploymentQueryImpl deploymentQuery) {
-        return (Long) getDbSqlSession().selectOne("selectDeploymentCountByQueryCriteria", deploymentQuery);
+        implementationMissing(false);
+        return 0;
+       // return (Long) getDbSqlSession().selectOne("selectDeploymentCountByQueryCriteria", deploymentQuery);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Deployment> findDeploymentsByQueryCriteria(DeploymentQueryImpl deploymentQuery) {
-        final string query = "selectDeploymentsByQueryCriteria";
-        return getDbSqlSession().selectList(query, deploymentQuery);
+
+    public List!Deployment findDeploymentsByQueryCriteria(DeploymentQueryImpl deploymentQuery) {
+        implementationMissing(false);
+        return null;
+        //final string query = "selectDeploymentsByQueryCriteria";
+        //return getDbSqlSession().selectList(query, deploymentQuery);
     }
 
-    @Override
+
     public List!string getDeploymentResourceNames(string deploymentId) {
-        return getDbSqlSession().getSqlSession().selectList("selectResourceNamesByDeploymentId", deploymentId);
+        implementationMissing(false);
+        return null;
+       // return getDbSqlSession().getSqlSession().selectList("selectResourceNamesByDeploymentId", deploymentId);
+      //scope(exit)
+      //{
+      //  _manager.close();
+      //}
+      //
+      //string[] array =  _manager.createQuery!(string)("SELECT name FROM DeploymentEntityImpl u WHERE u.deploymentId = :deploymentId order by name asc")
+      //.setParameter("deploymentId",deploymentId);
+      //.getResultList();
+      //return new ArrayList!ResourceEntityImpl(array);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Deployment> findDeploymentsByNativeQuery(Map!(string, Object) parameterMap) {
-        return getDbSqlSession().selectListWithRawParameter("selectDeploymentByNativeQuery", parameterMap);
+
+    public List!Deployment findDeploymentsByNativeQuery(Map!(string, Object) parameterMap) {
+        implementationMissing(false);
+        return null;
+       // return getDbSqlSession().selectListWithRawParameter("selectDeploymentByNativeQuery", parameterMap);
     }
 
-    @Override
+
     public long findDeploymentCountByNativeQuery(Map!(string, Object) parameterMap) {
-        return (Long) getDbSqlSession().selectOne("selectDeploymentCountByNativeQuery", parameterMap);
+        implementationMissing(false);
+        return 0;
+        //return (Long) getDbSqlSession().selectOne("selectDeploymentCountByNativeQuery", parameterMap);
     }
 
 }

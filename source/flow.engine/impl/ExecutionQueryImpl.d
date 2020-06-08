@@ -31,7 +31,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.Execution;
 import flow.engine.runtime.ExecutionQuery;
-import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryValue;
+import flow.eventsubscription.service.impl.EventSubscriptionQueryValue;
 import flow.variable.service.impl.AbstractVariableQueryImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -42,7 +42,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Frederik Heremans
  * @author Daniel Meyer
  */
-class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execution> implements ExecutionQuery, QueryCacheValues {
+class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution) implements ExecutionQuery, QueryCacheValues {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
@@ -59,7 +59,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     protected bool onlyProcessInstanceExecutions;
     protected string processInstanceId;
     protected string rootProcessInstanceId;
-    protected List<EventSubscriptionQueryValue> eventSubscriptions;
+    protected List!EventSubscriptionQueryValue eventSubscriptions;
 
     protected string tenantId;
     protected string tenantIdLike;
@@ -98,7 +98,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     protected string referenceId;
     protected string referenceType;
 
-    protected List<ExecutionQueryImpl> orQueryObjects = new ArrayList<>();
+    protected List!ExecutionQueryImpl orQueryObjects = new ArrayList<>();
     protected ExecutionQueryImpl currentOrQueryObject;
     protected bool inOrStatement;
 
@@ -117,7 +117,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return false; // see dynamic query
     }
 
-    @Override
+    override
     public ExecutionQueryImpl processDefinitionId(string processDefinitionId) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Process definition id is null");
@@ -130,7 +130,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl processDefinitionKey(string processDefinitionKey) {
         if (processDefinitionKey is null) {
             throw new FlowableIllegalArgumentException("Process definition key is null");
@@ -143,7 +143,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processDefinitionCategory(string processDefinitionCategory) {
         if (processDefinitionCategory is null) {
             throw new FlowableIllegalArgumentException("Process definition category is null");
@@ -156,7 +156,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processDefinitionName(string processDefinitionName) {
         if (processDefinitionName is null) {
             throw new FlowableIllegalArgumentException("Process definition name is null");
@@ -169,7 +169,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processDefinitionVersion(Integer processDefinitionVersion) {
         if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition version is null");
@@ -182,7 +182,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processDefinitionEngineVersion(string processDefinitionEngineVersion) {
         if (processDefinitionEngineVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition engine version is null");
@@ -195,7 +195,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl processInstanceId(string processInstanceId) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Process instance id is null");
@@ -208,7 +208,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl rootProcessInstanceId(string rootProcessInstanceId) {
         if (rootProcessInstanceId is null) {
             throw new FlowableIllegalArgumentException("Root process instance id is null");
@@ -221,7 +221,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processInstanceBusinessKey(string businessKey) {
         if (businessKey is null) {
             throw new FlowableIllegalArgumentException("Business key is null");
@@ -234,7 +234,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processInstanceBusinessKey(string processInstanceBusinessKey, bool includeChildExecutions) {
         if (!includeChildExecutions) {
             return processInstanceBusinessKey(processInstanceBusinessKey);
@@ -255,7 +255,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processDefinitionKeys(Set!string processDefinitionKeys) {
         if (processDefinitionKeys is null) {
             throw new FlowableIllegalArgumentException("Process definition keys is null");
@@ -268,7 +268,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl executionId(string executionId) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Execution id is null");
@@ -281,7 +281,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl activityId(string activityId) {
         if (inOrStatement) {
             this.currentOrQueryObject.activityId = activityId;
@@ -300,7 +300,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl parentId(string parentId) {
         if (parentId is null) {
             throw new FlowableIllegalArgumentException("Parent id is null");
@@ -313,7 +313,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery onlyChildExecutions() {
         if (inOrStatement) {
             this.currentOrQueryObject.onlyChildExecutions = true;
@@ -323,7 +323,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery onlySubProcessExecutions() {
         if (inOrStatement) {
             this.currentOrQueryObject.onlySubProcessExecutions = true;
@@ -333,7 +333,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery onlyProcessInstanceExecutions() {
         if (inOrStatement) {
             this.currentOrQueryObject.onlyProcessInstanceExecutions = true;
@@ -343,7 +343,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl executionTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("execution tenant id is null");
@@ -356,7 +356,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl executionTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("execution tenant id is null");
@@ -369,7 +369,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl executionWithoutTenantId() {
         if (inOrStatement) {
             this.currentOrQueryObject.withoutTenantId = true;
@@ -380,7 +380,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery executionReferenceId(string referenceId) {
         if (inOrStatement) {
             this.currentOrQueryObject.referenceId = referenceId;
@@ -390,7 +390,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery executionReferenceType(string referenceType) {
         if (inOrStatement) {
             this.currentOrQueryObject.referenceType = referenceType;
@@ -404,12 +404,12 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return eventSubscription("signal", signalName);
     }
 
-    @Override
+    override
     public ExecutionQuery signalEventSubscriptionName(string signalName) {
         return eventSubscription("signal", signalName);
     }
 
-    @Override
+    override
     public ExecutionQuery messageEventSubscriptionName(string messageName) {
         return eventSubscription("message", messageName);
     }
@@ -438,7 +438,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableName, variableValue, false);
@@ -448,7 +448,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, false);
@@ -458,7 +458,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, false);
@@ -468,7 +468,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, false);
@@ -478,7 +478,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, false);
@@ -488,7 +488,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueLike(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLike(name, value, false);
@@ -498,7 +498,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -508,7 +508,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value, false);
@@ -518,7 +518,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, false);
@@ -528,7 +528,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value, false);
@@ -538,7 +538,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, false);
@@ -548,7 +548,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableExists(name, false);
@@ -558,7 +558,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery processVariableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -568,7 +568,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableName, variableValue, true);
@@ -578,7 +578,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, true);
@@ -588,7 +588,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, true);
@@ -598,7 +598,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, true);
@@ -608,7 +608,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, true);
@@ -618,7 +618,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueLike(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLike(name, value, true);
@@ -628,7 +628,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, true);
@@ -638,7 +638,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value, true);
@@ -648,7 +648,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, true);
@@ -658,7 +658,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value, true);
@@ -668,7 +668,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, true);
@@ -678,7 +678,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableExists(name, true);
@@ -688,7 +688,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery variableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, true);
@@ -698,7 +698,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     public ExecutionQuery locale(string locale) {
         if (inOrStatement) {
             currentOrQueryObject.locale = locale;
@@ -709,7 +709,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery withLocalizationFallback() {
         if (inOrStatement) {
             currentOrQueryObject.withLocalizationFallback = true;
@@ -720,7 +720,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery startedBefore(Date beforeTime) {
         if (beforeTime is null) {
             throw new FlowableIllegalArgumentException("before time is null");
@@ -735,7 +735,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery startedAfter(Date afterTime) {
         if (afterTime is null) {
             throw new FlowableIllegalArgumentException("after time is null");
@@ -750,7 +750,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery startedBy(string userId) {
         if (userId is null) {
             throw new FlowableIllegalArgumentException("user id is null");
@@ -765,7 +765,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery or() {
         if (inOrStatement) {
             throw new FlowableException("the query is already in an or statement");
@@ -777,7 +777,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return this;
     }
 
-    @Override
+    override
     public ExecutionQuery endOr() {
         if (!inOrStatement) {
             throw new FlowableException("endOr() can only be called after calling or()");
@@ -790,25 +790,25 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     // ordering ////////////////////////////////////////////////////
 
-    @Override
+    override
     public ExecutionQueryImpl orderByProcessInstanceId() {
         this.orderProperty = ExecutionQueryProperty.PROCESS_INSTANCE_ID;
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl orderByProcessDefinitionId() {
         this.orderProperty = ExecutionQueryProperty.PROCESS_DEFINITION_ID;
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl orderByProcessDefinitionKey() {
         this.orderProperty = ExecutionQueryProperty.PROCESS_DEFINITION_KEY;
         return this;
     }
 
-    @Override
+    override
     public ExecutionQueryImpl orderByTenantId() {
         this.orderProperty = ExecutionQueryProperty.TENANT_ID;
         return this;
@@ -816,7 +816,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
 
     // results ////////////////////////////////////////////////////
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
 
@@ -829,8 +829,8 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
     }
 
     @SuppressWarnings({ "unchecked" })
-    @Override
-    public List<Execution> executeList(CommandContext commandContext) {
+    override
+    public List!Execution executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
@@ -841,7 +841,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         List<?> executions = CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionsByQueryCriteria(this);
 
         if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization()) {
-            for (ExecutionEntity execution : (List<ExecutionEntity>) executions) {
+            for (ExecutionEntity execution : (List!ExecutionEntity) executions) {
                 string activityId = null;
                 if (execution.getId().equals(execution.getProcessInstanceId())) {
                     if (execution.getProcessDefinitionId() !is null) {
@@ -862,10 +862,10 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
 
         if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
-            processEngineConfiguration.getExecutionQueryInterceptor().afterExecutionQueryExecute(this, (List<Execution>) executions);
+            processEngineConfiguration.getExecutionQueryInterceptor().afterExecutionQueryExecute(this, (List!Execution) executions);
         }
 
-        return (List<Execution>) executions;
+        return (List!Execution) executions;
     }
 
     protected void localize(Execution execution, string activityId) {
@@ -890,7 +890,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         }
     }
 
-    @Override
+    override
     protected void ensureVariablesInitialized() {
         super.ensureVariablesInitialized();
 
@@ -957,7 +957,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return executionId;
     }
 
-    @Override
+    override
     public string getId() {
         return executionId;
     }
@@ -982,7 +982,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         this.suspensionState = suspensionState;
     }
 
-    public List<EventSubscriptionQueryValue> getEventSubscriptions() {
+    public List!EventSubscriptionQueryValue getEventSubscriptions() {
         return eventSubscriptions;
     }
 
@@ -990,7 +990,7 @@ class ExecutionQueryImpl extends AbstractVariableQueryImpl<ExecutionQuery, Execu
         return includeChildExecutionsWithBusinessKeyQuery;
     }
 
-    public void setEventSubscriptions(List<EventSubscriptionQueryValue> eventSubscriptions) {
+    public void setEventSubscriptions(List!EventSubscriptionQueryValue eventSubscriptions) {
         this.eventSubscriptions = eventSubscriptions;
     }
 

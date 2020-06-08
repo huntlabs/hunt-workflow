@@ -29,7 +29,7 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ProcessInstance;
 import flow.engine.runtime.ProcessInstanceQuery;
-import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryValue;
+import flow.eventsubscription.service.impl.EventSubscriptionQueryValue;
 import flow.variable.service.impl.AbstractVariableQueryImpl;
 
 /**
@@ -40,7 +40,7 @@ import flow.variable.service.impl.AbstractVariableQueryImpl;
  * @author Falko Menge
  * @author Daniel Meyer
  */
-class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstanceQuery, ProcessInstance> implements
+class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery, ProcessInstance) implements
         ProcessInstanceQuery, QueryCacheValues, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -82,7 +82,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
     protected string tenantIdLike;
     protected bool withoutTenantId;
 
-    protected List<ProcessInstanceQueryImpl> orQueryObjects = new ArrayList<>();
+    protected List!ProcessInstanceQueryImpl orQueryObjects = new ArrayList<>();
     protected ProcessInstanceQueryImpl currentOrQueryObject;
     protected bool inOrStatement;
 
@@ -92,7 +92,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     // Unused, see dynamic query
     protected string activityId;
-    protected List<EventSubscriptionQueryValue> eventSubscriptions;
+    protected List!EventSubscriptionQueryValue eventSubscriptions;
     protected bool onlyChildExecutions;
     protected bool onlyProcessInstanceExecutions;
     protected bool onlySubProcessExecutions;
@@ -109,7 +109,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         super(commandExecutor);
     }
 
-    @Override
+    override
     public ProcessInstanceQueryImpl processInstanceId(string processInstanceId) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Process instance id is null");
@@ -122,7 +122,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceIds(Set!string processInstanceIds) {
         if (processInstanceIds is null) {
             throw new FlowableIllegalArgumentException("Set of process instance ids is null");
@@ -139,7 +139,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceBusinessKey(string businessKey) {
         if (businessKey is null) {
             throw new FlowableIllegalArgumentException("Business key is null");
@@ -152,7 +152,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceBusinessKey(string businessKey, string processDefinitionKey) {
         if (businessKey is null) {
             throw new FlowableIllegalArgumentException("Business key is null");
@@ -166,7 +166,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceBusinessKeyLike(string businessKeyLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.businessKeyLike = businessKeyLike;
@@ -176,7 +176,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("process instance tenant id is null");
@@ -189,7 +189,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("process instance tenant id is null");
@@ -202,7 +202,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceWithoutTenantId() {
         if (inOrStatement) {
             this.currentOrQueryObject.withoutTenantId = true;
@@ -212,7 +212,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processDefinitionCategory(string processDefinitionCategory) {
         if (processDefinitionCategory is null) {
             throw new FlowableIllegalArgumentException("Process definition category is null");
@@ -226,7 +226,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processDefinitionName(string processDefinitionName) {
         if (processDefinitionName is null) {
             throw new FlowableIllegalArgumentException("Process definition name is null");
@@ -240,7 +240,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processDefinitionVersion(Integer processDefinitionVersion) {
         if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition version is null");
@@ -254,7 +254,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQueryImpl processDefinitionId(string processDefinitionId) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Process definition id is null");
@@ -268,7 +268,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processDefinitionIds(Set!string processDefinitionIds) {
         if (processDefinitionIds is null) {
             throw new FlowableIllegalArgumentException("Set of process definition ids is null");
@@ -285,7 +285,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQueryImpl processDefinitionKey(string processDefinitionKey) {
         if (processDefinitionKey is null) {
             throw new FlowableIllegalArgumentException("Process definition key is null");
@@ -299,7 +299,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processDefinitionKeys(Set!string processDefinitionKeys) {
         if (processDefinitionKeys is null) {
             throw new FlowableIllegalArgumentException("Set of process definition keys is null");
@@ -316,7 +316,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processDefinitionEngineVersion(string processDefinitionEngineVersion) {
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionEngineVersion = processDefinitionEngineVersion;
@@ -326,7 +326,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQueryImpl deploymentId(string deploymentId) {
         if (inOrStatement) {
             this.currentOrQueryObject.deploymentId = deploymentId;
@@ -336,7 +336,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQueryImpl deploymentIdIn(List!string deploymentIds) {
         if (inOrStatement) {
             this.currentOrQueryObject.deploymentIds = deploymentIds;
@@ -346,7 +346,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery superProcessInstanceId(string superProcessInstanceId) {
         if (inOrStatement) {
             this.currentOrQueryObject.superProcessInstanceId = superProcessInstanceId;
@@ -356,7 +356,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery subProcessInstanceId(string subProcessInstanceId) {
         if (inOrStatement) {
             this.currentOrQueryObject.subProcessInstanceId = subProcessInstanceId;
@@ -366,7 +366,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery excludeSubprocesses(bool excludeSubprocesses) {
         if (inOrStatement) {
             this.currentOrQueryObject.excludeSubprocesses = excludeSubprocesses;
@@ -376,7 +376,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery involvedUser(string involvedUser) {
         if (involvedUser is null) {
             throw new FlowableIllegalArgumentException("Involved user is null");
@@ -390,7 +390,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery involvedGroups(Set!string involvedGroups) {
         if (involvedGroups is null) {
             throw new FlowableIllegalArgumentException("Involved groups are null");
@@ -407,7 +407,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery active() {
         if (inOrStatement) {
             this.currentOrQueryObject.suspensionState = SuspensionState.ACTIVE;
@@ -417,7 +417,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery suspended() {
         if (inOrStatement) {
             this.currentOrQueryObject.suspensionState = SuspensionState.SUSPENDED;
@@ -427,13 +427,13 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery includeProcessVariables() {
         this.includeProcessVariables = true;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery limitProcessInstanceVariables(Integer processInstanceVariablesLimit) {
         this.processInstanceVariablesLimit = processInstanceVariablesLimit;
         return this;
@@ -443,13 +443,13 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return processInstanceVariablesLimit;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery withJobException() {
         this.withJobException = true;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceName(string name) {
         if (inOrStatement) {
             this.currentOrQueryObject.name = name;
@@ -459,7 +459,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceNameLike(string nameLike) {
         if (inOrStatement) {
             this.currentOrQueryObject.nameLike = nameLike;
@@ -469,7 +469,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceNameLikeIgnoreCase(string nameLikeIgnoreCase) {
         if (inOrStatement) {
             this.currentOrQueryObject.nameLikeIgnoreCase = nameLikeIgnoreCase.toLowerCase();
@@ -479,7 +479,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceCallbackId(string callbackId) {
         if (inOrStatement) {
             this.currentOrQueryObject.callbackId = callbackId;
@@ -489,7 +489,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceCallbackType(string callbackType) {
         if (inOrStatement) {
             this.currentOrQueryObject.callbackType = callbackType;
@@ -499,7 +499,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceReferenceId(string referenceId) {
         if (inOrStatement) {
             this.currentOrQueryObject.referenceId = referenceId;
@@ -509,7 +509,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery processInstanceReferenceType(string referenceType) {
         if (inOrStatement) {
             this.currentOrQueryObject.referenceType = referenceType;
@@ -519,7 +519,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery or() {
         if (inOrStatement) {
             throw new FlowableException("the query is already in an or statement");
@@ -531,7 +531,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery endOr() {
         if (!inOrStatement) {
             throw new FlowableException("endOr() can only be called after calling or()");
@@ -542,7 +542,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableName, variableValue, false);
@@ -552,7 +552,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, false);
@@ -562,7 +562,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, false);
@@ -572,7 +572,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, false);
@@ -582,7 +582,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, false);
@@ -592,7 +592,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value, false);
@@ -602,7 +602,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, false);
@@ -612,7 +612,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value, false);
@@ -622,7 +622,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, false);
@@ -632,7 +632,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueLike(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLike(name, value, false);
@@ -642,7 +642,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -652,7 +652,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableExists(name, false);
@@ -662,7 +662,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery variableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -672,19 +672,19 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         }
     }
 
-    @Override
+    override
     public ProcessInstanceQuery locale(string locale) {
         this.locale = locale;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery withLocalizationFallback() {
         withLocalizationFallback = true;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery startedBefore(Date beforeTime) {
         if (inOrStatement) {
             this.currentOrQueryObject.startedBefore = beforeTime;
@@ -694,7 +694,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery startedAfter(Date afterTime) {
         if (inOrStatement) {
             this.currentOrQueryObject.startedAfter = afterTime;
@@ -704,7 +704,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery startedBy(string userId) {
         if (inOrStatement) {
             this.currentOrQueryObject.startedBy = userId;
@@ -714,30 +714,30 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery orderByProcessInstanceId() {
         this.orderProperty = ProcessInstanceQueryProperty.PROCESS_INSTANCE_ID;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery orderByProcessDefinitionId() {
         this.orderProperty = ProcessInstanceQueryProperty.PROCESS_DEFINITION_ID;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery orderByProcessDefinitionKey() {
         this.orderProperty = ProcessInstanceQueryProperty.PROCESS_DEFINITION_KEY;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceQuery orderByStartTime() {
         return orderBy(ProcessInstanceQueryProperty.PROCESS_START_TIME);
     }
 
-    @Override
+    override
     public ProcessInstanceQuery orderByTenantId() {
         this.orderProperty = ProcessInstanceQueryProperty.TENANT_ID;
         return this;
@@ -755,7 +755,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
 
     // results /////////////////////////////////////////////////////////////////
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
 
@@ -767,10 +767,10 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<ProcessInstance> executeList(CommandContext commandContext) {
+    override
+    public List!ProcessInstance executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
-        List<ProcessInstance> processInstances = null;
+        List!ProcessInstance processInstances = null;
 
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         if (processEngineConfiguration.getProcessInstanceQueryInterceptor() !is null) {
@@ -796,7 +796,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return processInstances;
     }
 
-    @Override
+    override
     protected void ensureVariablesInitialized() {
         super.ensureVariablesInitialized();
 
@@ -815,7 +815,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return executionId;
     }
 
-    @Override
+    override
     public string getId() {
         return executionId;
     }
@@ -904,11 +904,11 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         this.suspensionState = suspensionState;
     }
 
-    public List<EventSubscriptionQueryValue> getEventSubscriptions() {
+    public List!EventSubscriptionQueryValue getEventSubscriptions() {
         return eventSubscriptions;
     }
 
-    public void setEventSubscriptions(List<EventSubscriptionQueryValue> eventSubscriptions) {
+    public void setEventSubscriptions(List!EventSubscriptionQueryValue eventSubscriptions) {
         this.eventSubscriptions = eventSubscriptions;
     }
 
@@ -980,7 +980,7 @@ class ProcessInstanceQueryImpl extends AbstractVariableQueryImpl<ProcessInstance
         return referenceType;
     }
 
-    public List<ProcessInstanceQueryImpl> getOrQueryObjects() {
+    public List!ProcessInstanceQueryImpl getOrQueryObjects() {
         return orQueryObjects;
     }
 

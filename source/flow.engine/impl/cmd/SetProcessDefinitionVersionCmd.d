@@ -52,7 +52,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @see {http://forums.activiti.org/en/viewtopic.php?t=2918}
  * @author Falko Menge
  */
-class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
+class SetProcessDefinitionVersionCmd implements Command!Void, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -73,7 +73,7 @@ class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
         this.processDefinitionVersion = processDefinitionVersion;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         // check that the new process definition is just another version of the same
         // process definition that the process instance is using
@@ -104,7 +104,7 @@ class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
         CommandContextUtil.getHistoryManager(commandContext).recordProcessDefinitionChange(processInstanceId, newProcessDefinition.getId());
 
         // switch all sub-executions of the process instance to the new process definition version
-        Collection<ExecutionEntity> childExecutions = executionManager.findChildExecutionsByProcessInstanceId(processInstanceId);
+        Collection!ExecutionEntity childExecutions = executionManager.findChildExecutionsByProcessInstanceId(processInstanceId);
         for (ExecutionEntity executionEntity : childExecutions) {
             validateAndSwitchVersionOfExecution(commandContext, executionEntity, newProcessDefinition);
         }
@@ -126,7 +126,7 @@ class SetProcessDefinitionVersionCmd implements Command<Void>, Serializable {
         execution.setProcessDefinitionKey(newProcessDefinition.getKey());
 
         // and change possible existing tasks (as the process definition id is stored there too)
-        List<TaskEntity> tasks = CommandContextUtil.getTaskService(commandContext).findTasksByExecutionId(execution.getId());
+        List!TaskEntity tasks = CommandContextUtil.getTaskService(commandContext).findTasksByExecutionId(execution.getId());
         Clock clock = commandContext.getCurrentEngineConfiguration().getClock();
         for (TaskEntity taskEntity : tasks) {
             taskEntity.setProcessDefinitionId(newProcessDefinition.getId());

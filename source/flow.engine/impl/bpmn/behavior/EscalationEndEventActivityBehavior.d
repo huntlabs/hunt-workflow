@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.EscalationEndEventActivityBehavior;
 
 import flow.bpmn.model.Escalation;
 import flow.bpmn.model.EscalationEventDefinition;
@@ -18,23 +18,22 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.helper.EscalationPropagation;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
 
 /**
  * @author Tijs Rademakers
  */
-class EscalationEndEventActivityBehavior extends FlowNodeActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class EscalationEndEventActivityBehavior : FlowNodeActivityBehavior {
 
     protected EscalationEventDefinition escalationEventDefinition;
     protected Escalation escalation;
 
-    public EscalationEndEventActivityBehavior(EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
+    this(EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
         this.escalationEventDefinition = escalationEventDefinition;
         this.escalation = escalation;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         if (escalation !is null) {
             EscalationPropagation.propagateEscalation(escalation, execution);
@@ -43,7 +42,7 @@ class EscalationEndEventActivityBehavior extends FlowNodeActivityBehavior {
                             escalationEventDefinition.getEscalationCode(), execution);
         }
 
-        CommandContextUtil.getAgenda().planTakeOutgoingSequenceFlowsOperation((ExecutionEntity) execution, true);
+        CommandContextUtil.getAgenda().planTakeOutgoingSequenceFlowsOperation(cast(ExecutionEntity) execution, true);
     }
 
     public EscalationEventDefinition getEscalationEventDefinition() {

@@ -31,7 +31,7 @@ class WSService implements BpmnInterfaceImplementation {
 
     protected string location;
 
-    protected Map<string, WSOperation> operations;
+    protected Map!(string, WSOperation) operations;
 
     protected string wsdlLocation;
 
@@ -64,7 +64,7 @@ class WSService implements BpmnInterfaceImplementation {
         return this.client;
     }
 
-    @Override
+    override
     public string getName() {
         return this.name;
     }

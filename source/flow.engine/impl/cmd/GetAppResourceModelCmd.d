@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class GetAppResourceModelCmd implements Command<AppModel>, Serializable {
+class GetAppResourceModelCmd implements Command!AppModel, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ class GetAppResourceModelCmd implements Command<AppModel>, Serializable {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+    override
     public AppModel execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");

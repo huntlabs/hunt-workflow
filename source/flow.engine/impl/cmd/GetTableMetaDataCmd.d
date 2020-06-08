@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class GetTableMetaDataCmd implements Command<TableMetaData>, Serializable {
+class GetTableMetaDataCmd implements Command!TableMetaData, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string tableName;
@@ -32,7 +32,7 @@ class GetTableMetaDataCmd implements Command<TableMetaData>, Serializable {
         this.tableName = tableName;
     }
 
-    @Override
+    override
     public TableMetaData execute(CommandContext commandContext) {
         if (tableName is null) {
             throw new FlowableIllegalArgumentException("tableName is null");

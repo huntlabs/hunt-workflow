@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.BoundaryCancelEventActivityBehavior;
 
 import hunt.collection.List;
 
@@ -26,57 +26,55 @@ import flow.engine.impl.bpmn.helper.ScopeUtil;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
-
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
 /**
  * @author Tijs Rademakers
  */
-class BoundaryCancelEventActivityBehavior extends BoundaryEventActivityBehavior {
+class BoundaryCancelEventActivityBehavior : BoundaryEventActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
-        BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
+        BoundaryEvent boundaryEvent = cast(BoundaryEvent) execution.getCurrentFlowElement();
 
         CommandContext commandContext = Context.getCommandContext();
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
 
         ExecutionEntity subProcessExecution = null;
         // TODO: this can be optimized. A full search in the all executions shouldn't be needed
-        List<ExecutionEntity> processInstanceExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(execution.getProcessInstanceId());
-        for (ExecutionEntity childExecution : processInstanceExecutions) {
+        List!ExecutionEntity processInstanceExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(execution.getProcessInstanceId());
+        foreach (ExecutionEntity childExecution ; processInstanceExecutions) {
             if (childExecution.getCurrentFlowElement() !is null
-                    && childExecution.getCurrentFlowElement().getId().equals(boundaryEvent.getAttachedToRefId())) {
+                    && childExecution.getCurrentFlowElement().getId() == (boundaryEvent.getAttachedToRefId())) {
                 subProcessExecution = childExecution;
                 break;
             }
         }
 
         if (subProcessExecution is null) {
-            throw new FlowableException("No execution found for sub process of boundary cancel event " + boundaryEvent.getId());
+            throw new FlowableException("No execution found for sub process of boundary cancel event " ~ boundaryEvent.getId());
         }
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-        List<CompensateEventSubscriptionEntity> eventSubscriptions = eventSubscriptionService.findCompensateEventSubscriptionsByExecutionId(subProcessExecution.getParentId());
+        List!CompensateEventSubscriptionEntity eventSubscriptions = eventSubscriptionService.findCompensateEventSubscriptionsByExecutionId(subProcessExecution.getParentId());
 
         if (eventSubscriptions.isEmpty()) {
             leave(execution);
         } else {
 
-            string deleteReason = DeleteReason.BOUNDARY_EVENT_INTERRUPTING + "(" + boundaryEvent.getId() + ")";
+            string deleteReason = DeleteReason.BOUNDARY_EVENT_INTERRUPTING ~ "(" ~ boundaryEvent.getId() ~ ")";
 
             // cancel boundary is always sync
             ScopeUtil.throwCompensationEvent(eventSubscriptions, execution, false);
             executionEntityManager.deleteExecutionAndRelatedData(subProcessExecution, deleteReason, false);
-            if (subProcessExecution.getCurrentFlowElement() instanceof Activity) {
-                Activity activity = (Activity) subProcessExecution.getCurrentFlowElement();
+            if (cast(Activity)subProcessExecution.getCurrentFlowElement() !is null) {
+                Activity activity = cast(Activity) subProcessExecution.getCurrentFlowElement();
                 if (activity.getLoopCharacteristics() !is null) {
                     ExecutionEntity miExecution = subProcessExecution.getParent();
-                    List<ExecutionEntity> miChildExecutions = executionEntityManager.findChildExecutionsByParentExecutionId(miExecution.getId());
-                    for (ExecutionEntity miChildExecution : miChildExecutions) {
-                        if (!subProcessExecution.getId().equals(miChildExecution.getId()) && activity.getId().equals(miChildExecution.getCurrentActivityId())) {
+                    List!ExecutionEntity miChildExecutions = executionEntityManager.findChildExecutionsByParentExecutionId(miExecution.getId());
+                    foreach (ExecutionEntity miChildExecution ; miChildExecutions) {
+                        if (subProcessExecution.getId() != (miChildExecution.getId()) && activity.getId() == (miChildExecution.getCurrentActivityId())) {
                             executionEntityManager.deleteExecutionAndRelatedData(miChildExecution, deleteReason, false);
                         }
                     }

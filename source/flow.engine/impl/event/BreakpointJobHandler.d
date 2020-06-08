@@ -30,12 +30,12 @@ class BreakpointJobHandler implements JobHandler {
 
     public static final string JOB_HANDLER_TYPE = "breakpoint";
 
-    @Override
+    override
     public string getType() {
         return JOB_HANDLER_TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
         CommandContextUtil.getAgenda(commandContext).planOperation(new ContinueProcessOperation(commandContext, executionEntity, true, false), executionEntity);

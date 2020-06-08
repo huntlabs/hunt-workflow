@@ -28,7 +28,7 @@ class DefaultXMLImporterFactory implements XMLImporterFactory {
     // Name of the default XML Importer, provided by flowable-cxf
     private static final string DEFAULT_XML_IMPORTER_FACTORY_CLASSNAME = "flow.engine.impl.webservice.CxfWSDLImporter";
 
-    @Override
+    override
     public XMLImporter createXMLImporter(Import theImport) throws FlowableException {
 
         try {

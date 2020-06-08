@@ -47,7 +47,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 class ListenerNotificationHelper {
 
     public void executeExecutionListeners(HasExecutionListeners elementWithExecutionListeners, DelegateExecution execution, string eventType) {
-        List<FlowableListener> listeners = elementWithExecutionListeners.getExecutionListeners();
+        List!FlowableListener listeners = elementWithExecutionListeners.getExecutionListeners();
         if (listeners !is null && listeners.size() > 0) {
             ListenerFactory listenerFactory = CommandContextUtil.getProcessEngineConfiguration().getListenerFactory();
             for (FlowableListener listener : listeners) {

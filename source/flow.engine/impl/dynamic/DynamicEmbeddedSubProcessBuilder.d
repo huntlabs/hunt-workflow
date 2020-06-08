@@ -65,35 +65,35 @@ class DynamicEmbeddedSubProcessBuilder {
         this.dynamicSubProcessId = dynamicSubProcessId;
     }
 
-    public string nextSubProcessId(Map<string, FlowElement> flowElementMap) {
+    public string nextSubProcessId(Map!(string, FlowElement) flowElementMap) {
         return nextId("dynamicSubProcess", flowElementMap);
     }
 
-    public string nextTaskId(Map<string, FlowElement> flowElementMap) {
+    public string nextTaskId(Map!(string, FlowElement) flowElementMap) {
         return nextId("dynamicTask", flowElementMap);
     }
 
-    public string nextFlowId(Map<string, FlowElement> flowElementMap) {
+    public string nextFlowId(Map!(string, FlowElement) flowElementMap) {
         return nextId("dynamicFlow", flowElementMap);
     }
 
-    public string nextForkGatewayId(Map<string, FlowElement> flowElementMap) {
+    public string nextForkGatewayId(Map!(string, FlowElement) flowElementMap) {
         return nextId("dynamicForkGateway", flowElementMap);
     }
 
-    public string nextJoinGatewayId(Map<string, FlowElement> flowElementMap) {
+    public string nextJoinGatewayId(Map!(string, FlowElement) flowElementMap) {
         return nextId("dynamicJoinGateway", flowElementMap);
     }
 
-    public string nextStartEventId(Map<string, FlowElement> flowElementMap) {
+    public string nextStartEventId(Map!(string, FlowElement) flowElementMap) {
         return nextId("startEvent", flowElementMap);
     }
 
-    public string nextEndEventId(Map<string, FlowElement> flowElementMap) {
+    public string nextEndEventId(Map!(string, FlowElement) flowElementMap) {
         return nextId("endEvent", flowElementMap);
     }
 
-    protected string nextId(string prefix, Map<string, FlowElement> flowElementMap) {
+    protected string nextId(string prefix, Map!(string, FlowElement) flowElementMap) {
         string nextId = null;
         bool nextIdNotFound = true;
         while (nextIdNotFound) {

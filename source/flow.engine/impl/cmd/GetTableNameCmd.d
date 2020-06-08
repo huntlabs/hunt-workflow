@@ -35,7 +35,7 @@ class GetTableNameCmd implements Command!string, Serializable {
         this.withPrefix = withPrefix;
     }
 
-    @Override
+    override
     public string execute(CommandContext commandContext) {
         if (entityClass is null) {
             throw new FlowableIllegalArgumentException("entityClass is null");

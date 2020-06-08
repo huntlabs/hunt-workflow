@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.impl.util.ExecutionTreeStringBuilder;
 
 import hunt.collection.List;
 
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-
+import hunt.util.StringBuilder;
 /**
  * Prints a nicely tree-looking overview of the executions.
  *
@@ -25,13 +25,13 @@ class ExecutionTreeStringBuilder {
 
     protected ExecutionEntity executionEntity;
 
-    public ExecutionTreeStringBuilder(ExecutionEntity executionEntity) {
+    this(ExecutionEntity executionEntity) {
         this.executionEntity = executionEntity;
     }
 
     /* See http://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram */
-    @Override
-    public string toString() {
+    override
+     string toString() {
         StringBuilder strb = new StringBuilder();
         strb.append(executionEntity.getId()).append(" : ")
                 .append(executionEntity.getActivityId())
@@ -39,9 +39,9 @@ class ExecutionTreeStringBuilder {
                 .append(executionEntity.getParentId())
                 .append("\r\n");
 
-        List<? extends ExecutionEntity> children = executionEntity.getExecutions();
+        List!ExecutionEntity children = executionEntity.getExecutions();
         if (children !is null) {
-            for (ExecutionEntity childExecution : children) {
+            foreach (ExecutionEntity childExecution ; children) {
                 internalToString(childExecution, strb, "", true);
             }
         }
@@ -59,13 +59,13 @@ class ExecutionTreeStringBuilder {
                 .append(execution.isMultiInstanceRoot() ? " (multi instance root)" : "")
                 .append("\r\n");
 
-        List<? extends ExecutionEntity> children = executionEntity.getExecutions();
+        List!ExecutionEntity children = executionEntity.getExecutions();
         if (children !is null) {
             for (int i = 0; i < children.size() - 1; i++) {
-                internalToString(children.get(i), strb, prefix + (isTail ? "    " : "│   "), false);
+                internalToString(children.get(i), strb, prefix ~ (isTail ? "    " : "│   "), false);
             }
             if (children.size() > 0) {
-                internalToString(children.get(children.size() - 1), strb, prefix + (isTail ? "    " : "│   "), true);
+                internalToString(children.get(children.size() - 1), strb, prefix ~ (isTail ? "    " : "│   "), true);
             }
         }
     }

@@ -57,7 +57,7 @@ class ResourceNameUtil {
      * @return name of an existing resource, or null if no matching image resource is found in the resources.
      */
     public static string getProcessDiagramResourceNameFromDeployment(
-            ProcessDefinitionEntity processDefinition, Map<string, EngineResource> resources) {
+            ProcessDefinitionEntity processDefinition, Map!(string, EngineResource) resources) {
 
         if (StringUtils.isEmpty(processDefinition.getResourceName())) {
             throw new IllegalStateException("Provided process definition must have its resource name set.");

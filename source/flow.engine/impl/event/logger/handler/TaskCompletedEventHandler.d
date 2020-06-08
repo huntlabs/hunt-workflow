@@ -24,9 +24,9 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-class TaskCompletedEventHandler extends AbstractTaskEventHandler {
+class TaskCompletedEventHandler : AbstractTaskEventHandler {
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
 
         FlowableEntityEvent entityEvent = (FlowableEntityEvent) event;

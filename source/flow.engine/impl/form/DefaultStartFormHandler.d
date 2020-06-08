@@ -27,17 +27,17 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Tom Baeyens
  */
-class DefaultStartFormHandler extends DefaultFormHandler implements StartFormHandler {
+class DefaultStartFormHandler : DefaultFormHandler implements StartFormHandler {
 
-    @Override
-    public void parseConfiguration(List<FormProperty> formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition) {
+    override
+    public void parseConfiguration(List!FormProperty formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition) {
         super.parseConfiguration(formProperties, formKey, deployment, processDefinition);
         if (StringUtils.isNotEmpty(formKey)) {
             ((ProcessDefinitionEntity) processDefinition).setStartFormKey(true);
         }
     }
 
-    @Override
+    override
     public StartFormData createStartFormData(ProcessDefinition processDefinition) {
         StartFormDataImpl startFormData = new StartFormDataImpl();
         if (formKey !is null) {

@@ -38,14 +38,14 @@ import flow.variable.service.api.types.VariableTypes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class HistoricDetailVariableUpdateHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+class HistoricDetailVariableUpdateHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_HISTORIC_DETAIL_VARIABLE_UPDATE);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
 
@@ -62,7 +62,7 @@ class HistoricDetailVariableUpdateHistoryJsonTransformer extends AbstractHistory
         return true;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         HistoricDetailDataManager historicDetailDataManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getHistoricDetailDataManager();
         HistoricDetailVariableInstanceUpdateEntity historicDetailEntity = historicDetailDataManager.createHistoricDetailVariableInstanceUpdate();

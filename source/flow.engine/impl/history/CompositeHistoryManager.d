@@ -34,13 +34,13 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
  */
 class CompositeHistoryManager implements HistoryManager {
 
-    protected final Collection<HistoryManager> historyManagers;
+    protected final Collection!HistoryManager historyManagers;
 
-    public CompositeHistoryManager(Collection<HistoryManager> historyManagers) {
+    public CompositeHistoryManager(Collection!HistoryManager historyManagers) {
         this.historyManagers = new ArrayList<>(historyManagers);
     }
 
-    @Override
+    override
     public bool isHistoryLevelAtLeast(HistoryLevel level) {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryLevelAtLeast(level)) {
@@ -51,7 +51,7 @@ class CompositeHistoryManager implements HistoryManager {
         return false;
     }
 
-    @Override
+    override
     public bool isHistoryLevelAtLeast(HistoryLevel level, string processDefinitionId) {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryLevelAtLeast(level, processDefinitionId)) {
@@ -62,7 +62,7 @@ class CompositeHistoryManager implements HistoryManager {
         return false;
     }
 
-    @Override
+    override
     public bool isHistoryEnabled() {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryEnabled()) {
@@ -73,7 +73,7 @@ class CompositeHistoryManager implements HistoryManager {
         return false;
     }
 
-    @Override
+    override
     public bool isHistoryEnabled(string processDefinitionId) {
         for (HistoryManager historyManager : historyManagers) {
             if (historyManager.isHistoryEnabled(processDefinitionId)) {
@@ -84,63 +84,63 @@ class CompositeHistoryManager implements HistoryManager {
         return false;
     }
 
-    @Override
+    override
     public void recordProcessInstanceEnd(ExecutionEntity processInstance, string deleteReason, string activityId, Date endTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordProcessInstanceEnd(processInstance, deleteReason, activityId, endTime);
         }
     }
 
-    @Override
+    override
     public void recordProcessInstanceStart(ExecutionEntity processInstance) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordProcessInstanceStart(processInstance);
         }
     }
 
-    @Override
+    override
     public void recordProcessInstanceNameChange(ExecutionEntity processInstanceExecution, string newName) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordProcessInstanceNameChange(processInstanceExecution, newName);
         }
     }
 
-    @Override
+    override
     public void recordProcessInstanceDeleted(string processInstanceId, string processDefinitionId, string processTenantId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordProcessInstanceDeleted(processInstanceId, processDefinitionId, processTenantId);
         }
     }
 
-    @Override
+    override
     public void recordDeleteHistoricProcessInstancesByProcessDefinitionId(string processDefinitionId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordDeleteHistoricProcessInstancesByProcessDefinitionId(processDefinitionId);
         }
     }
 
-    @Override
+    override
     public void recordActivityStart(ActivityInstance activityInstance) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordActivityStart(activityInstance);
         }
     }
 
-    @Override
+    override
     public void recordActivityEnd(ActivityInstance activityInstance) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordActivityEnd(activityInstance);
         }
     }
 
-    @Override
+    override
     public void recordActivityEnd(ExecutionEntity executionEntity, string deleteReason, Date endTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordActivityEnd(executionEntity, deleteReason, endTime);
         }
     }
 
-    @Override
+    override
     public HistoricActivityInstanceEntity findHistoricActivityInstance(ExecutionEntity execution, bool validateEndTimeNull) {
         for (HistoryManager historyManager : historyManagers) {
             HistoricActivityInstanceEntity historicActivityInstance = historyManager.findHistoricActivityInstance(execution, validateEndTimeNull);
@@ -152,42 +152,42 @@ class CompositeHistoryManager implements HistoryManager {
         return null;
     }
 
-    @Override
+    override
     public void recordProcessDefinitionChange(string processInstanceId, string processDefinitionId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordProcessDefinitionChange(processInstanceId, processDefinitionId);
         }
     }
 
-    @Override
+    override
     public void recordTaskCreated(TaskEntity task, ExecutionEntity execution) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordTaskCreated(task, execution);
         }
     }
 
-    @Override
+    override
     public void recordTaskEnd(TaskEntity task, ExecutionEntity execution, string deleteReason, Date endTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordTaskEnd(task, execution, deleteReason, endTime);
         }
     }
 
-    @Override
+    override
     public void recordTaskInfoChange(TaskEntity taskEntity, string activityInstanceId, Date changeTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordTaskInfoChange(taskEntity, activityInstanceId, changeTime);
         }
     }
 
-    @Override
+    override
     public void recordVariableCreate(VariableInstanceEntity variable, Date createTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordVariableCreate(variable, createTime);
         }
     }
 
-    @Override
+    override
     public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, bool useActivityId,
         string activityInstanceId, Date createTime) {
         for (HistoryManager historyManager : historyManagers) {
@@ -195,63 +195,63 @@ class CompositeHistoryManager implements HistoryManager {
         }
     }
 
-    @Override
+    override
     public void recordVariableUpdate(VariableInstanceEntity variable, Date updateTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordVariableUpdate(variable, updateTime);
         }
     }
 
-    @Override
+    override
     public void recordVariableRemoved(VariableInstanceEntity variable) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordVariableRemoved(variable);
         }
     }
 
-    @Override
+    override
     public void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createIdentityLinkComment(task, userId, groupId, type, create);
         }
     }
 
-    @Override
+    override
     public void createUserIdentityLinkComment(TaskEntity task, string userId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createUserIdentityLinkComment(task, userId, type, create);
         }
     }
 
-    @Override
+    override
     public void createGroupIdentityLinkComment(TaskEntity task, string groupId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createGroupIdentityLinkComment(task, groupId, type, create);
         }
     }
 
-    @Override
+    override
     public void createIdentityLinkComment(TaskEntity task, string userId, string groupId, string type, bool create, bool forceNullUserId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createIdentityLinkComment(task, userId, groupId, type, create, forceNullUserId);
         }
     }
 
-    @Override
+    override
     public void createUserIdentityLinkComment(TaskEntity task, string userId, string type, bool create, bool forceNullUserId) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createUserIdentityLinkComment(task, userId, type, create, forceNullUserId);
         }
     }
 
-    @Override
+    override
     public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, type, create);
         }
     }
 
-    @Override
+    override
     public void createProcessInstanceIdentityLinkComment(ExecutionEntity processInstance, string userId, string groupId, string type, bool create,
         bool forceNullUserId) {
         for (HistoryManager historyManager : historyManagers) {
@@ -259,91 +259,91 @@ class CompositeHistoryManager implements HistoryManager {
         }
     }
 
-    @Override
+    override
     public void createAttachmentComment(TaskEntity task, ExecutionEntity processInstance, string attachmentName, bool create) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createAttachmentComment(task, processInstance, attachmentName, create);
         }
     }
 
-    @Override
+    override
     public void recordFormPropertiesSubmitted(ExecutionEntity processInstance, Map!(string, string) properties, string taskId, Date createTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordFormPropertiesSubmitted(processInstance, properties, taskId, createTime);
         }
     }
 
-    @Override
+    override
     public void recordIdentityLinkCreated(IdentityLinkEntity identityLink) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordIdentityLinkCreated(identityLink);
         }
     }
 
-    @Override
+    override
     public void recordIdentityLinkDeleted(IdentityLinkEntity identityLink) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordIdentityLinkDeleted(identityLink);
         }
     }
 
-    @Override
+    override
     public void recordEntityLinkCreated(EntityLinkEntity entityLink) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordEntityLinkCreated(entityLink);
         }
     }
 
-    @Override
+    override
     public void recordEntityLinkDeleted(EntityLinkEntity entityLink) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordEntityLinkDeleted(entityLink);
         }
     }
 
-    @Override
+    override
     public void updateProcessBusinessKeyInHistory(ExecutionEntity processInstance) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.updateProcessBusinessKeyInHistory(processInstance);
         }
     }
 
-    @Override
+    override
     public void updateProcessDefinitionIdInHistory(ProcessDefinitionEntity processDefinitionEntity, ExecutionEntity processInstance) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.updateProcessDefinitionIdInHistory(processDefinitionEntity, processInstance);
         }
     }
 
-    @Override
+    override
     public void updateActivity(ExecutionEntity executionEntity, string oldActivityId, FlowElement newFlowElement, TaskEntity task, Date updateTime) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.updateActivity(executionEntity, oldActivityId, newFlowElement, task, updateTime);
         }
     }
 
-    @Override
+    override
     public void updateHistoricActivityInstance(ActivityInstance activityInstance) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.updateHistoricActivityInstance(activityInstance);
         }
     }
 
-    @Override
+    override
     public void createHistoricActivityInstance(ActivityInstance activityInstance) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.createHistoricActivityInstance(activityInstance);
         }
     }
 
-    @Override
+    override
     public void recordHistoricUserTaskLogEntry(HistoricTaskLogEntryBuilder taskLogEntryBuilder) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.recordHistoricUserTaskLogEntry(taskLogEntryBuilder);
         }
     }
 
-    @Override
+    override
     public void deleteHistoryUserTaskLog(long logNumber) {
         for (HistoryManager historyManager : historyManagers) {
             historyManager.deleteHistoryUserTaskLog(logNumber);

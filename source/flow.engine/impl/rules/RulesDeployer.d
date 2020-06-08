@@ -36,7 +36,7 @@ class RulesDeployer implements EngineDeployer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RulesDeployer.class);
 
-    @Override
+    override
     public void deploy(EngineDeployment deployment, Map!(string, Object) deploymentSettings) {
         LOGGER.debug("Processing rules deployment {}", deployment.getName());
 
@@ -44,7 +44,7 @@ class RulesDeployer implements EngineDeployer {
 
         DeploymentManager deploymentManager = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager();
 
-        Map<string, EngineResource> resources = deployment.getResources();
+        Map!(string, EngineResource) resources = deployment.getResources();
         for (string resourceName : resources.keySet()) {
             if (resourceName.endsWith(".drl")) { // is only parsing .drls sufficient? what about other rule dsl's? (@see ResourceType)
                 LOGGER.info("Processing rules resource {}", resourceName);

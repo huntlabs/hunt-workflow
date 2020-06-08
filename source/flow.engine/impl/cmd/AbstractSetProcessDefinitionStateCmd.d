@@ -44,7 +44,7 @@ import flow.job.service.impl.persistence.entity.TimerJobEntity;
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
+abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
 
     protected string processDefinitionId;
     protected string processDefinitionKey;
@@ -68,10 +68,10 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
         this.tenantId = tenantId;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
 
-        List<ProcessDefinitionEntity> processDefinitions = findProcessDefinition(commandContext);
+        List!ProcessDefinitionEntity processDefinitions = findProcessDefinition(commandContext);
         bool hasV5ProcessDefinitions = false;
         for (ProcessDefinitionEntity processDefinitionEntity : processDefinitions) {
             if (Flowable5Util.isFlowable5ProcessDefinition(processDefinitionEntity, commandContext)) {
@@ -99,7 +99,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
         return null;
     }
 
-    protected List<ProcessDefinitionEntity> findProcessDefinition(CommandContext commandContext) {
+    protected List!ProcessDefinitionEntity findProcessDefinition(CommandContext commandContext) {
 
         // If process definition is already provided (eg. when command is called through the DeployCmd)
         // we don't need to do an extra database fetch and we can simply return it, wrapped in a list
@@ -112,7 +112,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
             throw new FlowableIllegalArgumentException("Process definition id or key cannot be null");
         }
 
-        List<ProcessDefinitionEntity> processDefinitionEntities = new ArrayList<>();
+        List!ProcessDefinitionEntity processDefinitionEntities = new ArrayList<>();
         ProcessDefinitionEntityManager processDefinitionManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
 
         if (processDefinitionId !is null) {
@@ -133,7 +133,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
                 query.processDefinitionTenantId(tenantId);
             }
 
-            List<ProcessDefinition> processDefinitions = query.list();
+            List!ProcessDefinition processDefinitions = query.list();
             if (processDefinitions.isEmpty()) {
                 throw new FlowableException("Cannot find process definition for key '" + processDefinitionKey + "'");
             }
@@ -146,7 +146,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
         return processDefinitionEntities;
     }
 
-    protected void createTimerForDelayedExecution(CommandContext commandContext, List<ProcessDefinitionEntity> processDefinitions) {
+    protected void createTimerForDelayedExecution(CommandContext commandContext, List!ProcessDefinitionEntity processDefinitions) {
         for (ProcessDefinitionEntity processDefinition : processDefinitions) {
 
             if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext))
@@ -169,7 +169,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
         }
     }
 
-    protected void changeProcessDefinitionState(CommandContext commandContext, List<ProcessDefinitionEntity> processDefinitions) {
+    protected void changeProcessDefinitionState(CommandContext commandContext, List!ProcessDefinitionEntity processDefinitions) {
         for (ProcessDefinitionEntity processDefinition : processDefinitions) {
 
             if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext))
@@ -184,7 +184,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
             if (includeProcessInstances) {
 
                 int currentStartIndex = 0;
-                List<ProcessInstance> processInstances = fetchProcessInstancesPage(commandContext, processDefinition, currentStartIndex);
+                List!ProcessInstance processInstances = fetchProcessInstancesPage(commandContext, processDefinition, currentStartIndex);
                 while (!processInstances.isEmpty()) {
 
                     for (ProcessInstance processInstance : processInstances) {
@@ -200,7 +200,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command<Void> {
         }
     }
 
-    protected List<ProcessInstance> fetchProcessInstancesPage(CommandContext commandContext, ProcessDefinition processDefinition, int currentPageStartIndex) {
+    protected List!ProcessInstance fetchProcessInstancesPage(CommandContext commandContext, ProcessDefinition processDefinition, int currentPageStartIndex) {
 
         if (SuspensionState.ACTIVE.equals(getProcessDefinitionSuspensionState())) {
             return new ProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).suspended()

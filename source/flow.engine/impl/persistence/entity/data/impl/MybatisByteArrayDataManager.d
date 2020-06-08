@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.impl.MybatisByteArrayDataManager;
 
 import hunt.collection.List;
 
@@ -19,35 +19,87 @@ import flow.engine.impl.persistence.entity.ByteArrayEntity;
 import flow.engine.impl.persistence.entity.ByteArrayEntityImpl;
 import flow.engine.impl.persistence.entity.data.AbstractProcessDataManager;
 import flow.engine.impl.persistence.entity.data.ByteArrayDataManager;
-
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
+import flow.common.runtime.Clock;
+import hunt.logging;
+import hunt.collection.ArrayList;
+import hunt.entity;
 /**
  * @author Joram Barrez
  */
-class MybatisByteArrayDataManager extends AbstractProcessDataManager<ByteArrayEntity> implements ByteArrayDataManager {
+//class MybatisByteArrayDataManager : AbstractProcessDataManager!ByteArrayEntity implements ByteArrayDataManager {
+class MybatisByteArrayDataManager : EntityRepository!(ByteArrayEntityImpl , string) , ByteArrayDataManager {
 
-    public MybatisByteArrayDataManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
-        super(processEngineConfiguration);
+    private ProcessEngineConfigurationImpl processEngineConfiguration;
+
+
+    public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
+      return processEngineConfiguration;
     }
 
-    @Override
+    public Clock getClock() {
+      return processEngineConfiguration.getClock();
+    }
+
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
+      this.processEngineConfiguration = processEngineConfiguration;
+      super(entityManagerFactory.createEntityManager());
+    }
+
+  public ByteArrayEntity findById(string entityId) {
+    if (entityId is null) {
+      return null;
+    }
+
+    return find(entityId);
+  }
+  //
+  public void insert(ByteArrayEntity entity) {
+    insert(cast(ByteArrayEntityImpl)entity);
+    //getDbSqlSession().insert(entity);
+  }
+  public ByteArrayEntity update(ByteArrayEntity entity) {
+    return  update(cast(ByteArrayEntityImpl)entity);
+    //getDbSqlSession().update(entity);
+    //return entity;
+  }
+  public void dele(string id) {
+    ByteArrayEntity entity = findById(id);
+    if (entity !is null)
+    {
+      remove(cast(ByteArrayEntityImpl)entity);
+    }
+    //delete(entity);
+  }
+
+  public void dele(ByteArrayEntity entity) {
+    if (entity !is null)
+    {
+      remove(cast(ByteArrayEntityImpl)entity);
+    }
+    //getDbSqlSession().delete(entity);
+  }
+
     public ByteArrayEntity create() {
         return new ByteArrayEntityImpl();
     }
 
-    @Override
-    class<? extends ByteArrayEntity> getManagedEntityClass() {
-        return ByteArrayEntityImpl.class;
+
+    //class<? : ByteArrayEntity> getManagedEntityClass() {
+    //    return ByteArrayEntityImpl.class;
+    //}
+
+
+    public List!ByteArrayEntity findAll() {
+       // return getDbSqlSession().selectList("selectByteArrays");
+        return new ArrayList!ByteArrayEntity( findAll());
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<ByteArrayEntity> findAll() {
-        return getDbSqlSession().selectList("selectByteArrays");
-    }
 
-    @Override
     public void deleteByteArrayNoRevisionCheck(string byteArrayEntityId) {
-        getDbSqlSession().delete("deleteByteArrayNoRevisionCheck", byteArrayEntityId, ByteArrayEntityImpl.class);
+        removeById(byteArrayEntityId);
+        //getDbSqlSession().delete("deleteByteArrayNoRevisionCheck", byteArrayEntityId, ByteArrayEntityImpl.class);
     }
 
 }

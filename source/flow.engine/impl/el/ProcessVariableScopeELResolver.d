@@ -22,7 +22,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-class ProcessVariableScopeELResolver extends VariableContainerELResolver  {
+class ProcessVariableScopeELResolver : VariableContainerELResolver  {
 
     public ProcessVariableScopeELResolver(VariableContainer variableContainer) {
         super(variableContainer);
@@ -31,7 +31,7 @@ class ProcessVariableScopeELResolver extends VariableContainerELResolver  {
     public static final string EXECUTION_KEY = "execution";
     public static final string TASK_KEY = "task";
 
-    @Override
+    override
     public Object getValue(ELContext context, Object base, Object property) {
         if (base is null) {
             if ((EXECUTION_KEY.equals(property) && variableContainer instanceof ExecutionEntity) || (TASK_KEY.equals(property) && variableContainer instanceof TaskEntity)) {

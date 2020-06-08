@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -20,57 +19,110 @@ import hunt.collection.Map;
 
 import flow.common.db.SuspensionState;
 import flow.engine.ProcessEngineConfiguration;
-import flow.engine.impl.bpmn.data.IOSpecification;
+//import flow.engine.impl.bpmn.data.IOSpecification;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
+import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
+import hunt.Exceptions;
+import hunt.entity;
 
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements ProcessDefinitionEntity, Serializable {
+@Table("ACT_RE_PROCDEF")
+class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDefinitionEntity {
 
-    private static final long serialVersionUID = 1L;
+    mixin MakeModel;
 
-    protected string name;
-    protected string localizedName;
-    protected string description;
-    protected string localizedDescription;
-    protected string key;
-    protected int version;
-    protected string category;
-    protected string deploymentId;
-    protected string resourceName;
-    protected string tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
-    protected Integer historyLevel;
-    protected string diagramResourceName;
-    protected bool isGraphicalNotationDefined;
-    protected Map!(string, Object) variables;
-    protected bool hasStartFormKey;
-    protected int suspensionState = SuspensionState.ACTIVE.getStateCode();
-    protected bool isIdentityLinksInitialized;
-    protected List<IdentityLinkEntity> definitionIdentityLinkEntities = new ArrayList<>();
-    protected IOSpecification ioSpecification;
-    protected string derivedFrom;
-    protected string derivedFromRoot;
-    protected int derivedVersion;
+    @PrimaryKey
+    @Column("ID_")
+    string id;
+
+    @Column("REV_")
+    string rev;
+
+    @Column("NAME_")
+    string name;
+
+    @Column("DESCRIPTION_")
+    string description;
+
+    @Column("KEY_")
+    string key;
+
+    @Column("VERSION_")
+    int ver;
+
+    @Column("CATEGORY_")
+    string category;
+
+    @Column("DEPLOYMENT_ID_")
+    string deploymentId;
+
+    @Column("RESOURCE_NAME_")
+    string resourceName;
+
+    @Column("TENANT_ID_")
+    string tenantId ;//= ProcessEngineConfiguration.NO_TENANT_ID;
+
+    @Column("DGRM_RESOURCE_NAME_")
+    string diagramResourceName;
+
+    @Column("HAS_GRAPHICAL_NOTATION_")
+    bool isGraphicalNotationDefined;
+
+    @Column("HAS_START_FORM_KEY_")
+    bool hasStartFormKey;
+
+    @Column("SUSPENSION_STATE_")
+    int suspensionState ;
+
+
+    @Column("DERIVED_FROM_")
+    string derivedFrom;
+
+    @Column("DERIVED_FROM_ROOT_")
+    string derivedFromRoot;
+
+    @Column("DERIVED_VERSION_")
+    int derivedVersion;
 
     // Backwards compatibility
-    protected string engineVersion;
+    @Column("ENGINE_VERSION_")
+    string engineVersion;
 
-    @Override
+    private string localizedName;
+    private string localizedDescription;
+    private int historyLevel;
+    private Map!(string, Object) variables;
+    private bool isIdentityLinksInitialized;
+    private List!IdentityLinkEntity definitionIdentityLinkEntities;
+    //protected IOSpecification ioSpecification;
+
+    this()
+    {
+      definitionIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
+      suspensionState = SuspensionState.ACTIVE.getStateCode();
+      tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
+      rev = 1;
+    }
+
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap<>();
-        persistentState.put("suspensionState", this.suspensionState);
-        persistentState.put("category", this.category);
-        return persistentState;
+        implementationMissing(false);
+        return null;
+        //Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        //persistentState.put("suspensionState", this.suspensionState);
+        //persistentState.put("category", this.category);
+        //return persistentState;
     }
 
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    @Override
-    public List<IdentityLinkEntity> getIdentityLinks() {
+
+    public List!IdentityLinkEntity getIdentityLinks() {
         if (!isIdentityLinksInitialized) {
             definitionIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().findIdentityLinksByProcessDefinitionId(id);
             isIdentityLinksInitialized = true;
@@ -79,25 +131,33 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
         return definitionIdentityLinkEntities;
     }
 
-    @Override
+    public string getId() {
+        return id;
+    }
+
+
+    public void setId(string id) {
+        this.id = id;
+    }
+
     public string getKey() {
         return key;
     }
 
-    @Override
+
     public void setKey(string key) {
         this.key = key;
     }
 
-    @Override
+
     public string getName() {
-        if(localizedName !is null && localizedName.length() > 0) {
+        if(localizedName.length() > 0) {
             return localizedName;
         }
         return name;
     }
 
-    @Override
+
     public void setName(string name) {
         this.name = name;
     }
@@ -106,19 +166,19 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
         return localizedName;
     }
 
-    @Override
+
     public void setLocalizedName(string localizedName) {
         this.localizedName = localizedName;
     }
 
-    @Override
+
     public void setDescription(string description) {
         this.description = description;
     }
 
-    @Override
+
     public string getDescription() {
-        if(localizedDescription !is null && localizedDescription.length() > 0) {
+        if(localizedDescription.length() > 0) {
             return localizedDescription;
         }
         return description;
@@ -128,58 +188,58 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
         return localizedDescription;
     }
 
-    @Override
+
     public void setLocalizedDescription(string localizedDescription) {
         this.localizedDescription = localizedDescription;
     }
 
-    @Override
+
     public string getDeploymentId() {
         return deploymentId;
     }
 
-    @Override
+
     public void setDeploymentId(string deploymentId) {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+
     public int getVersion() {
-        return version;
+        return ver;
     }
 
-    @Override
-    public void setVersion(int version) {
-        this.version = version;
+
+    public void setVersion(int ver) {
+        this.ver = ver;
     }
 
-    @Override
+
     public string getResourceName() {
         return resourceName;
     }
 
-    @Override
+
     public void setResourceName(string resourceName) {
         this.resourceName = resourceName;
     }
 
-    @Override
+
     public string getTenantId() {
         return tenantId;
     }
 
-    @Override
+
     public void setTenantId(string tenantId) {
         this.tenantId = tenantId;
     }
 
-    @Override
-    public Integer getHistoryLevel() {
+
+    public int getHistoryLevel() {
         return historyLevel;
     }
 
-    @Override
-    public void setHistoryLevel(Integer historyLevel) {
+
+    public void setHistoryLevel(int historyLevel) {
         this.historyLevel = historyLevel;
     }
 
@@ -191,127 +251,127 @@ class ProcessDefinitionEntityImpl extends AbstractBpmnEngineEntity implements Pr
         this.variables = variables;
     }
 
-    @Override
+
     public string getCategory() {
         return category;
     }
 
-    @Override
+
     public void setCategory(string category) {
         this.category = category;
     }
 
-    @Override
+
     public string getDiagramResourceName() {
         return diagramResourceName;
     }
 
-    @Override
+
     public void setDiagramResourceName(string diagramResourceName) {
         this.diagramResourceName = diagramResourceName;
     }
 
-    @Override
+
     public bool hasStartFormKey() {
         return hasStartFormKey;
     }
 
-    @Override
+
     public bool getHasStartFormKey() {
         return hasStartFormKey;
     }
 
-    @Override
+
     public void setStartFormKey(bool hasStartFormKey) {
         this.hasStartFormKey = hasStartFormKey;
     }
 
-    @Override
+
     public void setHasStartFormKey(bool hasStartFormKey) {
         this.hasStartFormKey = hasStartFormKey;
     }
 
-    @Override
+
     public bool isGraphicalNotationDefined() {
         return isGraphicalNotationDefined;
     }
 
-    @Override
+
     public bool hasGraphicalNotation() {
         return isGraphicalNotationDefined;
     }
 
-    @Override
+
     public void setGraphicalNotationDefined(bool isGraphicalNotationDefined) {
         this.isGraphicalNotationDefined = isGraphicalNotationDefined;
     }
 
-    @Override
+
     public int getSuspensionState() {
         return suspensionState;
     }
 
-    @Override
+
     public void setSuspensionState(int suspensionState) {
         this.suspensionState = suspensionState;
     }
 
-    @Override
+
     public bool isSuspended() {
         return suspensionState == SuspensionState.SUSPENDED.getStateCode();
     }
 
-    @Override
+
     public string getDerivedFrom() {
         return derivedFrom;
     }
 
-    @Override
+
     public void setDerivedFrom(string derivedFrom) {
         this.derivedFrom = derivedFrom;
     }
 
-    @Override
+
     public string getDerivedFromRoot() {
         return derivedFromRoot;
     }
 
-    @Override
+
     public void setDerivedFromRoot(string derivedFromRoot) {
         this.derivedFromRoot = derivedFromRoot;
     }
 
-    @Override
+
     public int getDerivedVersion() {
         return derivedVersion;
     }
 
-    @Override
+
     public void setDerivedVersion(int derivedVersion) {
         this.derivedVersion = derivedVersion;
     }
 
-    @Override
+
     public string getEngineVersion() {
         return engineVersion;
     }
 
-    @Override
+
     public void setEngineVersion(string engineVersion) {
         this.engineVersion = engineVersion;
     }
 
-    public IOSpecification getIoSpecification() {
-        return ioSpecification;
-    }
+    //public IOSpecification getIoSpecification() {
+    //    return ioSpecification;
+    //}
+    //
+    //public void setIoSpecification(IOSpecification ioSpecification) {
+    //    this.ioSpecification = ioSpecification;
+    //}
 
-    public void setIoSpecification(IOSpecification ioSpecification) {
-        this.ioSpecification = ioSpecification;
-    }
-
-    @Override
+    override
     public string toString() {
-        return "ProcessDefinitionEntity[" + id + "]";
+        return "ProcessDefinitionEntity[" ~ id ~ "]";
     }
 
 }

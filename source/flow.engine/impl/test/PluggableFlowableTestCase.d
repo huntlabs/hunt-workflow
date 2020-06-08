@@ -28,7 +28,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Tag("pluggable")
 @ExtendWith(PluggableFlowableExtension.class)
-abstract class PluggableFlowableTestCase extends AbstractFlowableTestCase {
+abstract class PluggableFlowableTestCase : AbstractFlowableTestCase {
 
 
 }

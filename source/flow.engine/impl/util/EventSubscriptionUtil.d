@@ -15,8 +15,8 @@
 import flow.common.api.FlowableException;
 import flow.engine.impl.event.EventHandler;
 import flow.engine.impl.jobexecutor.ProcessEventJobHandler;
-import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
 

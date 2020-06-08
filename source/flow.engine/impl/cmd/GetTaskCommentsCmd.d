@@ -24,7 +24,7 @@ import flow.engine.task.Comment;
 /**
  * @author Tom Baeyens
  */
-class GetTaskCommentsCmd implements Command<List<Comment>>, Serializable {
+class GetTaskCommentsCmd implements Command<List!Comment>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -33,8 +33,8 @@ class GetTaskCommentsCmd implements Command<List<Comment>>, Serializable {
         this.taskId = taskId;
     }
 
-    @Override
-    public List<Comment> execute(CommandContext commandContext) {
+    override
+    public List!Comment execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByTaskId(taskId);
     }
 }

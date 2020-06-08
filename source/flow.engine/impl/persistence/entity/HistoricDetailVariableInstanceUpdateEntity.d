@@ -11,19 +11,20 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.HistoricDetailVariableInstanceUpdateEntity;
 
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
 import flow.engine.history.HistoricVariableUpdate;
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
-
+import flow.engine.impl.persistence.entity.HistoricDetailEntity;
+import flow.engine.impl.persistence.entity.ByteArrayRef;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface HistoricDetailVariableInstanceUpdateEntity extends HistoricDetailEntity, ValueFields, HistoricVariableUpdate, Entity, HasRevision {
+interface HistoricDetailVariableInstanceUpdateEntity : HistoricDetailEntity, ValueFields, HistoricVariableUpdate, Entity, HasRevision {
 
     void setName(string name);
 

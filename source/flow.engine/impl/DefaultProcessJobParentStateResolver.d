@@ -29,7 +29,7 @@ class DefaultProcessJobParentStateResolver implements InternalJobParentStateReso
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    @Override
+    override
     public bool isSuspended(Job job) {
         if (StringUtils.isEmpty(job.getProcessInstanceId())) {
             throw new FlowableIllegalArgumentException("Job " + job.getId() + " parent is not process instance");

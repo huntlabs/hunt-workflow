@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.NewTaskCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -23,17 +22,13 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tijs Rademakers
  */
-class NewTaskCmd implements Command<Task>, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+class NewTaskCmd : Command!Task{
     protected string taskId;
 
-    public NewTaskCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    @Override
     public Task execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().createTask();
         task.setId(taskId);

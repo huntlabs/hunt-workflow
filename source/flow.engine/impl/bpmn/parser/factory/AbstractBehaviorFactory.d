@@ -29,8 +29,8 @@ abstract class AbstractBehaviorFactory {
 
     protected ExpressionManager expressionManager;
 
-    public List<FieldDeclaration> createFieldDeclarations(List<FieldExtension> fieldList) {
-        List<FieldDeclaration> fieldDeclarations = new ArrayList<>();
+    public List!FieldDeclaration createFieldDeclarations(List!FieldExtension fieldList) {
+        List!FieldDeclaration fieldDeclarations = new ArrayList<>();
 
         for (FieldExtension fieldExtension : fieldList) {
             FieldDeclaration fieldDeclaration = null;

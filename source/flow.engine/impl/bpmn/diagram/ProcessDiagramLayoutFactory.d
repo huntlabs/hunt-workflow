@@ -88,12 +88,12 @@ class ProcessDiagramLayoutFactory {
             diagramBoundsImage = getDiagramBoundsFromImage(imageStream);
         }
 
-        Map<string, DiagramNode> listOfBounds = new HashMap<>();
+        Map!(string, DiagramNode) listOfBounds = new HashMap<>();
         listOfBounds.put(diagramBoundsXml.getId(), diagramBoundsXml);
         // listOfBounds.putAll(getElementBoundsFromBpmnDi(bpmnModel));
         listOfBounds.putAll(fixFlowNodePositionsIfModelFromAdonis(bpmnModel, getElementBoundsFromBpmnDi(bpmnModel)));
 
-        Map<string, DiagramElement> listOfBoundsForImage = transformBoundsForImage(diagramBoundsImage, diagramBoundsXml, listOfBounds);
+        Map!(string, DiagramElement) listOfBoundsForImage = transformBoundsForImage(diagramBoundsImage, diagramBoundsXml, listOfBounds);
         return new DiagramLayout(listOfBoundsForImage);
     }
 
@@ -199,8 +199,8 @@ class ProcessDiagramLayoutFactory {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        Map<Integer, bool> rowIsWhite = new TreeMap<>();
-        Map<Integer, bool> columnIsWhite = new TreeMap<>();
+        Map!(Integer, bool) rowIsWhite = new TreeMap<>();
+        Map!(Integer, bool) columnIsWhite = new TreeMap<>();
 
         for (int row = 0; row < height; row++) {
             if (!rowIsWhite.containsKey(row)) {
@@ -274,8 +274,8 @@ class ProcessDiagramLayoutFactory {
         return diagramBoundsImage;
     }
 
-    protected Map<string, DiagramNode> getElementBoundsFromBpmnDi(Document bpmnModel) {
-        Map<string, DiagramNode> listOfBounds = new HashMap<>();
+    protected Map!(string, DiagramNode) getElementBoundsFromBpmnDi(Document bpmnModel) {
+        Map!(string, DiagramNode) listOfBounds = new HashMap<>();
         // iterate over all DI shapes
         NodeList shapes = bpmnModel.getElementsByTagNameNS(BpmnParser.BPMN_DI_NS, "BPMNShape");
         for (int i = 0; i < shapes.getLength(); i++) {
@@ -305,9 +305,9 @@ class ProcessDiagramLayoutFactory {
         return bounds;
     }
 
-    protected Map<string, DiagramElement> transformBoundsForImage(DiagramNode diagramBoundsImage, DiagramNode diagramBoundsXml, Map<string, DiagramNode> listOfBounds) {
-        Map<string, DiagramElement> listOfBoundsForImage = new HashMap<>();
-        for (Entry<string, DiagramNode> bounds : listOfBounds.entrySet()) {
+    protected Map!(string, DiagramElement) transformBoundsForImage(DiagramNode diagramBoundsImage, DiagramNode diagramBoundsXml, Map!(string, DiagramNode) listOfBounds) {
+        Map!(string, DiagramElement) listOfBoundsForImage = new HashMap<>();
+        for (Entry!(string, DiagramNode) bounds : listOfBounds.entrySet()) {
             listOfBoundsForImage.put(bounds.getKey(), transformBoundsForImage(diagramBoundsImage, diagramBoundsXml, bounds.getValue()));
         }
         return listOfBoundsForImage;
@@ -325,13 +325,13 @@ class ProcessDiagramLayoutFactory {
         return elementBoundsForImage;
     }
 
-    protected Map<string, DiagramNode> fixFlowNodePositionsIfModelFromAdonis(Document bpmnModel, Map<string, DiagramNode> elementBoundsFromBpmnDi) {
+    protected Map!(string, DiagramNode) fixFlowNodePositionsIfModelFromAdonis(Document bpmnModel, Map!(string, DiagramNode) elementBoundsFromBpmnDi) {
         if (isExportedFromAdonis50(bpmnModel)) {
-            Map<string, DiagramNode> mapOfFixedBounds = new HashMap<>();
+            Map!(string, DiagramNode) mapOfFixedBounds = new HashMap<>();
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xPath = xPathFactory.newXPath();
             xPath.setNamespaceContext(new Bpmn20NamespaceContext());
-            for (Entry<string, DiagramNode> entry : elementBoundsFromBpmnDi.entrySet()) {
+            for (Entry!(string, DiagramNode) entry : elementBoundsFromBpmnDi.entrySet()) {
                 string elementId = entry.getKey();
                 DiagramNode elementBounds = entry.getValue();
                 string expression = "local-name(//bpmn:*[@id = '" + elementId + "'])";

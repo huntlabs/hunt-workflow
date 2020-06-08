@@ -22,11 +22,11 @@
 ///**
 // * @author Joram Barrez
 // */
-//class ExecutionTreeNode implements Iterable<ExecutionTreeNode> {
+//class ExecutionTreeNode implements Iterable!ExecutionTreeNode {
 //
 //    protected ExecutionEntity executionEntity;
 //    protected ExecutionTreeNode parent;
-//    protected List<ExecutionTreeNode> children;
+//    protected List!ExecutionTreeNode children;
 //
 //    public ExecutionTreeNode(ExecutionEntity executionEntity) {
 //        this.executionEntity = executionEntity;
@@ -48,16 +48,16 @@
 //        this.parent = parent;
 //    }
 //
-//    public List<ExecutionTreeNode> getChildren() {
+//    public List!ExecutionTreeNode getChildren() {
 //        return children;
 //    }
 //
-//    public void setChildren(List<ExecutionTreeNode> children) {
+//    public void setChildren(List!ExecutionTreeNode children) {
 //        this.children = children;
 //    }
 //
-//    @Override
-//    public Iterator<ExecutionTreeNode> iterator() {
+//    override
+//    public Iterator!ExecutionTreeNode iterator() {
 //        return new ExecutionTreeBfsIterator(this);
 //    }
 //
@@ -66,7 +66,7 @@
 //    }
 //
 //    /* See http://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram */
-//    @Override
+//    override
 //    public string toString() {
 //        StringBuilder strb = new StringBuilder();
 //        strb.append(getExecutionEntity().getId());

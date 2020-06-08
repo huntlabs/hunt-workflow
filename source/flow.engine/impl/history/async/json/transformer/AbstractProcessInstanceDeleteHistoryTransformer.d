@@ -23,7 +23,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.TaskHelper;
 import flow.entitylink.service.api.history.HistoricEntityLinkService;
 
-abstract class AbstractProcessInstanceDeleteHistoryTransformer extends AbstractHistoryJsonTransformer {
+abstract class AbstractProcessInstanceDeleteHistoryTransformer : AbstractHistoryJsonTransformer {
 
     protected void deleteProcessInstance(string processInstanceId, CommandContext commandContext) {
         HistoricProcessInstanceEntityManager historicProcessInstanceEntityManager = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext);
@@ -44,7 +44,7 @@ abstract class AbstractProcessInstanceDeleteHistoryTransformer extends AbstractH
 
         // Also delete any sub-processes that may be active (ACT-821)
 
-        List<HistoricProcessInstance> selectList = historicProcessInstanceEntityManager.findHistoricProcessInstancesBySuperProcessInstanceId(processInstanceId);
+        List!HistoricProcessInstance selectList = historicProcessInstanceEntityManager.findHistoricProcessInstancesBySuperProcessInstanceId(processInstanceId);
         for (HistoricProcessInstance child : selectList) {
             deleteProcessInstance(child.getId(), commandContext);
         }

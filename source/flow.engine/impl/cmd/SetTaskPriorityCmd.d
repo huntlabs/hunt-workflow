@@ -21,7 +21,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-class SetTaskPriorityCmd extends NeedsActiveTaskCmd<Void> {
+class SetTaskPriorityCmd : NeedsActiveTaskCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ class SetTaskPriorityCmd extends NeedsActiveTaskCmd<Void> {
         this.priority = priority;
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();

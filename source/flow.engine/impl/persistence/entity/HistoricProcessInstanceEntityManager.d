@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.HistoricProcessInstanceEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,26 +18,27 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.impl.HistoricProcessInstanceQueryImpl;
+import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
+import flow.engine.impl.persistence.entity.ExecutionEntity;
 
 /**
  * @author Joram Barrez
  */
-interface HistoricProcessInstanceEntityManager extends EntityManager<HistoricProcessInstanceEntity> {
+interface HistoricProcessInstanceEntityManager : EntityManager!HistoricProcessInstanceEntity {
 
-    @Override
     HistoricProcessInstanceEntity create();
 
     HistoricProcessInstanceEntity create(ExecutionEntity processInstanceExecutionEntity);
 
     long findHistoricProcessInstanceCountByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
+    List!HistoricProcessInstance findHistoricProcessInstancesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesAndVariablesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
+    List!HistoricProcessInstance findHistoricProcessInstancesAndVariablesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesByNativeQuery(Map!(string, Object) parameterMap);
+    List!HistoricProcessInstance findHistoricProcessInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesBySuperProcessInstanceId(string historicProcessInstanceId);
+    List!HistoricProcessInstance findHistoricProcessInstancesBySuperProcessInstanceId(string historicProcessInstanceId);
 
     List!string findHistoricProcessInstanceIdsByProcessDefinitionId(string processDefinitionId);
 

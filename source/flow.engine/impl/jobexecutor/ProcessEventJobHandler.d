@@ -16,8 +16,8 @@
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import flow.job.service.JobHandler;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.variable.service.api.deleg.VariableScope;
@@ -30,12 +30,12 @@ class ProcessEventJobHandler implements JobHandler {
 
     public static final string TYPE = "event";
 
-    @Override
+    override
     public string getType() {
         return TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);

@@ -31,15 +31,15 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * Implementation of the BPMN 2.0 event subprocess event registry start event.
  *
  * @author Tijs Rademakers
  */
-class EventSubProcessEventRegistryStartEventActivityBehavior extends AbstractBpmnActivityBehavior {
+class EventSubProcessEventRegistryStartEventActivityBehavior : AbstractBpmnActivityBehavior {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ class EventSubProcessEventRegistryStartEventActivityBehavior extends AbstractBpm
         this.eventDefinitionKey = eventDefinitionKey;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         StartEvent startEvent = (StartEvent) execution.getCurrentFlowElement();
         EventSubProcess eventSubProcess = (EventSubProcess) startEvent.getSubProcess();
@@ -63,7 +63,7 @@ class EventSubProcessEventRegistryStartEventActivityBehavior extends AbstractBpm
         }
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         CommandContext commandContext = Context.getCommandContext();
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
@@ -71,7 +71,7 @@ class EventSubProcessEventRegistryStartEventActivityBehavior extends AbstractBpm
 
         StartEvent startEvent = (StartEvent) execution.getCurrentFlowElement();
         if (startEvent.isInterrupting()) {
-            List<ExecutionEntity> childExecutions = executionEntityManager.collectChildren(executionEntity.getParent());
+            List!ExecutionEntity childExecutions = executionEntityManager.collectChildren(executionEntity.getParent());
             for (int i = childExecutions.size() - 1; i >= 0; i--) {
                 ExecutionEntity childExecutionEntity = childExecutions.get(i);
                 if (!childExecutionEntity.isEnded() && !childExecutionEntity.getId().equals(executionEntity.getId())) {
@@ -81,7 +81,7 @@ class EventSubProcessEventRegistryStartEventActivityBehavior extends AbstractBpm
             }
 
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-            List<EventSubscriptionEntity> eventSubscriptions = executionEntity.getEventSubscriptions();
+            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
 
             for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
                 if (Objects.equals(eventDefinitionKey, eventSubscription.getEventType())) {
@@ -104,7 +104,7 @@ class EventSubProcessEventRegistryStartEventActivityBehavior extends AbstractBpm
         leave(outgoingFlowExecution);
     }
 
-    protected Map!(string, Object) processDataObjects(Collection<ValuedDataObject> dataObjects) {
+    protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {
         Map!(string, Object) variablesMap = new HashMap<>();
         // convert data objects to process variables
         if (dataObjects !is null) {

@@ -29,19 +29,19 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * @author martin.grofcik
  */
-class HistoricUserTaskLogRecordJsonTransformer extends AbstractHistoryJsonTransformer {
+class HistoricUserTaskLogRecordJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_HISTORIC_TASK_LOG_RECORD);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return true;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         BaseHistoricTaskLogEntryBuilderImpl taskLogEntryBuilder = new BaseHistoricTaskLogEntryBuilderImpl();
 

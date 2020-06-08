@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.BoundaryTimerEventActivityBehavior;
 
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.TimerEventDefinition;
@@ -22,28 +22,27 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.TimerUtil;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
 
 /**
  * @author Joram Barrez
  */
-class BoundaryTimerEventActivityBehavior extends BoundaryEventActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class BoundaryTimerEventActivityBehavior : BoundaryEventActivityBehavior {
 
     protected TimerEventDefinition timerEventDefinition;
 
-    public BoundaryTimerEventActivityBehavior(TimerEventDefinition timerEventDefinition, bool interrupting) {
+    this(TimerEventDefinition timerEventDefinition, bool interrupting) {
         super(interrupting);
         this.timerEventDefinition = timerEventDefinition;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
 
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        if (!(execution.getCurrentFlowElement() instanceof BoundaryEvent)) {
-            throw new FlowableException("Programmatic error: " + this.getClass() + " should not be used for anything else than a boundary event");
-        }
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        //if (!(execution.getCurrentFlowElement() instanceof BoundaryEvent)) {
+        //    throw new FlowableException("Programmatic error: " + this.getClass() + " should not be used for anything else than a boundary event");
+        //}
 
         TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, interrupting, executionEntity, TriggerTimerEventJobHandler.TYPE,
                 TimerEventHandler.createConfiguration(execution.getCurrentActivityId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));

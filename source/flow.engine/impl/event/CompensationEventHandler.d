@@ -31,20 +31,20 @@ import flow.engine.impl.bpmn.helper.ScopeUtil;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
-import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * @author Tijs Rademakers
  */
 class CompensationEventHandler implements EventHandler {
 
-    @Override
+    override
     public string getEventHandlerType() {
         return CompensateEventSubscriptionEntity.EVENT_TYPE;
     }
 
-    @Override
+    override
     public void handleEvent(EventSubscriptionEntity eventSubscription, Object payload, CommandContext commandContext) {
 
         string configuration = eventSubscription.getConfiguration();
@@ -66,7 +66,7 @@ class CompensationEventHandler implements EventHandler {
 
             // descend into scope:
             compensatingExecution.setScope(true);
-            List<CompensateEventSubscriptionEntity> eventsForThisScope = CommandContextUtil.getEventSubscriptionService(commandContext).findCompensateEventSubscriptionsByExecutionId(compensatingExecution.getId());
+            List!CompensateEventSubscriptionEntity eventsForThisScope = CommandContextUtil.getEventSubscriptionService(commandContext).findCompensateEventSubscriptionsByExecutionId(compensatingExecution.getId());
             ScopeUtil.throwCompensationEvent(eventsForThisScope, compensatingExecution, false);
 
         } else {
@@ -85,7 +85,7 @@ class CompensationEventHandler implements EventHandler {
                 if (!activity.isForCompensation() && activity.getBoundaryEvents().size() > 0) {
                     for (BoundaryEvent boundaryEvent : activity.getBoundaryEvents()) {
                         if (boundaryEvent.getEventDefinitions().size() > 0 && boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition) {
-                            List<Association> associations = process.findAssociationsWithSourceRefRecursive(boundaryEvent.getId());
+                            List!Association associations = process.findAssociationsWithSourceRefRecursive(boundaryEvent.getId());
                             for (Association association : associations) {
                                 FlowElement targetElement = process.getFlowElement(association.getTargetRef(), true);
                                 if (targetElement instanceof Activity) {

@@ -29,7 +29,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class GetTaskVariablesCmd implements Command<Map<string, Object>>, Serializable {
+class GetTaskVariablesCmd implements Command<Map!(string, Object)>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -42,7 +42,7 @@ class GetTaskVariablesCmd implements Command<Map<string, Object>>, Serializable 
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     public Map!(string, Object) execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");

@@ -21,7 +21,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-abstract class AbstractTaskEventHandler extends AbstractDatabaseEventLoggerEventHandler {
+abstract class AbstractTaskEventHandler : AbstractDatabaseEventLoggerEventHandler {
 
     protected Map!(string, Object) handleCommonTaskFields(TaskEntity task) {
         Map!(string, Object) data = new HashMap<>();

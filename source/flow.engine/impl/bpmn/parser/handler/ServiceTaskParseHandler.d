@@ -24,16 +24,16 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-class ServiceTaskParseHandler extends AbstractActivityBpmnParseHandler<ServiceTask> {
+class ServiceTaskParseHandler : AbstractActivityBpmnParseHandler!ServiceTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceTaskParseHandler.class);
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ServiceTask.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ServiceTask serviceTask) {
 
         // Email, Mule, Http and Shell service tasks

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.FormServiceImpl;
 
 import hunt.collection.Map;
 
@@ -33,64 +33,64 @@ import flow.engine.runtime.ProcessInstance;
  * @author Tom Baeyens
  * @author Falko Menge (camunda)
  */
-class FormServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurationImpl> implements FormService {
+class FormServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl implements FormService {
 
-    @Override
+    override
     public Object getRenderedStartForm(string processDefinitionId) {
         return commandExecutor.execute(new GetRenderedStartFormCmd(processDefinitionId, null));
     }
 
-    @Override
+    override
     public Object getRenderedStartForm(string processDefinitionId, string engineName) {
         return commandExecutor.execute(new GetRenderedStartFormCmd(processDefinitionId, engineName));
     }
 
-    @Override
+    override
     public Object getRenderedTaskForm(string taskId) {
         return commandExecutor.execute(new GetRenderedTaskFormCmd(taskId, null));
     }
 
-    @Override
+    override
     public Object getRenderedTaskForm(string taskId, string engineName) {
         return commandExecutor.execute(new GetRenderedTaskFormCmd(taskId, engineName));
     }
 
-    @Override
+    override
     public StartFormData getStartFormData(string processDefinitionId) {
         return commandExecutor.execute(new GetStartFormCmd(processDefinitionId));
     }
 
-    @Override
+    override
     public TaskFormData getTaskFormData(string taskId) {
         return commandExecutor.execute(new GetTaskFormCmd(taskId));
     }
 
-    @Override
+    override
     public ProcessInstance submitStartFormData(string processDefinitionId, Map!(string, string) properties) {
         return commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, null, properties));
     }
 
-    @Override
+    override
     public ProcessInstance submitStartFormData(string processDefinitionId, string businessKey, Map!(string, string) properties) {
         return commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, businessKey, properties));
     }
 
-    @Override
+    override
     public void submitTaskFormData(string taskId, Map!(string, string) properties) {
         commandExecutor.execute(new SubmitTaskFormCmd(taskId, properties, true));
     }
 
-    @Override
+    override
     public string getStartFormKey(string processDefinitionId) {
         return commandExecutor.execute(new GetFormKeyCmd(processDefinitionId));
     }
 
-    @Override
+    override
     public string getTaskFormKey(string processDefinitionId, string taskDefinitionKey) {
         return commandExecutor.execute(new GetFormKeyCmd(processDefinitionId, taskDefinitionKey));
     }
 
-    @Override
+    override
     public void saveFormData(string taskId, Map!(string, string) properties) {
         commandExecutor.execute(new SubmitTaskFormCmd(taskId, properties, false));
     }

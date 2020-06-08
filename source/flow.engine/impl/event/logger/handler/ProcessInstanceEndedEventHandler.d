@@ -22,11 +22,11 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 /**
  * @author Joram Barrez
  */
-class ProcessInstanceEndedEventHandler extends AbstractDatabaseEventLoggerEventHandler {
+class ProcessInstanceEndedEventHandler : AbstractDatabaseEventLoggerEventHandler {
 
     private static final string TYPE = "PROCESSINSTANCE_END";
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         ExecutionEntity processInstanceEntity = getEntityFromEvent();
 

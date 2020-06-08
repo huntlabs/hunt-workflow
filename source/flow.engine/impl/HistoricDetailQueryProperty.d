@@ -28,7 +28,7 @@ class HistoricDetailQueryProperty implements QueryProperty {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Map<string, HistoricDetailQueryProperty> properties = new HashMap<>();
+    private static final Map!(string, HistoricDetailQueryProperty) properties = new HashMap<>();
 
     public static final HistoricDetailQueryProperty PROCESS_INSTANCE_ID = new HistoricDetailQueryProperty("PROC_INST_ID_");
     public static final HistoricDetailQueryProperty VARIABLE_NAME = new HistoricDetailQueryProperty("NAME_");
@@ -43,7 +43,7 @@ class HistoricDetailQueryProperty implements QueryProperty {
         properties.put(name, this);
     }
 
-    @Override
+    override
     public string getName() {
         return name;
     }

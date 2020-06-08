@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.IntermediateCatchTimerEventActivityBehavior;
 
 import hunt.collection.List;
 
@@ -25,21 +25,21 @@ import flow.engine.impl.util.TimerUtil;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import flow.engine.impl.bpmn.behavior.IntermediateCatchEventActivityBehavior;
 
-class IntermediateCatchTimerEventActivityBehavior extends IntermediateCatchEventActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
+class IntermediateCatchTimerEventActivityBehavior : IntermediateCatchEventActivityBehavior {
 
     protected TimerEventDefinition timerEventDefinition;
 
-    public IntermediateCatchTimerEventActivityBehavior(TimerEventDefinition timerEventDefinition) {
+    this(TimerEventDefinition timerEventDefinition) {
         this.timerEventDefinition = timerEventDefinition;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         // end date should be ignored for intermediate timer events.
-        TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, (ExecutionEntity) execution, TriggerTimerEventJobHandler.TYPE,
+        TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, cast(ExecutionEntity) execution, TriggerTimerEventJobHandler.TYPE,
                 TimerEventHandler.createConfiguration(execution.getCurrentActivityId(), null, timerEventDefinition.getCalendarName()));
 
         if (timerJob !is null) {
@@ -47,16 +47,16 @@ class IntermediateCatchTimerEventActivityBehavior extends IntermediateCatchEvent
         }
     }
 
-    @Override
+    override
     public void eventCancelledByEventGateway(DelegateExecution execution) {
         JobService jobService = CommandContextUtil.getJobService();
-        List<JobEntity> jobEntities = jobService.findJobsByExecutionId(execution.getId());
+        List!JobEntity jobEntities = jobService.findJobsByExecutionId(execution.getId());
 
-        for (JobEntity jobEntity : jobEntities) { // Should be only one
+        foreach (JobEntity jobEntity ; jobEntities) { // Should be only one
             jobService.deleteJob(jobEntity);
         }
 
-        CommandContextUtil.getExecutionEntityManager().deleteExecutionAndRelatedData((ExecutionEntity) execution,
+        CommandContextUtil.getExecutionEntityManager().deleteExecutionAndRelatedData(cast(ExecutionEntity) execution,
                 DeleteReason.EVENT_BASED_GATEWAY_CANCEL, false);
     }
 

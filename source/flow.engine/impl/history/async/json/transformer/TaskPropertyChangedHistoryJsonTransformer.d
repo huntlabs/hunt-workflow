@@ -31,16 +31,16 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class TaskPropertyChangedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransformer {
+class TaskPropertyChangedHistoryJsonTransformer : AbstractNeedsTaskHistoryJsonTransformer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskPropertyChangedHistoryJsonTransformer.class);
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_TASK_PROPERTY_CHANGED);
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string taskId = getStringFromJson(historicalData, HistoryJsonConstants.ID);
         if (StringUtils.isNotEmpty(taskId)) {

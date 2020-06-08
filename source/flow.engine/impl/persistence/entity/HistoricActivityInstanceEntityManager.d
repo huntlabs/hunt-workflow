@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.HistoricActivityInstanceEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,23 +18,23 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.engine.history.HistoricActivityInstance;
 import flow.engine.impl.HistoricActivityInstanceQueryImpl;
-
+import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 /**
  * @author Joram Barrez
  */
-interface HistoricActivityInstanceEntityManager extends EntityManager<HistoricActivityInstanceEntity> {
+interface HistoricActivityInstanceEntityManager : EntityManager!HistoricActivityInstanceEntity {
 
-    List<HistoricActivityInstanceEntity> findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
+    List!HistoricActivityInstanceEntity findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
 
-    List<HistoricActivityInstanceEntity> findHistoricActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
+    List!HistoricActivityInstanceEntity findHistoricActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
 
-    List<HistoricActivityInstanceEntity> findUnfinishedHistoricActivityInstancesByProcessInstanceId(string processInstanceId);
+    List!HistoricActivityInstanceEntity findUnfinishedHistoricActivityInstancesByProcessInstanceId(string processInstanceId);
 
     long findHistoricActivityInstanceCountByQueryCriteria(HistoricActivityInstanceQueryImpl historicActivityInstanceQuery);
 
-    List<HistoricActivityInstance> findHistoricActivityInstancesByQueryCriteria(HistoricActivityInstanceQueryImpl historicActivityInstanceQuery);
+    List!HistoricActivityInstance findHistoricActivityInstancesByQueryCriteria(HistoricActivityInstanceQueryImpl historicActivityInstanceQuery);
 
-    List<HistoricActivityInstance> findHistoricActivityInstancesByNativeQuery(Map!(string, Object) parameterMap);
+    List!HistoricActivityInstance findHistoricActivityInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
     long findHistoricActivityInstanceCountByNativeQuery(Map!(string, Object) parameterMap);
 

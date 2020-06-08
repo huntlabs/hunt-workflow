@@ -31,7 +31,7 @@ class DelegateExpressionUtil {
     }
 
     public static Object resolveDelegateExpression(Expression expression,
-                                                   VariableContainer variableScope, List<FieldDeclaration> fieldDeclarations) {
+                                                   VariableContainer variableScope, List!FieldDeclaration fieldDeclarations) {
 
         // Note: we can't cache the result of the expression, because the
         // execution can change: eg. delegateExpression='${mySpringBeanFactory.randomSpringBean()}'

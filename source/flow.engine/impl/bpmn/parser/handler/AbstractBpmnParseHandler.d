@@ -33,7 +33,7 @@ import flow.engine.parse.BpmnParseHandler;
 /**
  * @author Joram Barrez
  */
-abstract class AbstractBpmnParseHandler<T extends BaseElement> implements BpmnParseHandler {
+abstract class AbstractBpmnParseHandler<T : BaseElement> implements BpmnParseHandler {
 
     public static final string PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION = "eventDefinitions";
 
@@ -41,17 +41,17 @@ abstract class AbstractBpmnParseHandler<T extends BaseElement> implements BpmnPa
 
     public static final string PROPERTYNAME_TIMER_DECLARATION = "timerDeclarations";
 
-    @Override
-    public Set<Class<? extends BaseElement>> getHandledTypes() {
-        Set<Class<? extends BaseElement>> types = new HashSet<>();
+    override
+    public Set<Class<? : BaseElement>> getHandledTypes() {
+        Set<Class<? : BaseElement>> types = new HashSet<>();
         types.add(getHandledType());
         return types;
     }
 
-    protected abstract Class<? extends BaseElement> getHandledType();
+    protected abstract Class<? : BaseElement> getHandledType();
 
     @SuppressWarnings("unchecked")
-    @Override
+    override
     public void parse(BpmnParse bpmnParse, BaseElement element) {
         T baseElement = (T) element;
         executeParse(bpmnParse, baseElement);
@@ -84,7 +84,7 @@ abstract class AbstractBpmnParseHandler<T extends BaseElement> implements BpmnPa
         return eventBasedGatewayId;
     }
 
-    protected void processArtifacts(BpmnParse bpmnParse, Collection<Artifact> artifacts) {
+    protected void processArtifacts(BpmnParse bpmnParse, Collection!Artifact artifacts) {
         // associations
         for (Artifact artifact : artifacts) {
             if (artifact instanceof Association) {

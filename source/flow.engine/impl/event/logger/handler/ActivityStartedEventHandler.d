@@ -22,9 +22,9 @@ import flow.engine.impl.persistence.entity.EventLogEntryEntity;
 /**
  * @author Joram Barrez
  */
-class ActivityStartedEventHandler extends AbstractDatabaseEventLoggerEventHandler {
+class ActivityStartedEventHandler : AbstractDatabaseEventLoggerEventHandler {
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         FlowableActivityEvent activityEvent = (FlowableActivityEvent) event;
 

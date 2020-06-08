@@ -30,14 +30,14 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class TaskAssigneeChangedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransformer {
+class TaskAssigneeChangedHistoryJsonTransformer : AbstractNeedsTaskHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_TASK_ASSIGNEE_CHANGED);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityAssigneeHandled = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ASSIGNEE_HANDLED);
         if (activityAssigneeHandled !is null && bool.valueOf(activityAssigneeHandled)) {
@@ -55,7 +55,7 @@ class TaskAssigneeChangedHistoryJsonTransformer extends AbstractNeedsTaskHistory
         }
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string assignee = getStringFromJson(historicalData, HistoryJsonConstants.ASSIGNEE);
 

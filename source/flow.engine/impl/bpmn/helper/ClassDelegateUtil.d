@@ -27,17 +27,17 @@ import flow.engine.impl.bpmn.parser.FieldDeclaration;
  */
 class ClassDelegateUtil {
 
-    public static Object instantiateDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations) {
+    public static Object instantiateDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
         return instantiateDelegate(clazz.getName(), fieldDeclarations);
     }
 
-    public static Object instantiateDelegate(string className, List<FieldDeclaration> fieldDeclarations) {
+    public static Object instantiateDelegate(string className, List!FieldDeclaration fieldDeclarations) {
         Object object = ReflectUtil.instantiate(className);
         applyFieldDeclaration(fieldDeclarations, object);
         return object;
     }
 
-    public static void applyFieldDeclaration(List<FieldDeclaration> fieldDeclarations, Object target) {
+    public static void applyFieldDeclaration(List!FieldDeclaration fieldDeclarations, Object target) {
         if (fieldDeclarations !is null) {
             for (FieldDeclaration declaration : fieldDeclarations) {
                 applyFieldDeclaration(declaration, target);

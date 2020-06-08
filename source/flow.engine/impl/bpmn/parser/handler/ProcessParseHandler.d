@@ -30,18 +30,18 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-class ProcessParseHandler extends AbstractBpmnParseHandler<Process> {
+class ProcessParseHandler : AbstractBpmnParseHandler!Process {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessParseHandler.class);
 
     public static final string PROPERTYNAME_DOCUMENTATION = "documentation";
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return Process.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, Process process) {
         if (!process.isExecutable()) {
             LOGGER.info("Ignoring non-executable process with id='{}'. Set the attribute isExecutable=\"true\" to deploy this process.", process.getId());
@@ -79,7 +79,7 @@ class ProcessParseHandler extends AbstractBpmnParseHandler<Process> {
         return currentProcessDefinition;
     }
 
-    protected void createEventListeners(BpmnParse bpmnParse, List<EventListener> eventListeners) {
+    protected void createEventListeners(BpmnParse bpmnParse, List!EventListener eventListeners) {
 
         if (eventListeners !is null && !eventListeners.isEmpty()) {
             for (EventListener eventListener : eventListeners) {

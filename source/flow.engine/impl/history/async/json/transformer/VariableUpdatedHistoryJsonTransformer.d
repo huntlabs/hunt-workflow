@@ -33,19 +33,19 @@ import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEnt
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class VariableUpdatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+class VariableUpdatedHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_VARIABLE_UPDATED);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return CommandContextUtil.getHistoricVariableService().getHistoricVariableInstance(getStringFromJson(historicalData, HistoryJsonConstants.ID)) !is null;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         HistoricVariableInstanceEntity historicVariable = CommandContextUtil.getHistoricVariableService().getHistoricVariableInstance(
                         getStringFromJson(historicalData, HistoryJsonConstants.ID));

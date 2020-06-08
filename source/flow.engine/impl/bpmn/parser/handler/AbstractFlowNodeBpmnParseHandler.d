@@ -17,6 +17,6 @@ import flow.bpmn.model.FlowNode;
 /**
  * @author Joram Barrez
  */
-abstract class AbstractFlowNodeBpmnParseHandler<T extends FlowNode> extends AbstractBpmnParseHandler<T> {
+abstract class AbstractFlowNodeBpmnParseHandler<T : FlowNode> : AbstractBpmnParseHandler!T {
 
 }

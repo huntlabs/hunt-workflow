@@ -73,12 +73,12 @@ class JobTestHelper {
             maxMillisToWait, intervalMillis, shutdownExecutorWhenFinished);
     }
 
-    public static void waitForJobExecutorOnCondition(FlowableRule activitiRule, long maxMillisToWait, long intervalMillis, Callable<bool> condition) {
+    public static void waitForJobExecutorOnCondition(FlowableRule activitiRule, long maxMillisToWait, long intervalMillis, Callable!bool condition) {
         waitForJobExecutorOnCondition(activitiRule.getProcessEngine().getProcessEngineConfiguration(), maxMillisToWait, intervalMillis, condition);
     }
 
     public static void waitForJobExecutorOnCondition(ProcessEngineConfiguration processEngineConfiguration,
-            long maxMillisToWait, long intervalMillis, Callable<bool> condition) {
+            long maxMillisToWait, long intervalMillis, Callable!bool condition) {
         AsyncExecutor asyncExecutor = processEngineConfiguration.getAsyncExecutor();
         asyncExecutor.start();
 
@@ -168,7 +168,7 @@ class JobTestHelper {
     }
 
     protected static void internalWaitForJobs(ProcessEngineConfiguration processEngineConfiguration, ManagementService managementService,
-        Predicate<ManagementService> jobsAvailablePredicate, long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
+        Predicate!ManagementService jobsAvailablePredicate, long maxMillisToWait, long intervalMillis, bool shutdownExecutorWhenFinished) {
         AsyncExecutor asyncExecutor = processEngineConfiguration.getAsyncExecutor();
         asyncExecutor.start();
         processEngineConfiguration.setAsyncExecutorActivate(true);
@@ -205,7 +205,7 @@ class JobTestHelper {
         }
     }
 
-    private static class InterruptTask extends TimerTask {
+    private static class InterruptTask : TimerTask {
 
         protected bool timeLimitExceeded;
         protected Thread thread;
@@ -218,7 +218,7 @@ class JobTestHelper {
             return timeLimitExceeded;
         }
 
-        @Override
+        override
         public void run() {
             timeLimitExceeded = true;
             thread.interrupt();

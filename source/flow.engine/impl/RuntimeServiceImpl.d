@@ -89,7 +89,7 @@ import flow.engine.task.Event;
 import flow.entitylink.service.api.EntityLink;
 import flow.event.registry.api.EventRegistryEventConsumer;
 import flow.eventsubscription.service.api.EventSubscriptionQuery;
-import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryImpl;
+import flow.eventsubscription.service.impl.EventSubscriptionQueryImpl;
 import flow.form.api.FormInfo;
 import flow.identitylink.api.IdentityLink;
 import flow.identitylink.api.IdentityLinkType;
@@ -99,69 +99,69 @@ import flow.variable.service.api.persistence.entity.VariableInstance;
  * @author Tom Baeyens
  * @author Daniel Meyer
  */
-class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurationImpl> implements RuntimeService {
+class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl implements RuntimeService {
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, null, null));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, string businessKey) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, businessKey, null));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, null, variables));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, variables));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, string businessKey, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, businessKey, variables));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, variables));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, null, null, tenantId));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, null, tenantId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string businessKey, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, businessKey, null, tenantId));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, null, tenantId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, Map!(string, Object) variables, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, null, variables, tenantId));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, variables, tenantId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string businessKey, Map!(string, Object) variables, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processDefinitionKey, null, businessKey, variables, tenantId));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, variables, tenantId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceById(string processDefinitionId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(null, processDefinitionId, null, null));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, null, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceById(string processDefinitionId, string businessKey) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(null, processDefinitionId, businessKey, null));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, businessKey, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceById(string processDefinitionId, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(null, processDefinitionId, null, variables));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, null, variables));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceById(string processDefinitionId, string businessKey, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(null, processDefinitionId, businessKey, variables));
+        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, businessKey, variables));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceWithForm(string processDefinitionId, string outcome, Map!(string, Object) variables, string processInstanceName) {
         ProcessInstanceBuilder processInstanceBuilder = createProcessInstanceBuilder()
             .processDefinitionId(processDefinitionId)
@@ -171,132 +171,132 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         return processInstanceBuilder.start();
     }
 
-    @Override
+    override
     public FormInfo getStartFormModel(string processDefinitionId, string processInstanceId) {
         return commandExecutor.execute(new GetStartFormModelCmd(processDefinitionId, processInstanceId));
     }
 
-    @Override
+    override
     public void deleteProcessInstance(string processInstanceId, string deleteReason) {
         commandExecutor.execute(new DeleteProcessInstanceCmd(processInstanceId, deleteReason));
     }
 
-    @Override
+    override
     public ExecutionQuery createExecutionQuery() {
         return new ExecutionQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public NativeExecutionQuery createNativeExecutionQuery() {
         return new NativeExecutionQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public NativeProcessInstanceQuery createNativeProcessInstanceQuery() {
         return new NativeProcessInstanceQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public NativeActivityInstanceQueryImpl createNativeActivityInstanceQuery() {
         return new NativeActivityInstanceQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public EventSubscriptionQuery createEventSubscriptionQuery() {
         return new EventSubscriptionQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public void updateBusinessKey(string processInstanceId, string businessKey) {
         commandExecutor.execute(new SetProcessInstanceBusinessKeyCmd(processInstanceId, businessKey));
     }
 
-    @Override
+    override
     public Map!(string, Object) getVariables(string executionId) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, false));
     }
 
-    @Override
-    public Map<string, VariableInstance> getVariableInstances(string executionId) {
+    override
+    public Map!(string, VariableInstance) getVariableInstances(string executionId) {
         return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, null, false));
     }
 
-    @Override
-    public List<VariableInstance> getVariableInstancesByExecutionIds(Set!string executionIds) {
+    override
+    public List!VariableInstance getVariableInstancesByExecutionIds(Set!string executionIds) {
         return commandExecutor.execute(new GetExecutionsVariablesCmd(executionIds));
     }
 
-    @Override
+    override
     public Map!(string, Object) getVariablesLocal(string executionId) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, true));
     }
 
-    @Override
-    public Map<string, VariableInstance> getVariableInstancesLocal(string executionId) {
+    override
+    public Map!(string, VariableInstance) getVariableInstancesLocal(string executionId) {
         return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, null, true));
     }
 
-    @Override
+    override
     public Map!(string, Object) getVariables(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, false));
     }
 
-    @Override
-    public Map<string, VariableInstance> getVariableInstances(string executionId, Collection!string variableNames) {
+    override
+    public Map!(string, VariableInstance) getVariableInstances(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, false));
     }
 
-    @Override
+    override
     public Map!(string, Object) getVariablesLocal(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, true));
     }
 
-    @Override
-    public Map<string, VariableInstance> getVariableInstancesLocal(string executionId, Collection!string variableNames) {
+    override
+    public Map!(string, VariableInstance) getVariableInstancesLocal(string executionId, Collection!string variableNames) {
         return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, true));
     }
 
-    @Override
+    override
     public Object getVariable(string executionId, string variableName) {
         return commandExecutor.execute(new GetExecutionVariableCmd(executionId, variableName, false));
     }
 
-    @Override
+    override
     public VariableInstance getVariableInstance(string executionId, string variableName) {
         return commandExecutor.execute(new GetExecutionVariableInstanceCmd(executionId, variableName, false));
     }
 
-    @Override
-    public <T> T getVariable(string executionId, string variableName, Class<T> variableClass) {
+    override
+    public <T> T getVariable(string executionId, string variableName, Class!T variableClass) {
         return variableClass.cast(getVariable(executionId, variableName));
     }
 
-    @Override
+    override
     public bool hasVariable(string executionId, string variableName) {
         return commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, false));
     }
 
-    @Override
+    override
     public Object getVariableLocal(string executionId, string variableName) {
         return commandExecutor.execute(new GetExecutionVariableCmd(executionId, variableName, true));
     }
 
-    @Override
+    override
     public VariableInstance getVariableInstanceLocal(string executionId, string variableName) {
         return commandExecutor.execute(new GetExecutionVariableInstanceCmd(executionId, variableName, true));
     }
 
-    @Override
-    public <T> T getVariableLocal(string executionId, string variableName, Class<T> variableClass) {
+    override
+    public <T> T getVariableLocal(string executionId, string variableName, Class!T variableClass) {
         return variableClass.cast(getVariableLocal(executionId, variableName));
     }
 
-    @Override
+    override
     public bool hasVariableLocal(string executionId, string variableName) {
         return commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, true));
     }
 
-    @Override
+    override
     public void setVariable(string executionId, string variableName, Object value) {
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
@@ -306,7 +306,7 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, false));
     }
 
-    @Override
+    override
     public void setVariableLocal(string executionId, string variableName, Object value) {
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
@@ -316,96 +316,96 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, true));
     }
 
-    @Override
+    override
     public void setVariables(string executionId, Map<string, ?> variables) {
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, false));
     }
 
-    @Override
+    override
     public void setVariablesLocal(string executionId, Map<string, ?> variables) {
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, true));
     }
 
-    @Override
+    override
     public void removeVariable(string executionId, string variableName) {
         Collection!string variableNames = new ArrayList<>(1);
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, false));
     }
 
-    @Override
+    override
     public void removeVariableLocal(string executionId, string variableName) {
         Collection!string variableNames = new ArrayList<>();
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, true));
     }
 
-    @Override
+    override
     public void removeVariables(string executionId, Collection!string variableNames) {
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, false));
     }
 
-    @Override
+    override
     public void removeVariablesLocal(string executionId, Collection!string variableNames) {
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, true));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjects(string executionId) {
+    override
+    public Map!(string, DataObject) getDataObjects(string executionId) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, false));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjects(string executionId, string locale, bool withLocalizationFallback) {
+    override
+    public Map!(string, DataObject) getDataObjects(string executionId, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, false, locale, withLocalizationFallback));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId) {
+    override
+    public Map!(string, DataObject) getDataObjectsLocal(string executionId) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, true));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId, string locale, bool withLocalizationFallback) {
+    override
+    public Map!(string, DataObject) getDataObjectsLocal(string executionId, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, true, locale, withLocalizationFallback));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjects(string executionId, Collection!string dataObjectNames) {
+    override
+    public Map!(string, DataObject) getDataObjects(string executionId, Collection!string dataObjectNames) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjects(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
+    override
+    public Map!(string, DataObject) getDataObjects(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false, locale, withLocalizationFallback));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection!string dataObjects) {
+    override
+    public Map!(string, DataObject) getDataObjectsLocal(string executionId, Collection!string dataObjects) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjects, true));
     }
 
-    @Override
-    public Map<string, DataObject> getDataObjectsLocal(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
+    override
+    public Map!(string, DataObject) getDataObjectsLocal(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, true, locale, withLocalizationFallback));
     }
 
-    @Override
+    override
     public DataObject getDataObject(string executionId, string dataObject) {
         return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObject, false));
     }
 
-    @Override
+    override
     public DataObject getDataObject(string executionId, string dataObjectName, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, false, locale, withLocalizationFallback));
     }
 
-    @Override
+    override
     public DataObject getDataObjectLocal(string executionId, string dataObjectName) {
         return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, true));
     }
 
-    @Override
+    override
     public DataObject getDataObjectLocal(string executionId, string dataObjectName, string locale, bool withLocalizationFallback) {
         return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, true, locale, withLocalizationFallback));
     }
@@ -414,12 +414,12 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         commandExecutor.execute(new TriggerCmd(executionId, null));
     }
 
-    @Override
+    override
     public void trigger(string executionId) {
         commandExecutor.execute(new TriggerCmd(executionId, null));
     }
 
-    @Override
+    override
     public void triggerAsync(string executionId) {
         commandExecutor.execute(new TriggerCmd(executionId, null, true));
     }
@@ -428,107 +428,107 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         commandExecutor.execute(new TriggerCmd(executionId, processVariables));
     }
 
-    @Override
+    override
     public void trigger(string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new TriggerCmd(executionId, processVariables));
     }
 
-    @Override
+    override
     public void triggerAsync(string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new TriggerCmd(executionId, processVariables, true));
     }
 
-    @Override
+    override
     public void trigger(string executionId, Map!(string, Object) processVariables, Map!(string, Object) transientVariables) {
         commandExecutor.execute(new TriggerCmd(executionId, processVariables, transientVariables));
     }
 
-    @Override
+    override
     public void evaluateConditionalEvents(string processInstanceId) {
         commandExecutor.execute(new EvaluateConditionalEventsCmd(processInstanceId, null));
     }
 
-    @Override
+    override
     public void evaluateConditionalEvents(string processInstanceId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new EvaluateConditionalEventsCmd(processInstanceId, processVariables));
     }
 
-    @Override
+    override
     public void addUserIdentityLink(string processInstanceId, string userId, string identityLinkType) {
         commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, identityLinkType));
     }
 
-    @Override
+    override
     public void addGroupIdentityLink(string processInstanceId, string groupId, string identityLinkType) {
         commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, identityLinkType));
     }
 
-    @Override
+    override
     public void addParticipantUser(string processInstanceId, string userId) {
         commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, IdentityLinkType.PARTICIPANT));
     }
 
-    @Override
+    override
     public void addParticipantGroup(string processInstanceId, string groupId) {
         commandExecutor.execute(new AddIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, IdentityLinkType.PARTICIPANT));
     }
 
-    @Override
+    override
     public void deleteParticipantUser(string processInstanceId, string userId) {
         commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, IdentityLinkType.PARTICIPANT));
     }
 
-    @Override
+    override
     public void deleteParticipantGroup(string processInstanceId, string groupId) {
         commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, IdentityLinkType.PARTICIPANT));
     }
 
-    @Override
+    override
     public void deleteUserIdentityLink(string processInstanceId, string userId, string identityLinkType) {
         commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, userId, null, identityLinkType));
     }
 
-    @Override
+    override
     public void deleteGroupIdentityLink(string processInstanceId, string groupId, string identityLinkType) {
         commandExecutor.execute(new DeleteIdentityLinkForProcessInstanceCmd(processInstanceId, null, groupId, identityLinkType));
     }
 
-    @Override
+    override
     public List!IdentityLink getIdentityLinksForProcessInstance(string processInstanceId) {
         return commandExecutor.execute(new GetIdentityLinksForProcessInstanceCmd(processInstanceId));
     }
 
-    @Override
-    public List<EntityLink> getEntityLinkChildrenForProcessInstance(string processInstanceId) {
+    override
+    public List!EntityLink getEntityLinkChildrenForProcessInstance(string processInstanceId) {
         return commandExecutor.execute(new GetEntityLinkChildrenForProcessInstanceCmd(processInstanceId));
     }
 
-    @Override
-    public List<EntityLink> getEntityLinkChildrenForTask(string taskId) {
+    override
+    public List!EntityLink getEntityLinkChildrenForTask(string taskId) {
         return commandExecutor.execute(new GetEntityLinkChildrenForTaskCmd(taskId));
     }
 
-    @Override
-    public List<EntityLink> getEntityLinkParentsForProcessInstance(string processInstanceId) {
+    override
+    public List!EntityLink getEntityLinkParentsForProcessInstance(string processInstanceId) {
         return commandExecutor.execute(new GetEntityLinkParentsForProcessInstanceCmd(processInstanceId));
     }
 
-    @Override
-    public List<EntityLink> getEntityLinkParentsForTask(string taskId) {
+    override
+    public List!EntityLink getEntityLinkParentsForTask(string taskId) {
         return commandExecutor.execute(new GetEntityLinkParentsForTaskCmd(taskId));
     }
 
-    @Override
+    override
     public ProcessInstanceQuery createProcessInstanceQuery() {
         return new ProcessInstanceQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl createActivityInstanceQuery() {
         return new ActivityInstanceQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public List!string getActiveActivityIds(string executionId) {
         return commandExecutor.execute(new FindActiveActivityIdsCmd(executionId));
     }
@@ -537,199 +537,199 @@ class RuntimeServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurat
         return commandExecutor.execute(new GetStartFormCmd(processDefinitionId));
     }
 
-    @Override
+    override
     public void suspendProcessInstanceById(string processInstanceId) {
         commandExecutor.execute(new SuspendProcessInstanceCmd(processInstanceId));
     }
 
-    @Override
+    override
     public void activateProcessInstanceById(string processInstanceId) {
         commandExecutor.execute(new ActivateProcessInstanceCmd(processInstanceId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessage(string messageName) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, null, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, null, tenantId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessage(string messageName, string businessKey) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, null, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string businessKey, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, null, tenantId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessage(string messageName, Map!(string, Object) processVariables) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, Map!(string, Object) processVariables, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, tenantId));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessage(string messageName, string businessKey, Map!(string, Object) processVariables) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, null));
     }
 
-    @Override
+    override
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string businessKey, Map!(string, Object) processVariables, string tenantId) {
         return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, tenantId));
     }
 
-    @Override
+    override
     public void signalEventReceived(string signalName) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, null, null));
     }
 
-    @Override
+    override
     public void signalEventReceivedWithTenantId(string signalName, string tenantId) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, null, tenantId));
     }
 
-    @Override
+    override
     public void signalEventReceivedAsync(string signalName) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, true, null));
     }
 
-    @Override
+    override
     public void signalEventReceivedAsyncWithTenantId(string signalName, string tenantId) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, true, tenantId));
     }
 
-    @Override
+    override
     public void signalEventReceived(string signalName, Map!(string, Object) processVariables) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, processVariables, null));
     }
 
-    @Override
+    override
     public void signalEventReceivedWithTenantId(string signalName, Map!(string, Object) processVariables, string tenantId) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, null, processVariables, tenantId));
     }
 
-    @Override
+    override
     public void signalEventReceived(string signalName, string executionId) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, executionId, null, null));
     }
 
-    @Override
+    override
     public void signalEventReceived(string signalName, string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, executionId, processVariables, null));
     }
 
-    @Override
+    override
     public void signalEventReceivedAsync(string signalName, string executionId) {
         commandExecutor.execute(new SignalEventReceivedCmd(signalName, executionId, true, null));
     }
 
-    @Override
+    override
     public void messageEventReceived(string messageName, string executionId) {
         commandExecutor.execute(new MessageEventReceivedCmd(messageName, executionId, null));
     }
 
-    @Override
+    override
     public void messageEventReceived(string messageName, string executionId, Map!(string, Object) processVariables) {
         commandExecutor.execute(new MessageEventReceivedCmd(messageName, executionId, processVariables));
     }
 
-    @Override
+    override
     public void messageEventReceivedAsync(string messageName, string executionId) {
         commandExecutor.execute(new MessageEventReceivedCmd(messageName, executionId, true));
     }
 
-    @Override
+    override
     public void addEventListener(FlowableEventListener listenerToAdd) {
         commandExecutor.execute(new AddEventListenerCommand(listenerToAdd));
     }
 
-    @Override
+    override
     public void addEventListener(FlowableEventListener listenerToAdd, FlowableEngineEventType... types) {
         commandExecutor.execute(new AddEventListenerCommand(listenerToAdd, types));
     }
 
-    @Override
+    override
     public void removeEventListener(FlowableEventListener listenerToRemove) {
         commandExecutor.execute(new RemoveEventListenerCommand(listenerToRemove));
     }
 
-    @Override
+    override
     public void dispatchEvent(FlowableEvent event) {
         commandExecutor.execute(new DispatchEventCommand(event));
     }
 
-    @Override
+    override
     public void addEventRegistryConsumer(EventRegistryEventConsumer eventConsumer) {
         commandExecutor.execute(new AddEventConsumerCommand(eventConsumer));
     }
 
-    @Override
+    override
     public void removeEventRegistryConsumer(EventRegistryEventConsumer eventConsumer) {
         commandExecutor.execute(new RemoveEventConsumerCommand(eventConsumer));
     }
 
-    @Override
+    override
     public void setProcessInstanceName(string processInstanceId, string name) {
         commandExecutor.execute(new SetProcessInstanceNameCmd(processInstanceId, name));
     }
 
-    @Override
-    public List<Event> getProcessInstanceEvents(string processInstanceId) {
+    override
+    public List!Event getProcessInstanceEvents(string processInstanceId) {
         return commandExecutor.execute(new GetProcessInstanceEventsCmd(processInstanceId));
     }
 
-    @Override
-    public List<Execution> getAdhocSubProcessExecutions(string processInstanceId) {
+    override
+    public List!Execution getAdhocSubProcessExecutions(string processInstanceId) {
         return commandExecutor.execute(new GetActiveAdhocSubProcessesCmd(processInstanceId));
     }
 
-    @Override
-    public List<FlowNode> getEnabledActivitiesFromAdhocSubProcess(string executionId) {
+    override
+    public List!FlowNode getEnabledActivitiesFromAdhocSubProcess(string executionId) {
         return commandExecutor.execute(new GetEnabledActivitiesForAdhocSubProcessCmd(executionId));
     }
 
-    @Override
+    override
     public Execution executeActivityInAdhocSubProcess(string executionId, string activityId) {
         return commandExecutor.execute(new ExecuteActivityForAdhocSubProcessCmd(executionId, activityId));
     }
 
-    @Override
+    override
     public void completeAdhocSubProcess(string executionId) {
         commandExecutor.execute(new CompleteAdhocSubProcessCmd(executionId));
     }
 
-    @Override
+    override
     public ProcessInstanceBuilder createProcessInstanceBuilder() {
         return new ProcessInstanceBuilderImpl(this);
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder createChangeActivityStateBuilder() {
         return new ChangeActivityStateBuilderImpl(this);
     }
 
-    @Override
+    override
     public Execution addMultiInstanceExecution(string activityId, string parentExecutionId, Map!(string, Object) executionVariables) {
         return commandExecutor.execute(new AddMultiInstanceExecutionCmd(activityId, parentExecutionId, executionVariables));
     }
 
-    @Override
+    override
     public void deleteMultiInstanceExecution(string executionId, bool executionIsCompleted) {
         commandExecutor.execute(new DeleteMultiInstanceExecutionCmd(executionId, executionIsCompleted));
     }
 
     public ProcessInstance startProcessInstance(ProcessInstanceBuilderImpl processInstanceBuilder) {
         if (processInstanceBuilder.getProcessDefinitionId() !is null || processInstanceBuilder.getProcessDefinitionKey() !is null) {
-            return commandExecutor.execute(new StartProcessInstanceCmd<ProcessInstance>(processInstanceBuilder));
+            return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processInstanceBuilder));
         } else if (processInstanceBuilder.getMessageName() !is null) {
             return commandExecutor.execute(new StartProcessInstanceByMessageCmd(processInstanceBuilder));
         } else {

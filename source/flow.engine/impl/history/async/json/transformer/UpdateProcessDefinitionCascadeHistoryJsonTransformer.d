@@ -34,14 +34,14 @@ import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class UpdateProcessDefinitionCascadeHistoryJsonTransformer extends AbstractNeedsProcessInstanceHistoryJsonTransformer {
+class UpdateProcessDefinitionCascadeHistoryJsonTransformer : AbstractNeedsProcessInstanceHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_UPDATE_PROCESS_DEFINITION_CASCADE);
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string processDefinitionId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_DEFINITION_ID);
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
@@ -54,7 +54,7 @@ class UpdateProcessDefinitionCascadeHistoryJsonTransformer extends AbstractNeeds
         HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
         HistoricTaskInstanceQueryImpl taskQuery = new HistoricTaskInstanceQueryImpl();
         taskQuery.processInstanceId(processInstanceId);
-        List<HistoricTaskInstance> historicTasks = historicTaskService.findHistoricTaskInstancesByQueryCriteria(taskQuery);
+        List!HistoricTaskInstance historicTasks = historicTaskService.findHistoricTaskInstancesByQueryCriteria(taskQuery);
         if (historicTasks !is null) {
             for (HistoricTaskInstance historicTaskInstance : historicTasks) {
                 HistoricTaskInstanceEntity taskEntity = (HistoricTaskInstanceEntity) historicTaskInstance;
@@ -66,7 +66,7 @@ class UpdateProcessDefinitionCascadeHistoryJsonTransformer extends AbstractNeeds
         HistoricActivityInstanceEntityManager historicActivityInstanceEntityManager = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext);
         HistoricActivityInstanceQueryImpl activityQuery = new HistoricActivityInstanceQueryImpl();
         activityQuery.processInstanceId(processInstanceId);
-        List<HistoricActivityInstance> historicActivities = historicActivityInstanceEntityManager.findHistoricActivityInstancesByQueryCriteria(activityQuery);
+        List!HistoricActivityInstance historicActivities = historicActivityInstanceEntityManager.findHistoricActivityInstancesByQueryCriteria(activityQuery);
         if (historicActivities !is null) {
             for (HistoricActivityInstance historicActivityInstance : historicActivities) {
                 HistoricActivityInstanceEntity activityEntity = (HistoricActivityInstanceEntity) historicActivityInstance;

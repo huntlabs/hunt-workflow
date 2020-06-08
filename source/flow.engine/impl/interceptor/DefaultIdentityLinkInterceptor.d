@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.interceptor.DefaultIdentityLinkInterceptor;
 
-
-import flow.common.identity.Authentication;
+//import flow.common.identity.Authentication;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.IdentityLinkUtil;
@@ -21,59 +21,63 @@ import flow.identitylink.api.IdentityLinkType;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import hunt.Exceptions;
 
-class DefaultIdentityLinkInterceptor implements IdentityLinkInterceptor {
+class DefaultIdentityLinkInterceptor : IdentityLinkInterceptor {
 
-    @Override
     public void handleCompleteTask(TaskEntity task) {
-        if (Authentication.getAuthenticatedUserId() !is null && task.getProcessInstanceId() !is null) {
-            ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
-            IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity,
-                    Authentication.getAuthenticatedUserId(), null, IdentityLinkType.PARTICIPANT);
-        }
+        implementationMissing(false);
+        //if (Authentication.getAuthenticatedUserId() !is null && task.getProcessInstanceId() !is null) {
+        //    ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
+        //    IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity,
+        //            Authentication.getAuthenticatedUserId(), null, IdentityLinkType.PARTICIPANT);
+        //}
     }
 
-    @Override
+
     public void handleAddIdentityLinkToTask(TaskEntity taskEntity, IdentityLinkEntity identityLinkEntity) {
         addUserIdentityLinkToParent(taskEntity, identityLinkEntity.getUserId());
     }
 
-    @Override
+
     public void handleAddAssigneeIdentityLinkToTask(TaskEntity taskEntity, string assignee) {
         addUserIdentityLinkToParent(taskEntity, assignee);
     }
 
-    @Override
+
     public void handleAddOwnerIdentityLinkToTask(TaskEntity taskEntity, string owner) {
         addUserIdentityLinkToParent(taskEntity, owner);
     }
 
-    @Override
+
     public void handleCreateProcessInstance(ExecutionEntity processInstanceExecution) {
-        string authenticatedUserId = Authentication.getAuthenticatedUserId();
-        if (authenticatedUserId !is null) {
-            IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
-        }
+        implementationMissing(false);
+        //string authenticatedUserId = Authentication.getAuthenticatedUserId();
+        //if (authenticatedUserId !is null) {
+        //    IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
+        //}
     }
 
-    @Override
+
     public void handleCreateSubProcessInstance(ExecutionEntity subProcessInstanceExecution, ExecutionEntity superExecution) {
-        string authenticatedUserId = Authentication.getAuthenticatedUserId();
-        if (authenticatedUserId !is null) {
-            IdentityLinkUtil.createProcessInstanceIdentityLink(subProcessInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
-        }
+        implementationMissing(false);
+        //string authenticatedUserId = Authentication.getAuthenticatedUserId();
+        //if (authenticatedUserId !is null) {
+        //    IdentityLinkUtil.createProcessInstanceIdentityLink(subProcessInstanceExecution, authenticatedUserId, null, IdentityLinkType.STARTER);
+        //}
     }
 
     protected void addUserIdentityLinkToParent(Task task, string userId) {
-        if (userId !is null && task.getProcessInstanceId() !is null) {
-            ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
-            for (IdentityLinkEntity identityLink : processInstanceEntity.getIdentityLinks()) {
-                if (identityLink.isUser() && identityLink.getUserId().equals(userId) && IdentityLinkType.PARTICIPANT.equals(identityLink.getType())) {
-                    return;
-                }
-            }
-
-            IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity, userId, null, IdentityLinkType.PARTICIPANT);
-        }
+        implementationMissing(false);
+        //if (userId !is null && task.getProcessInstanceId() !is null) {
+        //    ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
+        //    for (IdentityLinkEntity identityLink : processInstanceEntity.getIdentityLinks()) {
+        //        if (identityLink.isUser() && identityLink.getUserId().equals(userId) && IdentityLinkType.PARTICIPANT.equals(identityLink.getType())) {
+        //            return;
+        //        }
+        //    }
+        //
+        //    IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity, userId, null, IdentityLinkType.PARTICIPANT);
+        //}
     }
 }

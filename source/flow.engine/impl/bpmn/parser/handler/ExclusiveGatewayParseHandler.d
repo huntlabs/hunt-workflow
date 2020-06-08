@@ -19,14 +19,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Joram Barrez
  */
-class ExclusiveGatewayParseHandler extends AbstractActivityBpmnParseHandler<ExclusiveGateway> {
+class ExclusiveGatewayParseHandler : AbstractActivityBpmnParseHandler!ExclusiveGateway {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ExclusiveGateway.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ExclusiveGateway gateway) {
         gateway.setBehavior(bpmnParse.getActivityBehaviorFactory().createExclusiveGatewayActivityBehavior(gateway));
     }

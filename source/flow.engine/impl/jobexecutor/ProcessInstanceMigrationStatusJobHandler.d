@@ -24,23 +24,23 @@ import flow.engine.migration.ProcessInstanceBatchMigrationResult;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.variable.service.api.deleg.VariableScope;
 
-class ProcessInstanceMigrationStatusJobHandler extends AbstractProcessInstanceMigrationJobHandler {
+class ProcessInstanceMigrationStatusJobHandler : AbstractProcessInstanceMigrationJobHandler {
 
     public static final string TYPE = "process-migration-status";
 
-    @Override
+    override
     public string getType() {
         return TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
 
         string batchId = getBatchIdFromHandlerCfg(configuration);
         Batch batch = batchService.getBatch(batchId);
 
-        List<BatchPart> batchParts = batchService.findBatchPartsByBatchId(batchId);
+        List!BatchPart batchParts = batchService.findBatchPartsByBatchId(batchId);
         int completedBatchParts = 0;
         int failedBatchParts = 0;
         for (BatchPart batchPart : batchParts) {

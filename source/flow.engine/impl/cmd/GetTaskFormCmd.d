@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetTaskFormCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -21,45 +20,45 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.form.TaskFormData;
-import flow.engine.impl.form.FormHandlerHelper;
-import flow.engine.impl.form.TaskFormHandler;
+//import flow.engine.impl.form.FormHandlerHelper;
+//import flow.engine.impl.form.TaskFormHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class GetTaskFormCmd implements Command<TaskFormData>, Serializable {
+class GetTaskFormCmd : Command!TaskFormData {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetTaskFormCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    @Override
     public TaskFormData execute(CommandContext commandContext) {
-        TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
-        if (task is null) {
-            throw new FlowableObjectNotFoundException("No task found for taskId '" + taskId + "'", Task.class);
-        }
-
-        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            return compatibilityHandler.getTaskFormData(taskId);
-        }
-
-        FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
-        TaskFormHandler taskFormHandler = formHandlerHelper.getTaskFormHandlder(task);
-        if (taskFormHandler is null) {
-            throw new FlowableException("No taskFormHandler specified for task '" + taskId + "'");
-        }
-
-        return taskFormHandler.createTaskForm(task);
+        implementationMissing(false);
+        return null;
+        //TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
+        //if (task is null) {
+        //    throw new FlowableObjectNotFoundException("No task found for taskId '" + taskId + "'", Task.class);
+        //}
+        //
+        //if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    return compatibilityHandler.getTaskFormData(taskId);
+        //}
+        //
+        //FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
+        //TaskFormHandler taskFormHandler = formHandlerHelper.getTaskFormHandlder(task);
+        //if (taskFormHandler is null) {
+        //    throw new FlowableException("No taskFormHandler specified for task '" + taskId + "'");
+        //}
+        //
+        //return taskFormHandler.createTaskForm(task);
     }
 
 }

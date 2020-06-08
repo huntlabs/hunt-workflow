@@ -35,12 +35,12 @@ class AsyncCompleteCallActivityJobHandler implements JobHandler {
 
     public static final string TYPE = "async-complete-call-actiivty";
 
-    @Override
+    override
     public string getType() {
         return TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {  // the executionId of the job = the parent execution, which will be used for locking
         ExecutionEntity childProcessInstanceExecutionEntity = CommandContextUtil.getExecutionEntityManager(commandContext).findById(configuration); // the child process instance execution
         CommandContextUtil.getAgenda(commandContext).planEndExecutionOperationSynchronous(childProcessInstanceExecutionEntity);

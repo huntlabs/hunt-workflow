@@ -34,123 +34,123 @@ import flow.idm.api.UserQuery;
 /**
  * @author Tom Baeyens
  */
-class IdentityServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurationImpl> implements IdentityService {
+class IdentityServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl implements IdentityService {
 
     public IdentityServiceImpl(ProcessEngineConfigurationImpl processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 
-    @Override
+    override
     public Group newGroup(string groupId) {
         return getIdmIdentityService().newGroup(groupId);
     }
 
-    @Override
+    override
     public User newUser(string userId) {
         return getIdmIdentityService().newUser(userId);
     }
 
-    @Override
+    override
     public void saveGroup(Group group) {
         getIdmIdentityService().saveGroup(group);
     }
 
-    @Override
+    override
     public void saveUser(User user) {
         getIdmIdentityService().saveUser(user);
     }
 
-    @Override
+    override
     public void updateUserPassword(User user) {
         getIdmIdentityService().updateUserPassword(user);
     }
 
-    @Override
+    override
     public UserQuery createUserQuery() {
         return getIdmIdentityService().createUserQuery();
     }
 
-    @Override
+    override
     public NativeUserQuery createNativeUserQuery() {
         return getIdmIdentityService().createNativeUserQuery();
     }
 
-    @Override
+    override
     public GroupQuery createGroupQuery() {
         return getIdmIdentityService().createGroupQuery();
     }
 
-    @Override
+    override
     public NativeGroupQuery createNativeGroupQuery() {
         return getIdmIdentityService().createNativeGroupQuery();
     }
 
-    @Override
-    public List<Group> getPotentialStarterGroups(string processDefinitionId) {
+    override
+    public List!Group getPotentialStarterGroups(string processDefinitionId) {
         return commandExecutor.execute(new GetPotentialStarterGroupsCmd(processDefinitionId));
     }
 
-    @Override
-    public List<User> getPotentialStarterUsers(string processDefinitionId) {
+    override
+    public List!User getPotentialStarterUsers(string processDefinitionId) {
         return commandExecutor.execute(new GetPotentialStarterUsersCmd(processDefinitionId));
     }
 
-    @Override
+    override
     public void createMembership(string userId, string groupId) {
         getIdmIdentityService().createMembership(userId, groupId);
     }
 
-    @Override
+    override
     public void deleteGroup(string groupId) {
         getIdmIdentityService().deleteGroup(groupId);
     }
 
-    @Override
+    override
     public void deleteMembership(string userId, string groupId) {
         getIdmIdentityService().deleteMembership(userId, groupId);
     }
 
-    @Override
+    override
     public bool checkPassword(string userId, string password) {
         return getIdmIdentityService().checkPassword(userId, password);
     }
 
-    @Override
+    override
     public void deleteUser(string userId) {
         getIdmIdentityService().deleteUser(userId);
     }
 
-    @Override
+    override
     public void setUserPicture(string userId, Picture picture) {
         getIdmIdentityService().setUserPicture(userId, picture);
     }
 
-    @Override
+    override
     public Picture getUserPicture(string userId) {
         return getIdmIdentityService().getUserPicture(userId);
     }
 
-    @Override
+    override
     public void setAuthenticatedUserId(string authenticatedUserId) {
         Authentication.setAuthenticatedUserId(authenticatedUserId);
     }
 
-    @Override
+    override
     public string getUserInfo(string userId, string key) {
         return getIdmIdentityService().getUserInfo(userId, key);
     }
 
-    @Override
+    override
     public List!string getUserInfoKeys(string userId) {
         return getIdmIdentityService().getUserInfoKeys(userId);
     }
 
-    @Override
+    override
     public void setUserInfo(string userId, string key, string value) {
         getIdmIdentityService().setUserInfo(userId, key, value);
     }
 
-    @Override
+    override
     public void deleteUserInfo(string userId, string key) {
         getIdmIdentityService().deleteUserInfo(userId, key);
     }

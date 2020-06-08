@@ -26,7 +26,7 @@ import flow.entitylink.service.api.history.HistoricEntityLink;
 /**
  * @author Javier Casal
  */
-class GetHistoricEntityLinkChildrenForTaskCmd implements Command<List<HistoricEntityLink>>, Serializable {
+class GetHistoricEntityLinkChildrenForTaskCmd implements Command<List!HistoricEntityLink>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -38,8 +38,8 @@ class GetHistoricEntityLinkChildrenForTaskCmd implements Command<List<HistoricEn
         this.taskId = taskId;
     }
 
-    @Override
-    public List<HistoricEntityLink> execute(CommandContext commandContext) {
+    override
+    public List!HistoricEntityLink execute(CommandContext commandContext) {
         return CommandContextUtil.getHistoricEntityLinkService().findHistoricEntityLinksByScopeIdAndScopeType(
             taskId, ScopeTypes.TASK, EntityLinkType.CHILD);
     }

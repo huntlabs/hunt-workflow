@@ -14,7 +14,7 @@
 
 import hunt.collection.Map;
 
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * @author Tijs Rademakers

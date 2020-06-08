@@ -29,7 +29,7 @@ import flow.engine.runtime.Execution;
 /**
  * @author Tijs Rademakers
  */
-class ExecuteActivityForAdhocSubProcessCmd implements Command<Execution>, Serializable {
+class ExecuteActivityForAdhocSubProcessCmd implements Command!Execution, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -40,7 +40,7 @@ class ExecuteActivityForAdhocSubProcessCmd implements Command<Execution>, Serial
         this.activityId = activityId;
     }
 
-    @Override
+    override
     public Execution execute(CommandContext commandContext) {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
         if (execution is null) {

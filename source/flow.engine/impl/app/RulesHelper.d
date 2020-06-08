@@ -27,7 +27,7 @@
 //class RulesHelper {
 //
 //    public static KieBase findKnowledgeBaseByDeploymentId(string deploymentId) {
-//        DeploymentCache<Object> knowledgeBaseCache = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager().getKnowledgeBaseCache();
+//        DeploymentCache!Object knowledgeBaseCache = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager().getKnowledgeBaseCache();
 //
 //        KieBase knowledgeBase = (KieBase) knowledgeBaseCache.get(deploymentId);
 //        if (knowledgeBase is null) {

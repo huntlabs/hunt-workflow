@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.CommentEntityManagerImpl;
 
 import hunt.collection.List;
 
@@ -23,26 +23,30 @@ import flow.engine.impl.history.HistoryManager;
 import flow.engine.impl.persistence.entity.data.CommentDataManager;
 import flow.engine.task.Comment;
 import flow.engine.task.Event;
-
+import flow.engine.impl.persistence.entity.AbstractProcessEngineEntityManager;
+import flow.engine.impl.persistence.entity.CommentEntity;
+import flow.engine.impl.persistence.entity.CommentEntityManager;
+import flow.engine.impl.persistence.entity.ExecutionEntity;
+import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
 class CommentEntityManagerImpl
-    extends AbstractProcessEngineEntityManager<CommentEntity, CommentDataManager>
-    implements CommentEntityManager {
+    : AbstractProcessEngineEntityManager!(CommentEntity, CommentDataManager)
+    , CommentEntityManager {
 
-    public CommentEntityManagerImpl(ProcessEngineConfigurationImpl processEngineConfiguration, CommentDataManager commentDataManager) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration, CommentDataManager commentDataManager) {
         super(processEngineConfiguration, commentDataManager);
     }
 
-    @Override
+    override
     public void insert(CommentEntity commentEntity) {
         checkHistoryEnabled();
 
         insert(commentEntity, false);
 
-        Comment comment = (Comment) commentEntity;
+        Comment comment = cast(Comment) commentEntity;
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
             // Forced to fetch the process-instance to associate the right
             // process definition
@@ -61,7 +65,7 @@ class CommentEntityManagerImpl
         }
     }
 
-    @Override
+    override
     public CommentEntity update(CommentEntity commentEntity) {
         checkHistoryEnabled();
 
@@ -85,77 +89,66 @@ class CommentEntityManagerImpl
         return updatedCommentEntity;
     }
 
-    @Override
-    public List<Comment> findCommentsByTaskId(string taskId) {
+    public List!Comment findCommentsByTaskId(string taskId) {
         checkHistoryEnabled();
         return dataManager.findCommentsByTaskId(taskId);
     }
 
-    @Override
-    public List<Comment> findCommentsByTaskIdAndType(string taskId, string type) {
+    public List!Comment findCommentsByTaskIdAndType(string taskId, string type) {
         checkHistoryEnabled();
         return dataManager.findCommentsByTaskIdAndType(taskId, type);
     }
 
-    @Override
-    public List<Comment> findCommentsByType(string type) {
+    public List!Comment findCommentsByType(string type) {
         checkHistoryEnabled();
         return dataManager.findCommentsByType(type);
     }
 
-    @Override
-    public List<Event> findEventsByTaskId(string taskId) {
+    public List!Event findEventsByTaskId(string taskId) {
         checkHistoryEnabled();
         return dataManager.findEventsByTaskId(taskId);
     }
 
-    @Override
-    public List<Event> findEventsByProcessInstanceId(string processInstanceId) {
+    public List!Event findEventsByProcessInstanceId(string processInstanceId) {
         checkHistoryEnabled();
         return dataManager.findEventsByProcessInstanceId(processInstanceId);
     }
 
-    @Override
     public void deleteCommentsByTaskId(string taskId) {
         checkHistoryEnabled();
         dataManager.deleteCommentsByTaskId(taskId);
     }
 
-    @Override
     public void deleteCommentsByProcessInstanceId(string processInstanceId) {
         checkHistoryEnabled();
         dataManager.deleteCommentsByProcessInstanceId(processInstanceId);
     }
 
-    @Override
-    public List<Comment> findCommentsByProcessInstanceId(string processInstanceId) {
+    public List!Comment findCommentsByProcessInstanceId(string processInstanceId) {
         checkHistoryEnabled();
         return dataManager.findCommentsByProcessInstanceId(processInstanceId);
     }
 
-    @Override
-    public List<Comment> findCommentsByProcessInstanceId(string processInstanceId, string type) {
+    public List!Comment findCommentsByProcessInstanceId(string processInstanceId, string type) {
         checkHistoryEnabled();
         return dataManager.findCommentsByProcessInstanceId(processInstanceId, type);
     }
 
-    @Override
     public Comment findComment(string commentId) {
         return dataManager.findComment(commentId);
     }
 
-    @Override
     public Event findEvent(string commentId) {
         return dataManager.findEvent(commentId);
     }
 
-    @Override
-    public void delete(CommentEntity commentEntity) {
+    override
+    public void dele(CommentEntity commentEntity) {
         checkHistoryEnabled();
 
-        delete(commentEntity, false);
+        dele(commentEntity, false);
 
-        Comment comment = (Comment) commentEntity;
+        Comment comment = cast(Comment) commentEntity;
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
             // Forced to fetch the process-instance to associate the right
             // process definition

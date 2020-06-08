@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.AttachmentDataManager;
 
 import hunt.collection.List;
 
@@ -20,10 +20,10 @@ import flow.engine.impl.persistence.entity.AttachmentEntity;
 /**
  * @author Joram Barrez
  */
-interface AttachmentDataManager extends DataManager<AttachmentEntity> {
+interface AttachmentDataManager : DataManager!AttachmentEntity {
 
-    List<AttachmentEntity> findAttachmentsByProcessInstanceId(string processInstanceId);
+    List!AttachmentEntity findAttachmentsByProcessInstanceId(string processInstanceId);
 
-    List<AttachmentEntity> findAttachmentsByTaskId(string taskId);
+    List!AttachmentEntity findAttachmentsByTaskId(string taskId);
 
 }

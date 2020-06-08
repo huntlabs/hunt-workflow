@@ -91,10 +91,10 @@ class BpmnParse implements BpmnXMLConstants {
     protected EngineDeployment deployment;
 
     /** The end result of the parsing: a list of process definition. */
-    protected List<ProcessDefinitionEntity> processDefinitions = new ArrayList<>();
+    protected List!ProcessDefinitionEntity processDefinitions = new ArrayList<>();
 
     /** A map for storing sequence flow based on their id during parsing. */
-    protected Map<string, SequenceFlow> sequenceFlows;
+    protected Map!(string, SequenceFlow) sequenceFlows;
 
     protected BpmnParseHandlers bpmnParserHandlers;
 
@@ -104,7 +104,7 @@ class BpmnParse implements BpmnXMLConstants {
 
     protected FlowElement currentFlowElement;
 
-    protected LinkedList<SubProcess> currentSubprocessStack = new LinkedList<>();
+    protected LinkedList!SubProcess currentSubprocessStack = new LinkedList<>();
 
     /**
      * Mapping containing values stored during the first phase of parsing since other elements can reference these messages.
@@ -156,7 +156,7 @@ class BpmnParse implements BpmnXMLConstants {
                 if (processValidator is null) {
                     LOGGER.warn("Process should be validated, but no process validator is configured on the process engine configuration!");
                 } else {
-                    List<ValidationError> validationErrors = processValidator.validate(bpmnModel);
+                    List!ValidationError validationErrors = processValidator.validate(bpmnModel);
                     if (validationErrors !is null && !validationErrors.isEmpty()) {
 
                         StringBuilder warningBuilder = new StringBuilder();
@@ -284,18 +284,18 @@ class BpmnParse implements BpmnXMLConstants {
         }
     }
 
-    public void processFlowElements(Collection<FlowElement> flowElements) {
+    public void processFlowElements(Collection!FlowElement flowElements) {
 
         // Parsing the elements is done in a strict order of types,
         // as otherwise certain information might not be available when parsing
         // a certain type.
 
         // Using lists as we want to keep the order in which they are defined
-        List<SequenceFlow> sequenceFlowToParse = new ArrayList<>();
-        List<BoundaryEvent> boundaryEventsToParse = new ArrayList<>();
+        List!SequenceFlow sequenceFlowToParse = new ArrayList<>();
+        List!BoundaryEvent boundaryEventsToParse = new ArrayList<>();
 
         // Flow elements that depend on other elements are parse after the first run-through
-        List<FlowElement> defferedFlowElementsToParse = new ArrayList<>();
+        List!FlowElement defferedFlowElementsToParse = new ArrayList<>();
 
         // Activities are parsed first
         for (FlowElement flowElement : flowElements) {
@@ -387,11 +387,11 @@ class BpmnParse implements BpmnXMLConstants {
         }
     }
 
-    public void createBPMNEdge(string key, List<GraphicInfo> graphicList) {
+    public void createBPMNEdge(string key, List!GraphicInfo graphicList) {
         FlowElement flowElement = bpmnModel.getFlowElement(key);
         if (flowElement instanceof SequenceFlow) {
             SequenceFlow sequenceFlow = (SequenceFlow) flowElement;
-            List<Integer> waypoints = new ArrayList<>();
+            List!Integer waypoints = new ArrayList<>();
             for (GraphicInfo waypointInfo : graphicList) {
                 waypoints.add((int) waypointInfo.getX());
                 waypoints.add((int) waypointInfo.getY());
@@ -434,7 +434,7 @@ class BpmnParse implements BpmnXMLConstants {
         this.validateProcess = validateProcess;
     }
 
-    public List<ProcessDefinitionEntity> getProcessDefinitions() {
+    public List!ProcessDefinitionEntity getProcessDefinitions() {
         return processDefinitions;
     }
 
@@ -482,7 +482,7 @@ class BpmnParse implements BpmnXMLConstants {
         this.listenerFactory = listenerFactory;
     }
 
-    public Map<string, SequenceFlow> getSequenceFlows() {
+    public Map!(string, SequenceFlow) getSequenceFlows() {
         return sequenceFlows;
     }
 

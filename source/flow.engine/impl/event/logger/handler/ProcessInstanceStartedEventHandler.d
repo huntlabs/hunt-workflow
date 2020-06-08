@@ -24,11 +24,11 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 /**
  * @author Joram Barrez
  */
-class ProcessInstanceStartedEventHandler extends AbstractDatabaseEventLoggerEventHandler {
+class ProcessInstanceStartedEventHandler : AbstractDatabaseEventLoggerEventHandler {
 
     private static final string TYPE = "PROCESSINSTANCE_START";
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
 
         FlowableEntityEvent entityEvent = (FlowableEntityEvent) event;

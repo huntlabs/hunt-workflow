@@ -69,6 +69,35 @@ import flow.bpmn.converter.converter.parser.ProcessParser;
 import flow.bpmn.converter.converter.parser.ResourceParser;
 import flow.bpmn.converter.converter.parser.SignalParser;
 import flow.bpmn.converter.converter.parser.SubProcessParser;
+import flow.bpmn.converter.converter.EndEventXMLConverter;
+import flow.bpmn.converter.converter.StartEventXMLConverter;
+import flow.bpmn.converter.converter.BusinessRuleTaskXMLConverter;
+import flow.bpmn.converter.converter.ManualTaskXMLConverter;
+import flow.bpmn.converter.converter.ReceiveTaskXMLConverter;
+import flow.bpmn.converter.converter.ScriptTaskXMLConverter;
+import flow.bpmn.converter.converter.ServiceTaskXMLConverter;
+import flow.bpmn.converter.converter.HttpServiceTaskXMLConverter;
+import flow.bpmn.converter.converter.CaseServiceTaskXMLConverter;
+import flow.bpmn.converter.converter.SendEventServiceTaskXMLConverter;
+import flow.bpmn.converter.converter.SendTaskXMLConverter;
+import flow.bpmn.converter.converter.UserTaskXMLConverter;
+import flow.bpmn.converter.converter.TaskXMLConverter;
+import flow.bpmn.converter.converter.CallActivityXMLConverter;
+import flow.bpmn.converter.converter.EventGatewayXMLConverter;
+import flow.bpmn.converter.converter.ExclusiveGatewayXMLConverter;
+import flow.bpmn.converter.converter.InclusiveGatewayXMLConverter;
+import flow.bpmn.converter.converter.ParallelGatewayXMLConverter;
+import flow.bpmn.converter.converter.ComplexGatewayXMLConverter;
+import flow.bpmn.converter.converter.SequenceFlowXMLConverter;
+import flow.bpmn.converter.converter.CatchEventXMLConverter;
+import flow.bpmn.converter.converter.ThrowEventXMLConverter;
+import flow.bpmn.converter.converter.BoundaryEventXMLConverter;
+import flow.bpmn.converter.converter.TextAnnotationXMLConverter;
+import flow.bpmn.converter.converter.AssociationXMLConverter;
+import flow.bpmn.converter.converter.DataStoreReferenceXMLConverter;
+import flow.bpmn.converter.converter.ValuedDataObjectXMLConverter;
+
+
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.converter.exceptions.XMLException;
 import flow.bpmn.model.Activity;
@@ -89,7 +118,7 @@ import flow.bpmn.model.LongDataObject;
 import flow.bpmn.model.Pool;
 import flow.bpmn.model.Process;
 import flow.bpmn.model.SequenceFlow;
-import flow.bpmn.model.stringDataObject;
+import flow.bpmn.model.StringDataObject;
 import flow.bpmn.model.SubProcess;
 import flow.bpmn.model.TextAnnotation;
 import flow.bpmn.model.Transaction;
@@ -158,7 +187,7 @@ class BpmnXMLConverter : BpmnXMLConstants {
         addConverter(new DataStoreReferenceXMLConverter());
 
         // data objects
-        addConverter(new ValuedDataObjectXMLConverter(), typeid(stringDataObject));
+        addConverter(new ValuedDataObjectXMLConverter(), typeid(StringDataObject));
         addConverter(new ValuedDataObjectXMLConverter(), typeid(BooleanDataObject));
         addConverter(new ValuedDataObjectXMLConverter(), typeid(IntegerDataObject));
         addConverter(new ValuedDataObjectXMLConverter(), typeid(LongDataObject));
@@ -176,8 +205,8 @@ class BpmnXMLConverter : BpmnXMLConstants {
     protected List!string userTaskFormTypes;
     protected List!string startEventFormTypes;
 
-    protected BpmnEdgeParser bpmnEdgeParser = new BpmnEdgeParser();
-    protected BpmnShapeParser bpmnShapeParser = new BpmnShapeParser();
+    //protected BpmnEdgeParser bpmnEdgeParser = new BpmnEdgeParser();
+    //protected BpmnShapeParser bpmnShapeParser = new BpmnShapeParser();
     protected DefinitionsParser definitionsParser = new DefinitionsParser();
     protected DocumentationParser documentationParser = new DocumentationParser();
     protected ExtensionElementsParser extensionElementsParser = new ExtensionElementsParser();
@@ -191,7 +220,7 @@ class BpmnXMLConverter : BpmnXMLConstants {
     protected MessageFlowParser messageFlowParser = new MessageFlowParser();
     protected MultiInstanceParser multiInstanceParser = new MultiInstanceParser();
     protected ParticipantParser participantParser = new ParticipantParser();
-    protected PotentialStarterParser potentialStarterParser = new PotentialStarterParser();
+    //protected PotentialStarterParser potentialStarterParser = new PotentialStarterParser();
     protected ProcessParser processParser = new ProcessParser();
     protected ResourceParser resourceParser = new ResourceParser();
     protected SignalParser signalParser = new SignalParser();
@@ -444,7 +473,8 @@ class BpmnXMLConverter : BpmnXMLConstants {
               //
               //}
               else if (ELEMENT_POTENTIAL_STARTER == (element.getName())) {
-                  potentialStarterParser.parse(element, activeProcess);
+                  implementationMissing(false);
+                 // potentialStarterParser.parse(element, activeProcess);
 
               } else if (ELEMENT_LANE == (element.getName())) {
                   laneParser.parse(element, activeProcess, model);

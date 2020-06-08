@@ -11,12 +11,11 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.CaseTaskActivityBehavior;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.CaseServiceTask;
 import flow.bpmn.model.IOParameter;
 import flow.common.api.FlowableException;
@@ -34,25 +33,22 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EntityLinkUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
+import std.string;
+import hunt.String;
+import hunt.logging;
+import hunt.Exceptions;
 /**
  * Start a CMMN case with the case service task
  *
  * @author Tijs Rademakers
  */
-class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements SubProcessActivityBehavior {
+class CaseTaskActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBehavior {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CaseTaskActivityBehavior.class);
-
-    private static final long serialVersionUID = 1L;
-
-    @Override
     public void execute(DelegateExecution execution) {
 
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        CaseServiceTask caseServiceTask = (CaseServiceTask) executionEntity.getCurrentFlowElement();
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        CaseServiceTask caseServiceTask = cast(CaseServiceTask) executionEntity.getCurrentFlowElement();
 
         CommandContext commandContext = CommandContextUtil.getCommandContext();
 
@@ -66,7 +62,7 @@ class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements S
         }
 
         string businessKey = null;
-        if (!StringUtils.isEmpty(caseServiceTask.getBusinessKey())) {
+        if (caseServiceTask.getBusinessKey() !is null && caseServiceTask.getBusinessKey().length != 0) {
             Expression expression = expressionManager.createExpression(caseServiceTask.getBusinessKey());
             businessKey = expression.getValue(execution).toString();
 
@@ -76,19 +72,19 @@ class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements S
         }
 
         string caseInstanceName = null;
-        if (StringUtils.isNotEmpty(caseServiceTask.getCaseInstanceName())) {
+        if (caseServiceTask.getCaseInstanceName() !is null && caseServiceTask.getCaseInstanceName().length != 0) {
             Expression caseInstanceNameExpression = expressionManager.createExpression(caseServiceTask.getCaseInstanceName());
             caseInstanceName = caseInstanceNameExpression.getValue(execution).toString();
         }
 
-        Map!(string, Object) inParameters = new HashMap<>();
+        Map!(string, Object) inParameters = new HashMap!(string, Object);
 
         // copy process variables
-        for (IOParameter inParameter : caseServiceTask.getInParameters()) {
+        foreach (IOParameter inParameter ; caseServiceTask.getInParameters()) {
 
             Object value = null;
-            if (StringUtils.isNotEmpty(inParameter.getSourceExpression())) {
-                Expression expression = expressionManager.createExpression(inParameter.getSourceExpression().trim());
+            if (inParameter.getSourceExpression() !is null && inParameter.getSourceExpression().length != 0) {
+                Expression expression = expressionManager.createExpression(strip(inParameter.getSourceExpression()));
                 value = expression.getValue(execution);
 
             } else {
@@ -96,17 +92,17 @@ class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements S
             }
 
             string variableName = null;
-            if (StringUtils.isNotEmpty(inParameter.getTargetExpression())) {
+            if (inParameter.getTargetExpression() !is null && inParameter.getTargetExpression().length != 0) {
                 Expression expression = expressionManager.createExpression(inParameter.getTargetExpression());
                 Object variableNameValue = expression.getValue(execution);
                 if (variableNameValue !is null) {
                     variableName = variableNameValue.toString();
                 } else {
-                    LOGGER.warn("In parameter target expression {} did not resolve to a variable name, this is most likely a programmatic error",
+                    logWarning("In parameter target expression {%s} did not resolve to a variable name, this is most likely a programmatic error",
                         inParameter.getTargetExpression());
                 }
 
-            } else if (StringUtils.isNotEmpty(inParameter.getTarget())){
+            } else if (inParameter.getTarget() !is null && inParameter.getTarget().length != 0){
                 variableName = inParameter.getTarget();
 
             }
@@ -116,11 +112,11 @@ class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements S
 
         string caseInstanceId = caseInstanceService.generateNewCaseInstanceId();
 
-        if (StringUtils.isNotEmpty(caseServiceTask.getCaseInstanceIdVariableName())) {
+        if (caseServiceTask.getCaseInstanceIdVariableName() !is null && caseServiceTask.getCaseInstanceIdVariableName().length != 0) {
             Expression expression = expressionManager.createExpression(caseServiceTask.getCaseInstanceIdVariableName());
-            string idVariableName = (string) expression.getValue(execution);
-            if (StringUtils.isNotEmpty(idVariableName)) {
-                execution.setVariable(idVariableName, caseInstanceId);
+            String idVariableName = cast(String) expression.getValue(execution);
+            if (idVariableName !is null && idVariableName.value.length != 0) {
+                execution.setVariable(idVariableName.value, new String(caseInstanceId));
             }
         }
 
@@ -140,26 +136,24 @@ class CaseTaskActivityBehavior extends AbstractBpmnActivityBehavior implements S
     }
 
     protected string getCaseDefinitionKey(string caseDefinitionKeyExpression, VariableContainer variableContainer, ExpressionManager expressionManager) {
-        if (StringUtils.isNotEmpty(caseDefinitionKeyExpression)) {
-            return (string) expressionManager.createExpression(caseDefinitionKeyExpression).getValue(variableContainer);
+        if (caseDefinitionKeyExpression !is null  && caseDefinitionKeyExpression.length != 0) {
+            return (cast(String) expressionManager.createExpression(caseDefinitionKeyExpression).getValue(variableContainer)).value;
         } else {
             return caseDefinitionKeyExpression;
         }
     }
 
-    @Override
-    public void completing(DelegateExecution execution, DelegateExecution subProcessInstance) throws Exception {
+    public void completing(DelegateExecution execution, DelegateExecution subProcessInstance){
         // not used
     }
 
-    @Override
-    public void completed(DelegateExecution execution) throws Exception {
+    public void completed(DelegateExecution execution)  {
         // not used
     }
 
     public void triggerCaseTask(DelegateExecution execution, Map!(string, Object) variables) {
         execution.setVariables(variables);
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
         // Set the reference id and type to null since the execution could be reused
         executionEntity.setReferenceId(null);
         executionEntity.setReferenceType(null);

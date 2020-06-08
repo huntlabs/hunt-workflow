@@ -43,14 +43,14 @@ class IdentityLinkUtil {
     }
 
     public static void deleteTaskIdentityLinks(TaskEntity taskEntity, string userId, string groupId, string type) {
-        List<IdentityLinkEntity> removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteTaskIdentityLink(
+        List!IdentityLinkEntity removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteTaskIdentityLink(
                         taskEntity.getId(), taskEntity.getIdentityLinks(), userId, groupId, type);
 
         handleTaskIdentityLinkDeletions(taskEntity, removedIdentityLinkEntities, true, true);
     }
 
     public static void deleteProcessInstanceIdentityLinks(ExecutionEntity processInstanceEntity, string userId, string groupId, string type) {
-        List<IdentityLinkEntity> removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteProcessInstanceIdentityLink(
+        List!IdentityLinkEntity removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteProcessInstanceIdentityLink(
                         processInstanceEntity.getId(), userId, groupId, type);
         for (IdentityLinkEntity identityLinkEntity : removedIdentityLinkEntities) {
             CommandContextUtil.getHistoryManager().recordIdentityLinkDeleted(identityLinkEntity);
@@ -58,7 +58,7 @@ class IdentityLinkUtil {
         processInstanceEntity.getIdentityLinks().removeAll(removedIdentityLinkEntities);
     }
 
-    public static void handleTaskIdentityLinkAdditions(TaskEntity taskEntity, List<IdentityLinkEntity> identityLinkEntities) {
+    public static void handleTaskIdentityLinkAdditions(TaskEntity taskEntity, List!IdentityLinkEntity identityLinkEntities) {
         for (IdentityLinkEntity identityLinkEntity : identityLinkEntities) {
             handleTaskIdentityLinkAddition(taskEntity, identityLinkEntity);
         }
@@ -84,7 +84,7 @@ class IdentityLinkUtil {
         }
     }
 
-    public static void handleTaskIdentityLinkDeletions(TaskEntity taskEntity, List<IdentityLinkEntity> identityLinks, bool cascadeHistory, bool updateTaskCounts) {
+    public static void handleTaskIdentityLinkDeletions(TaskEntity taskEntity, List!IdentityLinkEntity identityLinks, bool cascadeHistory, bool updateTaskCounts) {
         for (IdentityLinkEntity identityLinkEntity : identityLinks) {
             if (cascadeHistory) {
                 CommandContextUtil.getHistoryManager().recordIdentityLinkDeleted(identityLinkEntity);

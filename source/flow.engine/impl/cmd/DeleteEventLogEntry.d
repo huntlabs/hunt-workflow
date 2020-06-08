@@ -19,7 +19,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class DeleteEventLogEntry implements Command<Void> {
+class DeleteEventLogEntry implements Command!Void {
 
     protected long logNr;
 
@@ -27,7 +27,7 @@ class DeleteEventLogEntry implements Command<Void> {
         this.logNr = logNr;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         CommandContextUtil.getEventLogEntryEntityManager(commandContext).deleteEventLogEntry(logNr);
         return null;

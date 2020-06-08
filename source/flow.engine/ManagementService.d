@@ -403,7 +403,7 @@ interface ManagementService {
     /**
      * Executes the sql contained in the {@link CustomSqlExecution} parameter.
      */
-    //<MapperType, ResultType> ResultType executeCustomSql(CustomSqlExecution<MapperType, ResultType> customSqlExecution);
+    //<MapperType, ResultType> ResultType executeCustomSql(CustomSqlExecution!(MapperType, ResultType) customSqlExecution);
 
     /**
      * Returns a list of event log entries, describing everything the engine has processed. Note that the event logging must specifically must be enabled in the process engine configuration.

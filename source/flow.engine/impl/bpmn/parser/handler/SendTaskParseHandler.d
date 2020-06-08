@@ -24,16 +24,16 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-class SendTaskParseHandler extends AbstractActivityBpmnParseHandler<SendTask> {
+class SendTaskParseHandler : AbstractActivityBpmnParseHandler!SendTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SendTaskParseHandler.class);
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return SendTask.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, SendTask sendTask) {
 
         if (StringUtils.isNotEmpty(sendTask.getType())) {

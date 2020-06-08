@@ -21,9 +21,9 @@ import flow.engine.impl.util.CommandContextUtil;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-abstract class AbstractNeedsProcessInstanceHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+abstract class AbstractNeedsProcessInstanceHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         HistoricProcessInstanceEntityManager historicProcessInstanceEntityManager = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext);

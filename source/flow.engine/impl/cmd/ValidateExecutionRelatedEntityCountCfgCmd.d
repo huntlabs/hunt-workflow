@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,32 +23,32 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-class ValidateExecutionRelatedEntityCountCfgCmd implements Command<Void> {
+class ValidateExecutionRelatedEntityCountCfgCmd implements Command!Void {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidateExecutionRelatedEntityCountCfgCmd.class);
 
     public static final string PROPERTY_EXECUTION_RELATED_ENTITY_COUNT = "cfg.execution-related-entities-count";
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
 
         /*
          * If execution related entity counting is on in config | Current property in database : Result
-         * 
-         * A) true | not there : write new property with value 'true' 
-         * 
-         * B) true | true : all good 
-         * 
+         *
+         * A) true | not there : write new property with value 'true'
+         *
+         * B) true | true : all good
+         *
          * C) true | false : the feature was disabled before, but it is enabled now. Old executions will have a
          * local flag with false. It is now enabled. This is fine, will be handled in logic. Update the property.
-         * 
-         * D) false | not there: write new property with value 'false' 
-         * 
-         * E) false | true : the feature was disabled before and enabled now. 
-         * To guarantee data consistency, we need to remove the flag from all executions. Update the property. 
-         * 
+         *
+         * D) false | not there: write new property with value 'false'
+         *
+         * E) false | true : the feature was disabled before and enabled now.
+         * To guarantee data consistency, we need to remove the flag from all executions. Update the property.
+         *
          * F) false | false : all good
-         * 
+         *
          * In case A and D (not there), the property needs to be written to the db Only in case E something needs to be done explicitly, the others are okay.
          */
 

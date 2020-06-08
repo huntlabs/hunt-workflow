@@ -34,7 +34,7 @@ class ProcessInstanceMigrationDocumentBuilderImpl implements ProcessInstanceMigr
     protected string migrateToProcessDefinitionKey;
     protected Integer migrateToProcessDefinitionVersion;
     protected string migrateToProcessDefinitionTenantId;
-    protected List<ActivityMigrationMapping> activityMigrationMappings = new ArrayList<>();
+    protected List!ActivityMigrationMapping activityMigrationMappings = new ArrayList<>();
     protected Map!(string, Object) processInstanceVariables = new HashMap<>();
     protected Script preUpgradeScript;
     protected string preUpgradeJavaDelegate;
@@ -43,86 +43,86 @@ class ProcessInstanceMigrationDocumentBuilderImpl implements ProcessInstanceMigr
     protected string postUpgradeJavaDelegate;
     protected string postUpgradeJavaDelegateExpression;
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setProcessDefinitionToMigrateTo(string processDefinitionId) {
         this.migrateToProcessDefinitionId = processDefinitionId;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setProcessDefinitionToMigrateTo(string processDefinitionKey, Integer processDefinitionVersion) {
         this.migrateToProcessDefinitionKey = processDefinitionKey;
         this.migrateToProcessDefinitionVersion = processDefinitionVersion;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setTenantId(string processDefinitionTenantId) {
         this.migrateToProcessDefinitionTenantId = processDefinitionTenantId;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setPreUpgradeScript(Script script) {
         this.preUpgradeScript = script;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setPreUpgradeJavaDelegate(string preUpgradeJavaDelegate) {
         this.preUpgradeJavaDelegate = preUpgradeJavaDelegate;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setPreUpgradeJavaDelegateExpression(string expression) {
         this.preUpgradeJavaDelegateExpression = expression;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setPostUpgradeScript(Script script) {
         this.postUpgradeScript = script;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setPostUpgradeJavaDelegate(string preUpgradeJavaDelegate) {
         this.postUpgradeJavaDelegate = preUpgradeJavaDelegate;
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder setPostUpgradeJavaDelegateExpression(string expression) {
         this.postUpgradeJavaDelegateExpression = expression;
         return this;
     }
 
-    @Override
-    public ProcessInstanceMigrationDocumentBuilder addActivityMigrationMappings(List<ActivityMigrationMapping> activityMigrationMappings) {
+    override
+    public ProcessInstanceMigrationDocumentBuilder addActivityMigrationMappings(List!ActivityMigrationMapping activityMigrationMappings) {
         this.activityMigrationMappings.addAll(activityMigrationMappings);
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder addActivityMigrationMapping(ActivityMigrationMapping activityMigrationMapping) {
         this.activityMigrationMappings.add(activityMigrationMapping);
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder addProcessInstanceVariable(string variableName, Object variableValue) {
         this.processInstanceVariables.put(variableName, variableValue);
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocumentBuilder addProcessInstanceVariables(Map!(string, Object) processInstanceVariables) {
         this.processInstanceVariables.putAll(processInstanceVariables);
         return this;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationDocument build() {
 
         if (migrateToProcessDefinitionId is null) {

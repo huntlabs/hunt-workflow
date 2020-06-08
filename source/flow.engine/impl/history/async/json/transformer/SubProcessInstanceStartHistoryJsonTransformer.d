@@ -31,14 +31,14 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+class SubProcessInstanceStartHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_SUBPROCESS_INSTANCE_START);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
         HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext,
@@ -51,7 +51,7 @@ class SubProcessInstanceStartHistoryJsonTransformer extends AbstractHistoryJsonT
         return true;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         HistoricProcessInstanceEntityManager historicProcessInstanceEntityManager = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext);
 

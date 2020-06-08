@@ -11,31 +11,32 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.ByteArrayEntityManagerImpl;
 
 import hunt.collection.List;
 
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.data.ByteArrayDataManager;
+import flow.engine.impl.persistence.entity.AbstractProcessEngineEntityManager;
+import flow.engine.impl.persistence.entity.ByteArrayEntityManager;
+import flow.engine.impl.persistence.entity.ByteArrayEntity;
 
 /**
  * @author Joram Barrez
  * @author Marcus Klimstra (CGI)
  */
 class ByteArrayEntityManagerImpl
-    extends AbstractProcessEngineEntityManager<ByteArrayEntity, ByteArrayDataManager>
-    implements ByteArrayEntityManager {
+    : AbstractProcessEngineEntityManager!(ByteArrayEntity, ByteArrayDataManager)
+    , ByteArrayEntityManager {
 
-    public ByteArrayEntityManagerImpl(ProcessEngineConfigurationImpl processEngineConfiguration, ByteArrayDataManager byteArrayDataManager) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration, ByteArrayDataManager byteArrayDataManager) {
         super(processEngineConfiguration, byteArrayDataManager);
     }
 
-    @Override
-    public List<ByteArrayEntity> findAll() {
+    public List!ByteArrayEntity findAll() {
         return dataManager.findAll();
     }
 
-    @Override
     public void deleteByteArrayById(string byteArrayEntityId) {
         dataManager.deleteByteArrayNoRevisionCheck(byteArrayEntityId);
     }

@@ -10,53 +10,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.ResolveTaskCmd;
 
-
-
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
 import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TaskHelper;
 import flow.task.api.DelegationState;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import hunt.Object;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class ResolveTaskCmd extends NeedsActiveTaskCmd<Void> {
+class ResolveTaskCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
 
     protected Map!(string, Object) variables;
     protected Map!(string, Object) transientVariables;
 
-    public ResolveTaskCmd(string taskId, Map!(string, Object) variables) {
+    this(string taskId, Map!(string, Object) variables) {
         super(taskId);
         this.variables = variables;
     }
 
-    public ResolveTaskCmd(string taskId, Map!(string, Object) variables, Map!(string, Object) transientVariables) {
+    this(string taskId, Map!(string, Object) variables, Map!(string, Object) transientVariables) {
         this(taskId, variables);
         this.transientVariables = transientVariables;
     }
 
-    @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
-        if (variables !is null) {
-            task.setVariables(variables);
-        }
-        if (transientVariables !is null) {
-            task.setTransientVariables(transientVariables);
-        }
-
-        task.setDelegationState(DelegationState.RESOLVED);
-        TaskHelper.changeTaskAssignee(task, task.getOwner());
-
+        implementationMissing(false);
         return null;
+        //if (variables !is null) {
+        //    task.setVariables(variables);
+        //}
+        //if (transientVariables !is null) {
+        //    task.setTransientVariables(transientVariables);
+        //}
+        //
+        //task.setDelegationState(DelegationState.RESOLVED);
+        //TaskHelper.changeTaskAssignee(task, task.getOwner());
+        //
+        //return null;
     }
 
-    @Override
     protected string getSuspendedTaskException() {
         return "Cannot resolve a suspended task";
     }

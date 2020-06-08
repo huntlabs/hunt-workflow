@@ -20,8 +20,8 @@ import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.api.deleg.event.FlowableEventListener;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
 
 /**
  * An {@link FlowableEventListener} that throws a message event when an event is dispatched to it. Sends the message to the execution the event was fired from. If the execution is not subscribed to a
@@ -30,12 +30,12 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEve
  * @author Tijs Rademakers
  *
  */
-class MessageThrowingEventListener extends BaseDelegateEventListener {
+class MessageThrowingEventListener : BaseDelegateEventListener {
 
     protected string messageName;
     protected Class<?> entityClass;
 
-    @Override
+    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event) && event instanceof FlowableEngineEvent) {
 
@@ -45,7 +45,7 @@ class MessageThrowingEventListener extends BaseDelegateEventListener {
                 throw new FlowableIllegalArgumentException("Cannot throw process-instance scoped message, since the dispatched event is not part of an ongoing process instance");
             }
 
-            List<MessageEventSubscriptionEntity> subscriptionEntities = CommandContextUtil.getEventSubscriptionService().findMessageEventSubscriptionsByProcessInstanceAndEventName(
+            List!MessageEventSubscriptionEntity subscriptionEntities = CommandContextUtil.getEventSubscriptionService().findMessageEventSubscriptionsByProcessInstanceAndEventName(
                     engineEvent.getProcessInstanceId(), messageName);
 
             for (EventSubscriptionEntity messageEventSubscriptionEntity : subscriptionEntities) {
@@ -58,7 +58,7 @@ class MessageThrowingEventListener extends BaseDelegateEventListener {
         this.messageName = messageName;
     }
 
-    @Override
+    override
     public bool isFailOnException() {
         return true;
     }

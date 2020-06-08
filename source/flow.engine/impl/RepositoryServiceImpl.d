@@ -104,7 +104,7 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
     }
 
     public Deployment deploy(DeploymentBuilderImpl deploymentBuilder) {
-        return commandExecutor.execute(new DeployCmd<Deployment>(deploymentBuilder));
+        return commandExecutor.execute(new DeployCmd!Deployment(deploymentBuilder));
     }
 
     public void deleteDeployment(string deploymentId) {
@@ -369,17 +369,17 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
     }
 
 
-    public List<ValidationError> validateProcess(BpmnModel bpmnModel) {
+    public List!ValidationError validateProcess(BpmnModel bpmnModel) {
         return commandExecutor.execute(new ValidateBpmnModelCmd(bpmnModel));
     }
 
 
-    public List<DmnDecisionTable> getDecisionTablesForProcessDefinition(string processDefinitionId) {
+    public List!DmnDecisionTable getDecisionTablesForProcessDefinition(string processDefinitionId) {
         return commandExecutor.execute(new GetDecisionTablesForProcessDefinitionCmd(processDefinitionId));
     }
 
 
-    public List<FormDefinition> getFormDefinitionsForProcessDefinition(string processDefinitionId) {
+    public List!FormDefinition getFormDefinitionsForProcessDefinition(string processDefinitionId) {
         return commandExecutor.execute(new GetFormDefinitionsForProcessDefinitionCmd(processDefinitionId));
     }
 }

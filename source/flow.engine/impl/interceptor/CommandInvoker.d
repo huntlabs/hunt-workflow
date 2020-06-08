@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.interceptor.CommandInvoker;
 
 import flow.common.context.Context;
 import flow.common.interceptor.AbstractCommandInterceptor;
@@ -21,52 +21,69 @@ import flow.common.interceptor.CommandInterceptor;
 import flow.engine.FlowableEngineAgenda;
 import flow.engine.impl.agenda.AbstractOperation;
 import flow.engine.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import  flow.engine.repository.DeploymentBuilder;
+import hunt.Exceptions;
+import  hunt.util.Runnable;
 /**
  * @author Joram Barrez
  */
-class CommandInvoker extends AbstractCommandInterceptor {
+class CommandInvoker : AbstractCommandInterceptor {
+    //SchemaOperationsProcessEngineBuild
+    //ValidateV5EntitiesCmd
+  // DeploymentQueryImpl
+  //ValidateExecutionRelatedEntityCountCfgCmd
+  //ValidateTaskRelatedEntityCountCfgCmd
+  //RepositoryServiceImpl
+  //DeployCmd
+ //GetNextIdBlockCmd
+  //GetProcessDefinitionInfoCmd
+  //ProcessDefinitionQueryImpl
+//StartProcessInstanceCmd
+//TaskQueryImpl
+  //GetTaskVariablesCmd
+//CompleteTaskCmd
+  //HistoricActivityInstanceQueryImpl
+    //  Object execute(CommandConfig config, CommandAbstract command);
+    public  Object execute(CommandConfig config, CommandAbstract command) {
+         CommandContext commandContext = Context.getCommandContext();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommandInvoker.class);
+        auto cmd = (cast(Command!DeploymentBuilder)command);
+        if (cmd is null)
+        {
+           // cmd = (cast(Command!DeploymentBuilder)command);
+            implementationMissing(false);
+        }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T execute(final CommandConfig config, final Command<T> command) {
-        final CommandContext commandContext = Context.getCommandContext();
-        
         FlowableEngineAgenda agenda = CommandContextUtil.getAgenda(commandContext);
         if (commandContext.isReused() && !agenda.isEmpty()) {
-            return (T) command.execute(commandContext);
-            
+            return cmd.execute(commandContext) ;
+           // return (T) command.execute(commandContext);
         } else {
 
             // Execute the command.
             // This will produce operations that will be put on the agenda.
-            agenda.planOperation(new Runnable() {
-    
-                @Override
+            agenda.planOperation(new class Runnable {
+
                 public void run() {
-                    commandContext.setResult(command.execute(commandContext));
+                    commandContext.setResult(cmd.execute(commandContext));
                 }
             });
-    
+
             // Run loop for agenda
             executeOperations(commandContext);
-    
+
             // At the end, call the execution tree change listeners.
             // TODO: optimization: only do this when the tree has actually changed (ie check dbSqlSession).
             if (!commandContext.isReused() && CommandContextUtil.hasInvolvedExecutions(commandContext)) {
                 agenda.planExecuteInactiveBehaviorsOperation();
                 executeOperations(commandContext);
             }
-    
-            return (T) commandContext.getResult();
+
+            return commandContext.getResult();
         }
     }
 
-    protected void executeOperations(final CommandContext commandContext) {
+    protected void executeOperations(CommandContext commandContext) {
         while (!CommandContextUtil.getAgenda(commandContext).isEmpty()) {
             Runnable runnable = CommandContextUtil.getAgenda(commandContext).getNextOperation();
             executeOperation(runnable);
@@ -74,16 +91,16 @@ class CommandInvoker extends AbstractCommandInterceptor {
     }
 
     public void executeOperation(Runnable runnable) {
-        if (runnable instanceof AbstractOperation) {
-            AbstractOperation operation = (AbstractOperation) runnable;
+        if (cast(AbstractOperation)runnable !is null) {
+            AbstractOperation operation = cast(AbstractOperation) runnable;
 
             // Execute the operation if the operation has no execution (i.e. it's an operation not working on a process instance)
             // or the operation has an execution and it is not ended
             if (operation.getExecution() is null || !operation.getExecution().isEnded()) {
 
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Executing operation {}", operation.getClass());
-                }
+                //if (LOGGER.isDebugEnabled()) {
+                //    LOGGER.debug("Executing operation {}", operation.getClass());
+                //}
 
                 runnable.run();
 
@@ -94,12 +111,12 @@ class CommandInvoker extends AbstractCommandInterceptor {
         }
     }
 
-    @Override
+    override
     public CommandInterceptor getNext() {
         return null;
     }
 
-    @Override
+    override
     public void setNext(CommandInterceptor next) {
         throw new UnsupportedOperationException("CommandInvoker must be the last interceptor in the chain");
     }

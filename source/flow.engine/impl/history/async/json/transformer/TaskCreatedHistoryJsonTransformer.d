@@ -30,19 +30,19 @@ import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class TaskCreatedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+class TaskCreatedHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_TASK_CREATED);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return true;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
 

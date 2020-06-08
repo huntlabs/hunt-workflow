@@ -54,7 +54,7 @@ abstract class AbstractManager {
         return Context.getCommandContext();
     }
 
-    //protected <T> T getSession(Class<T> sessionClass) {
+    //protected <T> T getSession(Class!T sessionClass) {
     //    return getCommandContext().getSession(sessionClass);
     //}
 

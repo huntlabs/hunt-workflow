@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.NativeProcessDefinitionQuery;
 import flow.engine.repository.ProcessDefinition;
 
-class NativeProcessDefinitionQueryImpl extends AbstractNativeQuery<NativeProcessDefinitionQuery, ProcessDefinition> implements NativeProcessDefinitionQuery {
+class NativeProcessDefinitionQueryImpl : AbstractNativeQuery!(NativeProcessDefinitionQuery, ProcessDefinition) implements NativeProcessDefinitionQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeProcessDefinitionQueryImpl extends AbstractNativeQuery<NativeProcess
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<ProcessDefinition> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!ProcessDefinition executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findProcessDefinitionsByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findProcessDefinitionCountByNativeQuery(parameterMap);
     }

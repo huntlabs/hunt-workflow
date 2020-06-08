@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.deleg.InactiveActivityBehavior;
 
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 
 /**
  * If the behaviour of an element in a process implements this interface, it has a 'background job' functionality.
- * 
+ *
  * The instance will be called at the end of executing the engine operations for each {@link ExecutionEntity} that currently is at the activity AND is inactive.
- * 
+ *
  * @author Joram Barrez
  */
 interface InactiveActivityBehavior {

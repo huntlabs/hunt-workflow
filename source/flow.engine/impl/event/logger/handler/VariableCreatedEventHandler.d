@@ -21,9 +21,9 @@ import flow.variable.service.api.event.FlowableVariableEvent;
 /**
  * @author Joram Barrez
  */
-class VariableCreatedEventHandler extends VariableEventHandler {
+class VariableCreatedEventHandler : VariableEventHandler {
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         FlowableVariableEvent variableEvent = (FlowableVariableEvent) event;
         Map!(string, Object) data = createData(variableEvent);

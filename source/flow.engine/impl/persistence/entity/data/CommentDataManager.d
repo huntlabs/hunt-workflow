@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.CommentDataManager;
 
 import hunt.collection.List;
 
@@ -22,25 +22,25 @@ import flow.engine.task.Event;
 /**
  * @author Joram Barrez
  */
-interface CommentDataManager extends DataManager<CommentEntity> {
+interface CommentDataManager : DataManager!CommentEntity {
 
-    List<Comment> findCommentsByTaskId(string taskId);
+    List!Comment findCommentsByTaskId(string taskId);
 
-    List<Comment> findCommentsByTaskIdAndType(string taskId, string type);
+    List!Comment findCommentsByTaskIdAndType(string taskId, string type);
 
-    List<Comment> findCommentsByType(string type);
+    List!Comment findCommentsByType(string type);
 
-    List<Event> findEventsByTaskId(string taskId);
+    List!Event findEventsByTaskId(string taskId);
 
-    List<Event> findEventsByProcessInstanceId(string processInstanceId);
+    List!Event findEventsByProcessInstanceId(string processInstanceId);
 
     void deleteCommentsByTaskId(string taskId);
 
     void deleteCommentsByProcessInstanceId(string processInstanceId);
 
-    List<Comment> findCommentsByProcessInstanceId(string processInstanceId);
+    List!Comment findCommentsByProcessInstanceId(string processInstanceId);
 
-    List<Comment> findCommentsByProcessInstanceId(string processInstanceId, string type);
+    List!Comment findCommentsByProcessInstanceId(string processInstanceId, string type);
 
     Comment findComment(string commentId);
 

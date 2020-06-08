@@ -20,8 +20,8 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.migration.ProcessInstanceMigrationDocument;
 import flow.engine.migration.ProcessInstanceMigrationManager;
 
-class ProcessInstanceMigrationCmd implements Command<Void> {
-    
+class ProcessInstanceMigrationCmd implements Command!Void {
+
     protected string processInstanceId;
     protected string processDefinitionId;
     protected string processDefinitionKey;
@@ -33,7 +33,7 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
         if (processInstanceId is null) {
             throw new FlowableException("Must specify a process instance id to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -46,7 +46,7 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
         if (processDefinitionId is null) {
             throw new FlowableException("Must specify a process definition id to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -59,7 +59,7 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
         if (processDefinitionKey is null) {
             throw new FlowableException("Must specify a process definition key to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -70,7 +70,7 @@ class ProcessInstanceMigrationCmd implements Command<Void> {
         this.processInstanceMigrationDocument = processInstanceMigrationDocument;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         ProcessInstanceMigrationManager migrationManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceMigrationManager();
 

@@ -25,7 +25,7 @@ import flow.engine.task.Comment;
 /**
  * @author Tom Baeyens
  */
-class GetProcessInstanceCommentsCmd implements Command<List<Comment>>, Serializable {
+class GetProcessInstanceCommentsCmd implements Command<List!Comment>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processInstanceId;
@@ -41,10 +41,10 @@ class GetProcessInstanceCommentsCmd implements Command<List<Comment>>, Serializa
     }
 
     @SuppressWarnings("unchecked")
-    @Override
-    public List<Comment> execute(CommandContext commandContext) {
+    override
+    public List!Comment execute(CommandContext commandContext) {
         if (StringUtils.isNotBlank(type)) {
-            List<Comment> commentsByProcessInstanceId = CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByProcessInstanceId(processInstanceId, type);
+            List!Comment commentsByProcessInstanceId = CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByProcessInstanceId(processInstanceId, type);
             return commentsByProcessInstanceId;
         } else {
             return CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByProcessInstanceId(processInstanceId);

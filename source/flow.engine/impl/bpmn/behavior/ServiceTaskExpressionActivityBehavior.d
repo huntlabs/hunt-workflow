@@ -11,11 +11,10 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.ServiceTaskExpressionActivityBehavior;
 
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.MapExceptionEntry;
 import flow.bpmn.model.ServiceTask;
 import flow.common.api.deleg.Expression;
@@ -28,8 +27,10 @@ import flow.engine.impl.bpmn.helper.SkipExpressionUtil;
 import flow.engine.impl.context.BpmnOverrideContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.bpmn.behavior.TaskActivityBehavior;
+import hunt.Exceptions;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * ActivityBehavior that evaluates an expression when executed. Optionally, it sets the result of the expression as a variable on the execution.
@@ -41,18 +42,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Falko Menge
  * @author Filip Hrisafov
  */
-class ServiceTaskExpressionActivityBehavior extends TaskActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class ServiceTaskExpressionActivityBehavior : TaskActivityBehavior {
 
     protected string serviceTaskId;
     protected Expression expression;
     protected Expression skipExpression;
     protected string resultVariable;
-    protected List<MapExceptionEntry> mapExceptions;
+    protected List!MapExceptionEntry mapExceptions;
     protected bool useLocalScopeForResultVariable;
 
-    public ServiceTaskExpressionActivityBehavior(ServiceTask serviceTask, Expression expression, Expression skipExpression) {
+    this(ServiceTask serviceTask, Expression expression, Expression skipExpression) {
 
         this.serviceTaskId = serviceTask.getId();
         this.expression = expression;
@@ -62,61 +61,62 @@ class ServiceTaskExpressionActivityBehavior extends TaskActivityBehavior {
         this.useLocalScopeForResultVariable = serviceTask.isUseLocalScopeForResultVariable();
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
-        Object value = null;
-        try {
-            CommandContext commandContext = CommandContextUtil.getCommandContext();
-            string skipExpressionText = null;
-            if (skipExpression !is null) {
-                skipExpressionText = skipExpression.getExpressionText();
-            }
-            bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
-            if (!isSkipExpressionEnabled || !SkipExpressionUtil.shouldSkipFlowElement(skipExpressionText, serviceTaskId, execution, commandContext)) {
-
-                if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {
-                    ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
-                    if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_EXPRESSION)) {
-                        string overrideExpression = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_EXPRESSION).asText();
-                        if (StringUtils.isNotEmpty(overrideExpression) && !overrideExpression.equals(expression.getExpressionText())) {
-                            expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(overrideExpression);
-                        }
-                    }
-                }
-
-                value = expression.getValue(execution);
-                if (resultVariable !is null) {
-                    if (useLocalScopeForResultVariable) {
-                        execution.setVariableLocal(resultVariable, value);
-                    } else {
-                        execution.setVariable(resultVariable, value);
-                    }
-                }
-            }
-
-            leave(execution);
-
-        } catch (Exception exc) {
-
-            Throwable cause = exc;
-            BpmnError error = null;
-            while (cause !is null) {
-                if (cause instanceof BpmnError) {
-                    error = (BpmnError) cause;
-                    break;
-                } else if (cause instanceof RuntimeException) {
-                    if (ErrorPropagation.mapException((RuntimeException) cause, (ExecutionEntity) execution, mapExceptions)) {
-                        return;
-                    }
-                }
-                cause = cause.getCause();
-            }
-
-            if (error !is null) {
-                ErrorPropagation.propagateError(error, execution);
-            } else {
-                throw exc;
-            }
-        }
+        implementationMissing(false);
+        //Object value = null;
+        //try {
+        //    CommandContext commandContext = CommandContextUtil.getCommandContext();
+        //    string skipExpressionText = null;
+        //    if (skipExpression !is null) {
+        //        skipExpressionText = skipExpression.getExpressionText();
+        //    }
+        //    bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
+        //    if (!isSkipExpressionEnabled || !SkipExpressionUtil.shouldSkipFlowElement(skipExpressionText, serviceTaskId, execution, commandContext)) {
+        //
+        //        if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {
+        //            ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
+        //            if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_EXPRESSION)) {
+        //                string overrideExpression = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_EXPRESSION).asText();
+        //                if (StringUtils.isNotEmpty(overrideExpression) && !overrideExpression.equals(expression.getExpressionText())) {
+        //                    expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(overrideExpression);
+        //                }
+        //            }
+        //        }
+        //
+        //        value = expression.getValue(execution);
+        //        if (resultVariable !is null) {
+        //            if (useLocalScopeForResultVariable) {
+        //                execution.setVariableLocal(resultVariable, value);
+        //            } else {
+        //                execution.setVariable(resultVariable, value);
+        //            }
+        //        }
+        //    }
+        //
+        //    leave(execution);
+        //
+        //} catch (Exception exc) {
+        //
+        //    Throwable cause = exc;
+        //    BpmnError error = null;
+        //    while (cause !is null) {
+        //        if (cause instanceof BpmnError) {
+        //            error = (BpmnError) cause;
+        //            break;
+        //        } else if (cause instanceof RuntimeException) {
+        //            if (ErrorPropagation.mapException((RuntimeException) cause, (ExecutionEntity) execution, mapExceptions)) {
+        //                return;
+        //            }
+        //        }
+        //        cause = cause.getCause();
+        //    }
+        //
+        //    if (error !is null) {
+        //        ErrorPropagation.propagateError(error, execution);
+        //    } else {
+        //        throw exc;
+        //    }
+        //}
     }
 }

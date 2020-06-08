@@ -30,12 +30,12 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class DefaultDynamicStateManager extends AbstractDynamicStateManager implements DynamicStateManager {
+class DefaultDynamicStateManager : AbstractDynamicStateManager implements DynamicStateManager {
 
-    @Override
+    override
     public void moveExecutionState(ChangeActivityStateBuilderImpl changeActivityStateBuilder, CommandContext commandContext) {
-        List<MoveExecutionEntityContainer> moveExecutionEntityContainerList = resolveMoveExecutionEntityContainers(changeActivityStateBuilder, Optional.empty(), changeActivityStateBuilder.getProcessInstanceVariables(), commandContext);
-        List<ExecutionEntity> executions = moveExecutionEntityContainerList.iterator().next().getExecutions();
+        List!MoveExecutionEntityContainer moveExecutionEntityContainerList = resolveMoveExecutionEntityContainers(changeActivityStateBuilder, Optional.empty(), changeActivityStateBuilder.getProcessInstanceVariables(), commandContext);
+        List!ExecutionEntity executions = moveExecutionEntityContainerList.iterator().next().getExecutions();
         string processInstanceId = executions.iterator().next().getProcessInstanceId();
 
         ProcessInstanceChangeState processInstanceChangeState = new ProcessInstanceChangeState()
@@ -47,19 +47,19 @@ class DefaultDynamicStateManager extends AbstractDynamicStateManager implements 
         doMoveExecutionState(processInstanceChangeState, commandContext);
     }
 
-    @Override
-    protected Map<string, List<ExecutionEntity>> resolveActiveEmbeddedSubProcesses(string processInstanceId, CommandContext commandContext) {
+    override
+    protected Map<string, List!ExecutionEntity> resolveActiveEmbeddedSubProcesses(string processInstanceId, CommandContext commandContext) {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-        List<ExecutionEntity> childExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(processInstanceId);
+        List!ExecutionEntity childExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(processInstanceId);
 
-        Map<string, List<ExecutionEntity>> activeSubProcessesByActivityId = childExecutions.stream()
+        Map<string, List!ExecutionEntity> activeSubProcessesByActivityId = childExecutions.stream()
             .filter(ExecutionEntity::isActive)
             .filter(executionEntity -> executionEntity.getCurrentFlowElement() instanceof SubProcess)
             .collect(Collectors.groupingBy(ExecutionEntity::getActivityId));
         return activeSubProcessesByActivityId;
     }
 
-    @Override
+    override
     protected bool isDirectFlowElementExecutionMigration(FlowElement currentFlowElement, FlowElement newFlowElement) {
         return false;
     }

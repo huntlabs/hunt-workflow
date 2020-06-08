@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.ByteArrayDataManager;
 
 import hunt.collection.List;
 
@@ -20,9 +20,9 @@ import flow.engine.impl.persistence.entity.ByteArrayEntity;
 /**
  * @author Joram Barrez
  */
-interface ByteArrayDataManager extends DataManager<ByteArrayEntity> {
+interface ByteArrayDataManager : DataManager!ByteArrayEntity {
 
-    List<ByteArrayEntity> findAll();
+    List!ByteArrayEntity findAll();
 
     void deleteByteArrayNoRevisionCheck(string byteArrayEntityId);
 

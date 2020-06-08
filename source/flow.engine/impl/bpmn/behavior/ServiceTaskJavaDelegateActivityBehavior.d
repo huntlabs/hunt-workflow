@@ -11,11 +11,11 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.ServiceTaskJavaDelegateActivityBehavior;
 
 import flow.common.api.deleg.Expression;
 import flow.common.interceptor.CommandContext;
-import flow.common.logging.LoggingSessionConstants;
+//import flow.common.logging.LoggingSessionConstants;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.JavaDelegate;
@@ -26,61 +26,59 @@ import flow.engine.impl.deleg.TriggerableActivityBehavior;
 import flow.engine.impl.deleg.invocation.JavaDelegateInvocation;
 import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.TaskActivityBehavior;
 /**
  * @author Tom Baeyens
  */
-class ServiceTaskJavaDelegateActivityBehavior extends TaskActivityBehavior implements ActivityBehavior, ExecutionListener {
-
-    private static final long serialVersionUID = 1L;
+class ServiceTaskJavaDelegateActivityBehavior : TaskActivityBehavior , ActivityBehavior, ExecutionListener {
 
     protected JavaDelegate javaDelegate;
     protected Expression skipExpression;
     protected bool triggerable;
 
-    protected ServiceTaskJavaDelegateActivityBehavior() {
+    this() {
     }
 
-    public ServiceTaskJavaDelegateActivityBehavior(JavaDelegate javaDelegate, bool triggerable, Expression skipExpression) {
+    this(JavaDelegate javaDelegate, bool triggerable, Expression skipExpression) {
         this.javaDelegate = javaDelegate;
         this.triggerable = triggerable;
         this.skipExpression = skipExpression;
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 
-        if (triggerable && javaDelegate instanceof TriggerableActivityBehavior) {
-            if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_BEFORE_TRIGGER,
-                                "Triggering service task with java class " + javaDelegate.getClass().getName(), execution);
-            }
+        if (triggerable && cast(TriggerableActivityBehavior)javaDelegate !is null) {
+            //if (processEngineConfiguration.isLoggingSessionEnabled()) {
+            //    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_BEFORE_TRIGGER,
+            //                    "Triggering service task with java class " + javaDelegate.getClass().getName(), execution);
+            //}
 
-            ((TriggerableActivityBehavior) javaDelegate).trigger(execution, signalName, signalData);
+            (cast(TriggerableActivityBehavior) javaDelegate).trigger(execution, signalName, signalData);
 
-            if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_BEFORE_TRIGGER,
-                                "Triggered service task with java class " + javaDelegate.getClass().getName(), execution);
-            }
+            //if (processEngineConfiguration.isLoggingSessionEnabled()) {
+            //    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_BEFORE_TRIGGER,
+            //                    "Triggered service task with java class " + javaDelegate.getClass().getName(), execution);
+            //}
 
             leave(execution);
 
         } else {
-            if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                if (!triggerable) {
-                    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_WRONG_TRIGGER,
-                                    "Service task with java class triggered but not triggerable " + javaDelegate.getClass().getName(), execution);
-                } else {
-                    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_WRONG_TRIGGER,
-                                    "Service task with java class triggered but not implementing TriggerableActivityBehavior " + javaDelegate.getClass().getName(), execution);
-                }
-            }
+            //if (processEngineConfiguration.isLoggingSessionEnabled()) {
+            //    if (!triggerable) {
+            //        BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_WRONG_TRIGGER,
+            //                        "Service task with java class triggered but not triggerable " + javaDelegate.getClass().getName(), execution);
+            //    } else {
+            //        BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_WRONG_TRIGGER,
+            //                        "Service task with java class triggered but not implementing TriggerableActivityBehavior " + javaDelegate.getClass().getName(), execution);
+            //    }
+            //}
         }
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         string skipExpressionText = null;
@@ -95,32 +93,32 @@ class ServiceTaskJavaDelegateActivityBehavior extends TaskActivityBehavior imple
                         execution.getCurrentActivityId(), execution, commandContext)) {
 
             try {
-                if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_ENTER,
-                                    "Executing service task with java class " + javaDelegate.getClass().getName(), execution);
-                }
+                //if (processEngineConfiguration.isLoggingSessionEnabled()) {
+                //    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_ENTER,
+                //                    "Executing service task with java class " + javaDelegate.getClass().getName(), execution);
+                //}
 
                 processEngineConfiguration.getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation(javaDelegate, execution));
 
-                if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_EXIT,
-                                    "Executed service task with java class " + javaDelegate.getClass().getName(), execution);
-                }
+                //if (processEngineConfiguration.isLoggingSessionEnabled()) {
+                //    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_EXIT,
+                //                    "Executed service task with java class " + javaDelegate.getClass().getName(), execution);
+                //}
 
-            } catch (RuntimeException e) {
-                if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                    BpmnLoggingSessionUtil.addErrorLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_EXCEPTION,
-                                    "Service task with java class " + javaDelegate.getClass().getName() + " threw exception " + e.getMessage(), e, execution);
-                }
-
-                throw e;
+            } catch (Exception e) {
+                //if (processEngineConfiguration.isLoggingSessionEnabled()) {
+                //    BpmnLoggingSessionUtil.addErrorLoggingData(LoggingSessionConstants.TYPE_SERVICE_TASK_EXCEPTION,
+                //                    "Service task with java class " + javaDelegate.getClass().getName() + " threw exception " + e.getMessage(), e, execution);
+                //}
+                //
+                //throw e;
             }
 
         } else {
-            if (processEngineConfiguration.isLoggingSessionEnabled()) {
-                BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SKIP_TASK, "Skipped service task " + execution.getCurrentActivityId() +
-                                " with skip expression " + skipExpressionText, execution);
-            }
+            //if (processEngineConfiguration.isLoggingSessionEnabled()) {
+            //    BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_SKIP_TASK, "Skipped service task " + execution.getCurrentActivityId() +
+            //                    " with skip expression " + skipExpressionText, execution);
+            //}
         }
 
         if (!triggerable) {
@@ -128,7 +126,7 @@ class ServiceTaskJavaDelegateActivityBehavior extends TaskActivityBehavior imple
         }
     }
 
-    @Override
+    override
     public void notify(DelegateExecution execution) {
         execute(execution);
     }

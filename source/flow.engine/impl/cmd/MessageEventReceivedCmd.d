@@ -26,14 +26,14 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
 import flow.engine.impl.util.Flowable5Util;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-class MessageEventReceivedCmd extends NeedsActiveExecutionCmd<Void> {
+class MessageEventReceivedCmd : NeedsActiveExecutionCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -61,7 +61,7 @@ class MessageEventReceivedCmd extends NeedsActiveExecutionCmd<Void> {
         this.async = async;
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, ExecutionEntity execution) {
         if (messageName is null) {
             throw new FlowableIllegalArgumentException("messageName cannot be null");
@@ -74,7 +74,7 @@ class MessageEventReceivedCmd extends NeedsActiveExecutionCmd<Void> {
         }
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-        List<EventSubscriptionEntity> eventSubscriptions = eventSubscriptionService.findEventSubscriptionsByNameAndExecution(MessageEventHandler.EVENT_HANDLER_TYPE, messageName, executionId);
+        List!EventSubscriptionEntity eventSubscriptions = eventSubscriptionService.findEventSubscriptionsByNameAndExecution(MessageEventHandler.EVENT_HANDLER_TYPE, messageName, executionId);
 
         if (eventSubscriptions.isEmpty()) {
             throw new FlowableException("Execution with id '" + executionId + "' does not have a subscription to a message event with name '" + messageName + "'");

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,16 +25,16 @@ import org.slf4j.LoggerFactory;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class SchemaOperationsProcessEngineBuild implements Command<Void> {
-    
+class SchemaOperationsProcessEngineBuild implements Command!Void {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SchemaOperationsProcessEngineBuild.class);
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
-        
+
         SchemaManager schemaManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getSchemaManager();
         string databaseSchemaUpdate = CommandContextUtil.getProcessEngineConfiguration().getDatabaseSchemaUpdate();
-        
+
         LOGGER.debug("Executing schema management with setting {}", databaseSchemaUpdate);
         if (ProcessEngineConfiguration.DB_SCHEMA_UPDATE_DROP_CREATE.equals(databaseSchemaUpdate)) {
             try {
@@ -53,7 +53,7 @@ class SchemaOperationsProcessEngineBuild implements Command<Void> {
         } else if (ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE.equals(databaseSchemaUpdate)) {
             schemaManager.schemaUpdate();
         }
-        
+
         return null;
     }
 }

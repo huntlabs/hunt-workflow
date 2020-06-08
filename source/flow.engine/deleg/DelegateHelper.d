@@ -109,7 +109,7 @@ class DelegateHelper {
      * {@link #getFlowElementExtensionElements(DelegateExecution)} or {@link #getListenerExtensionElements(DelegateExecution)} instead to specifically get the extension elements of either the flow
      * element or the listener.
      */
-    public static Map<string, List<ExtensionElement>> getExtensionElements(DelegateExecution execution) {
+    public static Map<string, List!ExtensionElement> getExtensionElements(DelegateExecution execution) {
         if (isExecutingExecutionListener(execution)) {
             return getListenerExtensionElements(execution);
         } else {
@@ -117,11 +117,11 @@ class DelegateHelper {
         }
     }
 
-    public static Map<string, List<ExtensionElement>> getFlowElementExtensionElements(DelegateExecution execution) {
+    public static Map<string, List!ExtensionElement> getFlowElementExtensionElements(DelegateExecution execution) {
         return getFlowElement(execution).getExtensionElements();
     }
 
-    public static Map<string, List<ExtensionElement>> getListenerExtensionElements(DelegateExecution execution) {
+    public static Map<string, List!ExtensionElement> getListenerExtensionElements(DelegateExecution execution) {
         return execution.getCurrentFlowableListener().getExtensionElements();
     }
 
@@ -131,7 +131,7 @@ class DelegateHelper {
      * If the execution is currently being used for executing an {@link ExecutionListener}, the fields of the listener will be returned. Use {@link #getFlowElementFields(DelegateExecution)} or
      * {@link #getListenerFields(DelegateExecution)} if needing the flow element of listener fields specifically.
      */
-    public static List<FieldExtension> getFields(DelegateExecution execution) {
+    public static List!FieldExtension getFields(DelegateExecution execution) {
         if (isExecutingExecutionListener(execution)) {
             return getListenerFields(execution);
         } else {
@@ -139,7 +139,7 @@ class DelegateHelper {
         }
     }
 
-    public static List<FieldExtension> getFlowElementFields(DelegateExecution execution) {
+    public static List!FieldExtension getFlowElementFields(DelegateExecution execution) {
         FlowElement flowElement = getFlowElement(execution);
         if (flowElement instanceof TaskWithFieldExtensions) {
             return ((TaskWithFieldExtensions) flowElement).getFieldExtensions();
@@ -147,7 +147,7 @@ class DelegateHelper {
         return new ArrayList<>();
     }
 
-    public static List<FieldExtension> getListenerFields(DelegateExecution execution) {
+    public static List!FieldExtension getListenerFields(DelegateExecution execution) {
         return execution.getCurrentFlowableListener().getFieldExtensions();
     }
 
@@ -168,7 +168,7 @@ class DelegateHelper {
     }
 
     public static FieldExtension getFlowElementField(DelegateExecution execution, string fieldName) {
-        List<FieldExtension> fieldExtensions = getFlowElementFields(execution);
+        List!FieldExtension fieldExtensions = getFlowElementFields(execution);
         if (fieldExtensions is null || fieldExtensions.size() == 0) {
             return null;
         }
@@ -181,7 +181,7 @@ class DelegateHelper {
     }
 
     public static FieldExtension getListenerField(DelegateExecution execution, string fieldName) {
-        List<FieldExtension> fieldExtensions = getListenerFields(execution);
+        List!FieldExtension fieldExtensions = getListenerFields(execution);
         if (fieldExtensions is null || fieldExtensions.size() == 0) {
             return null;
         }
@@ -239,7 +239,7 @@ class DelegateHelper {
             }
 
             if (flowableListener !is null) {
-                List<FieldExtension> fieldExtensions = flowableListener.getFieldExtensions();
+                List!FieldExtension fieldExtensions = flowableListener.getFieldExtensions();
                 if (fieldExtensions !is null && fieldExtensions.size() > 0) {
                     for (FieldExtension fieldExtension : fieldExtensions) {
                         if (fieldName.equals(fieldExtension.getFieldName())) {

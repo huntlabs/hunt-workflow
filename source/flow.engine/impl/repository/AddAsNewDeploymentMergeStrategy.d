@@ -29,20 +29,20 @@ import java.util.stream.Collectors;
  */
 class AddAsNewDeploymentMergeStrategy implements DeploymentMergeStrategy {
 
-    @Override
+    override
     public void prepareMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
-        List<ProcessDefinition> processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
+        List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
         ProcessDefinitionEntityManager processDefinitionEntityManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
         for (ProcessDefinition processDefinition : processDefinitions) {
             processDefinitionEntityManager.updateProcessDefinitionVersionForProcessDefinitionId(processDefinition.getId(), 0);
         }
     }
 
-    @Override
+    override
     public void finalizeMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
-        List<ProcessDefinition> processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
+        List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
 
-        Map<string, Integer> latestVersionNumberLookupTable = new ProcessDefinitionQueryImpl()
+        Map!(string, Integer) latestVersionNumberLookupTable = new ProcessDefinitionQueryImpl()
                 .processDefinitionTenantId(newTenantId)
                 .latestVersion()
                 .list()

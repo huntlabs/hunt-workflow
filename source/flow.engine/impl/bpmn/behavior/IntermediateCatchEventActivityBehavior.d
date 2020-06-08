@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.IntermediateCatchEventActivityBehavior;
 
 import hunt.collection.HashSet;
 import hunt.collection.List;
@@ -27,17 +27,17 @@ import flow.engine.history.DeleteReason;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 
-class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
+class IntermediateCatchEventActivityBehavior : AbstractBpmnActivityBehavior {
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         // Do nothing: waitstate behavior
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
         leaveIntermediateCatchEvent(execution);
     }
@@ -59,22 +59,22 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
      * Should be subclassed by the more specific types. For an intermediate catch without type, it's simply leaving the event.
      */
     public void eventCancelledByEventGateway(DelegateExecution execution) {
-        CommandContextUtil.getExecutionEntityManager().deleteExecutionAndRelatedData((ExecutionEntity) execution,
+        CommandContextUtil.getExecutionEntityManager().deleteExecutionAndRelatedData(cast(ExecutionEntity) execution,
                 DeleteReason.EVENT_BASED_GATEWAY_CANCEL, false);
     }
 
     protected EventGateway getPrecedingEventBasedGateway(DelegateExecution execution) {
         FlowElement currentFlowElement = execution.getCurrentFlowElement();
-        if (currentFlowElement instanceof IntermediateCatchEvent) {
-            IntermediateCatchEvent intermediateCatchEvent = (IntermediateCatchEvent) currentFlowElement;
-            List<SequenceFlow> incomingSequenceFlow = intermediateCatchEvent.getIncomingFlows();
+        if (cast(IntermediateCatchEvent)currentFlowElement !is null) {
+            IntermediateCatchEvent intermediateCatchEvent = cast(IntermediateCatchEvent) currentFlowElement;
+            List!SequenceFlow incomingSequenceFlow = intermediateCatchEvent.getIncomingFlows();
 
             // If behind an event based gateway, there is only one incoming sequence flow that originates from said gateway
             if (incomingSequenceFlow !is null && incomingSequenceFlow.size() == 1) {
                 SequenceFlow sequenceFlow = incomingSequenceFlow.get(0);
                 FlowElement sourceFlowElement = sequenceFlow.getSourceFlowElement();
-                if (sourceFlowElement instanceof EventGateway) {
-                    return (EventGateway) sourceFlowElement;
+                if (cast(EventGateway)sourceFlowElement !is null) {
+                    return cast(EventGateway) sourceFlowElement;
                 }
             }
 
@@ -91,11 +91,11 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
         // so we only take _one_ result of such a query for deletion.
 
         // Gather all activity ids for the events after the event based gateway that need to be destroyed
-        List<SequenceFlow> outgoingSequenceFlows = eventGateway.getOutgoingFlows();
-        Set!string eventActivityIds = new HashSet<>(outgoingSequenceFlows.size() - 1); // -1, the event being triggered does not need to be deleted
-        for (SequenceFlow outgoingSequenceFlow : outgoingSequenceFlows) {
+        List!SequenceFlow outgoingSequenceFlows = eventGateway.getOutgoingFlows();
+        Set!string eventActivityIds = new HashSet!string(outgoingSequenceFlows.size() - 1); // -1, the event being triggered does not need to be deleted
+        foreach (SequenceFlow outgoingSequenceFlow ; outgoingSequenceFlows) {
             if (outgoingSequenceFlow.getTargetFlowElement() !is null
-                    && !outgoingSequenceFlow.getTargetFlowElement().getId().equals(execution.getCurrentActivityId())) {
+                    && outgoingSequenceFlow.getTargetFlowElement().getId() != (execution.getCurrentActivityId())) {
                 eventActivityIds.add(outgoingSequenceFlow.getTargetFlowElement().getId());
             }
         }
@@ -105,15 +105,15 @@ class IntermediateCatchEventActivityBehavior extends AbstractBpmnActivityBehavio
             ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
 
             // Find the executions
-            List<ExecutionEntity> executionEntities = executionEntityManager
+            List!ExecutionEntity executionEntities = executionEntityManager
                     .findExecutionsByParentExecutionAndActivityIds(execution.getParentId(), eventActivityIds);
 
             // Execute the cancel behaviour of the IntermediateCatchEvent
-            for (ExecutionEntity executionEntity : executionEntities) {
-                if (eventActivityIds.contains(executionEntity.getActivityId()) && execution.getCurrentFlowElement() instanceof IntermediateCatchEvent) {
-                    IntermediateCatchEvent intermediateCatchEvent = (IntermediateCatchEvent) execution.getCurrentFlowElement();
-                    if (intermediateCatchEvent.getBehavior() instanceof IntermediateCatchEventActivityBehavior) {
-                        ((IntermediateCatchEventActivityBehavior) intermediateCatchEvent.getBehavior()).eventCancelledByEventGateway(executionEntity);
+            foreach (ExecutionEntity executionEntity ; executionEntities) {
+                if (eventActivityIds.contains(executionEntity.getActivityId()) && cast(IntermediateCatchEvent) execution.getCurrentFlowElement() !is null) {
+                    IntermediateCatchEvent intermediateCatchEvent = cast(IntermediateCatchEvent) execution.getCurrentFlowElement();
+                    if (cast(IntermediateCatchEventActivityBehavior) intermediateCatchEvent.getBehavior() !is null) {
+                        (cast(IntermediateCatchEventActivityBehavior) intermediateCatchEvent.getBehavior()).eventCancelledByEventGateway(executionEntity);
                         eventActivityIds.remove(executionEntity.getActivityId()); // We only need to delete ONE execution at the event.
                     }
                 }

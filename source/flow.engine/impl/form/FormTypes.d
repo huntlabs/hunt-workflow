@@ -28,7 +28,7 @@ import flow.engine.form.AbstractFormType;
  */
 class FormTypes {
 
-    protected Map<string, AbstractFormType> formTypes = new HashMap<>();
+    protected Map!(string, AbstractFormType) formTypes = new HashMap<>();
 
     public void addFormType(AbstractFormType formType) {
         formTypes.put(formType.getName(), formType);

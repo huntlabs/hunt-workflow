@@ -27,7 +27,7 @@ import flow.engine.runtime.Execution;
 /**
  * @author Tijs Rademakers
  */
-class GetActiveAdhocSubProcessesCmd implements Command<List<Execution>>, Serializable {
+class GetActiveAdhocSubProcessesCmd implements Command<List!Execution>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processInstanceId;
@@ -36,10 +36,10 @@ class GetActiveAdhocSubProcessesCmd implements Command<List<Execution>>, Seriali
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
-    public List<Execution> execute(CommandContext commandContext) {
-        List<Execution> adhocExecutions = new ArrayList<>();
-        List<ExecutionEntity> executions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByProcessInstanceId(processInstanceId);
+    override
+    public List!Execution execute(CommandContext commandContext) {
+        List!Execution adhocExecutions = new ArrayList<>();
+        List!ExecutionEntity executions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByProcessInstanceId(processInstanceId);
         for (Execution execution : executions) {
             if (((ExecutionEntity) execution).getCurrentFlowElement() instanceof AdhocSubProcess) {
                 adhocExecutions.add(execution);

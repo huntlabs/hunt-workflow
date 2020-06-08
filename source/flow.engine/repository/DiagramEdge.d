@@ -30,35 +30,35 @@ module flow.engine.repository.DiagramEdge;
 // *
 // * @author Falko Menge
 // */
-//class DiagramEdge extends DiagramElement {
+//class DiagramEdge : DiagramElement {
 //
 //    private static final long serialVersionUID = 1L;
 //
-//    private List<DiagramEdgeWaypoint> waypoints;
+//    private List!DiagramEdgeWaypoint waypoints;
 //
 //    public DiagramEdge() {
 //    }
 //
-//    public DiagramEdge(string id, List<DiagramEdgeWaypoint> waypoints) {
+//    public DiagramEdge(string id, List!DiagramEdgeWaypoint waypoints) {
 //        super(id);
 //        this.waypoints = waypoints;
 //    }
 //
-//    @Override
+//    override
 //    public bool isNode() {
 //        return false;
 //    }
 //
-//    @Override
+//    override
 //    public bool isEdge() {
 //        return true;
 //    }
 //
-//    public List<DiagramEdgeWaypoint> getWaypoints() {
+//    public List!DiagramEdgeWaypoint getWaypoints() {
 //        return waypoints;
 //    }
 //
-//    public void setWaypoints(List<DiagramEdgeWaypoint> waypoints) {
+//    public void setWaypoints(List!DiagramEdgeWaypoint waypoints) {
 //        this.waypoints = waypoints;
 //    }
 //

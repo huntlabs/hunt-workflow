@@ -35,14 +35,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent> {
+class StartEventParseHandler : AbstractActivityBpmnParseHandler!StartEvent {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return StartEvent.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, StartEvent element) {
         if (element.getSubProcess() !is null && element.getSubProcess() instanceof EventSubProcess) {
             if (CollectionUtil.isNotEmpty(element.getEventDefinitions())) {
@@ -74,7 +74,7 @@ class StartEventParseHandler extends AbstractActivityBpmnParseHandler<StartEvent
                 }
 
             } else {
-                List<ExtensionElement> eventTypeElements = element.getExtensionElements().get("eventType");
+                List!ExtensionElement eventTypeElements = element.getExtensionElements().get("eventType");
                 if (eventTypeElements !is null && !eventTypeElements.isEmpty()) {
                     string eventType = eventTypeElements.get(0).getElementText();
                     if (StringUtils.isNotEmpty(eventType)) {

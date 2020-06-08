@@ -19,14 +19,14 @@ import flow.common.api.deleg.Expression;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 
 class DefaultClassDelegateFactory implements ClassDelegateFactory {
-    @Override
-    public ClassDelegate create(string id, string className, List<FieldDeclaration> fieldDeclarations,
-            bool triggerable, Expression skipExpression, List<MapExceptionEntry> mapExceptions) {
+    override
+    public ClassDelegate create(string id, string className, List!FieldDeclaration fieldDeclarations,
+            bool triggerable, Expression skipExpression, List!MapExceptionEntry mapExceptions) {
         return new ClassDelegate(id, className, fieldDeclarations, triggerable, skipExpression, mapExceptions);
     }
 
-    @Override
-    public ClassDelegate create(string className, List<FieldDeclaration> fieldDeclarations) {
+    override
+    public ClassDelegate create(string className, List!FieldDeclaration fieldDeclarations) {
         return new ClassDelegate(className, fieldDeclarations);
     }
 }

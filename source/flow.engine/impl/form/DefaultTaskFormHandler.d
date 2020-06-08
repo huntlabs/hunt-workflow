@@ -21,9 +21,9 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tom Baeyens
  */
-class DefaultTaskFormHandler extends DefaultFormHandler implements TaskFormHandler {
+class DefaultTaskFormHandler : DefaultFormHandler implements TaskFormHandler {
 
-    @Override
+    override
     public TaskFormData createTaskForm(TaskEntity task) {
         TaskFormDataImpl taskFormData = new TaskFormDataImpl();
 

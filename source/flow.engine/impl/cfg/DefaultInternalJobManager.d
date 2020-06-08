@@ -57,7 +57,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    @Override
+    override
     public VariableScope resolveVariableScope(Job job) {
         if (job.getExecutionId() !is null) {
             return getExecutionEntityManager().findById(job.getExecutionId());
@@ -65,7 +65,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         return null;
     }
 
-    @Override
+    override
     public bool handleJobInsert(Job job) {
         // add link to execution
         if (job.getExecutionId() !is null) {
@@ -116,7 +116,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         return true;
     }
 
-    @Override
+    override
     public void handleJobDelete(Job job) {
         if (job.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
             ExecutionEntity executionEntity = getExecutionEntityManager().findById(job.getExecutionId());
@@ -140,7 +140,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         }
     }
 
-    @Override
+    override
     public void lockJobScope(Job job) {
         ExecutionEntityManager executionEntityManager = getExecutionEntityManager();
         ExecutionEntity execution = executionEntityManager.findById(job.getExecutionId());
@@ -155,7 +155,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         }
     }
 
-    @Override
+    override
     public void clearJobScopeLock(Job job) {
         ExecutionEntityManager executionEntityManager = getExecutionEntityManager();
         ExecutionEntity execution = executionEntityManager.findById(job.getProcessInstanceId());
@@ -171,7 +171,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         }
     }
 
-    @Override
+    override
     public void preTimerJobDelete(JobEntity jobEntity, VariableScope variableScope) {
         string activityId = jobEntity.getJobHandlerConfiguration();
 
@@ -218,7 +218,7 @@ class DefaultInternalJobManager implements InternalJobManager {
         jobEntity.setMaxIterations(maxIterations);
     }
 
-    @Override
+    override
     public void preRepeatedTimerSchedule(TimerJobEntity ti, VariableScope variableScope) {
         // Nothing to do
     }
@@ -229,7 +229,7 @@ class DefaultInternalJobManager implements InternalJobManager {
             if (flowElement instanceof Event) {
 
                 Event event = (Event) flowElement;
-                List<EventDefinition> eventDefinitions = event.getEventDefinitions();
+                List!EventDefinition eventDefinitions = event.getEventDefinitions();
 
                 if (eventDefinitions !is null) {
 

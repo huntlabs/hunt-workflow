@@ -40,7 +40,7 @@
 ////import com.fasterxml.jackson.databind.node.ArrayNode;
 ////import com.fasterxml.jackson.databind.node.ObjectNode;
 //
-//class DmnActivityBehavior extends TaskActivityBehavior {
+//class DmnActivityBehavior : TaskActivityBehavior {
 //
 //    private static final long serialVersionUID = 1L;
 //
@@ -54,7 +54,7 @@
 //        this.task = task;
 //    }
 //
-//    @Override
+//    override
 //    public void execute(DelegateExecution execution) {
 //        FieldExtension fieldExtension = DelegateHelper.getFlowElementField(execution, EXPRESSION_DECISION_TABLE_REFERENCE_KEY);
 //        if (fieldExtension is null || ((fieldExtension.getStringValue() is null || fieldExtension.getStringValue().length() == 0) &&
@@ -163,7 +163,7 @@
 //        }
 //    }
 //
-//    protected void setVariablesOnExecution(List<Map<string, Object>> executionResult, string decisionKey, DelegateExecution execution, ObjectMapper objectMapper) {
+//    protected void setVariablesOnExecution(List<Map!(string, Object)> executionResult, string decisionKey, DelegateExecution execution, ObjectMapper objectMapper) {
 //        if (executionResult is null || executionResult.isEmpty()) {
 //            return;
 //        }

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Joram Barrez
  */
-class SetProcessDefinitionCategoryCmd implements Command<Void> {
+class SetProcessDefinitionCategoryCmd implements Command!Void {
 
     protected string processDefinitionId;
     protected string category;
@@ -40,7 +40,7 @@ class SetProcessDefinitionCategoryCmd implements Command<Void> {
         this.category = category;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
 
         if (processDefinitionId is null) {
@@ -63,7 +63,7 @@ class SetProcessDefinitionCategoryCmd implements Command<Void> {
         processDefinition.setCategory(category);
 
         // Remove process definition from cache, it will be refetched later
-        DeploymentCache<ProcessDefinitionCacheEntry> processDefinitionCache = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessDefinitionCache();
+        DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessDefinitionCache();
         if (processDefinitionCache !is null) {
             processDefinitionCache.remove(processDefinitionId);
         }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.BoundaryEscalationEventActivityBehavior;
 
 import flow.bpmn.model.Escalation;
 import flow.bpmn.model.EscalationEventDefinition;
@@ -22,27 +22,25 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
 /**
  * @author Tijs Rademakers
  */
-class BoundaryEscalationEventActivityBehavior extends BoundaryEventActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class BoundaryEscalationEventActivityBehavior : BoundaryEventActivityBehavior {
 
     protected EscalationEventDefinition escalationEventDefinition;
     protected Escalation escalation;
 
-    public BoundaryEscalationEventActivityBehavior(EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting) {
+    this(EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting) {
         super(interrupting);
         this.escalationEventDefinition = escalationEventDefinition;
         this.escalation = escalation;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = Context.getCommandContext();
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         string escalationCode = null;
         string escalationName = null;

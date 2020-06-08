@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.impl.MybatisModelDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -22,46 +22,101 @@ import flow.engine.impl.persistence.entity.ModelEntityImpl;
 import flow.engine.impl.persistence.entity.data.AbstractProcessDataManager;
 import flow.engine.impl.persistence.entity.data.ModelDataManager;
 import flow.engine.repository.Model;
-
+import hunt.entity;
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
+import flow.common.runtime.Clock;
 /**
  * @author Joram Barrez
  */
-class MybatisModelDataManager extends AbstractProcessDataManager<ModelEntity> implements ModelDataManager {
+//EntityRepository!( HistoricIdentityLinkEntityImpl , string
+//class MybatisModelDataManager : AbstractProcessDataManager!ModelEntity implements ModelDataManager {
+class MybatisModelDataManager : EntityRepository!( ModelEntityImpl , string) , ModelDataManager {
 
-    public MybatisModelDataManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
-        super(processEngineConfiguration);
+   private ProcessEngineConfigurationImpl processEngineConfiguration;
+
+
+    public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
+      return processEngineConfiguration;
     }
 
-    @Override
-    class<? extends ModelEntity> getManagedEntityClass() {
-        return ModelEntityImpl.class;
+    public Clock getClock() {
+      return processEngineConfiguration.getClock();
     }
 
-    @Override
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
+        this.processEngineConfiguration = processEngineConfiguration;
+    }
+
+    //
+    //class<? : ModelEntity> getManagedEntityClass() {
+    //    return ModelEntityImpl.class;
+    //}
+
+  public ModelEntity findById(string entityId) {
+    if (entityId is null) {
+      return null;
+    }
+
+    return find(entityId);
+  }
+  //
+  public void insert(ModelEntity entity) {
+    insert(cast(ModelEntityImpl)entity);
+    //getDbSqlSession().insert(entity);
+  }
+  public ModelEntity update(ModelEntity entity) {
+    return  update(cast(ModelEntityImpl)entity);
+    //getDbSqlSession().update(entity);
+    //return entity;
+  }
+  public void dele(string id) {
+    ModelEntity entity = findById(id);
+    if (entity !is null)
+    {
+      remove(cast(ModelEntityImpl)entity);
+    }
+    //delete(entity);
+  }
+
+  public void dele(ModelEntity entity) {
+    if (entity !is null)
+    {
+      remove(cast(ModelEntityImpl)entity);
+    }
+    //getDbSqlSession().delete(entity);
+  }
+
     public ModelEntity create() {
         return new ModelEntityImpl();
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Model> findModelsByQueryCriteria(ModelQueryImpl query) {
-        return getDbSqlSession().selectList("selectModelsByQueryCriteria", query);
+
+    public List!Model findModelsByQueryCriteria(ModelQueryImpl query) {
+        implementationMissing(false);
+        return null;
+        //return getDbSqlSession().selectList("selectModelsByQueryCriteria", query);
     }
 
-    @Override
+
     public long findModelCountByQueryCriteria(ModelQueryImpl query) {
-        return (Long) getDbSqlSession().selectOne("selectModelCountByQueryCriteria", query);
+        implementationMissing(false);
+        return 0;
+       // return (Long) getDbSqlSession().selectOne("selectModelCountByQueryCriteria", query);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Model> findModelsByNativeQuery(Map!(string, Object) parameterMap) {
-        return getDbSqlSession().selectListWithRawParameter("selectModelByNativeQuery", parameterMap);
+
+    public List!Model findModelsByNativeQuery(Map!(string, Object) parameterMap) {
+        implementationMissing(false);
+        return 0;
+       // return getDbSqlSession().selectListWithRawParameter("selectModelByNativeQuery", parameterMap);
     }
 
-    @Override
+
     public long findModelCountByNativeQuery(Map!(string, Object) parameterMap) {
-        return (Long) getDbSqlSession().selectOne("selectModelCountByNativeQuery", parameterMap);
+        implementationMissing(false);
+        return 0;
+      //  return (Long) getDbSqlSession().selectOne("selectModelCountByNativeQuery", parameterMap);
     }
 
 }

@@ -30,7 +30,7 @@ class DelegateExpressionCustomPropertiesResolver implements CustomPropertiesReso
         this.expression = expression;
     }
 
-    @Override
+    override
     public Map!(string, Object) getCustomPropertiesMap(DelegateExecution execution) {
         // Note: we can't cache the result of the expression, because the
         // execution can change: eg.

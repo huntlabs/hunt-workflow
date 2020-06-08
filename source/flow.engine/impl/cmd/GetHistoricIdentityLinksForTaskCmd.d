@@ -30,7 +30,7 @@ import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 /**
  * @author Frederik Heremans
  */
-class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentityLink>>, Serializable {
+class GetHistoricIdentityLinksForTaskCmd implements Command<List!HistoricIdentityLink>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -44,8 +44,8 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
-    public List<HistoricIdentityLink> execute(CommandContext commandContext) {
+    override
+    public List!HistoricIdentityLink execute(CommandContext commandContext) {
         if (taskId !is null) {
             return getLinksForTask(commandContext);
         } else {
@@ -54,7 +54,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected List<HistoricIdentityLink> getLinksForTask(CommandContext commandContext) {
+    protected List!HistoricIdentityLink getLinksForTask(CommandContext commandContext) {
         HistoricTaskInstanceEntity task = CommandContextUtil.getHistoricTaskService().getHistoricTask(taskId);
 
         if (task is null) {
@@ -62,7 +62,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
         }
 
         HistoricIdentityLinkService historicIdentityLinkService = CommandContextUtil.getHistoricIdentityLinkService();
-        List<HistoricIdentityLinkEntity> identityLinks = historicIdentityLinkService.findHistoricIdentityLinksByTaskId(taskId);
+        List!HistoricIdentityLinkEntity identityLinks = historicIdentityLinkService.findHistoricIdentityLinksByTaskId(taskId);
 
         HistoricIdentityLinkEntity assigneeIdentityLink = null;
         HistoricIdentityLinkEntity ownerIdentityLink = null;
@@ -96,7 +96,7 @@ class GetHistoricIdentityLinksForTaskCmd implements Command<List<HistoricIdentit
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected List<HistoricIdentityLink> getLinksForProcessInstance(CommandContext commandContext) {
+    protected List!HistoricIdentityLink getLinksForProcessInstance(CommandContext commandContext) {
         return (List) CommandContextUtil.getHistoricIdentityLinkService().findHistoricIdentityLinksByProcessInstanceId(processInstanceId);
     }
 

@@ -31,14 +31,14 @@ import flow.common.context.Context;
 import flow.common.db.DbSqlSession;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.EngineConfigurationConstants;
-import flow.common.persistence.cache.EntityCache;
+//import flow.common.persistence.cache.EntityCache;
 import flow.common.persistence.entity.PropertyEntityManager;
-import org.flowable.content.api.ContentEngineConfigurationApi;
-import org.flowable.content.api.ContentService;
-import org.flowable.dmn.api.DmnEngineConfigurationApi;
-import org.flowable.dmn.api.DmnManagementService;
-import org.flowable.dmn.api.DmnRepositoryService;
-import org.flowable.dmn.api.DmnRuleService;
+//import org.flowable.content.api.ContentEngineConfigurationApi;
+//import org.flowable.content.api.ContentService;
+//import org.flowable.dmn.api.DmnEngineConfigurationApi;
+//import org.flowable.dmn.api.DmnManagementService;
+//import org.flowable.dmn.api.DmnRepositoryService;
+//import org.flowable.dmn.api.DmnRuleService;
 import flow.engine.FlowableEngineAgenda;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.history.HistoryManager;
@@ -64,8 +64,8 @@ import org.flowable.entitylink.service.EntityLinkServiceConfiguration;
 import flow.event.registry.api.EventRegistry;
 import flow.event.registry.api.EventRepositoryService;
 import flow.event.registry.EventRegistryEngineConfiguration;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.EventSubscriptionServiceConfiguration;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.EventSubscriptionServiceConfiguration;
 import flow.form.api.FormEngineConfigurationApi;
 import flow.form.api.FormManagementService;
 import flow.form.api.FormRepositoryService;
@@ -235,7 +235,7 @@ class CommandContextUtil {
     }
 
     public static TaskServiceConfiguration getTaskServiceConfiguration(CommandContext commandContext) {
-        return (TaskServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+        return cast(TaskServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
             .get(EngineConfigurationConstants.KEY_TASK_SERVICE_CONFIG);
     }
 
@@ -543,10 +543,10 @@ class CommandContextUtil {
     @SuppressWarnings("unchecked")
     public static void addInvolvedExecution(CommandContext commandContext, ExecutionEntity executionEntity) {
         if (executionEntity.getId() !is null) {
-            Map<string, ExecutionEntity> involvedExecutions = null;
+            Map!(string, ExecutionEntity) involvedExecutions = null;
             Object obj = commandContext.getAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS);
             if (obj !is null) {
-                involvedExecutions = (Map<string, ExecutionEntity>) obj;
+                involvedExecutions = (Map!(string, ExecutionEntity)) obj;
             } else {
                 involvedExecutions = new HashMap<>();
                 commandContext.addAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS, involvedExecutions);
@@ -556,10 +556,10 @@ class CommandContextUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<string, ExecutionEntity> getInvolvedExecutions(CommandContext commandContext) {
+    public static Map!(string, ExecutionEntity) getInvolvedExecutions(CommandContext commandContext) {
         Object obj = commandContext.getAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS);
         if (obj !is null) {
-            return (Map<string, ExecutionEntity>) obj;
+            return (Map!(string, ExecutionEntity)) obj;
         }
         return null;
     }

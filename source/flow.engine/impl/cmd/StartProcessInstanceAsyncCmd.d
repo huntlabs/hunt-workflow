@@ -30,13 +30,13 @@ import flow.job.service.impl.persistence.entity.JobEntity;
 /**
  * author martin.grofcik
  */
-class StartProcessInstanceAsyncCmd extends StartProcessInstanceCmd {
+class StartProcessInstanceAsyncCmd : StartProcessInstanceCmd {
 
     public StartProcessInstanceAsyncCmd(ProcessInstanceBuilderImpl processInstanceBuilder) {
         super(processInstanceBuilder);
     }
 
-    @Override
+    override
     public ProcessInstance execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         ProcessDefinition processDefinition = getProcessDefinition(processEngineConfiguration);

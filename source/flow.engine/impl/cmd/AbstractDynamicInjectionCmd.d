@@ -102,7 +102,7 @@ abstract class AbstractDynamicInjectionCmd {
         }
 
         deploymentEntity.setNew(true);
-        List<EngineDeployer> deployers = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().getDeployers();
+        List!EngineDeployer deployers = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().getDeployers();
         for (EngineDeployer engineDeployer : deployers) {
             engineDeployer.deploy(deploymentEntity, deploymentSettings);
         }
@@ -128,32 +128,32 @@ abstract class AbstractDynamicInjectionCmd {
         processInstance.setProcessDefinitionId(processDefinitionEntity.getId());
         processInstance.setProcessDefinitionVersion(processDefinitionEntity.getVersion());
 
-        List<TaskEntity> currentTasks = CommandContextUtil.getTaskService(commandContext).findTasksByProcessInstanceId(processInstance.getId());
+        List!TaskEntity currentTasks = CommandContextUtil.getTaskService(commandContext).findTasksByProcessInstanceId(processInstance.getId());
         for (TaskEntity currentTask : currentTasks) {
             currentTask.setProcessDefinitionId(processDefinitionEntity.getId());
         }
 
-        List<JobEntity> currentJobs = CommandContextUtil.getJobService(commandContext).findJobsByProcessInstanceId(processInstance.getId());
+        List!JobEntity currentJobs = CommandContextUtil.getJobService(commandContext).findJobsByProcessInstanceId(processInstance.getId());
         for (JobEntity currentJob : currentJobs) {
             currentJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
 
-        List<TimerJobEntity> currentTimerJobs = CommandContextUtil.getTimerJobService(commandContext).findTimerJobsByProcessInstanceId(processInstance.getId());
+        List!TimerJobEntity currentTimerJobs = CommandContextUtil.getTimerJobService(commandContext).findTimerJobsByProcessInstanceId(processInstance.getId());
         for (TimerJobEntity currentTimerJob : currentTimerJobs) {
             currentTimerJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
 
-        List<SuspendedJobEntity> currentSuspendedJobs = CommandContextUtil.getJobService(commandContext).findSuspendedJobsByProcessInstanceId(processInstance.getId());
+        List!SuspendedJobEntity currentSuspendedJobs = CommandContextUtil.getJobService(commandContext).findSuspendedJobsByProcessInstanceId(processInstance.getId());
         for (SuspendedJobEntity currentSuspendedJob : currentSuspendedJobs) {
             currentSuspendedJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
 
-        List<DeadLetterJobEntity> currentDeadLetterJobs = CommandContextUtil.getJobService(commandContext).findDeadLetterJobsByProcessInstanceId(processInstance.getId());
+        List!DeadLetterJobEntity currentDeadLetterJobs = CommandContextUtil.getJobService(commandContext).findDeadLetterJobsByProcessInstanceId(processInstance.getId());
         for (DeadLetterJobEntity currentDeadLetterJob : currentDeadLetterJobs) {
             currentDeadLetterJob.setProcessDefinitionId(processDefinitionEntity.getId());
         }
 
-        List<IdentityLinkEntity> identityLinks = CommandContextUtil.getIdentityLinkService().findIdentityLinksByProcessDefinitionId(previousProcessDefinitionId);
+        List!IdentityLinkEntity identityLinks = CommandContextUtil.getIdentityLinkService().findIdentityLinksByProcessDefinitionId(previousProcessDefinitionId);
         for (IdentityLinkEntity identityLinkEntity : identityLinks) {
             if (identityLinkEntity.getTaskId() !is null || identityLinkEntity.getProcessInstanceId() !is null || identityLinkEntity.getScopeId() !is null) {
                 identityLinkEntity.setProcessDefId(processDefinitionEntity.getId());
@@ -163,7 +163,7 @@ abstract class AbstractDynamicInjectionCmd {
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).updateActivityInstancesProcessDefinitionId(processDefinitionEntity.getId(), processInstance.getId());
         CommandContextUtil.getHistoryManager(commandContext).updateProcessDefinitionIdInHistory(processDefinitionEntity, processInstance);
 
-        List<ExecutionEntity> childExecutions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByProcessInstanceId(processInstance.getId());
+        List!ExecutionEntity childExecutions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByProcessInstanceId(processInstance.getId());
         for (ExecutionEntity childExecution : childExecutions) {
             childExecution.setProcessDefinitionId(processDefinitionEntity.getId());
             childExecution.setProcessDefinitionVersion(processDefinitionEntity.getVersion());
@@ -173,18 +173,18 @@ abstract class AbstractDynamicInjectionCmd {
     }
 
     protected abstract void updateExecutions(CommandContext commandContext,
-            ProcessDefinitionEntity processDefinitionEntity, ExecutionEntity processInstance, List<ExecutionEntity> childExecutions);
+            ProcessDefinitionEntity processDefinitionEntity, ExecutionEntity processInstance, List!ExecutionEntity childExecutions);
 
-    protected List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2) {
-        List<GraphicInfo> wayPoints = new ArrayList<>();
+    protected List!GraphicInfo createWayPoints(double x1, double y1, double x2, double y2) {
+        List!GraphicInfo wayPoints = new ArrayList<>();
         wayPoints.add(new GraphicInfo(x1, y1));
         wayPoints.add(new GraphicInfo(x2, y2));
 
         return wayPoints;
     }
 
-    protected List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2, double x3, double y3) {
-        List<GraphicInfo> wayPoints = createWayPoints(x1, y1, x2, y2);
+    protected List!GraphicInfo createWayPoints(double x1, double y1, double x2, double y2, double x3, double y3) {
+        List!GraphicInfo wayPoints = createWayPoints(x1, y1, x2, y2);
         wayPoints.add(new GraphicInfo(x3, y3));
 
         return wayPoints;

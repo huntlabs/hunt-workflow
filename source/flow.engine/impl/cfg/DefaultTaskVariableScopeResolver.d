@@ -30,7 +30,7 @@ class DefaultTaskVariableScopeResolver implements InternalTaskVariableScopeResol
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    @Override
+    override
     public VariableScopeImpl resolveParentVariableScope(TaskEntity task) {
         if (task.getExecutionId() !is null) {
             return (ExecutionEntityImpl) getExecutionEntityManager().findById(task.getExecutionId());

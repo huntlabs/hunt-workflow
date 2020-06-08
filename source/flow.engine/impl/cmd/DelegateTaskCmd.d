@@ -11,28 +11,26 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.DelegateTaskCmd;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TaskHelper;
 import flow.task.api.DelegationState;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class DelegateTaskCmd extends NeedsActiveTaskCmd<Object> {
+class DelegateTaskCmd : NeedsActiveTaskCmd!Object {
 
-    private static final long serialVersionUID = 1L;
     protected string userId;
 
-    public DelegateTaskCmd(string taskId, string userId) {
+    this(string taskId, string userId) {
         super(taskId);
         this.userId = userId;
     }
 
-    @Override
     protected Object execute(CommandContext commandContext, TaskEntity task) {
         task.setDelegationState(DelegationState.PENDING);
         if (task.getOwner() is null) {
@@ -42,7 +40,6 @@ class DelegateTaskCmd extends NeedsActiveTaskCmd<Object> {
         return null;
     }
 
-    @Override
     protected string getSuspendedTaskException() {
         return "Cannot delegate a suspended task";
     }

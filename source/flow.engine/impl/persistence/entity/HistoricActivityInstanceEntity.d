@@ -12,16 +12,17 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 
 import flow.common.db.HasRevision;
 import flow.engine.history.HistoricActivityInstance;
+import flow.engine.impl.persistence.entity.HistoricScopeInstanceEntity;
 
 /**
  * @author Christian Stettler
  * @author Joram Barrez
  */
-interface HistoricActivityInstanceEntity extends HistoricActivityInstance, HistoricScopeInstanceEntity, HasRevision {
+interface HistoricActivityInstanceEntity : HistoricActivityInstance, HistoricScopeInstanceEntity, HasRevision {
 
     void setActivityId(string activityId);
 

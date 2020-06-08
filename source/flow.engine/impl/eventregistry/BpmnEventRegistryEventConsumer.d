@@ -35,11 +35,11 @@ import flow.event.registry.consumer.BaseEventRegistryEventConsumer;
 import flow.event.registry.consumer.CorrelationKey;
 import flow.eventsubscription.service.api.EventSubscription;
 import flow.eventsubscription.service.api.EventSubscriptionQuery;
-import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryImpl;
+import flow.eventsubscription.service.impl.EventSubscriptionQueryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
+class BpmnEventRegistryEventConsumer : BaseEventRegistryEventConsumer  {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BpmnEventRegistryEventConsumer.class);
 
@@ -51,12 +51,12 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    @Override
+    override
     public string getConsumerKey() {
         return "bpmnEventConsumer";
     }
 
-    @Override
+    override
     protected void eventReceived(EventInstance eventInstance) {
 
         // Fetching the event subscriptions happens in one transaction,
@@ -64,8 +64,8 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
         // The reason for this is that the handling of one event subscription
         // should not influence (i.e. roll back) the handling of another.
 
-        Collection<CorrelationKey> correlationKeys = generateCorrelationKeys(eventInstance.getCorrelationParameterInstances());
-        List<EventSubscription> eventSubscriptions = findEventSubscriptions(ScopeTypes.BPMN, eventInstance, correlationKeys);
+        Collection!CorrelationKey correlationKeys = generateCorrelationKeys(eventInstance.getCorrelationParameterInstances());
+        List!EventSubscription eventSubscriptions = findEventSubscriptions(ScopeTypes.BPMN, eventInstance, correlationKeys);
         RuntimeService runtimeService = processEngineConfiguration.getRuntimeService();
         for (EventSubscription eventSubscription : eventSubscriptions) {
             handleEventSubscription(runtimeService, eventSubscription, eventInstance, correlationKeys);
@@ -73,7 +73,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
     }
 
     protected void handleEventSubscription(RuntimeService runtimeService, EventSubscription eventSubscription,
-            EventInstance eventInstance, Collection<CorrelationKey> correlationKeys) {
+            EventInstance eventInstance, Collection!CorrelationKey correlationKeys) {
 
         if (eventSubscription.getExecutionId() !is null) {
 
@@ -133,13 +133,13 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
             // There are potentially multiple start events, with different configurations.
             // The one that has the matching eventType needs to be used
 
-            List<StartEvent> startEvents = bpmnModel.getMainProcess().findFlowElementsOfType(StartEvent.class);
+            List!StartEvent startEvents = bpmnModel.getMainProcess().findFlowElementsOfType(StartEvent.class);
             for (StartEvent startEvent : startEvents) {
-                List<ExtensionElement> eventTypes = startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
+                List!ExtensionElement eventTypes = startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
                 if (eventTypes !is null && !eventTypes.isEmpty()
                         && Objects.equals(eventSubscription.getEventType(), eventTypes.get(0).getElementText())) {
 
-                    List<ExtensionElement> correlationCfgExtensions = startEvent.getExtensionElements()
+                    List!ExtensionElement correlationCfgExtensions = startEvent.getExtensionElements()
                         .getOrDefault(BpmnXMLConstants.START_EVENT_CORRELATION_CONFIGURATION, Collections.emptyList());
                     if (!correlationCfgExtensions.isEmpty()) {
                         return correlationCfgExtensions.get(0).getElementText();
@@ -152,7 +152,7 @@ class BpmnEventRegistryEventConsumer extends BaseEventRegistryEventConsumer  {
         return null;
     }
 
-    @Override
+    override
     protected EventSubscriptionQuery createEventSubscriptionQuery() {
         return new EventSubscriptionQueryImpl(commandExecutor);
     }

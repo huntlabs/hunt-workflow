@@ -21,7 +21,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.migration.ProcessInstanceMigrationDocument;
 import flow.engine.migration.ProcessInstanceMigrationManager;
 
-class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
+class ProcessInstanceMigrationBatchCmd implements Command!Batch {
 
     protected string processDefinitionId;
     protected string processDefinitionKey;
@@ -59,7 +59,7 @@ class ProcessInstanceMigrationBatchCmd implements Command<Batch> {
         this.processInstanceMigrationDocument = processInstanceMigrationDocument;
     }
 
-    @Override
+    override
     public Batch execute(CommandContext commandContext) {
         ProcessInstanceMigrationManager migrationManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceMigrationManager();
         if (processDefinitionId !is null) {

@@ -36,7 +36,7 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Joram Barrez
  */
-class ChangeDeploymentTenantIdCmd implements Command<Void>, Serializable {
+class ChangeDeploymentTenantIdCmd implements Command!Void, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -75,7 +75,7 @@ class ChangeDeploymentTenantIdCmd implements Command<Void>, Serializable {
         this.deploymentMergeStrategy = deploymentMergeStrategy;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");
@@ -108,7 +108,7 @@ class ChangeDeploymentTenantIdCmd implements Command<Void>, Serializable {
         deploymentMergeStrategy.finalizeMerge(commandContext, deploymentId, newTenantId);
 
         // Doing process definitions in memory, cause we need to clear the process definition cache
-        List<ProcessDefinition> processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
+        List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
         for (ProcessDefinition processDefinition : processDefinitions) {
             CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessDefinitionCache().remove(processDefinition.getId());
         }

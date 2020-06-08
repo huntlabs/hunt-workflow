@@ -29,7 +29,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class SubmitTaskFormCmd extends NeedsActiveTaskCmd<Void> {
+class SubmitTaskFormCmd : NeedsActiveTaskCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ class SubmitTaskFormCmd extends NeedsActiveTaskCmd<Void> {
         this.completeTask = completeTask;
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
         // Backwards compatibility
@@ -74,7 +74,7 @@ class SubmitTaskFormCmd extends NeedsActiveTaskCmd<Void> {
         return null;
     }
 
-    @Override
+    override
     protected string getSuspendedTaskException() {
         return "Cannot submit a form to a suspended task";
     }

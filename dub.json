@@ -11,6 +11,7 @@
 		"hunt-time": {"path": "../hunt-time"},
     "hunt-entity": {"path": "../hunt-entity"},
     "hunt-database" : {"path": "../hunt-database"},
+    "hunt-extra" : {"path":  "../hunt-extra"},
     "hunt-xml" :{"path": "../hunt-xml"}
   }
 }

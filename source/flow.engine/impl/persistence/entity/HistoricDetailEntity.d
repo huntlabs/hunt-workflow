@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.HistoricDetailEntity;
 
 import hunt.time.LocalDateTime;
 
@@ -22,7 +22,7 @@ import flow.engine.history.HistoricDetail;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface HistoricDetailEntity extends HistoricDetail, Entity {
+interface HistoricDetailEntity : HistoricDetail, Entity {
 
     void setProcessInstanceId(string processInstanceId);
 

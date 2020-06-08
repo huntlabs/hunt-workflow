@@ -26,7 +26,7 @@ import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
-class GetTaskVariableInstancesCmd implements Command<Map<string, VariableInstance>>, Serializable {
+class GetTaskVariableInstancesCmd implements Command<Map!(string, VariableInstance)>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -39,8 +39,8 @@ class GetTaskVariableInstancesCmd implements Command<Map<string, VariableInstanc
         this.isLocal = isLocal;
     }
 
-    @Override
-    public Map<string, VariableInstance> execute(CommandContext commandContext) {
+    override
+    public Map!(string, VariableInstance) execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
@@ -51,7 +51,7 @@ class GetTaskVariableInstancesCmd implements Command<Map<string, VariableInstanc
             throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
         }
 
-        Map<string, VariableInstance> variables = null;
+        Map!(string, VariableInstance) variables = null;
         if (variableNames is null) {
 
             if (isLocal) {

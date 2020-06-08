@@ -17,7 +17,7 @@
 ///**
 // * @author Dennis
 // */
-//interface ActivityMigrationMappingOptions<T extends ActivityMigrationMapping> {
+//interface ActivityMigrationMappingOptions<T : ActivityMigrationMapping> {
 //
 //    T inParentProcessOfCallActivityId(string callActivityId);
 //
@@ -35,7 +35,7 @@
 //
 //    bool isToCallActivity();
 //
-//    interface SingleToActivityOptions <T extends ActivityMigrationMapping> extends ActivityMigrationMappingOptions<T> {
+//    interface SingleToActivityOptions <T : ActivityMigrationMapping> : ActivityMigrationMappingOptions!T {
 //
 //        T withNewAssignee(string newAssigneeId);
 //
@@ -45,10 +45,10 @@
 //
 //        T withLocalVariables(Map!(string, Object) variables);
 //
-//        Map<string,Object> getActivityLocalVariables();
+//        Map!(string,Object) getActivityLocalVariables();
 //    }
 //
-//    interface MultipleToActivityOptions<T extends ActivityMigrationMapping> extends ActivityMigrationMappingOptions<T> {
+//    interface MultipleToActivityOptions<T : ActivityMigrationMapping> : ActivityMigrationMappingOptions!T {
 //
 //        T withLocalVariableForActivity(string toActivity, string variableName, Object variableValue);
 //
@@ -58,9 +58,9 @@
 //
 //        T withLocalVariablesForAllActivities(Map!(string, Object) variables);
 //
-//        T withLocalVariables(Map<string, Map<string, Object>> mappingVariables);
+//        T withLocalVariables(Map<string, Map!(string, Object)> mappingVariables);
 //
-//        Map<string, Map<string, Object>> getActivitiesLocalVariables();
+//        Map<string, Map!(string, Object)> getActivitiesLocalVariables();
 //    }
 //
 //}

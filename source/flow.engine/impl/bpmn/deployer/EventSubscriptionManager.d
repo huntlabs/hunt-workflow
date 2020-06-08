@@ -36,11 +36,11 @@ import flow.engine.impl.util.CorrelationUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.eventsubscription.service.api.EventSubscription;
 import flow.eventsubscription.service.api.EventSubscriptionBuilder;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.EventSubscriptionQueryImpl;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.EventSubscriptionQueryImpl;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 
 /**
  * Manages event subscriptions for newly-deployed process definitions and their previous versions.
@@ -71,7 +71,7 @@ class EventSubscriptionManager {
                 eventSubscriptionQuery.tenantId(previousProcessDefinition.getTenantId());
             }
 
-            List<EventSubscription> subscriptionsToDelete = eventSubscriptionService.findEventSubscriptionsByQueryCriteria(eventSubscriptionQuery);
+            List!EventSubscription subscriptionsToDelete = eventSubscriptionService.findEventSubscriptionsByQueryCriteria(eventSubscriptionQuery);
             for (EventSubscription eventSubscription : subscriptionsToDelete) {
                 EventSubscriptionEntity eventSubscriptionEntity = (EventSubscriptionEntity) eventSubscription;
                 eventSubscriptionService.deleteEventSubscription(eventSubscriptionEntity);
@@ -83,7 +83,7 @@ class EventSubscriptionManager {
     protected void removeObsoleteEventSubscriptionsImpl(ProcessDefinitionEntity processDefinition, string eventHandlerType) {
         // remove all subscriptions for the previous version
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-        List<EventSubscriptionEntity> subscriptionsToDelete = eventSubscriptionService
+        List!EventSubscriptionEntity subscriptionsToDelete = eventSubscriptionService
                         .findEventSubscriptionsByTypeAndProcessDefinitionId(eventHandlerType, processDefinition.getId(), processDefinition.getTenantId());
 
         for (EventSubscriptionEntity eventSubscriptionEntity : subscriptionsToDelete) {
@@ -110,7 +110,7 @@ class EventSubscriptionManager {
 
                     } else {
                         if (startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE) !is null) {
-                            List<ExtensionElement> eventTypeElements = startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
+                            List!ExtensionElement eventTypeElements = startEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
                             if (!eventTypeElements.isEmpty()) {
                                 string eventDefinitionKey = eventTypeElements.get(0).getElementText();
                                 insertEventRegistryEvent(eventDefinitionKey, startEvent, processDefinition, bpmnModel);
@@ -146,7 +146,7 @@ class EventSubscriptionManager {
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
         // look for subscriptions for the same name in db:
-        List<EventSubscriptionEntity> subscriptionsForSameMessageName = eventSubscriptionService
+        List!EventSubscriptionEntity subscriptionsForSameMessageName = eventSubscriptionService
                 .findEventSubscriptionsByName(MessageEventHandler.EVENT_HANDLER_TYPE, messageEventDefinition.getMessageRef(), processDefinition.getTenantId());
 
         for (EventSubscriptionEntity eventSubscriptionEntity : subscriptionsForSameMessageName) {

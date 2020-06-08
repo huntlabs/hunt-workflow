@@ -67,7 +67,7 @@ class BpmnDeployer implements EngineDeployer {
     protected ProcessDefinitionDiagramHelper processDefinitionDiagramHelper;
     protected bool usePrefixId;
 
-    @Override
+    override
     public void deploy(EngineDeployment deployment, Map!(string, Object) deploymentSettings) {
         LOGGER.debug("Processing deployment {}", deployment.getName());
 
@@ -88,13 +88,13 @@ class BpmnDeployer implements EngineDeployer {
 
         if (deployment.isNew()) {
             if (!deploymentSettings.containsKey(DeploymentSettings.IS_DERIVED_DEPLOYMENT)) {
-                Map<ProcessDefinitionEntity, ProcessDefinitionEntity> mapOfNewProcessDefinitionToPreviousVersion = getPreviousVersionsOfProcessDefinitions(parsedDeployment);
+                Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) mapOfNewProcessDefinitionToPreviousVersion = getPreviousVersionsOfProcessDefinitions(parsedDeployment);
                 setProcessDefinitionVersionsAndIds(parsedDeployment, mapOfNewProcessDefinitionToPreviousVersion);
                 persistProcessDefinitionsAndAuthorizations(parsedDeployment);
                 updateTimersAndEvents(parsedDeployment, mapOfNewProcessDefinitionToPreviousVersion);
 
             } else {
-                Map<ProcessDefinitionEntity, ProcessDefinitionEntity> mapOfNewProcessDefinitionToPreviousDerivedVersion =
+                Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) mapOfNewProcessDefinitionToPreviousDerivedVersion =
                                 getPreviousDerivedFromVersionsOfProcessDefinitions(parsedDeployment);
                 setDerivedProcessDefinitionVersionsAndIds(parsedDeployment, mapOfNewProcessDefinitionToPreviousDerivedVersion, deploymentSettings);
                 persistProcessDefinitionsAndAuthorizations(parsedDeployment);
@@ -145,7 +145,7 @@ class BpmnDeployer implements EngineDeployer {
      * have their resources attached to the deployment.
      */
     protected void setProcessDefinitionDiagramNames(ParsedDeployment parsedDeployment) {
-        Map<string, EngineResource> resources = parsedDeployment.getDeployment().getResources();
+        Map!(string, EngineResource) resources = parsedDeployment.getDeployment().getResources();
 
         for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
             string diagramResourceName = ResourceNameUtil.getProcessDiagramResourceNameFromDeployment(processDefinition, resources);
@@ -156,10 +156,10 @@ class BpmnDeployer implements EngineDeployer {
     /**
      * Constructs a map from new ProcessDefinitionEntities to the previous version by key and tenant. If no previous version exists, no map entry is created.
      */
-    protected Map<ProcessDefinitionEntity, ProcessDefinitionEntity> getPreviousVersionsOfProcessDefinitions(
+    protected Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) getPreviousVersionsOfProcessDefinitions(
             ParsedDeployment parsedDeployment) {
 
-        Map<ProcessDefinitionEntity, ProcessDefinitionEntity> result = new LinkedHashMap<>();
+        Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) result = new LinkedHashMap<>();
 
         for (ProcessDefinitionEntity newDefinition : parsedDeployment.getAllProcessDefinitions()) {
             ProcessDefinitionEntity existingDefinition = bpmnDeploymentHelper.getMostRecentVersionOfProcessDefinition(newDefinition);
@@ -175,10 +175,10 @@ class BpmnDeployer implements EngineDeployer {
     /**
      * Constructs a map from new ProcessDefinitionEntities to the previous derived from version by key and tenant. If no previous version exists, no map entry is created.
      */
-    protected Map<ProcessDefinitionEntity, ProcessDefinitionEntity> getPreviousDerivedFromVersionsOfProcessDefinitions(
+    protected Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) getPreviousDerivedFromVersionsOfProcessDefinitions(
             ParsedDeployment parsedDeployment) {
 
-        Map<ProcessDefinitionEntity, ProcessDefinitionEntity> result = new LinkedHashMap<>();
+        Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) result = new LinkedHashMap<>();
 
         for (ProcessDefinitionEntity newDefinition : parsedDeployment.getAllProcessDefinitions()) {
             ProcessDefinitionEntity existingDefinition = bpmnDeploymentHelper.getMostRecentDerivedVersionOfProcessDefinition(newDefinition);
@@ -196,7 +196,7 @@ class BpmnDeployer implements EngineDeployer {
      * plus one; otherwise it is set to 1. Also dispatches an ENTITY_CREATED event.
      */
     protected void setProcessDefinitionVersionsAndIds(ParsedDeployment parsedDeployment,
-            Map<ProcessDefinitionEntity, ProcessDefinitionEntity> mapNewToOldProcessDefinitions) {
+            Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) mapNewToOldProcessDefinitions) {
         CommandContext commandContext = Context.getCommandContext();
 
         for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
@@ -229,7 +229,7 @@ class BpmnDeployer implements EngineDeployer {
     }
 
     protected void setDerivedProcessDefinitionVersionsAndIds(ParsedDeployment parsedDeployment,
-            Map<ProcessDefinitionEntity, ProcessDefinitionEntity> mapNewToOldProcessDefinitions, Map!(string, Object) deploymentSettings) {
+            Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) mapNewToOldProcessDefinitions, Map!(string, Object) deploymentSettings) {
 
         CommandContext commandContext = Context.getCommandContext();
 
@@ -285,7 +285,7 @@ class BpmnDeployer implements EngineDeployer {
     }
 
     protected void updateTimersAndEvents(ParsedDeployment parsedDeployment,
-            Map<ProcessDefinitionEntity, ProcessDefinitionEntity> mapNewToOldProcessDefinitions) {
+            Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) mapNewToOldProcessDefinitions) {
 
         for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
             bpmnDeploymentHelper.updateTimersAndEvents(processDefinition,
@@ -354,7 +354,7 @@ class BpmnDeployer implements EngineDeployer {
         ObjectNode infoNode = dynamicBpmnService.getProcessDefinitionInfo(processDefinitionId);
 
         bool localizationValuesChanged = false;
-        List<ExtensionElement> localizationElements = process.getExtensionElements().get("localization");
+        List!ExtensionElement localizationElements = process.getExtensionElements().get("localization");
         if (localizationElements !is null) {
             for (ExtensionElement localizationElement : localizationElements) {
                 if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
@@ -363,7 +363,7 @@ class BpmnDeployer implements EngineDeployer {
                     string locale = localizationElement.getAttributeValue(null, "locale");
                     string name = localizationElement.getAttributeValue(null, "name");
                     string documentation = null;
-                    List<ExtensionElement> documentationElements = localizationElement.getChildElements().get("documentation");
+                    List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
                     if (documentationElements !is null) {
                         for (ExtensionElement documentationElement : documentationElements) {
                             documentation = StringUtils.trimToNull(documentationElement.getElementText());
@@ -396,7 +396,7 @@ class BpmnDeployer implements EngineDeployer {
         }
     }
 
-    protected bool localizeFlowElements(Collection<FlowElement> flowElements, ObjectNode infoNode) {
+    protected bool localizeFlowElements(Collection!FlowElement flowElements, ObjectNode infoNode) {
         bool localizationValuesChanged = false;
 
         if (flowElements is null)
@@ -407,7 +407,7 @@ class BpmnDeployer implements EngineDeployer {
 
         for (FlowElement flowElement : flowElements) {
             if (flowElement instanceof UserTask || flowElement instanceof SubProcess) {
-                List<ExtensionElement> localizationElements = flowElement.getExtensionElements().get("localization");
+                List!ExtensionElement localizationElements = flowElement.getExtensionElements().get("localization");
                 if (localizationElements !is null) {
                     for (ExtensionElement localizationElement : localizationElements) {
                         if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
@@ -416,7 +416,7 @@ class BpmnDeployer implements EngineDeployer {
                             string locale = localizationElement.getAttributeValue(null, "locale");
                             string name = localizationElement.getAttributeValue(null, "name");
                             string documentation = null;
-                            List<ExtensionElement> documentationElements = localizationElement.getChildElements().get("documentation");
+                            List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
                             if (documentationElements !is null) {
                                 for (ExtensionElement documentationElement : documentationElements) {
                                     documentation = StringUtils.trimToNull(documentationElement.getElementText());
@@ -461,13 +461,13 @@ class BpmnDeployer implements EngineDeployer {
         return isEqual;
     }
 
-    protected bool localizeDataObjectElements(List<ValuedDataObject> dataObjects, ObjectNode infoNode) {
+    protected bool localizeDataObjectElements(List!ValuedDataObject dataObjects, ObjectNode infoNode) {
         bool localizationValuesChanged = false;
         CommandContext commandContext = Context.getCommandContext();
         DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
 
         for (ValuedDataObject dataObject : dataObjects) {
-            List<ExtensionElement> localizationElements = dataObject.getExtensionElements().get("localization");
+            List!ExtensionElement localizationElements = dataObject.getExtensionElements().get("localization");
             if (localizationElements !is null) {
                 for (ExtensionElement localizationElement : localizationElements) {
                     if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
@@ -477,7 +477,7 @@ class BpmnDeployer implements EngineDeployer {
                         string name = localizationElement.getAttributeValue(null, "name");
                         string documentation = null;
 
-                        List<ExtensionElement> documentationElements = localizationElement.getChildElements().get("documentation");
+                        List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
                         if (documentationElements !is null) {
                             for (ExtensionElement documentationElement : documentationElements) {
                                 documentation = StringUtils.trimToNull(documentationElement.getElementText());

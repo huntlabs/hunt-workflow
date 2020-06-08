@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.ParallelGatewayActivityBehavior;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -26,9 +26,7 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import  flow.engine.impl.bpmn.behavior.GatewayActivityBehavior;
 /**
  * Implementation of the Parallel Gateway/AND gateway as defined in the BPMN 2.0 specification.
  *
@@ -46,13 +44,9 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  * @author Tom Baeyens
  */
-class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
+class ParallelGatewayActivityBehavior : GatewayActivityBehavior {
 
-    private static final long serialVersionUID = 1840892471343975524L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ParallelGatewayActivityBehavior.class);
-
-    @Override
+    override
     public void execute(DelegateExecution execution) {
 
         // First off all, deactivate the execution
@@ -61,10 +55,10 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
         // Join
         FlowElement flowElement = execution.getCurrentFlowElement();
         ParallelGateway parallelGateway = null;
-        if (flowElement instanceof ParallelGateway) {
-            parallelGateway = (ParallelGateway) flowElement;
+        if (cast(ParallelGateway)flowElement !is null) {
+            parallelGateway = cast(ParallelGateway) flowElement;
         } else {
-            throw new FlowableException("Programmatic error: parallel gateway behaviour can only be applied" + " to a ParallelGateway instance, but got an instance of " + flowElement);
+            throw new FlowableException("Programmatic error: parallel gateway behaviour can only be applied" ~ " to a ParallelGateway instance, but got an instance of " );
         }
 
         lockFirstParentScope(execution);
@@ -75,7 +69,7 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
         }
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
-        Collection<ExecutionEntity> joinedExecutions = executionEntityManager.findInactiveExecutionsByActivityIdAndProcessInstanceId(execution.getCurrentActivityId(), execution.getProcessInstanceId());
+        Collection!ExecutionEntity joinedExecutions = executionEntityManager.findInactiveExecutionsByActivityIdAndProcessInstanceId(execution.getCurrentActivityId(), execution.getProcessInstanceId());
         if (multiInstanceExecution !is null) {
             joinedExecutions = cleanJoinedExecutions(joinedExecutions, multiInstanceExecution);
         }
@@ -86,43 +80,44 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
         // Fork
 
         // Is needed to set the endTime for all historic activity joins
-        CommandContextUtil.getActivityInstanceEntityManager().recordActivityEnd((ExecutionEntity) execution, null);
+        CommandContextUtil.getActivityInstanceEntityManager().recordActivityEnd(cast(ExecutionEntity) execution, null);
 
         if (nbrOfExecutionsCurrentlyJoined == nbrOfExecutionsToJoin) {
 
             // Fork
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("parallel gateway '{}' ({}) activates: {} of {} joined", execution.getCurrentActivityId(),
-                        execution.getId(), nbrOfExecutionsCurrentlyJoined, nbrOfExecutionsToJoin);
-            }
+            //if (LOGGER.isDebugEnabled()) {
+            //    LOGGER.debug("parallel gateway '{}' ({}) activates: {} of {} joined", execution.getCurrentActivityId(),
+            //            execution.getId(), nbrOfExecutionsCurrentlyJoined, nbrOfExecutionsToJoin);
+            //}
 
             if (parallelGateway.getIncomingFlows().size() > 1) {
 
                 // All (now inactive) children are deleted.
-                for (ExecutionEntity joinedExecution : joinedExecutions) {
+                foreach (ExecutionEntity joinedExecution ; joinedExecutions) {
 
                     // The current execution will be reused and not deleted
-                    if (!joinedExecution.getId().equals(execution.getId())) {
+                    if (joinedExecution.getId() != (execution.getId())) {
                         executionEntityManager.deleteRelatedDataForExecution(joinedExecution, null);
-                        executionEntityManager.delete(joinedExecution);
+                        executionEntityManager.dele(joinedExecution);
                     }
 
                 }
             }
 
             // TODO: potential optimization here: reuse more then 1 execution, only 1 currently
-            CommandContextUtil.getAgenda().planTakeOutgoingSequenceFlowsOperation((ExecutionEntity) execution, false); // false -> ignoring conditions on parallel gw
+            CommandContextUtil.getAgenda().planTakeOutgoingSequenceFlowsOperation(cast(ExecutionEntity) execution, false); // false -> ignoring conditions on parallel gw
 
-        } else if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("parallel gateway '{}' ({}) does not activate: {} of {} joined", execution.getCurrentActivityId(),
-                    execution.getId(), nbrOfExecutionsCurrentlyJoined, nbrOfExecutionsToJoin);
         }
+        //else if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("parallel gateway '{}' ({}) does not activate: {} of {} joined", execution.getCurrentActivityId(),
+        //            execution.getId(), nbrOfExecutionsCurrentlyJoined, nbrOfExecutionsToJoin);
+        //}
 
     }
 
-    protected Collection<ExecutionEntity> cleanJoinedExecutions(Collection<ExecutionEntity> joinedExecutions, DelegateExecution multiInstanceExecution) {
-        List<ExecutionEntity> cleanedExecutions = new ArrayList<>();
-        for (ExecutionEntity executionEntity : joinedExecutions) {
+    protected Collection!ExecutionEntity cleanJoinedExecutions(Collection!ExecutionEntity joinedExecutions, DelegateExecution multiInstanceExecution) {
+        List!ExecutionEntity cleanedExecutions = new ArrayList!ExecutionEntity();
+        foreach (ExecutionEntity executionEntity ; joinedExecutions) {
             if (isChildOfMultiInstanceExecution(executionEntity, multiInstanceExecution)) {
                 cleanedExecutions.add(executionEntity);
             }
@@ -134,7 +129,7 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
         bool isChild = false;
         DelegateExecution parentExecution = executionEntity.getParent();
         if (parentExecution !is null) {
-            if (parentExecution.getId().equals(multiInstanceExecution.getId())) {
+            if (parentExecution.getId() == (multiInstanceExecution.getId())) {
                 isChild = true;
             } else {
                 bool isNestedChild = isChildOfMultiInstanceExecution(parentExecution, multiInstanceExecution);
@@ -168,8 +163,8 @@ class ParallelGatewayActivityBehavior extends GatewayActivityBehavior {
         DelegateExecution parentExecution = execution.getParent();
         if (parentExecution !is null && parentExecution.getCurrentFlowElement() !is null) {
             FlowElement flowElement = parentExecution.getCurrentFlowElement();
-            if (flowElement instanceof Activity) {
-                Activity activity = (Activity) flowElement;
+            if (cast(Activity)flowElement !is null) {
+                Activity activity = cast(Activity) flowElement;
                 if (activity.getLoopCharacteristics() !is null) {
                     multiInstanceExecution = parentExecution;
                 }

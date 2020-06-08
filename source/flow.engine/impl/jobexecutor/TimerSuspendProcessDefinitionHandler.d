@@ -25,16 +25,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * @author Joram Barrez
  */
-class TimerSuspendProcessDefinitionHandler extends TimerChangeProcessDefinitionSuspensionStateJobHandler {
+class TimerSuspendProcessDefinitionHandler : TimerChangeProcessDefinitionSuspensionStateJobHandler {
 
     public static final string TYPE = "suspend-processdefinition";
 
-    @Override
+    override
     public string getType() {
         return TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 

@@ -360,8 +360,8 @@ import org.flowable.entitylink.service.EntityLinkServiceConfiguration;
 import org.flowable.entitylink.service.impl.db.EntityLinkDbSchemaManager;
 import flow.event.registry.api.EventRegistryEventConsumer;
 import flow.event.registry.configurator.EventRegistryEngineConfigurator;
-import org.flowable.eventsubscription.service.EventSubscriptionServiceConfiguration;
-import org.flowable.eventsubscription.service.impl.db.EventSubscriptionDbSchemaManager;
+import flow.eventsubscription.service.EventSubscriptionServiceConfiguration;
+import flow.eventsubscription.service.impl.db.EventSubscriptionDbSchemaManager;
 import flow.form.api.FormFieldHandler;
 import flow.identitylink.service.IdentityLinkEventHandler;
 import flow.identitylink.service.IdentityLinkServiceConfiguration;
@@ -624,7 +624,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * <p>
      * (This property is only applicable when using the {@link DefaultAsyncJobExecutor}).
      */
-    protected BlockingQueue<Runnable> asyncExecutorThreadPoolQueue;
+    protected BlockingQueue!Runnable asyncExecutorThreadPoolQueue;
 
     /**
      * The time (in seconds) that is waited to gracefully shut down the threadpool used for job execution when the a shutdown on the executor (or process engine) is requested. Default value = 60.
@@ -868,7 +868,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     protected string wsSyncFactoryClassName = DEFAULT_WS_SYNC_FACTORY;
     //protected XMLImporterFactory wsWsdlImporterFactory;
-    //protected ConcurrentMap<QName, URL> wsOverridenEndpointAddresses = new ConcurrentHashMap<>();
+    //protected ConcurrentMap!(QName, URL) wsOverridenEndpointAddresses = new ConcurrentHashMap<>();
 
     protected DelegateInterceptor delegateInterceptor;
 
@@ -973,7 +973,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
         // trigger build of Flowable 5 Engine
         if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {
-            commandExecutor.execute(new Command<Void>() {
+            commandExecutor.execute(new Command!Void() {
 
                 override
                 public Void execute(CommandContext commandContext) {
@@ -1857,8 +1857,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
     }
 
-    public Collection<? extends EngineDeployer> getDefaultDeployers() {
-        List<EngineDeployer> defaultDeployers = new ArrayList<>();
+    public Collection<? : EngineDeployer> getDefaultDeployers() {
+        List!EngineDeployer defaultDeployers = new ArrayList<>();
 
         if (bpmnDeployer is null) {
             bpmnDeployer = new BpmnDeployer();
@@ -2706,34 +2706,34 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    public List<CommandInterceptor> getCustomPreCommandInterceptors() {
+    public List!CommandInterceptor getCustomPreCommandInterceptors() {
         return customPreCommandInterceptors;
     }
 
     override
-    public ProcessEngineConfigurationImpl setCustomPreCommandInterceptors(List<CommandInterceptor> customPreCommandInterceptors) {
+    public ProcessEngineConfigurationImpl setCustomPreCommandInterceptors(List!CommandInterceptor customPreCommandInterceptors) {
         this.customPreCommandInterceptors = customPreCommandInterceptors;
         return this;
     }
 
     override
-    public List<CommandInterceptor> getCustomPostCommandInterceptors() {
+    public List!CommandInterceptor getCustomPostCommandInterceptors() {
         return customPostCommandInterceptors;
     }
 
     override
-    public ProcessEngineConfigurationImpl setCustomPostCommandInterceptors(List<CommandInterceptor> customPostCommandInterceptors) {
+    public ProcessEngineConfigurationImpl setCustomPostCommandInterceptors(List!CommandInterceptor customPostCommandInterceptors) {
         this.customPostCommandInterceptors = customPostCommandInterceptors;
         return this;
     }
 
     override
-    public List<CommandInterceptor> getCommandInterceptors() {
+    public List!CommandInterceptor getCommandInterceptors() {
         return commandInterceptors;
     }
 
     override
-    public ProcessEngineConfigurationImpl setCommandInterceptors(List<CommandInterceptor> commandInterceptors) {
+    public ProcessEngineConfigurationImpl setCommandInterceptors(List!CommandInterceptor commandInterceptors) {
         this.commandInterceptors = commandInterceptors;
         return this;
     }
@@ -2971,11 +2971,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public ConcurrentMap<QName, URL> getWsOverridenEndpointAddresses() {
+    public ConcurrentMap!(QName, URL) getWsOverridenEndpointAddresses() {
         return this.wsOverridenEndpointAddresses;
     }
 
-    public ProcessEngineConfiguration setWsOverridenEndpointAddresses( ConcurrentMap<QName, URL> wsOverridenEndpointAddress) {
+    public ProcessEngineConfiguration setWsOverridenEndpointAddresses( ConcurrentMap!(QName, URL) wsOverridenEndpointAddress) {
         this.wsOverridenEndpointAddresses.putAll(wsOverridenEndpointAddress);
         return this;
     }
@@ -4534,11 +4534,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public BlockingQueue<Runnable> getAsyncExecutorThreadPoolQueue() {
+    public BlockingQueue!Runnable getAsyncExecutorThreadPoolQueue() {
         return asyncExecutorThreadPoolQueue;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncExecutorThreadPoolQueue(BlockingQueue<Runnable> asyncExecutorThreadPoolQueue) {
+    public ProcessEngineConfigurationImpl setAsyncExecutorThreadPoolQueue(BlockingQueue!Runnable asyncExecutorThreadPoolQueue) {
         this.asyncExecutorThreadPoolQueue = asyncExecutorThreadPoolQueue;
         return this;
     }
@@ -4741,11 +4741,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public BlockingQueue<Runnable> getAsyncHistoryExecutorThreadPoolQueue() {
+    public BlockingQueue!Runnable getAsyncHistoryExecutorThreadPoolQueue() {
         return asyncHistoryExecutorThreadPoolQueue;
     }
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorThreadPoolQueue(BlockingQueue<Runnable> asyncHistoryExecutorThreadPoolQueue) {
+    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorThreadPoolQueue(BlockingQueue!Runnable asyncHistoryExecutorThreadPoolQueue) {
         this.asyncHistoryExecutorThreadPoolQueue = asyncHistoryExecutorThreadPoolQueue;
         return this;
     }

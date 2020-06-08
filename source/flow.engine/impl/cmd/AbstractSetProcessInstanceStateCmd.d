@@ -38,7 +38,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-abstract class AbstractSetProcessInstanceStateCmd implements Command<Void> {
+abstract class AbstractSetProcessInstanceStateCmd implements Command!Void {
 
     protected final string processInstanceId;
 
@@ -46,7 +46,7 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command<Void> {
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
 
         if (processInstanceId is null) {
@@ -76,7 +76,7 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command<Void> {
         executionEntityManager.update(executionEntity, false);
 
         // All child executions are suspended
-        Collection<ExecutionEntity> childExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(processInstanceId);
+        Collection!ExecutionEntity childExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(processInstanceId);
         for (ExecutionEntity childExecution : childExecutions) {
             if (!childExecution.getId().equals(processInstanceId)) {
                 SuspensionStateUtil.setSuspensionState(childExecution, getNewState());
@@ -85,7 +85,7 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command<Void> {
         }
 
         // All tasks are suspended
-        List<TaskEntity> tasks = CommandContextUtil.getTaskService().findTasksByProcessInstanceId(processInstanceId);
+        List!TaskEntity tasks = CommandContextUtil.getTaskService().findTasksByProcessInstanceId(processInstanceId);
         for (TaskEntity taskEntity : tasks) {
             SuspensionStateUtil.setSuspensionState(taskEntity, getNewState());
             CommandContextUtil.getTaskService().updateTask(taskEntity, false);
@@ -94,19 +94,19 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command<Void> {
         // All jobs are suspended
         JobService jobService = CommandContextUtil.getJobService(commandContext);
         if (getNewState() == SuspensionState.ACTIVE) {
-            List<SuspendedJobEntity> suspendedJobs = jobService.findSuspendedJobsByProcessInstanceId(processInstanceId);
+            List!SuspendedJobEntity suspendedJobs = jobService.findSuspendedJobsByProcessInstanceId(processInstanceId);
             for (SuspendedJobEntity suspendedJob : suspendedJobs) {
                 jobService.activateSuspendedJob(suspendedJob);
             }
 
         } else {
             TimerJobService timerJobService = CommandContextUtil.getTimerJobService(commandContext);
-            List<TimerJobEntity> timerJobs = timerJobService.findTimerJobsByProcessInstanceId(processInstanceId);
+            List!TimerJobEntity timerJobs = timerJobService.findTimerJobsByProcessInstanceId(processInstanceId);
             for (TimerJobEntity timerJob : timerJobs) {
                 jobService.moveJobToSuspendedJob(timerJob);
             }
 
-            List<JobEntity> jobs = jobService.findJobsByProcessInstanceId(processInstanceId);
+            List!JobEntity jobs = jobService.findJobsByProcessInstanceId(processInstanceId);
             for (JobEntity job : jobs) {
                 jobService.moveJobToSuspendedJob(job);
             }

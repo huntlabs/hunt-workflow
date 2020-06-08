@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.NeedsActiveTaskCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -28,17 +27,14 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  *
  * @author Joram Barrez
  */
-abstract class NeedsActiveTaskCmd<T> implements Command<T>, Serializable {
-
-    private static final long serialVersionUID = 1L;
+abstract class NeedsActiveTaskCmd(T) : Command!T {
 
     protected string taskId;
 
-    public NeedsActiveTaskCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    @Override
     public T execute(CommandContext commandContext) {
 
         if (taskId is null) {
@@ -48,7 +44,7 @@ abstract class NeedsActiveTaskCmd<T> implements Command<T>, Serializable {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("Cannot find task with id " + taskId, Task.class);
+            throw new FlowableObjectNotFoundException("Cannot find task with id " ~ taskId, typeid(Task));
         }
 
         if (task.isSuspended()) {

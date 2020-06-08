@@ -17,9 +17,11 @@
 //          http://www.boost.org/LICENSE_1_0.txt)}
 
 module flow.engine.deleg.event.FlowableMultiInstanceActivityCompletedEvent;
+
 import flow.engine.deleg.event.FlowableMultiInstanceActivityEvent;
 
-interface FlowableMultiInstanceActivityCompletedEvent : FlowableMultiInstanceActivityEvent {
+interface FlowableMultiInstanceActivityCompletedEvent : FlowableMultiInstanceActivityEvent
+{
      int getNumberOfInstances();
 
      int getNumberOfActiveInstances();

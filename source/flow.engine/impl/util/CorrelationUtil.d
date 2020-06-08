@@ -33,7 +33,7 @@ class CorrelationUtil {
     public static string getCorrelationKey(string elementName, CommandContext commandContext, FlowElement flowElement, ExecutionEntity executionEntity) {
         string correlationKey = null;
         if (flowElement !is null) {
-            List<ExtensionElement> eventCorrelations = flowElement.getExtensionElements().get(elementName);
+            List!ExtensionElement eventCorrelations = flowElement.getExtensionElements().get(elementName);
             if (eventCorrelations !is null && !eventCorrelations.isEmpty()) {
                 ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
                 ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();

@@ -28,7 +28,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Joram Barrez
  * @author Falko Menge
  */
-class GetIdentityLinksForTaskCmd implements Command<List<IdentityLink>>, Serializable {
+class GetIdentityLinksForTaskCmd implements Command<List!IdentityLink>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -38,7 +38,7 @@ class GetIdentityLinksForTaskCmd implements Command<List<IdentityLink>>, Seriali
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
+    override
     public List!IdentityLink execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 

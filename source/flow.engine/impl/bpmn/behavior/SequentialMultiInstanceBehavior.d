@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.SequentialMultiInstanceBehavior;
 
 import flow.bpmn.model.Activity;
 import flow.bpmn.model.SubProcess;
@@ -22,44 +22,44 @@ import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
+import hunt.Integer;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class SequentialMultiInstanceBehavior extends MultiInstanceActivityBehavior {
+class SequentialMultiInstanceBehavior : MultiInstanceActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
-    public SequentialMultiInstanceBehavior(Activity activity, AbstractBpmnActivityBehavior innerActivityBehavior) {
+    this(Activity activity, AbstractBpmnActivityBehavior innerActivityBehavior) {
         super(activity, innerActivityBehavior);
     }
 
     /**
      * Handles the sequential case of spawning the instances. Will only create one instance, since at most one instance can be active.
      */
-    @Override
+    override
     protected int createInstances(DelegateExecution multiInstanceRootExecution) {
 
         int nrOfInstances = resolveNrOfInstances(multiInstanceRootExecution);
         if (nrOfInstances == 0) {
             return nrOfInstances;
         } else if (nrOfInstances < 0) {
-            throw new FlowableIllegalArgumentException("Invalid number of instances: must be a non-negative integer value" + ", but was " + nrOfInstances);
+            throw new FlowableIllegalArgumentException("Invalid number of instances: must be a non-negative integer value" ~ ", but was ");
         }
 
         // Create child execution that will execute the inner behavior
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager()
-                .createChildExecution((ExecutionEntity) multiInstanceRootExecution);
+                .createChildExecution(cast(ExecutionEntity) multiInstanceRootExecution);
         execution.setCurrentFlowElement(multiInstanceRootExecution.getCurrentFlowElement());
 
         // Set Multi-instance variables
-        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_INSTANCES, nrOfInstances);
-        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_COMPLETED_INSTANCES, 0);
-        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_ACTIVE_INSTANCES, 1);
+        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_INSTANCES, new Integer(nrOfInstances));
+        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_COMPLETED_INSTANCES, new Integer(0));
+        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_ACTIVE_INSTANCES, new Integer(1));
         logLoopDetails(multiInstanceRootExecution, "initialized", 0, 0, 1, nrOfInstances);
 
-        executeOriginalBehavior(execution, (ExecutionEntity) multiInstanceRootExecution, 0);
+        executeOriginalBehavior(execution, cast(ExecutionEntity) multiInstanceRootExecution, 0);
 
         return nrOfInstances;
     }
@@ -68,7 +68,7 @@ class SequentialMultiInstanceBehavior extends MultiInstanceActivityBehavior {
      * Called when the wrapped {@link ActivityBehavior} calls the {@link AbstractBpmnActivityBehavior#leave(DelegateExecution)} method. Handles the completion of one instance, and executes the logic
      * for the sequential behavior.
      */
-    @Override
+    override
     public void leave(DelegateExecution execution) {
         DelegateExecution multiInstanceRootExecution = getMultiInstanceRootExecution(execution);
         int loopCounter = getLoopVariable(execution, getCollectionElementIndexVariable()) + 1;
@@ -76,7 +76,7 @@ class SequentialMultiInstanceBehavior extends MultiInstanceActivityBehavior {
         int nrOfCompletedInstances = getLoopVariable(multiInstanceRootExecution, NUMBER_OF_COMPLETED_INSTANCES) + 1;
         int nrOfActiveInstances = getLoopVariable(multiInstanceRootExecution, NUMBER_OF_ACTIVE_INSTANCES);
 
-        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_COMPLETED_INSTANCES, nrOfCompletedInstances);
+        setLoopVariable(multiInstanceRootExecution, NUMBER_OF_COMPLETED_INSTANCES, new Integer(nrOfCompletedInstances));
         logLoopDetails(execution, "instance completed", loopCounter, nrOfCompletedInstances, nrOfActiveInstances, nrOfInstances);
 
         callActivityEndListeners(execution);
@@ -92,21 +92,21 @@ class SequentialMultiInstanceBehavior extends MultiInstanceActivityBehavior {
 
             super.leave(execution);
         } else {
-            continueSequentialMultiInstance(execution, loopCounter, (ExecutionEntity) multiInstanceRootExecution);
+            continueSequentialMultiInstance(execution, loopCounter, cast(ExecutionEntity) multiInstanceRootExecution);
         }
     }
 
     public void continueSequentialMultiInstance(DelegateExecution execution, int loopCounter, ExecutionEntity multiInstanceRootExecution) {
         try {
 
-            if (execution.getCurrentFlowElement() instanceof SubProcess) {
+            if (cast(SubProcess) execution.getCurrentFlowElement() !is null) {
                 ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
                 ExecutionEntity executionToContinue = executionEntityManager.createChildExecution(multiInstanceRootExecution);
                 executionToContinue.setCurrentFlowElement(execution.getCurrentFlowElement());
                 executionToContinue.setScope(true);
                 executeOriginalBehavior(executionToContinue, multiInstanceRootExecution, loopCounter);
             } else {
-                CommandContextUtil.getActivityInstanceEntityManager().recordActivityEnd((ExecutionEntity) execution, null);
+                CommandContextUtil.getActivityInstanceEntityManager().recordActivityEnd(cast(ExecutionEntity) execution, null);
                 executeOriginalBehavior(execution, multiInstanceRootExecution, loopCounter);
             }
 

@@ -29,14 +29,14 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
 import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class SignalEventReceivedCmd implements Command<Void> {
+class SignalEventReceivedCmd implements Command!Void {
 
     protected final string eventName;
     protected final string executionId;
@@ -65,10 +65,10 @@ class SignalEventReceivedCmd implements Command<Void> {
         this.tenantId = tenantId;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
 
-        List<SignalEventSubscriptionEntity> signalEvents = null;
+        List!SignalEventSubscriptionEntity signalEvents = null;
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
         if (executionId is null) {

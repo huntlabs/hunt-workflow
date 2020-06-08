@@ -57,50 +57,50 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Saeid Mirzaei
  * @author Yvo Swillens
  */
-class ClassDelegate extends AbstractClassDelegate implements TaskListener, ExecutionListener, TransactionDependentExecutionListener, TransactionDependentTaskListener, SubProcessActivityBehavior, CustomPropertiesResolver {
+class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionListener, TransactionDependentExecutionListener, TransactionDependentTaskListener, SubProcessActivityBehavior, CustomPropertiesResolver {
 
     private static final long serialVersionUID = 1L;
 
     protected ActivityBehavior activityBehaviorInstance;
     protected Expression skipExpression;
-    protected List<MapExceptionEntry> mapExceptions;
+    protected List!MapExceptionEntry mapExceptions;
     protected CustomPropertiesResolver customPropertiesResolverInstance;
     protected bool triggerable;
 
-    public ClassDelegate(string className, List<FieldDeclaration> fieldDeclarations, Expression skipExpression) {
+    public ClassDelegate(string className, List!FieldDeclaration fieldDeclarations, Expression skipExpression) {
         super(className, fieldDeclarations);
         this.skipExpression = skipExpression;
     }
 
-    public ClassDelegate(string id, string className, List<FieldDeclaration> fieldDeclarations, bool triggerable, Expression skipExpression,
-                         List<MapExceptionEntry> mapExceptions) {
+    public ClassDelegate(string id, string className, List!FieldDeclaration fieldDeclarations, bool triggerable, Expression skipExpression,
+                         List!MapExceptionEntry mapExceptions) {
         this(className, fieldDeclarations, skipExpression);
         this.triggerable = triggerable;
         this.serviceTaskId = id;
         this.mapExceptions = mapExceptions;
     }
 
-    public ClassDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations, Expression skipExpression) {
+    public ClassDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations, Expression skipExpression) {
         this(clazz.getName(), fieldDeclarations, skipExpression);
     }
 
-    public ClassDelegate(string className, List<FieldDeclaration> fieldDeclarations) {
+    public ClassDelegate(string className, List!FieldDeclaration fieldDeclarations) {
         super(className, fieldDeclarations);
     }
 
-    public ClassDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations) {
+    public ClassDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
         super(clazz, fieldDeclarations);
     }
 
     // Execution listener
-    @Override
+    override
     public void notify(DelegateExecution execution) {
         ExecutionListener executionListenerInstance = getExecutionListenerInstance();
         CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation(executionListenerInstance, execution));
     }
 
     // Transaction Dependent execution listener
-    @Override
+    override
     public void notify(string processInstanceId, string executionId, FlowElement flowElement, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
         TransactionDependentExecutionListener transactionDependentExecutionListenerInstance = getTransactionDependentExecutionListenerInstance();
 
@@ -108,7 +108,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
         transactionDependentExecutionListenerInstance.notify(processInstanceId, executionId, flowElement, executionVariables, customPropertiesMap);
     }
 
-    @Override
+    override
     public Map!(string, Object) getCustomPropertiesMap(DelegateExecution execution) {
         if (customPropertiesResolverInstance is null) {
             customPropertiesResolverInstance = getCustomPropertiesResolverInstance();
@@ -117,7 +117,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     }
 
     // Task listener
-    @Override
+    override
     public void notify(DelegateTask delegateTask) {
         TaskListener taskListenerInstance = getTaskListenerInstance();
 
@@ -128,7 +128,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
         }
     }
 
-    @Override
+    override
     public void notify(string processInstanceId, string executionId, Task task, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
         TransactionDependentTaskListener transactionDependentTaskListenerInstance = getTransactionDependentTaskListenerInstance();
         transactionDependentTaskListenerInstance.notify(processInstanceId, executionId, task, executionVariables, customPropertiesMap);
@@ -182,7 +182,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     }
 
     // Activity Behavior
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         if (CommandContextUtil.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
             ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
@@ -210,7 +210,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
     }
 
     // Signallable activity behavior
-    @Override
+    override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
         if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
@@ -228,7 +228,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
 
     // Subprocess activityBehaviour
 
-    @Override
+    override
     public void completing(DelegateExecution execution, DelegateExecution subProcessInstance) throws Exception {
         if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
@@ -241,7 +241,7 @@ class ClassDelegate extends AbstractClassDelegate implements TaskListener, Execu
         }
     }
 
-    @Override
+    override
     public void completed(DelegateExecution execution) throws Exception {
         if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();

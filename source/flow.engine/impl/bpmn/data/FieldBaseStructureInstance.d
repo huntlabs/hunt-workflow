@@ -47,7 +47,7 @@ class FieldBaseStructureInstance implements StructureInstance {
         return this.structureDefinition.getFieldNameAt(index);
     }
 
-    @Override
+    override
     public Object[] toArray() {
         int fieldSize = this.getFieldSize();
         Object[] arguments = new Object[fieldSize];
@@ -59,7 +59,7 @@ class FieldBaseStructureInstance implements StructureInstance {
         return arguments;
     }
 
-    @Override
+    override
     public void loadFrom(Object[] array) {
         int fieldSize = this.getFieldSize();
         for (int i = 0; i < fieldSize; i++) {

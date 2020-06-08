@@ -19,17 +19,17 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Joram Barrez
  */
-class SequenceFlowParseHandler extends AbstractBpmnParseHandler<SequenceFlow> {
+class SequenceFlowParseHandler : AbstractBpmnParseHandler!SequenceFlow {
 
     public static final string PROPERTYNAME_CONDITION = "condition";
     public static final string PROPERTYNAME_CONDITION_TEXT = "conditionText";
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return SequenceFlow.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, SequenceFlow sequenceFlow) {
         flow.bpmn.model.Process process = bpmnParse.getCurrentProcess();
         sequenceFlow.setSourceFlowElement(process.getFlowElement(sequenceFlow.getSourceRef(), true));

@@ -41,7 +41,7 @@ interface DeploymentEntity : Deployment, Entity {
 
     void addDeployedArtifact(Object deployedArtifact);
 
-   // <T> List<T> getDeployedArtifacts(Class<T> clazz);
+   // <T> List!T getDeployedArtifacts(Class!T clazz);
 
     void setName(string name);
 

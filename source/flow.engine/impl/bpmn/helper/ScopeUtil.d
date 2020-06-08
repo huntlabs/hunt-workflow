@@ -27,9 +27,9 @@ import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * @author Tijs Rademakers
@@ -40,7 +40,7 @@ class ScopeUtil {
     /**
      * we create a separate execution for each compensation handler invocation.
      */
-    public static void throwCompensationEvent(List<CompensateEventSubscriptionEntity> eventSubscriptions, DelegateExecution execution, bool async) {
+    public static void throwCompensationEvent(List!CompensateEventSubscriptionEntity eventSubscriptions, DelegateExecution execution, bool async) {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
 
@@ -62,8 +62,8 @@ class ScopeUtil {
         }
 
         // signal compensation events in reverse order of their 'created' timestamp
-        Collections.sort(eventSubscriptions, new Comparator<EventSubscriptionEntity>() {
-            @Override
+        Collections.sort(eventSubscriptions, new Comparator!EventSubscriptionEntity() {
+            override
             public int compare(EventSubscriptionEntity o1, EventSubscriptionEntity o2) {
                 return o2.getCreated().compareTo(o1.getCreated());
             }
@@ -79,9 +79,9 @@ class ScopeUtil {
      */
     public static void createCopyOfSubProcessExecutionForCompensation(ExecutionEntity subProcessExecution) {
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-        List<EventSubscriptionEntity> eventSubscriptions = eventSubscriptionService.findEventSubscriptionsByExecutionAndType(subProcessExecution.getId(), "compensate");
+        List!EventSubscriptionEntity eventSubscriptions = eventSubscriptionService.findEventSubscriptionsByExecutionAndType(subProcessExecution.getId(), "compensate");
 
-        List<CompensateEventSubscriptionEntity> compensateEventSubscriptions = new ArrayList<>();
+        List!CompensateEventSubscriptionEntity compensateEventSubscriptions = new ArrayList<>();
         for (EventSubscriptionEntity event : eventSubscriptions) {
             if (event instanceof CompensateEventSubscriptionEntity) {
                 compensateEventSubscriptions.add((CompensateEventSubscriptionEntity) event);

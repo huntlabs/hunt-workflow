@@ -30,7 +30,7 @@ import flow.engine.runtime.Execution;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class GetExecutionVariablesCmd implements Command<Map<string, Object>>, Serializable {
+class GetExecutionVariablesCmd implements Command<Map!(string, Object)>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -43,7 +43,7 @@ class GetExecutionVariablesCmd implements Command<Map<string, Object>>, Serializ
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     public Map!(string, Object) execute(CommandContext commandContext) {
 
         // Verify existence of execution

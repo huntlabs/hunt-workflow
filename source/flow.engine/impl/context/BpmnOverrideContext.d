@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 class BpmnOverrideContext {
 
-    protected static ThreadLocal<Map<string, ObjectNode>> bpmnOverrideContextThreadLocal = new ThreadLocal<>();
+    protected static ThreadLocal<Map!(string, ObjectNode)> bpmnOverrideContextThreadLocal = new ThreadLocal<>();
 
     protected static ResourceBundle.Control resourceBundleControl = new ResourceBundleControl();
 
@@ -50,7 +50,7 @@ class BpmnOverrideContext {
                         language, id, definitionInfoNode);
 
             } else {
-                HashSet<Locale> candidateLocales = new LinkedHashSet<>();
+                HashSet!Locale candidateLocales = new LinkedHashSet<>();
                 candidateLocales.addAll(resourceBundleControl.getCandidateLocales(id, Locale.forLanguageTag(language)));
                 for (Locale locale : candidateLocales) {
                     localizationProperties = CommandContextUtil.getProcessEngineConfiguration().getDynamicBpmnService().getLocalizationElementProperties(
@@ -70,7 +70,7 @@ class BpmnOverrideContext {
     }
 
     public static ObjectNode getProcessDefinitionInfoNode(string processDefinitionId) {
-        Map<string, ObjectNode> bpmnOverrideMap = getBpmnOverrideContext();
+        Map!(string, ObjectNode) bpmnOverrideMap = getBpmnOverrideContext();
         if (!bpmnOverrideMap.containsKey(processDefinitionId)) {
             ProcessDefinitionInfoCacheObject cacheObject = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager()
                     .getProcessDefinitionInfoCache()
@@ -82,8 +82,8 @@ class BpmnOverrideContext {
         return getBpmnOverrideContext().get(processDefinitionId);
     }
 
-    protected static Map<string, ObjectNode> getBpmnOverrideContext() {
-        Map<string, ObjectNode> bpmnOverrideMap = bpmnOverrideContextThreadLocal.get();
+    protected static Map!(string, ObjectNode) getBpmnOverrideContext() {
+        Map!(string, ObjectNode) bpmnOverrideMap = bpmnOverrideContextThreadLocal.get();
         if (bpmnOverrideMap is null) {
             bpmnOverrideMap = new HashMap<>();
         }
@@ -91,7 +91,7 @@ class BpmnOverrideContext {
     }
 
     protected static void addBpmnOverrideElement(string id, ObjectNode infoNode) {
-        Map<string, ObjectNode> bpmnOverrideMap = bpmnOverrideContextThreadLocal.get();
+        Map!(string, ObjectNode) bpmnOverrideMap = bpmnOverrideContextThreadLocal.get();
         if (bpmnOverrideMap is null) {
             bpmnOverrideMap = new HashMap<>();
             bpmnOverrideContextThreadLocal.set(bpmnOverrideMap);
@@ -99,9 +99,9 @@ class BpmnOverrideContext {
         bpmnOverrideMap.put(id, infoNode);
     }
 
-    public static class ResourceBundleControl extends ResourceBundle.Control {
-        @Override
-        public List<Locale> getCandidateLocales(string baseName, Locale locale) {
+    public static class ResourceBundleControl : ResourceBundle.Control {
+        override
+        public List!Locale getCandidateLocales(string baseName, Locale locale) {
             return super.getCandidateLocales(baseName, locale);
         }
     }

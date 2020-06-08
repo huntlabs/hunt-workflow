@@ -23,9 +23,9 @@ import flow.engine.impl.persistence.entity.EventLogEntryEntity;
 /**
  * @author Joram Barrez
  */
-class EngineClosedEventHandler extends AbstractDatabaseEventLoggerEventHandler {
+class EngineClosedEventHandler : AbstractDatabaseEventLoggerEventHandler {
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         Map!(string, Object) data = new HashMap<>();
         try {

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.ProcessDefinitionEntityManagerImpl;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -21,7 +21,9 @@ import flow.engine.impl.ProcessDefinitionQueryImpl;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.data.ProcessDefinitionDataManager;
 import flow.engine.repository.ProcessDefinition;
-
+import flow.engine.impl.persistence.entity.AbstractProcessEngineEntityManager;
+import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
+import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 /**
  * @author Tom Baeyens
  * @author Falko Menge
@@ -29,85 +31,85 @@ import flow.engine.repository.ProcessDefinition;
  * @author Joram Barrez
  */
 class ProcessDefinitionEntityManagerImpl
-    extends AbstractProcessEngineEntityManager<ProcessDefinitionEntity, ProcessDefinitionDataManager>
-    implements ProcessDefinitionEntityManager {
+    : AbstractProcessEngineEntityManager!(ProcessDefinitionEntity, ProcessDefinitionDataManager)
+    , ProcessDefinitionEntityManager {
 
-    public ProcessDefinitionEntityManagerImpl(ProcessEngineConfigurationImpl processEngineConfiguration, ProcessDefinitionDataManager processDefinitionDataManager) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration, ProcessDefinitionDataManager processDefinitionDataManager) {
         super(processEngineConfiguration, processDefinitionDataManager);
     }
 
-    @Override
+
     public ProcessDefinitionEntity findLatestProcessDefinitionByKey(string processDefinitionKey) {
         return dataManager.findLatestProcessDefinitionByKey(processDefinitionKey);
     }
 
-    @Override
+
     public ProcessDefinitionEntity findLatestProcessDefinitionByKeyAndTenantId(string processDefinitionKey, string tenantId) {
         return dataManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
     }
 
-    @Override
+
     public ProcessDefinitionEntity findLatestDerivedProcessDefinitionByKey(string processDefinitionKey) {
         return dataManager.findLatestDerivedProcessDefinitionByKey(processDefinitionKey);
     }
 
-    @Override
+
     public ProcessDefinitionEntity findLatestDerivedProcessDefinitionByKeyAndTenantId(string processDefinitionKey, string tenantId) {
         return dataManager.findLatestDerivedProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
     }
 
-    @Override
+
     public void deleteProcessDefinitionsByDeploymentId(string deploymentId) {
         dataManager.deleteProcessDefinitionsByDeploymentId(deploymentId);
     }
 
-    @Override
-    public List<ProcessDefinition> findProcessDefinitionsByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery) {
+
+    public List!ProcessDefinition findProcessDefinitionsByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery) {
         return dataManager.findProcessDefinitionsByQueryCriteria(processDefinitionQuery);
     }
 
-    @Override
+
     public long findProcessDefinitionCountByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery) {
         return dataManager.findProcessDefinitionCountByQueryCriteria(processDefinitionQuery);
     }
 
-    @Override
+
     public ProcessDefinitionEntity findProcessDefinitionByDeploymentAndKey(string deploymentId, string processDefinitionKey) {
         return dataManager.findProcessDefinitionByDeploymentAndKey(deploymentId, processDefinitionKey);
     }
 
-    @Override
+
     public ProcessDefinitionEntity findProcessDefinitionByDeploymentAndKeyAndTenantId(string deploymentId, string processDefinitionKey, string tenantId) {
         return dataManager.findProcessDefinitionByDeploymentAndKeyAndTenantId(deploymentId, processDefinitionKey, tenantId);
     }
 
-    @Override
-    public ProcessDefinition findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, Integer processDefinitionVersion, string tenantId) {
-        if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+
+    public ProcessDefinition findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, int processDefinitionVersion, string tenantId) {
+        if (tenantId.length == 0 || ProcessEngineConfiguration.NO_TENANT_ID == (tenantId)) {
             return dataManager.findProcessDefinitionByKeyAndVersion(processDefinitionKey, processDefinitionVersion);
         } else {
             return dataManager.findProcessDefinitionByKeyAndVersionAndTenantId(processDefinitionKey, processDefinitionVersion, tenantId);
         }
     }
 
-    @Override
-    public List<ProcessDefinition> findProcessDefinitionsByNativeQuery(Map!(string, Object) parameterMap) {
+
+    public List!ProcessDefinition findProcessDefinitionsByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findProcessDefinitionsByNativeQuery(parameterMap);
     }
 
-    @Override
+
     public long findProcessDefinitionCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findProcessDefinitionCountByNativeQuery(parameterMap);
     }
 
-    @Override
+
     public void updateProcessDefinitionTenantIdForDeployment(string deploymentId, string newTenantId) {
         dataManager.updateProcessDefinitionTenantIdForDeployment(deploymentId, newTenantId);
     }
 
-    @Override
-    public void updateProcessDefinitionVersionForProcessDefinitionId(string processDefinitionId, int version) {
-        dataManager.updateProcessDefinitionVersionForProcessDefinitionId(processDefinitionId, version);
+
+    public void updateProcessDefinitionVersionForProcessDefinitionId(string processDefinitionId, int ver) {
+        dataManager.updateProcessDefinitionVersionForProcessDefinitionId(processDefinitionId, ver);
     }
 
 }

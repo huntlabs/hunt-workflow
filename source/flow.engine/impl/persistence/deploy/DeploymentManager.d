@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.deploy.DeploymentManager;
 
 
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import std.algorithm.searching;
 import flow.bpmn.model.BpmnModel;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -33,9 +33,11 @@ import flow.engine.impl.persistence.entity.DeploymentEntityManager;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.ProcessDefinition;
-
+import hunt.Exceptions;
+import flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
+import flow.engine.impl.persistence.deploy.ProcessDefinitionInfoCacheObject;
 /**
  * @author Tom Baeyens
  * @author Falko Menge
@@ -43,11 +45,11 @@ import flow.engine.repository.ProcessDefinition;
  */
 class DeploymentManager {
 
-    protected DeploymentCache<ProcessDefinitionCacheEntry> processDefinitionCache;
-    protected DeploymentCache<ProcessDefinitionInfoCacheObject> processDefinitionInfoCache;
-    protected DeploymentCache<Object> appResourceCache;
-    protected DeploymentCache<Object> knowledgeBaseCache; // Needs to be object to avoid an import to Drools in this core class
-    protected List<EngineDeployer> deployers;
+    protected DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache;
+    protected DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache;
+    protected DeploymentCache!Object appResourceCache;
+    protected DeploymentCache!Object knowledgeBaseCache; // Needs to be object to avoid an import to Drools in this core class
+    protected List!EngineDeployer deployers;
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
     protected ProcessDefinitionEntityManager processDefinitionEntityManager;
@@ -58,24 +60,24 @@ class DeploymentManager {
     }
 
     public void deploy(DeploymentEntity deployment, Map!(string, Object) deploymentSettings) {
-        for (EngineDeployer deployer : deployers) {
+        foreach (EngineDeployer deployer ; deployers) {
             deployer.deploy(deployment, deploymentSettings);
         }
     }
 
     public ProcessDefinition findDeployedProcessDefinitionById(string processDefinitionId) {
-        if (processDefinitionId is null) {
+        if (processDefinitionId.length == 0) {
             throw new FlowableIllegalArgumentException("Invalid process definition id : null");
         }
 
         // first try the cache
         ProcessDefinitionCacheEntry cacheEntry = processDefinitionCache.get(processDefinitionId);
         ProcessDefinition processDefinition = cacheEntry !is null ? cacheEntry.getProcessDefinition() : null;
-
+         //ProcessDefinition processDefinition = null;
         if (processDefinition is null) {
             processDefinition = processDefinitionEntityManager.findById(processDefinitionId);
             if (processDefinition is null) {
-                throw new FlowableObjectNotFoundException("no deployed process definition found with id '" + processDefinitionId + "'", ProcessDefinition.class);
+                throw new FlowableObjectNotFoundException("no deployed process definition found with id '" ~ processDefinitionId ~ "'", typeid(ProcessDefinition));
             }
             processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
         }
@@ -86,7 +88,7 @@ class DeploymentManager {
         ProcessDefinition processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
 
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("no processes deployed with key '" + processDefinitionKey + "'", ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("no processes deployed with key '" ~ processDefinitionKey ~ "'", typeid(ProcessDefinition));
         }
         processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
         return processDefinition;
@@ -95,17 +97,17 @@ class DeploymentManager {
     public ProcessDefinition findDeployedLatestProcessDefinitionByKeyAndTenantId(string processDefinitionKey, string tenantId) {
         ProcessDefinition processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("no processes deployed with key '" + processDefinitionKey + "' for tenant identifier '" + tenantId + "'", ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("no processes deployed with key '" ~ processDefinitionKey ~ "' for tenant identifier '" ~ tenantId ~ "'", typeid(ProcessDefinition));
         }
         processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
         return processDefinition;
     }
 
-    public ProcessDefinition findDeployedProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, Integer processDefinitionVersion, string tenantId) {
-        ProcessDefinition processDefinition = (ProcessDefinitionEntity) processDefinitionEntityManager
+    public ProcessDefinition findDeployedProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, int processDefinitionVersion, string tenantId) {
+        ProcessDefinition processDefinition = cast(ProcessDefinitionEntity) processDefinitionEntityManager
                 .findProcessDefinitionByKeyAndVersionAndTenantId(processDefinitionKey, processDefinitionVersion, tenantId);
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("no processes deployed with key = '" + processDefinitionKey + "' and version = '" + processDefinitionVersion + "'", ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("no processes deployed with key = '" ~ processDefinitionKey ~ "' and version = '" ~ to!int(processDefinitionVersion) ~ "'", typeid(ProcessDefinition));
         }
         processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
         return processDefinition;
@@ -121,9 +123,9 @@ class DeploymentManager {
         ProcessDefinitionCacheEntry cachedProcessDefinition = processDefinitionCache.get(processDefinitionId);
 
         if (cachedProcessDefinition is null) {
-            if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, processEngineConfiguration)) {
-                return Flowable5Util.getFlowable5CompatibilityHandler().resolveProcessDefinition(processDefinition);
-            }
+            //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, processEngineConfiguration)) {
+            //    return Flowable5Util.getFlowable5CompatibilityHandler().resolveProcessDefinition(processDefinition);
+            //}
 
             DeploymentEntity deployment = deploymentEntityManager.findById(deploymentId);
             deployment.setNew(false);
@@ -131,7 +133,7 @@ class DeploymentManager {
             cachedProcessDefinition = processDefinitionCache.get(processDefinitionId);
 
             if (cachedProcessDefinition is null) {
-                throw new FlowableException("deployment '" + deploymentId + "' didn't put process definition '" + processDefinitionId + "' in the cache");
+                throw new FlowableException("deployment '" ~ deploymentId ~ "' didn't put process definition '" ~ processDefinitionId ~ "' in the cache");
             }
         }
         return cachedProcessDefinition;
@@ -143,8 +145,8 @@ class DeploymentManager {
         if (appResourceObject is null) {
             bool appResourcePresent = false;
             List!string deploymentResourceNames = getDeploymentEntityManager().getDeploymentResourceNames(deploymentId);
-            for (string deploymentResourceName : deploymentResourceNames) {
-                if (deploymentResourceName.endsWith(".app")) {
+            foreach (string deploymentResourceName ; deploymentResourceNames) {
+                if (endsWith(deploymentResourceName,".app")) {
                     appResourcePresent = true;
                     break;
                 }
@@ -156,12 +158,12 @@ class DeploymentManager {
                 deploy(deployment, null);
 
             } else {
-                throw new FlowableException("No .app resource found for deployment '" + deploymentId + "'");
+                throw new FlowableException("No .app resource found for deployment '" ~ deploymentId ~ "'");
             }
 
             appResourceObject = appResourceCache.get(deploymentId);
             if (appResourceObject is null) {
-                throw new FlowableException("deployment '" + deploymentId + "' didn't put an app resource in the cache");
+                throw new FlowableException("deployment '" ~ deploymentId ~ "' didn't put an app resource in the cache");
             }
         }
 
@@ -170,30 +172,30 @@ class DeploymentManager {
 
     public AppModel getAppResourceModel(string deploymentId) {
         Object appResourceObject = getAppResourceObject(deploymentId);
-        if (!(appResourceObject instanceof AppModel)) {
+        if (cast(AppModel)appResourceObject is null) {
             throw new FlowableException("App resource is not of type AppModel");
         }
 
-        return (AppModel) appResourceObject;
+        return cast(AppModel) appResourceObject;
     }
 
     public void removeDeployment(string deploymentId, bool cascade) {
 
         DeploymentEntity deployment = deploymentEntityManager.findById(deploymentId);
         if (deployment is null) {
-            throw new FlowableObjectNotFoundException("Could not find a deployment with id '" + deploymentId + "'.", DeploymentEntity.class);
+            throw new FlowableObjectNotFoundException("Could not find a deployment with id '" ~ deploymentId ~ "'.", typeid(DeploymentEntity));
         }
 
-        if (Flowable5Util.isFlowable5Deployment(deployment, processEngineConfiguration)) {
-            processEngineConfiguration.getFlowable5CompatibilityHandler().deleteDeployment(deploymentId, cascade);
-            return;
-        }
+        //if (Flowable5Util.isFlowable5Deployment(deployment, processEngineConfiguration)) {
+        //    processEngineConfiguration.getFlowable5CompatibilityHandler().deleteDeployment(deploymentId, cascade);
+        //    return;
+        //}
 
         // Remove any process definition from the cache
-        List<ProcessDefinition> processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
+        List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
 
-        for (ProcessDefinition processDefinition : processDefinitions) {
+        foreach (ProcessDefinition processDefinition ; processDefinitions) {
 
             // Since all process definitions are deleted by a single query, we should dispatch the events in this loop
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -209,7 +211,7 @@ class DeploymentManager {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, deployment));
         }
 
-        for (ProcessDefinition processDefinition : processDefinitions) {
+        foreach (ProcessDefinition processDefinition ; processDefinitions) {
             processDefinitionCache.remove(processDefinition.getId());
             processDefinitionInfoCache.remove(processDefinition.getId());
         }
@@ -221,43 +223,43 @@ class DeploymentManager {
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    public List<EngineDeployer> getDeployers() {
+    public List!EngineDeployer getDeployers() {
         return deployers;
     }
 
-    public void setDeployers(List<EngineDeployer> deployers) {
+    public void setDeployers(List!EngineDeployer deployers) {
         this.deployers = deployers;
     }
 
-    public DeploymentCache<ProcessDefinitionCacheEntry> getProcessDefinitionCache() {
+    public DeploymentCache!ProcessDefinitionCacheEntry getProcessDefinitionCache() {
         return processDefinitionCache;
     }
 
-    public void setProcessDefinitionCache(DeploymentCache<ProcessDefinitionCacheEntry> processDefinitionCache) {
+    public void setProcessDefinitionCache(DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache) {
         this.processDefinitionCache = processDefinitionCache;
     }
 
-    public DeploymentCache<ProcessDefinitionInfoCacheObject> getProcessDefinitionInfoCache() {
+    public DeploymentCache!ProcessDefinitionInfoCacheObject getProcessDefinitionInfoCache() {
         return processDefinitionInfoCache;
     }
 
-    public void setProcessDefinitionInfoCache(DeploymentCache<ProcessDefinitionInfoCacheObject> processDefinitionInfoCache) {
+    public void setProcessDefinitionInfoCache(DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache) {
         this.processDefinitionInfoCache = processDefinitionInfoCache;
     }
 
-    public DeploymentCache<Object> getKnowledgeBaseCache() {
+    public DeploymentCache!Object getKnowledgeBaseCache() {
         return knowledgeBaseCache;
     }
 
-    public void setKnowledgeBaseCache(DeploymentCache<Object> knowledgeBaseCache) {
+    public void setKnowledgeBaseCache(DeploymentCache!Object knowledgeBaseCache) {
         this.knowledgeBaseCache = knowledgeBaseCache;
     }
 
-    public DeploymentCache<Object> getAppResourceCache() {
+    public DeploymentCache!Object getAppResourceCache() {
         return appResourceCache;
     }
 
-    public void setAppResourceCache(DeploymentCache<Object> appResourceCache) {
+    public void setAppResourceCache(DeploymentCache!Object appResourceCache) {
         this.appResourceCache = appResourceCache;
     }
 

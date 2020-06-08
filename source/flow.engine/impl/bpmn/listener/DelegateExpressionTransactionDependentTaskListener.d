@@ -31,7 +31,7 @@ class DelegateExpressionTransactionDependentTaskListener implements TransactionD
         this.expression = expression;
     }
 
-    @Override
+    override
     public void notify(string processInstanceId, string executionId, Task task, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
         NoExecutionVariableScope scope = new NoExecutionVariableScope();
 

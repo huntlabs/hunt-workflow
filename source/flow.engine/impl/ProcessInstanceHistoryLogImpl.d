@@ -30,69 +30,69 @@ class ProcessInstanceHistoryLogImpl implements ProcessInstanceHistoryLog {
 
     protected HistoricProcessInstance historicProcessInstance;
 
-    protected List<HistoricData> historicData = new ArrayList<>();
+    protected List!HistoricData historicData = new ArrayList<>();
 
     public ProcessInstanceHistoryLogImpl(HistoricProcessInstance historicProcessInstance) {
         this.historicProcessInstance = historicProcessInstance;
     }
 
-    @Override
+    override
     public string getId() {
         return historicProcessInstance.getId();
     }
 
-    @Override
+    override
     public string getBusinessKey() {
         return historicProcessInstance.getBusinessKey();
     }
 
-    @Override
+    override
     public string getProcessDefinitionId() {
         return historicProcessInstance.getProcessDefinitionId();
     }
 
-    @Override
+    override
     public Date getStartTime() {
         return historicProcessInstance.getStartTime();
     }
 
-    @Override
+    override
     public Date getEndTime() {
         return historicProcessInstance.getEndTime();
     }
 
-    @Override
+    override
     public Long getDurationInMillis() {
         return historicProcessInstance.getDurationInMillis();
     }
 
-    @Override
+    override
     public string getStartUserId() {
         return historicProcessInstance.getStartUserId();
     }
 
-    @Override
+    override
     public string getStartActivityId() {
         return historicProcessInstance.getStartActivityId();
     }
 
-    @Override
+    override
     public string getDeleteReason() {
         return historicProcessInstance.getDeleteReason();
     }
 
-    @Override
+    override
     public string getSuperProcessInstanceId() {
         return historicProcessInstance.getSuperProcessInstanceId();
     }
 
-    @Override
+    override
     public string getTenantId() {
         return historicProcessInstance.getTenantId();
     }
 
-    @Override
-    public List<HistoricData> getHistoricData() {
+    override
+    public List!HistoricData getHistoricData() {
         return historicData;
     }
 
@@ -100,13 +100,13 @@ class ProcessInstanceHistoryLogImpl implements ProcessInstanceHistoryLog {
         historicData.add(historicEvent);
     }
 
-    public void addHistoricData(Collection<? extends HistoricData> historicEvents) {
+    public void addHistoricData(Collection<? : HistoricData> historicEvents) {
         historicData.addAll(historicEvents);
     }
 
     public void orderHistoricData() {
-        Collections.sort(historicData, new Comparator<HistoricData>() {
-            @Override
+        Collections.sort(historicData, new Comparator!HistoricData() {
+            override
             public int compare(HistoricData data1, HistoricData data2) {
                 return data1.getTime().compareTo(data2.getTime());
             }

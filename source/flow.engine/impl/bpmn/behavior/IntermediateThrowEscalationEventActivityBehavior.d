@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.IntermediateThrowEscalationEventActivityBehavior;
 
 import flow.bpmn.model.Escalation;
 import flow.bpmn.model.EscalationEventDefinition;
@@ -22,19 +22,17 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.helper.EscalationPropagation;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 /**
  * @author Tijs Rademakers
  */
-class IntermediateThrowEscalationEventActivityBehavior extends AbstractBpmnActivityBehavior {
+class IntermediateThrowEscalationEventActivityBehavior : AbstractBpmnActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
-    protected final EscalationEventDefinition escalationEventDefinition;
+    protected  EscalationEventDefinition escalationEventDefinition;
     protected string escalationCode;
     protected string escalationName;
 
-    public IntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent, EscalationEventDefinition escalationEventDefinition,
+    this(ThrowEvent throwEvent, EscalationEventDefinition escalationEventDefinition,
                     Escalation escalation) {
 
         if (escalation !is null) {
@@ -49,11 +47,11 @@ class IntermediateThrowEscalationEventActivityBehavior extends AbstractBpmnActiv
         this.escalationEventDefinition = escalationEventDefinition;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = Context.getCommandContext();
         EscalationPropagation.propagateEscalation(escalationCode, escalationName, execution);
-        CommandContextUtil.getAgenda(commandContext).planTakeOutgoingSequenceFlowsOperation((ExecutionEntity) execution, true);
+        CommandContextUtil.getAgenda(commandContext).planTakeOutgoingSequenceFlowsOperation(cast(ExecutionEntity) execution, true);
     }
 
 }

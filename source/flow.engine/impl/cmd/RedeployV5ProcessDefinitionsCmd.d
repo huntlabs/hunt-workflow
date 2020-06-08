@@ -33,16 +33,16 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Tijs Rademakers
  */
-class RedeployV5ProcessDefinitionsCmd implements Command<Void> {
+class RedeployV5ProcessDefinitionsCmd implements Command!Void {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedeployV5ProcessDefinitionsCmd.class);
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 
         RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();
-        List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery()
+        List!ProcessDefinition processDefinitions = repositoryService.createProcessDefinitionQuery()
                 .latestVersion()
                 .processDefinitionEngineVersion(Flowable5Util.V5_ENGINE_TAG)
                 .list();
@@ -50,14 +50,14 @@ class RedeployV5ProcessDefinitionsCmd implements Command<Void> {
         if (!processDefinitions.isEmpty()) {
 
             List!string deploymentIds = new ArrayList<>();
-            Map<string, List<ProcessDefinition>> deploymentMap = new HashMap<>();
+            Map<string, List!ProcessDefinition> deploymentMap = new HashMap<>();
             for (ProcessDefinition processDefinition : processDefinitions) {
 
                 if (!deploymentIds.contains(processDefinition.getDeploymentId())) {
                     deploymentIds.add(processDefinition.getDeploymentId());
                 }
 
-                List<ProcessDefinition> groupedProcessDefinitions = null;
+                List!ProcessDefinition groupedProcessDefinitions = null;
                 if (deploymentMap.containsKey(processDefinition.getDeploymentId())) {
                     groupedProcessDefinitions = deploymentMap.get(processDefinition.getDeploymentId());
                 } else {
@@ -68,7 +68,7 @@ class RedeployV5ProcessDefinitionsCmd implements Command<Void> {
                 deploymentMap.put(processDefinition.getDeploymentId(), groupedProcessDefinitions);
             }
 
-            List<Deployment> deployments = repositoryService.createDeploymentQuery()
+            List!Deployment deployments = repositoryService.createDeploymentQuery()
                     .deploymentIds(deploymentIds)
                     .list();
 
@@ -90,7 +90,7 @@ class RedeployV5ProcessDefinitionsCmd implements Command<Void> {
                     deploymentBuilder.tenantId(deployment.getTenantId());
                 }
 
-                List<ProcessDefinition> groupedProcessDefinitions = deploymentMap.get(deployment.getId());
+                List!ProcessDefinition groupedProcessDefinitions = deploymentMap.get(deployment.getId());
                 for (ProcessDefinition processDefinition : groupedProcessDefinitions) {
                     LOGGER.info("adding v5 process definition with id: {} and key: {} for redeployment",
                             processDefinition.getId(), processDefinition.getKey());

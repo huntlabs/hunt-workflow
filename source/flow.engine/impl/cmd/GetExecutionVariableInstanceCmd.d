@@ -25,7 +25,7 @@ import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
-class GetExecutionVariableInstanceCmd implements Command<VariableInstance>, Serializable {
+class GetExecutionVariableInstanceCmd implements Command!VariableInstance, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -38,7 +38,7 @@ class GetExecutionVariableInstanceCmd implements Command<VariableInstance>, Seri
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     public VariableInstance execute(CommandContext commandContext) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");

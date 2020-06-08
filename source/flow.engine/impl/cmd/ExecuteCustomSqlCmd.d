@@ -20,17 +20,17 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author jbarrez
  */
-class ExecuteCustomSqlCmd<Mapper, ResultType> implements Command<ResultType> {
+class ExecuteCustomSqlCmd!(Mapper, ResultType) implements Command!ResultType {
 
-    protected Class<Mapper> mapperClass;
-    protected CustomSqlExecution<Mapper, ResultType> customSqlExecution;
+    protected Class!Mapper mapperClass;
+    protected CustomSqlExecution!(Mapper, ResultType) customSqlExecution;
 
-    public ExecuteCustomSqlCmd(Class<Mapper> mapperClass, CustomSqlExecution<Mapper, ResultType> customSqlExecution) {
+    public ExecuteCustomSqlCmd(Class!Mapper mapperClass, CustomSqlExecution!(Mapper, ResultType) customSqlExecution) {
         this.mapperClass = mapperClass;
         this.customSqlExecution = customSqlExecution;
     }
 
-    @Override
+    override
     public ResultType execute(CommandContext commandContext) {
         Mapper mapper = CommandContextUtil.getDbSqlSession(commandContext).getSqlSession().getMapper(mapperClass);
         return customSqlExecution.execute(mapper);

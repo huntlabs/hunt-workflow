@@ -23,24 +23,24 @@ import flow.engine.impl.event.logger.handler.EventLoggerEventHandler;
  */
 abstract class AbstractEventFlusher implements EventFlusher {
 
-    protected List<EventLoggerEventHandler> eventHandlers = new ArrayList<>();
+    protected List!EventLoggerEventHandler eventHandlers = new ArrayList<>();
 
-    @Override
+    override
     public void closed(CommandContext commandContext) {
         // Not interested in closed
     }
 
-    @Override
-    public List<EventLoggerEventHandler> getEventHandlers() {
+    override
+    public List!EventLoggerEventHandler getEventHandlers() {
         return eventHandlers;
     }
 
-    @Override
-    public void setEventHandlers(List<EventLoggerEventHandler> eventHandlers) {
+    override
+    public void setEventHandlers(List!EventLoggerEventHandler eventHandlers) {
         this.eventHandlers = eventHandlers;
     }
 
-    @Override
+    override
     public void addEventHandler(EventLoggerEventHandler databaseEventLoggerEventHandler) {
         eventHandlers.add(databaseEventLoggerEventHandler);
     }

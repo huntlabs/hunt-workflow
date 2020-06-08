@@ -29,10 +29,10 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
     protected RuntimeServiceImpl runtimeService;
 
     protected string processInstanceId;
-    protected List<MoveExecutionIdContainer> moveExecutionIdList = new ArrayList<>();
-    protected List<MoveActivityIdContainer> moveActivityIdList = new ArrayList<>();
+    protected List!MoveExecutionIdContainer moveExecutionIdList = new ArrayList<>();
+    protected List!MoveActivityIdContainer moveActivityIdList = new ArrayList<>();
     protected Map!(string, Object) processVariables = new HashMap<>();
-    protected Map<string, Map<string, Object>> localVariables = new HashMap<>();
+    protected Map<string, Map!(string, Object)> localVariables = new HashMap<>();
 
     public ChangeActivityStateBuilderImpl() {
     }
@@ -41,13 +41,13 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         this.runtimeService = runtimeService;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder processInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveExecutionToActivityId(string executionId, string activityId) {
         return moveExecutionToActivityId(executionId, activityId, null);
     }
@@ -57,7 +57,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveExecutionsToSingleActivityId(List!string executionIds, string activityId) {
         return moveExecutionsToSingleActivityId(executionIds, activityId, null);
     }
@@ -67,7 +67,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveSingleExecutionToActivityIds(string executionId, List!string activityIds) {
         return moveSingleExecutionToActivityIds(executionId, activityIds, null);
     }
@@ -77,7 +77,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveActivityIdTo(string currentActivityId, string newActivityId) {
         return moveActivityIdTo(currentActivityId, newActivityId, null);
     }
@@ -87,7 +87,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveActivityIdsToSingleActivityId(List!string activityIds, string activityId) {
         return moveActivityIdsToSingleActivityId(activityIds, activityId, null);
     }
@@ -97,7 +97,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveSingleActivityIdToActivityIds(string currentActivityId, List!string newActivityIds) {
         return moveSingleActivityIdToActivityIds(currentActivityId, newActivityIds, null);
     }
@@ -107,7 +107,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveActivityIdToParentActivityId(string currentActivityId, string newActivityId) {
         return moveActivityIdToParentActivityId(currentActivityId, newActivityId, null);
     }
@@ -133,12 +133,12 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveActivityIdToSubProcessInstanceActivityId(string currentActivityId, string newActivityId, string callActivityId) {
         return moveActivityIdToSubProcessInstanceActivityId(currentActivityId, newActivityId, callActivityId, null, null);
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder moveActivityIdToSubProcessInstanceActivityId(string currentActivityId, string newActivityId, string callActivityId, Integer subProcessDefinitionVersion) {
         return moveActivityIdToSubProcessInstanceActivityId(currentActivityId, newActivityId, callActivityId, subProcessDefinitionVersion, null);
     }
@@ -170,7 +170,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder processVariable(string processVariableName, Object processVariableValue) {
         if (this.processVariables is null) {
             this.processVariables = new HashMap<>();
@@ -180,13 +180,13 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder processVariables(Map!(string, Object) processVariables) {
         this.processVariables = processVariables;
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder localVariable(string startActivityId, string localVariableName, Object localVariableValue) {
         if (this.localVariables is null) {
             this.localVariables = new HashMap<>();
@@ -206,7 +206,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public ChangeActivityStateBuilder localVariables(string startActivityId, Map!(string, Object) localVariables) {
         if (this.localVariables is null) {
             this.localVariables = new HashMap<>();
@@ -217,7 +217,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return this;
     }
 
-    @Override
+    override
     public void changeState() {
         if (runtimeService is null) {
             throw new FlowableException("RuntimeService cannot be null, Obtain your builder instance from the RuntimService to access this feature");
@@ -229,11 +229,11 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return processInstanceId;
     }
 
-    public List<MoveExecutionIdContainer> getMoveExecutionIdList() {
+    public List!MoveExecutionIdContainer getMoveExecutionIdList() {
         return moveExecutionIdList;
     }
 
-    public List<MoveActivityIdContainer> getMoveActivityIdList() {
+    public List!MoveActivityIdContainer getMoveActivityIdList() {
         return moveActivityIdList;
     }
 
@@ -241,7 +241,7 @@ class ChangeActivityStateBuilderImpl implements ChangeActivityStateBuilder {
         return processVariables;
     }
 
-    public Map<string, Map<string, Object>> getLocalVariables() {
+    public Map<string, Map!(string, Object)> getLocalVariables() {
         return localVariables;
     }
 }

@@ -29,7 +29,7 @@ import flow.idm.api.User;
 /**
  * @author Tijs Rademakers
  */
-class GetPotentialStarterUsersCmd implements Command<List<User>>, Serializable {
+class GetPotentialStarterUsersCmd implements Command<List!User>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,8 +40,8 @@ class GetPotentialStarterUsersCmd implements Command<List<User>>, Serializable {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    public List<User> execute(CommandContext commandContext) {
+    override
+    public List!User execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
         if (processDefinition is null) {

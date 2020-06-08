@@ -46,13 +46,13 @@ class EvaluateConditionalEventsOperation : AbstractOperation {
 
     public void run() {
          implementationMissing(false);
-        //List<ExecutionEntity> allExecutions = new ArrayList<>();
+        //List!ExecutionEntity allExecutions = new ArrayList<>();
         //ExecutionTreeUtil.collectChildExecutions(execution, allExecutions);
         //
         //string processDefinitionId = execution.getProcessDefinitionId();
         //flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
         //
-        //List<EventSubProcess> eventSubProcesses = process.findFlowElementsOfType(EventSubProcess.class, false);
+        //List!EventSubProcess eventSubProcesses = process.findFlowElementsOfType(EventSubProcess.class, false);
         //evaluateEventSubProcesses(eventSubProcesses, execution);
         //
         //for (ExecutionEntity childExecutionEntity : allExecutions) {
@@ -70,7 +70,7 @@ class EvaluateConditionalEventsOperation : AbstractOperation {
         //
         //    } else if (currentFlowElement !is null && currentFlowElement instanceof SubProcess) {
         //        SubProcess subProcess = (SubProcess) currentFlowElement;
-        //        List<EventSubProcess> childEventSubProcesses = subProcess.findAllSubFlowElementInFlowMapOfType(EventSubProcess.class);
+        //        List!EventSubProcess childEventSubProcesses = subProcess.findAllSubFlowElementInFlowMapOfType(EventSubProcess.class);
         //        evaluateEventSubProcesses(childEventSubProcesses, childExecutionEntity);
         //    }
         //}
@@ -80,7 +80,7 @@ class EvaluateConditionalEventsOperation : AbstractOperation {
         implementationMissing(false);
         //if (eventSubProcesses !is null) {
         //    for (EventSubProcess eventSubProcess : eventSubProcesses) {
-        //        List<StartEvent> startEvents = eventSubProcess.findAllSubFlowElementInFlowMapOfType(StartEvent.class);
+        //        List!StartEvent startEvents = eventSubProcess.findAllSubFlowElementInFlowMapOfType(StartEvent.class);
         //        if (startEvents !is null) {
         //            for (StartEvent startEvent : startEvents) {
         //

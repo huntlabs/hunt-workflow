@@ -24,21 +24,21 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class SetTaskVariablesCmd extends NeedsActiveTaskCmd<Object> {
+class SetTaskVariablesCmd : NeedsActiveTaskCmd!Object {
 
     private static final long serialVersionUID = 1L;
 
-    protected Map<string, ? extends Object> variables;
+    protected Map<string, ? : Object> variables;
     protected bool isLocal;
 
-    public SetTaskVariablesCmd(string taskId, Map<string, ? extends Object> variables, bool isLocal) {
+    public SetTaskVariablesCmd(string taskId, Map<string, ? : Object> variables, bool isLocal) {
         super(taskId);
         this.taskId = taskId;
         this.variables = variables;
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     protected Object execute(CommandContext commandContext, TaskEntity task) {
 
         if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
@@ -69,7 +69,7 @@ class SetTaskVariablesCmd extends NeedsActiveTaskCmd<Object> {
         return null;
     }
 
-    @Override
+    override
     protected string getSuspendedTaskException() {
         return "Cannot add variables to a suspended task";
     }

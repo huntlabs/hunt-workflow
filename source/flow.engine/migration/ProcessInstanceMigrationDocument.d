@@ -42,9 +42,9 @@
 //
 //    string getPostUpgradeJavaDelegateExpression();
 //
-//    List<ActivityMigrationMapping> getActivityMigrationMappings();
+//    List!ActivityMigrationMapping getActivityMigrationMappings();
 //
-//    Map<string, Map<string, Object>> getActivitiesLocalVariables();
+//    Map<string, Map!(string, Object)> getActivitiesLocalVariables();
 //
 //    Map!(string, Object) getProcessInstanceVariables();
 //

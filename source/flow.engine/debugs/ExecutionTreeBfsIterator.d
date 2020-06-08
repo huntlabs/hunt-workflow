@@ -20,13 +20,13 @@
 // *
 // * @author Joram Barrez
 // */
-//class ExecutionTreeBfsIterator implements Iterator<ExecutionTreeNode> {
+//class ExecutionTreeBfsIterator implements Iterator!ExecutionTreeNode {
 //
 //    protected ExecutionTreeNode rootNode;
 //    protected bool reverseOrder;
 //
-//    protected LinkedList<ExecutionTreeNode> flattenedList;
-//    protected Iterator<ExecutionTreeNode> flattenedListIterator;
+//    protected LinkedList!ExecutionTreeNode flattenedList;
+//    protected Iterator!ExecutionTreeNode flattenedListIterator;
 //
 //    public ExecutionTreeBfsIterator(ExecutionTreeNode executionTree) {
 //        this(executionTree, false);
@@ -40,7 +40,7 @@
 //    protected void flattenTree() {
 //        flattenedList = new LinkedList<>();
 //
-//        LinkedList<ExecutionTreeNode> nodesToHandle = new LinkedList<>();
+//        LinkedList!ExecutionTreeNode nodesToHandle = new LinkedList<>();
 //        nodesToHandle.add(rootNode);
 //        while (!nodesToHandle.isEmpty()) {
 //
@@ -59,7 +59,7 @@
 //        flattenedListIterator = flattenedList.iterator();
 //    }
 //
-//    @Override
+//    override
 //    public bool hasNext() {
 //        if (flattenedList is null) {
 //            flattenTree();
@@ -67,7 +67,7 @@
 //        return flattenedListIterator.hasNext();
 //    }
 //
-//    @Override
+//    override
 //    public ExecutionTreeNode next() {
 //        if (flattenedList is null) {
 //            flattenTree();
@@ -75,7 +75,7 @@
 //        return flattenedListIterator.next();
 //    }
 //
-//    @Override
+//    override
 //    public void remove() {
 //        if (flattenedList is null) {
 //            flattenTree();

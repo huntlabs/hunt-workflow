@@ -27,7 +27,7 @@ import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
-class GetExecutionVariableInstancesCmd implements Command<Map<string, VariableInstance>>, Serializable {
+class GetExecutionVariableInstancesCmd implements Command<Map!(string, VariableInstance)>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -40,8 +40,8 @@ class GetExecutionVariableInstancesCmd implements Command<Map<string, VariableIn
         this.isLocal = isLocal;
     }
 
-    @Override
-    public Map<string, VariableInstance> execute(CommandContext commandContext) {
+    override
+    public Map!(string, VariableInstance) execute(CommandContext commandContext) {
 
         // Verify existence of execution
         if (executionId is null) {
@@ -54,7 +54,7 @@ class GetExecutionVariableInstancesCmd implements Command<Map<string, VariableIn
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 
-        Map<string, VariableInstance> variables = null;
+        Map!(string, VariableInstance) variables = null;
 
         if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();

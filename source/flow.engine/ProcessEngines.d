@@ -101,7 +101,7 @@ abstract class ProcessEngines {
         //    //    processEngines = new HashMap<>();
         //    //}
         //    ClassLoader classLoader = ReflectUtil.getClassLoader();
-        //    Enumeration<URL> resources = null;
+        //    Enumeration!URL resources = null;
         //    try {
         //        resources = classLoader.getResources("flowable.cfg.xml");
         //    } catch (IOException e) {
@@ -111,7 +111,7 @@ abstract class ProcessEngines {
         //    // Remove duplicated configuration URL's using set. Some
         //    // classloaders may return identical URL's twice, causing duplicate
         //    // startups
-        //    Set<URL> configUrls = new HashSet<>();
+        //    Set!URL configUrls = new HashSet<>();
         //    while (resources.hasMoreElements()) {
         //        configUrls.add(resources.nextElement());
         //    }
@@ -272,7 +272,7 @@ abstract class ProcessEngines {
         implementationMissing(false);
         return null;
         //if (isInitialized()) {
-        //    Map<string, ProcessEngine> engines = new HashMap<>(processEngines);
+        //    Map!(string, ProcessEngine) engines = new HashMap<>(processEngines);
         //    processEngines = new HashMap<>();
         //
         //    for (string processEngineName : engines.keySet()) {

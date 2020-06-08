@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,13 +28,13 @@ import flow.engine.ProcessEngine;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
 
-class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
-    
+class ProcessDbSchemaManager : AbstractSqlScriptBasedDbSchemaManager {
+
     protected static final Pattern CLEAN_VERSION_REGEX = Pattern.compile("\\d\\.\\d*");
 
     protected static final string PROCESS_DB_SCHEMA_LOCK_NAME = "processDbSchemaLock";
-    
-    @Override
+
+    override
     public void schemaCheckVersion() {
         try {
             string dbVersion = getDbVersion();
@@ -83,10 +83,10 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
         string selectSchemaVersionStatement = dbSqlSession.getDbSqlSessionFactory().mapStatement("flow.common.persistence.entity.PropertyEntityImpl.selectDbSchemaVersion");
         return (string) dbSqlSession.getSqlSession().selectOne(selectSchemaVersionStatement);
     }
-    
-    @Override
+
+    override
     public void schemaCreate() {
-        
+
         // The common schema manager is special and would handle its own locking mechanism
         getCommonSchemaManager().schemaCreate();
 
@@ -110,7 +110,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
         getVariableSchemaManager().schemaCreate();
         getJobSchemaManager().schemaCreate();
         getBatchSchemaManager().schemaCreate();
-        
+
         if (isEngineTablePresent()) {
             string dbVersion = getDbVersion();
             if (!ProcessEngine.VERSION.equals(dbVersion)) {
@@ -119,7 +119,7 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
         } else {
             dbSchemaCreateEngine();
         }
-        
+
         if (CommandContextUtil.getDbSqlSession().getDbSqlSessionFactory().isDbHistoryUsed()) {
             dbSchemaCreateHistory();
         }
@@ -133,61 +133,61 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
         executeMandatorySchemaResource("create", "engine");
     }
 
-    @Override
+    override
     public void schemaDrop() {
-        
+
         try {
             executeMandatorySchemaResource("drop", "engine");
             if (CommandContextUtil.getDbSqlSession().getDbSqlSessionFactory().isDbHistoryUsed()) {
                 executeMandatorySchemaResource("drop", "history");
             }
-            
+
         } catch (Exception e) {
             logger.info("Error dropping engine tables", e);
         }
-        
+
         try {
             getBatchSchemaManager().schemaDrop();
         } catch (Exception e) {
             logger.info("Error dropping batch tables", e);
         }
-        
+
         try {
             getJobSchemaManager().schemaDrop();
         } catch (Exception e) {
             logger.info("Error dropping job tables", e);
         }
-     
+
         try {
             getVariableSchemaManager().schemaDrop();
         } catch (Exception e) {
             logger.info("Error dropping variable tables", e);
         }
-        
+
         try {
             getTaskSchemaManager().schemaDrop();
         } catch (Exception e) {
             logger.info("Error dropping task tables", e);
         }
-        
+
         try {
             getEventSubscriptionSchemaManager().schemaDrop();
         } catch (Exception e) {
             logger.info("Error dropping event subscription tables", e);
         }
-        
+
         try {
             getEntityLinkSchemaManager().schemaDrop();
         } catch (Exception e) {
             logger.info("Error dropping entity link tables", e);
         }
-        
+
         try {
             getIdentityLinkSchemaManager().schemaDrop();
         } catch (Exception e) {
             logger.info("Error dropping identity link tables", e);
         }
-        
+
         try {
             getCommonSchemaManager().schemaDrop();
         } catch (Exception e) {
@@ -201,9 +201,9 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
         }
     }
 
-    @Override
+    override
     public string schemaUpdate() {
-        
+
         PropertyEntity dbVersionProperty = null;
         string dbVersion = null;
         string feedback = null;
@@ -221,16 +221,16 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
             matchingVersionIndex = FlowableVersions.getFlowableVersionIndexForDbVersion(dbVersion);
             isUpgradeNeeded = (matchingVersionIndex != (FlowableVersions.FLOWABLE_VERSIONS.size() - 1));
         }
-        
+
         bool isHistoryTablePresent = isHistoryTablePresent();
         if (isUpgradeNeeded && matchingVersionIndex < version6120Index) {
             dbSchemaUpgradeUntil6120("engine", matchingVersionIndex);
-            
+
             if (isHistoryTablePresent) {
                 dbSchemaUpgradeUntil6120("history", matchingVersionIndex);
             }
         }
-        
+
         // The common schema manager is special and would handle its own locking mechanism
         getCommonSchemaManager().schemaUpdate();
 
@@ -355,44 +355,44 @@ class ProcessDbSchemaManager extends AbstractSqlScriptBasedDbSchemaManager {
             schemaDrop();
         }
     }
-    
+
     protected SchemaManager getCommonSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getCommonSchemaManager();
     }
-    
+
     protected SchemaManager getIdentityLinkSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getIdentityLinkSchemaManager();
     }
-    
+
     protected SchemaManager getEntityLinkSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getEntityLinkSchemaManager();
     }
-    
+
     protected SchemaManager getEventSubscriptionSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getEventSubscriptionSchemaManager();
     }
-    
+
     protected SchemaManager getVariableSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getVariableSchemaManager();
     }
-    
+
     protected SchemaManager getTaskSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getTaskSchemaManager();
     }
-    
+
     protected SchemaManager getJobSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getJobSchemaManager();
     }
-    
+
     protected SchemaManager getBatchSchemaManager() {
         return CommandContextUtil.getProcessEngineConfiguration().getBatchSchemaManager();
     }
-    
+
     protected ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
         return CommandContextUtil.getProcessEngineConfiguration();
     }
 
-    @Override
+    override
     protected string getResourcesRootDirectory() {
         return "org/flowable/db/";
     }

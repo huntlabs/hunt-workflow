@@ -11,11 +11,10 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.IntermediateThrowSignalEventActivityBehavior;
 
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.Signal;
 import flow.bpmn.model.SignalEventDefinition;
 import flow.bpmn.model.ThrowEvent;
@@ -33,28 +32,28 @@ import flow.engine.impl.util.EventSubscriptionUtil;
 import flow.engine.impl.util.Flowable5Util;
 import flow.entitylink.service.api.EntityLink;
 import flow.entitylink.service.api.EntityLinkType;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
+import hunt.String;
 
 /**
  * @author Tijs Rademakers
  */
-class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class IntermediateThrowSignalEventActivityBehavior : AbstractBpmnActivityBehavior {
 
     protected final SignalEventDefinition signalEventDefinition;
     protected string signalEventName;
     protected string signalExpression;
     protected bool processInstanceScope;
 
-    public IntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent, SignalEventDefinition signalEventDefinition, Signal signal) {
+    this(ThrowEvent throwEvent, SignalEventDefinition signalEventDefinition, Signal signal) {
         if (signal !is null) {
             signalEventName = signal.getName();
-            if (Signal.SCOPE_PROCESS_INSTANCE.equals(signal.getScope())) {
+            if (Signal.SCOPE_PROCESS_INSTANCE == (signal.getScope())) {
                 this.processInstanceScope = true;
             }
-        } else if (StringUtils.isNotEmpty(signalEventDefinition.getSignalRef())) {
+        } else if (signalEventDefinition.getSignalRef()!is null && signalEventDefinition.getSignalRef().length != 0) {
             signalEventName = signalEventDefinition.getSignalRef();
         } else {
             signalExpression = signalEventDefinition.getSignalExpression();
@@ -63,7 +62,7 @@ class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityB
         this.signalEventDefinition = signalEventDefinition;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
 
         CommandContext commandContext = Context.getCommandContext();
@@ -73,25 +72,25 @@ class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityB
             eventSubscriptionName = signalEventName;
         } else {
             Expression expressionObject = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(signalExpression);
-            eventSubscriptionName = expressionObject.getValue(execution).toString();
+            eventSubscriptionName = (cast(String)expressionObject.getValue(execution)).value;
         }
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-        List<SignalEventSubscriptionEntity> subscriptionEntities = null;
+        List!SignalEventSubscriptionEntity subscriptionEntities = null;
         if (processInstanceScope) {
             subscriptionEntities = eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(
                             execution.getProcessInstanceId(), eventSubscriptionName);
 
             if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableEntityLinks()) {
-                List<EntityLink> entityLinks = CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByReferenceScopeIdAndType(
+                List!EntityLink entityLinks = CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByReferenceScopeIdAndType(
                                 execution.getProcessInstanceId(), ScopeTypes.BPMN, EntityLinkType.CHILD);
                 if (entityLinks !is null) {
-                    for (EntityLink entityLink : entityLinks) {
-                        if (ScopeTypes.BPMN.equals(entityLink.getScopeType())) {
+                    foreach (EntityLink entityLink ; entityLinks) {
+                        if (ScopeTypes.BPMN == (entityLink.getScopeType())) {
                             subscriptionEntities.addAll(eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(
                                             entityLink.getScopeId(), eventSubscriptionName));
 
-                        } else if (ScopeTypes.CMMN.equals(entityLink.getScopeType())) {
+                        } else if (ScopeTypes.CMMN == (entityLink.getScopeType())) {
                             subscriptionEntities.addAll(eventSubscriptionService.findSignalEventSubscriptionsByScopeAndEventName(
                                             entityLink.getScopeId(), ScopeTypes.CMMN, eventSubscriptionName));
                         }
@@ -104,22 +103,23 @@ class IntermediateThrowSignalEventActivityBehavior extends AbstractBpmnActivityB
                     .findSignalEventSubscriptionsByEventName(eventSubscriptionName, execution.getTenantId());
         }
 
-        for (SignalEventSubscriptionEntity signalEventSubscriptionEntity : subscriptionEntities) {
+        foreach (SignalEventSubscriptionEntity signalEventSubscriptionEntity ; subscriptionEntities) {
             CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
                     FlowableEventBuilder.createSignalEvent(FlowableEngineEventType.ACTIVITY_SIGNALED, signalEventSubscriptionEntity.getActivityId(), eventSubscriptionName,
                             null, signalEventSubscriptionEntity.getExecutionId(), signalEventSubscriptionEntity.getProcessInstanceId(),
                             signalEventSubscriptionEntity.getProcessDefinitionId()));
 
-            if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, signalEventSubscriptionEntity.getProcessDefinitionId())) {
-                Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                compatibilityHandler.signalEventReceived(signalEventSubscriptionEntity, null, signalEventDefinition.isAsync());
-
-            } else {
-                EventSubscriptionUtil.eventReceived(signalEventSubscriptionEntity, null, signalEventDefinition.isAsync());
-            }
+            //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, signalEventSubscriptionEntity.getProcessDefinitionId())) {
+            //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+            //    compatibilityHandler.signalEventReceived(signalEventSubscriptionEntity, null, signalEventDefinition.isAsync());
+            //
+            //} else {
+            //    EventSubscriptionUtil.eventReceived(signalEventSubscriptionEntity, null, signalEventDefinition.isAsync());
+            //}
+            EventSubscriptionUtil.eventReceived(signalEventSubscriptionEntity, null, signalEventDefinition.isAsync());
         }
 
-        CommandContextUtil.getAgenda(commandContext).planTakeOutgoingSequenceFlowsOperation((ExecutionEntity) execution, true);
+        CommandContextUtil.getAgenda(commandContext).planTakeOutgoingSequenceFlowsOperation(cast(ExecutionEntity) execution, true);
     }
 
 }

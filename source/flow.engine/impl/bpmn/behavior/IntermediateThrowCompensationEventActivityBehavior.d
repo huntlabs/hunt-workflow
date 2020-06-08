@@ -32,14 +32,14 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.helper.ScopeUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivityBehavior {
+class IntermediateThrowCompensationEventActivityBehavior : FlowNodeActivityBehavior {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
         this.compensateEventDefinition = compensateEventDefinition;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         ThrowEvent throwEvent = (ThrowEvent) execution.getCurrentFlowElement();
 
@@ -66,11 +66,11 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
         CommandContext commandContext = Context.getCommandContext();
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
 
-        List<CompensateEventSubscriptionEntity> eventSubscriptions = new ArrayList<>();
+        List!CompensateEventSubscriptionEntity eventSubscriptions = new ArrayList<>();
         if (StringUtils.isNotEmpty(activityRef)) {
 
             // If an activity ref is provided, only that activity is compensated
-            List<CompensateEventSubscriptionEntity> compensationEvents = eventSubscriptionService
+            List!CompensateEventSubscriptionEntity compensationEvents = eventSubscriptionService
                     .findCompensateEventSubscriptionsByProcessInstanceIdAndActivityId(execution.getProcessInstanceId(), activityRef);
 
             if (compensationEvents is null || compensationEvents.size() == 0) {
@@ -87,7 +87,7 @@ class IntermediateThrowCompensationEventActivityBehavior extends FlowNodeActivit
                 if (flowElement instanceof Activity) {
                     Activity activity = (Activity) flowElement;
                     if (activity.isForCompensation()) {
-                        List<Association> associations = process.findAssociationsWithTargetRefRecursive(activity.getId());
+                        List!Association associations = process.findAssociationsWithTargetRefRecursive(activity.getId());
                         for (Association association : associations) {
                             FlowElement sourceElement = process.getFlowElement(association.getSourceRef(), true);
                             if (sourceElement instanceof BoundaryEvent) {

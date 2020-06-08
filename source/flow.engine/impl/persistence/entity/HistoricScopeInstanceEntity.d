@@ -12,16 +12,18 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.HistoricScopeInstanceEntity;
 
 import hunt.time.LocalDateTime;
 
 import flow.common.persistence.entity.Entity;
+import hunt.time.LocalDateTime;
 
+alias Date = LocalDateTime;
 /**
  * @author Joram Barrez
  */
-interface HistoricScopeInstanceEntity extends Entity {
+interface HistoricScopeInstanceEntity : Entity {
 
     void markEnded(string deleteReason, Date endTime);
 
@@ -33,7 +35,7 @@ interface HistoricScopeInstanceEntity extends Entity {
 
     Date getEndTime();
 
-    Long getDurationInMillis();
+    long getDurationInMillis();
 
     void setProcessInstanceId(string processInstanceId);
 
@@ -43,7 +45,7 @@ interface HistoricScopeInstanceEntity extends Entity {
 
     void setEndTime(Date endTime);
 
-    void setDurationInMillis(Long durationInMillis);
+    void setDurationInMillis(long durationInMillis);
 
     string getDeleteReason();
 

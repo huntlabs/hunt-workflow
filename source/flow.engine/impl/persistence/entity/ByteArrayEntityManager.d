@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.ByteArrayEntityManager;
 
 import hunt.collection.List;
-
+import flow.engine.impl.persistence.entity.ByteArrayEntity;
 import flow.common.persistence.entity.EntityManager;
 
 /**
  * @author Joram Barrez
  */
-interface ByteArrayEntityManager extends EntityManager<ByteArrayEntity> {
+interface ByteArrayEntityManager : EntityManager!ByteArrayEntity {
 
     /**
      * Returns all {@link ByteArrayEntity}.
      */
-    List<ByteArrayEntity> findAll();
+    List!ByteArrayEntity findAll();
 
     /**
      * Deletes the {@link ByteArrayEntity} with the given id from the database. Important: this operation will NOT do any optimistic locking, to avoid loading the bytes in memory. So use this method

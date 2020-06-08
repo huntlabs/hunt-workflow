@@ -29,7 +29,7 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Tijs Rademakers
  */
-class GetProcessDefinitionHistoryLevelModelCmd implements Command<HistoryLevel>, Serializable {
+class GetProcessDefinitionHistoryLevelModelCmd implements Command!HistoryLevel, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ class GetProcessDefinitionHistoryLevelModelCmd implements Command<HistoryLevel>,
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
+    override
     public HistoryLevel execute(CommandContext commandContext) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("processDefinitionId is null");

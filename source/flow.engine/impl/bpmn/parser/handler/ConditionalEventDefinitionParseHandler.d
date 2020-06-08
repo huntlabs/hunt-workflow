@@ -21,14 +21,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Tijs Rademakers
  */
-class ConditionalEventDefinitionParseHandler extends AbstractBpmnParseHandler<ConditionalEventDefinition> {
+class ConditionalEventDefinitionParseHandler : AbstractBpmnParseHandler!ConditionalEventDefinition {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ConditionalEventDefinition.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ConditionalEventDefinition eventDefinition) {
         if (bpmnParse.getCurrentFlowElement() instanceof IntermediateCatchEvent) {
             IntermediateCatchEvent intermediateCatchEvent = (IntermediateCatchEvent) bpmnParse.getCurrentFlowElement();

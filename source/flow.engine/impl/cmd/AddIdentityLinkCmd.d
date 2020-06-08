@@ -26,7 +26,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
+class AddIdentityLinkCmd : NeedsActiveTaskCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -68,7 +68,7 @@ class AddIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
         }
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
         if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {

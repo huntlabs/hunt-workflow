@@ -12,6 +12,7 @@
  */
 
 module flow.engine.impl.persistence.entity.BpmnEngineEntityConstants;
+
 class BpmnEngineEntityConstants {
 
     public static  string BPMN_ENGINE_ID_PREFIX = "PRC-";

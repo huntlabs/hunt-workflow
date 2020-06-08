@@ -39,7 +39,7 @@ class FormHandlerHelper {
 
             StartEvent startEvent = (StartEvent) initialFlowElement;
 
-            List<FormProperty> formProperties = startEvent.getFormProperties();
+            List!FormProperty formProperties = startEvent.getFormProperties();
             string formKey = startEvent.getFormKey();
             DeploymentEntity deploymentEntity = CommandContextUtil.getDeploymentEntityManager(commandContext).findById(processDefinition.getDeploymentId());
 

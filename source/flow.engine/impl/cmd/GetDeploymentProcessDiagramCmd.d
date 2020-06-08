@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,10 +26,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Gives access to a deployed process diagram, e.g., a PNG image, through a stream of bytes.
- * 
+ *
  * @author Falko Menge
  */
-class GetDeploymentProcessDiagramCmd implements Command<InputStream>, Serializable {
+class GetDeploymentProcessDiagramCmd implements Command!InputStream, Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(GetDeploymentProcessDiagramCmd.class);
@@ -43,7 +43,7 @@ class GetDeploymentProcessDiagramCmd implements Command<InputStream>, Serializab
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
+    override
     public InputStream execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
         string deploymentId = processDefinition.getDeploymentId();

@@ -29,61 +29,61 @@ class FormData implements Map!(string, Object) {
         this.task = task;
     }
 
-    @Override
+    override
     public void clear() {
     }
 
-    @Override
+    override
     public bool containsKey(Object key) {
         return false;
     }
 
-    @Override
+    override
     public bool containsValue(Object value) {
         return false;
     }
 
-    @Override
-    public Set<Map.Entry<string, Object>> entrySet() {
+    override
+    public Set<Map.Entry!(string, Object)> entrySet() {
         return null;
     }
 
-    @Override
+    override
     public Object get(Object key) {
         return null;
     }
 
-    @Override
+    override
     public bool isEmpty() {
         return false;
     }
 
-    @Override
+    override
     public Set!string keySet() {
         return null;
     }
 
-    @Override
+    override
     public Object put(string key, Object value) {
         return null;
     }
 
-    @Override
-    public void putAll(Map<? extends string, ? extends Object> m) {
+    override
+    public void putAll(Map<? : string, ? : Object> m) {
     }
 
-    @Override
+    override
     public Object remove(Object key) {
         return null;
     }
 
-    @Override
+    override
     public int size() {
         return 0;
     }
 
-    @Override
-    public Collection<Object> values() {
+    override
+    public Collection!Object values() {
         return null;
     }
 

@@ -10,92 +10,184 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.impl.MybatisActivityInstanceDataManager;
 
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
 import flow.common.db.DbSqlSession;
-import flow.common.persistence.cache.CachedEntityMatcher;
+//import flow.common.persistence.cache.CachedEntityMatcher;
 import flow.engine.impl.ActivityInstanceQueryImpl;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ActivityInstanceEntity;
 import flow.engine.impl.persistence.entity.ActivityInstanceEntityImpl;
 import flow.engine.impl.persistence.entity.data.AbstractProcessDataManager;
 import flow.engine.impl.persistence.entity.data.ActivityInstanceDataManager;
-import flow.engine.impl.persistence.entity.data.impl.cachematcher.ActivityInstanceMatcher;
-import flow.engine.impl.persistence.entity.data.impl.cachematcher.UnfinishedActivityInstanceMatcher;
+//import flow.engine.impl.persistence.entity.data.impl.cachematcher.ActivityInstanceMatcher;
+//import flow.engine.impl.persistence.entity.data.impl.cachematcher.UnfinishedActivityInstanceMatcher;
 import flow.engine.runtime.ActivityInstance;
-
+import hunt.entity;
+import hunt.collection.ArrayList;
+import hunt.Exceptions;
+import flow.common.AbstractEngineConfiguration;
+import flow.common.runtime.Clock;
+import hunt.logging;
 /**
  * @author martin.grofcik
  */
-class MybatisActivityInstanceDataManager extends AbstractProcessDataManager<ActivityInstanceEntity> implements ActivityInstanceDataManager {
+class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEntityImpl , string) , ActivityInstanceDataManager {
 
-    protected CachedEntityMatcher<ActivityInstanceEntity> unfinishedActivityInstanceMatcher = new UnfinishedActivityInstanceMatcher();
-    protected CachedEntityMatcher<ActivityInstanceEntity> activityInstanceMatcher = new ActivityInstanceMatcher();
-    protected CachedEntityMatcher<ActivityInstanceEntity> activitiesByProcessInstanceIdMatcher = new ActivityByProcessInstanceIdMatcher();
+    //protected CachedEntityMatcher!ActivityInstanceEntity unfinishedActivityInstanceMatcher = new UnfinishedActivityInstanceMatcher();
+    //protected CachedEntityMatcher!ActivityInstanceEntity activityInstanceMatcher = new ActivityInstanceMatcher();
+    //protected CachedEntityMatcher!ActivityInstanceEntity activitiesByProcessInstanceIdMatcher = new ActivityByProcessInstanceIdMatcher();
 
-    public MybatisActivityInstanceDataManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
-        super(processEngineConfiguration);
+     private ProcessEngineConfigurationImpl processEngineConfiguration;
+
+
+    public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
+      return processEngineConfiguration;
     }
 
-    @Override
-    class<? extends ActivityInstanceEntity> getManagedEntityClass() {
-        return ActivityInstanceEntityImpl.class;
+    public Clock getClock() {
+      return processEngineConfiguration.getClock();
     }
 
-    @Override
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
+      this.processEngineConfiguration = processEngineConfiguration;
+      super(entityManagerFactory.createEntityManager());
+    }
+
+
+    //class<? : ResourceEntity> getManagedEntityClass() {
+    //    return ResourceEntityImpl.class;
+    //}
+
+  public ActivityInstanceEntity findById(string entityId) {
+    if (entityId is null) {
+      return null;
+    }
+
+    return find(entityId);
+  }
+  //
+  public void insert(ActivityInstanceEntity entity) {
+    insert(cast(ActivityInstanceEntityImpl)entity);
+    //getDbSqlSession().insert(entity);
+  }
+  public ActivityInstanceEntity update(ActivityInstanceEntity entity) {
+    return  update(cast(ActivityInstanceEntityImpl)entity);
+    //getDbSqlSession().update(entity);
+    //return entity;
+  }
+  public void dele(string id) {
+    ActivityInstanceEntity entity = findById(id);
+    if (entity !is null)
+    {
+      remove(cast(ActivityInstanceEntityImpl)entity);
+    }
+    //delete(entity);
+  }
+
+  public void dele(ActivityInstanceEntity entity) {
+    if (entity !is null)
+    {
+      remove(cast(ActivityInstanceEntityImpl)entity);
+    }
+    //getDbSqlSession().delete(entity);
+  }
+
+
     public ActivityInstanceEntity create() {
         return new ActivityInstanceEntityImpl();
     }
 
-    @Override
-    public List<ActivityInstanceEntity> findUnfinishedActivityInstancesByExecutionAndActivityId(final string executionId, final string activityId) {
-        Map!(string, Object) params = new HashMap<>();
-        params.put("executionId", executionId);
-        params.put("activityId", activityId);
-        return getList("selectUnfinishedActivityInstanceExecutionIdAndActivityId", params, unfinishedActivityInstanceMatcher, true);
+
+    public List!ActivityInstanceEntity findUnfinishedActivityInstancesByExecutionAndActivityId( string executionId,  string activityId) {
+      scope(exit)
+      {
+        _manager.close();
+      }
+
+      ActivityInstanceEntityImpl[] array =  _manager.createQuery!(ActivityInstanceEntityImpl)("SELECT * FROM ActivityInstanceEntityImpl u WHERE u.executionId = :executionId AND u.activityId = :activityId AND endTime is null")
+      .setParameter("executionId",executionId)
+      .setParameter("activityId",activityId)
+      .getResultList();
+      return new ArrayList!ActivityInstanceEntityImpl(array);
+        //Map!(string, Object) params = new HashMap<>();
+        //params.put("executionId", executionId);
+        //params.put("activityId", activityId);
+        //return getList("selectUnfinishedActivityInstanceExecutionIdAndActivityId", params, unfinishedActivityInstanceMatcher, true);
     }
 
-    @Override
-    public List<ActivityInstanceEntity> findActivityInstancesByExecutionIdAndActivityId(final string executionId, final string activityId) {
-        Map!(string, Object) params = new HashMap<>();
-        params.put("executionId", executionId);
-        params.put("activityId", activityId);
-        return getList("selectActivityInstanceExecutionIdAndActivityId", params, activityInstanceMatcher, true);
-    }
 
-    @Override
-    public void deleteActivityInstancesByProcessInstanceId(string processInstanceId) {
-        DbSqlSession dbSqlSession = getDbSqlSession();
-        deleteCachedEntities(dbSqlSession, activitiesByProcessInstanceIdMatcher, processInstanceId);
-        if (!isEntityInserted(dbSqlSession, "execution", processInstanceId)) {
-            dbSqlSession.delete("deleteActivityInstancesByProcessInstanceId", processInstanceId, ActivityInstanceEntityImpl.class);
+    public List!ActivityInstanceEntity findActivityInstancesByExecutionIdAndActivityId( string executionId,  string activityId) {
+        scope(exit)
+        {
+          _manager.close();
         }
+
+        ActivityInstanceEntityImpl[] array =  _manager.createQuery!(ActivityInstanceEntityImpl)("SELECT * FROM ActivityInstanceEntityImpl u WHERE u.executionId = :executionId AND u.activityId = :activityId")
+        .setParameter("executionId",executionId)
+        .setParameter("activityId",activityId)
+        .getResultList();
+        return new ArrayList!ActivityInstanceEntityImpl(array);
+        //Map!(string, Object) params = new HashMap<>();
+        //params.put("executionId", executionId);
+        //params.put("activityId", activityId);
+        //return getList("selectActivityInstanceExecutionIdAndActivityId", params, activityInstanceMatcher, true);
     }
 
-    @Override
+
+    public void deleteActivityInstancesByProcessInstanceId(string processInstanceId) {
+
+        scope(exit)
+        {
+          _manager.close();
+        }
+
+        auto update = _manager.createQuery!(ActivityInstanceEntityImpl)("DELETE FROM ActivityInstanceEntityImpl u WHERE u.processInstanceId = :processInstanceId");
+        update.setParameter("processInstanceId",processInstanceId);
+        try{
+          update.exec();
+        }
+        catch(Exception e)
+        {
+          logError("deleteActivityInstancesByProcessInstanceId error : %s",e.msg);
+        }
+        //DbSqlSession dbSqlSession = getDbSqlSession();
+        //deleteCachedEntities(dbSqlSession, activitiesByProcessInstanceIdMatcher, processInstanceId);
+        //if (!isEntityInserted(dbSqlSession, "execution", processInstanceId)) {
+        //    dbSqlSession.delete("deleteActivityInstancesByProcessInstanceId", processInstanceId, ActivityInstanceEntityImpl.class);
+        //}
+    }
+
+
     public long findActivityInstanceCountByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery) {
-        return (Long) getDbSqlSession().selectOne("selectActivityInstanceCountByQueryCriteria", activityInstanceQuery);
+        implementationMissing(false);
+        return 0;
+       // return (Long) getDbSqlSession().selectOne("selectActivityInstanceCountByQueryCriteria", activityInstanceQuery);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<ActivityInstance> findActivityInstancesByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery) {
-        return getDbSqlSession().selectList("selectActivityInstancesByQueryCriteria", activityInstanceQuery);
+
+    public List!ActivityInstance findActivityInstancesByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery) {
+        implementationMissing(false);
+        return null;
+        //return getDbSqlSession().selectList("selectActivityInstancesByQueryCriteria", activityInstanceQuery);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<ActivityInstance> findActivityInstancesByNativeQuery(Map!(string, Object) parameterMap) {
-        return getDbSqlSession().selectListWithRawParameter("selectActivityInstanceByNativeQuery", parameterMap);
+
+    public List!ActivityInstance findActivityInstancesByNativeQuery(Map!(string, Object) parameterMap) {
+        implementationMissing(false);
+        return null;
+        //return getDbSqlSession().selectListWithRawParameter("selectActivityInstanceByNativeQuery", parameterMap);
     }
 
-    @Override
+
     public long findActivityInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
-        return (Long) getDbSqlSession().selectOne("selectActivityInstanceCountByNativeQuery", parameterMap);
+        implementationMissing(false);
+        return 0;
+       // return (Long) getDbSqlSession().selectOne("selectActivityInstanceCountByNativeQuery", parameterMap);
     }
 
 }

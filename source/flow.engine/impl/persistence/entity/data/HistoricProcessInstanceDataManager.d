@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.HistoricProcessInstanceDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -24,21 +24,21 @@ import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 /**
  * @author Joram Barrez
  */
-interface HistoricProcessInstanceDataManager extends DataManager<HistoricProcessInstanceEntity> {
+interface HistoricProcessInstanceDataManager : DataManager!HistoricProcessInstanceEntity {
 
     HistoricProcessInstanceEntity create(ExecutionEntity processInstanceExecutionEntity);
 
     List!string findHistoricProcessInstanceIdsByProcessDefinitionId(string processDefinitionId);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesBySuperProcessInstanceId(string superProcessInstanceId);
+    List!HistoricProcessInstance findHistoricProcessInstancesBySuperProcessInstanceId(string superProcessInstanceId);
 
     long findHistoricProcessInstanceCountByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
+    List!HistoricProcessInstance findHistoricProcessInstancesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesAndVariablesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
+    List!HistoricProcessInstance findHistoricProcessInstancesAndVariablesByQueryCriteria(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery);
 
-    List<HistoricProcessInstance> findHistoricProcessInstancesByNativeQuery(Map!(string, Object) parameterMap);
+    List!HistoricProcessInstance findHistoricProcessInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
     long findHistoricProcessInstanceCountByNativeQuery(Map!(string, Object) parameterMap);
 

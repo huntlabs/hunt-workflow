@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.ActivityInstanceDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -23,19 +23,19 @@ import flow.engine.runtime.ActivityInstance;
 /**
  * @author martin.grofcik
  */
-interface ActivityInstanceDataManager extends DataManager<ActivityInstanceEntity> {
+interface ActivityInstanceDataManager : DataManager!ActivityInstanceEntity {
 
-    List<ActivityInstanceEntity> findUnfinishedActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
+    List!ActivityInstanceEntity findUnfinishedActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
 
-    List<ActivityInstanceEntity> findActivityInstancesByExecutionIdAndActivityId(string executionId, string activityId);
+    List!ActivityInstanceEntity findActivityInstancesByExecutionIdAndActivityId(string executionId, string activityId);
 
     void deleteActivityInstancesByProcessInstanceId(string processInstanceId);
 
     long findActivityInstanceCountByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery);
 
-    List<ActivityInstance> findActivityInstancesByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery);
+    List!ActivityInstance findActivityInstancesByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery);
 
-    List<ActivityInstance> findActivityInstancesByNativeQuery(Map!(string, Object) parameterMap);
+    List!ActivityInstance findActivityInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
     long findActivityInstanceCountByNativeQuery(Map!(string, Object) parameterMap);
 }

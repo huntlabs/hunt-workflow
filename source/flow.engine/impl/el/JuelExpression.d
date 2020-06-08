@@ -27,7 +27,7 @@ import flow.engine.impl.util.CommandContextUtil;
  * @author Frederik Heremans
  * @author Joram Barrez
  */
-class JuelExpression extends flow.common.el.JuelExpression {
+class JuelExpression : flow.common.el.JuelExpression {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,14 +38,14 @@ class JuelExpression extends flow.common.el.JuelExpression {
         this.delegateInterceptor = delegateInterceptor;
     }
 
-    @Override
+    override
     protected Object resolveGetValueExpression(ELContext elContext) {
         ExpressionGetInvocation invocation = new ExpressionGetInvocation(valueExpression, elContext);
         delegateInterceptor.handleInvocation(invocation);
         return invocation.getInvocationResult();
     }
 
-    @Override
+    override
     protected void resolveSetValueExpression(Object value, ELContext elContext) {
         ExpressionSetInvocation invocation = new ExpressionSetInvocation(valueExpression, elContext, value);
         CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(invocation);

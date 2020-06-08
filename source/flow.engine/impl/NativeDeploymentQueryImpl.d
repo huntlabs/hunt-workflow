@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.NativeDeploymentQuery;
 
-class NativeDeploymentQueryImpl extends AbstractNativeQuery<NativeDeploymentQuery, Deployment> implements NativeDeploymentQuery {
+class NativeDeploymentQueryImpl : AbstractNativeQuery!(NativeDeploymentQuery, Deployment) implements NativeDeploymentQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeDeploymentQueryImpl extends AbstractNativeQuery<NativeDeploymentQuer
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<Deployment> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!Deployment executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentsByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentCountByNativeQuery(parameterMap);
     }

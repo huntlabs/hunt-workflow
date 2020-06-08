@@ -30,7 +30,7 @@ import flow.engine.runtime.Execution;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class FindActiveActivityIdsCmd implements Command<List<string>>, Serializable {
+class FindActiveActivityIdsCmd implements Command<List!string>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -39,7 +39,7 @@ class FindActiveActivityIdsCmd implements Command<List<string>>, Serializable {
         this.executionId = executionId;
     }
 
-    @Override
+    override
     public List!string execute(CommandContext commandContext) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");

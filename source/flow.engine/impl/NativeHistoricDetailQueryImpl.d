@@ -22,7 +22,7 @@ import flow.engine.history.HistoricDetail;
 import flow.engine.history.NativeHistoricDetailQuery;
 import flow.engine.impl.util.CommandContextUtil;
 
-class NativeHistoricDetailQueryImpl extends AbstractNativeQuery<NativeHistoricDetailQuery, HistoricDetail> implements NativeHistoricDetailQuery {
+class NativeHistoricDetailQueryImpl : AbstractNativeQuery!(NativeHistoricDetailQuery, HistoricDetail) implements NativeHistoricDetailQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeHistoricDetailQueryImpl extends AbstractNativeQuery<NativeHistoricDe
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<HistoricDetail> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!HistoricDetail executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailCountByNativeQuery(parameterMap);
     }

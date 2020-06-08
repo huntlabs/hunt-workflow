@@ -19,14 +19,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Joram Barrez
  */
-class ParallelGatewayParseHandler extends AbstractActivityBpmnParseHandler<ParallelGateway> {
+class ParallelGatewayParseHandler : AbstractActivityBpmnParseHandler!ParallelGateway {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ParallelGateway.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ParallelGateway gateway) {
         gateway.setBehavior(bpmnParse.getActivityBehaviorFactory().createParallelGatewayActivityBehavior(gateway));
     }

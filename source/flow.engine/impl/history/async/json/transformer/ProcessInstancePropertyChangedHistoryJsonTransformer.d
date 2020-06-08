@@ -26,17 +26,17 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class ProcessInstancePropertyChangedHistoryJsonTransformer extends AbstractNeedsProcessInstanceHistoryJsonTransformer {
+class ProcessInstancePropertyChangedHistoryJsonTransformer : AbstractNeedsProcessInstanceHistoryJsonTransformer {
 
     public static final string PROPERTY_NAME = "name";
     public static final string PROPERTY_BUSINESS_KEY = "businessKey";
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_PROCESS_INSTANCE_PROPERTY_CHANGED);
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         string property = getStringFromJson(historicalData, HistoryJsonConstants.PROPERTY);

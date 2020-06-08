@@ -68,7 +68,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
     "ACT_GE_PROPERTY",
     "ACT_ID_PROPERTY"
 })
-abstract class AbstractFlowableTestCase extends AbstractTestCase {
+abstract class AbstractFlowableTestCase : AbstractTestCase {
 
     protected ProcessEngine processEngine;
 
@@ -113,7 +113,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
         HistoryService historyService = processEngine.getHistoryService();
         if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
 
-            List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery().finished().list();
+            List!HistoricProcessInstance historicProcessInstances = historyService.createHistoricProcessInstanceQuery().finished().list();
 
             for (HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
 
@@ -128,7 +128,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                 string processInstanceId = historicProcessInstance.getId();
 
                 // tasks
-                List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
+                List!HistoricTaskInstance historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
                         .processInstanceId(processInstanceId).list();
 
                 if (historicTaskInstances !is null && historicTaskInstances.size() > 0) {
@@ -149,7 +149,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
                 }
 
                 // activities
-                List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
+                List!HistoricActivityInstance historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
                         .processInstanceId(processInstanceId).list();
                 if (historicActivityInstances !is null && historicActivityInstances.size() > 0) {
                     for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
@@ -195,7 +195,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
             assertNotNull("Historic process instance has no end time", historicProcessInstance.getEndTime());
 
             // tasks
-            List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
+            List!HistoricTaskInstance historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
                     .processInstanceId(processInstanceId).list();
             if (historicTaskInstances !is null && historicTaskInstances.size() > 0) {
                 for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
@@ -206,7 +206,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
             }
 
             // activities
-            List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
+            List!HistoricActivityInstance historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
                     .processInstanceId(processInstanceId).list();
             if (historicActivityInstances !is null && historicActivityInstances.size() > 0) {
                 for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
@@ -244,7 +244,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
         JobTestHelper.waitForJobExecutorToProcessAllJobs(processEngineConfiguration, managementService, maxMillisToWait, intervalMillis);
     }
 
-    public void waitForJobExecutorOnCondition(long maxMillisToWait, long intervalMillis, Callable<bool> condition) {
+    public void waitForJobExecutorOnCondition(long maxMillisToWait, long intervalMillis, Callable!bool condition) {
         JobTestHelper.waitForJobExecutorOnCondition(processEngineConfiguration, maxMillisToWait, intervalMillis, condition);
     }
 
@@ -427,7 +427,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     protected void assertHistoricTasksDeleteReason(ProcessInstance processInstance, string expectedDeleteReason, string... taskNames) {
         if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
             for (string taskName : taskNames) {
-                List<HistoricTaskInstance> historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
+                List!HistoricTaskInstance historicTaskInstances = historyService.createHistoricTaskInstanceQuery()
                         .processInstanceId(processInstance.getId()).taskName(taskName).list();
                 assertTrue(historicTaskInstances.size() > 0);
                 for (HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
@@ -445,7 +445,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     protected void assertHistoricActivitiesDeleteReason(ProcessInstance processInstance, string expectedDeleteReason, string... activityIds) {
         if (processEngineConfiguration.getHistoryLevel().isAtLeast(HistoryLevel.AUDIT)) {
             for (string activityId : activityIds) {
-                List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
+                List!HistoricActivityInstance historicActivityInstances = historyService.createHistoricActivityInstanceQuery()
                         .activityId(activityId).processInstanceId(processInstance.getId()).list();
                 assertTrue("Could not find historic activities", historicActivityInstances.size() > 0);
                 for (HistoricActivityInstance historicActivityInstance : historicActivityInstances) {
@@ -464,20 +464,20 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
         taskService.complete(task.getId());
     }
 
-    protected static <T> List<T> mergeLists(List<T> list1, List<T> list2) {
+    protected static <T> List!T mergeLists(List!T list1, List!T list2) {
         Objects.requireNonNull(list1);
         Objects.requireNonNull(list2);
         return Stream.concat(list1.stream(), list2.stream()).collect(Collectors.toList());
     }
 
-    protected static<T> Map<string, List<T>> groupListContentBy(List<T> source, Function<T, string> classifier) {
+    protected static!T Map<string, List!T> groupListContentBy(List!T source, Function!(T, string) classifier) {
         return source.stream().collect(Collectors.groupingBy(classifier));
     }
 
     protected string getJobActivityId(Job job) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Map!(string, Object) jobConfigurationMap = objectMapper.readValue(job.getJobHandlerConfiguration(), new TypeReference<Map<string, Object>>() {
+            Map!(string, Object) jobConfigurationMap = objectMapper.readValue(job.getJobHandlerConfiguration(), new TypeReference<Map!(string, Object)>() {
 
             });
             return (string) jobConfigurationMap.get("activityId");
@@ -499,7 +499,7 @@ abstract class AbstractFlowableTestCase extends AbstractTestCase {
     }
 
     protected void completeProcessInstanceTasks(string processInstanceId) {
-        List<Task> tasks;
+        List!Task tasks;
         do {
             tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
             tasks.forEach(this::completeTask);

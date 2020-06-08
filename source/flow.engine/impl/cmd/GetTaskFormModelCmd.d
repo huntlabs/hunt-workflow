@@ -37,7 +37,7 @@ import flow.task.api.history.HistoricTaskInstance;
 /**
  * @author Tijs Rademakers
  */
-class GetTaskFormModelCmd implements Command<FormInfo>, Serializable {
+class GetTaskFormModelCmd implements Command!FormInfo, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ class GetTaskFormModelCmd implements Command<FormInfo>, Serializable {
         this.ignoreVariables = ignoreVariables;
     }
 
-    @Override
+    override
     public FormInfo execute(CommandContext commandContext) {
         bool historic = false;
 

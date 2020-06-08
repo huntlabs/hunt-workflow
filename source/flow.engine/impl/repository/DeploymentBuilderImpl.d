@@ -71,7 +71,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         this.deploymentProperties = new HashMap!(string, Object);
     }
 
-    @Override
+    override
     public DeploymentBuilder addInputStream(string resourceName, InputStream inputStream) {
         if (inputStream is null) {
             throw new FlowableIllegalArgumentException("inputStream for resource '" + resourceName + "' is null");
@@ -84,7 +84,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder addClasspathResource(string resource) {
         InputStream inputStream = ReflectUtil.getResourceAsStream(resource);
         if (inputStream is null) {
@@ -93,7 +93,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return addInputStream(resource, inputStream);
     }
 
-    @Override
+    override
     public DeploymentBuilder addString(string resourceName, string text) {
         if (text is null) {
             throw new FlowableIllegalArgumentException("text is null");
@@ -109,7 +109,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder addBytes(string resourceName, byte[] bytes) {
         if (bytes is null) {
             throw new FlowableIllegalArgumentException("bytes is null");
@@ -122,7 +122,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder addZipInputStream(ZipInputStream zipInputStream) {
         try {
             ZipEntry entry = zipInputStream.getNextEntry();
@@ -143,7 +143,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder addBpmnModel(string resourceName, BpmnModel bpmnModel) {
         BpmnXMLConverter bpmnXMLConverter = new BpmnXMLConverter();
         string bpmn20Xml = new string(bpmnXMLConverter.convertToXML(bpmnModel), StandardCharsets.UTF_8);
@@ -151,67 +151,67 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder name(string name) {
         deployment.setName(name);
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder category(string category) {
         deployment.setCategory(category);
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder key(string key) {
         deployment.setKey(key);
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder parentDeploymentId(string parentDeploymentId) {
         deployment.setParentDeploymentId(parentDeploymentId);
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder disableBpmnValidation() {
         this.isProcessValidationEnabled = false;
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder disableSchemaValidation() {
         this.isBpmn20XsdValidationEnabled = false;
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder tenantId(string tenantId) {
         deployment.setTenantId(tenantId);
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder enableDuplicateFiltering() {
         this.isDuplicateFilterEnabled = true;
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder activateProcessDefinitionsOn(Date date) {
         this.processDefinitionsActivationDate = date;
         return this;
     }
 
-    @Override
+    override
     public DeploymentBuilder deploymentProperty(string propertyKey, Object propertyValue) {
         deploymentProperties.put(propertyKey, propertyValue);
         return this;
     }
 
-    @Override
+    override
     public Deployment deploy() {
         return repositoryService.deploy(this);
     }

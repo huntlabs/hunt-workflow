@@ -40,7 +40,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Joram Barrez
  */
 // Not Serializable
-class CreateAttachmentCmd implements Command<Attachment> {
+class CreateAttachmentCmd implements Command!Attachment {
 
     protected string attachmentType;
     protected string taskId;
@@ -60,7 +60,7 @@ class CreateAttachmentCmd implements Command<Attachment> {
         this.url = url;
     }
 
-    @Override
+    override
     public Attachment execute(CommandContext commandContext) {
 
         if (taskId !is null) {

@@ -40,7 +40,7 @@ import flow.variable.service.api.persistence.entity.VariableInstance;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class GetTaskDataObjectsCmd implements Command<Map<string, DataObject>>, Serializable {
+class GetTaskDataObjectsCmd implements Command<Map!(string, DataObject)>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -60,8 +60,8 @@ class GetTaskDataObjectsCmd implements Command<Map<string, DataObject>>, Seriali
         this.withLocalizationFallback = withLocalizationFallback;
     }
 
-    @Override
-    public Map<string, DataObject> execute(CommandContext commandContext) {
+    override
+    public Map!(string, DataObject) execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
         }
@@ -72,8 +72,8 @@ class GetTaskDataObjectsCmd implements Command<Map<string, DataObject>>, Seriali
             throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
         }
 
-        Map<string, DataObject> dataObjects = null;
-        Map<string, VariableInstance> variables = null;
+        Map!(string, DataObject) dataObjects = null;
+        Map!(string, VariableInstance) variables = null;
         if (variableNames is null) {
             variables = task.getVariableInstances();
         } else {
@@ -83,7 +83,7 @@ class GetTaskDataObjectsCmd implements Command<Map<string, DataObject>>, Seriali
         if (variables !is null) {
             dataObjects = new HashMap<>(variables.size());
 
-            for (Entry<string, VariableInstance> entry : variables.entrySet()) {
+            for (Entry!(string, VariableInstance) entry : variables.entrySet()) {
                 VariableInstance variableEntity = entry.getValue();
 
                 string localizedName = null;

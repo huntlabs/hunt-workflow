@@ -36,7 +36,7 @@ import flow.variable.service.api.persistence.entity.VariableInstance;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class GetDataObjectCmd implements Command<DataObject>, Serializable {
+class GetDataObjectCmd implements Command!DataObject, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -59,7 +59,7 @@ class GetDataObjectCmd implements Command<DataObject>, Serializable {
         this.withLocalizationFallback = withLocalizationFallback;
     }
 
-    @Override
+    override
     public DataObject execute(CommandContext commandContext) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");

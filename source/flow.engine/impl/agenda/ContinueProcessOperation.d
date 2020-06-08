@@ -39,6 +39,7 @@ import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.job.service.api.Job;
+import flow.bpmn.model.Process;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.engine.impl.agenda.AbstractOperation;
@@ -321,13 +322,13 @@ class ContinueProcessOperation : AbstractOperation {
                             execution,
                             FlowableEngineEventType.SEQUENCEFLOW_TAKEN,
                             sequenceFlow.getId(),
-                            sourceFlowElement !is null ? sourceFlowElement.getId() : null,
-                            sourceFlowElement !is null ? sourceFlowElement.getName() : null,
-                            sourceFlowElement !is null ? typeid(FlowElement).toString : null,
+                            sourceFlowElement !is null ? sourceFlowElement.getId() : "",
+                            sourceFlowElement !is null ? sourceFlowElement.getName() : "",
+                            sourceFlowElement !is null ? typeid(FlowElement).toString : "",
                             sourceFlowElement !is null ? (cast(FlowNode) sourceFlowElement).getBehavior() : null,
-                            targetFlowElement !is null ? targetFlowElement.getId() : null,
-                            targetFlowElement !is null ? targetFlowElement.getName() : null,
-                            targetFlowElement !is null ?  typeid(FlowElement).toString: null,
+                            targetFlowElement !is null ? targetFlowElement.getId() : "",
+                            targetFlowElement !is null ? targetFlowElement.getName() : "",
+                            targetFlowElement !is null ?  typeid(FlowElement).toString: "",
                             targetFlowElement !is null ? (cast(FlowNode) targetFlowElement).getBehavior() : null));
         }
 

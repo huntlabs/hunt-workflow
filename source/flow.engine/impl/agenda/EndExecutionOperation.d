@@ -163,7 +163,7 @@ class EndExecutionOperation : AbstractOperation {
         // Child execution of subprocess is passed as configuration
         job.setJobHandlerConfiguration(childProcessInstanceExecutionEntity.getId());
 
-        string processInstanceId = superExecutionEntity.getProcessInstanceId() !is null ? superExecutionEntity.getProcessInstanceId() : superExecutionEntity.getId();
+        string processInstanceId = superExecutionEntity.getProcessInstanceId().length != 0 ? superExecutionEntity.getProcessInstanceId() : superExecutionEntity.getId();
         job.setProcessInstanceId(processInstanceId);
         job.setProcessDefinitionId(childProcessInstanceExecutionEntity.getProcessDefinitionId());
         job.setElementId(superExecutionEntity.getCurrentFlowElement().getId());
@@ -363,7 +363,7 @@ class EndExecutionOperation : AbstractOperation {
                 executionToContinue.setCurrentFlowElement(execution.getCurrentFlowElement());
 
             } else {
-                if (!parentExecution.getId().equals(parentExecution.getProcessInstanceId())) {
+                if (parentExecution.getId() != (parentExecution.getProcessInstanceId())) {
                     // create a new execution to take the outgoing sequence flows
                     executionToContinue = executionEntityManager.createChildExecution(parentExecution.getParent());
                     executionToContinue.setCurrentFlowElement(parentExecution.getCurrentFlowElement());

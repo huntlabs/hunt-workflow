@@ -39,13 +39,13 @@
 //        }
 //
 //        // Collect all child executions now we have the parent
-//        List<ExecutionEntity> allExecutions = new ArrayList<>();
+//        List!ExecutionEntity allExecutions = new ArrayList<>();
 //        allExecutions.add(parentExecution);
 //        collectChildExecutions(parentExecution, allExecutions);
 //        return buildExecutionTree(allExecutions);
 //    }
 //
-//    public static void collectChildExecutions(ExecutionEntity rootExecutionEntity, List<ExecutionEntity> allExecutions) {
+//    public static void collectChildExecutions(ExecutionEntity rootExecutionEntity, List!ExecutionEntity allExecutions) {
 //        for (ExecutionEntity childExecutionEntity : rootExecutionEntity.getExecutions()) {
 //            allExecutions.add(childExecutionEntity);
 //            collectChildExecutions(childExecutionEntity, allExecutions);
@@ -57,11 +57,11 @@
 //        }
 //    }
 //
-//    public static ExecutionTree buildExecutionTree(Collection<ExecutionEntity> executions) {
+//    public static ExecutionTree buildExecutionTree(Collection!ExecutionEntity executions) {
 //        ExecutionTree executionTree = new ExecutionTree();
 //
 //        // Map the executions to their parents. Catch and store the root element (process instance execution) while were at it
-//        Map<string, List<ExecutionEntity>> parentMapping = new HashMap<>();
+//        Map<string, List!ExecutionEntity> parentMapping = new HashMap<>();
 //        for (ExecutionEntity executionEntity : executions) {
 //            string parentId = executionEntity.getParentId();
 //
@@ -84,14 +84,14 @@
 //        return executionTree;
 //    }
 //
-//    public static ExecutionTree buildExecutionTreeForProcessInstance(Collection<ExecutionEntity> executions) {
+//    public static ExecutionTree buildExecutionTreeForProcessInstance(Collection!ExecutionEntity executions) {
 //        ExecutionTree executionTree = new ExecutionTree();
 //        if (executions.size() == 0) {
 //            return executionTree;
 //        }
 //
 //        // Map the executions to their parents. Catch and store the root element (process instance execution) while were at it
-//        Map<string, List<ExecutionEntity>> parentMapping = new HashMap<>();
+//        Map<string, List!ExecutionEntity> parentMapping = new HashMap<>();
 //        for (ExecutionEntity executionEntity : executions) {
 //            string parentId = executionEntity.getParentId();
 //
@@ -109,21 +109,21 @@
 //        return executionTree;
 //    }
 //
-//    protected static void fillExecutionTree(ExecutionTree executionTree, Map<string, List<ExecutionEntity>> parentMapping) {
+//    protected static void fillExecutionTree(ExecutionTree executionTree, Map<string, List!ExecutionEntity> parentMapping) {
 //        if (executionTree.getRoot() is null) {
 //            throw new FlowableException("Programmatic error: the list of passed executions in the argument of the method should contain the process instance execution");
 //        }
 //
 //        // Now build the tree, top-down
-//        LinkedList<ExecutionTreeNode> executionsToHandle = new LinkedList<>();
+//        LinkedList!ExecutionTreeNode executionsToHandle = new LinkedList<>();
 //        executionsToHandle.add(executionTree.getRoot());
 //
 //        while (!executionsToHandle.isEmpty()) {
 //            ExecutionTreeNode parentNode = executionsToHandle.pop();
 //            string parentId = parentNode.getExecutionEntity().getId();
 //            if (parentMapping.containsKey(parentId)) {
-//                List<ExecutionEntity> childExecutions = parentMapping.get(parentId);
-//                List<ExecutionTreeNode> childNodes = new ArrayList<>(childExecutions.size());
+//                List!ExecutionEntity childExecutions = parentMapping.get(parentId);
+//                List!ExecutionTreeNode childNodes = new ArrayList<>(childExecutions.size());
 //
 //                for (ExecutionEntity childExecutionEntity : childExecutions) {
 //

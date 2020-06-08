@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.ActivityInstanceEntity;
 
 import hunt.time.LocalDateTime;
 
@@ -23,24 +23,24 @@ import flow.engine.runtime.ActivityInstance;
 /**
  * @author martin.grofcik
  */
-interface ActivityInstanceEntity extends ActivityInstance, Entity, HasRevision {
+interface ActivityInstanceEntity : ActivityInstance, Entity, HasRevision {
 
     void markEnded(string deleteReason);
 
-    @Override
+
     string getProcessInstanceId();
 
-    @Override
+
     string getProcessDefinitionId();
 
-    @Override
+
     Date getStartTime();
 
-    @Override
+
     Date getEndTime();
 
-    @Override
-    Long getDurationInMillis();
+
+    long getDurationInMillis();
 
     void setProcessInstanceId(string processInstanceId);
 
@@ -52,7 +52,7 @@ interface ActivityInstanceEntity extends ActivityInstance, Entity, HasRevision {
 
     void setDurationInMillis(Long durationInMillis);
 
-    @Override
+
     string getDeleteReason();
 
     void setDeleteReason(string deleteReason);

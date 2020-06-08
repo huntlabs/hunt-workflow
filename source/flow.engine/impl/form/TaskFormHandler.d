@@ -21,7 +21,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface TaskFormHandler extends FormHandler {
+interface TaskFormHandler : FormHandler {
 
     TaskFormData createTaskForm(TaskEntity task);
 

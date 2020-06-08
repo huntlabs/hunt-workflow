@@ -15,7 +15,7 @@ module flow.engine.impl.DataObjectImpl;
 
 import flow.engine.runtime.DataObject;
 
-class DataObjectImpl implements DataObject {
+class DataObjectImpl : DataObject {
     protected string id;
     protected string processInstanceId;
     protected string executionId;
@@ -28,7 +28,7 @@ class DataObjectImpl implements DataObject {
 
     private string type;
 
-    public DataObjectImpl(string id, string processInstanceId, string executionId, string name, Object value, string description, string type, string localizedName,
+    this(string id, string processInstanceId, string executionId, string name, Object value, string description, string type, string localizedName,
             string localizedDescription, string dataObjectDefinitionKey) {
 
         this.id = id;
@@ -47,7 +47,7 @@ class DataObjectImpl implements DataObject {
         this.id = id;
     }
 
-    @Override
+
     public string getId() {
         return id;
     }
@@ -56,7 +56,7 @@ class DataObjectImpl implements DataObject {
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
+
     public string getProcessInstanceId() {
         return processInstanceId;
     }
@@ -65,12 +65,12 @@ class DataObjectImpl implements DataObject {
         this.executionId = executionId;
     }
 
-    @Override
+
     public string getExecutionId() {
         return executionId;
     }
 
-    @Override
+
     public string getName() {
         return name;
     }
@@ -79,7 +79,7 @@ class DataObjectImpl implements DataObject {
         this.name = name;
     }
 
-    @Override
+
     public string getLocalizedName() {
         if (localizedName !is null && localizedName.length() > 0) {
             return localizedName;
@@ -92,7 +92,7 @@ class DataObjectImpl implements DataObject {
         this.localizedName = localizedName;
     }
 
-    @Override
+
     public string getDescription() {
         if (localizedDescription !is null && localizedDescription.length() > 0) {
             return localizedDescription;
@@ -105,7 +105,7 @@ class DataObjectImpl implements DataObject {
         this.description = description;
     }
 
-    @Override
+
     public Object getValue() {
         return value;
     }
@@ -114,7 +114,7 @@ class DataObjectImpl implements DataObject {
         this.value = value;
     }
 
-    @Override
+
     public string getType() {
         return type;
     }
@@ -123,7 +123,7 @@ class DataObjectImpl implements DataObject {
         this.type = type;
     }
 
-    @Override
+
     public string getDataObjectDefinitionKey() {
         return dataObjectDefinitionKey;
     }

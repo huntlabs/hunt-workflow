@@ -29,7 +29,7 @@ import flow.idm.api.Group;
 /**
  * @author Tijs Rademakers
  */
-class GetPotentialStarterGroupsCmd implements Command<List<Group>>, Serializable {
+class GetPotentialStarterGroupsCmd implements Command<List!Group>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,8 +40,8 @@ class GetPotentialStarterGroupsCmd implements Command<List<Group>>, Serializable
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
-    public List<Group> execute(CommandContext commandContext) {
+    override
+    public List!Group execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
         if (processDefinition is null) {

@@ -28,7 +28,7 @@
 // */
 //abstract class BasePropertiesParser : PropertiesParser, DynamicBpmnConstants, PropertiesParserConstants {
 //
-//    @Override
+//    override
 //    public ObjectNode parseElement(FlowElement flowElement, ObjectNode flowElementNode, ObjectMapper mapper) {
 //        ObjectNode resultNode = mapper.createObjectNode();
 //        resultNode.put(ELEMENT_ID, flowElement.getId());
@@ -66,6 +66,6 @@
 //
 //    protected abstract ObjectNode createPropertiesNode(FlowElement flowElement, ObjectNode flowElementNode, ObjectMapper objectMapper);
 //
-//    @Override
+//    override
 //    abstract bool supports(FlowElement flowElement);
 //}

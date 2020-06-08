@@ -127,7 +127,7 @@ import flow.engine.impl.deleg.ActivityBehavior;
  *
  * @author Joram Barrez
  */
-class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements ActivityBehaviorFactory {
+class DefaultActivityBehaviorFactory : AbstractBehaviorFactory implements ActivityBehaviorFactory {
     private final ClassDelegateFactory classDelegateFactory;
 
     public DefaultActivityBehaviorFactory(ClassDelegateFactory classDelegateFactory) {
@@ -141,29 +141,29 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
     // Start event
     public static final string EXCEPTION_MAP_FIELD = "mapExceptions";
 
-    @Override
+    override
     public NoneStartEventActivityBehavior createNoneStartEventActivityBehavior(StartEvent startEvent) {
         return new NoneStartEventActivityBehavior();
     }
 
     // Task
 
-    @Override
+    override
     public TaskActivityBehavior createTaskActivityBehavior(Task task) {
         return new TaskActivityBehavior();
     }
 
-    @Override
+    override
     public ManualTaskActivityBehavior createManualTaskActivityBehavior(ManualTask manualTask) {
         return new ManualTaskActivityBehavior();
     }
 
-    @Override
+    override
     public ReceiveTaskActivityBehavior createReceiveTaskActivityBehavior(ReceiveTask receiveTask) {
         return new ReceiveTaskActivityBehavior();
     }
 
-    @Override
+    override
     public UserTaskActivityBehavior createUserTaskActivityBehavior(UserTask userTask) {
         return new UserTaskActivityBehavior(userTask);
     }
@@ -178,7 +178,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
         return result;
     }
 
-    @Override
+    override
     public ClassDelegate createClassDelegateServiceTask(ServiceTask serviceTask) {
         return classDelegateFactory.create(serviceTask.getId(), serviceTask.getImplementation(),
                 createFieldDeclarations(serviceTask.getFieldExtensions()),
@@ -186,7 +186,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
                 getSkipExpressionFromServiceTask(serviceTask), serviceTask.getMapExceptions());
     }
 
-    @Override
+    override
     public ServiceTaskDelegateExpressionActivityBehavior createServiceTaskDelegateExpressionActivityBehavior(ServiceTask serviceTask) {
         Expression delegateExpression = expressionManager.createExpression(serviceTask.getImplementation());
         return new ServiceTaskDelegateExpressionActivityBehavior(serviceTask.getId(), delegateExpression,
@@ -194,65 +194,65 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
                 serviceTask.getMapExceptions(), serviceTask.isTriggerable());
     }
 
-    @Override
+    override
     public ServiceTaskExpressionActivityBehavior createServiceTaskExpressionActivityBehavior(ServiceTask serviceTask) {
         Expression expression = expressionManager.createExpression(serviceTask.getImplementation());
         return new ServiceTaskExpressionActivityBehavior(serviceTask, expression, getSkipExpressionFromServiceTask(serviceTask));
     }
 
-    @Override
+    override
     public WebServiceActivityBehavior createWebServiceActivityBehavior(ServiceTask serviceTask, BpmnModel bpmnModel) {
         return new WebServiceActivityBehavior(bpmnModel);
     }
 
-    @Override
+    override
     public WebServiceActivityBehavior createWebServiceActivityBehavior(SendTask sendTask, BpmnModel bpmnModel) {
         return new WebServiceActivityBehavior(bpmnModel);
     }
 
-    @Override
+    override
     public MailActivityBehavior createMailActivityBehavior(ServiceTask serviceTask) {
         return createMailActivityBehavior(serviceTask.getId(), serviceTask.getFieldExtensions());
     }
 
-    @Override
+    override
     public MailActivityBehavior createMailActivityBehavior(SendTask sendTask) {
         return createMailActivityBehavior(sendTask.getId(), sendTask.getFieldExtensions());
     }
 
-    protected MailActivityBehavior createMailActivityBehavior(string taskId, List<FieldExtension> fields) {
-        List<FieldDeclaration> fieldDeclarations = createFieldDeclarations(fields);
+    protected MailActivityBehavior createMailActivityBehavior(string taskId, List!FieldExtension fields) {
+        List!FieldDeclaration fieldDeclarations = createFieldDeclarations(fields);
         return (MailActivityBehavior) ClassDelegate.defaultInstantiateDelegate(
                 MailActivityBehavior.class, fieldDeclarations);
     }
 
-    @Override
+    override
     public DmnActivityBehavior createDmnActivityBehavior(ServiceTask serviceTask) {
         return new DmnActivityBehavior(serviceTask);
     }
 
-    @Override
+    override
     public DmnActivityBehavior createDmnActivityBehavior(SendTask sendTask) {
         return new DmnActivityBehavior(sendTask);
     }
 
     // We do not want a hard dependency on Mule, hence we return
     // ActivityBehavior and instantiate the delegate instance using a string instead of the Class itself.
-    @Override
+    override
     public ActivityBehavior createMuleActivityBehavior(ServiceTask serviceTask) {
         return createMuleActivityBehavior(serviceTask, serviceTask.getFieldExtensions());
     }
 
-    @Override
+    override
     public ActivityBehavior createMuleActivityBehavior(SendTask sendTask) {
         return createMuleActivityBehavior(sendTask, sendTask.getFieldExtensions());
     }
 
-    protected ActivityBehavior createMuleActivityBehavior(TaskWithFieldExtensions task, List<FieldExtension> fieldExtensions) {
+    protected ActivityBehavior createMuleActivityBehavior(TaskWithFieldExtensions task, List!FieldExtension fieldExtensions) {
         try {
 
             Class<?> theClass = Class.forName("org.flowable.mule.MuleSendActivityBehavior");
-            List<FieldDeclaration> fieldDeclarations = createFieldDeclarations(fieldExtensions);
+            List!FieldDeclaration fieldDeclarations = createFieldDeclarations(fieldExtensions);
             return (ActivityBehavior) ClassDelegate.defaultInstantiateDelegate(
                     theClass, fieldDeclarations);
 
@@ -263,17 +263,17 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
 
     // We do not want a hard dependency on Camel, hence we return
     // ActivityBehavior and instantiate the delegate instance using a string instead of the Class itself.
-    @Override
+    override
     public ActivityBehavior createCamelActivityBehavior(ServiceTask serviceTask) {
         return createCamelActivityBehavior(serviceTask, serviceTask.getFieldExtensions());
     }
 
-    @Override
+    override
     public ActivityBehavior createCamelActivityBehavior(SendTask sendTask) {
         return createCamelActivityBehavior(sendTask, sendTask.getFieldExtensions());
     }
 
-    protected ActivityBehavior createCamelActivityBehavior(TaskWithFieldExtensions task, List<FieldExtension> fieldExtensions) {
+    protected ActivityBehavior createCamelActivityBehavior(TaskWithFieldExtensions task, List!FieldExtension fieldExtensions) {
         try {
             Class<?> theClass = null;
             FieldExtension behaviorExtension = null;
@@ -294,7 +294,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
                 theClass = Class.forName(getDefaultCamelBehaviorClassName());
             }
 
-            List<FieldDeclaration> fieldDeclarations = createFieldDeclarations(fieldExtensions);
+            List!FieldDeclaration fieldDeclarations = createFieldDeclarations(fieldExtensions);
             addExceptionMapAsFieldDeclaration(fieldDeclarations, task.getMapExceptions());
             return (ActivityBehavior) ClassDelegate.defaultInstantiateDelegate(
                     theClass, fieldDeclarations);
@@ -308,20 +308,20 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
 		return "org.flowable.camel.impl.CamelBehaviorDefaultImpl";
 	}
 
-    private void addExceptionMapAsFieldDeclaration(List<FieldDeclaration> fieldDeclarations, List<MapExceptionEntry> mapExceptions) {
+    private void addExceptionMapAsFieldDeclaration(List!FieldDeclaration fieldDeclarations, List!MapExceptionEntry mapExceptions) {
         FieldDeclaration exceptionMapsFieldDeclaration = new FieldDeclaration(EXCEPTION_MAP_FIELD, mapExceptions.getClass().toString(), mapExceptions);
         fieldDeclarations.add(exceptionMapsFieldDeclaration);
 
     }
 
-    @Override
+    override
     public ShellActivityBehavior createShellActivityBehavior(ServiceTask serviceTask) {
-        List<FieldDeclaration> fieldDeclarations = createFieldDeclarations(serviceTask.getFieldExtensions());
+        List!FieldDeclaration fieldDeclarations = createFieldDeclarations(serviceTask.getFieldExtensions());
         return (ShellActivityBehavior) ClassDelegate.defaultInstantiateDelegate(
                 ShellActivityBehavior.class, fieldDeclarations);
     }
 
-    @Override
+    override
     public ActivityBehavior createHttpActivityBehavior(ServiceTask serviceTask) {
         try {
             Class<?> theClass = null;
@@ -343,7 +343,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
                 theClass = Class.forName("org.flowable.http.bpmn.impl.HttpActivityBehaviorImpl");
             }
 
-            List<FieldDeclaration> fieldDeclarations = createFieldDeclarations(serviceTask.getFieldExtensions());
+            List!FieldDeclaration fieldDeclarations = createFieldDeclarations(serviceTask.getFieldExtensions());
             addExceptionMapAsFieldDeclaration(fieldDeclarations, serviceTask.getMapExceptions());
             return (ActivityBehavior) ClassDelegate.defaultInstantiateDelegate(theClass, fieldDeclarations, serviceTask);
 
@@ -352,7 +352,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
         }
     }
 
-    @Override
+    override
     public ActivityBehavior createBusinessRuleTaskActivityBehavior(BusinessRuleTask businessRuleTask) {
         BusinessRuleTaskDelegate ruleActivity = null;
         if (StringUtils.isNotEmpty(businessRuleTask.getClassName())) {
@@ -388,7 +388,7 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
 
     // Script task
 
-    @Override
+    override
     public ScriptTaskActivityBehavior createScriptTaskActivityBehavior(ScriptTask scriptTask) {
         string language = scriptTask.getScriptFormat();
         if (language is null) {
@@ -397,196 +397,196 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
         return new ScriptTaskActivityBehavior(scriptTask.getId(), scriptTask.getScript(), language, scriptTask.getResultVariable(), scriptTask.isAutoStoreVariables());
     }
 
-    @Override
+    override
     public SendEventTaskActivityBehavior createSendEventTaskBehavior(SendEventServiceTask sendEventServiceTask) {
         return new SendEventTaskActivityBehavior(sendEventServiceTask);
     }
 
     // Gateways
 
-    @Override
+    override
     public ExclusiveGatewayActivityBehavior createExclusiveGatewayActivityBehavior(ExclusiveGateway exclusiveGateway) {
         return new ExclusiveGatewayActivityBehavior();
     }
 
-    @Override
+    override
     public ParallelGatewayActivityBehavior createParallelGatewayActivityBehavior(ParallelGateway parallelGateway) {
         return new ParallelGatewayActivityBehavior();
     }
 
-    @Override
+    override
     public InclusiveGatewayActivityBehavior createInclusiveGatewayActivityBehavior(InclusiveGateway inclusiveGateway) {
         return new InclusiveGatewayActivityBehavior();
     }
 
-    @Override
+    override
     public EventBasedGatewayActivityBehavior createEventBasedGatewayActivityBehavior(EventGateway eventGateway) {
         return new EventBasedGatewayActivityBehavior();
     }
 
     // Multi Instance
 
-    @Override
+    override
     public SequentialMultiInstanceBehavior createSequentialMultiInstanceBehavior(Activity activity, AbstractBpmnActivityBehavior innerActivityBehavior) {
         return new SequentialMultiInstanceBehavior(activity, innerActivityBehavior);
     }
 
-    @Override
+    override
     public ParallelMultiInstanceBehavior createParallelMultiInstanceBehavior(Activity activity, AbstractBpmnActivityBehavior innerActivityBehavior) {
         return new ParallelMultiInstanceBehavior(activity, innerActivityBehavior);
     }
 
     // Subprocess
 
-    @Override
+    override
     public SubProcessActivityBehavior createSubprocessActivityBehavior(SubProcess subProcess) {
         return new SubProcessActivityBehavior();
     }
 
-    @Override
+    override
     public EventSubProcessActivityBehavior createEventSubprocessActivityBehavior(EventSubProcess eventSubProcess) {
         return new EventSubProcessActivityBehavior();
     }
 
-    @Override
+    override
     public EventSubProcessConditionalStartEventActivityBehavior createEventSubProcessConditionalStartEventActivityBehavior(StartEvent startEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
 
         return new EventSubProcessConditionalStartEventActivityBehavior(conditionalEventDefinition, conditionExpression);
     }
 
-    @Override
+    override
     public EventSubProcessErrorStartEventActivityBehavior createEventSubProcessErrorStartEventActivityBehavior(StartEvent startEvent) {
         return new EventSubProcessErrorStartEventActivityBehavior();
     }
 
-    @Override
+    override
     public EventSubProcessEscalationStartEventActivityBehavior createEventSubProcessEscalationStartEventActivityBehavior(StartEvent startEvent) {
         return new EventSubProcessEscalationStartEventActivityBehavior();
     }
 
-    @Override
+    override
     public EventSubProcessMessageStartEventActivityBehavior createEventSubProcessMessageStartEventActivityBehavior(StartEvent startEvent, MessageEventDefinition messageEventDefinition) {
         return new EventSubProcessMessageStartEventActivityBehavior(messageEventDefinition);
     }
 
-    @Override
+    override
     public EventSubProcessSignalStartEventActivityBehavior createEventSubProcessSignalStartEventActivityBehavior(StartEvent startEvent, SignalEventDefinition signalEventDefinition, Signal signal) {
         return new EventSubProcessSignalStartEventActivityBehavior(signalEventDefinition, signal);
     }
 
-    @Override
+    override
     public EventSubProcessTimerStartEventActivityBehavior createEventSubProcessTimerStartEventActivityBehavior(StartEvent startEvent, TimerEventDefinition timerEventDefinition) {
         return new EventSubProcessTimerStartEventActivityBehavior(timerEventDefinition);
     }
 
-    @Override
+    override
     public EventSubProcessEventRegistryStartEventActivityBehavior createEventSubProcessEventRegistryStartEventActivityBehavior(StartEvent startEvent, string eventDefinitionKey) {
         return new EventSubProcessEventRegistryStartEventActivityBehavior(eventDefinitionKey);
     }
 
-    @Override
+    override
     public AdhocSubProcessActivityBehavior createAdhocSubprocessActivityBehavior(SubProcess subProcess) {
         return new AdhocSubProcessActivityBehavior();
     }
 
     // Call activity
 
-    @Override
+    override
     public CallActivityBehavior createCallActivityBehavior(CallActivity callActivity) {
         return new CallActivityBehavior(callActivity);
     }
 
-    @Override
+    override
     public CaseTaskActivityBehavior createCaseTaskBehavior(CaseServiceTask caseServiceTask) {
         return new CaseTaskActivityBehavior();
     }
 
     // Transaction
 
-    @Override
+    override
     public TransactionActivityBehavior createTransactionActivityBehavior(Transaction transaction) {
         return new TransactionActivityBehavior();
     }
 
     // Intermediate Events
 
-    @Override
+    override
     public IntermediateCatchEventActivityBehavior createIntermediateCatchEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent) {
         return new IntermediateCatchEventActivityBehavior();
     }
 
-    @Override
+    override
     public IntermediateCatchConditionalEventActivityBehavior createIntermediateCatchConditionalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
                     ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
 
         return new IntermediateCatchConditionalEventActivityBehavior(conditionalEventDefinition, conditionExpression);
     }
 
-    @Override
+    override
     public IntermediateCatchMessageEventActivityBehavior createIntermediateCatchMessageEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent, MessageEventDefinition messageEventDefinition) {
         return new IntermediateCatchMessageEventActivityBehavior(messageEventDefinition);
     }
 
-    @Override
+    override
     public IntermediateCatchTimerEventActivityBehavior createIntermediateCatchTimerEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent, TimerEventDefinition timerEventDefinition) {
         return new IntermediateCatchTimerEventActivityBehavior(timerEventDefinition);
     }
 
-    @Override
+    override
     public IntermediateCatchSignalEventActivityBehavior createIntermediateCatchSignalEventActivityBehavior(IntermediateCatchEvent intermediateCatchEvent,
                     SignalEventDefinition signalEventDefinition, Signal signal) {
 
         return new IntermediateCatchSignalEventActivityBehavior(signalEventDefinition, signal);
     }
 
-    @Override
+    override
     public IntermediateThrowNoneEventActivityBehavior createIntermediateThrowNoneEventActivityBehavior(ThrowEvent throwEvent) {
         return new IntermediateThrowNoneEventActivityBehavior();
     }
 
-    @Override
+    override
     public IntermediateThrowSignalEventActivityBehavior createIntermediateThrowSignalEventActivityBehavior(ThrowEvent throwEvent,
                     SignalEventDefinition signalEventDefinition, Signal signal) {
 
         return new IntermediateThrowSignalEventActivityBehavior(throwEvent, signalEventDefinition, signal);
     }
 
-    @Override
+    override
     public IntermediateThrowEscalationEventActivityBehavior createIntermediateThrowEscalationEventActivityBehavior(ThrowEvent throwEvent,
                     EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
 
         return new IntermediateThrowEscalationEventActivityBehavior(throwEvent, escalationEventDefinition, escalation);
     }
 
-    @Override
+    override
     public IntermediateThrowCompensationEventActivityBehavior createIntermediateThrowCompensationEventActivityBehavior(ThrowEvent throwEvent, CompensateEventDefinition compensateEventDefinition) {
         return new IntermediateThrowCompensationEventActivityBehavior(compensateEventDefinition);
     }
 
     // End events
 
-    @Override
+    override
     public NoneEndEventActivityBehavior createNoneEndEventActivityBehavior(EndEvent endEvent) {
         return new NoneEndEventActivityBehavior();
     }
 
-    @Override
+    override
     public ErrorEndEventActivityBehavior createErrorEndEventActivityBehavior(EndEvent endEvent, ErrorEventDefinition errorEventDefinition) {
         return new ErrorEndEventActivityBehavior(errorEventDefinition.getErrorCode());
     }
 
-    @Override
+    override
     public EscalationEndEventActivityBehavior createEscalationEndEventActivityBehavior(EndEvent endEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation) {
         return new EscalationEndEventActivityBehavior(escalationEventDefinition, escalation);
     }
 
-    @Override
+    override
     public CancelEndEventActivityBehavior createCancelEndEventActivityBehavior(EndEvent endEvent) {
         return new CancelEndEventActivityBehavior();
     }
 
-    @Override
+    override
     public TerminateEndEventActivityBehavior createTerminateEndEventActivityBehavior(EndEvent endEvent) {
         bool terminateAll = false;
         bool terminateMultiInstance = false;
@@ -606,51 +606,51 @@ class DefaultActivityBehaviorFactory extends AbstractBehaviorFactory implements 
 
     // Boundary Events
 
-    @Override
+    override
     public BoundaryEventActivityBehavior createBoundaryEventActivityBehavior(BoundaryEvent boundaryEvent, bool interrupting) {
         return new BoundaryEventActivityBehavior(interrupting);
     }
 
-    @Override
+    override
     public BoundaryCancelEventActivityBehavior createBoundaryCancelEventActivityBehavior(CancelEventDefinition cancelEventDefinition) {
         return new BoundaryCancelEventActivityBehavior();
     }
 
-    @Override
+    override
     public BoundaryCompensateEventActivityBehavior createBoundaryCompensateEventActivityBehavior(BoundaryEvent boundaryEvent,
             CompensateEventDefinition compensateEventDefinition, bool interrupting) {
 
         return new BoundaryCompensateEventActivityBehavior(compensateEventDefinition, interrupting);
     }
 
-    @Override
+    override
     public BoundaryConditionalEventActivityBehavior createBoundaryConditionalEventActivityBehavior(BoundaryEvent boundaryEvent,
             ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, bool interrupting) {
 
         return new BoundaryConditionalEventActivityBehavior(conditionalEventDefinition, conditionExpression, interrupting);
     }
 
-    @Override
+    override
     public BoundaryTimerEventActivityBehavior createBoundaryTimerEventActivityBehavior(BoundaryEvent boundaryEvent, TimerEventDefinition timerEventDefinition, bool interrupting) {
         return new BoundaryTimerEventActivityBehavior(timerEventDefinition, interrupting);
     }
 
-    @Override
+    override
     public BoundarySignalEventActivityBehavior createBoundarySignalEventActivityBehavior(BoundaryEvent boundaryEvent, SignalEventDefinition signalEventDefinition, Signal signal, bool interrupting) {
         return new BoundarySignalEventActivityBehavior(signalEventDefinition, signal, interrupting);
     }
 
-    @Override
+    override
     public BoundaryMessageEventActivityBehavior createBoundaryMessageEventActivityBehavior(BoundaryEvent boundaryEvent, MessageEventDefinition messageEventDefinition, bool interrupting) {
         return new BoundaryMessageEventActivityBehavior(messageEventDefinition, interrupting);
     }
 
-    @Override
+    override
     public BoundaryEscalationEventActivityBehavior createBoundaryEscalationEventActivityBehavior(BoundaryEvent boundaryEvent, EscalationEventDefinition escalationEventDefinition, Escalation escalation, bool interrupting) {
         return new BoundaryEscalationEventActivityBehavior(escalationEventDefinition, escalation, interrupting);
     }
 
-    @Override
+    override
     public BoundaryEventRegistryEventActivityBehavior createBoundaryEventRegistryEventActivityBehavior(BoundaryEvent boundaryEvent, string eventDefinitionKey, bool interrupting) {
         return new BoundaryEventRegistryEventActivityBehavior(eventDefinitionKey, interrupting);
     }

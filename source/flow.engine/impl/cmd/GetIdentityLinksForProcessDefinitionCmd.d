@@ -26,7 +26,7 @@ import flow.identitylink.api.IdentityLink;
 /**
  * @author Tijs Rademakers
  */
-class GetIdentityLinksForProcessDefinitionCmd implements Command<List<IdentityLink>>, Serializable {
+class GetIdentityLinksForProcessDefinitionCmd implements Command<List!IdentityLink>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
@@ -36,7 +36,7 @@ class GetIdentityLinksForProcessDefinitionCmd implements Command<List<IdentityLi
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Override
+    override
     public List!IdentityLink execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 

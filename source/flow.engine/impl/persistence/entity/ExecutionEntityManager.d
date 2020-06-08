@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.ExecutionEntityManager;
 
 import hunt.collection;
 import hunt.collection.List;
@@ -23,11 +23,11 @@ import flow.engine.impl.ProcessInstanceQueryImpl;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.Execution;
 import flow.engine.runtime.ProcessInstance;
-
+import flow.engine.impl.persistence.entity.ExecutionEntity;
 /**
  * @author Joram Barrez
  */
-interface ExecutionEntityManager extends EntityManager<ExecutionEntity> {
+interface ExecutionEntityManager : EntityManager!ExecutionEntity {
 
     ExecutionEntity createProcessInstanceExecution(ProcessDefinition processDefinition, string predefinedProcessInstanceId,
                     string businessKey, string processInstanceName, string callbackId, string callbackType, string referenceId, string referenceType,
@@ -45,29 +45,29 @@ interface ExecutionEntityManager extends EntityManager<ExecutionEntity> {
 
     ExecutionEntity findSubProcessInstanceBySuperExecutionId(string superExecutionId);
 
-    List<ExecutionEntity> findChildExecutionsByParentExecutionId(string parentExecutionId);
+    List!ExecutionEntity findChildExecutionsByParentExecutionId(string parentExecutionId);
 
-    List<ExecutionEntity> findChildExecutionsByProcessInstanceId(string processInstanceId);
+    List!ExecutionEntity findChildExecutionsByProcessInstanceId(string processInstanceId);
 
-    List<ExecutionEntity> findExecutionsByParentExecutionAndActivityIds(string parentExecutionId, Collection!string activityIds);
+    List!ExecutionEntity findExecutionsByParentExecutionAndActivityIds(string parentExecutionId, Collection!string activityIds);
 
     long findExecutionCountByQueryCriteria(ExecutionQueryImpl executionQuery);
 
-    List<ExecutionEntity> findExecutionsByQueryCriteria(ExecutionQueryImpl executionQuery);
+    List!ExecutionEntity findExecutionsByQueryCriteria(ExecutionQueryImpl executionQuery);
 
     long findProcessInstanceCountByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
 
-    List<ProcessInstance> findProcessInstanceByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
+    List!ProcessInstance findProcessInstanceByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
 
-    List<ProcessInstance> findProcessInstanceAndVariablesByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
+    List!ProcessInstance findProcessInstanceAndVariablesByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
 
-    Collection<ExecutionEntity> findInactiveExecutionsByProcessInstanceId(string processInstanceId);
+    Collection!ExecutionEntity findInactiveExecutionsByProcessInstanceId(string processInstanceId);
 
-    Collection<ExecutionEntity> findInactiveExecutionsByActivityIdAndProcessInstanceId(string activityId, string processInstanceId);
+    Collection!ExecutionEntity findInactiveExecutionsByActivityIdAndProcessInstanceId(string activityId, string processInstanceId);
 
-    List<Execution> findExecutionsByNativeQuery(Map!(string, Object) parameterMap);
+    List!Execution findExecutionsByNativeQuery(Map!(string, Object) parameterMap);
 
-    List<ProcessInstance> findProcessInstanceByNativeQuery(Map!(string, Object) parameterMap);
+    List!ProcessInstance findProcessInstanceByNativeQuery(Map!(string, Object) parameterMap);
 
     long findExecutionCountByNativeQuery(Map!(string, Object) parameterMap);
 
@@ -76,7 +76,7 @@ interface ExecutionEntityManager extends EntityManager<ExecutionEntity> {
      * In the list, child executions will be behind parent executions.
      * Children include subprocessinstances and its children.
      */
-    List<ExecutionEntity> collectChildren(ExecutionEntity executionEntity);
+    List!ExecutionEntity collectChildren(ExecutionEntity executionEntity);
 
     ExecutionEntity findFirstScope(ExecutionEntity executionEntity);
 

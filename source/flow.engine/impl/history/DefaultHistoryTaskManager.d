@@ -32,22 +32,22 @@ class DefaultHistoryTaskManager implements InternalHistoryTaskManager {
 
 
 
-    @Override
+    override
     public void recordTaskInfoChange(TaskEntity taskEntity, Date changeTime) {
         getActivityInstanceEntityManager().recordTaskInfoChange(taskEntity, changeTime);
     }
 
-    @Override
+    override
     public void recordTaskCreated(TaskEntity taskEntity) {
         CommandContextUtil.getHistoryManager().recordTaskCreated(taskEntity, null);
     }
 
-    @Override
+    override
     public void recordHistoryUserTaskLog(HistoricTaskLogEntryBuilder taskLogEntryBuilder) {
         CommandContextUtil.getHistoryManager().recordHistoricUserTaskLogEntry(taskLogEntryBuilder);
     }
 
-    @Override
+    override
     public void deleteHistoryUserTaskLog(long logNumber) {
         CommandContextUtil.getHistoryManager().deleteHistoryUserTaskLog(logNumber);
     }

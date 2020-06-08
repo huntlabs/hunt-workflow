@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * @author Filip Hrisafov
  */
-abstract class AbstractAsyncHistoryManager extends AbstractHistoryManager {
+abstract class AbstractAsyncHistoryManager : AbstractHistoryManager {
 
     public AbstractAsyncHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, bool usePrefixId) {
         super(processEngineConfiguration, historyLevel, usePrefixId);

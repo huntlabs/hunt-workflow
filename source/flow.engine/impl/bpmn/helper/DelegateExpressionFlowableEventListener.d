@@ -26,7 +26,7 @@ import flow.variable.service.impl.el.NoExecutionVariableScope;
  *
  * @author Frederik Heremans
  */
-class DelegateExpressionFlowableEventListener extends BaseDelegateEventListener {
+class DelegateExpressionFlowableEventListener : BaseDelegateEventListener {
 
     protected Expression expression;
     protected bool failOnException;
@@ -36,7 +36,7 @@ class DelegateExpressionFlowableEventListener extends BaseDelegateEventListener 
         setEntityClass(entityClass);
     }
 
-    @Override
+    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event)) {
             Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, new NoExecutionVariableScope());
@@ -58,7 +58,7 @@ class DelegateExpressionFlowableEventListener extends BaseDelegateEventListener 
         }
     }
 
-    @Override
+    override
     public bool isFailOnException() {
         return failOnException;
     }

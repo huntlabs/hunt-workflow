@@ -26,13 +26,13 @@ import flow.engine.deleg.DelegateExecution;
  */
 class IOSpecification {
 
-    protected List<Data> dataInputs;
+    protected List!Data dataInputs;
 
-    protected List<Data> dataOutputs;
+    protected List!Data dataOutputs;
 
-    protected List<DataRef> dataInputRefs;
+    protected List!DataRef dataInputRefs;
 
-    protected List<DataRef> dataOutputRefs;
+    protected List!DataRef dataOutputRefs;
 
     public IOSpecification() {
         this.dataInputs = new ArrayList<>();
@@ -51,11 +51,11 @@ class IOSpecification {
         }
     }
 
-    public List<Data> getDataInputs() {
+    public List!Data getDataInputs() {
         return Collections.unmodifiableList(this.dataInputs);
     }
 
-    public List<Data> getDataOutputs() {
+    public List!Data getDataOutputs() {
         return Collections.unmodifiableList(this.dataOutputs);
     }
 

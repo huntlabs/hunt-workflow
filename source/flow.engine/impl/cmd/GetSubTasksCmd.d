@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetSubTasksCmd;
 
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -24,17 +23,15 @@ import flow.task.api.Task;
 /**
  * @author Tom Baeyens
  */
-class GetSubTasksCmd implements Command<List<Task>>, Serializable {
+class GetSubTasksCmd : Command!(List!Task) {
 
-    private static final long serialVersionUID = 1L;
     protected string parentTaskId;
 
-    public GetSubTasksCmd(string parentTaskId) {
+    this(string parentTaskId) {
         this.parentTaskId = parentTaskId;
     }
 
-    @Override
-    public List<Task> execute(CommandContext commandContext) {
+    public List!Task execute(CommandContext commandContext) {
         return CommandContextUtil.getTaskService().findTasksByParentTaskId(parentTaskId);
     }
 

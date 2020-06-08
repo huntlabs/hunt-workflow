@@ -26,9 +26,9 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-abstract class AbstractActivityBpmnParseHandler<T extends FlowNode> extends AbstractFlowNodeBpmnParseHandler<T> {
+abstract class AbstractActivityBpmnParseHandler<T : FlowNode> : AbstractFlowNodeBpmnParseHandler!T {
 
-    @Override
+    override
     public void parse(BpmnParse bpmnParse, BaseElement element) {
         super.parse(bpmnParse, element);
 

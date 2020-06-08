@@ -38,7 +38,7 @@ class DefaultFormFieldHandler implements FormFieldHandler {
      * When content is uploaded for a field, it is uploaded as a 'temporary related content'. Now that the task is completed, we need to associate the field/taskId/processInstanceId with the related
      * content so we can retrieve it later.
      */
-    @Override
+    override
     public void handleFormFieldsOnSubmit(FormInfo formInfo, string taskId, string processInstanceId, string scopeId,
                     string scopeType, Map!(string, Object) variables, string tenantId) {
 
@@ -60,7 +60,7 @@ class DefaultFormFieldHandler implements FormFieldHandler {
                             Set!string contentItemIdSet = new HashSet<>();
                             Collections.addAll(contentItemIdSet, contentItemIds);
 
-                            List<ContentItem> contentItems = contentService.createContentItemQuery().ids(contentItemIdSet).list();
+                            List!ContentItem contentItems = contentService.createContentItemQuery().ids(contentItemIdSet).list();
 
                             for (ContentItem contentItem : contentItems) {
                                 contentItem.setTaskId(taskId);
@@ -78,7 +78,7 @@ class DefaultFormFieldHandler implements FormFieldHandler {
         }
     }
 
-    @Override
+    override
     public void enrichFormFields(FormInfo formInfo) {
         ContentService contentService = CommandContextUtil.getContentService();
         if (contentService is null) {
@@ -103,7 +103,7 @@ class DefaultFormFieldHandler implements FormFieldHandler {
                     if (contentItemIds !is null) {
                         Set!string contentItemIdSet = new HashSet<>(contentItemIds);
 
-                        List<ContentItem> contentItems = contentService.createContentItemQuery()
+                        List!ContentItem contentItems = contentService.createContentItemQuery()
                                 .ids(contentItemIdSet)
                                 .list();
 

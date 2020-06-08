@@ -34,12 +34,12 @@ class SimpleStructureDefinition implements FieldBaseStructureDefinition {
         this.fieldTypes = new ArrayList<>();
     }
 
-    @Override
+    override
     public int getFieldSize() {
         return this.fieldNames.size();
     }
 
-    @Override
+    override
     public string getId() {
         return this.id;
     }
@@ -59,17 +59,17 @@ class SimpleStructureDefinition implements FieldBaseStructureDefinition {
         }
     }
 
-    @Override
+    override
     public string getFieldNameAt(int index) {
         return this.fieldNames.get(index);
     }
 
-    @Override
+    override
     class<?> getFieldTypeAt(int index) {
         return this.fieldTypes.get(index);
     }
 
-    @Override
+    override
     public StructureInstance createInstance() {
         return new FieldBaseStructureInstance(this);
     }

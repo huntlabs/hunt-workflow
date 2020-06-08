@@ -19,11 +19,11 @@ import hunt.collection.List;
  *
  * @author Esteban Robles Luna
  */
-class ComposedTransformer extends AbstractTransformer {
+class ComposedTransformer : AbstractTransformer {
 
-    protected List<Transformer> transformers;
+    protected List!Transformer transformers;
 
-    @Override
+    override
     protected Object primTransform(Object anObject) throws Exception {
         Object current = anObject;
         for (Transformer transformer : this.transformers) {

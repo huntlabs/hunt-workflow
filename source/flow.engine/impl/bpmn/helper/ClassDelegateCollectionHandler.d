@@ -28,19 +28,19 @@ import flow.engine.impl.deleg.FlowableCollectionHandler;
  *
  * @author Lori Small
  */
-class ClassDelegateCollectionHandler extends AbstractClassDelegate implements FlowableCollectionHandler {
+class ClassDelegateCollectionHandler : AbstractClassDelegate implements FlowableCollectionHandler {
 
     private static final long serialVersionUID = 1L;
 
-    public ClassDelegateCollectionHandler(string className, List<FieldDeclaration> fieldDeclarations) {
+    public ClassDelegateCollectionHandler(string className, List!FieldDeclaration fieldDeclarations) {
         super(className, fieldDeclarations);
     }
 
-    public ClassDelegateCollectionHandler(Class<?> clazz, List<FieldDeclaration> fieldDeclarations) {
+    public ClassDelegateCollectionHandler(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
         super(clazz, fieldDeclarations);
     }
 
-	@Override
+	override
 	@SuppressWarnings("rawtypes")
 	public Collection resolveCollection(Object collectionValue, DelegateExecution execution) {
 		return getCollectionHandlerInstance().resolveCollection(collectionValue, execution);

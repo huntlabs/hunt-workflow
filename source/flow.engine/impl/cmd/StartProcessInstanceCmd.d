@@ -49,7 +49,7 @@ import flow.variable.service.impl.el.NoExecutionVariableScope;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializable {
+class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionKey;
@@ -104,7 +104,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
         this.fallbackToDefaultTenant = processInstanceBuilder.isFallbackToDefaultTenant();
     }
 
-    @Override
+    override
     public ProcessInstance execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         processInstanceHelper = processEngineConfiguration.getProcessInstanceHelper();
@@ -242,7 +242,7 @@ class StartProcessInstanceCmd<T> implements Command<ProcessInstance>, Serializab
         return processDefinition;
     }
 
-    protected Map!(string, Object) processDataObjects(Collection<ValuedDataObject> dataObjects) {
+    protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {
         Map!(string, Object) variablesMap = new HashMap<>();
         // convert data objects to process variables
         if (dataObjects !is null) {

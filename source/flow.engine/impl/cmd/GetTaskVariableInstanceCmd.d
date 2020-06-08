@@ -24,7 +24,7 @@ import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
-class GetTaskVariableInstanceCmd implements Command<VariableInstance>, Serializable {
+class GetTaskVariableInstanceCmd implements Command!VariableInstance, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -37,7 +37,7 @@ class GetTaskVariableInstanceCmd implements Command<VariableInstance>, Serializa
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     public VariableInstance execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");

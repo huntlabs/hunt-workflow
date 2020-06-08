@@ -63,7 +63,7 @@ class ErrorPropagation {
     }
 
     public static void propagateError(string errorCode, DelegateExecution execution) {
-        Map<string, List<Event>> eventMap = new HashMap<>();
+        Map<string, List!Event> eventMap = new HashMap<>();
         Set!string rootProcessDefinitionIds = new HashSet<>();
         if (!execution.getProcessInstanceId().equals(execution.getRootProcessInstanceId())) {
             ExecutionEntity parentExecution = (ExecutionEntity) execution;
@@ -93,7 +93,7 @@ class ErrorPropagation {
         }
     }
 
-    protected static void executeCatch(Map<string, List<Event>> eventMap, DelegateExecution delegateExecution, string errorId) {
+    protected static void executeCatch(Map<string, List!Event> eventMap, DelegateExecution delegateExecution, string errorId) {
         Set!string toDeleteProcessInstanceIds = new HashSet<>();
 
         Event matchingEvent = null;
@@ -125,7 +125,7 @@ class ErrorPropagation {
 
                 if (currentContainer !is null) {
                     for (string refId : eventMap.keySet()) {
-                        List<Event> events = eventMap.get(refId);
+                        List!Event events = eventMap.get(refId);
                         if (CollectionUtil.isNotEmpty(events) && events.get(0) instanceof StartEvent) {
                             string refActivityId = refId.substring(0, refId.indexOf('#'));
                             string refProcessDefinitionId = refId.substring(refId.indexOf('#') + 1);
@@ -243,7 +243,7 @@ class ErrorPropagation {
 
         } else {
             ExecutionEntity boundaryExecution = null;
-            List<? extends ExecutionEntity> childExecutions = parentExecution.getExecutions();
+            List<? : ExecutionEntity> childExecutions = parentExecution.getExecutions();
             for (ExecutionEntity childExecution : childExecutions) {
                 if (childExecution !is null
                         && childExecution.getActivityId() !is null
@@ -256,14 +256,14 @@ class ErrorPropagation {
         }
     }
 
-    protected static Map<string, List<Event>> findCatchingEventsForProcess(string processDefinitionId, string errorCode) {
-        Map<string, List<Event>> eventMap = new HashMap<>();
+    protected static Map<string, List!Event> findCatchingEventsForProcess(string processDefinitionId, string errorCode) {
+        Map<string, List!Event> eventMap = new HashMap<>();
         Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionId);
 
         string compareErrorCode = retrieveErrorCode(bpmnModel, errorCode);
 
-        List<EventSubProcess> subProcesses = process.findFlowElementsOfType(EventSubProcess.class, true);
+        List!EventSubProcess subProcesses = process.findFlowElementsOfType(EventSubProcess.class, true);
         for (EventSubProcess eventSubProcess : subProcesses) {
             for (FlowElement flowElement : eventSubProcess.getFlowElements()) {
                 if (flowElement instanceof StartEvent) {
@@ -273,7 +273,7 @@ class ErrorPropagation {
                         string eventErrorCode = retrieveErrorCode(bpmnModel, errorEventDef.getErrorCode());
 
                         if (eventErrorCode is null || compareErrorCode is null || eventErrorCode.equals(compareErrorCode)) {
-                            List<Event> startEvents = new ArrayList<>();
+                            List!Event startEvents = new ArrayList<>();
                             startEvents.add(startEvent);
                             eventMap.put(eventSubProcess.getId() + "#" + processDefinitionId, startEvents);
                         }
@@ -282,7 +282,7 @@ class ErrorPropagation {
             }
         }
 
-        List<BoundaryEvent> boundaryEvents = process.findFlowElementsOfType(BoundaryEvent.class, true);
+        List!BoundaryEvent boundaryEvents = process.findFlowElementsOfType(BoundaryEvent.class, true);
         for (BoundaryEvent boundaryEvent : boundaryEvents) {
             if (boundaryEvent.getAttachedToRefId() !is null && CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) && boundaryEvent.getEventDefinitions().get(0) instanceof ErrorEventDefinition) {
 
@@ -290,7 +290,7 @@ class ErrorPropagation {
                 string eventErrorCode = retrieveErrorCode(bpmnModel, errorEventDef.getErrorCode());
 
                 if (eventErrorCode is null || compareErrorCode is null || eventErrorCode.equals(compareErrorCode)) {
-                    List<Event> elementBoundaryEvents = null;
+                    List!Event elementBoundaryEvents = null;
                     if (!eventMap.containsKey(boundaryEvent.getAttachedToRefId() + "#" + processDefinitionId)) {
                         elementBoundaryEvents = new ArrayList<>();
                         eventMap.put(boundaryEvent.getAttachedToRefId() + "#" + processDefinitionId, elementBoundaryEvents);
@@ -304,7 +304,7 @@ class ErrorPropagation {
         return eventMap;
     }
 
-    public static bool mapException(Exception e, ExecutionEntity execution, List<MapExceptionEntry> exceptionMap) {
+    public static bool mapException(Exception e, ExecutionEntity execution, List!MapExceptionEntry exceptionMap) {
         string errorCode = findMatchingExceptionMapping(e, exceptionMap);
         if (errorCode !is null) {
             propagateError(errorCode, execution);
@@ -339,7 +339,7 @@ class ErrorPropagation {
         }
     }
 
-    public static string findMatchingExceptionMapping(Exception e, List<MapExceptionEntry> exceptionMap) {
+    public static string findMatchingExceptionMapping(Exception e, List!MapExceptionEntry exceptionMap) {
         string defaultExceptionMapping = null;
 
         for (MapExceptionEntry me : exceptionMap) {
@@ -393,7 +393,7 @@ class ErrorPropagation {
         return defaultExceptionMapping;
     }
 
-    protected static Event getCatchEventFromList(List<Event> events, ExecutionEntity parentExecution) {
+    protected static Event getCatchEventFromList(List!Event events, ExecutionEntity parentExecution) {
         Event selectedEvent = null;
         string selectedEventErrorCode = null;
 

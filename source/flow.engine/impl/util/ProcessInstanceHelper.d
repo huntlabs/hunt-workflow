@@ -56,9 +56,9 @@ import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ProcessInstance;
 import flow.event.registry.api.runtime.EventInstance;
 import flow.event.registry.constant.EventConstants;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 /**
@@ -292,8 +292,8 @@ class ProcessInstanceHelper {
     }
 
     public void processEventSubProcess(ExecutionEntity parentExecution, EventSubProcess eventSubProcess, CommandContext commandContext) {
-        List<EventSubscriptionEntity> messageEventSubscriptions = new LinkedList<>();
-        List<EventSubscriptionEntity> signalEventSubscriptions = new LinkedList<>();
+        List!EventSubscriptionEntity messageEventSubscriptions = new LinkedList<>();
+        List!EventSubscriptionEntity signalEventSubscriptions = new LinkedList<>();
 
         for (FlowElement subElement : eventSubProcess.getFlowElements()) {
             if (!(subElement instanceof StartEvent)) {
@@ -302,7 +302,7 @@ class ProcessInstanceHelper {
 
             StartEvent startEvent = (StartEvent) subElement;
             if (CollectionUtil.isEmpty(startEvent.getEventDefinitions())) {
-                List<ExtensionElement> eventTypeElements = startEvent.getExtensionElements().get("eventType");
+                List!ExtensionElement eventTypeElements = startEvent.getExtensionElements().get("eventType");
                 if (eventTypeElements !is null && !eventTypeElements.isEmpty()) {
                     string eventType = eventTypeElements.get(0).getElementText();
                     if (StringUtils.isNotEmpty(eventType)) {
@@ -420,7 +420,7 @@ class ProcessInstanceHelper {
         }
     }
 
-    protected Map!(string, Object) processDataObjects(Collection<ValuedDataObject> dataObjects) {
+    protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {
         Map!(string, Object) variablesMap = new HashMap<>();
         // convert data objects to process variables
         if (dataObjects !is null) {
@@ -433,7 +433,7 @@ class ProcessInstanceHelper {
 
     public void callCaseInstanceStateChangeCallbacks(CommandContext commandContext, ProcessInstance processInstance, string oldState, string newState) {
         if (processInstance.getCallbackId() !is null && processInstance.getCallbackType() !is null) {
-            Map<string, List<RuntimeInstanceStateChangeCallback>> caseInstanceCallbacks = CommandContextUtil
+            Map<string, List!RuntimeInstanceStateChangeCallback> caseInstanceCallbacks = CommandContextUtil
                     .getProcessEngineConfiguration(commandContext).getProcessInstanceStateChangedCallbacks();
 
             if (caseInstanceCallbacks !is null && caseInstanceCallbacks.containsKey(processInstance.getCallbackType())) {

@@ -22,9 +22,9 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Joram Barrez
  */
-class TaskAssignedEventHandler extends AbstractTaskEventHandler {
+class TaskAssignedEventHandler : AbstractTaskEventHandler {
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         TaskEntity task = (TaskEntity) ((FlowableEntityEvent) event).getEntity();
         Map!(string, Object) data = handleCommonTaskFields(task);

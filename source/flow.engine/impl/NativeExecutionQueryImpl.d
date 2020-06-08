@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.Execution;
 import flow.engine.runtime.NativeExecutionQuery;
 
-class NativeExecutionQueryImpl extends AbstractNativeQuery<NativeExecutionQuery, Execution> implements NativeExecutionQuery {
+class NativeExecutionQueryImpl : AbstractNativeQuery!(NativeExecutionQuery, Execution) implements NativeExecutionQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeExecutionQueryImpl extends AbstractNativeQuery<NativeExecutionQuery,
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<Execution> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!Execution executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionsByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionCountByNativeQuery(parameterMap);
     }

@@ -22,7 +22,7 @@ import flow.engine.history.HistoricActivityInstance;
 import flow.engine.history.NativeHistoricActivityInstanceQuery;
 import flow.engine.impl.util.CommandContextUtil;
 
-class NativeHistoricActivityInstanceQueryImpl extends AbstractNativeQuery<NativeHistoricActivityInstanceQuery, HistoricActivityInstance> implements NativeHistoricActivityInstanceQuery {
+class NativeHistoricActivityInstanceQueryImpl : AbstractNativeQuery!(NativeHistoricActivityInstanceQuery, HistoricActivityInstance) implements NativeHistoricActivityInstanceQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeHistoricActivityInstanceQueryImpl extends AbstractNativeQuery<Native
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<HistoricActivityInstance> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!HistoricActivityInstance executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findHistoricActivityInstancesByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findHistoricActivityInstanceCountByNativeQuery(parameterMap);
     }

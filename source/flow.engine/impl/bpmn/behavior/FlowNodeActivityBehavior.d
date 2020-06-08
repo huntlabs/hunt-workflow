@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
 
 import flow.bpmn.model.FlowNode;
 import flow.common.api.FlowableException;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.deleg.TriggerableActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-
+import flow.engine.impl.bpmn.behavior.BpmnActivityBehavior;
+import hunt.Exceptions;
 /**
  * Superclass for all 'connectable' BPMN 2.0 process elements: tasks, gateways and events. This means that any subclass can be the source or target of a sequenceflow.
  *
@@ -25,16 +26,18 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
  *
  * @author Joram Barrez
  */
-abstract class FlowNodeActivityBehavior implements TriggerableActivityBehavior {
+abstract class FlowNodeActivityBehavior : TriggerableActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
 
-    protected BpmnActivityBehavior bpmnActivityBehavior = new BpmnActivityBehavior();
+    protected BpmnActivityBehavior bpmnActivityBehavior ;// = new BpmnActivityBehavior();
 
+    this()
+    {
+      bpmnActivityBehavior = new BpmnActivityBehavior();
+    }
     /**
      * Default behaviour: just leave the activity with no extra functionality.
      */
-    @Override
     public void execute(DelegateExecution execution) {
         leave(execution);
     }
@@ -43,22 +46,22 @@ abstract class FlowNodeActivityBehavior implements TriggerableActivityBehavior {
      * Default way of leaving a BPMN 2.0 activity: evaluate the conditions on the outgoing sequence flow and take those that evaluate to true.
      */
     public void leave(DelegateExecution execution) {
-        bpmnActivityBehavior.performDefaultOutgoingBehavior((ExecutionEntity) execution);
+        bpmnActivityBehavior.performDefaultOutgoingBehavior(cast(ExecutionEntity) execution);
     }
 
     public void leaveIgnoreConditions(DelegateExecution execution) {
-        bpmnActivityBehavior.performIgnoreConditionsOutgoingBehavior((ExecutionEntity) execution);
+        bpmnActivityBehavior.performIgnoreConditionsOutgoingBehavior(cast(ExecutionEntity) execution);
     }
 
-    @Override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
         // concrete activity behaviours that do accept signals should override this method;
         throw new FlowableException("this activity isn't waiting for a trigger");
     }
 
     protected string parseActivityType(FlowNode flowNode) {
-        string elementType = flowNode.getClass().getSimpleName();
-        elementType = elementType.substring(0, 1).toLowerCase() + elementType.substring(1);
-        return elementType;
+        implementationMissing(false);
+        //string elementType = flowNode.getClass().getSimpleName();
+        //elementType = elementType.substring(0, 1).toLowerCase() + elementType.substring(1);
+        //return elementType;
     }
 }

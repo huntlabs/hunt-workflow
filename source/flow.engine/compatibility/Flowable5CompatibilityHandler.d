@@ -45,7 +45,7 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //import flow.engine.runtime.ProcessInstance;
 //import flow.engine.task.Attachment;
 //import flow.engine.task.Comment;
-//import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+//import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 //import flow.job.service.api.Job;
 //import flow.task.service.impl.persistence.entity.TaskEntity;
 //import flow.variable.service.api.persistence.entity.VariableInstance;
@@ -105,9 +105,9 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //
 //    Map!(string, Object) getExecutionVariables(string executionId, Collection!string variableNames, bool isLocal);
 //
-//    Map<string, VariableInstance> getExecutionVariableInstances(string executionId, Collection!string variableNames, bool isLocal);
+//    Map!(string, VariableInstance) getExecutionVariableInstances(string executionId, Collection!string variableNames, bool isLocal);
 //
-//    void setExecutionVariables(string executionId, Map<string, ? extends Object> variables, bool isLocal);
+//    void setExecutionVariables(string executionId, Map<string, ? : Object> variables, bool isLocal);
 //
 //    void removeExecutionVariables(string executionId, Collection!string variableNames, bool isLocal);
 //
@@ -131,7 +131,7 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //
 //    void claimTask(string taskId, string userId);
 //
-//    void setTaskVariables(string taskId, Map<string, ? extends Object> variables, bool isLocal);
+//    void setTaskVariables(string taskId, Map<string, ? : Object> variables, bool isLocal);
 //
 //    void removeTaskVariables(string taskId, Collection!string variableNames, bool isLocal);
 //
@@ -191,7 +191,7 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //
 //    void propagateError(BpmnError bpmnError, DelegateExecution execution);
 //
-//    bool mapException(Exception camelException, DelegateExecution execution, List<MapExceptionEntry> mapExceptions);
+//    bool mapException(Exception camelException, DelegateExecution execution, List!MapExceptionEntry mapExceptions);
 //
 //    Map!(string, Object) getVariables(ProcessInstance processInstance);
 //
@@ -215,6 +215,6 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //
 //    Object getCamelContextObject(string camelContextValue);
 //
-//    void setJobProcessor(List<Object> flowable5JobProcessors);
+//    void setJobProcessor(List!Object flowable5JobProcessors);
 //
 //}

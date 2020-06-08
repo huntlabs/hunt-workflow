@@ -23,11 +23,11 @@ import flow.engine.deleg.DelegateExecution;
  *
  * @author Esteban Robles Luna
  */
-class SimpleDataInputAssociation extends AbstractDataAssociation {
+class SimpleDataInputAssociation : AbstractDataAssociation {
 
     private static final long serialVersionUID = 1L;
 
-    protected List<Assignment> assignments = new ArrayList<>();
+    protected List!Assignment assignments = new ArrayList<>();
 
     public SimpleDataInputAssociation(Expression sourceExpression, string target) {
         super(sourceExpression, target);
@@ -41,7 +41,7 @@ class SimpleDataInputAssociation extends AbstractDataAssociation {
         this.assignments.add(assignment);
     }
 
-    @Override
+    override
     public void evaluate(DelegateExecution execution) {
         for (Assignment assignment : this.assignments) {
             assignment.evaluate(execution);

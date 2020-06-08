@@ -50,7 +50,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Joram Barrez
  */
-class EventLogger extends AbstractFlowableEventListener {
+class EventLogger : AbstractFlowableEventListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventLogger.class);
 
@@ -60,10 +60,10 @@ class EventLogger extends AbstractFlowableEventListener {
     protected ObjectMapper objectMapper;
 
     // Mapping of type -> handler
-    protected Map<FlowableEngineEventType, Class<? extends EventLoggerEventHandler>> eventHandlers = new HashMap<>();
+    protected Map<FlowableEngineEventType, Class<? : EventLoggerEventHandler>> eventHandlers = new HashMap<>();
 
     // Listeners for new events
-    protected List<EventLoggerListener> listeners;
+    protected List!EventLoggerListener listeners;
 
     public EventLogger() {
         initializeDefaultHandlers();
@@ -96,7 +96,7 @@ class EventLogger extends AbstractFlowableEventListener {
         addEventHandler(FlowableEngineEventType.VARIABLE_UPDATED, VariableUpdatedEventHandler.class);
     }
 
-    @Override
+    override
     public void onEvent(FlowableEvent event) {
         EventLoggerEventHandler eventHandler = getEventHandler(event);
         if (eventHandler !is null) {
@@ -117,11 +117,11 @@ class EventLogger extends AbstractFlowableEventListener {
                 currentCommandContext
                         .addCloseListener(new CommandContextCloseListener() {
 
-                            @Override
+                            override
                             public void closing(CommandContext commandContext) {
                             }
 
-                            @Override
+                            override
                             public void closed(CommandContext commandContext) {
                                 // For those who are interested: we can now broadcast the events were added
                                 if (listeners !is null) {
@@ -131,11 +131,11 @@ class EventLogger extends AbstractFlowableEventListener {
                                 }
                             }
 
-                            @Override
+                            override
                             public void afterSessionsFlush(CommandContext commandContext) {
                             }
 
-                            @Override
+                            override
                             public void closeFailure(CommandContext commandContext) {
                             }
 
@@ -149,7 +149,7 @@ class EventLogger extends AbstractFlowableEventListener {
     // Subclasses can override this if defaults are not ok
     protected EventLoggerEventHandler getEventHandler(FlowableEvent event) {
 
-        Class<? extends EventLoggerEventHandler> eventHandlerClass = null;
+        Class<? : EventLoggerEventHandler> eventHandlerClass = null;
         if (event.getType().equals(FlowableEngineEventType.ENTITY_INITIALIZED)) {
             Object entity = ((FlowableEntityEvent) event).getEntity();
             if (entity instanceof ExecutionEntity) {
@@ -179,7 +179,7 @@ class EventLogger extends AbstractFlowableEventListener {
     }
 
     protected EventLoggerEventHandler instantiateEventHandler(FlowableEvent event,
-            Class<? extends EventLoggerEventHandler> eventHandlerClass) {
+            Class<? : EventLoggerEventHandler> eventHandlerClass) {
         try {
             EventLoggerEventHandler eventHandler = eventHandlerClass.newInstance();
             eventHandler.setTimeStamp(clock.getCurrentTime());
@@ -192,12 +192,12 @@ class EventLogger extends AbstractFlowableEventListener {
         return null;
     }
 
-    @Override
+    override
     public bool isFailOnException() {
         return false;
     }
 
-    public void addEventHandler(FlowableEngineEventType eventType, Class<? extends EventLoggerEventHandler> eventHandlerClass) {
+    public void addEventHandler(FlowableEngineEventType eventType, Class<? : EventLoggerEventHandler> eventHandlerClass) {
         eventHandlers.put(eventType, eventHandlerClass);
     }
 
@@ -231,11 +231,11 @@ class EventLogger extends AbstractFlowableEventListener {
         this.objectMapper = objectMapper;
     }
 
-    public List<EventLoggerListener> getListeners() {
+    public List!EventLoggerListener getListeners() {
         return listeners;
     }
 
-    public void setListeners(List<EventLoggerListener> listeners) {
+    public void setListeners(List!EventLoggerListener listeners) {
         this.listeners = listeners;
     }
 

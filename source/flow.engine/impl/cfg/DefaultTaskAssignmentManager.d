@@ -29,64 +29,64 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  */
 class DefaultTaskAssignmentManager implements InternalTaskAssignmentManager {
 
-    @Override
+    override
     public void changeAssignee(Task task, string assignee) {
         TaskHelper.changeTaskAssignee((TaskEntity) task, assignee);
     }
 
-    @Override
+    override
     public void changeOwner(Task task, string owner) {
         TaskHelper.changeTaskOwner((TaskEntity) task, owner);
     }
 
-    @Override
+    override
     public void addCandidateUser(Task task, IdentityLink identityLink) {
         IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
     }
 
-    @Override
+    override
     public void addCandidateUsers(Task task, List!IdentityLink candidateUsers) {
-        List<IdentityLinkEntity> identityLinks = new ArrayList<>();
+        List!IdentityLinkEntity identityLinks = new ArrayList<>();
         for (IdentityLink identityLink : candidateUsers) {
             identityLinks.add((IdentityLinkEntity) identityLink);
         }
         IdentityLinkUtil.handleTaskIdentityLinkAdditions((TaskEntity) task, identityLinks);
     }
 
-    @Override
+    override
     public void addCandidateGroup(Task task, IdentityLink identityLink) {
         IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
     }
 
-    @Override
+    override
     public void addCandidateGroups(Task task, List!IdentityLink candidateGroups) {
-        List<IdentityLinkEntity> identityLinks = new ArrayList<>();
+        List!IdentityLinkEntity identityLinks = new ArrayList<>();
         for (IdentityLink identityLink : candidateGroups) {
             identityLinks.add((IdentityLinkEntity) identityLink);
         }
         IdentityLinkUtil.handleTaskIdentityLinkAdditions((TaskEntity) task, identityLinks);
     }
 
-    @Override
+    override
     public void addUserIdentityLink(Task task, IdentityLink identityLink) {
         IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
     }
 
-    @Override
+    override
     public void addGroupIdentityLink(Task task, IdentityLink identityLink) {
         IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
     }
 
-    @Override
+    override
     public void deleteUserIdentityLink(Task task, IdentityLink identityLink) {
-        List<IdentityLinkEntity> identityLinks = new ArrayList<>();
+        List!IdentityLinkEntity identityLinks = new ArrayList<>();
         identityLinks.add((IdentityLinkEntity) identityLink);
         IdentityLinkUtil.handleTaskIdentityLinkDeletions((TaskEntity) task, identityLinks, true, true);
     }
 
-    @Override
+    override
     public void deleteGroupIdentityLink(Task task, IdentityLink identityLink) {
-        List<IdentityLinkEntity> identityLinks = new ArrayList<>();
+        List!IdentityLinkEntity identityLinks = new ArrayList<>();
         identityLinks.add((IdentityLinkEntity) identityLink);
         IdentityLinkUtil.handleTaskIdentityLinkDeletions((TaskEntity) task, identityLinks, true, true);
     }

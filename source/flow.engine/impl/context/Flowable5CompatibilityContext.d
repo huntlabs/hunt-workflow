@@ -18,7 +18,7 @@ import flow.engine.compatibility.Flowable5CompatibilityHandler;
 class Flowable5CompatibilityContext {
 
     // Fallback handler is only set by the v5 CommandContextInterceptor
-    protected static ThreadLocal<Flowable5CompatibilityHandler> fallbackFlowable5CompatibilityHandlerThreadLocal = new ThreadLocal<>();
+    protected static ThreadLocal!Flowable5CompatibilityHandler fallbackFlowable5CompatibilityHandlerThreadLocal = new ThreadLocal<>();
 
     public static Flowable5CompatibilityHandler getFallbackFlowable5CompatibilityHandler() {
         return fallbackFlowable5CompatibilityHandlerThreadLocal.get();

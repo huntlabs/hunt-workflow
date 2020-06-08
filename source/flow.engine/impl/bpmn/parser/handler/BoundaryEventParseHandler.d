@@ -36,16 +36,16 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class BoundaryEventParseHandler extends AbstractFlowNodeBpmnParseHandler<BoundaryEvent> {
+class BoundaryEventParseHandler : AbstractFlowNodeBpmnParseHandler!BoundaryEvent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BoundaryEventParseHandler.class);
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return BoundaryEvent.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, BoundaryEvent boundaryEvent) {
 
         if (boundaryEvent.getAttachedToRef() is null) {
@@ -66,7 +66,7 @@ class BoundaryEventParseHandler extends AbstractFlowNodeBpmnParseHandler<Boundar
             return;
 
         } else if (!boundaryEvent.getExtensionElements().isEmpty()) {
-            List<ExtensionElement> eventTypeExtensionElements = boundaryEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
+            List!ExtensionElement eventTypeExtensionElements = boundaryEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
             if (eventTypeExtensionElements !is null && !eventTypeExtensionElements.isEmpty()) {
                 string eventTypeValue = eventTypeExtensionElements.get(0).getElementText();
                 if (StringUtils.isNotEmpty(eventTypeValue)) {

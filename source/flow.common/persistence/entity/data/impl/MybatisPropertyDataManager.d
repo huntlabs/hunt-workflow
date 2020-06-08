@@ -59,4 +59,9 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
        // return getDbSqlSession().selectList("selectProperties");
     }
 
+      PropertyEntity findById(string entityId)
+     {
+        return find(entityId);
+     }
+
 }

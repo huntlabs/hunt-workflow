@@ -44,7 +44,7 @@ class EventInstanceBpmnUtil {
      * Typically used when mapping incoming event payload into a runtime instance (the {@link VariableScope)}.
      */
     public static void handleEventInstanceOutParameters(VariableScope variableScope, BaseElement baseElement, EventInstance eventInstance) {
-        Map<string, EventPayloadInstance> payloadInstances = eventInstance.getPayloadInstances()
+        Map!(string, EventPayloadInstance) payloadInstances = eventInstance.getPayloadInstances()
                 .stream()
                 .collect(Collectors.toMap(EventPayloadInstance::getDefinitionName, Function.identity()));
 
@@ -57,7 +57,7 @@ class EventInstanceBpmnUtil {
             }
 
         } else {
-            List<ExtensionElement> outParameters = baseElement.getExtensionElements()
+            List!ExtensionElement outParameters = baseElement.getExtensionElements()
                     .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_OUT_PARAMETER, Collections.emptyList());
             if (!outParameters.isEmpty()) {
                 for (ExtensionElement outParameter : outParameters) {
@@ -95,7 +95,7 @@ class EventInstanceBpmnUtil {
             }
 
         } else {
-            List<ExtensionElement> inParameters = baseElement.getExtensionElements()
+            List!ExtensionElement inParameters = baseElement.getExtensionElements()
                 .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_IN_PARAMETER, Collections.emptyList());
 
             if (!inParameters.isEmpty()) {
@@ -122,7 +122,7 @@ class EventInstanceBpmnUtil {
     }
 
     protected static void setEventParameterVariable(string source, string target, bool isTransient,
-                    Map<string, EventPayloadInstance> payloadInstances, VariableScope variableScope) {
+                    Map!(string, EventPayloadInstance) payloadInstances, VariableScope variableScope) {
 
         EventPayloadInstance payloadInstance = payloadInstances.get(source);
         if (StringUtils.isNotEmpty(target)) {
@@ -138,7 +138,7 @@ class EventInstanceBpmnUtil {
     protected static void addEventPayloadInstance(List!EventPayloadInstance eventPayloadInstances, string source, string target,
                     VariableScope variableScope, ExpressionManager expressionManager, EventModel eventDefinition) {
 
-        Optional<EventPayload> matchingEventDefinition = eventDefinition.getPayload()
+        Optional!EventPayload matchingEventDefinition = eventDefinition.getPayload()
             .stream()
             .filter(e -> e.getName().equals(target))
             .findFirst();

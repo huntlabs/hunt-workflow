@@ -54,7 +54,7 @@ abstract class TestHelper {
 
     public static final List!string TABLENAMES_EXCLUDED_FROM_DB_CLEAN_CHECK = Collections.singletonList("ACT_GE_PROPERTY");
 
-    static Map<string, ProcessEngine> processEngines = new HashMap<>();
+    static Map!(string, ProcessEngine) processEngines = new HashMap<>();
 
     // Assertion methods ///////////////////////////////////////////////////
 
@@ -261,7 +261,7 @@ abstract class TestHelper {
      */
     public static void assertAndEnsureCleanDb(ProcessEngine processEngine) {
         LOGGER.debug("verifying that db is clean after test");
-        Map<string, Long> tableCounts = processEngine.getManagementService().getTableCount();
+        Map!(string, Long) tableCounts = processEngine.getManagementService().getTableCount();
         StringBuilder outputMessage = new StringBuilder();
         for (string tableName : tableCounts.keySet()) {
             if (!TABLENAMES_EXCLUDED_FROM_DB_CLEAN_CHECK.contains(tableName)) {
@@ -276,8 +276,8 @@ abstract class TestHelper {
             LOGGER.error(EMPTY_LINE);
             LOGGER.error(outputMessage.toString());
 
-            ((ProcessEngineImpl) processEngine).getProcessEngineConfiguration().getCommandExecutor().execute(new Command<Object>() {
-                @Override
+            ((ProcessEngineImpl) processEngine).getProcessEngineConfiguration().getCommandExecutor().execute(new Command!Object() {
+                override
                 public Object execute(CommandContext commandContext) {
                     SchemaManager schemaManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getSchemaManager();
                     schemaManager.schemaDrop();

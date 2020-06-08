@@ -18,7 +18,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.event.registry.api.EventRegistryEventConsumer;
 
-class AddEventConsumerCommand implements Command<Void> {
+class AddEventConsumerCommand implements Command!Void {
 
     protected EventRegistryEventConsumer eventConsumer;
 
@@ -26,7 +26,7 @@ class AddEventConsumerCommand implements Command<Void> {
         this.eventConsumer = eventConsumer;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         if (eventConsumer is null) {
             throw new FlowableIllegalArgumentException("event consumer is null.");

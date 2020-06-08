@@ -30,14 +30,14 @@ import flow.task.service.deleg.TaskListener;
 class DelegateExpressionTaskListener implements TaskListener {
 
     protected Expression expression;
-    private final List<FieldDeclaration> fieldDeclarations;
+    private final List!FieldDeclaration fieldDeclarations;
 
-    public DelegateExpressionTaskListener(Expression expression, List<FieldDeclaration> fieldDeclarations) {
+    public DelegateExpressionTaskListener(Expression expression, List!FieldDeclaration fieldDeclarations) {
         this.expression = expression;
         this.fieldDeclarations = fieldDeclarations;
     }
 
-    @Override
+    override
     public void notify(DelegateTask delegateTask) {
         Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, delegateTask, fieldDeclarations);
         if (delegate instanceof TaskListener) {

@@ -12,20 +12,20 @@
  */
 
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.deleg.event.FlowableProcessTerminatedEvent;
- 
- 
- 
+
+
+
 
 import flow.common.api.deleg.event.FlowableEntityEvent;
 
 /**
- * Event extends default {@link FlowableEntityEvent} with the cause of termination
+ * Event : default {@link FlowableEntityEvent} with the cause of termination
  *
  * @author martin.grofcik
  */

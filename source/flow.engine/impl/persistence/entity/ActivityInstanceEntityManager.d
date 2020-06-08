@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.ActivityInstanceEntityManager;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
@@ -21,21 +21,23 @@ import flow.common.persistence.entity.EntityManager;
 import flow.engine.impl.ActivityInstanceQueryImpl;
 import flow.engine.runtime.ActivityInstance;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.engine.impl.persistence.entity.ActivityInstanceEntity;
+import flow.engine.impl.persistence.entity.ExecutionEntity;
 
 /**
  * @author martin.grofcik
  */
-interface ActivityInstanceEntityManager extends EntityManager<ActivityInstanceEntity> {
+interface ActivityInstanceEntityManager : EntityManager!ActivityInstanceEntity {
 
     ActivityInstanceEntity findUnfinishedActivityInstance(ExecutionEntity execution);
 
-    List<ActivityInstanceEntity> findActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
+    List!ActivityInstanceEntity findActivityInstancesByExecutionAndActivityId(string executionId, string activityId);
 
     long findActivityInstanceCountByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery);
 
-    List<ActivityInstance> findActivityInstancesByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery);
+    List!ActivityInstance findActivityInstancesByQueryCriteria(ActivityInstanceQueryImpl activityInstanceQuery);
 
-    List<ActivityInstance> findActivityInstancesByNativeQuery(Map!(string, Object) parameterMap);
+    List!ActivityInstance findActivityInstancesByNativeQuery(Map!(string, Object) parameterMap);
 
     long findActivityInstanceCountByNativeQuery(Map!(string, Object) parameterMap);
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.DeploymentDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -23,15 +23,15 @@ import flow.engine.repository.Deployment;
 /**
  * @author Joram Barrez
  */
-interface DeploymentDataManager extends DataManager<DeploymentEntity> {
+interface DeploymentDataManager : DataManager!DeploymentEntity {
 
     long findDeploymentCountByQueryCriteria(DeploymentQueryImpl deploymentQuery);
 
-    List<Deployment> findDeploymentsByQueryCriteria(DeploymentQueryImpl deploymentQuery);
+    List!Deployment findDeploymentsByQueryCriteria(DeploymentQueryImpl deploymentQuery);
 
     List!string getDeploymentResourceNames(string deploymentId);
 
-    List<Deployment> findDeploymentsByNativeQuery(Map!(string, Object) parameterMap);
+    List!Deployment findDeploymentsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findDeploymentCountByNativeQuery(Map!(string, Object) parameterMap);
 

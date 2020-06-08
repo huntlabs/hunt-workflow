@@ -38,7 +38,7 @@ import flow.form.api.FormRepositoryService;
 /**
  * @author Yvo Swillens
  */
-class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefinition>>, Serializable {
+class GetFormDefinitionsForProcessDefinitionCmd implements Command<List!FormDefinition>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
@@ -48,8 +48,8 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
-    public List<FormDefinition> execute(CommandContext commandContext) {
+    override
+    public List!FormDefinition execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
 
         if (processDefinition is null) {
@@ -67,17 +67,17 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
         }
 
         formRepositoryService = CommandContextUtil.getFormRepositoryService();
-        List<FormDefinition> formDefinitions = getFormDefinitionsFromModel(bpmnModel, processDefinition);
+        List!FormDefinition formDefinitions = getFormDefinitionsFromModel(bpmnModel, processDefinition);
 
         return formDefinitions;
     }
 
-    protected List<FormDefinition> getFormDefinitionsFromModel(BpmnModel bpmnModel, ProcessDefinition processDefinition) {
+    protected List!FormDefinition getFormDefinitionsFromModel(BpmnModel bpmnModel, ProcessDefinition processDefinition) {
         Set!string formKeys = new HashSet<>();
-        List<FormDefinition> formDefinitions = new ArrayList<>();
+        List!FormDefinition formDefinitions = new ArrayList<>();
 
         // for all start events
-        List<StartEvent> startEvents = bpmnModel.getMainProcess().findFlowElementsOfType(StartEvent.class, true);
+        List!StartEvent startEvents = bpmnModel.getMainProcess().findFlowElementsOfType(StartEvent.class, true);
 
         for (StartEvent startEvent : startEvents) {
             if (StringUtils.isNotEmpty(startEvent.getFormKey())) {
@@ -86,7 +86,7 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
         }
 
         // for all user tasks
-        List<UserTask> userTasks = bpmnModel.getMainProcess().findFlowElementsOfType(UserTask.class, true);
+        List!UserTask userTasks = bpmnModel.getMainProcess().findFlowElementsOfType(UserTask.class, true);
 
         for (UserTask userTask : userTasks) {
             if (StringUtils.isNotEmpty(userTask.getFormKey())) {
@@ -101,11 +101,11 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List<FormDefi
         return formDefinitions;
     }
 
-    protected void addFormDefinitionToCollection(List<FormDefinition> formDefinitions, string formKey, ProcessDefinition processDefinition) {
+    protected void addFormDefinitionToCollection(List!FormDefinition formDefinitions, string formKey, ProcessDefinition processDefinition) {
         FormDefinitionQuery formDefinitionQuery = formRepositoryService.createFormDefinitionQuery().formDefinitionKey(formKey);
         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(processDefinition.getDeploymentId());
         if (deployment.getParentDeploymentId() !is null) {
-            List<FormDeployment> formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
+            List!FormDeployment formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
 
             if (formDeployments !is null && formDeployments.size() > 0) {
                 formDefinitionQuery.deploymentId(formDeployments.get(0).getId());

@@ -30,7 +30,7 @@ class RulesAgendaFilter implements AgendaFilter {
     public RulesAgendaFilter() {
     }
 
-    @Override
+    override
     public bool accept(Match match) {
         string ruleName = match.getRule().getName();
         for (string suffix : suffixList) {

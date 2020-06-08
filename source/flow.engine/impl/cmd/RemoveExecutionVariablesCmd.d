@@ -23,7 +23,7 @@ import flow.engine.impl.util.Flowable5Util;
  * @author roman.smirnov
  * @author Joram Barrez
  */
-class RemoveExecutionVariablesCmd extends NeedsActiveExecutionCmd<Void> {
+class RemoveExecutionVariablesCmd : NeedsActiveExecutionCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ class RemoveExecutionVariablesCmd extends NeedsActiveExecutionCmd<Void> {
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, ExecutionEntity execution) {
         if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
@@ -53,7 +53,7 @@ class RemoveExecutionVariablesCmd extends NeedsActiveExecutionCmd<Void> {
         return null;
     }
 
-    @Override
+    override
     protected string getSuspendedExceptionMessage() {
         return "Cannot remove variables because execution '" + executionId + "' is suspended";
     }

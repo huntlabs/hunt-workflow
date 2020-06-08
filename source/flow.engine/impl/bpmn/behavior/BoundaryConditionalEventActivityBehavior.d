@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.BoundaryConditionalEventActivityBehavior;
 
 import flow.bpmn.model.ConditionalEventDefinition;
 import flow.common.api.deleg.Expression;
@@ -22,27 +22,26 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
+import hunt.Boolean;
 /**
  * @author Tijs Rademakers
  */
-class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class BoundaryConditionalEventActivityBehavior : BoundaryEventActivityBehavior {
 
     protected ConditionalEventDefinition conditionalEventDefinition;
     protected string conditionExpression;
 
-    public BoundaryConditionalEventActivityBehavior(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, bool interrupting) {
+    this(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression, bool interrupting) {
         super(interrupting);
         this.conditionalEventDefinition = conditionalEventDefinition;
         this.conditionExpression = conditionExpression;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = Context.getCommandContext();
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -51,14 +50,14 @@ class BoundaryConditionalEventActivityBehavior extends BoundaryEventActivityBeha
         }
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         CommandContext commandContext = Context.getCommandContext();
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
-        if (result !is null && result instanceof bool && (bool) result) {
+        if (result !is null && cast(Boolean)result !is null && (cast(Boolean) result).booleanValue()) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(executionEntity);
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();

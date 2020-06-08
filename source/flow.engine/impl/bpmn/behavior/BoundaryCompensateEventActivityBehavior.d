@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.BoundaryCompensateEventActivityBehavior;
 
 import hunt.collection.List;
 
@@ -27,42 +27,40 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
 /**
  * @author Tijs Rademakers
  */
-class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class BoundaryCompensateEventActivityBehavior : BoundaryEventActivityBehavior {
 
     protected CompensateEventDefinition compensateEventDefinition;
 
-    public BoundaryCompensateEventActivityBehavior(CompensateEventDefinition compensateEventDefinition, bool interrupting) {
+    this(CompensateEventDefinition compensateEventDefinition, bool interrupting) {
         super(interrupting);
         this.compensateEventDefinition = compensateEventDefinition;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        BoundaryEvent boundaryEvent = cast(BoundaryEvent) execution.getCurrentFlowElement();
 
         Process process = ProcessDefinitionUtil.getProcess(execution.getProcessDefinitionId());
         if (process is null) {
-            throw new FlowableException("Process model (id = " + execution.getId() + ") could not be found");
+            throw new FlowableException("Process model (id = " ~ execution.getId() ~ ") could not be found");
         }
 
         Activity sourceActivity = null;
         Activity compensationActivity = null;
-        List<Association> associations = process.findAssociationsWithSourceRefRecursive(boundaryEvent.getId());
-        for (Association association : associations) {
+        List!Association associations = process.findAssociationsWithSourceRefRecursive(boundaryEvent.getId());
+        foreach (Association association ; associations) {
             sourceActivity = boundaryEvent.getAttachedToRef();
             FlowElement targetElement = process.getFlowElement(association.getTargetRef(), true);
-            if (targetElement instanceof Activity) {
-                Activity activity = (Activity) targetElement;
+            if (cast(Activity)targetElement !is null) {
+                Activity activity = cast(Activity) targetElement;
                 if (activity.isForCompensation()) {
                     compensationActivity = activity;
                     break;
@@ -82,7 +80,7 @@ class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehav
         ExecutionEntity scopeExecution = null;
         ExecutionEntity parentExecution = executionEntity.getParent();
         while (scopeExecution is null && parentExecution !is null) {
-            if (parentExecution.getCurrentFlowElement() instanceof SubProcess) {
+            if (cast(SubProcess) parentExecution.getCurrentFlowElement() !is null) {
                 scopeExecution = parentExecution;
 
             } else if (parentExecution.isProcessInstanceType()) {
@@ -93,10 +91,10 @@ class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehav
         }
 
         if (scopeExecution is null) {
-            throw new FlowableException("Could not find a scope execution for compensation boundary event " + boundaryEvent.getId());
+            throw new FlowableException("Could not find a scope execution for compensation boundary event " ~ boundaryEvent.getId());
         }
 
-        EventSubscriptionEntity eventSubscription = (EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService().createEventSubscriptionBuilder()
+        EventSubscriptionEntity eventSubscription = cast(EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService().createEventSubscriptionBuilder()
                         .eventType(CompensateEventSubscriptionEntity.EVENT_TYPE)
                         .executionId(scopeExecution.getId())
                         .processInstanceId(scopeExecution.getProcessInstanceId())
@@ -107,16 +105,16 @@ class BoundaryCompensateEventActivityBehavior extends BoundaryEventActivityBehav
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        BoundaryEvent boundaryEvent = cast(BoundaryEvent) execution.getCurrentFlowElement();
 
         if (boundaryEvent.isCancelActivity()) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List<EventSubscriptionEntity> eventSubscriptions = executionEntity.getEventSubscriptions();
-            for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
-                if (eventSubscription instanceof CompensateEventSubscriptionEntity && eventSubscription.getActivityId().equals(compensateEventDefinition.getActivityRef())) {
+            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+                if (cast(CompensateEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getActivityId() == (compensateEventDefinition.getActivityRef())) {
                     eventSubscriptionService.deleteEventSubscription(eventSubscription);
                     CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
                 }

@@ -22,12 +22,12 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tom Baeyens
  */
-class GetTableCountCmd implements Command<Map<string, Long>>, Serializable {
+class GetTableCountCmd implements Command<Map!(string, Long)>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public Map<string, Long> execute(CommandContext commandContext) {
+    override
+    public Map!(string, Long) execute(CommandContext commandContext) {
         return CommandContextUtil.getTableDataManager(commandContext).getTableCount();
     }
 }

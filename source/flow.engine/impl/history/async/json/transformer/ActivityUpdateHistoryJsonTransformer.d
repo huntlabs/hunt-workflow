@@ -30,14 +30,14 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * @author martin.grofcik
  */
-class ActivityUpdateHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+class ActivityUpdateHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_UPDATE_HISTORIC_ACTIVITY_INSTANCE);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string activityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (StringUtils.isNotEmpty(activityInstanceId)) {
@@ -50,7 +50,7 @@ class ActivityUpdateHistoryJsonTransformer extends AbstractHistoryJsonTransforme
 
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string activityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
         if (StringUtils.isNotEmpty(activityInstanceId)) {

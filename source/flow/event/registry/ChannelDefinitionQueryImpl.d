@@ -24,6 +24,7 @@ import flow.common.query.AbstractQuery;
 import flow.event.registry.api.ChannelDefinition;
 import flow.event.registry.api.ChannelDefinitionQuery;
 import flow.event.registry.util.CommandContextUtil;
+import flow.event.registry.ChannelDefinitionQueryProperty;
 
 alias Date = LocalDateTime;
 /**

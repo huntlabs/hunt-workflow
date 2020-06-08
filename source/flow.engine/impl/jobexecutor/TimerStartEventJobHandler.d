@@ -29,18 +29,18 @@ import flow.variable.service.api.deleg.VariableScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class TimerStartEventJobHandler extends TimerEventHandler implements JobHandler {
+class TimerStartEventJobHandler : TimerEventHandler implements JobHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TimerStartEventJobHandler.class);
 
     public static final string TYPE = "timer-start-event";
 
-    @Override
+    override
     public string getType() {
         return TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
 
         ProcessDefinitionEntity processDefinitionEntity = ProcessDefinitionUtil

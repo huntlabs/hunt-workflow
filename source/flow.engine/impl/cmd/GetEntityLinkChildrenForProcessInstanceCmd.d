@@ -27,7 +27,7 @@ import flow.entitylink.service.api.EntityLinkType;
 /**
  * @author Tijs Rademakers
  */
-class GetEntityLinkChildrenForProcessInstanceCmd implements Command<List<EntityLink>>, Serializable {
+class GetEntityLinkChildrenForProcessInstanceCmd implements Command<List!EntityLink>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,8 +37,8 @@ class GetEntityLinkChildrenForProcessInstanceCmd implements Command<List<EntityL
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
-    public List<EntityLink> execute(CommandContext commandContext) {
+    override
+    public List!EntityLink execute(CommandContext commandContext) {
         ExecutionEntity processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
 
         if (processInstance is null) {

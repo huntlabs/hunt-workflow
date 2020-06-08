@@ -35,9 +35,9 @@ class DefaultFormHandler implements FormHandler {
 
     protected Expression formKey;
     protected string deploymentId;
-    protected List<FormPropertyHandler> formPropertyHandlers = new ArrayList<>();
+    protected List!FormPropertyHandler formPropertyHandlers = new ArrayList<>();
 
-    @Override
+    override
     public void parseConfiguration(List<flow.bpmn.model.FormProperty> formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition) {
         this.deploymentId = deployment.getId();
 
@@ -76,7 +76,7 @@ class DefaultFormHandler implements FormHandler {
     }
 
     protected void initializeFormProperties(FormDataImpl formData, ExecutionEntity execution) {
-        List<FormProperty> formProperties = new ArrayList<>();
+        List!FormProperty formProperties = new ArrayList<>();
         for (FormPropertyHandler formPropertyHandler : formPropertyHandlers) {
             if (formPropertyHandler.isReadable()) {
                 FormProperty formProperty = formPropertyHandler.createFormProperty(execution);
@@ -86,7 +86,7 @@ class DefaultFormHandler implements FormHandler {
         formData.setFormProperties(formProperties);
     }
 
-    @Override
+    override
     public void submitFormProperties(Map!(string, string) properties, ExecutionEntity execution) {
         Map!(string, string) propertiesCopy = new HashMap<>(properties);
         for (FormPropertyHandler formPropertyHandler : formPropertyHandlers) {
@@ -118,11 +118,11 @@ class DefaultFormHandler implements FormHandler {
         this.deploymentId = deploymentId;
     }
 
-    public List<FormPropertyHandler> getFormPropertyHandlers() {
+    public List!FormPropertyHandler getFormPropertyHandlers() {
         return formPropertyHandlers;
     }
 
-    public void setFormPropertyHandlers(List<FormPropertyHandler> formPropertyHandlers) {
+    public void setFormPropertyHandlers(List!FormPropertyHandler formPropertyHandlers) {
         this.formPropertyHandlers = formPropertyHandlers;
     }
 }

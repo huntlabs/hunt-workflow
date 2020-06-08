@@ -17,6 +17,8 @@ import hunt.time.LocalDateTime;
 import flow.common.persistence.entity.Entity;
 import flow.event.registry.api.ChannelDefinition;
 
+alias Date = LocalDateTime;
+
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -27,7 +29,7 @@ interface ChannelDefinitionEntity : ChannelDefinition, Entity {
 
     void setName(string name);
 
-    void setVersion(int version);
+    void setVersion(int ver);
 
     void setDescription(string description);
 

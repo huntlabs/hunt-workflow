@@ -31,17 +31,17 @@ abstract class AbstractProcessEngineConfigurator : EngineConfigurator {
 
     public static int DEFAULT_CONFIGURATOR_PRIORITY = 10000;
 
-    //@Override
+    //override
     public int getPriority() {
         return DEFAULT_CONFIGURATOR_PRIORITY;
     }
 
-    //@Override
+    //override
     public void beforeInit(AbstractEngineConfiguration engineConfiguration) {
 
     }
 
-    //@Override
+    //override
     public void configure(AbstractEngineConfiguration engineConfiguration) {
 
     }

@@ -23,7 +23,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class EvaluateConditionalEventsCmd extends NeedsActiveExecutionCmd<Object> {
+class EvaluateConditionalEventsCmd : NeedsActiveExecutionCmd!Object {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ class EvaluateConditionalEventsCmd extends NeedsActiveExecutionCmd<Object> {
         this.transientVariables = transientVariables;
     }
 
-    @Override
+    override
     protected Object execute(CommandContext commandContext, ExecutionEntity execution) {
         if (!execution.isProcessInstanceType()) {
             throw new FlowableException("Execution is not of type process instance");
@@ -60,7 +60,7 @@ class EvaluateConditionalEventsCmd extends NeedsActiveExecutionCmd<Object> {
         return null;
     }
 
-    @Override
+    override
     protected string getSuspendedExceptionMessage() {
         return "Cannot evaluate conditions for an execution that is suspended";
     }

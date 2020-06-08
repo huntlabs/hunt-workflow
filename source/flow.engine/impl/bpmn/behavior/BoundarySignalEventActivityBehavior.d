@@ -11,10 +11,9 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.BoundarySignalEventActivityBehavior;
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.Signal;
 import flow.bpmn.model.SignalEventDefinition;
@@ -28,42 +27,42 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
-
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
+import hunt.String;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class BoundarySignalEventActivityBehavior extends BoundaryEventActivityBehavior {
+class BoundarySignalEventActivityBehavior : BoundaryEventActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
 
     protected SignalEventDefinition signalEventDefinition;
     protected Signal signal;
 
-    public BoundarySignalEventActivityBehavior(SignalEventDefinition signalEventDefinition, Signal signal, bool interrupting) {
+    this(SignalEventDefinition signalEventDefinition, Signal signal, bool interrupting) {
         super(interrupting);
         this.signalEventDefinition = signalEventDefinition;
         this.signal = signal;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = Context.getCommandContext();
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         string signalName = null;
-        if (StringUtils.isNotEmpty(signalEventDefinition.getSignalRef())) {
+        if (signalEventDefinition.getSignalRef() !is null && signalEventDefinition.getSignalRef().length != 0) {
             signalName = signalEventDefinition.getSignalRef();
         } else {
             Expression signalExpression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager()
                     .createExpression(signalEventDefinition.getSignalExpression());
-            signalName = signalExpression.getValue(execution).toString();
+            signalName = cast(String)(signalExpression.getValue(execution)).value;
         }
 
-        EventSubscriptionEntity eventSubscription = (EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService(commandContext).createEventSubscriptionBuilder()
+        EventSubscriptionEntity eventSubscription = cast(EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService(commandContext).createEventSubscriptionBuilder()
                         .eventType(SignalEventSubscriptionEntity.EVENT_TYPE)
                         .eventName(signalEventDefinition.getSignalRef())
                         .signal(signal)
@@ -85,10 +84,10 @@ class BoundarySignalEventActivityBehavior extends BoundaryEventActivityBehavior 
         }
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        BoundaryEvent boundaryEvent = cast(BoundaryEvent) execution.getCurrentFlowElement();
 
         if (boundaryEvent.isCancelActivity()) {
             string eventName = null;
@@ -99,9 +98,9 @@ class BoundarySignalEventActivityBehavior extends BoundaryEventActivityBehavior 
             }
 
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List<EventSubscriptionEntity> eventSubscriptions = executionEntity.getEventSubscriptions();
-            for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
-                if (eventSubscription instanceof SignalEventSubscriptionEntity && eventSubscription.getEventName().equals(eventName)) {
+            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+                if (cast(SignalEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (eventName)) {
                     eventSubscriptionService.deleteEventSubscription(eventSubscription);
                     CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
                 }

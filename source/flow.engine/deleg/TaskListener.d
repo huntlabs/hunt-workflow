@@ -20,7 +20,7 @@
 module flow.engine.deleg.TaskListener;
 
 import flow.task.service.deleg.DelegateTask;
-
+import flow.task.service.deleg.TaskListener;
 
 /**
  * Here for backwards compatibility, prefer use the {@link flow.task.service.deleg.TaskListener}.

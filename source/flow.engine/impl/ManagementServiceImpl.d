@@ -88,33 +88,33 @@ import flow.job.service.impl.cmd.SetTimerJobRetriesCmd;
  * @author Falko Menge
  * @author Saeid Mizaei
  */
-class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurationImpl> implements ManagementService {
+class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl implements ManagementService {
 
     public ManagementServiceImpl(ProcessEngineConfigurationImpl processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 
-    @Override
-    public Map<string, Long> getTableCount() {
+    override
+    public Map!(string, Long) getTableCount() {
         return commandExecutor.execute(new GetTableCountCmd());
     }
 
-    @Override
+    override
     public string getTableName(Class<?> entityClass) {
         return commandExecutor.execute(new GetTableNameCmd(entityClass));
     }
 
-    @Override
+    override
     public string getTableName(Class<?> entityClass, bool includePrefix) {
         return commandExecutor.execute(new GetTableNameCmd(entityClass, includePrefix));
     }
 
-    @Override
+    override
     public TableMetaData getTableMetaData(string tableName) {
         return commandExecutor.execute(new GetTableMetaDataCmd(tableName));
     }
 
-    @Override
+    override
     public void executeJob(string jobId) {
         try {
             commandExecutor.execute(new ExecuteJobCmd(jobId));
@@ -128,201 +128,201 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
         }
     }
 
-    @Override
+    override
     public void executeHistoryJob(string historyJobId) {
         commandExecutor.execute(new ExecuteHistoryJobCmd(historyJobId));
     }
 
-    @Override
+    override
     public Job moveTimerToExecutableJob(string jobId) {
         return commandExecutor.execute(new MoveTimerToExecutableJobCmd(jobId));
     }
 
-    @Override
+    override
     public Job moveJobToDeadLetterJob(string jobId) {
         return commandExecutor.execute(new MoveJobToDeadLetterJobCmd(jobId));
     }
 
-    @Override
+    override
     public Job moveDeadLetterJobToExecutableJob(string jobId, int retries) {
         return commandExecutor.execute(new MoveDeadLetterJobToExecutableJobCmd(jobId, retries));
     }
 
-    @Override
+    override
     public Job moveSuspendedJobToExecutableJob(string jobId) {
         return commandExecutor.execute(new MoveSuspendedJobToExecutableJobCmd(jobId));
     }
 
-    @Override
+    override
     public void deleteJob(string jobId) {
         commandExecutor.execute(new DeleteJobCmd(jobId));
     }
 
-    @Override
+    override
     public void deleteTimerJob(string jobId) {
         commandExecutor.execute(new DeleteTimerJobCmd(jobId));
     }
 
-    @Override
+    override
     public void deleteSuspendedJob(string jobId) {
         commandExecutor.execute(new DeleteSuspendedJobCmd(jobId));
     }
 
-    @Override
+    override
     public void deleteDeadLetterJob(string jobId) {
         commandExecutor.execute(new DeleteDeadLetterJobCmd(jobId));
     }
 
-    @Override
+    override
     public void deleteHistoryJob(string jobId) {
         commandExecutor.execute(new DeleteHistoryJobCmd(jobId));
     }
 
-    @Override
+    override
     public void setJobRetries(string jobId, int retries) {
         commandExecutor.execute(new SetJobRetriesCmd(jobId, retries));
     }
 
-    @Override
+    override
     public void setTimerJobRetries(string jobId, int retries) {
         commandExecutor.execute(new SetTimerJobRetriesCmd(jobId, retries));
     }
 
-    @Override
+    override
     public Job rescheduleTimeDateJob(string jobId, string timeDate) {
         return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, timeDate, null, null, null, null));
     }
 
-    @Override
+    override
     public Job rescheduleTimeDurationJob(string jobId, string timeDuration) {
         return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, null, timeDuration, null, null, null));
     }
 
-    @Override
+    override
     public Job rescheduleTimeCycleJob(string jobId, string timeCycle) {
         return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, null, null, timeCycle, null, null));
     }
 
-    @Override
+    override
     public Job rescheduleTimerJob(string jobId, string timeDate, string timeDuration, string timeCycle, string endDate, string calendarName) {
         return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, timeDate, timeDuration, timeCycle, endDate, calendarName));
     }
 
-    @Override
+    override
     public TablePageQuery createTablePageQuery() {
         return new TablePageQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public JobQuery createJobQuery() {
         return new JobQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public TimerJobQuery createTimerJobQuery() {
         return new TimerJobQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public SuspendedJobQuery createSuspendedJobQuery() {
         return new SuspendedJobQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public DeadLetterJobQuery createDeadLetterJobQuery() {
         return new DeadLetterJobQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public HistoryJobQuery createHistoryJobQuery() {
         return new HistoryJobQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public string getJobExceptionStacktrace(string jobId) {
         return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.ASYNC));
     }
 
-    @Override
+    override
     public string getTimerJobExceptionStacktrace(string jobId) {
         return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.TIMER));
     }
 
-    @Override
+    override
     public string getSuspendedJobExceptionStacktrace(string jobId) {
         return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.SUSPENDED));
     }
 
-    @Override
+    override
     public string getDeadLetterJobExceptionStacktrace(string jobId) {
         return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.DEADLETTER));
     }
 
-    @Override
+    override
     public void handleHistoryCleanupTimerJob() {
         commandExecutor.execute(new HandleHistoryCleanupTimerJobCmd());
     }
 
-    @Override
-    public List<Batch> getAllBatches() {
+    override
+    public List!Batch getAllBatches() {
         return commandExecutor.execute(new GetAllBatchesCmd());
     }
 
-    @Override
-    public List<Batch> findBatchesBySearchKey(string searchKey) {
+    override
+    public List!Batch findBatchesBySearchKey(string searchKey) {
         return commandExecutor.execute(new FindBatchesBySearchKeyCmd(searchKey));
     }
 
-    @Override
+    override
     public string getBatchDocument(string batchId) {
         return commandExecutor.execute(new GetBatchDocumentCmd(batchId));
     }
 
-    @Override
+    override
     public BatchPart getBatchPart(string batchPartId) {
         return commandExecutor.execute(new GetBatchPartCmd(batchPartId));
     }
 
-    @Override
-    public List<BatchPart> findBatchPartsByBatchId(string batchId) {
+    override
+    public List!BatchPart findBatchPartsByBatchId(string batchId) {
         return commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId));
     }
 
-    @Override
-    public List<BatchPart> findBatchPartsByBatchIdAndStatus(string batchId, string status) {
+    override
+    public List!BatchPart findBatchPartsByBatchIdAndStatus(string batchId, string status) {
         return commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId, status));
     }
 
-    @Override
+    override
     public string getBatchPartDocument(string batchPartId) {
         return commandExecutor.execute(new GetBatchPartDocumentCmd(batchPartId));
     }
 
-    @Override
+    override
     public BatchQuery createBatchQuery() {
         return new BatchQueryImpl(commandExecutor);
     }
 
-    @Override
+    override
     public BatchBuilder createBatchBuilder() {
         return new BatchBuilderImpl(commandExecutor);
     }
 
-    @Override
+    override
     public void deleteBatch(string batchId) {
         commandExecutor.execute(new DeleteBatchCmd(batchId));
     }
 
-    @Override
+    override
     public Map!(string, string) getProperties() {
         return commandExecutor.execute(new GetPropertiesCmd());
     }
 
-    @Override
+    override
     public string databaseSchemaUpgrade(final Connection connection, final string catalog, final string schema) {
         CommandConfig config = commandExecutor.getDefaultConfig().transactionNotSupported();
         return commandExecutor.execute(config, new Command!string() {
-            @Override
+            override
             public string execute(CommandContext commandContext) {
                 DbSqlSessionFactory dbSqlSessionFactory = (DbSqlSessionFactory) commandContext.getSessionFactories().get(DbSqlSession.class);
                 DbSqlSession dbSqlSession = new DbSqlSession(dbSqlSessionFactory, CommandContextUtil.getEntityCache(commandContext), connection, catalog, schema);
@@ -332,16 +332,16 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
         });
     }
 
-    @Override
-    public <T> T executeCommand(Command<T> command) {
+    override
+    public <T> T executeCommand(Command!T command) {
         if (command is null) {
             throw new FlowableIllegalArgumentException("The command is null");
         }
         return commandExecutor.execute(command);
     }
 
-    @Override
-    public <T> T executeCommand(CommandConfig config, Command<T> command) {
+    override
+    public <T> T executeCommand(CommandConfig config, Command!T command) {
         if (config is null) {
             throw new FlowableIllegalArgumentException("The config is null");
         }
@@ -351,28 +351,28 @@ class ManagementServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigu
         return commandExecutor.execute(config, command);
     }
 
-    @Override
+    override
     public LockManager getLockManager(string lockName) {
         return new LockManagerImpl(commandExecutor, lockName, getConfiguration().getLockPollRate());
     }
 
-    @Override
-    public <MapperType, ResultType> ResultType executeCustomSql(CustomSqlExecution<MapperType, ResultType> customSqlExecution) {
-        Class<MapperType> mapperClass = customSqlExecution.getMapperClass();
+    override
+    public <MapperType, ResultType> ResultType executeCustomSql(CustomSqlExecution!(MapperType, ResultType) customSqlExecution) {
+        Class!MapperType mapperClass = customSqlExecution.getMapperClass();
         return commandExecutor.execute(new ExecuteCustomSqlCmd<>(mapperClass, customSqlExecution));
     }
 
-    @Override
-    public List<EventLogEntry> getEventLogEntries(Long startLogNr, Long pageSize) {
+    override
+    public List!EventLogEntry getEventLogEntries(Long startLogNr, Long pageSize) {
         return commandExecutor.execute(new GetEventLogEntriesCmd(startLogNr, pageSize));
     }
 
-    @Override
-    public List<EventLogEntry> getEventLogEntriesByProcessInstanceId(string processInstanceId) {
+    override
+    public List!EventLogEntry getEventLogEntriesByProcessInstanceId(string processInstanceId) {
         return commandExecutor.execute(new GetEventLogEntriesCmd(processInstanceId));
     }
 
-    @Override
+    override
     public void deleteEventLogEntry(long logNr) {
         commandExecutor.execute(new DeleteEventLogEntry(logNr));
     }

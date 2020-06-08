@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.BoundaryEventRegistryEventActivityBehavior;
 
 import hunt.collection.List;
-import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BoundaryEvent;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
@@ -34,30 +32,29 @@ import flow.engine.impl.util.EventInstanceBpmnUtil;
 import flow.event.registry.api.runtime.EventInstance;
 import flow.event.registry.constant.EventConstants;
 import flow.event.registry.model.EventModel;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
+import hunt.String;
 /**
  * @author Tijs Rademakers
  */
-class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class BoundaryEventRegistryEventActivityBehavior : BoundaryEventActivityBehavior {
 
     protected string eventDefinitionKey;
 
-    public BoundaryEventRegistryEventActivityBehavior(string eventDefinitionKey, bool interrupting) {
+    this(string eventDefinitionKey, bool interrupting) {
         super(interrupting);
         this.eventDefinitionKey = eventDefinitionKey;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = Context.getCommandContext();
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         EventModel eventModel = getEventModel(execution);
-        EventSubscriptionEntity eventSubscription = (EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService(commandContext).createEventSubscriptionBuilder()
+        EventSubscriptionEntity eventSubscription = cast(EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService(commandContext).createEventSubscriptionBuilder()
                         .eventType(eventModel.getKey())
                         .executionId(executionEntity.getId())
                         .processInstanceId(executionEntity.getProcessInstanceId())
@@ -74,7 +71,7 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
 
     protected EventModel getEventModel(DelegateExecution execution) {
         EventModel eventModel = null;
-        if (Objects.equals(ProcessEngineConfiguration.NO_TENANT_ID, execution.getTenantId())) {
+        if (ProcessEngineConfiguration.NO_TENANT_ID == execution.getTenantId()) {
             eventModel = CommandContextUtil.getEventRepositoryService().getEventModelByKey(eventDefinitionKey);
         } else {
             eventModel = CommandContextUtil.getEventRepositoryService().getEventModelByKey(eventDefinitionKey, execution.getTenantId());
@@ -82,24 +79,24 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
         return eventModel;
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        BoundaryEvent boundaryEvent = cast(BoundaryEvent) execution.getCurrentFlowElement();
 
         Object eventInstance = execution.getTransientVariables().get(EventConstants.EVENT_INSTANCE);
-        if (eventInstance instanceof EventInstance) {
-            EventInstanceBpmnUtil.handleEventInstanceOutParameters(execution, boundaryEvent, (EventInstance) eventInstance);
+        if (cast(EventInstance)eventInstance !is null) {
+            EventInstanceBpmnUtil.handleEventInstanceOutParameters(execution, boundaryEvent, cast(EventInstance) eventInstance);
         }
 
         if (boundaryEvent.isCancelActivity()) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List<EventSubscriptionEntity> eventSubscriptions = executionEntity.getEventSubscriptions();
+            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
 
             CommandContext commandContext = Context.getCommandContext();
             EventModel eventModel = getEventModel(commandContext, executionEntity);
-            for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
-                if (Objects.equals(eventModel.getKey(), eventSubscription.getEventType())) {
+            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+                if (eventModel.getKey() == eventSubscription.getEventType()) {
                     eventSubscriptionService.deleteEventSubscription(eventSubscription);
                     CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
                 }
@@ -113,14 +110,14 @@ class BoundaryEventRegistryEventActivityBehavior extends BoundaryEventActivityBe
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 
         string key = null;
-        if (StringUtils.isNotEmpty(eventDefinitionKey)) {
+        if (eventDefinitionKey !is null && eventDefinitionKey.length != 0) {
             Expression expression = processEngineConfiguration.getExpressionManager().createExpression(eventDefinitionKey);
-            key = expression.getValue(executionEntity).toString();
+            key = (cast(String) expression.getValue(executionEntity)).value;
         }
 
         EventModel eventModel = getEventModel(executionEntity);
         if (eventModel is null) {
-            throw new FlowableException("Could not find event model for key " +key);
+            throw new FlowableException("Could not find event model for key " ~key);
         }
         return eventModel;
     }

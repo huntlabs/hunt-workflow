@@ -28,7 +28,7 @@ import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 /**
  * @author Tijs Rademakers
  */
-class AddIdentityLinkForProcessDefinitionCmd implements Command<Void>, Serializable {
+class AddIdentityLinkForProcessDefinitionCmd implements Command!Void, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,7 +55,7 @@ class AddIdentityLinkForProcessDefinitionCmd implements Command<Void>, Serializa
         }
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 

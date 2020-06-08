@@ -32,7 +32,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class GetRenderedTaskFormCmd implements Command<Object>, Serializable {
+class GetRenderedTaskFormCmd implements Command!Object, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -43,7 +43,7 @@ class GetRenderedTaskFormCmd implements Command<Object>, Serializable {
         this.formEngineName = formEngineName;
     }
 
-    @Override
+    override
     public Object execute(CommandContext commandContext) {
 
         if (taskId is null) {

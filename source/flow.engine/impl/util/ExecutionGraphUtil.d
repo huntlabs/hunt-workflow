@@ -35,8 +35,8 @@ class ExecutionGraphUtil {
     /**
      * Takes in a collection of executions belonging to the same process instance. Orders the executions in a list, first elements are the leaf, last element is the root elements.
      */
-    public static List<ExecutionEntity> orderFromRootToLeaf(Collection<ExecutionEntity> executions) {
-        List<ExecutionEntity> orderedList = new ArrayList<>(executions.size());
+    public static List!ExecutionEntity orderFromRootToLeaf(Collection!ExecutionEntity executions) {
+        List!ExecutionEntity orderedList = new ArrayList<>(executions.size());
 
         // Root elements
         HashSet!string previousIds = new HashSet<>();
@@ -60,8 +60,8 @@ class ExecutionGraphUtil {
         return orderedList;
     }
 
-    public static List<ExecutionEntity> orderFromLeafToRoot(Collection<ExecutionEntity> executions) {
-        List<ExecutionEntity> orderedList = orderFromRootToLeaf(executions);
+    public static List!ExecutionEntity orderFromLeafToRoot(Collection!ExecutionEntity executions) {
+        List!ExecutionEntity orderedList = orderFromRootToLeaf(executions);
         Collections.reverse(orderedList);
         return orderedList;
     }
@@ -130,7 +130,7 @@ class ExecutionGraphUtil {
         // visited the node.
         visitedElements.add(sourceElement.getId());
 
-        List<SequenceFlow> sequenceFlows = sourceElement.getOutgoingFlows();
+        List!SequenceFlow sequenceFlows = sourceElement.getOutgoingFlows();
         if (sequenceFlows !is null && sequenceFlows.size() > 0) {
             for (SequenceFlow sequenceFlow : sequenceFlows) {
                 string targetRef = sequenceFlow.getTargetRef();

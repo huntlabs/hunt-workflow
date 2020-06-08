@@ -21,11 +21,11 @@ import flow.engine.repository.DeploymentMergeStrategy;
  */
 class VerifyDeploymentMergeStrategy implements DeploymentMergeStrategy {
 
-    @Override
+    override
     public void prepareMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
     }
 
-    @Override
+    override
     public void finalizeMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
     }
 

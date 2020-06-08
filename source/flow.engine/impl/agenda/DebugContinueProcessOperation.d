@@ -22,7 +22,7 @@ import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.engine.impl.agenda.ContinueProcessOperation;
 
 /**
- * This class extends {@link ContinueProcessOperation} with the possibility to check whether execution is trying to
+ * This class : {@link ContinueProcessOperation} with the possibility to check whether execution is trying to
  * execute a breakpoint
  *
  * @author martin.grofcik

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.ExecutionDataManager;
 
 import hunt.collection;
 import hunt.time.LocalDateTime;
@@ -27,39 +27,39 @@ import flow.engine.runtime.ProcessInstance;
 /**
  * @author Joram Barrez
  */
-interface ExecutionDataManager extends DataManager<ExecutionEntity> {
+interface ExecutionDataManager : DataManager!ExecutionEntity {
 
-    ExecutionEntity findSubProcessInstanceBySuperExecutionId(final string superExecutionId);
+    ExecutionEntity findSubProcessInstanceBySuperExecutionId( string superExecutionId);
 
-    List<ExecutionEntity> findChildExecutionsByParentExecutionId(final string parentExecutionId);
+    List!ExecutionEntity findChildExecutionsByParentExecutionId( string parentExecutionId);
 
-    List<ExecutionEntity> findChildExecutionsByProcessInstanceId(final string processInstanceId);
+    List!ExecutionEntity findChildExecutionsByProcessInstanceId( string processInstanceId);
 
-    List<ExecutionEntity> findExecutionsByParentExecutionAndActivityIds(final string parentExecutionId, final Collection!string activityIds);
+    List!ExecutionEntity findExecutionsByParentExecutionAndActivityIds( string parentExecutionId,  Collection!string activityIds);
 
     long findExecutionCountByQueryCriteria(ExecutionQueryImpl executionQuery);
 
-    List<ExecutionEntity> findExecutionsByQueryCriteria(ExecutionQueryImpl executionQuery);
+    List!ExecutionEntity findExecutionsByQueryCriteria(ExecutionQueryImpl executionQuery);
 
     long findProcessInstanceCountByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
 
-    List<ProcessInstance> findProcessInstanceByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
+    List!ProcessInstance findProcessInstanceByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
 
-    List<ExecutionEntity> findExecutionsByRootProcessInstanceId(string rootProcessInstanceId);
+    List!ExecutionEntity findExecutionsByRootProcessInstanceId(string rootProcessInstanceId);
 
-    List<ExecutionEntity> findExecutionsByProcessInstanceId(string processInstanceId);
+    List!ExecutionEntity findExecutionsByProcessInstanceId(string processInstanceId);
 
-    List<ProcessInstance> findProcessInstanceAndVariablesByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
+    List!ProcessInstance findProcessInstanceAndVariablesByQueryCriteria(ProcessInstanceQueryImpl executionQuery);
 
-    Collection<ExecutionEntity> findInactiveExecutionsByProcessInstanceId(final string processInstanceId);
+    Collection!ExecutionEntity findInactiveExecutionsByProcessInstanceId( string processInstanceId);
 
-    Collection<ExecutionEntity> findInactiveExecutionsByActivityIdAndProcessInstanceId(final string activityId, final string processInstanceId);
+    Collection!ExecutionEntity findInactiveExecutionsByActivityIdAndProcessInstanceId( string activityId,  string processInstanceId);
 
     List!string findProcessInstanceIdsByProcessDefinitionId(string processDefinitionId);
 
-    List<Execution> findExecutionsByNativeQuery(Map!(string, Object) parameterMap);
+    List!Execution findExecutionsByNativeQuery(Map!(string, Object) parameterMap);
 
-    List<ProcessInstance> findProcessInstanceByNativeQuery(Map!(string, Object) parameterMap);
+    List!ProcessInstance findProcessInstanceByNativeQuery(Map!(string, Object) parameterMap);
 
     long findExecutionCountByNativeQuery(Map!(string, Object) parameterMap);
 

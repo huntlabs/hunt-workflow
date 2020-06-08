@@ -19,10 +19,10 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetAllBatchesCmd implements Command<List<Batch>> {
+class GetAllBatchesCmd implements Command<List!Batch> {
 
-    @Override
-    public List<Batch> execute(CommandContext commandContext) {
+    override
+    public List!Batch execute(CommandContext commandContext) {
         return CommandContextUtil.getBatchService(commandContext).getAllBatches();
     }
 }

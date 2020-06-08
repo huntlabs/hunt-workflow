@@ -24,7 +24,7 @@ import flow.engine.task.Event;
 /**
  * @author Tom Baeyens
  */
-class GetProcessInstanceEventsCmd implements Command<List<Event>>, Serializable {
+class GetProcessInstanceEventsCmd implements Command<List!Event>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processInstanceId;
@@ -33,8 +33,8 @@ class GetProcessInstanceEventsCmd implements Command<List<Event>>, Serializable 
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
-    public List<Event> execute(CommandContext commandContext) {
+    override
+    public List!Event execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findEventsByProcessInstanceId(processInstanceId);
     }
 }

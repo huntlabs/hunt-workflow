@@ -26,7 +26,7 @@ import flow.engine.repository.ProcessDefinition;
 
 class MoveExecutionEntityContainer {
 
-    protected List<ExecutionEntity> executions;
+    protected List!ExecutionEntity executions;
     protected List!string moveToActivityIds;
     protected bool moveToParentProcess;
     protected bool moveToSubProcessInstance;
@@ -40,15 +40,15 @@ class MoveExecutionEntityContainer {
     protected BpmnModel processModel;
     protected ExecutionEntity superExecution;
     protected string newAssigneeId;
-    protected Map<string, ExecutionEntity> continueParentExecutionMap = new HashMap<>();
-    protected Map<string, FlowElementMoveEntry> moveToFlowElementMap = new HashMap<>();
+    protected Map!(string, ExecutionEntity) continueParentExecutionMap = new HashMap<>();
+    protected Map!(string, FlowElementMoveEntry) moveToFlowElementMap = new HashMap<>();
 
-    public MoveExecutionEntityContainer(List<ExecutionEntity> executions, List!string moveToActivityIds) {
+    public MoveExecutionEntityContainer(List!ExecutionEntity executions, List!string moveToActivityIds) {
         this.executions = executions;
         this.moveToActivityIds = moveToActivityIds;
     }
 
-    public List<ExecutionEntity> getExecutions() {
+    public List!ExecutionEntity getExecutions() {
         return executions;
     }
 
@@ -176,7 +176,7 @@ class MoveExecutionEntityContainer {
         return moveToFlowElementMap.get(activityId);
     }
 
-    public List<FlowElementMoveEntry> getMoveToFlowElements() {
+    public List!FlowElementMoveEntry getMoveToFlowElements() {
         return new ArrayList<>(moveToFlowElementMap.values());
     }
 

@@ -38,12 +38,12 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Tijs Rademakers
  */
-class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUtil {
+class DynamicSubProcessParallelInjectUtil : BaseDynamicSubProcessInjectUtil {
 
     public static void injectParallelSubProcess(Process process, BpmnModel bpmnModel, DynamicEmbeddedSubProcessBuilder dynamicEmbeddedSubProcessBuilder,
                     ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity, CommandContext commandContext) {
 
-        List<StartEvent> startEvents = process.findFlowElementsOfType(StartEvent.class);
+        List!StartEvent startEvents = process.findFlowElementsOfType(StartEvent.class);
         StartEvent initialStartEvent = null;
         for (StartEvent startEvent : startEvents) {
             if (startEvent.getEventDefinitions().size() == 0) {
@@ -79,7 +79,7 @@ class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUti
 
         processFlowElements(commandContext, process, bpmnModel, originalProcessDefinitionEntity, newDeploymentEntity);
 
-        Map<string, FlowElement> generatedIds = new HashMap<>();
+        Map!(string, FlowElement) generatedIds = new HashMap<>();
         processSubProcessFlowElements(commandContext, subProcess.getId(), process, bpmnModel, subProcess, bpmnModelSubProcess,
                         subProcessDefinition, newDeploymentEntity, generatedIds, (elementGraphicInfo !is null));
 
@@ -118,7 +118,7 @@ class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUti
                 elementGraphicInfo.setY(173);
             }
 
-            Map<string, GraphicInfo> locationMap = bpmnModel.getLocationMap();
+            Map!(string, GraphicInfo) locationMap = bpmnModel.getLocationMap();
             for (string locationId : locationMap.keySet()) {
                 if (initialStartEvent.getId().equals(locationId)) {
                     continue;
@@ -129,13 +129,13 @@ class DynamicSubProcessParallelInjectUtil extends BaseDynamicSubProcessInjectUti
                 locationGraphicInfo.setY(locationGraphicInfo.getY() + yDiff);
             }
 
-            Map<string, List<GraphicInfo>> flowLocationMap = bpmnModel.getFlowLocationMap();
+            Map<string, List!GraphicInfo> flowLocationMap = bpmnModel.getFlowLocationMap();
             for (string flowId : flowLocationMap.keySet()) {
                 if (flowFromStart.getId().equals(flowId)) {
                     continue;
                 }
 
-                List<GraphicInfo> flowGraphicInfoList = flowLocationMap.get(flowId);
+                List!GraphicInfo flowGraphicInfoList = flowLocationMap.get(flowId);
                 for (GraphicInfo flowGraphicInfo : flowGraphicInfoList) {
                     flowGraphicInfo.setX(flowGraphicInfo.getX() + xDiff);
                     flowGraphicInfo.setY(flowGraphicInfo.getY() + yDiff);

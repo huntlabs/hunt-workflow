@@ -10,43 +10,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.CreateTaskCmd;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.CountingEntityUtil;
+//import flow.engine.impl.util.CountingEntityUtil;
 import flow.task.api.Task;
 import flow.task.api.TaskBuilder;
 import flow.task.service.impl.persistence.CountingTaskEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.task.service.impl.util.CountingTaskUtil;
-
+import hunt.Exceptions;
 /**
  * Creates new task by {@link flow.task.api.TaskBuilder}
  *
  * @author martin.grofcik
  */
-class CreateTaskCmd implements Command<Task> {
+class CreateTaskCmd : Command!Task {
     protected TaskBuilder taskBuilder;
 
-    public CreateTaskCmd(TaskBuilder taskBuilder) {
+    this(TaskBuilder taskBuilder) {
         this.taskBuilder = taskBuilder;
     }
 
-    @Override
     public Task execute(CommandContext commandContext) {
         Task task = CommandContextUtil.getTaskService().createTask(this.taskBuilder);
-        if (CountingTaskUtil.isTaskRelatedEntityCountEnabledGlobally()) {
-            if (StringUtils.isNotEmpty(task.getParentTaskId())) {
-                TaskEntity parentTaskEntity = CommandContextUtil.getTaskService().getTask(task.getParentTaskId());
-                if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(parentTaskEntity)) {
-                    CountingTaskEntity countingParentTaskEntity = (CountingTaskEntity) parentTaskEntity;
-                    countingParentTaskEntity.setSubTaskCount(countingParentTaskEntity.getSubTaskCount() + 1);
-                }
-            }
-        }
+        implementationMissing(false);
+        //if (CountingTaskUtil.isTaskRelatedEntityCountEnabledGlobally()) {
+        //    if (task.getParentTaskId().length != 0) {
+        //        TaskEntity parentTaskEntity = CommandContextUtil.getTaskService().getTask(task.getParentTaskId());
+        //        if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(parentTaskEntity)) {
+        //            CountingTaskEntity countingParentTaskEntity = (CountingTaskEntity) parentTaskEntity;
+        //            countingParentTaskEntity.setSubTaskCount(countingParentTaskEntity.getSubTaskCount() + 1);
+        //        }
+        //    }
+        //}
 
         return task;
     }

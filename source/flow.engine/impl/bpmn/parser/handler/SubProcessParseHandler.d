@@ -19,14 +19,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Joram Barrez
  */
-class SubProcessParseHandler extends AbstractActivityBpmnParseHandler<SubProcess> {
+class SubProcessParseHandler : AbstractActivityBpmnParseHandler!SubProcess {
 
-    @Override
-    protected Class<? extends BaseElement> getHandledType() {
+    override
+    protected Class<? : BaseElement> getHandledType() {
         return SubProcess.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, SubProcess subProcess) {
 
         subProcess.setBehavior(bpmnParse.getActivityBehaviorFactory().createSubprocessActivityBehavior(subProcess));

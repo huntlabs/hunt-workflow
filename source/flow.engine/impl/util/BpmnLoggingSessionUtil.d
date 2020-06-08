@@ -193,7 +193,7 @@ class BpmnLoggingSessionUtil {
         }
     }
 
-    public static void addTaskIdentityLinkData(string type, string message, bool isUser, List<IdentityLinkEntity> identityLinkEntities,
+    public static void addTaskIdentityLinkData(string type, string message, bool isUser, List!IdentityLinkEntity identityLinkEntities,
                     TaskEntity task, DelegateExecution execution) {
 
         ObjectNode loggingNode = fillBasicTaskLoggingData(message, task, execution);
@@ -219,7 +219,7 @@ class BpmnLoggingSessionUtil {
     }
 
     public static string getBoundaryCreateEventType(BoundaryEvent boundaryEvent) {
-        List<EventDefinition> eventDefinitions = boundaryEvent.getEventDefinitions();
+        List!EventDefinition eventDefinitions = boundaryEvent.getEventDefinitions();
         if (eventDefinitions !is null && !eventDefinitions.isEmpty()) {
             EventDefinition eventDefinition = eventDefinitions.get(0);
             if (eventDefinition instanceof TimerEventDefinition) {
@@ -243,7 +243,7 @@ class BpmnLoggingSessionUtil {
     }
 
     public static string getBoundaryEventType(BoundaryEvent boundaryEvent) {
-        List<EventDefinition> eventDefinitions = boundaryEvent.getEventDefinitions();
+        List!EventDefinition eventDefinitions = boundaryEvent.getEventDefinitions();
         if (eventDefinitions !is null && !eventDefinitions.isEmpty()) {
             EventDefinition eventDefinition = eventDefinitions.get(0);
             return eventDefinition.getClass().getSimpleName();
@@ -256,7 +256,7 @@ class BpmnLoggingSessionUtil {
         string activitySubType = null;
         if (flowElement instanceof Event) {
             Event event = (Event) flowElement;
-            List<EventDefinition> eventDefinitions = event.getEventDefinitions();
+            List!EventDefinition eventDefinitions = event.getEventDefinitions();
             if (eventDefinitions !is null && !eventDefinitions.isEmpty()) {
                 EventDefinition eventDefinition = eventDefinitions.get(0);
                 activitySubType = eventDefinition.getClass().getSimpleName();

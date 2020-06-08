@@ -29,23 +29,23 @@ abstract class FormDataImpl implements FormData, Serializable {
 
     protected string formKey;
     protected string deploymentId;
-    protected List<FormProperty> formProperties = new ArrayList<>();
+    protected List!FormProperty formProperties = new ArrayList<>();
 
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    @Override
+    override
     public string getFormKey() {
         return formKey;
     }
 
-    @Override
+    override
     public string getDeploymentId() {
         return deploymentId;
     }
 
-    @Override
-    public List<FormProperty> getFormProperties() {
+    override
+    public List!FormProperty getFormProperties() {
         return formProperties;
     }
 
@@ -57,7 +57,7 @@ abstract class FormDataImpl implements FormData, Serializable {
         this.deploymentId = deploymentId;
     }
 
-    public void setFormProperties(List<FormProperty> formProperties) {
+    public void setFormProperties(List!FormProperty formProperties) {
         this.formProperties = formProperties;
     }
 

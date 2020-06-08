@@ -38,7 +38,7 @@ import flow.job.service.impl.persistence.entity.TimerJobEntity;
 class TimerManager {
 
     protected void removeObsoleteTimers(ProcessDefinitionEntity processDefinition) {
-        List<TimerJobEntity> jobsToDelete = null;
+        List!TimerJobEntity jobsToDelete = null;
 
         if (processDefinition.getTenantId() !is null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
             jobsToDelete = CommandContextUtil.getTimerJobService().findJobsByTypeAndProcessDefinitionKeyAndTenantId(
@@ -57,14 +57,14 @@ class TimerManager {
 
     protected void scheduleTimers(ProcessDefinitionEntity processDefinition, Process process) {
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
-        List<TimerJobEntity> timers = getTimerDeclarations(processDefinition, process);
+        List!TimerJobEntity timers = getTimerDeclarations(processDefinition, process);
         for (TimerJobEntity timer : timers) {
             timerJobService.scheduleTimerJob(timer);
         }
     }
 
-    protected List<TimerJobEntity> getTimerDeclarations(ProcessDefinitionEntity processDefinition, Process process) {
-        List<TimerJobEntity> timers = new ArrayList<>();
+    protected List!TimerJobEntity getTimerDeclarations(ProcessDefinitionEntity processDefinition, Process process) {
+        List!TimerJobEntity timers = new ArrayList<>();
         if (CollectionUtil.isNotEmpty(process.getFlowElements())) {
             for (FlowElement element : process.getFlowElements()) {
                 if (element instanceof StartEvent) {

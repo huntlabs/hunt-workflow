@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,10 +24,10 @@ import flow.engine.repository.ProcessDefinition;
 
 /**
  * Gives access to a deployed process model, e.g., a BPMN 2.0 XML file, through a stream of bytes.
- * 
+ *
  * @author Falko Menge
  */
-class GetDeploymentProcessModelCmd implements Command<InputStream>, Serializable {
+class GetDeploymentProcessModelCmd implements Command!InputStream, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
@@ -39,7 +39,7 @@ class GetDeploymentProcessModelCmd implements Command<InputStream>, Serializable
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
+    override
     public InputStream execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
         string deploymentId = processDefinition.getDeploymentId();

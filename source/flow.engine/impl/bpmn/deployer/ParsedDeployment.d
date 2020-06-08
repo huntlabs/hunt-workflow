@@ -33,14 +33,14 @@ class ParsedDeployment {
 
     protected DeploymentEntity deploymentEntity;
 
-    protected List<ProcessDefinitionEntity> processDefinitions;
-    protected Map<ProcessDefinitionEntity, BpmnParse> mapProcessDefinitionsToParses;
-    protected Map<ProcessDefinitionEntity, EngineResource> mapProcessDefinitionsToResources;
+    protected List!ProcessDefinitionEntity processDefinitions;
+    protected Map!(ProcessDefinitionEntity, BpmnParse) mapProcessDefinitionsToParses;
+    protected Map!(ProcessDefinitionEntity, EngineResource) mapProcessDefinitionsToResources;
 
     public ParsedDeployment(
-            DeploymentEntity entity, List<ProcessDefinitionEntity> processDefinitions,
-            Map<ProcessDefinitionEntity, BpmnParse> mapProcessDefinitionsToParses,
-            Map<ProcessDefinitionEntity, EngineResource> mapProcessDefinitionsToResources) {
+            DeploymentEntity entity, List!ProcessDefinitionEntity processDefinitions,
+            Map!(ProcessDefinitionEntity, BpmnParse) mapProcessDefinitionsToParses,
+            Map!(ProcessDefinitionEntity, EngineResource) mapProcessDefinitionsToResources) {
         this.deploymentEntity = entity;
         this.processDefinitions = processDefinitions;
         this.mapProcessDefinitionsToParses = mapProcessDefinitionsToParses;
@@ -51,7 +51,7 @@ class ParsedDeployment {
         return deploymentEntity;
     }
 
-    public List<ProcessDefinitionEntity> getAllProcessDefinitions() {
+    public List!ProcessDefinitionEntity getAllProcessDefinitions() {
         return processDefinitions;
     }
 

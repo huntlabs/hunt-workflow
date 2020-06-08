@@ -28,7 +28,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Falko Menge
  * @author Joram Barrez
  */
-class DeleteIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
+class DeleteIdentityLinkCmd : NeedsActiveTaskCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -71,7 +71,7 @@ class DeleteIdentityLinkCmd extends NeedsActiveTaskCmd<Void> {
         }
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();

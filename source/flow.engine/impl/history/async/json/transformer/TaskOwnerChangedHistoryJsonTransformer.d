@@ -28,14 +28,14 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class TaskOwnerChangedHistoryJsonTransformer extends AbstractNeedsTaskHistoryJsonTransformer {
+class TaskOwnerChangedHistoryJsonTransformer : AbstractNeedsTaskHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_TASK_OWNER_CHANGED);
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string owner = getStringFromJson(historicalData, HistoryJsonConstants.OWNER);
         string taskId = getStringFromJson(historicalData, HistoryJsonConstants.ID);

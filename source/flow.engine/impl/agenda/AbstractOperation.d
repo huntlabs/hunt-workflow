@@ -23,7 +23,8 @@ import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import hunt.util.Common;
-
+import hunt.util.Runnable;
+import flow.bpmn.model.Process;
 /**
  * Abstract superclass for all operation interfaces (which are {@link Runnable} instances), exposing some shared helper methods and member fields to subclasses.
  *
@@ -50,10 +51,10 @@ abstract class AbstractOperation : Runnable {
     /**
      * Helper method to match the activityId of an execution with a FlowElement of the process definition referenced by the execution.
      */
-    protected FlowElement getCurrentFlowElement(final ExecutionEntity execution) {
+    protected FlowElement getCurrentFlowElement(ExecutionEntity execution) {
         if (execution.getCurrentFlowElement() !is null) {
             return execution.getCurrentFlowElement();
-        } else if (execution.getCurrentActivityId() !is null) {
+        } else if (execution.getCurrentActivityId() !is null && execution.getCurrentActivityId().length != 0) {
             string processDefinitionId = execution.getProcessDefinitionId();
             flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
             string activityId = execution.getCurrentActivityId();

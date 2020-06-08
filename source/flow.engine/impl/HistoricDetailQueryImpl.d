@@ -31,7 +31,7 @@ import flow.variable.service.impl.types.JPAEntityVariableType;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class HistoricDetailQueryImpl extends AbstractQuery<HistoricDetailQuery, HistoricDetail> implements HistoricDetailQuery {
+class HistoricDetailQueryImpl : AbstractQuery!(HistoricDetailQuery, HistoricDetail) implements HistoricDetailQuery {
 
     private static final long serialVersionUID = 1L;
     protected string id;
@@ -54,19 +54,19 @@ class HistoricDetailQueryImpl extends AbstractQuery<HistoricDetailQuery, Histori
         super(commandExecutor);
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl id(string id) {
         this.id = id;
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl processInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl executionId(string executionId) {
         this.executionId = executionId;
         return this;
@@ -77,44 +77,44 @@ class HistoricDetailQueryImpl extends AbstractQuery<HistoricDetailQuery, Histori
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl activityInstanceId(string activityInstanceId) {
         this.activityInstanceId = activityInstanceId;
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl taskId(string taskId) {
         this.taskId = taskId;
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl formProperties() {
         this.type = "FormProperty";
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl variableUpdates() {
         this.type = "VariableUpdate";
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl excludeTaskDetails() {
         this.excludeTaskRelated = true;
         return this;
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<HistoricDetail> executeList(CommandContext commandContext) {
-        List<HistoricDetail> historicDetails = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(this);
+    override
+    public List!HistoricDetail executeList(CommandContext commandContext) {
+        List!HistoricDetail historicDetails = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(this);
 
         HistoricDetailVariableInstanceUpdateEntity varUpdate = null;
         if (historicDetails !is null) {
@@ -150,37 +150,37 @@ class HistoricDetailQueryImpl extends AbstractQuery<HistoricDetailQuery, Histori
     // order by
     // /////////////////////////////////////////////////////////////////
 
-    @Override
+    override
     public HistoricDetailQueryImpl orderByProcessInstanceId() {
         orderBy(HistoricDetailQueryProperty.PROCESS_INSTANCE_ID);
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl orderByTime() {
         orderBy(HistoricDetailQueryProperty.TIME);
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl orderByVariableName() {
         orderBy(HistoricDetailQueryProperty.VARIABLE_NAME);
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl orderByFormPropertyId() {
         orderBy(HistoricDetailQueryProperty.VARIABLE_NAME);
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl orderByVariableRevision() {
         orderBy(HistoricDetailQueryProperty.VARIABLE_REVISION);
         return this;
     }
 
-    @Override
+    override
     public HistoricDetailQueryImpl orderByVariableType() {
         orderBy(HistoricDetailQueryProperty.VARIABLE_TYPE);
         return this;

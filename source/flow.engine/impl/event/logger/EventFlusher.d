@@ -20,11 +20,11 @@ import flow.engine.impl.event.logger.handler.EventLoggerEventHandler;
 /**
  * @author Joram Barrez
  */
-interface EventFlusher extends CommandContextCloseListener {
+interface EventFlusher : CommandContextCloseListener {
 
-    List<EventLoggerEventHandler> getEventHandlers();
+    List!EventLoggerEventHandler getEventHandlers();
 
-    void setEventHandlers(List<EventLoggerEventHandler> eventHandlers);
+    void setEventHandlers(List!EventLoggerEventHandler eventHandlers);
 
     void addEventHandler(EventLoggerEventHandler databaseEventLoggerEventHandler);
 

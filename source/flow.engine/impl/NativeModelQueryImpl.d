@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Model;
 import flow.engine.repository.NativeModelQuery;
 
-class NativeModelQueryImpl extends AbstractNativeQuery<NativeModelQuery, Model> implements NativeModelQuery {
+class NativeModelQueryImpl : AbstractNativeQuery!(NativeModelQuery, Model) implements NativeModelQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeModelQueryImpl extends AbstractNativeQuery<NativeModelQuery, Model> 
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<Model> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!Model executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelsByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelCountByNativeQuery(parameterMap);
     }

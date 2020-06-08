@@ -20,7 +20,7 @@
 ///**
 // * @author Joram Barrez
 // */
-//class ExecutionTree implements Iterable<ExecutionTreeNode> {
+//class ExecutionTree implements Iterable!ExecutionTreeNode {
 //
 //    protected ExecutionTreeNode root;
 //
@@ -48,7 +48,7 @@
 //            return currentNode;
 //        }
 //
-//        List<ExecutionTreeNode> children = currentNode.getChildren();
+//        List!ExecutionTreeNode children = currentNode.getChildren();
 //        if (currentNode.getChildren() !is null && children.size() > 0) {
 //            int index = 0;
 //            while (index < children.size()) {
@@ -63,8 +63,8 @@
 //        return null;
 //    }
 //
-//    @Override
-//    public Iterator<ExecutionTreeNode> iterator() {
+//    override
+//    public Iterator!ExecutionTreeNode iterator() {
 //        return new ExecutionTreeBfsIterator(this.getRoot());
 //    }
 //
@@ -79,7 +79,7 @@
 //        return new ExecutionTreeBfsIterator(this.getRoot(), true);
 //    }
 //
-//    @Override
+//    override
 //    public string toString() {
 //        return root !is null ? root.toString() : "";
 //    }

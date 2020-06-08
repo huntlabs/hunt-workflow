@@ -19,7 +19,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author martin.grofcik
  */
-class DeleteHistoricTaskLogEntryByLogNumberCmd implements Command<Void> {
+class DeleteHistoricTaskLogEntryByLogNumberCmd implements Command!Void {
 
     protected long logNumber;
 
@@ -27,7 +27,7 @@ class DeleteHistoricTaskLogEntryByLogNumberCmd implements Command<Void> {
         this.logNumber = logNumber;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         CommandContextUtil.getTaskServiceConfiguration(commandContext).getInternalHistoryTaskManager().deleteHistoryUserTaskLog(logNumber);
         return null;

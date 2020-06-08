@@ -30,7 +30,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 
-class InjectParallelEmbeddedSubProcessCmd extends AbstractDynamicInjectionCmd implements Command<Void> {
+class InjectParallelEmbeddedSubProcessCmd : AbstractDynamicInjectionCmd implements Command!Void {
 
     protected string taskId;
     protected DynamicEmbeddedSubProcessBuilder dynamicEmbeddedSubProcessBuilder;
@@ -40,13 +40,13 @@ class InjectParallelEmbeddedSubProcessCmd extends AbstractDynamicInjectionCmd im
         this.dynamicEmbeddedSubProcessBuilder = dynamicEmbeddedSubProcessBuilder;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         createDerivedProcessDefinitionForTask(commandContext, taskId);
         return null;
     }
 
-    @Override
+    override
     protected void updateBpmnProcess(CommandContext commandContext, Process process,
             BpmnModel bpmnModel, ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity) {
 
@@ -54,9 +54,9 @@ class InjectParallelEmbeddedSubProcessCmd extends AbstractDynamicInjectionCmd im
                         originalProcessDefinitionEntity, newDeploymentEntity, commandContext);
     }
 
-    @Override
+    override
     protected void updateExecutions(CommandContext commandContext, ProcessDefinitionEntity processDefinitionEntity,
-                                    ExecutionEntity processInstance, List<ExecutionEntity> childExecutions) {
+                                    ExecutionEntity processInstance, List!ExecutionEntity childExecutions) {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
 

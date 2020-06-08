@@ -10,32 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.deleg.ActivityBehaviorInvocation;
 
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.deleg.invocation.DelegateInvocation;
-
+import flow.engine.impl.deleg.ActivityBehavior;
 /**
  *
  * @author Daniel Meyer
  */
-class ActivityBehaviorInvocation extends DelegateInvocation {
+class ActivityBehaviorInvocation : DelegateInvocation {
 
-    protected final ActivityBehavior behaviorInstance;
+    protected  ActivityBehavior behaviorInstance;
 
-    protected final DelegateExecution execution;
+    protected  DelegateExecution execution;
 
-    public ActivityBehaviorInvocation(ActivityBehavior behaviorInstance, DelegateExecution execution) {
+    this(ActivityBehavior behaviorInstance, DelegateExecution execution) {
         this.behaviorInstance = behaviorInstance;
         this.execution = execution;
     }
 
-    @Override
+    override
     protected void invoke() {
         behaviorInstance.execute(execution);
     }
 
-    @Override
+    override
     public Object getTarget() {
         return behaviorInstance;
     }

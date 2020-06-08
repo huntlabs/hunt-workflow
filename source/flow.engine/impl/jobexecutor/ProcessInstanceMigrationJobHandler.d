@@ -28,16 +28,16 @@ import flow.variable.service.api.deleg.VariableScope;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class ProcessInstanceMigrationJobHandler extends AbstractProcessInstanceMigrationJobHandler {
+class ProcessInstanceMigrationJobHandler : AbstractProcessInstanceMigrationJobHandler {
 
     public static final string TYPE = "process-migration";
 
-    @Override
+    override
     public string getType() {
         return TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);

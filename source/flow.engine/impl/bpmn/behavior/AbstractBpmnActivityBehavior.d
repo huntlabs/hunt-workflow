@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -21,21 +21,21 @@ import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.CompensateEventDefinition;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Process;
-import flow.common.util.CollectionUtil;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
+import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
+import flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;
 
 /**
  * Denotes an 'activity' in the sense of BPMN 2.0: a parent class for all tasks, subprocess and callActivity.
  *
  * @author Joram Barrez
  */
-class AbstractBpmnActivityBehavior extends FlowNodeActivityBehavior {
+class AbstractBpmnActivityBehavior : FlowNodeActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
 
     protected MultiInstanceActivityBehavior multiInstanceActivityBehavior;
 
@@ -43,11 +43,11 @@ class AbstractBpmnActivityBehavior extends FlowNodeActivityBehavior {
      * Subclasses that call leave() will first pass through this method, before the regular {@link FlowNodeActivityBehavior#leave(DelegateExecution)} is called. This way, we can check if the activity
      * has loop characteristics, and delegate to the behavior if this is the case.
      */
-    @Override
+    override
     public void leave(DelegateExecution execution) {
         FlowElement currentFlowElement = execution.getCurrentFlowElement();
-        Collection<BoundaryEvent> boundaryEvents = findBoundaryEventsForFlowNode(execution.getProcessDefinitionId(), currentFlowElement);
-        if (CollectionUtil.isNotEmpty(boundaryEvents)) {
+        Collection!BoundaryEvent boundaryEvents = findBoundaryEventsForFlowNode(execution.getProcessDefinitionId(), currentFlowElement);
+        if (boundaryEvents !is null && boundaryEvents.length != 0) {
             executeCompensateBoundaryEvents(boundaryEvents, execution);
         }
         if (!hasLoopCharacteristics()) {
@@ -57,38 +57,38 @@ class AbstractBpmnActivityBehavior extends FlowNodeActivityBehavior {
         }
     }
 
-    protected void executeCompensateBoundaryEvents(Collection<BoundaryEvent> boundaryEvents, DelegateExecution execution) {
+    protected void executeCompensateBoundaryEvents(Collection!BoundaryEvent boundaryEvents, DelegateExecution execution) {
 
         // The parent execution becomes a scope, and a child execution is created for each of the boundary events
-        for (BoundaryEvent boundaryEvent : boundaryEvents) {
+        foreach (BoundaryEvent boundaryEvent ; boundaryEvents) {
 
-            if (CollectionUtil.isEmpty(boundaryEvent.getEventDefinitions())) {
+            if (boundaryEvent.getEventDefinitions() is null || boundaryEvent.getEventDefinitions().isEmpty()) {
                 continue;
             }
 
-            if (!(boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition)) {
+            if (cast(CompensateEventDefinition)(boundaryEvent.getEventDefinitions().get(0) is null)) {
                 continue;
             }
 
-            ExecutionEntity childExecutionEntity = CommandContextUtil.getExecutionEntityManager().createChildExecution((ExecutionEntity) execution);
+            ExecutionEntity childExecutionEntity = CommandContextUtil.getExecutionEntityManager().createChildExecution(cast(ExecutionEntity) execution);
             childExecutionEntity.setParentId(execution.getId());
             childExecutionEntity.setCurrentFlowElement(boundaryEvent);
             childExecutionEntity.setScope(false);
 
-            ActivityBehavior boundaryEventBehavior = ((ActivityBehavior) boundaryEvent.getBehavior());
+            ActivityBehavior boundaryEventBehavior = (cast(ActivityBehavior) boundaryEvent.getBehavior());
             boundaryEventBehavior.execute(childExecutionEntity);
         }
 
     }
 
-    protected Collection<BoundaryEvent> findBoundaryEventsForFlowNode(final string processDefinitionId, final FlowElement flowElement) {
+    protected Collection!BoundaryEvent findBoundaryEventsForFlowNode(string processDefinitionId, FlowElement flowElement) {
         Process process = getProcessDefinition(processDefinitionId);
 
         // This could be cached or could be done at parsing time
-        List<BoundaryEvent> results = new ArrayList<>(1);
-        Collection<BoundaryEvent> boundaryEvents = process.findFlowElementsOfType(BoundaryEvent.class, true);
-        for (BoundaryEvent boundaryEvent : boundaryEvents) {
-            if (boundaryEvent.getAttachedToRefId() !is null && boundaryEvent.getAttachedToRefId().equals(flowElement.getId())) {
+        List!BoundaryEvent results = new ArrayList!BoundaryEvent(1);
+        Collection!BoundaryEvent boundaryEvents = process.findFlowElementsOfType!BoundaryEvent(typeid(BoundaryEvent), true);
+        foreach (BoundaryEvent boundaryEvent ; boundaryEvents) {
+            if (boundaryEvent.getAttachedToRefId() !is null && boundaryEvent.getAttachedToRefId() == (flowElement.getId())) {
                 results.add(boundaryEvent);
             }
         }

@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.util.TaskHelper;
 
 
+import flow.engine.impl.util.CommandContextUtil;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -25,9 +26,9 @@ import flow.common.api.scop.ScopeTypes;
 import flow.common.api.variable.VariableContainer;
 import flow.common.el.ExpressionManager;
 import flow.common.history.HistoryLevel;
-import flow.common.identity.Authentication;
+//import flow.common.identity.Authentication;
 import flow.common.interceptor.CommandContext;
-import flow.common.logging.LoggingSessionConstants;
+//import flow.common.logging.LoggingSessionConstants;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.deleg.TaskListener;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
@@ -51,7 +52,7 @@ import flow.variable.service.event.impl.FlowableVariableEventBuilder;
 import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -149,8 +150,8 @@ class TaskHelper {
     }
 
     public static void changeTaskAssignee(TaskEntity taskEntity, string assignee) {
-        if ((taskEntity.getAssignee() !is null && !taskEntity.getAssignee().equals(assignee))
-                || (taskEntity.getAssignee() is null && assignee !is null)) {
+        if ((taskEntity.getAssignee().length != 0 && taskEntity.getAssignee() != (assignee))
+                || (taskEntity.getAssignee().length == 0 && assignee.length == 0)) {
 
             CommandContextUtil.getTaskService().changeTaskAssignee(taskEntity, assignee);
             fireAssignmentEvents(taskEntity);
@@ -247,7 +248,7 @@ class TaskHelper {
      * @param executionEntity The {@link ExecutionEntity} to which the {@link TaskEntity} relate to.
      * @param taskEntities Tasks to be deleted. It is assumed that all {@link TaskEntity} instances need to be related to the same execution.
      */
-    public static void deleteTasksForExecution(ExecutionEntity executionEntity, Collection<TaskEntity> taskEntities, string deleteReason) {
+    public static void deleteTasksForExecution(ExecutionEntity executionEntity, Collection!TaskEntity taskEntities, string deleteReason) {
 
         CommandContext commandContext = CommandContextUtil.getCommandContext();
 
@@ -317,7 +318,7 @@ class TaskHelper {
         if (!isTaskRelatedEntityCountEnabled
                 || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getSubTaskCount() > 0)) {
             TaskService taskService = CommandContextUtil.getTaskService(commandContext);
-            List<Task> subTasks = taskService.findTasksByParentTaskId(task.getId());
+            List!Task subTasks = taskService.findTasksByParentTaskId(task.getId());
             for (Task subTask : subTasks) {
                 internalDeleteTask((TaskEntity) subTask, deleteReason, cascade, true, fireTaskListener, fireEvents); // Sub tasks are always immediately deleted
             }
@@ -328,7 +329,7 @@ class TaskHelper {
 
             bool deleteIdentityLinks = true;
             if (fireEvents) {
-                List<IdentityLinkEntity> identityLinks = CommandContextUtil.getIdentityLinkService(commandContext).findIdentityLinksByTaskId(task.getId());
+                List!IdentityLinkEntity identityLinks = CommandContextUtil.getIdentityLinkService(commandContext).findIdentityLinksByTaskId(task.getId());
                 for (IdentityLinkEntity identityLinkEntity : identityLinks) {
                     eventDispatcher.dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, identityLinkEntity));
                 }
@@ -344,8 +345,8 @@ class TaskHelper {
         if (!isTaskRelatedEntityCountEnabled
                 || (isTaskRelatedEntityCountEnabled && ((CountingTaskEntity) task).getVariableCount() > 0)) {
 
-            Map<string, VariableInstanceEntity> taskVariables = task.getVariableInstanceEntities();
-            ArrayList<VariableByteArrayRef> variableByteArrayRefs = new ArrayList<>();
+            Map!(string, VariableInstanceEntity) taskVariables = task.getVariableInstanceEntities();
+            ArrayList!VariableByteArrayRef variableByteArrayRefs = new ArrayList<>();
             for (VariableInstanceEntity variableInstanceEntity : taskVariables.values()) {
                 if (fireEvents) {
                     eventDispatcher.dispatchEvent(FlowableVariableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, variableInstanceEntity));
@@ -424,7 +425,7 @@ class TaskHelper {
     }
 
     public static void deleteTasksByProcessInstanceId(string processInstanceId, string deleteReason, bool cascade) {
-        List<TaskEntity> tasks = CommandContextUtil.getTaskService().findTasksByProcessInstanceId(processInstanceId);
+        List!TaskEntity tasks = CommandContextUtil.getTaskService().findTasksByProcessInstanceId(processInstanceId);
 
         for (TaskEntity task : tasks) {
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
@@ -446,7 +447,7 @@ class TaskHelper {
     public static void deleteHistoricTaskInstancesByProcessInstanceId(string processInstanceId) {
         if (CommandContextUtil.getHistoryManager().isHistoryLevelAtLeast(HistoryLevel.AUDIT)) {
             HistoricTaskService historicTaskService = CommandContextUtil.getHistoricTaskService();
-            List<HistoricTaskInstanceEntity> taskInstances = historicTaskService.findHistoricTasksByProcessInstanceId(processInstanceId);
+            List!HistoricTaskInstanceEntity taskInstances = historicTaskService.findHistoricTasksByProcessInstanceId(processInstanceId);
             for (HistoricTaskInstanceEntity historicTaskInstanceEntity : taskInstances) {
                 deleteHistoricTask(historicTaskInstanceEntity.getId());
             }
@@ -469,7 +470,7 @@ class TaskHelper {
                     return;
                 }
 
-                List<HistoricTaskInstanceEntity> subTasks = historicTaskService.findHistoricTasksByParentTaskId(historicTaskInstance.getId());
+                List!HistoricTaskInstanceEntity subTasks = historicTaskService.findHistoricTasksByParentTaskId(historicTaskInstance.getId());
                 for (HistoricTaskInstance subTask : subTasks) {
                     deleteHistoricTask(subTask.getId());
                 }

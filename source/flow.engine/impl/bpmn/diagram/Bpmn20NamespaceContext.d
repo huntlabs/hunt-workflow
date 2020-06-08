@@ -49,24 +49,24 @@ class Bpmn20NamespaceContext implements NamespaceContext {
         namespaceUris.put(OMGDI, "http://www.omg.org/spec/DD/20100524/DC");
     }
 
-    @Override
+    override
     public string getNamespaceURI(string prefix) {
         return namespaceUris.get(prefix);
     }
 
-    @Override
+    override
     public string getPrefix(string namespaceURI) {
         return getKeyByValue(namespaceUris, namespaceURI);
     }
 
-    @Override
+    override
     public Iterator!string getPrefixes(string namespaceURI) {
         return getKeysByValue(namespaceUris, namespaceURI).iterator();
     }
 
-    private static <T, E> Set<T> getKeysByValue(Map<T, E> map, E value) {
-        Set<T> keys = new HashSet<>();
-        for (Entry<T, E> entry : map.entrySet()) {
+    private static <T, E> Set!T getKeysByValue(Map!(T, E) map, E value) {
+        Set!T keys = new HashSet<>();
+        for (Entry!(T, E) entry : map.entrySet()) {
             if (value.equals(entry.getValue())) {
                 keys.add(entry.getKey());
             }
@@ -74,8 +74,8 @@ class Bpmn20NamespaceContext implements NamespaceContext {
         return keys;
     }
 
-    private static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-        for (Entry<T, E> entry : map.entrySet()) {
+    private static <T, E> T getKeyByValue(Map!(T, E) map, E value) {
+        for (Entry!(T, E) entry : map.entrySet()) {
             if (value.equals(entry.getValue())) {
                 return entry.getKey();
             }

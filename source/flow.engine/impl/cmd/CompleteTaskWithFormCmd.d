@@ -30,7 +30,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tijs Rademakers
  */
-class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
+class CompleteTaskWithFormCmd : NeedsActiveTaskCmd!Void {
 
     private static final long serialVersionUID = 1L;
     protected string formDefinitionId;
@@ -60,7 +60,7 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
         this.transientVariables = transientVariables;
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         FormService formService = CommandContextUtil.getFormService();
         if (formService is null) {
@@ -111,7 +111,7 @@ class CompleteTaskWithFormCmd extends NeedsActiveTaskCmd<Void> {
         return false;
     }
 
-    @Override
+    override
     protected string getSuspendedTaskException() {
         return "Cannot complete a suspended task";
     }

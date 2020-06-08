@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.DeleteBatchCmd;
 
 import flow.batch.service.api.Batch;
 import flow.batch.service.api.BatchService;
@@ -18,21 +18,22 @@ import flow.common.api.FlowableException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
+import hunt.Exceptions;
+import hunt.Object;
 
-class DeleteBatchCmd implements Command<Void> {
+class DeleteBatchCmd : Command!Void {
 
     protected string batchId;
 
-    public DeleteBatchCmd(string batchId) {
+    this(string batchId) {
         this.batchId = batchId;
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
         Batch batch = batchService.getBatch(batchId);
         if (batch is null) {
-            throw new FlowableException("batch entity not found for id " + batchId);
+            throw new FlowableException("batch entity not found for id " ~ batchId);
         }
 
         batchService.deleteBatch(batchId);

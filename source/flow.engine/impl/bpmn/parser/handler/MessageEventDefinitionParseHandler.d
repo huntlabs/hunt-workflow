@@ -27,14 +27,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class MessageEventDefinitionParseHandler extends AbstractBpmnParseHandler<MessageEventDefinition> {
+class MessageEventDefinitionParseHandler : AbstractBpmnParseHandler!MessageEventDefinition {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return MessageEventDefinition.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, MessageEventDefinition messageDefinition) {
         BpmnModel bpmnModel = bpmnParse.getBpmnModel();
         string messageRef = messageDefinition.getMessageRef();
@@ -42,7 +42,7 @@ class MessageEventDefinitionParseHandler extends AbstractBpmnParseHandler<Messag
             Message message = bpmnModel.getMessage(messageRef);
             messageDefinition.setMessageRef(message.getName());
 
-            for(List<ExtensionElement> extensionElementList : message.getExtensionElements().values()) {
+            for(List!ExtensionElement extensionElementList : message.getExtensionElements().values()) {
                 for(ExtensionElement extensionElement : extensionElementList) {
                     messageDefinition.addExtensionElement(extensionElement);
                 }

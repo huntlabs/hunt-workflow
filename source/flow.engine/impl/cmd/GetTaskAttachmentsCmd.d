@@ -24,7 +24,7 @@ import flow.engine.task.Attachment;
 /**
  * @author Tom Baeyens
  */
-class GetTaskAttachmentsCmd implements Command<List<? extends Attachment>>, Serializable {
+class GetTaskAttachmentsCmd implements Command<List<? : Attachment>>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -33,8 +33,8 @@ class GetTaskAttachmentsCmd implements Command<List<? extends Attachment>>, Seri
         this.taskId = taskId;
     }
 
-    @Override
-    public List<? extends Attachment> execute(CommandContext commandContext) {
+    override
+    public List<? : Attachment> execute(CommandContext commandContext) {
         return CommandContextUtil.getAttachmentEntityManager().findAttachmentsByTaskId(taskId);
     }
 }

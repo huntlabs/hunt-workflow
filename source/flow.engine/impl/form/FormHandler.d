@@ -25,11 +25,11 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Tom Baeyens
  */
-interface FormHandler extends Serializable {
+interface FormHandler : Serializable {
 
-    ThreadLocal<FormHandler> current = new ThreadLocal<>();
+    ThreadLocal!FormHandler current = new ThreadLocal<>();
 
-    void parseConfiguration(List<FormProperty> formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition);
+    void parseConfiguration(List!FormProperty formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition);
 
     void submitFormProperties(Map!(string, string) properties, ExecutionEntity execution);
 }

@@ -21,7 +21,7 @@ import flow.engine.form.AbstractFormType;
 /**
  * @author Tom Baeyens
  */
-class EnumFormType extends AbstractFormType {
+class EnumFormType : AbstractFormType {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,12 +31,12 @@ class EnumFormType extends AbstractFormType {
         this.values = values;
     }
 
-    @Override
+    override
     public string getName() {
         return "enum";
     }
 
-    @Override
+    override
     public Object getInformation(string key) {
         if (key.equals("values")) {
             return values;
@@ -44,13 +44,13 @@ class EnumFormType extends AbstractFormType {
         return null;
     }
 
-    @Override
+    override
     public Object convertFormValueToModelValue(string propertyValue) {
         validateValue(propertyValue);
         return propertyValue;
     }
 
-    @Override
+    override
     public string convertModelValueToFormValue(Object modelValue) {
         if (modelValue !is null) {
             if (!(modelValue instanceof string)) {

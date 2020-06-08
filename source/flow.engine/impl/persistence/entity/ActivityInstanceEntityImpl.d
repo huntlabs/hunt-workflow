@@ -12,59 +12,98 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.persistence.entity.ActivityInstanceEntityImpl;
 
-
-import java.io.Serializable;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.util.CommandContextUtil;
+import hunt.entity;
+import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
+import hunt.time.LocalDateTime;
+import flow.engine.impl.persistence.entity.ActivityInstanceEntity;
+import hunt.Exceptions;
 
+alias Date = LocalDateTime;
 /**
  * @author martin.grofcik
  */
-class ActivityInstanceEntityImpl extends AbstractBpmnEngineEntity implements ActivityInstanceEntity, Serializable {
+@Table("ACT_RU_ACTINST")
+class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityInstanceEntity {
 
-    private static final long serialVersionUID = 1L;
+     mixin MakeModel;
 
-    protected string processInstanceId;
-    protected string processDefinitionId;
-    protected Date startTime;
-    protected Date endTime;
-    protected Long durationInMillis;
-    protected string deleteReason;
+    @PrimaryKey
+    @Column("ID_")
+    string id;
 
-    protected string activityId;
-    protected string activityName;
-    protected string activityType;
-    protected string executionId;
-    protected string assignee;
-    protected string taskId;
-    protected string calledProcessInstanceId;
-    protected string tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
+    @Column("REV_")
+    string rev;
 
-    public ActivityInstanceEntityImpl() {
+    @Column("PROC_INST_ID_")
+    string processInstanceId;
 
+    @Column("PROC_DEF_ID_")
+    string processDefinitionId;
+
+    @Column("START_TIME_")
+    long startTime;
+
+    @Column("END_TIME_")
+    long endTime;
+
+    @Column("DURATION_")
+    long durationInMillis;
+
+    @Column("DELETE_REASON_")
+    string deleteReason;
+
+    @Column("ACT_ID_")
+    string activityId;
+
+    @Column("ACT_NAME_")
+    string activityName;
+
+    @Column("ACT_TYPE_")
+    string activityType;
+
+    @Column("EXECUTION_ID_")
+    string executionId;
+
+    @Column("ASSIGNEE_")
+    string assignee;
+
+    @Column("TASK_ID_")
+    string taskId;
+
+    @Column("CALL_PROC_INST_ID_")
+    string calledProcessInstanceId;
+
+    @Column("TENANT_ID_")
+    string tenantId ;// = ProcessEngineConfiguration.NO_TENANT_ID;
+
+    this() {
+      tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
     }
 
-    @Override
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap<>();
-        persistentState.put("endTime", endTime);
-        persistentState.put("durationInMillis", durationInMillis);
-        persistentState.put("deleteReason", deleteReason);
-        persistentState.put("executionId", executionId);
-        persistentState.put("taskId", taskId);
-        persistentState.put("assignee", assignee);
-        persistentState.put("calledProcessInstanceId", calledProcessInstanceId);
-        persistentState.put("activityId", activityId);
-        persistentState.put("activityName", activityName);
-        return persistentState;
+          implementationMissing(false);
+        return null;
+        //Map!(string, Object) persistentState = new HashMap<>();
+        //persistentState.put("endTime", endTime);
+        //persistentState.put("durationInMillis", durationInMillis);
+        //persistentState.put("deleteReason", deleteReason);
+        //persistentState.put("executionId", executionId);
+        //persistentState.put("taskId", taskId);
+        //persistentState.put("assignee", assignee);
+        //persistentState.put("calledProcessInstanceId", calledProcessInstanceId);
+        //persistentState.put("activityId", activityId);
+        //persistentState.put("activityName", activityName);
+        //return persistentState;
     }
 
-    @Override
     public void markEnded(string deleteReason) {
         if (this.endTime is null) {
             this.deleteReason = deleteReason;
@@ -77,154 +116,125 @@ class ActivityInstanceEntityImpl extends AbstractBpmnEngineEntity implements Act
 
     // getters and setters ////////////////////////////////////////////////////////
 
-    @Override
     public string getProcessInstanceId() {
         return processInstanceId;
     }
 
-    @Override
     public string getProcessDefinitionId() {
         return processDefinitionId;
     }
 
-    @Override
     public Date getStartTime() {
-        return startTime;
+        return Date.ofEpochMilli(startTime);
     }
 
-    @Override
     public Date getEndTime() {
-        return endTime;
+        return  Date.ofEpochMilli(endTime);
     }
 
-    @Override
-    public Long getDurationInMillis() {
+    public long getDurationInMillis() {
         return durationInMillis;
     }
 
-    @Override
     public void setProcessInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
     public void setProcessDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
     public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+        this.startTime = startTime.toEpochMilli;
     }
 
-    @Override
     public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+        this.endTime = endTime.toEpochMilli;
     }
 
-    @Override
-    public void setDurationInMillis(Long durationInMillis) {
+    public void setDurationInMillis(long durationInMillis) {
         this.durationInMillis = durationInMillis;
     }
 
-    @Override
     public string getDeleteReason() {
         return deleteReason;
     }
 
-    @Override
     public void setDeleteReason(string deleteReason) {
         this.deleteReason = deleteReason;
     }
 
-    @Override
     public string getActivityId() {
         return activityId;
     }
 
-    @Override
     public void setActivityId(string activityId) {
         this.activityId = activityId;
     }
 
-    @Override
     public string getActivityName() {
         return activityName;
     }
 
-    @Override
     public void setActivityName(string activityName) {
         this.activityName = activityName;
     }
 
-    @Override
     public string getActivityType() {
         return activityType;
     }
 
-    @Override
     public void setActivityType(string activityType) {
         this.activityType = activityType;
     }
 
-    @Override
     public string getExecutionId() {
         return executionId;
     }
 
-    @Override
     public void setExecutionId(string executionId) {
         this.executionId = executionId;
     }
 
-    @Override
     public string getAssignee() {
         return assignee;
     }
 
-    @Override
     public void setAssignee(string assignee) {
         this.assignee = assignee;
     }
 
-    @Override
     public string getTaskId() {
         return taskId;
     }
 
-    @Override
     public void setTaskId(string taskId) {
         this.taskId = taskId;
     }
 
-    @Override
     public string getCalledProcessInstanceId() {
         return calledProcessInstanceId;
     }
 
-    @Override
     public void setCalledProcessInstanceId(string calledProcessInstanceId) {
         this.calledProcessInstanceId = calledProcessInstanceId;
     }
 
-    @Override
     public string getTenantId() {
         return tenantId;
     }
 
-    @Override
     public void setTenantId(string tenantId) {
         this.tenantId = tenantId;
     }
 
-    @Override
     public Date getTime() {
         return getStartTime();
     }
 
-    @Override
+    override
     public string toString() {
-        return "ActivityInstanceEntity[id=" + id + ", activityId=" + activityId + ", activityName=" + activityName + ", executionId= " + executionId + "]";
+        return "ActivityInstanceEntity[id=" ~ id ~ ", activityId=" ~ activityId ~ ", activityName=" ~ activityName ~ ", executionId= " ~ executionId ~ "]";
     }
 
 }

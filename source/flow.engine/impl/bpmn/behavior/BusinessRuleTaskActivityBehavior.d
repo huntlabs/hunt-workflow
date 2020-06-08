@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.BusinessRuleTaskActivityBehavior;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.collection.HashSet;
-import java.util.Iterator;
 import hunt.collection.Set;
 
 import flow.common.api.deleg.Expression;
@@ -25,8 +24,10 @@ import flow.engine.impl.rules.RulesAgendaFilter;
 import flow.engine.impl.rules.RulesHelper;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.repository.ProcessDefinition;
-import org.kie.api.KieBase;
-import org.kie.api.runtime.KieSession;
+//import org.kie.api.KieBase;
+//import org.kie.api.runtime.KieSession;
+import flow.engine.impl.bpmn.behavior.TaskActivityBehavior;
+import hunt.Exceptions;
 
 /**
  * Activity implementation of the BPMN 2.0 business rule task.
@@ -34,73 +35,70 @@ import org.kie.api.runtime.KieSession;
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class BusinessRuleTaskActivityBehavior extends TaskActivityBehavior implements BusinessRuleTaskDelegate {
+class BusinessRuleTaskActivityBehavior : TaskActivityBehavior , BusinessRuleTaskDelegate {
 
-    private static final long serialVersionUID = 1L;
-
-    protected Set<Expression> variablesInputExpressions = new HashSet<>();
-    protected Set<Expression> rulesExpressions = new HashSet<>();
+    protected Set!Expression variablesInputExpressions ;//= new HashSet<>();
+    protected Set!Expression rulesExpressions ;// = new HashSet<>();
     protected bool exclude;
     protected string resultVariable;
 
-    public BusinessRuleTaskActivityBehavior() {
+    this() {
+        variablesInputExpressions = new HashSet!Expression;
+        rulesExpressions = new HashSet!Expression;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
-        ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(execution.getProcessDefinitionId());
-        string deploymentId = processDefinition.getDeploymentId();
-
-        KieBase knowledgeBase = RulesHelper.findKnowledgeBaseByDeploymentId(deploymentId);
-        KieSession ksession = knowledgeBase.newKieSession();
-
-        if (variablesInputExpressions !is null) {
-            Iterator<Expression> itVariable = variablesInputExpressions.iterator();
-            while (itVariable.hasNext()) {
-                Expression variable = itVariable.next();
-                ksession.insert(variable.getValue(execution));
-            }
-        }
-
-        if (!rulesExpressions.isEmpty()) {
-            RulesAgendaFilter filter = new RulesAgendaFilter();
-            Iterator<Expression> itRuleNames = rulesExpressions.iterator();
-            while (itRuleNames.hasNext()) {
-                Expression ruleName = itRuleNames.next();
-                filter.addSuffic(ruleName.getValue(execution).toString());
-            }
-            filter.setAccept(!exclude);
-            ksession.fireAllRules(filter);
-
-        } else {
-            ksession.fireAllRules();
-        }
-
-        Collection<? extends Object> ruleOutputObjects = ksession.getObjects();
-        if (ruleOutputObjects !is null && !ruleOutputObjects.isEmpty()) {
-            Collection<Object> outputVariables = new ArrayList<>(ruleOutputObjects);
-            execution.setVariable(resultVariable, outputVariables);
-        }
-        ksession.dispose();
-        leave(execution);
+        implementationMissing(false);
+        //ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(execution.getProcessDefinitionId());
+        //string deploymentId = processDefinition.getDeploymentId();
+        //
+        //KieBase knowledgeBase = RulesHelper.findKnowledgeBaseByDeploymentId(deploymentId);
+        //KieSession ksession = knowledgeBase.newKieSession();
+        //
+        //if (variablesInputExpressions !is null) {
+        //    Iterator!Expression itVariable = variablesInputExpressions.iterator();
+        //    while (itVariable.hasNext()) {
+        //        Expression variable = itVariable.next();
+        //        ksession.insert(variable.getValue(execution));
+        //    }
+        //}
+        //
+        //if (!rulesExpressions.isEmpty()) {
+        //    RulesAgendaFilter filter = new RulesAgendaFilter();
+        //    Iterator!Expression itRuleNames = rulesExpressions.iterator();
+        //    while (itRuleNames.hasNext()) {
+        //        Expression ruleName = itRuleNames.next();
+        //        filter.addSuffic(ruleName.getValue(execution).toString());
+        //    }
+        //    filter.setAccept(!exclude);
+        //    ksession.fireAllRules(filter);
+        //
+        //} else {
+        //    ksession.fireAllRules();
+        //}
+        //
+        //Collection<? : Object> ruleOutputObjects = ksession.getObjects();
+        //if (ruleOutputObjects !is null && !ruleOutputObjects.isEmpty()) {
+        //    Collection!Object outputVariables = new ArrayList<>(ruleOutputObjects);
+        //    execution.setVariable(resultVariable, outputVariables);
+        //}
+        //ksession.dispose();
+        //leave(execution);
     }
 
-    @Override
     public void addRuleVariableInputIdExpression(Expression inputId) {
         this.variablesInputExpressions.add(inputId);
     }
 
-    @Override
     public void addRuleIdExpression(Expression inputId) {
         this.rulesExpressions.add(inputId);
     }
 
-    @Override
     public void setExclude(bool exclude) {
         this.exclude = exclude;
     }
 
-    @Override
     public void setResultVariable(string resultVariableName) {
         this.resultVariable = resultVariableName;
     }

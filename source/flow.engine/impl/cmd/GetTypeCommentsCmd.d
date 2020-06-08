@@ -24,7 +24,7 @@ import flow.engine.task.Comment;
 /**
  * @author Sam Kim
  */
-class GetTypeCommentsCmd implements Command<List<Comment>>, Serializable {
+class GetTypeCommentsCmd implements Command<List!Comment>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string type;
@@ -33,8 +33,8 @@ class GetTypeCommentsCmd implements Command<List<Comment>>, Serializable {
         this.type = type;
     }
 
-    @Override
-    public List<Comment> execute(CommandContext commandContext) {
+    override
+    public List!Comment execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByType(type);
     }
 }

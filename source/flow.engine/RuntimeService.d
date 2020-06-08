@@ -719,7 +719,7 @@ interface RuntimeService {
      * @throws FlowableObjectNotFoundException
      *     when no execution is found for the given executionId.
      */
-    //<T> T getVariable(string executionId, string variableName, Class<T> variableClass);
+    //<T> T getVariable(string executionId, string variableName, Class!T variableClass);
 
     /**
      * Check whether or not this execution has variable set with the given name, Searching for the variable is done in all scopes that are visible to the given execution (including parent scopes).
@@ -750,7 +750,7 @@ interface RuntimeService {
      * The variable value for an execution. Returns the value casted to given class when the variable is set for the execution (and not searching parent scopes). Returns null when no variable value is
      * found with the given name or when the value is set to null.
      */
-   // <T> T getVariableLocal(string executionId, string variableName, Class<T> variableClass);
+   // <T> T getVariableLocal(string executionId, string variableName, Class!T variableClass);
 
     /**
      * Check whether or not this execution has a local variable set with the given name.

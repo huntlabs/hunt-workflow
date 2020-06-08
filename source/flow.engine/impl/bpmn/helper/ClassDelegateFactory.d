@@ -20,8 +20,8 @@ import flow.engine.impl.bpmn.parser.FieldDeclaration;
 
 /** Constructs {@link ClassDelegate}s. */
 interface ClassDelegateFactory {
-    public ClassDelegate create(string id, string className, List<FieldDeclaration> fieldDeclarations,
-            bool triggerable, Expression skipExpression, List<MapExceptionEntry> mapExceptions);
+    public ClassDelegate create(string id, string className, List!FieldDeclaration fieldDeclarations,
+            bool triggerable, Expression skipExpression, List!MapExceptionEntry mapExceptions);
 
-    public ClassDelegate create(string className, List<FieldDeclaration> fieldDeclarations);
+    public ClassDelegate create(string className, List!FieldDeclaration fieldDeclarations);
 }

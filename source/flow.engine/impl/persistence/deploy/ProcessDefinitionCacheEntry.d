@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
 
-
-import java.io.Serializable;
 
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Process;
@@ -21,15 +20,13 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Joram Barrez
  */
-class ProcessDefinitionCacheEntry implements Serializable {
-
-    private static final long serialVersionUID = 6833801933658529070L;
+class ProcessDefinitionCacheEntry{
 
     protected ProcessDefinition processDefinition;
     protected BpmnModel bpmnModel;
     protected Process process;
 
-    public ProcessDefinitionCacheEntry(ProcessDefinition processDefinition, BpmnModel bpmnModel, Process process) {
+    this(ProcessDefinition processDefinition, BpmnModel bpmnModel, Process process) {
         this.processDefinition = processDefinition;
         this.bpmnModel = bpmnModel;
         this.process = process;

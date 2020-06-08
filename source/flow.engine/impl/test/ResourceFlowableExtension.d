@@ -27,33 +27,33 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  *
  * @author Filip Hrisafov
  */
-class ResourceFlowableExtension extends InternalFlowableExtension {
+class ResourceFlowableExtension : InternalFlowableExtension {
 
     private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ResourceFlowableExtension.class);
 
     protected final string configurationResource;
     protected final string processEngineName;
-    protected final Consumer<ProcessEngineConfiguration> configurationConsumer;
+    protected final Consumer!ProcessEngineConfiguration configurationConsumer;
 
     protected ExtensionContext currentExtensionContext;
 
-    public ResourceFlowableExtension(string configurationResource, Consumer<ProcessEngineConfiguration> configurationConsumer) {
+    public ResourceFlowableExtension(string configurationResource, Consumer!ProcessEngineConfiguration configurationConsumer) {
         this(configurationResource, null, configurationConsumer);
     }
 
-    public ResourceFlowableExtension(string configurationResource, string processEngineName, Consumer<ProcessEngineConfiguration> configurationConsumer) {
+    public ResourceFlowableExtension(string configurationResource, string processEngineName, Consumer!ProcessEngineConfiguration configurationConsumer) {
         this.configurationResource = configurationResource;
         this.processEngineName = processEngineName;
         this.configurationConsumer = configurationConsumer;
     }
 
-    @Override
+    override
     public void beforeEach(ExtensionContext context) {
         super.beforeEach(context);
         currentExtensionContext = context;
     }
 
-    @Override
+    override
     public void afterEach(ExtensionContext context) throws Exception {
         super.afterEach(context);
         ProcessEngine processEngine = getProcessEngine(context);
@@ -61,7 +61,7 @@ class ResourceFlowableExtension extends InternalFlowableExtension {
         processEngine = null;
     }
 
-    @Override
+    override
     protected ProcessEngine getProcessEngine(ExtensionContext context) {
         return getStore(context).getOrComputeIfAbsent(context.getUniqueId(), key -> initializeProcessEngine(), ProcessEngine.class);
     }
@@ -78,7 +78,7 @@ class ResourceFlowableExtension extends InternalFlowableExtension {
         return processEngine;
     }
 
-    @Override
+    override
     protected ExtensionContext.Store getStore(ExtensionContext context) {
         return context.getRoot().getStore(NAMESPACE);
     }

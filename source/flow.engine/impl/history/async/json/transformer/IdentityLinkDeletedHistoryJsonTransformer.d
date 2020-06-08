@@ -25,19 +25,19 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class IdentityLinkDeletedHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+class IdentityLinkDeletedHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_IDENTITY_LINK_DELETED);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return true;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         HistoricIdentityLinkService historicIdentityLinkService = CommandContextUtil.getHistoricIdentityLinkService();
         historicIdentityLinkService.deleteHistoricIdentityLink(getStringFromJson(historicalData, HistoryJsonConstants.ID));

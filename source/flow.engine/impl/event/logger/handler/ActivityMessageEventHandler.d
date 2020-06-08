@@ -22,9 +22,9 @@ import flow.engine.impl.persistence.entity.EventLogEntryEntity;
 /**
  * @author Joram Barrez
  */
-class ActivityMessageEventHandler extends AbstractDatabaseEventLoggerEventHandler {
+class ActivityMessageEventHandler : AbstractDatabaseEventLoggerEventHandler {
 
-    @Override
+    override
     public EventLogEntryEntity generateEventLogEntry(CommandContext commandContext) {
         FlowableMessageEvent messageEvent = (FlowableMessageEvent) event;
 

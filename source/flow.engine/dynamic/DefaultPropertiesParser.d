@@ -22,14 +22,14 @@
 // *
 // * Created by Pardo David on 5/12/2016.
 // */
-//class DefaultPropertiesParser extends BasePropertiesParser {
+//class DefaultPropertiesParser : BasePropertiesParser {
 //
-//    @Override
+//    override
 //    protected ObjectNode createPropertiesNode(FlowElement flowElement, ObjectNode flowElementNode, ObjectMapper objectMapper) {
 //        return null;
 //    }
 //
-//    @Override
+//    override
 //    public bool supports(FlowElement flowElement) {
 //        return false;
 //    }

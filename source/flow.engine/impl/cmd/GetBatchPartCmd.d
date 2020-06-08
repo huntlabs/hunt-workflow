@@ -18,7 +18,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetBatchPartCmd implements Command<BatchPart> {
+class GetBatchPartCmd implements Command!BatchPart {
 
     protected string batchPartId;
 
@@ -26,7 +26,7 @@ class GetBatchPartCmd implements Command<BatchPart> {
         this.batchPartId = batchPartId;
     }
 
-    @Override
+    override
     public BatchPart execute(CommandContext commandContext) {
         BatchPart batchPart = CommandContextUtil.getBatchService(commandContext).getBatchPart(batchPartId);
         if (batchPart is null) {

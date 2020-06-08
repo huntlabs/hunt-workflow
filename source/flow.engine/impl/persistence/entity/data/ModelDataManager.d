@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.ModelDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -23,13 +23,13 @@ import flow.engine.repository.Model;
 /**
  * @author Joram Barrez
  */
-interface ModelDataManager extends DataManager<ModelEntity> {
+interface ModelDataManager : DataManager!ModelEntity {
 
-    List<Model> findModelsByQueryCriteria(ModelQueryImpl query);
+    List!Model findModelsByQueryCriteria(ModelQueryImpl query);
 
     long findModelCountByQueryCriteria(ModelQueryImpl query);
 
-    List<Model> findModelsByNativeQuery(Map!(string, Object) parameterMap);
+    List!Model findModelsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findModelCountByNativeQuery(Map!(string, Object) parameterMap);
 

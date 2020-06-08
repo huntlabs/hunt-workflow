@@ -21,14 +21,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Joram Barrez
  */
-class TimerEventDefinitionParseHandler extends AbstractBpmnParseHandler<TimerEventDefinition> {
+class TimerEventDefinitionParseHandler : AbstractBpmnParseHandler!TimerEventDefinition {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return TimerEventDefinition.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, TimerEventDefinition timerEventDefinition) {
 
         if (bpmnParse.getCurrentFlowElement() instanceof IntermediateCatchEvent) {

@@ -22,11 +22,11 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-class DatabaseEventFlusher extends AbstractEventFlusher {
+class DatabaseEventFlusher : AbstractEventFlusher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseEventFlusher.class);
 
-    @Override
+    override
     public void closing(CommandContext commandContext) {
 
         if (commandContext.getException() !is null) {
@@ -43,12 +43,12 @@ class DatabaseEventFlusher extends AbstractEventFlusher {
         }
     }
 
-    @Override
+    override
     public void afterSessionsFlush(CommandContext commandContext) {
 
     }
 
-    @Override
+    override
     public void closeFailure(CommandContext commandContext) {
 
     }

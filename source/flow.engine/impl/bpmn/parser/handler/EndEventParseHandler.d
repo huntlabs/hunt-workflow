@@ -29,16 +29,16 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class EndEventParseHandler extends AbstractActivityBpmnParseHandler<EndEvent> {
+class EndEventParseHandler : AbstractActivityBpmnParseHandler!EndEvent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EndEventParseHandler.class);
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return EndEvent.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, EndEvent endEvent) {
 
         EventDefinition eventDefinition = null;

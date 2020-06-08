@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
 
-
-import hunt.collections;
-
+import hunt.collection.Collections;
 import flow.bpmn.model.FlowNode;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
@@ -23,31 +22,29 @@ import flow.engine.history.DeleteReason;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
 /**
  * @author Joram Barrez
  */
-class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class BoundaryEventActivityBehavior : FlowNodeActivityBehavior {
 
     protected bool interrupting;
 
-    public BoundaryEventActivityBehavior() {
+    this() {
     }
 
-    public BoundaryEventActivityBehavior(bool interrupting) {
+    this(bool interrupting) {
         this.interrupting = interrupting;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         // Overridden by subclasses
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         CommandContext commandContext = Context.getCommandContext();
 
@@ -90,8 +87,8 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
 
         // TakeOutgoingSequenceFlow will not set history correct when no outgoing sequence flow for boundary event
         // (This is a theoretical case ... shouldn't use a boundary event without outgoing sequence flow ...)
-        if (executionEntity.getCurrentFlowElement() instanceof FlowNode
-                && ((FlowNode) executionEntity.getCurrentFlowElement()).getOutgoingFlows().isEmpty()) {
+        if (cast(FlowNode)(executionEntity.getCurrentFlowElement()) !is null
+                && (cast(FlowNode) executionEntity.getCurrentFlowElement()).getOutgoingFlows().isEmpty()) {
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityEnd(executionEntity, null);
         }
 
@@ -137,8 +134,8 @@ class BoundaryEventActivityBehavior extends FlowNodeActivityBehavior {
 
     protected void deleteChildExecutions(ExecutionEntity parentExecution, ExecutionEntity outgoingExecutionEntity, CommandContext commandContext) {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-        string deleteReason = DeleteReason.BOUNDARY_EVENT_INTERRUPTING + " (" + outgoingExecutionEntity.getCurrentActivityId() + ")";
-        executionEntityManager.deleteChildExecutions(parentExecution, Collections.singletonList(outgoingExecutionEntity.getId()), null,
+        string deleteReason = DeleteReason.BOUNDARY_EVENT_INTERRUPTING ~ " (" ~ outgoingExecutionEntity.getCurrentActivityId() ~ ")";
+        executionEntityManager.deleteChildExecutions(parentExecution, Collections.singletonList!string(outgoingExecutionEntity.getId()), null,
                 deleteReason, true, outgoingExecutionEntity.getCurrentFlowElement());
 
         executionEntityManager.deleteExecutionAndRelatedData(parentExecution, deleteReason, false, true, outgoingExecutionEntity.getCurrentFlowElement());

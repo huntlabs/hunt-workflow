@@ -25,12 +25,12 @@ import flow.common.persistence.entity.Entity;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.runtime.Execution;
 import flow.engine.runtime.ProcessInstance;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+//import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-import flow.engine.impl.persistence.entity.EventSubscriptionEntity;
+//import flow.engine.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * @author Tom Baeyens
@@ -84,7 +84,7 @@ interface ExecutionEntity : DelegateExecution, Execution, ProcessInstance, Entit
 
     List!TaskEntity getTasks();
 
-    List!EventSubscriptionEntity getEventSubscriptions();
+   // List!EventSubscriptionEntity getEventSubscriptions();
 
     List!JobEntity getJobs();
 

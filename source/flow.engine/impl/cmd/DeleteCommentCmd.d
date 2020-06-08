@@ -30,7 +30,7 @@ import flow.task.api.Task;
 /**
  * @author Joram Barrez
  */
-class DeleteCommentCmd implements Command<Void>, Serializable {
+class DeleteCommentCmd implements Command!Void, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -43,7 +43,7 @@ class DeleteCommentCmd implements Command<Void>, Serializable {
         this.commentId = commentId;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         CommentEntityManager commentManager = CommandContextUtil.getCommentEntityManager(commandContext);
 
@@ -75,7 +75,7 @@ class DeleteCommentCmd implements Command<Void>, Serializable {
 
         } else {
             // Delete all comments on a task of process
-            ArrayList<Comment> comments = new ArrayList<>();
+            ArrayList!Comment comments = new ArrayList<>();
             if (processInstanceId !is null) {
 
                 ExecutionEntity execution = (ExecutionEntity) CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);

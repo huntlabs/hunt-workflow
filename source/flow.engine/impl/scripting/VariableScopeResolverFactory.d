@@ -24,7 +24,7 @@ import flow.variable.service.api.deleg.VariableScope;
  */
 class VariableScopeResolverFactory implements ResolverFactory {
 
-    @Override
+    override
     public Resolver createResolver(AbstractEngineConfiguration engineConfiguration, VariableScope variableScope) {
         if (variableScope !is null) {
             return new VariableScopeResolver((ProcessEngineConfigurationImpl) engineConfiguration, variableScope);

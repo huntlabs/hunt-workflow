@@ -43,7 +43,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tijs Rademakers
  */
-class DynamicSubProcessJoinInjectUtil extends BaseDynamicSubProcessInjectUtil {
+class DynamicSubProcessJoinInjectUtil : BaseDynamicSubProcessInjectUtil {
 
     public static void injectSubProcessWithJoin(string taskId, Process process, BpmnModel bpmnModel, DynamicEmbeddedSubProcessBuilder dynamicEmbeddedSubProcessBuilder,
                     ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity, CommandContext commandContext) {
@@ -110,7 +110,7 @@ class DynamicSubProcessJoinInjectUtil extends BaseDynamicSubProcessInjectUtil {
 
         processFlowElements(commandContext, process, bpmnModel, originalProcessDefinitionEntity, newDeploymentEntity);
 
-        Map<string, FlowElement> generatedIds = new HashMap<>();
+        Map!(string, FlowElement) generatedIds = new HashMap<>();
         processSubProcessFlowElements(commandContext, subProcess.getId(), process, bpmnModel, subProcess, bpmnModelSubProcess,
                         originalProcessDefinitionEntity, newDeploymentEntity, generatedIds, (elementGraphicInfo !is null));
 

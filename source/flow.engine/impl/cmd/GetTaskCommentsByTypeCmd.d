@@ -22,7 +22,7 @@ import flow.engine.task.Comment;
 /**
  * @author Sam Kim
  */
-class GetTaskCommentsByTypeCmd extends GetTaskCommentsCmd {
+class GetTaskCommentsByTypeCmd : GetTaskCommentsCmd {
 
     private static final long serialVersionUID = 1L;
     protected string type;
@@ -32,8 +32,8 @@ class GetTaskCommentsByTypeCmd extends GetTaskCommentsCmd {
         this.type = type;
     }
 
-    @Override
-    public List<Comment> execute(CommandContext commandContext) {
+    override
+    public List!Comment execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByTaskIdAndType(taskId, type);
     }
 

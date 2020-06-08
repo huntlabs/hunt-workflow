@@ -10,45 +10,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.DeleteTaskCmd;
 
-
-import java.io.Serializable;
 import hunt.collection;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TaskHelper;
-
+import hunt.Object;
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  */
-class DeleteTaskCmd implements Command<Void>, Serializable {
+class DeleteTaskCmd : Command!Void {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
     protected Collection!string taskIds;
     protected bool cascade;
     protected string deleteReason;
 
-    public DeleteTaskCmd(string taskId, string deleteReason, bool cascade) {
+    this(string taskId, string deleteReason, bool cascade) {
         this.taskId = taskId;
         this.cascade = cascade;
         this.deleteReason = deleteReason;
     }
 
-    public DeleteTaskCmd(Collection!string taskIds, string deleteReason, bool cascade) {
+    this(Collection!string taskIds, string deleteReason, bool cascade) {
         this.taskIds = taskIds;
         this.cascade = cascade;
         this.deleteReason = deleteReason;
     }
 
-    @Override
     public Void execute(CommandContext commandContext) {
-        if (taskId !is null) {
+        if (taskId.length != 0) {
             deleteTask(commandContext, taskId);
         } else if (taskIds !is null) {
-            for (string taskId : taskIds) {
+            foreach (string taskId ; taskIds) {
                 deleteTask(commandContext, taskId);
             }
         } else {
@@ -59,6 +57,7 @@ class DeleteTaskCmd implements Command<Void>, Serializable {
     }
 
     protected void deleteTask(CommandContext commandContext, string taskId) {
-        TaskHelper.deleteTask(taskId, deleteReason, cascade);
+        implementationMissing(false);
+        //TaskHelper.deleteTask(taskId, deleteReason, cascade);
     }
 }

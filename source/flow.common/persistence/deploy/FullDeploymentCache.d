@@ -10,58 +10,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.common.persistence.deploy.FullDeploymentCache;
+
+import hunt.collection;
+import hunt.collection.HashMap;
+import hunt.collection.Map;
+import flow.common.persistence.deploy.DeploymentCache;
+/**
+ * Default cache: keep everything in memory, without a limit.
+ */
+class FullDeploymentCache(T) : DeploymentCache!T {
+
+    protected Map!(string, T) cache;
+
+    /** Cache with no limit */
+    this() {
+         this.cache = new HashMap!(string,T);
+        //this.cache = Collections.synchronizedMap(new HashMap<>());
+    }
 
 
-//import hunt.collection;
-//import hunt.collections;
-//import hunt.collection.HashMap;
-//import hunt.collection.Map;
-//
-///**
-// * Default cache: keep everything in memory, without a limit.
-// */
-//class FullDeploymentCache<T> implements DeploymentCache<T> {
-//
-//    protected Map<string, T> cache;
-//
-//    /** Cache with no limit */
-//    public FullDeploymentCache() {
-//        this.cache = Collections.synchronizedMap(new HashMap<>());
-//    }
-//
-//    @Override
-//    public T get(string id) {
-//        return cache.get(id);
-//    }
-//
-//    @Override
-//    public void add(string id, T obj) {
-//        cache.put(id, obj);
-//    }
-//
-//    @Override
-//    public void remove(string id) {
-//        cache.remove(id);
-//    }
-//
-//    @Override
-//    public bool contains(string id) {
-//        return cache.containsKey(id);
-//    }
-//
-//    @Override
-//    public void clear() {
-//        cache.clear();
-//    }
-//
-//    @Override
-//    public Collection<T> getAll() {
-//        return cache.values();
-//    }
-//
-//    @Override
-//    public int size() {
-//        return cache.size();
-//    }
-//
-//}
+    public T get(string id) {
+        return cache.get(id);
+    }
+
+
+    public void add(string id, T obj) {
+        cache.put(id, obj);
+    }
+
+
+    public void remove(string id) {
+        cache.remove(id);
+    }
+
+
+    public bool contains(string id) {
+        return cache.containsKey(id);
+    }
+
+
+    public void clear() {
+        cache.clear();
+    }
+
+
+    public Collection!T getAll() {
+        return cache.values();
+    }
+
+
+    public int size() {
+        return cache.size();
+    }
+
+}

@@ -21,14 +21,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class ErrorEventDefinitionParseHandler extends AbstractBpmnParseHandler<ErrorEventDefinition> {
+class ErrorEventDefinitionParseHandler : AbstractBpmnParseHandler!ErrorEventDefinition {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ErrorEventDefinition.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ErrorEventDefinition eventDefinition) {
         if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
             BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();

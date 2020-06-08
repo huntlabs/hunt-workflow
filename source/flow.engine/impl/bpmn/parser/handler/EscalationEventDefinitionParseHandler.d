@@ -21,14 +21,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Tijs Rademakers
  */
-class EscalationEventDefinitionParseHandler extends AbstractBpmnParseHandler<EscalationEventDefinition> {
+class EscalationEventDefinitionParseHandler : AbstractBpmnParseHandler!EscalationEventDefinition {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return EscalationEventDefinition.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, EscalationEventDefinition eventDefinition) {
         if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
             BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();

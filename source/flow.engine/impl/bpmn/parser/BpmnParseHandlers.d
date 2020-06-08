@@ -30,25 +30,25 @@ class BpmnParseHandlers {
 
     private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(BpmnParseHandlers.class);
 
-    protected Map<Class<? extends BaseElement>, List<BpmnParseHandler>> parseHandlers;
+    protected Map<Class<? : BaseElement>, List!BpmnParseHandler> parseHandlers;
 
     public BpmnParseHandlers() {
         this.parseHandlers = new HashMap<>();
     }
 
-    public List<BpmnParseHandler> getHandlersFor(Class<? extends BaseElement> clazz) {
+    public List!BpmnParseHandler getHandlersFor(Class<? : BaseElement> clazz) {
         return parseHandlers.get(clazz);
     }
 
-    public void addHandlers(List<BpmnParseHandler> bpmnParseHandlers) {
+    public void addHandlers(List!BpmnParseHandler bpmnParseHandlers) {
         for (BpmnParseHandler bpmnParseHandler : bpmnParseHandlers) {
             addHandler(bpmnParseHandler);
         }
     }
 
     public void addHandler(BpmnParseHandler bpmnParseHandler) {
-        for (Class<? extends BaseElement> type : bpmnParseHandler.getHandledTypes()) {
-            List<BpmnParseHandler> handlers = parseHandlers.get(type);
+        for (Class<? : BaseElement> type : bpmnParseHandler.getHandledTypes()) {
+            List!BpmnParseHandler handlers = parseHandlers.get(type);
             if (handlers is null) {
                 handlers = new ArrayList<>();
                 parseHandlers.put(type, handlers);
@@ -70,7 +70,7 @@ class BpmnParseHandlers {
         }
 
         // Execute parse handlers
-        List<BpmnParseHandler> handlers = parseHandlers.get(element.getClass());
+        List!BpmnParseHandler handlers = parseHandlers.get(element.getClass());
 
         if (handlers is null) {
             LOGGER.warn("Could not find matching parse handler for + {} this is likely a bug.", element.getId());

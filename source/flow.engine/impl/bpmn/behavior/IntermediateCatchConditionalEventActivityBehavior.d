@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.IntermediateCatchConditionalEventActivityBehavior;
 
 import flow.bpmn.model.ConditionalEventDefinition;
 import flow.common.api.deleg.Expression;
@@ -20,22 +20,22 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.bpmn.behavior.IntermediateCatchEventActivityBehavior;
+import hunt.Boolean;
 
-class IntermediateCatchConditionalEventActivityBehavior extends IntermediateCatchEventActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class IntermediateCatchConditionalEventActivityBehavior : IntermediateCatchEventActivityBehavior {
 
     protected ConditionalEventDefinition conditionalEventDefinition;
     protected string conditionExpression;
 
-    public IntermediateCatchConditionalEventActivityBehavior(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
+    this(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
         this.conditionalEventDefinition = conditionalEventDefinition;
         this.conditionExpression = conditionExpression;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -45,13 +45,13 @@ class IntermediateCatchConditionalEventActivityBehavior extends IntermediateCatc
         }
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         Expression expression = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
 
-        if (result !is null && result instanceof bool && (bool) result) {
-            ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        if (result !is null && cast(Boolean)result !is null && (cast(Boolean) result).booleanValue()) {
+            ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(FlowableEventBuilder.createConditionalEvent(FlowableEngineEventType.ACTIVITY_CONDITIONAL_RECEIVED, executionEntity.getActivityId(),

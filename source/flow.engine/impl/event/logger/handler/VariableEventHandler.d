@@ -38,7 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author Joram Barrez
  */
-abstract class VariableEventHandler extends AbstractDatabaseEventLoggerEventHandler {
+abstract class VariableEventHandler : AbstractDatabaseEventLoggerEventHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VariableEventHandler.class);
 

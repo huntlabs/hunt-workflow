@@ -22,14 +22,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class CompensateEventDefinitionParseHandler extends AbstractBpmnParseHandler<CompensateEventDefinition> {
+class CompensateEventDefinitionParseHandler : AbstractBpmnParseHandler!CompensateEventDefinition {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return CompensateEventDefinition.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, CompensateEventDefinition eventDefinition) {
 
         if (bpmnParse.getCurrentFlowElement() instanceof ThrowEvent) {

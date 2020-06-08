@@ -29,7 +29,7 @@ import flow.variable.service.impl.el.VariableScopeExpressionManager;
 /**
  * @author Joram Barrez
  */
-class ProcessExpressionManager extends VariableScopeExpressionManager {
+class ProcessExpressionManager : VariableScopeExpressionManager {
 
     protected DelegateInterceptor delegateInterceptor;
 
@@ -37,27 +37,27 @@ class ProcessExpressionManager extends VariableScopeExpressionManager {
         this(null);
     }
 
-    public ProcessExpressionManager(Map<Object, Object> beans) {
+    public ProcessExpressionManager(Map!(Object, Object) beans) {
        this(new DefaultDelegateInterceptor(), beans);
     }
 
-    public ProcessExpressionManager(DelegateInterceptor delegateInterceptor, Map<Object, Object> beans) {
+    public ProcessExpressionManager(DelegateInterceptor delegateInterceptor, Map!(Object, Object) beans) {
         super(beans);
         this.delegateInterceptor = delegateInterceptor;
     }
 
-    @Override
+    override
     protected Expression createJuelExpression(string expression, ValueExpression valueExpression) {
         return new JuelExpression(this, this.delegateInterceptor, valueExpression, expression);
     }
 
-    @Override
+    override
     protected ELResolver createVariableElResolver(VariableContainer variableContainer) {
         return new ProcessVariableScopeELResolver(variableContainer);
     }
 
-    @Override
-    protected void configureResolvers(List<ELResolver> elResolvers) {
+    override
+    protected void configureResolvers(List!ELResolver elResolvers) {
         int beanElResolverIndex = -1;
         for (int i=0; i<elResolvers.size(); i++) {
             if (elResolvers.get(i) instanceof BeanELResolver) {

@@ -79,20 +79,20 @@ class ListQueryParameterObject {
                         || AbstractEngineConfiguration.DATABASE_TYPE_HSQL.equals(databaseType)
                         || AbstractEngineConfiguration.DATABASE_TYPE_POSTGRES.equals(databaseType)
                         || AbstractEngineConfiguration.DATABASE_TYPE_ORACLE.equals(databaseType)) {
-                    orderByColumns = orderByColumns + defaultOrderByClause + " NULLS FIRST";
+                    orderByColumns = orderByColumns ~ defaultOrderByClause ~ " NULLS FIRST";
                 } else if (AbstractEngineConfiguration.DATABASE_TYPE_MYSQL.equals(databaseType)) {
-                    orderByColumns = orderByColumns + "isnull(" + column + ") desc," + defaultOrderByClause;
+                    orderByColumns = orderByColumns ~ "isnull(" ~ column ~ ") desc," ~ defaultOrderByClause;
                 } else if (AbstractEngineConfiguration.DATABASE_TYPE_DB2.equals(databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL.equals(databaseType)) {
                     if (nullHandlingColumn is null) {
                         nullHandlingColumn = "";
                     } else {
-                        nullHandlingColumn = nullHandlingColumn + ", ";
+                        nullHandlingColumn = nullHandlingColumn ~ ", ";
                     }
-                    string columnName = column.replace("RES.", "") + "_order_null";
-                    nullHandlingColumn = nullHandlingColumn + "case when " + column + " is null then 0 else 1 end " + columnName;
-                    orderByColumns = orderByColumns + columnName + "," + defaultOrderByClause;
+                    string columnName = column.replace("RES.", "") ~ "_order_null";
+                    nullHandlingColumn = nullHandlingColumn ~ "case when " ~ column ~ " is null then 0 else 1 end " ~ columnName;
+                    orderByColumns = orderByColumns ~ columnName ~ "," ~ defaultOrderByClause;
                 } else {
-                    orderByColumns = orderByColumns + defaultOrderByClause;
+                    orderByColumns = orderByColumns ~ defaultOrderByClause;
                 }
 
             } else if (nullHandlingOnOrder == NullHandlingOnOrder.NULLS_LAST) {
@@ -101,26 +101,26 @@ class ListQueryParameterObject {
                         || AbstractEngineConfiguration.DATABASE_TYPE_HSQL.equals(databaseType)
                         || AbstractEngineConfiguration.DATABASE_TYPE_POSTGRES.equals(databaseType)
                         || AbstractEngineConfiguration.DATABASE_TYPE_ORACLE.equals(databaseType)) {
-                    orderByColumns = orderByColumns + column + " " + sortOrder + " NULLS LAST";
+                    orderByColumns = orderByColumns ~ column ~ " " ~ sortOrder ~ " NULLS LAST";
                 } else if (AbstractEngineConfiguration.DATABASE_TYPE_MYSQL.equals(databaseType)) {
-                    orderByColumns = orderByColumns + "isnull(" + column + ") asc," + defaultOrderByClause;
+                    orderByColumns = orderByColumns ~ "isnull(" ~ column ~ ") asc," ~ defaultOrderByClause;
                 } else if (AbstractEngineConfiguration.DATABASE_TYPE_DB2.equals(databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL.equals(databaseType)) {
                     if (nullHandlingColumn is null) {
                         nullHandlingColumn = "";
                     } else {
-                        nullHandlingColumn = nullHandlingColumn + ", ";
+                        nullHandlingColumn = nullHandlingColumn ~ ", ";
                     }
-                    string columnName = column.replace("RES.", "") + "_order_null";
-                    nullHandlingColumn = nullHandlingColumn + "case when " + column + " is null then 1 else 0 end " + columnName;
-                    orderByColumns = orderByColumns + columnName + "," + defaultOrderByClause;
+                    string columnName = column.replace("RES.", "") ~ "_order_null";
+                    nullHandlingColumn = nullHandlingColumn ~ "case when " ~ column ~ " is null then 1 else 0 end " ~ columnName;
+                    orderByColumns = orderByColumns ~ columnName ~ "," ~ defaultOrderByClause;
                 } else {
-                    orderByColumns = orderByColumns + defaultOrderByClause;
+                    orderByColumns = orderByColumns ~ defaultOrderByClause;
                 }
 
             }
 
         } else {
-            orderByColumns = orderByColumns + defaultOrderByClause;
+            orderByColumns = orderByColumns ~ defaultOrderByClause;
         }
 
     }
@@ -168,7 +168,7 @@ class ListQueryParameterObject {
                 && (AbstractEngineConfiguration.DATABASE_TYPE_DB2.equals(databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL.equals(databaseType)) ) {
             return "";
         } else {
-            return "order by " + getOrderByColumns();
+            return "order by " ~ getOrderByColumns();
         }
     }
 

@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.SuspensionStateUtil;
 
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.db.SuspensionState;
-import flow.common.identity.Authentication;
+//import flow.common.identity.Authentication;
 import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.util.CommandContextUtil;
@@ -25,9 +25,9 @@ import flow.task.api.history.HistoricTaskLogEntryType;
 import flow.task.service.TaskServiceConfiguration;
 import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import flow.engine.impl.persistence.entity.ExecutionEntity;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
+import hunt.Exceptions;
 /**
  * Helper class for suspension state
  *
@@ -37,7 +37,8 @@ class SuspensionStateUtil {
 
     public static void setSuspensionState(ProcessDefinitionEntity processDefinitionEntity, SuspensionState state) {
         if (processDefinitionEntity.getSuspensionState() == state.getStateCode()) {
-            throw new FlowableException("Cannot set suspension state '" + state + "' for " + processDefinitionEntity + "': already in state '" + state + "'.");
+            return;
+           // throw new FlowableException("Cannot set suspension state '" ~ state ~ "' for " ~ processDefinitionEntity ~ "': already in state '" ~ state ~ "'.");
         }
         processDefinitionEntity.setSuspensionState(state.getStateCode());
         dispatchStateChangeEvent(processDefinitionEntity, state);
@@ -45,7 +46,8 @@ class SuspensionStateUtil {
 
     public static void setSuspensionState(ExecutionEntity executionEntity, SuspensionState state) {
         if (executionEntity.getSuspensionState() == state.getStateCode()) {
-            throw new FlowableException("Cannot set suspension state '" + state + "' for " + executionEntity + "': already in state '" + state + "'.");
+            return;
+           // throw new FlowableException("Cannot set suspension state '" + state + "' for " + executionEntity + "': already in state '" + state + "'.");
         }
         executionEntity.setSuspensionState(state.getStateCode());
         dispatchStateChangeEvent(executionEntity, state);
@@ -53,7 +55,8 @@ class SuspensionStateUtil {
 
     public static void setSuspensionState(TaskEntity taskEntity, SuspensionState state) {
         if (taskEntity.getSuspensionState() == state.getStateCode()) {
-            throw new FlowableException("Cannot set suspension state '" + state + "' for " + taskEntity + "': already in state '" + state + "'.");
+            return;
+            //throw new FlowableException("Cannot set suspension state '" + state + "' for " + taskEntity + "': already in state '" + state + "'.");
         }
         taskEntity.setSuspensionState(state.getStateCode());
 
@@ -63,18 +66,19 @@ class SuspensionStateUtil {
     }
 
     protected static void addTaskSuspensionStateEntryLog(TaskEntity taskEntity, SuspensionState state) {
-        TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration();
-        if (taskServiceConfiguration.isEnableHistoricTaskLogging()) {
-            BaseHistoricTaskLogEntryBuilderImpl taskLogEntryBuilder = new BaseHistoricTaskLogEntryBuilderImpl(taskEntity);
-            ObjectNode data = taskServiceConfiguration.getObjectMapper().createObjectNode();
-            data.put("previousSuspensionState", taskEntity.getSuspensionState());
-            data.put("newSuspensionState", state.getStateCode());
-            taskLogEntryBuilder.timeStamp(taskServiceConfiguration.getClock().getCurrentTime());
-            taskLogEntryBuilder.userId(Authentication.getAuthenticatedUserId());
-            taskLogEntryBuilder.data(data.toString());
-            taskLogEntryBuilder.type(HistoricTaskLogEntryType.USER_TASK_SUSPENSIONSTATE_CHANGED.name());
-            taskServiceConfiguration.getInternalHistoryTaskManager().recordHistoryUserTaskLog(taskLogEntryBuilder);
-        }
+        implementationMissing(false);
+        //TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration();
+        //if (taskServiceConfiguration.isEnableHistoricTaskLogging()) {
+        //    BaseHistoricTaskLogEntryBuilderImpl taskLogEntryBuilder = new BaseHistoricTaskLogEntryBuilderImpl(taskEntity);
+        //    ObjectNode data = taskServiceConfiguration.getObjectMapper().createObjectNode();
+        //    data.put("previousSuspensionState", taskEntity.getSuspensionState());
+        //    data.put("newSuspensionState", state.getStateCode());
+        //    taskLogEntryBuilder.timeStamp(taskServiceConfiguration.getClock().getCurrentTime());
+        //    taskLogEntryBuilder.userId(Authentication.getAuthenticatedUserId());
+        //    taskLogEntryBuilder.data(data.toString());
+        //    taskLogEntryBuilder.type(HistoricTaskLogEntryType.USER_TASK_SUSPENSIONSTATE_CHANGED.name());
+        //    taskServiceConfiguration.getInternalHistoryTaskManager().recordHistoryUserTaskLog(taskLogEntryBuilder);
+        //}
     }
 
     protected static void dispatchStateChangeEvent(Object entity, SuspensionState state) {

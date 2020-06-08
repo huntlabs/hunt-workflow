@@ -296,7 +296,7 @@ class TakeOutgoingSequenceFlowsOperation : AbstractOperation {
     }
 
     protected void cleanupExecutions(FlowElement currentFlowElement) {
-        if (execution.getParentId() !is null && execution.isScope()) {
+        if (execution.getParentId().length != 0 && execution.getParentId().length != 0 && execution.isScope()) {
 
             // If the execution is a scope (and not a process instance), the scope must first be
             // destroyed before we can continue and follow the sequence flow
@@ -337,7 +337,7 @@ class TakeOutgoingSequenceFlowsOperation : AbstractOperation {
      *            The execution entity which we can ignore to be ended, as it's the execution currently being handled in this operation.
      */
     protected ExecutionEntity findNextParentScopeExecutionWithAllEndedChildExecutions(ExecutionEntity executionEntity, ExecutionEntity executionEntityToIgnore) {
-        if (executionEntity.getParentId() !is null) {
+        if (executionEntity.getParentId() !is null && executionEntity.getParentId().length != 0) {
             ExecutionEntity scopeExecutionEntity = executionEntity.getParent();
 
             // Find next scope

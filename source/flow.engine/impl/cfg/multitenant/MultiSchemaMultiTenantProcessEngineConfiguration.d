@@ -57,7 +57,7 @@ import flow.job.service.impl.asyncexecutor.multitenant.TenantAwareAsyncExecutor;
  *
  * @author Joram Barrez
  */
-class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConfigurationImpl {
+class MultiSchemaMultiTenantProcessEngineConfiguration : ProcessEngineConfigurationImpl {
 
     protected TenantInfoHolder tenantInfoHolder;
     protected bool booted;
@@ -95,7 +95,7 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
         }
     }
 
-    @Override
+    override
     public void initAsyncExecutor() {
 
         if (asyncExecutor is null) {
@@ -111,7 +111,7 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
         }
     }
 
-    @Override
+    override
     public ProcessEngine buildProcessEngine() {
 
         // Disable schema creation/validation by setting it to null.
@@ -154,20 +154,20 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
         ((TenantAwareAsyncExecutor) asyncExecutor).addTenantAsyncExecutor(tenantId, isAsyncExecutorActivate() && booted);
     }
 
-    @Override
+    override
     public CommandInterceptor createTransactionInterceptor() {
         return null;
     }
 
-    @Override
+    override
     protected void postProcessEngineInitialisation() {
         // empty here. will be done in registerTenant
     }
 
-    @Override
+    override
     public Runnable getProcessEngineCloseRunnable() {
         return new Runnable() {
-            @Override
+            override
             public void run() {
                 for (string tenantId : tenantInfoHolder.getAllTenants()) {
                     tenantInfoHolder.setCurrentTenantId(tenantId);
@@ -178,9 +178,9 @@ class MultiSchemaMultiTenantProcessEngineConfiguration extends ProcessEngineConf
         };
     }
 
-    public Command<Void> getProcessEngineCloseCommand() {
-        return new Command<Void>() {
-            @Override
+    public Command!Void getProcessEngineCloseCommand() {
+        return new Command!Void() {
+            override
             public Void execute(CommandContext commandContext) {
                 CommandContextUtil.getProcessEngineConfiguration(commandContext).getCommandExecutor().execute(new SchemaOperationProcessEngineClose());
                 return null;

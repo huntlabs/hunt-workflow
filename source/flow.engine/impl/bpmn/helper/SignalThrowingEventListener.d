@@ -23,8 +23,8 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 
 /**
  * An {@link FlowableEventListener} that throws a signal event when an event is dispatched to it.
@@ -32,12 +32,12 @@ import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEven
  * @author Frederik Heremans
  *
  */
-class SignalThrowingEventListener extends BaseDelegateEventListener {
+class SignalThrowingEventListener : BaseDelegateEventListener {
 
     protected string signalName;
     protected bool processInstanceScope = true;
 
-    @Override
+    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event) && event instanceof FlowableEngineEvent) {
 
@@ -49,7 +49,7 @@ class SignalThrowingEventListener extends BaseDelegateEventListener {
 
             CommandContext commandContext = Context.getCommandContext();
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-            List<SignalEventSubscriptionEntity> subscriptionEntities = null;
+            List!SignalEventSubscriptionEntity subscriptionEntities = null;
             if (processInstanceScope) {
                 subscriptionEntities = eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(engineEvent.getProcessInstanceId(), signalName);
             } else {
@@ -77,7 +77,7 @@ class SignalThrowingEventListener extends BaseDelegateEventListener {
         this.processInstanceScope = processInstanceScope;
     }
 
-    @Override
+    override
     public bool isFailOnException() {
         return true;
     }

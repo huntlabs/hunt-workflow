@@ -26,7 +26,7 @@ import flow.engine.impl.util.CommandContextUtil;
  *
  * @author Tijs Rademakers
  */
-class EventSubProcessConditionalStartEventActivityBehavior extends FlowNodeActivityBehavior {
+class EventSubProcessConditionalStartEventActivityBehavior : FlowNodeActivityBehavior {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ class EventSubProcessConditionalStartEventActivityBehavior extends FlowNodeActiv
         this.conditionExpression = conditionExpression;
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
         CommandContext commandContext = Context.getCommandContext();
 

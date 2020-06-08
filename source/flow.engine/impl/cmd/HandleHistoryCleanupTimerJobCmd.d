@@ -29,16 +29,16 @@ import flow.job.service.TimerJobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
-class HandleHistoryCleanupTimerJobCmd implements Command<Object>, Serializable {
+class HandleHistoryCleanupTimerJobCmd implements Command!Object, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
+    override
     public Object execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         ManagementService managementService = processEngineConfiguration.getManagementService();
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService(commandContext);
-        List<Job> cleanupJobs = managementService.createTimerJobQuery().handlerType(BpmnHistoryCleanupJobHandler.TYPE).list();
+        List!Job cleanupJobs = managementService.createTimerJobQuery().handlerType(BpmnHistoryCleanupJobHandler.TYPE).list();
 
         if (cleanupJobs.isEmpty()) {
             TimerJobEntity timerJob = timerJobService.createTimerJob();

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.HistoricDetailDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -26,7 +26,7 @@ import flow.engine.impl.persistence.entity.HistoricFormPropertyEntity;
 /**
  * @author Joram Barrez
  */
-interface HistoricDetailDataManager extends DataManager<HistoricDetailEntity> {
+interface HistoricDetailDataManager : DataManager!HistoricDetailEntity {
 
     HistoricDetailAssignmentEntity createHistoricDetailAssignment();
 
@@ -34,15 +34,15 @@ interface HistoricDetailDataManager extends DataManager<HistoricDetailEntity> {
 
     HistoricFormPropertyEntity createHistoricFormProperty();
 
-    List<HistoricDetailEntity> findHistoricDetailsByProcessInstanceId(string processInstanceId);
+    List!HistoricDetailEntity findHistoricDetailsByProcessInstanceId(string processInstanceId);
 
-    List<HistoricDetailEntity> findHistoricDetailsByTaskId(string taskId);
+    List!HistoricDetailEntity findHistoricDetailsByTaskId(string taskId);
 
     long findHistoricDetailCountByQueryCriteria(HistoricDetailQueryImpl historicVariableUpdateQuery);
 
-    List<HistoricDetail> findHistoricDetailsByQueryCriteria(HistoricDetailQueryImpl historicVariableUpdateQuery);
+    List!HistoricDetail findHistoricDetailsByQueryCriteria(HistoricDetailQueryImpl historicVariableUpdateQuery);
 
-    List<HistoricDetail> findHistoricDetailsByNativeQuery(Map!(string, Object) parameterMap);
+    List!HistoricDetail findHistoricDetailsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findHistoricDetailCountByNativeQuery(Map!(string, Object) parameterMap);
 

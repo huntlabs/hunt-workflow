@@ -23,23 +23,23 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.impl.util.ProcessInstanceHelper;
 import flow.engine.repository.ProcessDefinition;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 
 /**
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-class SignalEventHandler extends AbstractEventHandler {
+class SignalEventHandler : AbstractEventHandler {
 
     public static final string EVENT_HANDLER_TYPE = "signal";
 
-    @Override
+    override
     public string getEventHandlerType() {
         return EVENT_HANDLER_TYPE;
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+    override
     public void handleEvent(EventSubscriptionEntity eventSubscription, Object payload, CommandContext commandContext) {
         if (eventSubscription.getExecutionId() !is null) {
 

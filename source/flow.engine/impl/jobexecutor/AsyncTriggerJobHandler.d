@@ -27,12 +27,12 @@ class AsyncTriggerJobHandler implements JobHandler {
 
     public static final string TYPE = "async-trigger";
 
-    @Override
+    override
     public string getType() {
         return TYPE;
     }
 
-    @Override
+    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
 

@@ -23,7 +23,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class GetDeploymentResourceNamesCmd implements Command<List>, Serializable {
+class GetDeploymentResourceNamesCmd implements Command!List, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string deploymentId;
@@ -32,7 +32,7 @@ class GetDeploymentResourceNamesCmd implements Command<List>, Serializable {
         this.deploymentId = deploymentId;
     }
 
-    @Override
+    override
     public List execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");

@@ -37,7 +37,7 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Yvo Swillens
  */
-class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisionTable>>, Serializable {
+class GetDecisionTablesForProcessDefinitionCmd implements Command<List!DmnDecisionTable>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
@@ -47,8 +47,8 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
-    public List<DmnDecisionTable> execute(CommandContext commandContext) {
+    override
+    public List!DmnDecisionTable execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
 
         if (processDefinition is null) {
@@ -66,15 +66,15 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
         }
 
         dmnRepositoryService = CommandContextUtil.getDmnRepositoryService();
-        List<DmnDecisionTable> decisionTables = getDecisionTablesFromModel(bpmnModel, processDefinition);
+        List!DmnDecisionTable decisionTables = getDecisionTablesFromModel(bpmnModel, processDefinition);
 
         return decisionTables;
     }
 
-    protected List<DmnDecisionTable> getDecisionTablesFromModel(BpmnModel bpmnModel, ProcessDefinition processDefinition) {
+    protected List!DmnDecisionTable getDecisionTablesFromModel(BpmnModel bpmnModel, ProcessDefinition processDefinition) {
         Set!string decisionTableKeys = new HashSet<>();
-        List<DmnDecisionTable> decisionTables = new ArrayList<>();
-        List<ServiceTask> serviceTasks = bpmnModel.getMainProcess().findFlowElementsOfType(ServiceTask.class, true);
+        List!DmnDecisionTable decisionTables = new ArrayList<>();
+        List!ServiceTask serviceTasks = bpmnModel.getMainProcess().findFlowElementsOfType(ServiceTask.class, true);
 
         for (ServiceTask serviceTask : serviceTasks) {
             if ("dmn".equals(serviceTask.getType())) {
@@ -96,11 +96,11 @@ class GetDecisionTablesForProcessDefinitionCmd implements Command<List<DmnDecisi
         return decisionTables;
     }
 
-    protected void addDecisionTableToCollection(List<DmnDecisionTable> decisionTables, string decisionTableKey, ProcessDefinition processDefinition) {
+    protected void addDecisionTableToCollection(List!DmnDecisionTable decisionTables, string decisionTableKey, ProcessDefinition processDefinition) {
         DmnDecisionTableQuery decisionTableQuery = dmnRepositoryService.createDecisionTableQuery().decisionTableKey(decisionTableKey);
         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(processDefinition.getDeploymentId());
         if (deployment.getParentDeploymentId() !is null) {
-            List<DmnDeployment> dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
+            List!DmnDeployment dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
 
             if (dmnDeployments !is null && dmnDeployments.size() > 0) {
                 decisionTableQuery.deploymentId(dmnDeployments.get(0).getId());

@@ -35,7 +35,7 @@ import flow.form.api.FormService;
 /**
  * @author Tijs Rademakers
  */
-class GetStartFormModelCmd implements Command<FormInfo>, Serializable {
+class GetStartFormModelCmd implements Command!FormInfo, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +47,7 @@ class GetStartFormModelCmd implements Command<FormInfo>, Serializable {
         this.processInstanceId = processInstanceId;
     }
 
-    @Override
+    override
     public FormInfo execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FormService formService = CommandContextUtil.getFormService(commandContext);

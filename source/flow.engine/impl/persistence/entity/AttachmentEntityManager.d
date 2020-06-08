@@ -10,20 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.AttachmentEntityManager;
 
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
+import flow.engine.impl.persistence.entity.AttachmentEntity;
 
 /**
  * @author Joram Barrez
  */
-interface AttachmentEntityManager extends EntityManager<AttachmentEntity> {
+interface AttachmentEntityManager : EntityManager!AttachmentEntity {
 
-    List<AttachmentEntity> findAttachmentsByProcessInstanceId(string processInstanceId);
+    List!AttachmentEntity findAttachmentsByProcessInstanceId(string processInstanceId);
 
-    List<AttachmentEntity> findAttachmentsByTaskId(string taskId);
+    List!AttachmentEntity findAttachmentsByTaskId(string taskId);
 
     void deleteAttachmentsByTaskId(string taskId);
 

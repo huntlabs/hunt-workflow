@@ -25,21 +25,21 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class ProcessInstanceDeleteHistoryJsonTransformer extends AbstractProcessInstanceDeleteHistoryTransformer {
+class ProcessInstanceDeleteHistoryJsonTransformer : AbstractProcessInstanceDeleteHistoryTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_PROCESS_INSTANCE_DELETED);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string id = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         HistoricProcessInstanceEntityManager historicProcessInstanceEntityManager = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext);
         return historicProcessInstanceEntityManager.findById(id) !is null;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string processInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID);
         deleteProcessInstance(processInstanceId, commandContext);

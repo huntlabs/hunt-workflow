@@ -28,7 +28,7 @@ class ProcessInstanceQueryProperty implements QueryProperty {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Map<string, ProcessInstanceQueryProperty> properties = new HashMap<>();
+    private static final Map!(string, ProcessInstanceQueryProperty) properties = new HashMap<>();
 
     public static final ProcessInstanceQueryProperty PROCESS_INSTANCE_ID = new ProcessInstanceQueryProperty("RES.ID_");
     public static final ProcessInstanceQueryProperty PROCESS_DEFINITION_KEY = new ProcessInstanceQueryProperty("ProcessDefinitionKey");
@@ -43,7 +43,7 @@ class ProcessInstanceQueryProperty implements QueryProperty {
         properties.put(name, this);
     }
 
-    @Override
+    override
     public string getName() {
         return name;
     }

@@ -21,12 +21,12 @@ import flow.task.service.impl.BaseTaskBuilderImpl;
 /**
  * {@link TaskBuilder} implementation
  */
-class TaskBuilderImpl extends BaseTaskBuilderImpl {
+class TaskBuilderImpl : BaseTaskBuilderImpl {
     TaskBuilderImpl(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+    override
     public Task create() {
         return commandExecutor.execute(new CreateTaskCmd(this));
     }

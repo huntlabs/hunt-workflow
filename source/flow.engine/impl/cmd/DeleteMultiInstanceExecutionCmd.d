@@ -31,7 +31,7 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
 /**
  * @author Tijs Rademakers
  */
-class DeleteMultiInstanceExecutionCmd implements Command<Void>, Serializable {
+class DeleteMultiInstanceExecutionCmd implements Command!Void, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ class DeleteMultiInstanceExecutionCmd implements Command<Void>, Serializable {
         this.executionIsCompleted = executionIsCompleted;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
         ExecutionEntity execution = executionEntityManager.findById(executionId);

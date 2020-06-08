@@ -31,7 +31,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class DeleteAttachmentCmd implements Command<Object>, Serializable {
+class DeleteAttachmentCmd implements Command!Object, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string attachmentId;
@@ -40,7 +40,7 @@ class DeleteAttachmentCmd implements Command<Object>, Serializable {
         this.attachmentId = attachmentId;
     }
 
-    @Override
+    override
     public Object execute(CommandContext commandContext) {
         AttachmentEntity attachment = CommandContextUtil.getAttachmentEntityManager().findById(attachmentId);
 

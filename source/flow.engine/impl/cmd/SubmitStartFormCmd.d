@@ -31,7 +31,7 @@ import flow.engine.runtime.ProcessInstance;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class SubmitStartFormCmd extends NeedsActiveProcessDefinitionCmd<ProcessInstance> {
+class SubmitStartFormCmd : NeedsActiveProcessDefinitionCmd!ProcessInstance {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ class SubmitStartFormCmd extends NeedsActiveProcessDefinitionCmd<ProcessInstance
         this.properties = properties;
     }
 
-    @Override
+    override
     protected ProcessInstance execute(CommandContext commandContext, ProcessDefinitionEntity processDefinition) {
         if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();

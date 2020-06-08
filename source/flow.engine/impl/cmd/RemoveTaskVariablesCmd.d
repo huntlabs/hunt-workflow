@@ -23,7 +23,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author roman.smirnov
  * @author Joram Barrez
  */
-class RemoveTaskVariablesCmd extends NeedsActiveTaskCmd<Void> {
+class RemoveTaskVariablesCmd : NeedsActiveTaskCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ class RemoveTaskVariablesCmd extends NeedsActiveTaskCmd<Void> {
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
         if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
@@ -54,7 +54,7 @@ class RemoveTaskVariablesCmd extends NeedsActiveTaskCmd<Void> {
         return null;
     }
 
-    @Override
+    override
     protected string getSuspendedTaskException() {
         return "Cannot remove variables from a suspended task.";
     }

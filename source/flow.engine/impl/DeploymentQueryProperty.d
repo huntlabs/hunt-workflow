@@ -10,38 +10,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.DeploymentQueryProperty;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
 import flow.engine.repository.DeploymentQuery;
+import std.concurrency : initOnce;
 
 /**
  * Contains the possible properties that can be used in a {@link DeploymentQuery}.
  *
  * @author Joram Barrez
  */
-class DeploymentQueryProperty implements QueryProperty {
+class DeploymentQueryProperty : QueryProperty {
 
-    private static final long serialVersionUID = 1L;
 
-    private static final Map<string, DeploymentQueryProperty> properties = new HashMap<>();
+    //private static final Map!(string, DeploymentQueryProperty) properties = new HashMap<>();
+    //
+    //public static final DeploymentQueryProperty DEPLOYMENT_ID = new DeploymentQueryProperty("RES.ID_");
+    //public static final DeploymentQueryProperty DEPLOYMENT_NAME = new DeploymentQueryProperty("RES.NAME_");
+    //public static final DeploymentQueryProperty DEPLOYMENT_TENANT_ID = new DeploymentQueryProperty("RES.TENANT_ID_");
+    //public static final DeploymentQueryProperty DEPLOY_TIME = new DeploymentQueryProperty("RES.DEPLOY_TIME_");
 
-    public static final DeploymentQueryProperty DEPLOYMENT_ID = new DeploymentQueryProperty("RES.ID_");
-    public static final DeploymentQueryProperty DEPLOYMENT_NAME = new DeploymentQueryProperty("RES.NAME_");
-    public static final DeploymentQueryProperty DEPLOYMENT_TENANT_ID = new DeploymentQueryProperty("RES.TENANT_ID_");
-    public static final DeploymentQueryProperty DEPLOY_TIME = new DeploymentQueryProperty("RES.DEPLOY_TIME_");
+    static Map!(string,DeploymentQueryProperty) properties() {
+      __gshared Map!(string,DeploymentQueryProperty) inst;
+      return initOnce!inst(new HashMap!(string,DeploymentQueryProperty));
+    }
+
+    static DeploymentQueryProperty DEPLOYMENT_ID() {
+      __gshared DeploymentQueryProperty inst;
+      return initOnce!inst(new DeploymentQueryProperty("RES.ID_"));
+    }
+
+    static DeploymentQueryProperty DEPLOYMENT_NAME() {
+      __gshared DeploymentQueryProperty inst;
+      return initOnce!inst(new DeploymentQueryProperty("RES.NAME_"));
+    }
+
+    static DeploymentQueryProperty DEPLOYMENT_TENANT_ID() {
+      __gshared DeploymentQueryProperty inst;
+      return initOnce!inst(new DeploymentQueryProperty("RES.TENANT_ID_"));
+    }
+
+    static DeploymentQueryProperty DEPLOY_TIME() {
+      __gshared DeploymentQueryProperty inst;
+      return initOnce!inst(new DeploymentQueryProperty("RES.DEPLOY_TIME_"));
+    }
 
     private string name;
 
-    public DeploymentQueryProperty(string name) {
+    this(string name) {
         this.name = name;
         properties.put(name, this);
     }
 
-    @Override
     public string getName() {
         return name;
     }

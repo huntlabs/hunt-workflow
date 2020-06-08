@@ -27,19 +27,19 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 /**
  * @author martin.grofcik
  */
-class HistoricUserTaskLogDeleteJsonTransformer extends AbstractHistoryJsonTransformer {
+class HistoricUserTaskLogDeleteJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_HISTORIC_TASK_LOG_DELETE);
     }
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         return true;
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         Long logNumber = getLongFromJson(historicalData, HistoryJsonConstants.LOG_ENTRY_LOGNUMBER);
         if (logNumber !is null) {

@@ -16,7 +16,7 @@ import flow.engine.task.Comment;
 import flow.task.api.history.HistoricTaskInstance;
 import flow.task.api.history.HistoricTaskInstanceQuery;
 import flow.variable.service.api.history.HistoricVariableInstance;
-
+import flow.engine.history.ProcessInstanceHistoryLog;
 /**
  * Allows to fetch the {@link ProcessInstanceHistoryLog} for a process instance.
  *

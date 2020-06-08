@@ -29,7 +29,7 @@ import flow.engine.migration.ProcessInstanceBatchMigrationResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstanceBatchMigrationResult> {
+class GetProcessInstanceMigrationBatchResultCmd implements Command!ProcessInstanceBatchMigrationResult {
 
     public static final string BATCH_RESULT_STATUS_LABEL = "resultStatus";
     public static final string BATCH_RESULT_MESSAGE_LABEL = "resultMessage";
@@ -40,7 +40,7 @@ class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstan
         this.batchId = batchId;
     }
 
-    @Override
+    override
     public ProcessInstanceBatchMigrationResult execute(CommandContext commandContext) {
         BatchService batchService = CommandContextUtil.getBatchService(commandContext);
         Batch batch = batchService.getBatch(batchId);
@@ -48,7 +48,7 @@ class GetProcessInstanceMigrationBatchResultCmd implements Command<ProcessInstan
         if (batch !is null) {
             ObjectMapper objectMapper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getObjectMapper();
             ProcessInstanceBatchMigrationResult result = convertFromBatch(batch, objectMapper);
-            List<BatchPart> batchParts = batchService.findBatchPartsByBatchId(batch.getId());
+            List!BatchPart batchParts = batchService.findBatchPartsByBatchId(batch.getId());
             if (batchParts !is null && !batchParts.isEmpty()) {
                 for (BatchPart batchPart : batchParts) {
                     result.addMigrationPart(convertFromBatchPart(batchPart, objectMapper));

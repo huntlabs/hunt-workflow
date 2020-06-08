@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 
 
 import hunt.collection.List;
@@ -19,11 +19,11 @@ import hunt.collection.List;
 import flow.common.db.HasRevision;
 import flow.engine.history.HistoricProcessInstance;
 import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
-
+import flow.engine.impl.persistence.entity.HistoricScopeInstanceEntity;
 /**
  * @author Joram Barrez
  */
-interface HistoricProcessInstanceEntity extends HistoricScopeInstanceEntity, HistoricProcessInstance, HasRevision {
+interface HistoricProcessInstanceEntity : HistoricScopeInstanceEntity, HistoricProcessInstance, HasRevision {
 
     void setEndActivityId(string endActivityId);
 
@@ -49,7 +49,7 @@ interface HistoricProcessInstanceEntity extends HistoricScopeInstanceEntity, His
 
     void setProcessDefinitionName(string processDefinitionName);
 
-    void setProcessDefinitionVersion(Integer processDefinitionVersion);
+    void setProcessDefinitionVersion(int processDefinitionVersion);
 
     void setDeploymentId(string deploymentId);
 
@@ -61,8 +61,8 @@ interface HistoricProcessInstanceEntity extends HistoricScopeInstanceEntity, His
 
     void setReferenceType(string referenceType);
 
-    List<HistoricVariableInstanceEntity> getQueryVariables();
+    List!HistoricVariableInstanceEntity getQueryVariables();
 
-    void setQueryVariables(List<HistoricVariableInstanceEntity> queryVariables);
+    void setQueryVariables(List!HistoricVariableInstanceEntity queryVariables);
 
 }

@@ -29,7 +29,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class TriggerCaseTaskCmd implements Command<Void>, Serializable {
+class TriggerCaseTaskCmd implements Command!Void, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ class TriggerCaseTaskCmd implements Command<Void>, Serializable {
         this.variables = variables;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         ExecutionEntity execution = (ExecutionEntity) processEngineConfiguration.getExecutionEntityManager().findById(executionId);

@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,74 +11,76 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntityManagerImpl;
 
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.data.ProcessDefinitionInfoDataManager;
-
+import flow.engine.impl.persistence.entity.AbstractProcessEngineEntityManager;
+import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntity;
+import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntityManager;
+import flow.engine.impl.persistence.entity.ByteArrayRef;
 /**
  * @author Tijs Rademakers
  */
 class ProcessDefinitionInfoEntityManagerImpl
-    extends AbstractProcessEngineEntityManager<ProcessDefinitionInfoEntity, ProcessDefinitionInfoDataManager>
-    implements ProcessDefinitionInfoEntityManager {
+    : AbstractProcessEngineEntityManager!(ProcessDefinitionInfoEntity, ProcessDefinitionInfoDataManager)
+    , ProcessDefinitionInfoEntityManager {
 
-    public ProcessDefinitionInfoEntityManagerImpl(ProcessEngineConfigurationImpl processEngineConfiguration,
+    this(ProcessEngineConfigurationImpl processEngineConfiguration,
             ProcessDefinitionInfoDataManager processDefinitionInfoDataManager) {
 
         super(processEngineConfiguration, processDefinitionInfoDataManager);
     }
 
-    @Override
     public void insertProcessDefinitionInfo(ProcessDefinitionInfoEntity processDefinitionInfo) {
         insert(processDefinitionInfo);
     }
 
-    @Override
+
     public void updateProcessDefinitionInfo(ProcessDefinitionInfoEntity updatedProcessDefinitionInfo) {
         update(updatedProcessDefinitionInfo, true);
     }
 
-    @Override
+
     public void deleteProcessDefinitionInfo(string processDefinitionId) {
         ProcessDefinitionInfoEntity processDefinitionInfo = findProcessDefinitionInfoByProcessDefinitionId(processDefinitionId);
         if (processDefinitionInfo !is null) {
-            delete(processDefinitionInfo);
+            dele(processDefinitionInfo);
             deleteInfoJson(processDefinitionInfo);
         }
     }
 
-    @Override
+
     public void updateInfoJson(string id, byte[] json) {
         ProcessDefinitionInfoEntity processDefinitionInfo = findById(id);
         if (processDefinitionInfo !is null) {
-            ByteArrayRef ref = new ByteArrayRef(processDefinitionInfo.getInfoJsonId());
-            ref.setValue("json", json);
+            ByteArrayRef rf = new ByteArrayRef(processDefinitionInfo.getInfoJsonId());
+            rf.setValue("json", json);
 
-            if (processDefinitionInfo.getInfoJsonId() is null) {
-                processDefinitionInfo.setInfoJsonId(ref.getId());
+            if (processDefinitionInfo.getInfoJsonId().length == 0) {
+                processDefinitionInfo.setInfoJsonId(rf.getId());
             }
-            
+
             updateProcessDefinitionInfo(processDefinitionInfo);
         }
     }
 
-    @Override
+
     public void deleteInfoJson(ProcessDefinitionInfoEntity processDefinitionInfo) {
-        if (processDefinitionInfo.getInfoJsonId() !is null) {
-            ByteArrayRef ref = new ByteArrayRef(processDefinitionInfo.getInfoJsonId());
-            ref.delete();
+        if (processDefinitionInfo.getInfoJsonId().length != 0) {
+            ByteArrayRef rf = new ByteArrayRef(processDefinitionInfo.getInfoJsonId());
+            rf.dele();
         }
     }
 
-    @Override
+
     public ProcessDefinitionInfoEntity findProcessDefinitionInfoByProcessDefinitionId(string processDefinitionId) {
         return dataManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinitionId);
     }
 
-    @Override
+
     public byte[] findInfoJsonById(string infoJsonId) {
-        ByteArrayRef ref = new ByteArrayRef(infoJsonId);
-        return ref.getBytes();
+        ByteArrayRef rf = new ByteArrayRef(infoJsonId);
+        return rf.getBytes();
     }
 }

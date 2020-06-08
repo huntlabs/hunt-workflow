@@ -29,7 +29,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Javier Casal
  */
-class GetEntityLinkParentsForTaskCmd implements Command<List<EntityLink>>, Serializable {
+class GetEntityLinkParentsForTaskCmd implements Command<List!EntityLink>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -41,8 +41,8 @@ class GetEntityLinkParentsForTaskCmd implements Command<List<EntityLink>>, Seria
         this.taskId = taskId;
     }
 
-    @Override
-    public List<EntityLink> execute(CommandContext commandContext) {
+    override
+    public List!EntityLink execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {

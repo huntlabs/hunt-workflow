@@ -31,7 +31,7 @@ import flow.engine.impl.util.CommandContextUtil;
  * @author Tom Baeyens
  * @author Zheng Ji
  */
-class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityInstanceQuery, HistoricActivityInstance> implements HistoricActivityInstanceQuery {
+class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanceQuery, HistoricActivityInstance) implements HistoricActivityInstanceQuery {
 
     private static final long serialVersionUID = 1L;
     protected string activityInstanceId;
@@ -67,111 +67,111 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         super(commandExecutor);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findHistoricActivityInstanceCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<HistoricActivityInstance> executeList(CommandContext commandContext) {
+    override
+    public List!HistoricActivityInstance executeList(CommandContext commandContext) {
         return CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findHistoricActivityInstancesByQueryCriteria(this);
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl processInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl executionId(string executionId) {
         this.executionId = executionId;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl processDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl activityId(string activityId) {
         this.activityId = activityId;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl activityName(string activityName) {
         this.activityName = activityName;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl activityType(string activityType) {
         this.activityType = activityType;
         return this;
     }
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl startedAfter(Date date) {
         this.startedAfter = date;
         return this;
     }
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl startedBefore(Date date) {
         this.startedBefore = date;
         return this;
     }
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl finishedAfter(Date date) {
         this.finishedAfter = date;
         return this;
     }
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl finishedBefore(Date date) {
         this.finishedBefore = date;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQuery activityTypes(Set!string activityTypes) {
         this.activityTypes=activityTypes;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl taskAssignee(string assignee) {
         this.assignee = assignee;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl finished() {
         this.finished = true;
         this.unfinished = false;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl unfinished() {
         this.unfinished = true;
         this.finished = false;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQuery deleteReason(string deleteReason) {
         this.deleteReason = deleteReason;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQuery deleteReasonLike(string deleteReasonLike) {
         this.deleteReasonLike = deleteReasonLike;
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl activityTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
@@ -184,7 +184,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         return tenantId;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl activityTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
@@ -193,7 +193,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQuery tenantIdIn(List!string tenantIds) {
         this.tenantIds = tenantIds;
         return this;
@@ -203,7 +203,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         return tenantIdLike;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl activityWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -216,79 +216,79 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
     // ordering
     // /////////////////////////////////////////////////////////////////
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByHistoricActivityInstanceDuration() {
         orderBy(HistoricActivityInstanceQueryProperty.DURATION);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByHistoricActivityInstanceEndTime() {
         orderBy(HistoricActivityInstanceQueryProperty.END);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByExecutionId() {
         orderBy(HistoricActivityInstanceQueryProperty.EXECUTION_ID);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByHistoricActivityInstanceId() {
         orderBy(HistoricActivityInstanceQueryProperty.HISTORIC_ACTIVITY_INSTANCE_ID);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByProcessDefinitionId() {
         orderBy(HistoricActivityInstanceQueryProperty.PROCESS_DEFINITION_ID);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByProcessInstanceId() {
         orderBy(HistoricActivityInstanceQueryProperty.PROCESS_INSTANCE_ID);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByHistoricActivityInstanceStartTime() {
         orderBy(HistoricActivityInstanceQueryProperty.START);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQuery orderByActivityId() {
         orderBy(HistoricActivityInstanceQueryProperty.ACTIVITY_ID);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByActivityName() {
         orderBy(HistoricActivityInstanceQueryProperty.ACTIVITY_NAME);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByActivityType() {
         orderBy(HistoricActivityInstanceQueryProperty.ACTIVITY_TYPE);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl orderByTenantId() {
         orderBy(HistoricActivityInstanceQueryProperty.TENANT_ID);
         return this;
     }
 
-    @Override
+    override
     public HistoricActivityInstanceQueryImpl activityInstanceId(string activityInstanceId) {
         this.activityInstanceId = activityInstanceId;
         return this;
     }
 
-    @Override
+    override
     public void delete() {
         if (commandExecutor !is null) {
             commandExecutor.execute(new DeleteHistoricActivityInstancesCmd(this));
@@ -297,7 +297,7 @@ class HistoricActivityInstanceQueryImpl extends AbstractQuery<HistoricActivityIn
         }
     }
 
-    @Override
+    override
     public void deleteWithRelatedData() {
         delete();
     }

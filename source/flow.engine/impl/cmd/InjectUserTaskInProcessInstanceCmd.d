@@ -35,7 +35,7 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 
-class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd implements Command<Void> {
+class InjectUserTaskInProcessInstanceCmd : AbstractDynamicInjectionCmd implements Command!Void {
 
     protected string processInstanceId;
     protected DynamicUserTaskBuilder dynamicUserTaskBuilder;
@@ -45,17 +45,17 @@ class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd imp
         this.dynamicUserTaskBuilder = dynamicUserTaskBuilder;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         createDerivedProcessDefinitionForProcessInstance(commandContext, processInstanceId);
         return null;
     }
 
-    @Override
+    override
     protected void updateBpmnProcess(CommandContext commandContext, Process process,
             BpmnModel bpmnModel, ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity) {
 
-        List<StartEvent> startEvents = process.findFlowElementsOfType(StartEvent.class);
+        List!StartEvent startEvents = process.findFlowElementsOfType(StartEvent.class);
         StartEvent initialStartEvent = null;
         for (StartEvent startEvent : startEvents) {
             if (startEvent.getEventDefinitions().size() == 0) {
@@ -111,7 +111,7 @@ class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd imp
                 elementGraphicInfo.setY(173);
             }
 
-            Map<string, GraphicInfo> locationMap = bpmnModel.getLocationMap();
+            Map!(string, GraphicInfo) locationMap = bpmnModel.getLocationMap();
             for (string locationId : locationMap.keySet()) {
                 if (initialStartEvent.getId().equals(locationId)) {
                     continue;
@@ -122,13 +122,13 @@ class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd imp
                 locationGraphicInfo.setY(locationGraphicInfo.getY() + yDiff);
             }
 
-            Map<string, List<GraphicInfo>> flowLocationMap = bpmnModel.getFlowLocationMap();
+            Map<string, List!GraphicInfo> flowLocationMap = bpmnModel.getFlowLocationMap();
             for (string flowId : flowLocationMap.keySet()) {
                 if (flowFromStart.getId().equals(flowId)) {
                     continue;
                 }
 
-                List<GraphicInfo> flowGraphicInfoList = flowLocationMap.get(flowId);
+                List!GraphicInfo flowGraphicInfoList = flowLocationMap.get(flowId);
                 for (GraphicInfo flowGraphicInfo : flowGraphicInfoList) {
                     flowGraphicInfo.setX(flowGraphicInfo.getX() + xDiff);
                     flowGraphicInfo.setY(flowGraphicInfo.getY() + yDiff);
@@ -157,9 +157,9 @@ class InjectUserTaskInProcessInstanceCmd extends AbstractDynamicInjectionCmd imp
         BaseDynamicSubProcessInjectUtil.processFlowElements(commandContext, process, bpmnModel, originalProcessDefinitionEntity, newDeploymentEntity);
     }
 
-    @Override
+    override
     protected void updateExecutions(CommandContext commandContext, ProcessDefinitionEntity processDefinitionEntity,
-            ExecutionEntity processInstance, List<ExecutionEntity> childExecutions) {
+            ExecutionEntity processInstance, List!ExecutionEntity childExecutions) {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity execution = executionEntityManager.createChildExecution(processInstance);

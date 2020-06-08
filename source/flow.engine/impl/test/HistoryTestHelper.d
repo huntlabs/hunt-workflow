@@ -124,7 +124,7 @@ class HistoryTestHelper {
         return false;
     }
 
-    private static class InterruptTask extends TimerTask {
+    private static class InterruptTask : TimerTask {
 
         protected bool timeLimitExceeded;
         protected Thread thread;
@@ -137,7 +137,7 @@ class HistoryTestHelper {
             return timeLimitExceeded;
         }
 
-        @Override
+        override
         public void run() {
             timeLimitExceeded = true;
             thread.interrupt();

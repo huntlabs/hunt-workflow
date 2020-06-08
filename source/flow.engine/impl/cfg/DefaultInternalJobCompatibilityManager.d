@@ -34,7 +34,7 @@ class DefaultInternalJobCompatibilityManager implements InternalJobCompatibility
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    @Override
+    override
     public bool isFlowable5Job(Job job) {
         if (job.getProcessDefinitionId() !is null) {
             return Flowable5Util.isFlowable5ProcessDefinitionId(processEngineConfiguration, job.getProcessDefinitionId());
@@ -42,20 +42,20 @@ class DefaultInternalJobCompatibilityManager implements InternalJobCompatibility
         return false;
     }
 
-    @Override
+    override
     public void executeV5Job(Job job) {
         Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
         compatibilityHandler.executeJob(job);
     }
 
-    @Override
+    override
     public void executeV5JobWithLockAndRetry(final Job job) {
 
         // Retrieving the compatibility handler needs to be done outside of the executeJobWithLockAndRetry call,
         // as it shouldn't be wrapped in a transaction.
-        Flowable5CompatibilityHandler compatibilityHandler = processEngineConfiguration.getCommandExecutor().execute(new Command<Flowable5CompatibilityHandler>() {
+        Flowable5CompatibilityHandler compatibilityHandler = processEngineConfiguration.getCommandExecutor().execute(new Command!Flowable5CompatibilityHandler() {
 
-            @Override
+            override
             public Flowable5CompatibilityHandler execute(CommandContext commandContext) {
                 return CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler();
             }
@@ -65,13 +65,13 @@ class DefaultInternalJobCompatibilityManager implements InternalJobCompatibility
         compatibilityHandler.executeJobWithLockAndRetry(job);
     }
 
-    @Override
+    override
     public void deleteV5Job(string jobId) {
         Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
         compatibilityHandler.deleteJob(jobId);
     }
 
-    @Override
+    override
     public void handleFailedV5Job(AbstractRuntimeJobEntity job, Throwable exception) {
         Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
         compatibilityHandler.handleFailedJob(job, exception);

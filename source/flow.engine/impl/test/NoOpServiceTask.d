@@ -31,7 +31,7 @@ class NoOpServiceTask implements JavaDelegate {
 
     protected Expression name;
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CALL_COUNT.incrementAndGet();
         NAMES.add((string) name.getValue(execution));

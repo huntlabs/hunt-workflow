@@ -39,8 +39,8 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
     protected string migrateToProcessDefinitionKey;
     protected Integer migrateToProcessDefinitionVersion;
     protected string migrateToProcessDefinitionTenantId;
-    protected List<ActivityMigrationMapping> activityMigrationMappings;
-    protected Map<string, Map<string, Object>> activitiesLocalVariables;
+    protected List!ActivityMigrationMapping activityMigrationMappings;
+    protected Map<string, Map!(string, Object)> activitiesLocalVariables;
     protected Map!(string, Object) processInstanceVariables;
     protected Script preUpgradeScript;
     protected string preUpgradeJavaDelegate;
@@ -140,57 +140,57 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         }
     }
 
-    @Override
+    override
     public string getMigrateToProcessDefinitionId() {
         return migrateToProcessDefinitionId;
     }
 
-    @Override
+    override
     public string getMigrateToProcessDefinitionKey() {
         return migrateToProcessDefinitionKey;
     }
 
-    @Override
+    override
     public Integer getMigrateToProcessDefinitionVersion() {
         return migrateToProcessDefinitionVersion;
     }
 
-    @Override
+    override
     public string getMigrateToProcessDefinitionTenantId() {
         return migrateToProcessDefinitionTenantId;
     }
 
-    @Override
+    override
     public Script getPreUpgradeScript() {
         return preUpgradeScript;
     }
 
-    @Override
+    override
     public string getPreUpgradeJavaDelegate() {
         return preUpgradeJavaDelegate;
     }
 
-    @Override
+    override
     public string getPreUpgradeJavaDelegateExpression() {
         return preUpgradeJavaDelegateExpression;
     }
 
-    @Override
+    override
     public Script getPostUpgradeScript() {
         return postUpgradeScript;
     }
 
-    @Override
+    override
     public string getPostUpgradeJavaDelegate() {
         return postUpgradeJavaDelegate;
     }
 
-    @Override
+    override
     public string getPostUpgradeJavaDelegateExpression() {
         return postUpgradeJavaDelegateExpression;
     }
 
-    public void setActivityMigrationMappings(List<ActivityMigrationMapping> activityMigrationMappings) {
+    public void setActivityMigrationMappings(List!ActivityMigrationMapping activityMigrationMappings) {
         List!string duplicates = findDuplicatedFromActivityIds(activityMigrationMappings);
         if (duplicates.isEmpty()) {
             this.activityMigrationMappings = activityMigrationMappings;
@@ -200,9 +200,9 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         }
     }
 
-    protected static List!string findDuplicatedFromActivityIds(List<ActivityMigrationMapping> activityMigrationMappings) {
+    protected static List!string findDuplicatedFromActivityIds(List!ActivityMigrationMapping activityMigrationMappings) {
         //Frequency Map
-        Map<string, Long> frequencyMap = activityMigrationMappings.stream()
+        Map!(string, Long) frequencyMap = activityMigrationMappings.stream()
             .filter(mapping -> !mapping.isToParentProcess())
             .flatMap(mapping -> mapping.getFromActivityIds().stream())
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
@@ -217,9 +217,9 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         return duplicatedActivityIds;
     }
 
-    protected static Map<string, Map<string, Object>> buildActivitiesLocalVariablesMap(List<ActivityMigrationMapping> activityMigrationMappings) {
+    protected static Map<string, Map!(string, Object)> buildActivitiesLocalVariablesMap(List!ActivityMigrationMapping activityMigrationMappings) {
 
-        Map<string, Map<string, Object>> variablesMap = new HashMap<>();
+        Map<string, Map!(string, Object)> variablesMap = new HashMap<>();
         activityMigrationMappings.forEach(mapping -> {
             mapping.getToActivityIds().forEach(activityId -> {
                 Map!(string, Object) mappedLocalVariables = null;
@@ -241,13 +241,13 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         return variablesMap;
     }
 
-    @Override
-    public List<ActivityMigrationMapping> getActivityMigrationMappings() {
+    override
+    public List!ActivityMigrationMapping getActivityMigrationMappings() {
         return activityMigrationMappings;
     }
 
-    @Override
-    public Map<string, Map<string, Object>> getActivitiesLocalVariables() {
+    override
+    public Map<string, Map!(string, Object)> getActivitiesLocalVariables() {
         return activitiesLocalVariables;
     }
 
@@ -255,18 +255,18 @@ class ProcessInstanceMigrationDocumentImpl implements ProcessInstanceMigrationDo
         this.processInstanceVariables = processInstanceVariables;
     }
 
-    @Override
+    override
     public Map!(string, Object) getProcessInstanceVariables() {
         return processInstanceVariables;
     }
 
-    @Override
+    override
     public string asJsonString() {
         JsonNode jsonNode = ProcessInstanceMigrationDocumentConverter.convertToJson(this);
         return jsonNode.toString();
     }
 
-    @Override
+    override
     public string toString() {
         return ProcessInstanceMigrationDocumentConverter.convertToJsonString(this);
     }

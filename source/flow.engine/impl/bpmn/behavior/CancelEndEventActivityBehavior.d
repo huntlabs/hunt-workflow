@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.CancelEndEventActivityBehavior;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -24,25 +24,22 @@ import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.common.util.CollectionUtil;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.history.DeleteReason;
 import flow.engine.impl.bpmn.helper.ScopeUtil;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
 /**
  * @author Tijs Rademakers
  */
-class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
+class CancelEndEventActivityBehavior : FlowNodeActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
-    @Override
+    override
     public void execute(DelegateExecution execution) {
 
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
         CommandContext commandContext = Context.getCommandContext();
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
 
@@ -50,13 +47,13 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
         ExecutionEntity parentScopeExecution = null;
         ExecutionEntity currentlyExaminedExecution = executionEntityManager.findById(executionEntity.getParentId());
         while (currentlyExaminedExecution !is null && parentScopeExecution is null) {
-            if (currentlyExaminedExecution.getCurrentFlowElement() instanceof SubProcess) {
+            if (cast(SubProcess) currentlyExaminedExecution.getCurrentFlowElement() !is null) {
                 parentScopeExecution = currentlyExaminedExecution;
-                SubProcess subProcess = (SubProcess) currentlyExaminedExecution.getCurrentFlowElement();
+                SubProcess subProcess = cast(SubProcess) currentlyExaminedExecution.getCurrentFlowElement();
                 if (subProcess.getLoopCharacteristics() !is null) {
                     ExecutionEntity miExecution = parentScopeExecution.getParent();
                     FlowElement miElement = miExecution.getCurrentFlowElement();
-                    if (miElement !is null && miElement.getId().equals(subProcess.getId())) {
+                    if (miElement !is null && miElement.getId() == (subProcess.getId())) {
                         parentScopeExecution = miExecution;
                     }
                 }
@@ -67,15 +64,15 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
         }
 
         if (parentScopeExecution is null) {
-            throw new FlowableException("No sub process execution found for cancel end event " + executionEntity.getCurrentActivityId());
+            throw new FlowableException("No sub process execution found for cancel end event " ~ executionEntity.getCurrentActivityId());
         }
 
-        SubProcess subProcess = (SubProcess) parentScopeExecution.getCurrentFlowElement();
+        SubProcess subProcess = cast(SubProcess) parentScopeExecution.getCurrentFlowElement();
         BoundaryEvent cancelBoundaryEvent = null;
-        if (CollectionUtil.isNotEmpty(subProcess.getBoundaryEvents())) {
-            for (BoundaryEvent boundaryEvent : subProcess.getBoundaryEvents()) {
-                if (CollectionUtil.isNotEmpty(boundaryEvent.getEventDefinitions()) &&
-                        boundaryEvent.getEventDefinitions().get(0) instanceof CancelEventDefinition) {
+        if (subProcess.getBoundaryEvents() !is null && !subProcess.getBoundaryEvents().isEmpty()) {
+            foreach (BoundaryEvent boundaryEvent ; subProcess.getBoundaryEvents()) {
+                if ((!boundaryEvent.getEventDefinitions().isEmpty()) &&
+                        cast(CancelEventDefinition)(boundaryEvent.getEventDefinitions().get(0)) !is null) {
 
                     cancelBoundaryEvent = boundaryEvent;
                     break;
@@ -84,7 +81,7 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
         }
 
         if (cancelBoundaryEvent is null) {
-            throw new FlowableException("Could not find cancel boundary event for cancel end event " + executionEntity.getCurrentActivityId());
+            throw new FlowableException("Could not find cancel boundary event for cancel end event " ~ executionEntity.getCurrentActivityId());
         }
 
         ExecutionEntity newParentScopeExecution = null;
@@ -98,16 +95,16 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
         }
 
         if (newParentScopeExecution is null) {
-            throw new FlowableException("Programmatic error: no parent scope execution found for boundary event " + cancelBoundaryEvent.getId());
+            throw new FlowableException("Programmatic error: no parent scope execution found for boundary event " ~ cancelBoundaryEvent.getId());
         }
 
         ScopeUtil.createCopyOfSubProcessExecutionForCompensation(parentScopeExecution);
 
         if (subProcess.getLoopCharacteristics() !is null) {
-            List<? extends ExecutionEntity> multiInstanceExecutions = parentScopeExecution.getExecutions();
-            List<ExecutionEntity> executionsToDelete = new ArrayList<>();
-            for (ExecutionEntity multiInstanceExecution : multiInstanceExecutions) {
-                if (!multiInstanceExecution.getId().equals(parentScopeExecution.getId())) {
+            List!ExecutionEntity multiInstanceExecutions = parentScopeExecution.getExecutions();
+            List!ExecutionEntity executionsToDelete = new ArrayList!ExecutionEntity();
+            foreach (ExecutionEntity multiInstanceExecution ; multiInstanceExecutions) {
+                if (multiInstanceExecution.getId() != (parentScopeExecution.getId())) {
                     ScopeUtil.createCopyOfSubProcessExecutionForCompensation(multiInstanceExecution);
 
                     // end all executions in the scope of the transaction
@@ -117,7 +114,7 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
                 }
             }
 
-            for (ExecutionEntity executionEntityToDelete : executionsToDelete) {
+            foreach (ExecutionEntity executionEntityToDelete ; executionsToDelete) {
                 deleteChildExecutions(executionEntityToDelete, executionEntity, commandContext, DeleteReason.TRANSACTION_CANCELED);
             }
         }
@@ -139,10 +136,10 @@ class CancelEndEventActivityBehavior extends FlowNodeActivityBehavior {
             CommandContext commandContext, string deleteReason) {
         // Delete all child executions
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-        Collection<ExecutionEntity> childExecutions = executionEntityManager.findChildExecutionsByParentExecutionId(parentExecution.getId());
-        if (CollectionUtil.isNotEmpty(childExecutions)) {
-            for (ExecutionEntity childExecution : childExecutions) {
-                if (!childExecution.getId().equals(notToDeleteExecution.getId())) {
+        Collection!ExecutionEntity childExecutions = executionEntityManager.findChildExecutionsByParentExecutionId(parentExecution.getId());
+        if (childExecutions !is null && !childExecutions.isEmpty()) {
+            foreach (ExecutionEntity childExecution ; childExecutions) {
+                if (childExecution.getId() != (notToDeleteExecution.getId())) {
                     deleteChildExecutions(childExecution, notToDeleteExecution, commandContext, deleteReason);
                 }
             }

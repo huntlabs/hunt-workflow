@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.interceptor.DelegateInterceptor;
 
 import flow.engine.impl.deleg.invocation.DelegateInvocation;
 

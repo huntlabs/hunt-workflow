@@ -63,7 +63,7 @@
 //        return new ManyToOneMapping(fromActivityIds, toActivityId);
 //    }
 //
-//    public static class OneToOneMapping extends ActivityMigrationMapping implements ActivityMigrationMappingOptions.SingleToActivityOptions<OneToOneMapping> {
+//    public static class OneToOneMapping : ActivityMigrationMapping implements ActivityMigrationMappingOptions.SingleToActivityOptions!OneToOneMapping {
 //
 //        public string fromActivityId;
 //        public string toActivityId;
@@ -75,14 +75,14 @@
 //            this.toActivityId = toActivityId;
 //        }
 //
-//        @Override
+//        override
 //        public List!string getFromActivityIds() {
 //            ArrayList!string list = new ArrayList<>();
 //            list.add(fromActivityId);
 //            return list;
 //        }
 //
-//        @Override
+//        override
 //        public List!string getToActivityIds() {
 //            ArrayList!string list = new ArrayList<>();
 //            list.add(toActivityId);
@@ -97,7 +97,7 @@
 //            return toActivityId;
 //        }
 //
-//        @Override
+//        override
 //        public OneToOneMapping inParentProcessOfCallActivityId(string fromCallActivityId) {
 //            this.fromCallActivityId = fromCallActivityId;
 //            this.toCallActivityId = null;
@@ -105,7 +105,7 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToOneMapping inSubProcessOfCallActivityId(string toCallActivityId) {
 //            this.toCallActivityId = toCallActivityId;
 //            this.callActivityProcessDefinitionVersion = null;
@@ -113,7 +113,7 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToOneMapping inSubProcessOfCallActivityId(string toCallActivityId, int subProcessDefVersion) {
 //            this.toCallActivityId = toCallActivityId;
 //            this.callActivityProcessDefinitionVersion = subProcessDefVersion;
@@ -121,59 +121,59 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToOneMapping withNewAssignee(string newAssigneeId) {
 //            this.withNewAssignee = newAssigneeId;
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public string getWithNewAssignee() {
 //            return withNewAssignee;
 //        }
 //
-//        @Override
+//        override
 //        public OneToOneMapping withLocalVariable(string variableName, Object variableValue) {
 //            withLocalVariables.put(variableName, variableValue);
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToOneMapping withLocalVariables(Map!(string, Object) variables) {
 //            withLocalVariables.putAll(variables);
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public Map!(string, Object) getActivityLocalVariables() {
 //            return withLocalVariables;
 //        }
 //
-//        @Override
+//        override
 //        public string toString() {
 //            return "OneToOneMapping{" + "fromActivityId='" + fromActivityId + '\'' + ", toActivityId='" + toActivityId + '\'' + '}';
 //        }
 //    }
 //
-//    public static class OneToManyMapping extends ActivityMigrationMapping implements ActivityMigrationMappingOptions.MultipleToActivityOptions<OneToManyMapping> {
+//    public static class OneToManyMapping : ActivityMigrationMapping implements ActivityMigrationMappingOptions.MultipleToActivityOptions!OneToManyMapping {
 //
 //        public string fromActivityId;
 //        public List!string toActivityIds;
-//        protected Map<string, Map<string, Object>> withLocalVariables = new LinkedHashMap<>();
+//        protected Map<string, Map!(string, Object)> withLocalVariables = new LinkedHashMap<>();
 //
 //        public OneToManyMapping(string fromActivityId, List!string toActivityIds) {
 //            this.fromActivityId = fromActivityId;
 //            this.toActivityIds = toActivityIds;
 //        }
 //
-//        @Override
+//        override
 //        public List!string getFromActivityIds() {
 //            ArrayList!string list = new ArrayList<>();
 //            list.add(fromActivityId);
 //            return list;
 //        }
 //
-//        @Override
+//        override
 //        public List!string getToActivityIds() {
 //            return new ArrayList<>(toActivityIds);
 //        }
@@ -182,7 +182,7 @@
 //            return fromActivityId;
 //        }
 //
-//        @Override
+//        override
 //        public OneToManyMapping inParentProcessOfCallActivityId(string fromCallActivityId) {
 //            this.fromCallActivityId = fromCallActivityId;
 //            this.toCallActivityId = null;
@@ -190,7 +190,7 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToManyMapping inSubProcessOfCallActivityId(string toCallActivityId) {
 //            this.toCallActivityId = toCallActivityId;
 //            this.callActivityProcessDefinitionVersion = null;
@@ -198,7 +198,7 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToManyMapping inSubProcessOfCallActivityId(string toCallActivityId, int subProcessDefVersion) {
 //            this.toCallActivityId = toCallActivityId;
 //            this.callActivityProcessDefinitionVersion = subProcessDefVersion;
@@ -206,50 +206,50 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToManyMapping withLocalVariableForActivity(string toActivity, string variableName, Object variableValue) {
 //            Map!(string, Object) activityVariables = withLocalVariables.computeIfAbsent(toActivity, key -> new HashMap<>());
 //            activityVariables.put(variableName, variableValue);
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToManyMapping withLocalVariablesForActivity(string toActivity, Map!(string, Object) variables) {
 //            Map!(string, Object) activityVariables = withLocalVariables.computeIfAbsent(toActivity, key -> new HashMap<>());
 //            activityVariables.putAll(variables);
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToManyMapping withLocalVariableForAllActivities(string variableName, Object variableValue) {
 //            toActivityIds.forEach(id -> withLocalVariableForActivity(id, variableName, variableValue));
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public OneToManyMapping withLocalVariablesForAllActivities(Map!(string, Object) variables) {
 //            toActivityIds.forEach(id -> withLocalVariablesForActivity(id, variables));
 //            return this;
 //        }
 //
-//        @Override
-//        public OneToManyMapping withLocalVariables(Map<string, Map<string, Object>> mappingVariables) {
+//        override
+//        public OneToManyMapping withLocalVariables(Map<string, Map!(string, Object)> mappingVariables) {
 //            withLocalVariables.putAll(mappingVariables);
 //            return this;
 //        }
 //
-//        @Override
-//        public Map<string, Map<string, Object>> getActivitiesLocalVariables() {
+//        override
+//        public Map<string, Map!(string, Object)> getActivitiesLocalVariables() {
 //            return withLocalVariables;
 //        }
 //
-//        @Override
+//        override
 //        public string toString() {
 //            return "OneToManyMapping{" + "fromActivityId='" + fromActivityId + '\'' + ", toActivityIds=" + toActivityIds + '}';
 //        }
 //    }
 //
-//    public static class ManyToOneMapping extends ActivityMigrationMapping implements ActivityMigrationMappingOptions.SingleToActivityOptions<ManyToOneMapping> {
+//    public static class ManyToOneMapping : ActivityMigrationMapping implements ActivityMigrationMappingOptions.SingleToActivityOptions!ManyToOneMapping {
 //
 //        public List!string fromActivityIds;
 //        public string toActivityId;
@@ -261,12 +261,12 @@
 //            this.toActivityId = toActivityId;
 //        }
 //
-//        @Override
+//        override
 //        public List!string getFromActivityIds() {
 //            return new ArrayList<>(fromActivityIds);
 //        }
 //
-//        @Override
+//        override
 //        public List!string getToActivityIds() {
 //            ArrayList!string list = new ArrayList<>();
 //            list.add(toActivityId);
@@ -277,7 +277,7 @@
 //            return toActivityId;
 //        }
 //
-//        @Override
+//        override
 //        public ManyToOneMapping inParentProcessOfCallActivityId(string fromCallActivityId) {
 //            this.fromCallActivityId = fromCallActivityId;
 //            this.toCallActivityId = null;
@@ -285,7 +285,7 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public ManyToOneMapping inSubProcessOfCallActivityId(string toCallActivityId) {
 //            this.toCallActivityId = toCallActivityId;
 //            this.callActivityProcessDefinitionVersion = null;
@@ -293,7 +293,7 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public ManyToOneMapping inSubProcessOfCallActivityId(string toCallActivityId, int subProcessDefVersion) {
 //            this.toCallActivityId = toCallActivityId;
 //            this.callActivityProcessDefinitionVersion = subProcessDefVersion;
@@ -301,35 +301,35 @@
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public ManyToOneMapping withNewAssignee(string newAssigneeId) {
 //            this.withNewAssignee = newAssigneeId;
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public string getWithNewAssignee() {
 //            return withNewAssignee;
 //        }
 //
-//        @Override
+//        override
 //        public ManyToOneMapping withLocalVariable(string variableName, Object variableValue) {
 //            withLocalVariables.put(variableName, variableValue);
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public ManyToOneMapping withLocalVariables(Map!(string, Object) variables) {
 //            withLocalVariables.putAll(variables);
 //            return this;
 //        }
 //
-//        @Override
+//        override
 //        public Map!(string, Object) getActivityLocalVariables() {
 //            return withLocalVariables;
 //        }
 //
-//        @Override
+//        override
 //        public string toString() {
 //            return "ManyToOneMapping{" + "fromActivityIds=" + fromActivityIds + ", toActivityId='" + toActivityId + '\'' + '}';
 //        }

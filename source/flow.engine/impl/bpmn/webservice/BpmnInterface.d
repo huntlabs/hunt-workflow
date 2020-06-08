@@ -32,7 +32,7 @@ class BpmnInterface {
     /**
      * Mapping of the operations of this interface. The key of the map is the id of the operation, for easy retrieval.
      */
-    protected Map<string, Operation> operations = new HashMap<>();
+    protected Map!(string, Operation) operations = new HashMap<>();
 
     public BpmnInterface() {
 
@@ -67,7 +67,7 @@ class BpmnInterface {
         return operations.get(operationId);
     }
 
-    public Collection<Operation> getOperations() {
+    public Collection!Operation getOperations() {
         return operations.values();
     }
 

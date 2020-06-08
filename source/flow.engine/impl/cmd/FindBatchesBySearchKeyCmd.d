@@ -19,7 +19,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class FindBatchesBySearchKeyCmd implements Command<List<Batch>> {
+class FindBatchesBySearchKeyCmd implements Command<List!Batch> {
 
     protected string searchKey;
 
@@ -27,8 +27,8 @@ class FindBatchesBySearchKeyCmd implements Command<List<Batch>> {
         this.searchKey = searchKey;
     }
 
-    @Override
-    public List<Batch> execute(CommandContext commandContext) {
+    override
+    public List!Batch execute(CommandContext commandContext) {
         return CommandContextUtil.getBatchService(commandContext).findBatchesBySearchKey(searchKey);
     }
 }

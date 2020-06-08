@@ -23,14 +23,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class SignalEventDefinitionParseHandler extends AbstractBpmnParseHandler<SignalEventDefinition> {
+class SignalEventDefinitionParseHandler : AbstractBpmnParseHandler!SignalEventDefinition {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return SignalEventDefinition.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, SignalEventDefinition signalDefinition) {
 
         Signal signal = null;

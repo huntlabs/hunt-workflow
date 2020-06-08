@@ -19,14 +19,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Joram Barrez
  */
-class EventBasedGatewayParseHandler extends AbstractActivityBpmnParseHandler<EventGateway> {
+class EventBasedGatewayParseHandler : AbstractActivityBpmnParseHandler!EventGateway {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return EventGateway.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, EventGateway gateway) {
         gateway.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventBasedGatewayActivityBehavior(gateway));
     }

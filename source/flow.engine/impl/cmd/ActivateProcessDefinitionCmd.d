@@ -23,7 +23,7 @@ import flow.engine.runtime.ProcessInstance;
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-class ActivateProcessDefinitionCmd extends AbstractSetProcessDefinitionStateCmd {
+class ActivateProcessDefinitionCmd : AbstractSetProcessDefinitionStateCmd {
 
     public ActivateProcessDefinitionCmd(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
         super(processDefinitionEntity, includeProcessInstances, executionDate, tenantId);
@@ -33,17 +33,17 @@ class ActivateProcessDefinitionCmd extends AbstractSetProcessDefinitionStateCmd 
         super(processDefinitionId, processDefinitionKey, includeProcessInstances, executionDate, tenantId);
     }
 
-    @Override
+    override
     protected SuspensionState getProcessDefinitionSuspensionState() {
         return SuspensionState.ACTIVE;
     }
 
-    @Override
+    override
     protected string getDelayedExecutionJobHandlerType() {
         return TimerActivateProcessDefinitionHandler.TYPE;
     }
 
-    @Override
+    override
     protected AbstractSetProcessInstanceStateCmd getProcessInstanceChangeStateCmd(ProcessInstance processInstance) {
         return new ActivateProcessInstanceCmd(processInstance.getId());
     }

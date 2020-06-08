@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class GetEventLogEntriesCmd implements Command<List<EventLogEntry>> {
+class GetEventLogEntriesCmd implements Command<List!EventLogEntry> {
 
     protected string processInstanceId;
     protected Long startLogNr;
@@ -41,8 +41,8 @@ class GetEventLogEntriesCmd implements Command<List<EventLogEntry>> {
         this.pageSize = pageSize;
     }
 
-    @Override
-    public List<EventLogEntry> execute(CommandContext commandContext) {
+    override
+    public List!EventLogEntry execute(CommandContext commandContext) {
         if (processInstanceId !is null) {
             return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntriesByProcessInstanceId(processInstanceId);
 

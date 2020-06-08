@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.EventLogEntryDataManager;
 
 import hunt.collection.List;
 
@@ -21,13 +21,13 @@ import flow.engine.impl.persistence.entity.EventLogEntryEntity;
 /**
  * @author Joram Barrez
  */
-interface EventLogEntryDataManager extends DataManager<EventLogEntryEntity> {
+interface EventLogEntryDataManager : DataManager!EventLogEntryEntity {
 
-    List<EventLogEntry> findAllEventLogEntries();
+    List!EventLogEntry findAllEventLogEntries();
 
-    List<EventLogEntry> findEventLogEntries(long startLogNr, long pageSize);
+    List!EventLogEntry findEventLogEntries(long startLogNr, long pageSize);
 
-    List<EventLogEntry> findEventLogEntriesByProcessInstanceId(string processInstanceId);
+    List!EventLogEntry findEventLogEntriesByProcessInstanceId(string processInstanceId);
 
     void deleteEventLogEntry(long logNr);
 

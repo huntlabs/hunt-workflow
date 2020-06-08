@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 
 import hunt.collection.List;
 
@@ -23,7 +23,7 @@ import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-interface ProcessDefinitionEntity extends ProcessDefinition, Entity, HasRevision {
+interface ProcessDefinitionEntity : ProcessDefinition, Entity, HasRevision {
 
     void setKey(string key);
 
@@ -37,15 +37,15 @@ interface ProcessDefinitionEntity extends ProcessDefinition, Entity, HasRevision
 
     void setDeploymentId(string deploymentId);
 
-    void setVersion(int version);
+    void setVersion(int ver);
 
     void setResourceName(string resourceName);
 
     void setTenantId(string tenantId);
 
-    Integer getHistoryLevel();
+    int getHistoryLevel();
 
-    void setHistoryLevel(Integer historyLevel);
+    void setHistoryLevel(int historyLevel);
 
     void setCategory(string category);
 
@@ -71,11 +71,10 @@ interface ProcessDefinitionEntity extends ProcessDefinition, Entity, HasRevision
 
     void setDerivedVersion(int derivedVersion);
 
-    @Override
     string getEngineVersion();
 
     void setEngineVersion(string engineVersion);
 
-    List<IdentityLinkEntity> getIdentityLinks();
+    List!IdentityLinkEntity getIdentityLinks();
 
 }

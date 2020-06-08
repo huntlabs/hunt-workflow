@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.TriggerCmd;
 
 import hunt.collection.Map;
 
@@ -21,43 +21,41 @@ import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
-
+//import flow.engine.impl.util.Flowable5Util;
+import  flow.engine.impl.cmd.NeedsActiveExecutionCmd;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class TriggerCmd extends NeedsActiveExecutionCmd<Object> {
+class TriggerCmd : NeedsActiveExecutionCmd!Object {
 
-    private static final long serialVersionUID = 1L;
 
     protected Map!(string, Object) processVariables;
     protected Map!(string, Object) transientVariables;
     protected bool async;
 
-    public TriggerCmd(string executionId, Map!(string, Object) processVariables) {
+    this(string executionId, Map!(string, Object) processVariables) {
         super(executionId);
         this.processVariables = processVariables;
     }
 
-    public TriggerCmd(string executionId, Map!(string, Object) processVariables, bool async) {
+    this(string executionId, Map!(string, Object) processVariables, bool async) {
         super(executionId);
         this.processVariables = processVariables;
         this.async = async;
     }
 
-    public TriggerCmd(string executionId, Map!(string, Object) processVariables, Map!(string, Object) transientVariables) {
+    this(string executionId, Map!(string, Object) processVariables, Map!(string, Object) transientVariables) {
         this(executionId, processVariables);
         this.transientVariables = transientVariables;
     }
 
-    @Override
     protected Object execute(CommandContext commandContext, ExecutionEntity execution) {
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.trigger(executionId, processVariables, transientVariables);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.trigger(executionId, processVariables, transientVariables);
+        //    return null;
+        //}
 
         if (processVariables !is null) {
             execution.setVariables(processVariables);
@@ -81,7 +79,6 @@ class TriggerCmd extends NeedsActiveExecutionCmd<Object> {
         return null;
     }
 
-    @Override
     protected string getSuspendedExceptionMessage() {
         return "Cannot trigger an execution that is suspended";
     }

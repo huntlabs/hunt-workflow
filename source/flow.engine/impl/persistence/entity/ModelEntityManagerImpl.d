@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.persistence.entity.ModelEntityManagerImpl;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -20,128 +20,132 @@ import flow.engine.impl.ModelQueryImpl;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.data.ModelDataManager;
 import flow.engine.repository.Model;
-
+import flow.engine.impl.persistence.entity.AbstractProcessEngineEntityManager;
+import flow.engine.impl.persistence.entity.ModelEntity;
+import flow.engine.impl.persistence.entity.ModelEntityManager;
+import hunt.time.LocalDateTime;
+import flow.engine.impl.persistence.entity.ByteArrayRef;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 class ModelEntityManagerImpl
-    extends AbstractProcessEngineEntityManager<ModelEntity, ModelDataManager>
-    implements ModelEntityManager {
+    : AbstractProcessEngineEntityManager!(ModelEntity, ModelDataManager)
+    , ModelEntityManager {
 
-    public ModelEntityManagerImpl(ProcessEngineConfigurationImpl processEngineConfiguration, ModelDataManager modelDataManager) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration, ModelDataManager modelDataManager) {
         super(processEngineConfiguration, modelDataManager);
     }
 
-    @Override
+    override
     public ModelEntity findById(string entityId) {
         return dataManager.findById(entityId);
     }
 
-    @Override
+    override
     public void insert(ModelEntity model) {
-        model.setCreateTime(getClock().getCurrentTime());
-        model.setLastUpdateTime(getClock().getCurrentTime());
+        model.setCreateTime(LocalDateTime.now());
+        model.setLastUpdateTime(LocalDateTime.now());
 
         super.insert(model);
     }
 
-    @Override
+    override
     public void updateModel(ModelEntity updatedModel) {
-        updatedModel.setLastUpdateTime(getClock().getCurrentTime());
+        updatedModel.setLastUpdateTime(LocalDateTime.now());
         update(updatedModel);
     }
 
-    @Override
-    public void delete(string modelId) {
+    override
+    public void dele(string modelId) {
         ModelEntity modelEntity = findById(modelId);
-        super.delete(modelEntity);
+        super.dele(modelEntity);
         deleteEditorSource(modelEntity);
         deleteEditorSourceExtra(modelEntity);
     }
 
-    @Override
+    override
     public void insertEditorSourceForModel(string modelId, byte[] modelSource) {
         ModelEntity model = findById(modelId);
         if (model !is null) {
-            ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceValueId());
-            ref.setValue("source", modelSource);
+            ByteArrayRef rf = new ByteArrayRef(model.getEditorSourceValueId());
+            rf.setValue("source", modelSource);
 
-            if (model.getEditorSourceValueId() is null) {
-                model.setEditorSourceValueId(ref.getId());
+            if (model.getEditorSourceValueId().length == 0) {
+                model.setEditorSourceValueId(rf.getId());
                 updateModel(model);
             }
         }
     }
 
-    @Override
+    override
     public void deleteEditorSource(ModelEntity model) {
-        if (model.getEditorSourceValueId() !is null) {
-            ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceValueId());
-            ref.delete();
+        if (model.getEditorSourceValueId().length != 0) {
+            ByteArrayRef rf = new ByteArrayRef(model.getEditorSourceValueId());
+            rf.dele();
         }
     }
 
-    @Override
+    override
     public void deleteEditorSourceExtra(ModelEntity model) {
-        if (model.getEditorSourceExtraValueId() !is null) {
-            ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceExtraValueId());
-            ref.delete();
+        if (model.getEditorSourceExtraValueId().length != 0) {
+            ByteArrayRef rf = new ByteArrayRef(model.getEditorSourceExtraValueId());
+            rf.dele();
         }
     }
 
-    @Override
+    override
     public void insertEditorSourceExtraForModel(string modelId, byte[] modelSource) {
         ModelEntity model = findById(modelId);
         if (model !is null) {
-            ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceExtraValueId());
-            ref.setValue("source-extra", modelSource);
+            ByteArrayRef rf = new ByteArrayRef(model.getEditorSourceExtraValueId());
+            rf.setValue("source-extra", modelSource);
 
-            if (model.getEditorSourceExtraValueId() is null) {
-                model.setEditorSourceExtraValueId(ref.getId());
+            if (model.getEditorSourceExtraValueId().length == 0) {
+                model.setEditorSourceExtraValueId(rf.getId());
                 updateModel(model);
             }
         }
     }
 
-    @Override
-    public List<Model> findModelsByQueryCriteria(ModelQueryImpl query) {
+    override
+    public List!Model findModelsByQueryCriteria(ModelQueryImpl query) {
         return dataManager.findModelsByQueryCriteria(query);
     }
 
-    @Override
+    override
     public long findModelCountByQueryCriteria(ModelQueryImpl query) {
         return dataManager.findModelCountByQueryCriteria(query);
     }
 
-    @Override
+    override
     public byte[] findEditorSourceByModelId(string modelId) {
         ModelEntity model = findById(modelId);
-        if (model is null || model.getEditorSourceValueId() is null) {
+        if (model is null || model.getEditorSourceValueId().length == 0) {
             return null;
         }
 
-        ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceValueId());
-        return ref.getBytes();
+        ByteArrayRef rf = new ByteArrayRef(model.getEditorSourceValueId());
+        return rf.getBytes();
     }
 
-    @Override
+    override
     public byte[] findEditorSourceExtraByModelId(string modelId) {
         ModelEntity model = findById(modelId);
-        if (model is null || model.getEditorSourceExtraValueId() is null) {
+        if (model is null || model.getEditorSourceExtraValueId().length == 0) {
             return null;
         }
 
-        ByteArrayRef ref = new ByteArrayRef(model.getEditorSourceExtraValueId());
-        return ref.getBytes();
+        ByteArrayRef rf = new ByteArrayRef(model.getEditorSourceExtraValueId());
+        return rf.getBytes();
     }
 
-    @Override
-    public List<Model> findModelsByNativeQuery(Map!(string, Object) parameterMap) {
+    override
+    public List!Model findModelsByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findModelsByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long findModelCountByNativeQuery(Map!(string, Object) parameterMap) {
         return dataManager.findModelCountByNativeQuery(parameterMap);
     }

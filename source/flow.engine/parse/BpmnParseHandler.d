@@ -34,7 +34,7 @@ interface BpmnParseHandler {
     /**
      * The types for which this handler must be called during process parsing.
      */
-    //Collection<Class<? extends BaseElement>> getHandledTypes();
+    //Collection<Class<? : BaseElement>> getHandledTypes();
     Collection!BaseElement getHandledTypes();
     /**
      * The actual delegation method. The parser will calls this method on a match with the {@link #getHandledTypes()} return value.

@@ -19,7 +19,7 @@ import flow.task.api.Task;
 /**
  * @author Tom Baeyens
  */
-class TaskFormDataImpl extends FormDataImpl implements TaskFormData {
+class TaskFormDataImpl : FormDataImpl implements TaskFormData {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ class TaskFormDataImpl extends FormDataImpl implements TaskFormData {
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    @Override
+    override
     public Task getTask() {
         return task;
     }

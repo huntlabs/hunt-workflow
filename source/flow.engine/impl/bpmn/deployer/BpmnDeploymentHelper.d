@@ -49,7 +49,7 @@ class BpmnDeploymentHelper {
      *             if any two processes have the same key
      */
     public void verifyProcessDefinitionsDoNotShareKeys(
-            Collection<ProcessDefinitionEntity> processDefinitions) {
+            Collection!ProcessDefinitionEntity processDefinitions) {
         Set!string keySet = new LinkedHashSet<>();
         for (ProcessDefinitionEntity processDefinition : processDefinitions) {
             if (keySet.contains(processDefinition.getKey())) {
@@ -64,7 +64,7 @@ class BpmnDeploymentHelper {
      * Updates all the process definition entities to match the deployment's values for tenant, engine version, and deployment id.
      */
     public void copyDeploymentValuesToProcessDefinitions(DeploymentEntity deployment,
-            List<ProcessDefinitionEntity> processDefinitions) {
+            List!ProcessDefinitionEntity processDefinitions) {
         string engineVersion = deployment.getEngineVersion();
         string tenantId = deployment.getTenantId();
         string deploymentId = deployment.getId();

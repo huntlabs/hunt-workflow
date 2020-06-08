@@ -32,12 +32,12 @@ import org.junit.platform.commons.support.AnnotationSupport;
  *
  * @author Filip Hrisafov
  */
-class PluggableFlowableExtension extends InternalFlowableExtension {
+class PluggableFlowableExtension : InternalFlowableExtension {
 
     private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(PluggableFlowableExtension.class);
     private static final string PROCESS_ENGINE = "cachedProcessEngine";
 
-    @Override
+    override
     public void afterEach(ExtensionContext context) throws Exception {
         try {
             super.afterEach(context);
@@ -48,7 +48,7 @@ class PluggableFlowableExtension extends InternalFlowableExtension {
         }
     }
 
-    @Override
+    override
     protected ProcessEngine getProcessEngine(ExtensionContext context) {
         ProcessEngine processEngine = getStore(context).getOrComputeIfAbsent(PROCESS_ENGINE, key -> initializeProcessEngine(), ProcessEngine.class);
 
@@ -103,7 +103,7 @@ class PluggableFlowableExtension extends InternalFlowableExtension {
         }
     }
 
-    @Override
+    override
     protected ExtensionContext.Store getStore(ExtensionContext context) {
         return context.getRoot().getStore(NAMESPACE);
     }

@@ -26,63 +26,63 @@ import flow.engine.migration.ProcessInstanceMigrationBuilder;
 import flow.engine.migration.ProcessInstanceMigrationDocument;
 import flow.engine.migration.ProcessInstanceMigrationValidationResult;
 
-class ProcessMigrationServiceImpl extends CommonEngineServiceImpl<ProcessEngineConfigurationImpl> implements ProcessMigrationService {
+class ProcessMigrationServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl implements ProcessMigrationService {
 
     public ProcessMigrationServiceImpl(ProcessEngineConfigurationImpl configuration) {
         super(configuration);
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationBuilder createProcessInstanceMigrationBuilder() {
         return new ProcessInstanceMigrationBuilderImpl(this);
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationBuilder createProcessInstanceMigrationBuilderFromProcessInstanceMigrationDocument(ProcessInstanceMigrationDocument document) {
         return createProcessInstanceMigrationBuilder().fromProcessInstanceMigrationDocument(document);
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationValidationResult validateMigrationForProcessInstance(string processInstanceId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         return commandExecutor.execute(new ProcessInstanceMigrationValidationCmd(processInstanceId, processInstanceMigrationDocument));
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationValidationResult validateMigrationForProcessInstancesOfProcessDefinition(string processDefinitionId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         return commandExecutor.execute(new ProcessInstanceMigrationValidationCmd(processInstanceMigrationDocument, processDefinitionId));
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationValidationResult validateMigrationForProcessInstancesOfProcessDefinition(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         return commandExecutor.execute(new ProcessInstanceMigrationValidationCmd(processDefinitionKey, processDefinitionVersion, processDefinitionTenantId, processInstanceMigrationDocument));
     }
 
-    @Override
+    override
     public void migrateProcessInstance(string processInstanceId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         commandExecutor.execute(new ProcessInstanceMigrationCmd(processInstanceId, processInstanceMigrationDocument));
     }
 
-    @Override
+    override
     public void migrateProcessInstancesOfProcessDefinition(string processDefinitionId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         commandExecutor.execute(new ProcessInstanceMigrationCmd(processInstanceMigrationDocument, processDefinitionId));
     }
 
-    @Override
+    override
     public void migrateProcessInstancesOfProcessDefinition(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         commandExecutor.execute(new ProcessInstanceMigrationCmd(processDefinitionKey, processDefinitionVersion, processDefinitionTenantId, processInstanceMigrationDocument));
     }
 
-    @Override
+    override
     public Batch batchMigrateProcessInstancesOfProcessDefinition(string processDefinitionId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         return commandExecutor.execute(new ProcessInstanceMigrationBatchCmd(processDefinitionId, processInstanceMigrationDocument));
     }
 
-    @Override
+    override
     public Batch batchMigrateProcessInstancesOfProcessDefinition(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         return commandExecutor.execute(new ProcessInstanceMigrationBatchCmd(processDefinitionKey, processDefinitionVersion, processDefinitionTenantId, processInstanceMigrationDocument));
     }
 
-    @Override
+    override
     public ProcessInstanceBatchMigrationResult getResultsOfBatchProcessInstanceMigration(string migrationBatchId) {
         return commandExecutor.execute(new GetProcessInstanceMigrationBatchResultCmd(migrationBatchId));
     }

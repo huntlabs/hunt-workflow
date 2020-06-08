@@ -30,11 +30,11 @@ class ProcessInstanceChangeState {
     protected string processInstanceId;
     protected ProcessDefinition processDefinitionToMigrateTo;
     protected Map!(string, Object) processVariables = new HashMap<>();
-    protected Map<string, Map<string, Object>> localVariables = new HashMap<>();
-    protected Map<string, List<ExecutionEntity>> processInstanceActiveEmbeddedExecutions;
-    protected List<MoveExecutionEntityContainer> moveExecutionEntityContainers;
-    protected HashMap<string, ExecutionEntity> createdEmbeddedSubProcess = new HashMap<>();
-    protected HashMap<StartEvent, ExecutionEntity> pendingEventSubProcessesStartEvents = new HashMap<>();
+    protected Map<string, Map!(string, Object)> localVariables = new HashMap<>();
+    protected Map<string, List!ExecutionEntity> processInstanceActiveEmbeddedExecutions;
+    protected List!MoveExecutionEntityContainer moveExecutionEntityContainers;
+    protected HashMap!(string, ExecutionEntity) createdEmbeddedSubProcess = new HashMap<>();
+    protected HashMap!(StartEvent, ExecutionEntity) pendingEventSubProcessesStartEvents = new HashMap<>();
 
     public ProcessInstanceChangeState() {
     }
@@ -48,7 +48,7 @@ class ProcessInstanceChangeState {
         return this;
     }
 
-    public Optional<ProcessDefinition> getProcessDefinitionToMigrateTo() {
+    public Optional!ProcessDefinition getProcessDefinitionToMigrateTo() {
         return Optional.ofNullable(processDefinitionToMigrateTo);
     }
 
@@ -70,29 +70,29 @@ class ProcessInstanceChangeState {
         return this;
     }
 
-    public Map<string, Map<string, Object>> getLocalVariables() {
+    public Map<string, Map!(string, Object)> getLocalVariables() {
         return localVariables;
     }
 
-    public ProcessInstanceChangeState setLocalVariables(Map<string, Map<string, Object>> localVariables) {
+    public ProcessInstanceChangeState setLocalVariables(Map<string, Map!(string, Object)> localVariables) {
         this.localVariables = localVariables;
         return this;
     }
 
-    public List<MoveExecutionEntityContainer> getMoveExecutionEntityContainers() {
+    public List!MoveExecutionEntityContainer getMoveExecutionEntityContainers() {
         return moveExecutionEntityContainers;
     }
 
-    public ProcessInstanceChangeState setMoveExecutionEntityContainers(List<MoveExecutionEntityContainer> moveExecutionEntityContainers) {
+    public ProcessInstanceChangeState setMoveExecutionEntityContainers(List!MoveExecutionEntityContainer moveExecutionEntityContainers) {
         this.moveExecutionEntityContainers = moveExecutionEntityContainers;
         return this;
     }
 
-    public HashMap<string, ExecutionEntity> getCreatedEmbeddedSubProcesses() {
+    public HashMap!(string, ExecutionEntity) getCreatedEmbeddedSubProcesses() {
         return createdEmbeddedSubProcess;
     }
 
-    public Optional<ExecutionEntity> getCreatedEmbeddedSubProcessByKey(string key) {
+    public Optional!ExecutionEntity getCreatedEmbeddedSubProcessByKey(string key) {
         return Optional.ofNullable(createdEmbeddedSubProcess.get(key));
     }
 
@@ -100,16 +100,16 @@ class ProcessInstanceChangeState {
         this.createdEmbeddedSubProcess.put(key, executionEntity);
     }
 
-    public Map<string, List<ExecutionEntity>> getProcessInstanceActiveEmbeddedExecutions() {
+    public Map<string, List!ExecutionEntity> getProcessInstanceActiveEmbeddedExecutions() {
         return processInstanceActiveEmbeddedExecutions;
     }
 
-    public ProcessInstanceChangeState setProcessInstanceActiveEmbeddedExecutions(Map<string, List<ExecutionEntity>> processInstanceActiveEmbeddedExecutions) {
+    public ProcessInstanceChangeState setProcessInstanceActiveEmbeddedExecutions(Map<string, List!ExecutionEntity> processInstanceActiveEmbeddedExecutions) {
         this.processInstanceActiveEmbeddedExecutions = processInstanceActiveEmbeddedExecutions;
         return this;
     }
 
-    public HashMap<StartEvent, ExecutionEntity> getPendingEventSubProcessesStartEvents() {
+    public HashMap!(StartEvent, ExecutionEntity) getPendingEventSubProcessesStartEvents() {
         return pendingEventSubProcessesStartEvents;
     }
 

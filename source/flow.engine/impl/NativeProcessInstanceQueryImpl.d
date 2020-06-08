@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.NativeProcessInstanceQuery;
 import flow.engine.runtime.ProcessInstance;
 
-class NativeProcessInstanceQueryImpl extends AbstractNativeQuery<NativeProcessInstanceQuery, ProcessInstance> implements NativeProcessInstanceQuery {
+class NativeProcessInstanceQueryImpl : AbstractNativeQuery!(NativeProcessInstanceQuery, ProcessInstance) implements NativeProcessInstanceQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeProcessInstanceQueryImpl extends AbstractNativeQuery<NativeProcessIn
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<ProcessInstance> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!ProcessInstance executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getExecutionEntityManager(commandContext)
                 // can use execution count, since the result type doesn't matter

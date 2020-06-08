@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,11 +19,11 @@ import flow.engine.form.AbstractFormType;
 /**
  * @author Frederik Heremans
  */
-class BooleanFormType extends AbstractFormType {
+class BooleanFormType : AbstractFormType {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
+    override
     public string getName() {
         return "bool";
     }
@@ -32,7 +32,7 @@ class BooleanFormType extends AbstractFormType {
         return "plain/text";
     }
 
-    @Override
+    override
     public Object convertFormValueToModelValue(string propertyValue) {
         if (propertyValue is null || "".equals(propertyValue)) {
             return null;
@@ -40,7 +40,7 @@ class BooleanFormType extends AbstractFormType {
         return bool.valueOf(propertyValue);
     }
 
-    @Override
+    override
     public string convertModelValueToFormValue(Object modelValue) {
 
         if (modelValue is null) {

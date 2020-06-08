@@ -26,13 +26,13 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessInstanceHelper;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ProcessInstance;
-import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
 
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class StartProcessInstanceByMessageCmd implements Command<ProcessInstance> {
+class StartProcessInstanceByMessageCmd implements Command!ProcessInstance {
 
     protected string messageName;
     protected string businessKey;
@@ -63,7 +63,7 @@ class StartProcessInstanceByMessageCmd implements Command<ProcessInstance> {
         this.referenceType = processInstanceBuilder.getReferenceType();
     }
 
-    @Override
+    override
     public ProcessInstance execute(CommandContext commandContext) {
 
         if (messageName is null) {

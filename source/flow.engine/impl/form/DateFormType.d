@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import flow.engine.form.AbstractFormType;
 /**
  * @author Tom Baeyens
  */
-class DateFormType extends AbstractFormType {
+class DateFormType : AbstractFormType {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class DateFormType extends AbstractFormType {
         this.dateFormat = FastDateFormat.getInstance(datePattern);
     }
 
-    @Override
+    override
     public string getName() {
         return "date";
     }
 
-    @Override
+    override
     public Object getInformation(string key) {
         if ("datePattern".equals(key)) {
             return datePattern;
@@ -49,7 +49,7 @@ class DateFormType extends AbstractFormType {
         return null;
     }
 
-    @Override
+    override
     public Object convertFormValueToModelValue(string propertyValue) {
         if (StringUtils.isEmpty(propertyValue)) {
             return null;
@@ -61,7 +61,7 @@ class DateFormType extends AbstractFormType {
         }
     }
 
-    @Override
+    override
     public string convertModelValueToFormValue(Object modelValue) {
         if (modelValue is null) {
             return null;

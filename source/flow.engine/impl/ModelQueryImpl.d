@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.ModelQueryImpl;
 
 import hunt.collection.List;
 
@@ -22,14 +22,13 @@ import flow.common.interceptor.CommandExecutor;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Model;
 import flow.engine.repository.ModelQuery;
-
+import flow.engine.impl.ModelQueryProperty;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQuery {
+class ModelQueryImpl : AbstractQuery!(ModelQuery, Model) , ModelQuery {
 
-    private static final long serialVersionUID = 1L;
     protected string id;
     protected string category;
     protected string categoryLike;
@@ -37,7 +36,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
     protected string name;
     protected string nameLike;
     protected string key;
-    protected Integer version;
+    protected int ver;
     protected bool latest;
     protected string deploymentId;
     protected bool notDeployed;
@@ -46,24 +45,24 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
     protected string tenantIdLike;
     protected bool withoutTenantId;
 
-    public ModelQueryImpl() {
+    this() {
     }
 
-    public ModelQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public ModelQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+
     public ModelQueryImpl modelId(string modelId) {
         this.id = modelId;
         return this;
     }
 
-    @Override
+
     public ModelQueryImpl modelCategory(string category) {
         if (category is null) {
             throw new FlowableIllegalArgumentException("category is null");
@@ -72,7 +71,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQueryImpl modelCategoryLike(string categoryLike) {
         if (categoryLike is null) {
             throw new FlowableIllegalArgumentException("categoryLike is null");
@@ -81,7 +80,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQueryImpl modelCategoryNotEquals(string categoryNotEquals) {
         if (categoryNotEquals is null) {
             throw new FlowableIllegalArgumentException("categoryNotEquals is null");
@@ -90,7 +89,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQueryImpl modelName(string name) {
         if (name is null) {
             throw new FlowableIllegalArgumentException("name is null");
@@ -99,7 +98,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQueryImpl modelNameLike(string nameLike) {
         if (nameLike is null) {
             throw new FlowableIllegalArgumentException("nameLike is null");
@@ -108,7 +107,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQuery modelKey(string key) {
         if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
@@ -117,24 +116,24 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
-    public ModelQueryImpl modelVersion(Integer version) {
-        if (version is null) {
-            throw new FlowableIllegalArgumentException("version is null");
-        } else if (version <= 0) {
-            throw new FlowableIllegalArgumentException("version must be positive");
-        }
-        this.version = version;
+
+    public ModelQueryImpl modelVersion(int ver) {
+        //if (version is null) {
+        //    throw new FlowableIllegalArgumentException("version is null");
+        //} else if (version <= 0) {
+        //    throw new FlowableIllegalArgumentException("version must be positive");
+        //}
+        this.ver = ver;
         return this;
     }
 
-    @Override
+
     public ModelQuery latestVersion() {
         this.latest = true;
         return this;
     }
 
-    @Override
+
     public ModelQuery deploymentId(string deploymentId) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("DeploymentId is null");
@@ -143,7 +142,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQuery notDeployed() {
         if (deployed) {
             throw new FlowableIllegalArgumentException("Invalid usage: cannot use deployed() and notDeployed() in the same query");
@@ -152,7 +151,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQuery deployed() {
         if (notDeployed) {
             throw new FlowableIllegalArgumentException("Invalid usage: cannot use deployed() and notDeployed() in the same query");
@@ -161,7 +160,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQuery modelTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Model tenant id is null");
@@ -170,7 +169,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQuery modelTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Model tenant id is null");
@@ -179,7 +178,7 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return this;
     }
 
-    @Override
+
     public ModelQuery modelWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -187,55 +186,55 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
 
     // sorting ////////////////////////////////////////////
 
-    @Override
+
     public ModelQuery orderByModelCategory() {
         return orderBy(ModelQueryProperty.MODEL_CATEGORY);
     }
 
-    @Override
+
     public ModelQuery orderByModelId() {
         return orderBy(ModelQueryProperty.MODEL_ID);
     }
 
-    @Override
+
     public ModelQuery orderByModelKey() {
         return orderBy(ModelQueryProperty.MODEL_KEY);
     }
 
-    @Override
+
     public ModelQuery orderByModelVersion() {
         return orderBy(ModelQueryProperty.MODEL_VERSION);
     }
 
-    @Override
+
     public ModelQuery orderByModelName() {
         return orderBy(ModelQueryProperty.MODEL_NAME);
     }
 
-    @Override
+
     public ModelQuery orderByCreateTime() {
         return orderBy(ModelQueryProperty.MODEL_CREATE_TIME);
     }
 
-    @Override
+
     public ModelQuery orderByLastUpdateTime() {
         return orderBy(ModelQueryProperty.MODEL_LAST_UPDATE_TIME);
     }
 
-    @Override
+
     public ModelQuery orderByTenantId() {
         return orderBy(ModelQueryProperty.MODEL_TENANT_ID);
     }
 
     // results ////////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<Model> executeList(CommandContext commandContext) {
+
+    public List!Model executeList(CommandContext commandContext) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelsByQueryCriteria(this);
     }
 
@@ -253,8 +252,8 @@ class ModelQueryImpl extends AbstractQuery<ModelQuery, Model> implements ModelQu
         return nameLike;
     }
 
-    public Integer getVersion() {
-        return version;
+    public int getVersion() {
+        return ver;
     }
 
     public string getCategory() {

@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ActivityInstance;
 import flow.engine.runtime.NativeActivityInstanceQuery;
 
-class NativeActivityInstanceQueryImpl extends AbstractNativeQuery<NativeActivityInstanceQuery, ActivityInstance> implements NativeActivityInstanceQuery {
+class NativeActivityInstanceQueryImpl : AbstractNativeQuery!(NativeActivityInstanceQuery, ActivityInstance) implements NativeActivityInstanceQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeActivityInstanceQueryImpl extends AbstractNativeQuery<NativeActivity
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<ActivityInstance> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!ActivityInstance executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getActivityInstanceEntityManager(commandContext).findActivityInstancesByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getActivityInstanceEntityManager(commandContext).findActivityInstanceCountByNativeQuery(parameterMap);
     }

@@ -33,7 +33,7 @@ class ExpressionCustomPropertiesResolver implements CustomPropertiesResolver {
         this.expression = expression;
     }
 
-    @Override
+    override
     public Map!(string, Object) getCustomPropertiesMap(DelegateExecution execution) {
         Object expressionValue = expression.getValue(execution);
         if (expressionValue instanceof Map) {

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.DeploymentQueryImpl;
 
 import java.io.Serializable;
 import hunt.collection.List;
@@ -28,9 +28,8 @@ import flow.engine.repository.DeploymentQuery;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> implements DeploymentQuery, Serializable {
+class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , DeploymentQuery {
 
-    private static final long serialVersionUID = 1L;
     protected string deploymentId;
     protected List!string deploymentIds;
     protected string name;
@@ -52,18 +51,18 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
     protected string processDefinitionKeyLike;
     protected bool latest;
 
-    public DeploymentQueryImpl() {
+    this() {
     }
 
-    public DeploymentQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
     }
 
-    public DeploymentQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentId(string deploymentId) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("Deployment id is null");
@@ -72,7 +71,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentIds(List!string deploymentIds) {
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("Deployment ids is null");
@@ -81,7 +80,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentName(string deploymentName) {
         if (deploymentName is null) {
             throw new FlowableIllegalArgumentException("deploymentName is null");
@@ -90,7 +89,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentNameLike(string nameLike) {
         if (nameLike is null) {
             throw new FlowableIllegalArgumentException("deploymentNameLike is null");
@@ -99,7 +98,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentCategory(string deploymentCategory) {
         if (deploymentCategory is null) {
             throw new FlowableIllegalArgumentException("deploymentCategory is null");
@@ -108,7 +107,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentCategoryLike(string categoryLike) {
         if (categoryLike is null) {
             throw new FlowableIllegalArgumentException("deploymentCategoryLike is null");
@@ -117,7 +116,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentCategoryNotEquals(string deploymentCategoryNotEquals) {
         if (deploymentCategoryNotEquals is null) {
             throw new FlowableIllegalArgumentException("deploymentCategoryExclude is null");
@@ -126,7 +125,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentKey(string deploymentKey) {
         if (deploymentKey is null) {
             throw new FlowableIllegalArgumentException("deploymentKey is null");
@@ -135,7 +134,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentKeyLike(string deploymentKeyLike) {
         if (deploymentKeyLike is null) {
             throw new FlowableIllegalArgumentException("deploymentKeyLike is null");
@@ -144,7 +143,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("deploymentTenantId is null");
@@ -153,7 +152,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("deploymentTenantIdLike is null");
@@ -162,37 +161,37 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl deploymentEngineVersion(string engineVersion) {
         this.engineVersion = engineVersion;
         return this;
     }
 
-    @Override
+
     public DeploymentQuery deploymentDerivedFrom(string deploymentId) {
         this.derivedFrom = deploymentId;
         return this;
     }
 
-    @Override
+
     public DeploymentQuery parentDeploymentId(string parentDeploymentId) {
         this.parentDeploymentId = parentDeploymentId;
         return this;
     }
 
-    @Override
+
     public DeploymentQuery parentDeploymentIdLike(string parentDeploymentIdLike) {
         this.parentDeploymentIdLike = parentDeploymentIdLike;
         return this;
     }
 
-    @Override
+
     public DeploymentQuery parentDeploymentIds(List!string parentDeploymentIds) {
         if (parentDeploymentIds is null) {
             throw new FlowableIllegalArgumentException("parentDeploymentIds is null");
@@ -201,7 +200,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl processDefinitionKey(string key) {
         if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
@@ -210,7 +209,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl processDefinitionKeyLike(string keyLike) {
         if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
@@ -219,7 +218,7 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
         return this;
     }
 
-    @Override
+
     public DeploymentQueryImpl latest() {
         if (key is null) {
             throw new FlowableIllegalArgumentException("latest can only be used together with a deployment key");
@@ -231,35 +230,35 @@ class DeploymentQueryImpl extends AbstractQuery<DeploymentQuery, Deployment> imp
 
     // sorting ////////////////////////////////////////////////////////
 
-    @Override
+
     public DeploymentQuery orderByDeploymentId() {
         return orderBy(DeploymentQueryProperty.DEPLOYMENT_ID);
     }
 
-    @Override
+
     public DeploymentQuery orderByDeploymentTime() {
         return orderBy(DeploymentQueryProperty.DEPLOY_TIME);
     }
 
-    @Override
+
     public DeploymentQuery orderByDeploymentName() {
         return orderBy(DeploymentQueryProperty.DEPLOYMENT_NAME);
     }
 
-    @Override
+
     public DeploymentQuery orderByTenantId() {
         return orderBy(DeploymentQueryProperty.DEPLOYMENT_TENANT_ID);
     }
 
     // results ////////////////////////////////////////////////////////
 
-    @Override
+
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<Deployment> executeList(CommandContext commandContext) {
+
+    public List!Deployment executeList(CommandContext commandContext) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentsByQueryCriteria(this);
     }
 

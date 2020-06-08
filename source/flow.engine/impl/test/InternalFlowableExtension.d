@@ -78,7 +78,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Override
+    override
     public void beforeEach(ExtensionContext context) {
         ProcessEngine processEngine = getProcessEngine(context);
 
@@ -90,7 +90,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
             });
     }
 
-    @Override
+    override
     public void afterEach(ExtensionContext context) throws Exception {
         ProcessEngine processEngine = getProcessEngine(context);
 
@@ -104,7 +104,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
         }
     }
 
-    @Override
+    override
     public void afterAll(ExtensionContext context) throws Exception {
         doFinally(context, TestInstance.Lifecycle.PER_CLASS);
     }
@@ -116,7 +116,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
 
         if (isAsyncHistoryEnabled) {
             ManagementService managementService = processEngine.getManagementService();
-            List<HistoryJob> jobs = managementService.createHistoryJobQuery().list();
+            List!HistoryJob jobs = managementService.createHistoryJobQuery().list();
             for (HistoryJob job : jobs) {
                 managementService.deleteHistoryJob(job.getId());
             }
@@ -177,7 +177,7 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
         Set!string tableNamesExcludedFromDbCleanCheck = new HashSet<>(Arrays.asList(ensureCleanDb.excludeTables()));
         ManagementService managementService = processEngine.getManagementService();
         ProcessEngineConfiguration processEngineConfiguration = processEngine.getProcessEngineConfiguration();
-        Map<string, Long> tableCounts = managementService.getTableCount();
+        Map!(string, Long) tableCounts = managementService.getTableCount();
         StringBuilder outputMessage = new StringBuilder();
         for (string tableName : tableCounts.keySet()) {
             string tableNameWithoutPrefix = tableName.replace(processEngineConfiguration.getDatabaseTablePrefix(), "");
@@ -198,9 +198,9 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
             if (ensureCleanDb.dropDb()) {
                 CommandExecutor commandExecutor = processEngineConfiguration.getCommandExecutor();
                 CommandConfig config = new CommandConfig().transactionNotSupported();
-                commandExecutor.execute(config, new Command<Object>() {
+                commandExecutor.execute(config, new Command!Object() {
 
-                    @Override
+                    override
                     public Object execute(CommandContext commandContext) {
                         SchemaManager schemaManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getSchemaManager();
                         schemaManager.schemaDrop();
@@ -229,13 +229,13 @@ abstract class InternalFlowableExtension implements AfterEachCallback, BeforeEac
         }
     }
 
-    @Override
+    override
     public bool supportsParameter(ParameterContext parameterContext, ExtensionContext context) {
         Class<?> parameterType = parameterContext.getParameter().getType();
         return ProcessEngine.class.equals(parameterType) || parameterContext.isAnnotated(DeploymentId.class);
     }
 
-    @Override
+    override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext context) {
         if (parameterContext.isAnnotated(DeploymentId.class)) {
             return getStore(context).get(context.getUniqueId() + ANNOTATION_DEPLOYMENT_ID_KEY, string.class);

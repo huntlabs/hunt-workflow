@@ -28,14 +28,14 @@ import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class ActivityEndHistoryJsonTransformer extends AbstractNeedsUnfinishedHistoricActivityHistoryJsonTransformer {
+class ActivityEndHistoryJsonTransformer : AbstractNeedsUnfinishedHistoricActivityHistoryJsonTransformer {
 
-    @Override
+    override
     public List!string getTypes() {
         return Collections.singletonList(HistoryJsonConstants.TYPE_ACTIVITY_END);
     }
 
-    @Override
+    override
     public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
         string executionId = getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID);
         string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);

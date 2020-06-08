@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.DeploymentEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,17 +18,18 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.engine.impl.DeploymentQueryImpl;
 import flow.engine.repository.Deployment;
+import flow.engine.impl.persistence.entity.DeploymentEntity;
 
 /**
  * @author Joram Barrez
  */
-interface DeploymentEntityManager extends EntityManager<DeploymentEntity> {
+interface DeploymentEntityManager : EntityManager!DeploymentEntity {
 
-    List<Deployment> findDeploymentsByQueryCriteria(DeploymentQueryImpl deploymentQuery);
+    List!Deployment findDeploymentsByQueryCriteria(DeploymentQueryImpl deploymentQuery);
 
     List!string getDeploymentResourceNames(string deploymentId);
 
-    List<Deployment> findDeploymentsByNativeQuery(Map!(string, Object) parameterMap);
+    List!Deployment findDeploymentsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findDeploymentCountByNativeQuery(Map!(string, Object) parameterMap);
 

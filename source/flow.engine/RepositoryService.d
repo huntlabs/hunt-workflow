@@ -23,7 +23,7 @@ module flow.engine.RepositoryService;
 
 
 
-import hunt.io.Common;
+import hunt.stream.Common;
 import hunt.collection.List;
 import hunt.time.LocalDateTime;
 
@@ -527,7 +527,7 @@ interface RepositoryService {
      * from classpath XMLStreamReader xtr = xif.createXMLStreamReader(in); bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
      *
      */
-    //List<ValidationError> validateProcess(BpmnModel bpmnModel);
+    //List!ValidationError validateProcess(BpmnModel bpmnModel);
 
     /**
      * Retrieves the {@link DmnDecisionTable}s associated with the given process definition.
@@ -536,7 +536,7 @@ interface RepositoryService {
      *            id of the process definition, cannot be null.
      *
      */
-    //List<DmnDecisionTable> getDecisionTablesForProcessDefinition(string processDefinitionId);
+    //List!DmnDecisionTable getDecisionTablesForProcessDefinition(string processDefinitionId);
 
     /**
      * Retrieves the {@link FormDefinition}s associated with the given process definition.
@@ -545,6 +545,6 @@ interface RepositoryService {
      *            id of the process definition, cannot be null.
      *
      */
-    //List<FormDefinition> getFormDefinitionsForProcessDefinition(string processDefinitionId);
+    //List!FormDefinition getFormDefinitionsForProcessDefinition(string processDefinitionId);
 
 }

@@ -10,32 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.interceptor.LoggingExecutionTreeCommandInvoker;
 
-
-import flow.engine.debug.ExecutionTreeUtil;
 import flow.engine.impl.agenda.AbstractOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.interceptor.CommandInvoker;
+import hunt.util.Runnable;
+import hunt.logging;
 /**
  * @author Joram Barrez
  */
-class LoggingExecutionTreeCommandInvoker extends CommandInvoker {
+class LoggingExecutionTreeCommandInvoker : CommandInvoker {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingExecutionTreeCommandInvoker.class);
-
-    @Override
+    override
     public void executeOperation(Runnable runnable) {
-        if (runnable instanceof AbstractOperation) {
-            AbstractOperation operation = (AbstractOperation) runnable;
+        if (cast(AbstractOperation)runnable !is null) {
+            AbstractOperation operation = cast(AbstractOperation) runnable;
 
             if (operation.getExecution() !is null) {
-                LOGGER.info("Execution tree while executing operation {}:", operation.getClass());
-                LOGGER.info("{}", System.lineSeparator() + ExecutionTreeUtil.buildExecutionTree(operation.getExecution()));
+                logInfo("Execution tree while executing operation {}: %s", typeid(operation).toString);
+                //LOGGER.info("{}", System.lineSeparator() + ExecutionTreeUtil.buildExecutionTree(operation.getExecution()));
             }
 
         }
-
         super.executeOperation(runnable);
     }
 

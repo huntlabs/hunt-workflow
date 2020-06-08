@@ -19,14 +19,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * @author Joram Barrez
  */
-class ManualTaskParseHandler extends AbstractActivityBpmnParseHandler<ManualTask> {
+class ManualTaskParseHandler : AbstractActivityBpmnParseHandler!ManualTask {
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ManualTask.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ManualTask manualTask) {
         manualTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createManualTaskActivityBehavior(manualTask));
     }

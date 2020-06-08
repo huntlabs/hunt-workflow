@@ -11,27 +11,27 @@
  * limitations under the License.
  */
 
+module flow.common.persistence.deploy.DeploymentCache;
+import hunt.collection;
 
-//import hunt.collection;
-//
-///**
-// * Interface for cache implementations.
-// *
-// * @author Joram Barrez
-// */
-//interface DeploymentCache<T> {
-//
-//    T get(string id);
-//
-//    bool contains(string id);
-//
-//    void add(string id, T object);
-//
-//    void remove(string id);
-//
-//    void clear();
-//
-//    Collection<T> getAll();
-//
-//    int size();
-//}
+/**
+ * Interface for cache implementations.
+ *
+ * @author Joram Barrez
+ */
+interface DeploymentCache(T) {
+
+    T get(string id);
+
+    bool contains(string id);
+
+    void add(string id, T object);
+
+    void remove(string id);
+
+    void clear();
+
+    Collection!T getAll();
+
+    int size();
+}

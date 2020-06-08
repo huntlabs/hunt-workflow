@@ -108,7 +108,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     protected string mailServerDefaultFrom = "flowable@localhost";
     protected string mailServerForceTo;
     protected string mailSessionJndi;
-    //protected Map<string, MailServerInfo> mailServers = new HashMap<>();
+    //protected Map!(string, MailServerInfo) mailServers = new HashMap<>();
     //protected Map!(string, string) mailSessionsJndi = new HashMap<>();
 
     // Set Http Client config defaults
@@ -354,11 +354,11 @@ import flow.engine.ProcessEngineLifecycleListener;
     //    return mailServers.get(tenantId);
     //}
     //
-    //public Map<string, MailServerInfo> getMailServers() {
+    //public Map!(string, MailServerInfo) getMailServers() {
     //    return mailServers;
     //}
     //
-    //public ProcessEngineConfiguration setMailServers(Map<string, MailServerInfo> mailServers) {
+    //public ProcessEngineConfiguration setMailServers(Map!(string, MailServerInfo) mailServers) {
     //    this.mailServers.putAll(mailServers);
     //    return this;
     //}
@@ -613,7 +613,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     //public ProcessEngineConfiguration setProcessEngineLifecycleListener(ProcessEngineLifecycleListener processEngineLifecycleListener) {
     //    // Backwards compatibility (when there was only one typed engine listener)
     //    if (engineLifecycleListeners is null || engineLifecycleListeners.isEmpty()) {
-    //        List<EngineLifecycleListener> engineLifecycleListeners = new ArrayList<>(1);
+    //        List!EngineLifecycleListener engineLifecycleListeners = new ArrayList<>(1);
     //        engineLifecycleListeners.add(processEngineLifecycleListener);
     //        super.setEngineLifecycleListeners(engineLifecycleListeners);
     //

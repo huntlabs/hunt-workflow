@@ -22,7 +22,7 @@ import flow.engine.history.HistoricProcessInstance;
 import flow.engine.history.NativeHistoricProcessInstanceQuery;
 import flow.engine.impl.util.CommandContextUtil;
 
-class NativeHistoricProcessInstanceQueryImpl extends AbstractNativeQuery<NativeHistoricProcessInstanceQuery, HistoricProcessInstance> implements NativeHistoricProcessInstanceQuery {
+class NativeHistoricProcessInstanceQueryImpl : AbstractNativeQuery!(NativeHistoricProcessInstanceQuery, HistoricProcessInstance) implements NativeHistoricProcessInstanceQuery {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ class NativeHistoricProcessInstanceQueryImpl extends AbstractNativeQuery<NativeH
 
     // results ////////////////////////////////////////////////////////////////
 
-    @Override
-    public List<HistoricProcessInstance> executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
+    override
+    public List!HistoricProcessInstance executeList(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findHistoricProcessInstancesByNativeQuery(parameterMap);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext, Map!(string, Object) parameterMap) {
         return CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findHistoricProcessInstanceCountByNativeQuery(parameterMap);
     }

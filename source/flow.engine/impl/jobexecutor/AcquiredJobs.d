@@ -23,10 +23,10 @@ import hunt.collection.Set;
  */
 class AcquiredJobs {
 
-    protected List<List<string>> acquiredJobBatches = new ArrayList<>();
+    protected List<List!string> acquiredJobBatches = new ArrayList<>();
     protected Set!string acquiredJobs = new HashSet<>();
 
-    public List<List<string>> getJobIdBatches() {
+    public List<List!string> getJobIdBatches() {
         return acquiredJobBatches;
     }
 

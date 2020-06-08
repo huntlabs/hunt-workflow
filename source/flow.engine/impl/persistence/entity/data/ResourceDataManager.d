@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.ResourceDataManager;
 
 import hunt.collection.List;
 
@@ -20,12 +20,12 @@ import flow.engine.impl.persistence.entity.ResourceEntity;
 /**
  * @author Joram Barrez
  */
-interface ResourceDataManager extends DataManager<ResourceEntity> {
+interface ResourceDataManager : DataManager!ResourceEntity {
 
     void deleteResourcesByDeploymentId(string deploymentId);
 
     ResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName);
 
-    List<ResourceEntity> findResourcesByDeploymentId(string deploymentId);
+    List!ResourceEntity findResourcesByDeploymentId(string deploymentId);
 
 }

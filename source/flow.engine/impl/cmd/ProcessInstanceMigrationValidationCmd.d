@@ -21,8 +21,8 @@ import flow.engine.migration.ProcessInstanceMigrationDocument;
 import flow.engine.migration.ProcessInstanceMigrationManager;
 import flow.engine.migration.ProcessInstanceMigrationValidationResult;
 
-class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMigrationValidationResult> {
-    
+class ProcessInstanceMigrationValidationCmd implements Command!ProcessInstanceMigrationValidationResult {
+
     protected string processInstanceId;
     protected string processDefinitionId;
     protected string processDefinitionKey;
@@ -34,7 +34,7 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
         if (processInstanceId is null) {
             throw new FlowableException("Must specify a process instance id to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -47,7 +47,7 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
         if (processDefinitionId is null) {
             throw new FlowableException("Must specify a process definition id to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -60,7 +60,7 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
         if (processDefinitionKey is null) {
             throw new FlowableException("Must specify a process definition key to migrate");
         }
-        
+
         if (processInstanceMigrationDocument is null) {
             throw new FlowableException("Must specify a process migration document to migrate");
         }
@@ -70,7 +70,7 @@ class ProcessInstanceMigrationValidationCmd implements Command<ProcessInstanceMi
         this.processDefinitionTenantId = processDefinitionTenantId;
     }
 
-    @Override
+    override
     public ProcessInstanceMigrationValidationResult execute(CommandContext commandContext) {
 
         ProcessInstanceMigrationManager migrationManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceMigrationManager();

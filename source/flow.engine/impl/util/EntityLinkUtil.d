@@ -30,7 +30,7 @@ class EntityLinkUtil {
 
     public static void copyExistingEntityLinks(string scopeId, string referenceScopeId, string referenceScopeType) {
         EntityLinkService entityLinkService = CommandContextUtil.getEntityLinkService();
-        List<EntityLink> entityLinks = entityLinkService.findEntityLinksByReferenceScopeIdAndType(scopeId, ScopeTypes.BPMN, EntityLinkType.CHILD);
+        List!EntityLink entityLinks = entityLinkService.findEntityLinksByReferenceScopeIdAndType(scopeId, ScopeTypes.BPMN, EntityLinkType.CHILD);
         List!string parentIds = new ArrayList<>();
         for (EntityLink entityLink : entityLinks) {
             if (!parentIds.contains(entityLink.getScopeId())) {
@@ -57,7 +57,7 @@ class EntityLinkUtil {
         EntityLinkService entityLinkService = CommandContextUtil.getEntityLinkService();
 
         // Check if existing links already have root, if not, current is root
-        Optional<EntityLink> entityLinkWithRoot = entityLinkService
+        Optional!EntityLink entityLinkWithRoot = entityLinkService
             .findEntityLinksByReferenceScopeIdAndType(scopeId, ScopeTypes.BPMN, EntityLinkType.CHILD)
             .stream()
             .filter(e -> HierarchyType.ROOT.equals(e.getHierarchyType()))

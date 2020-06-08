@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.BoundaryMessageEventActivityBehavior;
 
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.MessageEventDefinition;
 import flow.common.api.deleg.Expression;
@@ -27,39 +26,39 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
-
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
+import hunt.String;
 /**
  * @author Tijs Rademakers
  */
-class BoundaryMessageEventActivityBehavior extends BoundaryEventActivityBehavior {
+class BoundaryMessageEventActivityBehavior : BoundaryEventActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
 
     protected MessageEventDefinition messageEventDefinition;
 
-    public BoundaryMessageEventActivityBehavior(MessageEventDefinition messageEventDefinition, bool interrupting) {
+    this(MessageEventDefinition messageEventDefinition, bool interrupting) {
         super(interrupting);
         this.messageEventDefinition = messageEventDefinition;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = Context.getCommandContext();
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         string messageName = null;
-        if (StringUtils.isNotEmpty(messageEventDefinition.getMessageRef())) {
+        if (messageEventDefinition.getMessageRef() !is null && messageEventDefinition.getMessageRef().length != 0) {
             messageName = messageEventDefinition.getMessageRef();
         } else {
             Expression messageExpression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager()
                     .createExpression(messageEventDefinition.getMessageExpression());
-            messageName = messageExpression.getValue(execution).toString();
+            messageName = (cast(String) (messageExpression.getValue(execution))).value;
         }
 
-        EventSubscriptionEntity eventSubscription = (EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService(commandContext).createEventSubscriptionBuilder()
+        EventSubscriptionEntity eventSubscription = cast(EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService(commandContext).createEventSubscriptionBuilder()
                         .eventType(MessageEventSubscriptionEntity.EVENT_TYPE)
                         .eventName(messageEventDefinition.getMessageRef())
                         .executionId(executionEntity.getId())
@@ -80,16 +79,16 @@ class BoundaryMessageEventActivityBehavior extends BoundaryEventActivityBehavior
         }
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
-        BoundaryEvent boundaryEvent = (BoundaryEvent) execution.getCurrentFlowElement();
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        BoundaryEvent boundaryEvent = cast(BoundaryEvent) execution.getCurrentFlowElement();
 
         if (boundaryEvent.isCancelActivity()) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List<EventSubscriptionEntity> eventSubscriptions = executionEntity.getEventSubscriptions();
-            for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
-                if (eventSubscription instanceof MessageEventSubscriptionEntity && eventSubscription.getEventName().equals(messageEventDefinition.getMessageRef())) {
+            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+                if (cast(MessageEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (messageEventDefinition.getMessageRef())) {
 
                     eventSubscriptionService.deleteEventSubscription(eventSubscription);
                     CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);

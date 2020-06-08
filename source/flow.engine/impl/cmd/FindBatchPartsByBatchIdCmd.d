@@ -19,7 +19,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class FindBatchPartsByBatchIdCmd implements Command<List<BatchPart>> {
+class FindBatchPartsByBatchIdCmd implements Command<List!BatchPart> {
 
     protected string batchId;
     protected string status;
@@ -33,8 +33,8 @@ class FindBatchPartsByBatchIdCmd implements Command<List<BatchPart>> {
         this.status = status;
     }
 
-    @Override
-    public List<BatchPart> execute(CommandContext commandContext) {
+    override
+    public List!BatchPart execute(CommandContext commandContext) {
         if (status !is null) {
             return CommandContextUtil.getBatchService(commandContext).findBatchPartsByBatchIdAndStatus(batchId, status);
         } else {

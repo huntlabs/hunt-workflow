@@ -26,7 +26,7 @@ import flow.engine.runtime.ActivityInstanceQuery;
 /**
  * @author martin.grofcik
  */
-class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, ActivityInstance> implements ActivityInstanceQuery {
+class ActivityInstanceQueryImpl : AbstractQuery!(ActivityInstanceQuery, ActivityInstance) implements ActivityInstanceQuery {
 
     private static final long serialVersionUID = 1L;
     protected string activityInstanceId;
@@ -56,85 +56,85 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
         super(commandExecutor);
     }
 
-    @Override
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getActivityInstanceEntityManager(commandContext).findActivityInstanceCountByQueryCriteria(this);
     }
 
-    @Override
-    public List<ActivityInstance> executeList(CommandContext commandContext) {
+    override
+    public List!ActivityInstance executeList(CommandContext commandContext) {
         return CommandContextUtil.getActivityInstanceEntityManager(commandContext).findActivityInstancesByQueryCriteria(this);
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl processInstanceId(string processInstanceId) {
         this.processInstanceId = processInstanceId;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl executionId(string executionId) {
         this.executionId = executionId;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl processDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl activityId(string activityId) {
         this.activityId = activityId;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl activityName(string activityName) {
         this.activityName = activityName;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl activityType(string activityType) {
         this.activityType = activityType;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl taskAssignee(string assignee) {
         this.assignee = assignee;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl finished() {
         this.finished = true;
         this.unfinished = false;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl unfinished() {
         this.unfinished = true;
         this.finished = false;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQuery deleteReason(string deleteReason) {
         this.deleteReason = deleteReason;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQuery deleteReasonLike(string deleteReasonLike) {
         this.deleteReasonLike = deleteReasonLike;
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl activityTenantId(string tenantId) {
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
@@ -147,7 +147,7 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
         return tenantId;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl activityTenantIdLike(string tenantIdLike) {
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("activity tenant id is null");
@@ -160,7 +160,7 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
         return tenantIdLike;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl activityWithoutTenantId() {
         this.withoutTenantId = true;
         return this;
@@ -173,73 +173,73 @@ class ActivityInstanceQueryImpl extends AbstractQuery<ActivityInstanceQuery, Act
     // ordering
     // /////////////////////////////////////////////////////////////////
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByActivityInstanceDuration() {
         orderBy(ActivityInstanceQueryProperty.DURATION);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByActivityInstanceEndTime() {
         orderBy(ActivityInstanceQueryProperty.END);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByExecutionId() {
         orderBy(ActivityInstanceQueryProperty.EXECUTION_ID);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByActivityInstanceId() {
         orderBy(ActivityInstanceQueryProperty.ACTIVITY_INSTANCE_ID);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByProcessDefinitionId() {
         orderBy(ActivityInstanceQueryProperty.PROCESS_DEFINITION_ID);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByProcessInstanceId() {
         orderBy(ActivityInstanceQueryProperty.PROCESS_INSTANCE_ID);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByActivityInstanceStartTime() {
         orderBy(ActivityInstanceQueryProperty.START);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQuery orderByActivityId() {
         orderBy(ActivityInstanceQueryProperty.ACTIVITY_ID);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByActivityName() {
         orderBy(ActivityInstanceQueryProperty.ACTIVITY_NAME);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByActivityType() {
         orderBy(ActivityInstanceQueryProperty.ACTIVITY_TYPE);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl orderByTenantId() {
         orderBy(ActivityInstanceQueryProperty.TENANT_ID);
         return this;
     }
 
-    @Override
+    override
     public ActivityInstanceQueryImpl activityInstanceId(string activityInstanceId) {
         this.activityInstanceId = activityInstanceId;
         return this;

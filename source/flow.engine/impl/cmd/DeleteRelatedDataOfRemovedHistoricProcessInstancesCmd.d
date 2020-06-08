@@ -20,11 +20,11 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.entitylink.service.api.history.HistoricEntityLinkService;
 
-class DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd implements Command<Object>, Serializable {
+class DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd implements Command!Object, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
+    override
     public Object execute(CommandContext commandContext) {
         CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricProcessIdentityLinksForNonExistingInstances();
         CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricTaskIdentityLinksForNonExistingInstances();

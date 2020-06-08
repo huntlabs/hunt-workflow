@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.DeploymentSettings;
 /**
  * @author Joram Barrez
  */

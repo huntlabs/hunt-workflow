@@ -25,16 +25,16 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Joram Barrez
  */
-class IntermediateThrowEventParseHandler extends AbstractActivityBpmnParseHandler<ThrowEvent> {
+class IntermediateThrowEventParseHandler : AbstractActivityBpmnParseHandler!ThrowEvent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateThrowEventParseHandler.class);
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return ThrowEvent.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, ThrowEvent intermediateEvent) {
 
         EventDefinition eventDefinition = null;

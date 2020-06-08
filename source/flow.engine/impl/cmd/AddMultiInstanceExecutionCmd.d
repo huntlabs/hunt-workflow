@@ -32,7 +32,7 @@ import flow.engine.runtime.Execution;
 /**
  * @author Tijs Rademakers
  */
-class AddMultiInstanceExecutionCmd implements Command<Execution>, Serializable {
+class AddMultiInstanceExecutionCmd implements Command!Execution, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ class AddMultiInstanceExecutionCmd implements Command<Execution>, Serializable {
         this.executionVariables = executionVariables;
     }
 
-    @Override
+    override
     public Execution execute(CommandContext commandContext) {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
 
@@ -88,7 +88,7 @@ class AddMultiInstanceExecutionCmd implements Command<Execution>, Serializable {
     }
 
     protected ExecutionEntity searchForMultiInstanceActivity(string activityId, string parentExecutionId, ExecutionEntityManager executionEntityManager) {
-        List<ExecutionEntity> childExecutions = executionEntityManager.findChildExecutionsByParentExecutionId(parentExecutionId);
+        List!ExecutionEntity childExecutions = executionEntityManager.findChildExecutionsByParentExecutionId(parentExecutionId);
 
         ExecutionEntity miExecution = null;
         for (ExecutionEntity childExecution : childExecutions) {

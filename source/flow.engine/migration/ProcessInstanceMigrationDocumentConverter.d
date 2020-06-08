@@ -60,13 +60,13 @@
 // */
 //class ProcessInstanceMigrationDocumentConverter {
 //
-//    protected static Predicate<JsonNode> isNotNullNode = jsonNode -> jsonNode !is null && !jsonNode.isNull();
-//    protected static Predicate<JsonNode> isSingleTextValue = jsonNode -> isNotNullNode.test(jsonNode) && jsonNode.isTextual();
-//    protected static Predicate<JsonNode> isMultiValue = jsonNode -> isNotNullNode.test(jsonNode) && jsonNode.isArray();
+//    protected static Predicate!JsonNode isNotNullNode = jsonNode -> jsonNode !is null && !jsonNode.isNull();
+//    protected static Predicate!JsonNode isSingleTextValue = jsonNode -> isNotNullNode.test(jsonNode) && jsonNode.isTextual();
+//    protected static Predicate!JsonNode isMultiValue = jsonNode -> isNotNullNode.test(jsonNode) && jsonNode.isArray();
 //
 //    protected static ObjectMapper objectMapper = new ObjectMapper();
 //
-//    protected static Map<Class<? extends ActivityMigrationMapping>, BaseActivityMigrationMappingConverter> activityMigrationMappingConverters = new HashMap<>();
+//    protected static Map<Class<? : ActivityMigrationMapping>, BaseActivityMigrationMappingConverter> activityMigrationMappingConverters = new HashMap<>();
 //
 //    static {
 //        activityMigrationMappingConverters.put(ActivityMigrationMapping.OneToOneMapping.class, new OneToOneMappingConverter());
@@ -75,7 +75,7 @@
 //    }
 //
 //    protected static <T> T convertFromJsonNodeToObject(JsonNode jsonNode, ObjectMapper objectMapper) {
-//        return objectMapper.convertValue(jsonNode, new TypeReference<T>() {
+//        return objectMapper.convertValue(jsonNode, new TypeReference!T() {
 //
 //        });
 //    }
@@ -149,7 +149,7 @@
 //        }
 //    }
 //
-//    protected static ArrayNode convertToJsonActivityMigrationMappings(List<? extends ActivityMigrationMapping> activityMigrationMappings) {
+//    protected static ArrayNode convertToJsonActivityMigrationMappings(List<? : ActivityMigrationMapping> activityMigrationMappings) {
 //        ArrayNode mappingsArray = objectMapper.createArrayNode();
 //
 //        for (ActivityMigrationMapping mapping : activityMigrationMappings) {
@@ -218,7 +218,7 @@
 //            if (activityMigrationMappings !is null) {
 //
 //                for (JsonNode mappingNode : activityMigrationMappings) {
-//                    Class<? extends ActivityMigrationMapping> mappingClass = null;
+//                    Class<? : ActivityMigrationMapping> mappingClass = null;
 //                    if (isSingleTextValue.test(mappingNode.get(FROM_ACTIVITY_ID_JSON_PROPERTY)) && isSingleTextValue.test(mappingNode.get(TO_ACTIVITY_ID_JSON_PROPERTY))) {
 //                        mappingClass = ActivityMigrationMapping.OneToOneMapping.class;
 //                    }
@@ -263,7 +263,7 @@
 //        return null;
 //    }
 //
-//    abstract static class BaseActivityMigrationMappingConverter<T extends ActivityMigrationMapping> {
+//    abstract static class BaseActivityMigrationMappingConverter<T : ActivityMigrationMapping> {
 //
 //        public ObjectNode convertToJson(T mapping, ObjectMapper objectMapper) {
 //            ObjectNode mappingNode = convertMappingInfoToJson(mapping, objectMapper);
@@ -301,15 +301,15 @@
 //
 //        abstract T convertFromJson(JsonNode jsonNode, ObjectMapper objectMapper);
 //
-//        protected <M extends ActivityMigrationMappingOptions<T>> void convertAdditionalMappingInfoFromJson(M mapping, JsonNode jsonNode) {
-//            Optional<JsonNode> callActivityOfParentProcess = Optional.ofNullable(jsonNode.get(IN_PARENT_PROCESS_OF_CALL_ACTIVITY_JSON_PROPERTY));
+//        protected <M : ActivityMigrationMappingOptions!T> void convertAdditionalMappingInfoFromJson(M mapping, JsonNode jsonNode) {
+//            Optional!JsonNode callActivityOfParentProcess = Optional.ofNullable(jsonNode.get(IN_PARENT_PROCESS_OF_CALL_ACTIVITY_JSON_PROPERTY));
 //            if (callActivityOfParentProcess.isPresent()) {
 //                callActivityOfParentProcess.map(JsonNode::textValue).ifPresent(mapping::inParentProcessOfCallActivityId);
 //                return; //if its a move to parent, it cannot be also a move to subProcess
 //            }
 //
-//            Optional<JsonNode> ofCallActivityId = Optional.ofNullable(jsonNode.get(IN_SUB_PROCESS_OF_CALL_ACTIVITY_ID_JSON_PROPERTY));
-//            Optional<JsonNode> subProcDefVer = Optional.ofNullable(jsonNode.get(CALL_ACTIVITY_PROCESS_DEFINITION_VERSION_JSON_PROPERTY));
+//            Optional!JsonNode ofCallActivityId = Optional.ofNullable(jsonNode.get(IN_SUB_PROCESS_OF_CALL_ACTIVITY_ID_JSON_PROPERTY));
+//            Optional!JsonNode subProcDefVer = Optional.ofNullable(jsonNode.get(CALL_ACTIVITY_PROCESS_DEFINITION_VERSION_JSON_PROPERTY));
 //            if (ofCallActivityId.isPresent()) {
 //                if (subProcDefVer.isPresent()) {
 //                    mapping.inSubProcessOfCallActivityId(ofCallActivityId.get().textValue(), subProcDefVer.get().intValue());
@@ -337,9 +337,9 @@
 //
 //    }
 //
-//    public static class OneToOneMappingConverter extends BaseActivityMigrationMappingConverter<ActivityMigrationMapping.OneToOneMapping> {
+//    public static class OneToOneMappingConverter : BaseActivityMigrationMappingConverter<ActivityMigrationMapping.OneToOneMapping> {
 //
-//        @Override
+//        override
 //        protected ObjectNode convertMappingInfoToJson(ActivityMigrationMapping.OneToOneMapping mapping, ObjectMapper objectMapper) {
 //            ObjectNode mappingNode = objectMapper.createObjectNode();
 //            mappingNode.put(FROM_ACTIVITY_ID_JSON_PROPERTY, mapping.getFromActivityId());
@@ -348,7 +348,7 @@
 //            return mappingNode;
 //        }
 //
-//        @Override
+//        override
 //        public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.OneToOneMapping mapping, ObjectMapper objectMapper) {
 //            Map!(string, Object) activityLocalVariables = mapping.getActivityLocalVariables();
 //            if (activityLocalVariables !is null && !activityLocalVariables.isEmpty()) {
@@ -357,12 +357,12 @@
 //            return null;
 //        }
 //
-//        @Override
+//        override
 //        protected JsonNode convertNewAssigneeToJson(ActivityMigrationMapping.OneToOneMapping mapping, ObjectMapper objectMapper) {
 //            return objectMapper.valueToTree(mapping.getWithNewAssignee());
 //        }
 //
-//        @Override
+//        override
 //        public ActivityMigrationMapping.OneToOneMapping convertFromJson(JsonNode jsonNode, ObjectMapper objectMapper) {
 //            string fromActivityId = jsonNode.get(FROM_ACTIVITY_ID_JSON_PROPERTY).textValue();
 //            string toActivityId = jsonNode.get(TO_ACTIVITY_ID_JSON_PROPERTY).textValue();
@@ -383,9 +383,9 @@
 //
 //    }
 //
-//    public static class ManyToOneMappingConverter extends BaseActivityMigrationMappingConverter<ActivityMigrationMapping.ManyToOneMapping> {
+//    public static class ManyToOneMappingConverter : BaseActivityMigrationMappingConverter<ActivityMigrationMapping.ManyToOneMapping> {
 //
-//        @Override
+//        override
 //        protected ObjectNode convertMappingInfoToJson(ActivityMigrationMapping.ManyToOneMapping mapping, ObjectMapper objectMapper) {
 //            ObjectNode mappingNode = objectMapper.createObjectNode();
 //            JsonNode fromActivityIdsNode = objectMapper.valueToTree(mapping.getFromActivityIds());
@@ -395,7 +395,7 @@
 //            return mappingNode;
 //        }
 //
-//        @Override
+//        override
 //        public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.ManyToOneMapping mapping, ObjectMapper objectMapper) {
 //            Map!(string, Object) activityLocalVariables = mapping.getActivityLocalVariables();
 //            if (activityLocalVariables !is null && !activityLocalVariables.isEmpty()) {
@@ -404,15 +404,15 @@
 //            return null;
 //        }
 //
-//        @Override
+//        override
 //        protected JsonNode convertNewAssigneeToJson(ActivityMigrationMapping.ManyToOneMapping mapping, ObjectMapper objectMapper) {
 //            return objectMapper.valueToTree(mapping.getWithNewAssignee());
 //        }
 //
-//        @Override
+//        override
 //        public ActivityMigrationMapping.ManyToOneMapping convertFromJson(JsonNode jsonNode, ObjectMapper objectMapper) {
 //            JsonNode fromActivityIdsNode = jsonNode.get(FROM_ACTIVITY_IDS_JSON_PROPERTY);
-//            List!string fromActivityIds = objectMapper.convertValue(fromActivityIdsNode, new TypeReference<List<string>>() {
+//            List!string fromActivityIds = objectMapper.convertValue(fromActivityIdsNode, new TypeReference<List!string>() {
 //
 //            });
 //            string toActivityId = jsonNode.get(TO_ACTIVITY_ID_JSON_PROPERTY).textValue();
@@ -432,9 +432,9 @@
 //        }
 //    }
 //
-//    public static class OneToManyMappingConverter extends BaseActivityMigrationMappingConverter<ActivityMigrationMapping.OneToManyMapping> {
+//    public static class OneToManyMappingConverter : BaseActivityMigrationMappingConverter<ActivityMigrationMapping.OneToManyMapping> {
 //
-//        @Override
+//        override
 //        protected ObjectNode convertMappingInfoToJson(ActivityMigrationMapping.OneToManyMapping mapping, ObjectMapper objectMapper) {
 //            ObjectNode mappingNode = objectMapper.createObjectNode();
 //            mappingNode.put(FROM_ACTIVITY_ID_JSON_PROPERTY, mapping.getFromActivityId());
@@ -444,32 +444,32 @@
 //            return mappingNode;
 //        }
 //
-//        @Override
+//        override
 //        public JsonNode convertLocalVariablesToJson(ActivityMigrationMapping.OneToManyMapping mapping, ObjectMapper objectMapper) {
-//            Map<string, Map<string, Object>> activitiesLocalVariables = mapping.getActivitiesLocalVariables();
+//            Map<string, Map!(string, Object)> activitiesLocalVariables = mapping.getActivitiesLocalVariables();
 //            if (activitiesLocalVariables !is null && !activitiesLocalVariables.isEmpty()) {
 //                return objectMapper.valueToTree(activitiesLocalVariables);
 //            }
 //            return null;
 //        }
 //
-//        @Override
+//        override
 //        protected JsonNode convertNewAssigneeToJson(ActivityMigrationMapping.OneToManyMapping mapping, ObjectMapper objectMapper) {
 //            return null;
 //        }
 //
-//        @Override
+//        override
 //        public ActivityMigrationMapping.OneToManyMapping convertFromJson(JsonNode jsonNode, ObjectMapper objectMapper) {
 //            string fromActivityId = jsonNode.get(FROM_ACTIVITY_ID_JSON_PROPERTY).textValue();
 //            JsonNode toActivityIdsNode = jsonNode.get(TO_ACTIVITY_IDS_JSON_PROPERTY);
-//            List!string toActivityIds = objectMapper.convertValue(toActivityIdsNode, new TypeReference<List<string>>() {
+//            List!string toActivityIds = objectMapper.convertValue(toActivityIdsNode, new TypeReference<List!string>() {
 //
 //            });
 //
 //            ActivityMigrationMapping.OneToManyMapping oneToManyMapping = ActivityMigrationMapping.createMappingFor(fromActivityId, toActivityIds);
 //            convertAdditionalMappingInfoFromJson(oneToManyMapping, jsonNode);
 //
-//            Map<string, Map<string, Object>> localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
+//            Map<string, Map!(string, Object)> localVariables = getLocalVariablesFromJson(jsonNode, objectMapper);
 //            if (localVariables !is null) {
 //                oneToManyMapping.withLocalVariables(localVariables);
 //            }

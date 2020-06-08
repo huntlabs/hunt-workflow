@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.ServiceTaskDelegateExpressionActivityBehavior;
 
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.MapExceptionEntry;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -35,8 +34,11 @@ import flow.engine.impl.deleg.TriggerableActivityBehavior;
 import flow.engine.impl.deleg.invocation.JavaDelegateInvocation;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import  flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
+import flow.engine.impl.bpmn.behavior.TaskActivityBehavior;
+import hunt.logging;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * {@link ActivityBehavior} used when 'delegateExpression' is used for a serviceTask.
@@ -46,19 +48,17 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Slawomir Wojtasiak (Patch for ACT-1159)
  * @author Falko Menge
  */
-class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class ServiceTaskDelegateExpressionActivityBehavior : TaskActivityBehavior {
 
     protected string serviceTaskId;
     protected Expression expression;
     protected Expression skipExpression;
-    protected List<FieldDeclaration> fieldDeclarations;
-    protected List<MapExceptionEntry> mapExceptions;
+    protected List!FieldDeclaration fieldDeclarations;
+    protected List!MapExceptionEntry mapExceptions;
     protected bool triggerable;
 
-    public ServiceTaskDelegateExpressionActivityBehavior(string serviceTaskId, Expression expression, Expression skipExpression,
-            List<FieldDeclaration> fieldDeclarations, List<MapExceptionEntry> mapExceptions, bool triggerable) {
+    this(string serviceTaskId, Expression expression, Expression skipExpression,
+            List!FieldDeclaration fieldDeclarations, List!MapExceptionEntry mapExceptions, bool triggerable) {
         this.serviceTaskId = serviceTaskId;
         this.expression = expression;
         this.skipExpression = skipExpression;
@@ -67,16 +67,16 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
         this.triggerable = triggerable;
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
-        Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, execution, fieldDeclarations);
-        if (triggerable && delegate instanceof TriggerableActivityBehavior) {
-            ((TriggerableActivityBehavior) delegate).trigger(execution, signalName, signalData);
+        Object deleg = DelegateExpressionUtil.resolveDelegateExpression(expression, execution, fieldDeclarations);
+        if (triggerable && cast(TriggerableActivityBehavior)deleg !is null) {
+            (cast(TriggerableActivityBehavior) deleg).trigger(execution, signalName, signalData);
         }
         leave(execution);
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
 
         try {
@@ -88,62 +88,62 @@ class ServiceTaskDelegateExpressionActivityBehavior extends TaskActivityBehavior
             bool isSkipExpressionEnabled = SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionText, serviceTaskId, execution, commandContext);
             if (!isSkipExpressionEnabled || !SkipExpressionUtil.shouldSkipFlowElement(skipExpressionText, serviceTaskId, execution, commandContext)) {
 
-                if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {
-                    ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
-                    if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_DELEGATE_EXPRESSION)) {
-                        string overrideExpression = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_DELEGATE_EXPRESSION).asText();
-                        if (StringUtils.isNotEmpty(overrideExpression) && !overrideExpression.equals(expression.getExpressionText())) {
-                            expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(overrideExpression);
-                        }
+                //if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableProcessDefinitionInfoCache()) {
+                //    ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
+                //    if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_DELEGATE_EXPRESSION)) {
+                //        string overrideExpression = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_DELEGATE_EXPRESSION).asText();
+                //        if (StringUtils.isNotEmpty(overrideExpression) && !overrideExpression.equals(expression.getExpressionText())) {
+                //            expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(overrideExpression);
+                //        }
+                //    }
+                //}
+
+                Object deleg = DelegateExpressionUtil.resolveDelegateExpression(expression, execution, fieldDeclarations);
+                if (cast(ActivityBehavior)deleg  !is null) {
+
+                    if (cast(AbstractBpmnActivityBehavior)deleg !is null) {
+                        (cast(AbstractBpmnActivityBehavior) deleg).setMultiInstanceActivityBehavior(getMultiInstanceActivityBehavior());
                     }
-                }
 
-                Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, execution, fieldDeclarations);
-                if (delegate instanceof ActivityBehavior) {
+                    CommandContextUtil.getProcessEngineConfiguration(commandContext).getDelegateInterceptor().handleInvocation(new ActivityBehaviorInvocation(cast(ActivityBehavior) deleg, execution));
 
-                    if (delegate instanceof AbstractBpmnActivityBehavior) {
-                        ((AbstractBpmnActivityBehavior) delegate).setMultiInstanceActivityBehavior(getMultiInstanceActivityBehavior());
-                    }
-
-                    CommandContextUtil.getProcessEngineConfiguration(commandContext).getDelegateInterceptor().handleInvocation(new ActivityBehaviorInvocation((ActivityBehavior) delegate, execution));
-
-                } else if (delegate instanceof JavaDelegate) {
-                    CommandContextUtil.getProcessEngineConfiguration(commandContext).getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation((JavaDelegate) delegate, execution));
+                } else if (cast(JavaDelegate)deleg !is null) {
+                    CommandContextUtil.getProcessEngineConfiguration(commandContext).getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation(cast(JavaDelegate) deleg, execution));
 
                     if (!triggerable) {
                         leave(execution);
                     }
                 } else {
-                    throw new FlowableIllegalArgumentException("Delegate expression " + expression + " did neither resolve to an implementation of " + ActivityBehavior.class + " nor " + JavaDelegate.class);
+                    throw new FlowableIllegalArgumentException("Delegate expression " ~ " did neither resolve to an implementation of " ~ typeid(ActivityBehavior).toString ~ " nor " ~ typeid(JavaDelegate).toString);
                 }
 
             } else {
                 leave(execution);
             }
         } catch (Exception exc) {
-
-            Throwable cause = exc;
-            BpmnError error = null;
-            while (cause !is null) {
-                if (cause instanceof BpmnError) {
-                    error = (BpmnError) cause;
-                    break;
-
-                } else if (cause instanceof RuntimeException) {
-                    if (ErrorPropagation.mapException((RuntimeException) cause, (ExecutionEntity) execution, mapExceptions)) {
-                        return;
-                    }
-                }
-                cause = cause.getCause();
-            }
-
-            if (error !is null) {
-                ErrorPropagation.propagateError(error, execution);
-            } else if (exc instanceof FlowableException) {
-                throw exc;
-            } else {
-                throw new FlowableException(exc.getMessage(), exc);
-            }
+            logError("Error");
+            //Throwable cause = exc;
+            //BpmnError error = null;
+            //while (cause !is null) {
+            //    if (cause instanceof BpmnError) {
+            //        error = (BpmnError) cause;
+            //        break;
+            //
+            //    } else if (cause instanceof RuntimeException) {
+            //        if (ErrorPropagation.mapException((RuntimeException) cause, (ExecutionEntity) execution, mapExceptions)) {
+            //            return;
+            //        }
+            //    }
+            //    cause = cause.getCause();
+            //}
+            //
+            //if (error !is null) {
+            //    ErrorPropagation.propagateError(error, execution);
+            //} else if (exc instanceof FlowableException) {
+            //    throw exc;
+            //} else {
+            //    throw new FlowableException(exc.getMessage(), exc);
+            //}
 
         }
     }

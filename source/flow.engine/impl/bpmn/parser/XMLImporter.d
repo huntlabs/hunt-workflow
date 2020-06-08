@@ -35,9 +35,9 @@ interface XMLImporter {
      */
     void importFrom(Import theImport, string sourceSystemId);
 
-    Map<string, StructureDefinition> getStructures();
+    Map!(string, StructureDefinition) getStructures();
 
-    Map<string, WSService> getServices();
+    Map!(string, WSService) getServices();
 
-    Map<string, WSOperation> getOperations();
+    Map!(string, WSOperation) getOperations();
 }

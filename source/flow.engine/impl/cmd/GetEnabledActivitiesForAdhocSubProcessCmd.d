@@ -30,7 +30,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class GetEnabledActivitiesForAdhocSubProcessCmd implements Command<List<FlowNode>>, Serializable {
+class GetEnabledActivitiesForAdhocSubProcessCmd implements Command<List!FlowNode>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -39,8 +39,8 @@ class GetEnabledActivitiesForAdhocSubProcessCmd implements Command<List<FlowNode
         this.executionId = executionId;
     }
 
-    @Override
-    public List<FlowNode> execute(CommandContext commandContext) {
+    override
+    public List!FlowNode execute(CommandContext commandContext) {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
         if (execution is null) {
             throw new FlowableObjectNotFoundException("No execution found for id '" + executionId + "'", ExecutionEntity.class);
@@ -50,7 +50,7 @@ class GetEnabledActivitiesForAdhocSubProcessCmd implements Command<List<FlowNode
             throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
         }
 
-        List<FlowNode> enabledFlowNodes = new ArrayList<>();
+        List!FlowNode enabledFlowNodes = new ArrayList<>();
 
         AdhocSubProcess adhocSubProcess = (AdhocSubProcess) execution.getCurrentFlowElement();
 

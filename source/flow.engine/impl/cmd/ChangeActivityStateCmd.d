@@ -23,7 +23,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class ChangeActivityStateCmd implements Command<Void> {
+class ChangeActivityStateCmd implements Command!Void {
 
     protected ChangeActivityStateBuilderImpl changeActivityStateBuilder;
 
@@ -31,7 +31,7 @@ class ChangeActivityStateCmd implements Command<Void> {
         this.changeActivityStateBuilder = changeActivityStateBuilder;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         if (changeActivityStateBuilder.getMoveExecutionIdList().size() == 0 && changeActivityStateBuilder.getMoveActivityIdList().size() == 0) {
             throw new FlowableIllegalArgumentException("No move execution or activity ids provided");

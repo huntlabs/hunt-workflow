@@ -21,6 +21,6 @@
 //
 //interface DecisionTableVariableManager {
 //
-//    void setVariablesOnExecution(List<Map<string, Object>> executionResult, string decisionKey, DelegateExecution execution, ObjectMapper objectMapper);
+//    void setVariablesOnExecution(List<Map!(string, Object)> executionResult, string decisionKey, DelegateExecution execution, ObjectMapper objectMapper);
 //
 //}

@@ -27,40 +27,40 @@ import flow.engine.impl.bpmn.parser.FieldDeclaration;
  *
  * @author Tijs Rademakers
  */
-abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
+abstract class AbstractClassDelegate : AbstractBpmnActivityBehavior {
 
     private static final long serialVersionUID = 1L;
 
     protected string serviceTaskId;
     protected string className;
-    protected List<FieldDeclaration> fieldDeclarations;
+    protected List!FieldDeclaration fieldDeclarations;
 
-    public AbstractClassDelegate(string className, List<FieldDeclaration> fieldDeclarations) {
+    public AbstractClassDelegate(string className, List!FieldDeclaration fieldDeclarations) {
         this.className = className;
         this.fieldDeclarations = fieldDeclarations;
     }
 
-    public AbstractClassDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations) {
+    public AbstractClassDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
         this.className = clazz.getName();
         this.fieldDeclarations = fieldDeclarations;
     }
 
-    protected Object instantiateDelegate(string className, List<FieldDeclaration> fieldDeclarations) {
+    protected Object instantiateDelegate(string className, List!FieldDeclaration fieldDeclarations) {
         return AbstractClassDelegate.defaultInstantiateDelegate(className, fieldDeclarations);
     }
 
     // --HELPER METHODS (also usable by external classes)
     // ----------------------------------------
 
-    public static Object defaultInstantiateDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations, ServiceTask serviceTask) {
+    public static Object defaultInstantiateDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations, ServiceTask serviceTask) {
         return defaultInstantiateDelegate(clazz.getName(), fieldDeclarations, serviceTask);
     }
 
-    public static Object defaultInstantiateDelegate(Class<?> clazz, List<FieldDeclaration> fieldDeclarations) {
+    public static Object defaultInstantiateDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
         return defaultInstantiateDelegate(clazz.getName(), fieldDeclarations);
     }
 
-    public static Object defaultInstantiateDelegate(string className, List<FieldDeclaration> fieldDeclarations, ServiceTask serviceTask) {
+    public static Object defaultInstantiateDelegate(string className, List!FieldDeclaration fieldDeclarations, ServiceTask serviceTask) {
         Object object = ReflectUtil.instantiate(className);
         applyFieldDeclaration(fieldDeclarations, object);
 
@@ -71,15 +71,15 @@ abstract class AbstractClassDelegate extends AbstractBpmnActivityBehavior {
         return object;
     }
 
-    public static Object defaultInstantiateDelegate(string className, List<FieldDeclaration> fieldDeclarations) {
+    public static Object defaultInstantiateDelegate(string className, List!FieldDeclaration fieldDeclarations) {
         return defaultInstantiateDelegate(className, fieldDeclarations, null);
     }
 
-    public static void applyFieldDeclaration(List<FieldDeclaration> fieldDeclarations, Object target) {
+    public static void applyFieldDeclaration(List!FieldDeclaration fieldDeclarations, Object target) {
         applyFieldDeclaration(fieldDeclarations, target, true);
     }
 
-    public static void applyFieldDeclaration(List<FieldDeclaration> fieldDeclarations, Object target, bool throwExceptionOnMissingField) {
+    public static void applyFieldDeclaration(List!FieldDeclaration fieldDeclarations, Object target, bool throwExceptionOnMissingField) {
         if (fieldDeclarations !is null) {
             for (FieldDeclaration declaration : fieldDeclarations) {
                 applyFieldDeclaration(declaration, target, throwExceptionOnMissingField);

@@ -27,16 +27,16 @@ import org.slf4j.LoggerFactory;
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class IntermediateCatchEventParseHandler extends AbstractFlowNodeBpmnParseHandler<IntermediateCatchEvent> {
+class IntermediateCatchEventParseHandler : AbstractFlowNodeBpmnParseHandler!IntermediateCatchEvent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCatchEventParseHandler.class);
 
-    @Override
-    class<? extends BaseElement> getHandledType() {
+    override
+    class<? : BaseElement> getHandledType() {
         return IntermediateCatchEvent.class;
     }
 
-    @Override
+    override
     protected void executeParse(BpmnParse bpmnParse, IntermediateCatchEvent event) {
         EventDefinition eventDefinition = null;
         if (!event.getEventDefinitions().isEmpty()) {

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -18,11 +18,12 @@ import hunt.collection.Map;
 import flow.common.persistence.entity.EntityManager;
 import flow.engine.impl.ProcessDefinitionQueryImpl;
 import flow.engine.repository.ProcessDefinition;
+import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 
 /**
  * @author Joram Barrez
  */
-interface ProcessDefinitionEntityManager extends EntityManager<ProcessDefinitionEntity> {
+interface ProcessDefinitionEntityManager : EntityManager!ProcessDefinitionEntity {
 
     ProcessDefinitionEntity findLatestProcessDefinitionByKey(string processDefinitionKey);
 
@@ -32,7 +33,7 @@ interface ProcessDefinitionEntityManager extends EntityManager<ProcessDefinition
 
     ProcessDefinitionEntity findLatestDerivedProcessDefinitionByKeyAndTenantId(string processDefinitionKey, string tenantId);
 
-    List<ProcessDefinition> findProcessDefinitionsByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery);
+    List!ProcessDefinition findProcessDefinitionsByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery);
 
     long findProcessDefinitionCountByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery);
 
@@ -40,15 +41,15 @@ interface ProcessDefinitionEntityManager extends EntityManager<ProcessDefinition
 
     ProcessDefinitionEntity findProcessDefinitionByDeploymentAndKeyAndTenantId(string deploymentId, string processDefinitionKey, string tenantId);
 
-    ProcessDefinition findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, Integer processDefinitionVersion, string tenantId);
+    ProcessDefinition findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, int processDefinitionVersion, string tenantId);
 
-    List<ProcessDefinition> findProcessDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
+    List!ProcessDefinition findProcessDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findProcessDefinitionCountByNativeQuery(Map!(string, Object) parameterMap);
 
     void updateProcessDefinitionTenantIdForDeployment(string deploymentId, string newTenantId);
 
-    void updateProcessDefinitionVersionForProcessDefinitionId(string processDefinitionId, int version);
+    void updateProcessDefinitionVersionForProcessDefinitionId(string processDefinitionId, int ver);
 
     void deleteProcessDefinitionsByDeploymentId(string deploymentId);
 

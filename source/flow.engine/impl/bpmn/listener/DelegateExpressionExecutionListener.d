@@ -31,14 +31,14 @@ import flow.engine.impl.util.CommandContextUtil;
 class DelegateExpressionExecutionListener implements ExecutionListener {
 
     protected Expression expression;
-    private final List<FieldDeclaration> fieldDeclarations;
+    private final List!FieldDeclaration fieldDeclarations;
 
-    public DelegateExpressionExecutionListener(Expression expression, List<FieldDeclaration> fieldDeclarations) {
+    public DelegateExpressionExecutionListener(Expression expression, List!FieldDeclaration fieldDeclarations) {
         this.expression = expression;
         this.fieldDeclarations = fieldDeclarations;
     }
 
-    @Override
+    override
     public void notify(DelegateExecution execution) {
         Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, execution, fieldDeclarations);
         if (delegate instanceof ExecutionListener) {

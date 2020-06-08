@@ -21,9 +21,9 @@ import flow.event.registry.ChannelDefinitionQueryImpl;
 import flow.event.registry.persistence.entity.ChannelDefinitionEntity;
 
 
-interface ChannelDefinitionEntityManager : EntityManager!ChannelDefinitionEntity {
 
-    ChannelDefinitionEntity findLatestChannelDefinitionByKey(string channelDefinitionKey);
+interface ChannelDefinitionEntityManager : EntityManager!ChannelDefinitionEntity {
+  ChannelDefinitionEntity findLatestChannelDefinitionByKey(string channelDefinitionKey);
 
     ChannelDefinitionEntity findLatestChannelDefinitionByKeyAndTenantId(string channelDefinitionKey, string tenantId);
 

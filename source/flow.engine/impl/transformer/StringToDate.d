@@ -21,11 +21,11 @@ import org.apache.commons.lang3.time.FastDateFormat;
  *
  * @author Esteban Robles Luna
  */
-class StringToDate extends AbstractTransformer {
+class StringToDate : AbstractTransformer {
 
     protected FastDateFormat format = FastDateFormat.getInstance("dd/MM/yyyy");
 
-    @Override
+    override
     protected Object primTransform(Object anObject) throws Exception {
         return format.parse((string) anObject);
     }

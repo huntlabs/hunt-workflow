@@ -69,9 +69,9 @@ class BaseDynamicSubProcessInjectUtil {
 
     protected static void processSubProcessFlowElements(CommandContext commandContext, string prefix, Process process, BpmnModel bpmnModel,
                     SubProcess subProcess, BpmnModel subProcessBpmnModel, ProcessDefinition originalProcessDefinition,
-                    DeploymentEntity newDeploymentEntity, Map<string, FlowElement> generatedIds, bool includeDiInfo) {
+                    DeploymentEntity newDeploymentEntity, Map!(string, FlowElement) generatedIds, bool includeDiInfo) {
 
-        Collection<FlowElement> flowElementsOfSubProcess = subProcess.getFlowElementMap().values();
+        Collection!FlowElement flowElementsOfSubProcess = subProcess.getFlowElementMap().values();
         for (FlowElement flowElement : flowElementsOfSubProcess) {
 
             if (process.getFlowElement(flowElement.getId(), true) !is null) {
@@ -79,7 +79,7 @@ class BaseDynamicSubProcessInjectUtil {
             } else {
                 if (includeDiInfo) {
                     if (flowElement instanceof SequenceFlow) {
-                        List<GraphicInfo> wayPoints = subProcessBpmnModel.getFlowLocationGraphicInfo(flowElement.getId());
+                        List!GraphicInfo wayPoints = subProcessBpmnModel.getFlowLocationGraphicInfo(flowElement.getId());
                         if (wayPoints !is null) {
                             bpmnModel.addFlowGraphicInfoList(flowElement.getId(), wayPoints);
                         }
@@ -104,7 +104,7 @@ class BaseDynamicSubProcessInjectUtil {
     }
 
     protected static void generateIdForDuplicateFlowElement(string prefix, flow.bpmn.model.Process process, BpmnModel bpmnModel,
-                    BpmnModel subProcessBpmnModel, FlowElement duplicateFlowElement, Map<string, FlowElement> generatedIds, bool includeDiInfo) {
+                    BpmnModel subProcessBpmnModel, FlowElement duplicateFlowElement, Map!(string, FlowElement) generatedIds, bool includeDiInfo) {
 
         string originalFlowElementId = duplicateFlowElement.getId();
         if (process.getFlowElement(originalFlowElementId, true) !is null) {
@@ -182,7 +182,7 @@ class BaseDynamicSubProcessInjectUtil {
                 if (StringUtils.isNotEmpty(userTask.getFormKey())) {
                     Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(originalProcessDefinitionEntity.getDeploymentId());
                     if (deployment.getParentDeploymentId() !is null) {
-                        List<FormDeployment> formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
+                        List!FormDeployment formDeployments = formRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
 
                         if (formDeployments !is null && formDeployments.size() > 0) {
 
@@ -221,7 +221,7 @@ class BaseDynamicSubProcessInjectUtil {
                     if (decisionTableReferenceKey !is null) {
                         Deployment deployment = CommandContextUtil.getDeploymentEntityManager().findById(originalProcessDefinitionEntity.getDeploymentId());
                         if (deployment.getParentDeploymentId() !is null) {
-                            List<DmnDeployment> dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
+                            List!DmnDeployment dmnDeployments = dmnRepositoryService.createDeploymentQuery().parentDeploymentId(deployment.getParentDeploymentId()).list();
 
                             if (dmnDeployments !is null && dmnDeployments.size() > 0) {
                                 DmnDecisionTable dmnDecisionTable = dmnRepositoryService.createDecisionTableQuery()
@@ -252,16 +252,16 @@ class BaseDynamicSubProcessInjectUtil {
         }
     }
 
-    protected static List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2) {
-        List<GraphicInfo> wayPoints = new ArrayList<>();
+    protected static List!GraphicInfo createWayPoints(double x1, double y1, double x2, double y2) {
+        List!GraphicInfo wayPoints = new ArrayList<>();
         wayPoints.add(new GraphicInfo(x1, y1));
         wayPoints.add(new GraphicInfo(x2, y2));
 
         return wayPoints;
     }
 
-    protected static List<GraphicInfo> createWayPoints(double x1, double y1, double x2, double y2, double x3, double y3) {
-        List<GraphicInfo> wayPoints = createWayPoints(x1, y1, x2, y2);
+    protected static List!GraphicInfo createWayPoints(double x1, double y1, double x2, double y2, double x3, double y3) {
+        List!GraphicInfo wayPoints = createWayPoints(x1, y1, x2, y2);
         wayPoints.add(new GraphicInfo(x3, y3));
 
         return wayPoints;

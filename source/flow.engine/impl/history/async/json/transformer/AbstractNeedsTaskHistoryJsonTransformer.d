@@ -20,9 +20,9 @@ import flow.engine.impl.util.CommandContextUtil;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-abstract class AbstractNeedsTaskHistoryJsonTransformer extends AbstractHistoryJsonTransformer {
+abstract class AbstractNeedsTaskHistoryJsonTransformer : AbstractHistoryJsonTransformer {
 
-    @Override
+    override
     public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
         string taskId = getStringFromJson(historicalData, HistoryJsonConstants.ID);
         return CommandContextUtil.getHistoricTaskService().getHistoricTask(taskId) !is null;

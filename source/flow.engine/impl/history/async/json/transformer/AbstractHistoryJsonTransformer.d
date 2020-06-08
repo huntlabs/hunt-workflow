@@ -83,7 +83,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
 
         HistoricActivityInstanceEntity historicActivityInstanceEntity = getUnfinishedHistoricActivityInstanceFromCache(commandContext, executionId, activityId);
         if (historicActivityInstanceEntity is null) {
-            List<HistoricActivityInstanceEntity> historicActivityInstances = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext)
+            List!HistoricActivityInstanceEntity historicActivityInstances = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext)
                             .findUnfinishedHistoricActivityInstancesByExecutionAndActivityId(executionId, activityId);
             if (!historicActivityInstances.isEmpty()) {
                 historicActivityInstanceEntity = historicActivityInstances.get(0);
@@ -95,7 +95,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
     protected HistoricActivityInstanceEntity getUnfinishedHistoricActivityInstanceFromCache(CommandContext commandContext,
                     string executionId, string activityId) {
 
-        List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
+        List!HistoricActivityInstanceEntity cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
             if (activityId !is null
                             && activityId.equals(cachedHistoricActivityInstance.getActivityId())
@@ -115,7 +115,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
 
         HistoricActivityInstanceEntity historicActivityInstanceEntity = getHistoricActivityInstanceFromCache(commandContext, executionId, activityId);
         if (historicActivityInstanceEntity is null) {
-            List<HistoricActivityInstanceEntity> historicActivityInstances = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext)
+            List!HistoricActivityInstanceEntity historicActivityInstances = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext)
                             .findHistoricActivityInstancesByExecutionAndActivityId(executionId, activityId);
             if (!historicActivityInstances.isEmpty()) {
                 historicActivityInstanceEntity = historicActivityInstances.get(0);
@@ -127,7 +127,7 @@ abstract class AbstractHistoryJsonTransformer implements HistoryJsonTransformer 
     protected HistoricActivityInstanceEntity getHistoricActivityInstanceFromCache(CommandContext commandContext,
                     string executionId, string activityId) {
 
-        List<HistoricActivityInstanceEntity> cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
+        List!HistoricActivityInstanceEntity cachedHistoricActivityInstances = CommandContextUtil.getEntityCache(commandContext).findInCache(HistoricActivityInstanceEntity.class);
         for (HistoricActivityInstanceEntity cachedHistoricActivityInstance : cachedHistoricActivityInstances) {
             if (activityId !is null
                             && activityId.equals(cachedHistoricActivityInstance.getActivityId())

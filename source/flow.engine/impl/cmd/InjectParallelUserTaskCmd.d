@@ -40,7 +40,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 
-class InjectParallelUserTaskCmd extends AbstractDynamicInjectionCmd implements Command<Void> {
+class InjectParallelUserTaskCmd : AbstractDynamicInjectionCmd implements Command!Void {
 
     protected string taskId;
     protected DynamicUserTaskBuilder dynamicUserTaskBuilder;
@@ -51,13 +51,13 @@ class InjectParallelUserTaskCmd extends AbstractDynamicInjectionCmd implements C
         this.dynamicUserTaskBuilder = dynamicUserTaskBuilder;
     }
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         createDerivedProcessDefinitionForTask(commandContext, taskId);
         return null;
     }
 
-    @Override
+    override
     protected void updateBpmnProcess(CommandContext commandContext, Process process,
             BpmnModel bpmnModel, ProcessDefinitionEntity originalProcessDefinitionEntity, DeploymentEntity newDeploymentEntity) {
 
@@ -192,9 +192,9 @@ class InjectParallelUserTaskCmd extends AbstractDynamicInjectionCmd implements C
         BaseDynamicSubProcessInjectUtil.processFlowElements(commandContext, process, bpmnModel, originalProcessDefinitionEntity, newDeploymentEntity);
     }
 
-    @Override
+    override
     protected void updateExecutions(CommandContext commandContext, ProcessDefinitionEntity processDefinitionEntity,
-            ExecutionEntity processInstance, List<ExecutionEntity> childExecutions) {
+            ExecutionEntity processInstance, List!ExecutionEntity childExecutions) {
 
         TaskEntity taskEntity = CommandContextUtil.getTaskService().getTask(taskId);
 

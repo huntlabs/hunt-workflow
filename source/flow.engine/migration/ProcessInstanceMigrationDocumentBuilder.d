@@ -40,7 +40,7 @@
 //
 //    ProcessInstanceMigrationDocumentBuilder setPostUpgradeJavaDelegateExpression(string expression);
 //
-//    ProcessInstanceMigrationDocumentBuilder addActivityMigrationMappings(List<ActivityMigrationMapping> activityMigrationMappings);
+//    ProcessInstanceMigrationDocumentBuilder addActivityMigrationMappings(List!ActivityMigrationMapping activityMigrationMappings);
 //
 //    ProcessInstanceMigrationDocumentBuilder addActivityMigrationMapping(ActivityMigrationMapping activityMigrationMapping);
 //

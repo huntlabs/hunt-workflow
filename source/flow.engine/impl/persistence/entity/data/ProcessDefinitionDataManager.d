@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.persistence.entity.data.ProcessDefinitionDataManager;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -23,7 +23,7 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Joram Barrez
  */
-interface ProcessDefinitionDataManager extends DataManager<ProcessDefinitionEntity> {
+interface ProcessDefinitionDataManager : DataManager!ProcessDefinitionEntity {
 
     ProcessDefinitionEntity findLatestProcessDefinitionByKey(string processDefinitionKey);
 
@@ -35,7 +35,7 @@ interface ProcessDefinitionDataManager extends DataManager<ProcessDefinitionEnti
 
     void deleteProcessDefinitionsByDeploymentId(string deploymentId);
 
-    List<ProcessDefinition> findProcessDefinitionsByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery);
+    List!ProcessDefinition findProcessDefinitionsByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery);
 
     long findProcessDefinitionCountByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery);
 
@@ -43,11 +43,11 @@ interface ProcessDefinitionDataManager extends DataManager<ProcessDefinitionEnti
 
     ProcessDefinitionEntity findProcessDefinitionByDeploymentAndKeyAndTenantId(string deploymentId, string processDefinitionKey, string tenantId);
 
-    ProcessDefinitionEntity findProcessDefinitionByKeyAndVersion(string processDefinitionKey, Integer processDefinitionVersion);
+    ProcessDefinitionEntity findProcessDefinitionByKeyAndVersion(string processDefinitionKey, int processDefinitionVersion);
 
     ProcessDefinitionEntity findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, Integer processDefinitionVersion, string tenantId);
 
-    List<ProcessDefinition> findProcessDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
+    List!ProcessDefinition findProcessDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
 
     long findProcessDefinitionCountByNativeQuery(Map!(string, Object) parameterMap);
 

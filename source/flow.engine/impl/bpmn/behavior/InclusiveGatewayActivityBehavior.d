@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.InclusiveGatewayActivityBehavior;
 
 import hunt.collection;
-import java.util.Iterator;
+import hunt.collection.Iterator;
 
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
@@ -23,8 +23,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ExecutionGraphUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.engine.impl.bpmn.behavior.GatewayActivityBehavior;
 
 /**
  * Implementation of the Inclusive Gateway/OR gateway/inclusive data-based gateway as defined in the BPMN specification.
@@ -33,13 +32,9 @@ import org.slf4j.LoggerFactory;
  * @author Tom Van Buskirk
  * @author Joram Barrez
  */
-class InclusiveGatewayActivityBehavior extends GatewayActivityBehavior implements InactiveActivityBehavior {
+class InclusiveGatewayActivityBehavior : GatewayActivityBehavior , InactiveActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(InclusiveGatewayActivityBehavior.class.getName());
-
-    @Override
+    override
     public void execute(DelegateExecution execution) {
         // The join in the inclusive gateway works as follows:
         // When an execution enters it, it is inactivated.
@@ -50,10 +45,10 @@ class InclusiveGatewayActivityBehavior extends GatewayActivityBehavior implement
         // executions leave the gateway.
 
         execution.inactivate();
-        executeInclusiveGatewayLogic((ExecutionEntity) execution);
+        executeInclusiveGatewayLogic(cast(ExecutionEntity) execution);
     }
 
-    @Override
+    override
     public void executeInactive(ExecutionEntity executionEntity) {
         executeInclusiveGatewayLogic(executionEntity);
     }
@@ -64,20 +59,20 @@ class InclusiveGatewayActivityBehavior extends GatewayActivityBehavior implement
 
         lockFirstParentScope(execution);
 
-        Collection<ExecutionEntity> allExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(execution.getProcessInstanceId());
-        Iterator<ExecutionEntity> executionIterator = allExecutions.iterator();
+        Collection!ExecutionEntity allExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(execution.getProcessInstanceId());
+        Iterator!ExecutionEntity executionIterator = allExecutions.iterator();
         bool oneExecutionCanReachGatewayInstance = false;
         while (!oneExecutionCanReachGatewayInstance && executionIterator.hasNext()) {
             ExecutionEntity executionEntity = executionIterator.next();
-            if (!executionEntity.getActivityId().equals(execution.getCurrentActivityId())) {
+            if (executionEntity.getActivityId() != (execution.getCurrentActivityId())) {
                 if (ExecutionGraphUtil.isReachable(execution.getProcessDefinitionId(), executionEntity.getActivityId(), execution.getCurrentActivityId())) {
                     //Now check if they are in the same "execution path"
-                    if (executionEntity.getParentId().equals(execution.getParentId())) {
+                    if (executionEntity.getParentId() == (execution.getParentId())) {
                         oneExecutionCanReachGatewayInstance = true;
                         break;
                     }
                 }
-            } else if (executionEntity.getId().equals(execution.getId()) && executionEntity.isActive()) {
+            } else if (executionEntity.getId() == (execution.getId()) && executionEntity.isActive()) {
                 // Special case: the execution has reached the inc gw, but the operation hasn't been executed yet for that execution
                 oneExecutionCanReachGatewayInstance = true;
                 break;
@@ -90,13 +85,13 @@ class InclusiveGatewayActivityBehavior extends GatewayActivityBehavior implement
         // If no execution can reach the gateway, the gateway activates and executes fork behavior
         if (!oneExecutionCanReachGatewayInstance) {
 
-            LOGGER.debug("Inclusive gateway cannot be reached by any execution and is activated");
+            //LOGGER.debug("Inclusive gateway cannot be reached by any execution and is activated");
 
             // Kill all executions here (except the incoming)
-            Collection<ExecutionEntity> executionsInGateway = executionEntityManager
+            Collection!ExecutionEntity executionsInGateway = executionEntityManager
                 .findInactiveExecutionsByActivityIdAndProcessInstanceId(execution.getCurrentActivityId(), execution.getProcessInstanceId());
-            for (ExecutionEntity executionEntityInGateway : executionsInGateway) {
-                if (!executionEntityInGateway.getId().equals(execution.getId()) && executionEntityInGateway.getParentId().equals(execution.getParentId())) {
+            foreach (ExecutionEntity executionEntityInGateway ; executionsInGateway) {
+                if (executionEntityInGateway.getId() != (execution.getId()) && executionEntityInGateway.getParentId() == (execution.getParentId())) {
                     CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityEnd(executionEntityInGateway, null);
                     executionEntityManager.deleteExecutionAndRelatedData(executionEntityInGateway, null, false);
                 }

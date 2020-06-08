@@ -31,25 +31,25 @@ import java.util.stream.Collectors;
  */
 class MergeByDateDeploymentMergeStrategy implements DeploymentMergeStrategy {
 
-    @Override
+    override
     public void prepareMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
-        List<ProcessDefinition> processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
+        List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
         ProcessDefinitionEntityManager processDefinitionEntityManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
         for (ProcessDefinition processDefinition : processDefinitions) {
             processDefinitionEntityManager.updateProcessDefinitionVersionForProcessDefinitionId(processDefinition.getId(), 0);
         }
     }
 
-    @Override
+    override
     public void finalizeMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
-        List<ProcessDefinition> processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
+        List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
         ProcessDefinitionEntityManager processDefinitionEntityManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
         for (ProcessDefinition processDefinition : processDefinitions) {
-            List<ProcessDefinition> allProcessDefinitionsWithKey = new ProcessDefinitionQueryImpl()
+            List!ProcessDefinition allProcessDefinitionsWithKey = new ProcessDefinitionQueryImpl()
                     .processDefinitionTenantId(newTenantId)
                     .processDefinitionKey(processDefinition.getKey())
                     .list();
-            List<ProcessDefinition> orderedProcessDefinitions = sortProcessDefinitionsByDeploymentTime(allProcessDefinitionsWithKey);
+            List!ProcessDefinition orderedProcessDefinitions = sortProcessDefinitionsByDeploymentTime(allProcessDefinitionsWithKey);
 
             int versionNumber = allProcessDefinitionsWithKey.size();
             for (ProcessDefinition alreadyExistingProcessDefinition : orderedProcessDefinitions) {
@@ -58,9 +58,9 @@ class MergeByDateDeploymentMergeStrategy implements DeploymentMergeStrategy {
         }
     }
 
-    protected List<ProcessDefinition> sortProcessDefinitionsByDeploymentTime(List<ProcessDefinition> allProcessDefinitionsWithKey) {
+    protected List!ProcessDefinition sortProcessDefinitionsByDeploymentTime(List!ProcessDefinition allProcessDefinitionsWithKey) {
         List!string deploymentIds = extractDeploymentIds(allProcessDefinitionsWithKey);
-        Map<string, ProcessDefinition> processDefinitionLookupTable = allProcessDefinitionsWithKey
+        Map!(string, ProcessDefinition) processDefinitionLookupTable = allProcessDefinitionsWithKey
                 .stream()
                 .collect(Collectors.toMap(ProcessDefinition::getDeploymentId, Function.identity()));
 
@@ -74,7 +74,7 @@ class MergeByDateDeploymentMergeStrategy implements DeploymentMergeStrategy {
                 .collect(Collectors.toList());
     }
 
-    protected List!string extractDeploymentIds(List<ProcessDefinition> allProcessDefinitionsWithKey) {
+    protected List!string extractDeploymentIds(List!ProcessDefinition allProcessDefinitionsWithKey) {
         return allProcessDefinitionsWithKey
                 .stream()
                 .map(ProcessDefinition::getDeploymentId)

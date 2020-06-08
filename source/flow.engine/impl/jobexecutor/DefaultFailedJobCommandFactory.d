@@ -21,8 +21,8 @@ import flow.job.service.impl.asyncexecutor.FailedJobCommandFactory;
  */
 class DefaultFailedJobCommandFactory implements FailedJobCommandFactory {
 
-    @Override
-    public Command<Object> getCommand(string jobId, Throwable exception) {
+    override
+    public Command!Object getCommand(string jobId, Throwable exception) {
         return new JobRetryCmd(jobId, exception);
     }
 

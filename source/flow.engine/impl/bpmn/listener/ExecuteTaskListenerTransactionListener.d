@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,7 +23,7 @@ import flow.engine.deleg.TransactionDependentTaskListener;
 
 /**
  * A {@link TransactionListener} that invokes an {@link ExecutionListener}.
- * 
+ *
  * @author Joram Barrez
  */
 class ExecuteTaskListenerTransactionListener implements TransactionListener {
@@ -39,11 +39,11 @@ class ExecuteTaskListenerTransactionListener implements TransactionListener {
         this.commandExecutor = commandExecutor;
     }
 
-    @Override
+    override
     public void execute(CommandContext commandContext) {
         CommandConfig commandConfig = new CommandConfig(false, TransactionPropagation.REQUIRES_NEW);
-        commandExecutor.execute(commandConfig, new Command<Void>() {
-            @Override
+        commandExecutor.execute(commandConfig, new Command!Void() {
+            override
             public Void execute(CommandContext commandContext) {
                 listener.notify(scope.getProcessInstanceId(), scope.getExecutionId(), scope.getTask(),
                         scope.getExecutionVariables(), scope.getCustomPropertiesMap());

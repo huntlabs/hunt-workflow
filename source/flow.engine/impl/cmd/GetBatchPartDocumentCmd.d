@@ -26,7 +26,7 @@ class GetBatchPartDocumentCmd implements Command!string {
         this.batchPartId = batchPartId;
     }
 
-    @Override
+    override
     public string execute(CommandContext commandContext) {
         BatchPart batchPart = CommandContextUtil.getBatchService(commandContext).getBatchPart(batchPartId);
         if (batchPart is null) {

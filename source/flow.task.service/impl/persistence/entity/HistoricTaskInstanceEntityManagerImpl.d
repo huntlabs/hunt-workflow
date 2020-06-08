@@ -23,6 +23,8 @@ import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 import flow.task.service.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
 import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
 import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
+import flow.task.service.impl.persistence.entity.AbstractTaskServiceEntityManager;
+import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez

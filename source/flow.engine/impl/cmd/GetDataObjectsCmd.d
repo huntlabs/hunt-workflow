@@ -40,7 +40,7 @@ import flow.variable.service.api.persistence.entity.VariableInstance;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializable {
+class GetDataObjectsCmd implements Command<Map!(string, DataObject)>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string executionId;
@@ -63,8 +63,8 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
         this.withLocalizationFallback = withLocalizationFallback;
     }
 
-    @Override
-    public Map<string, DataObject> execute(CommandContext commandContext) {
+    override
+    public Map!(string, DataObject) execute(CommandContext commandContext) {
 
         // Verify existence of execution
         if (executionId is null) {
@@ -77,7 +77,7 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
             throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
         }
 
-        Map<string, VariableInstance> variables = null;
+        Map!(string, VariableInstance) variables = null;
 
         if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
@@ -103,11 +103,11 @@ class GetDataObjectsCmd implements Command<Map<string, DataObject>>, Serializabl
             }
         }
 
-        Map<string, DataObject> dataObjects = null;
+        Map!(string, DataObject) dataObjects = null;
         if (variables !is null) {
             dataObjects = new HashMap<>(variables.size());
 
-            for (Entry<string, VariableInstance> entry : variables.entrySet()) {
+            for (Entry!(string, VariableInstance) entry : variables.entrySet()) {
                 string name = entry.getKey();
                 VariableInstance variableEntity = entry.getValue();
 

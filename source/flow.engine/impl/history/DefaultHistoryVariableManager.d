@@ -27,7 +27,7 @@ class DefaultHistoryVariableManager implements InternalHistoryVariableManager {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    @Override
+    override
     public void recordVariableCreate(VariableInstanceEntity variable, Date createTime) {
         getHistoryManager().recordVariableCreate(variable, createTime);
         if (variable.getProcessInstanceId() !is null || variable.getExecutionId() !is null || variable.getTaskId() !is null) {
@@ -35,7 +35,7 @@ class DefaultHistoryVariableManager implements InternalHistoryVariableManager {
         }
     }
 
-    @Override
+    override
     public void recordVariableUpdate(VariableInstanceEntity variable, Date updateTime) {
         getHistoryManager().recordVariableUpdate(variable, updateTime);
         if (variable.getProcessInstanceId() !is null || variable.getExecutionId() !is null || variable.getTaskId() !is null) {
@@ -43,7 +43,7 @@ class DefaultHistoryVariableManager implements InternalHistoryVariableManager {
         }
     }
 
-    @Override
+    override
     public void recordVariableRemoved(VariableInstanceEntity variable, Date removeTime) {
         getHistoryManager().recordVariableRemoved(variable);
         if (variable.getProcessInstanceId() !is null || variable.getExecutionId() !is null || variable.getTaskId() !is null) {

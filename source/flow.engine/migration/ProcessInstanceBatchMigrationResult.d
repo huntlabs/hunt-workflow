@@ -29,10 +29,10 @@
 //    protected string status;
 //    protected string sourceProcessDefinitionId;
 //    protected string targetProcessDefinitionId;
-//    protected List<ProcessInstanceBatchMigrationPartResult> allMigrationParts = new ArrayList<>();
-//    protected List<ProcessInstanceBatchMigrationPartResult> succesfulMigrationParts = new ArrayList<>();
-//    protected List<ProcessInstanceBatchMigrationPartResult> failedMigrationParts = new ArrayList<>();
-//    protected List<ProcessInstanceBatchMigrationPartResult> waitingMigrationParts = new ArrayList<>();
+//    protected List!ProcessInstanceBatchMigrationPartResult allMigrationParts = new ArrayList<>();
+//    protected List!ProcessInstanceBatchMigrationPartResult succesfulMigrationParts = new ArrayList<>();
+//    protected List!ProcessInstanceBatchMigrationPartResult failedMigrationParts = new ArrayList<>();
+//    protected List!ProcessInstanceBatchMigrationPartResult waitingMigrationParts = new ArrayList<>();
 //
 //    public string getBatchId() {
 //        return batchId;
@@ -66,7 +66,7 @@
 //        this.targetProcessDefinitionId = targetProcessDefinitionId;
 //    }
 //
-//    public List<ProcessInstanceBatchMigrationPartResult> getAllMigrationParts() {
+//    public List!ProcessInstanceBatchMigrationPartResult getAllMigrationParts() {
 //        return allMigrationParts;
 //    }
 //
@@ -98,15 +98,15 @@
 //        }
 //    }
 //
-//    public List<ProcessInstanceBatchMigrationPartResult> getSuccessfulMigrationParts() {
+//    public List!ProcessInstanceBatchMigrationPartResult getSuccessfulMigrationParts() {
 //        return succesfulMigrationParts;
 //    }
 //
-//    public List<ProcessInstanceBatchMigrationPartResult> getFailedMigrationParts() {
+//    public List!ProcessInstanceBatchMigrationPartResult getFailedMigrationParts() {
 //        return failedMigrationParts;
 //    }
 //
-//    public List<ProcessInstanceBatchMigrationPartResult> getWaitingMigrationParts() {
+//    public List!ProcessInstanceBatchMigrationPartResult getWaitingMigrationParts() {
 //        return waitingMigrationParts;
 //    }
 //

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.EventSubProcessSignalStartEventActivityBehavior;
 
 import hunt.collection;
 import hunt.collection.HashMap;
@@ -32,31 +32,29 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
-import org.flowable.eventsubscription.service.EventSubscriptionService;
-import org.flowable.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-import org.flowable.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
-
+import flow.eventsubscription.service.EventSubscriptionService;
+import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 /**
  * Implementation of the BPMN 2.0 event subprocess signal start event.
  *
  * @author Tijs Rademakers
  */
-class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivityBehavior {
-
-    private static final long serialVersionUID = 1L;
+class EventSubProcessSignalStartEventActivityBehavior : AbstractBpmnActivityBehavior {
 
     protected SignalEventDefinition signalEventDefinition;
     protected Signal signal;
 
-    public EventSubProcessSignalStartEventActivityBehavior(SignalEventDefinition signalEventDefinition, Signal signal) {
+    this(SignalEventDefinition signalEventDefinition, Signal signal) {
         this.signalEventDefinition = signalEventDefinition;
         this.signal = signal;
     }
 
-    @Override
+    override
     public void execute(DelegateExecution execution) {
-        StartEvent startEvent = (StartEvent) execution.getCurrentFlowElement();
-        EventSubProcess eventSubProcess = (EventSubProcess) startEvent.getSubProcess();
+        StartEvent startEvent = cast(StartEvent) execution.getCurrentFlowElement();
+        EventSubProcess eventSubProcess = cast(EventSubProcess) startEvent.getSubProcess();
 
         execution.setScope(true);
 
@@ -67,11 +65,11 @@ class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivi
         }
     }
 
-    @Override
+    override
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         CommandContext commandContext = Context.getCommandContext();
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
         string eventName = null;
         if (signal !is null) {
@@ -80,22 +78,22 @@ class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivi
             eventName = signalEventDefinition.getSignalRef();
         }
 
-        StartEvent startEvent = (StartEvent) execution.getCurrentFlowElement();
+        StartEvent startEvent = cast (StartEvent) execution.getCurrentFlowElement();
         if (startEvent.isInterrupting()) {
-            List<ExecutionEntity> childExecutions = executionEntityManager.collectChildren(executionEntity.getParent());
+            List!ExecutionEntity childExecutions = executionEntityManager.collectChildren(executionEntity.getParent());
             for (int i = childExecutions.size() - 1; i >= 0; i--) {
                 ExecutionEntity childExecutionEntity = childExecutions.get(i);
-                if (!childExecutionEntity.isEnded() && !childExecutionEntity.getId().equals(executionEntity.getId())) {
+                if (!childExecutionEntity.isEnded() && childExecutionEntity.getId() != (executionEntity.getId())) {
                     executionEntityManager.deleteExecutionAndRelatedData(childExecutionEntity,
-                            DeleteReason.EVENT_SUBPROCESS_INTERRUPTING + "(" + startEvent.getId() + ")", false);
+                            DeleteReason.EVENT_SUBPROCESS_INTERRUPTING ~ "(" ~ startEvent.getId() ~ ")", false);
                 }
             }
 
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-            List<EventSubscriptionEntity> eventSubscriptions = executionEntity.getEventSubscriptions();
+            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
 
-            for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
-                if (eventSubscription instanceof SignalEventSubscriptionEntity && eventSubscription.getEventName().equals(eventName)) {
+            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+                if (cast(SignalEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (eventName)) {
 
                     eventSubscriptionService.deleteEventSubscription(eventSubscription);
                     CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
@@ -104,7 +102,7 @@ class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivi
         }
 
         ExecutionEntity newSubProcessExecution = executionEntityManager.createChildExecution(executionEntity.getParent());
-        newSubProcessExecution.setCurrentFlowElement((SubProcess) executionEntity.getCurrentFlowElement().getParentContainer());
+        newSubProcessExecution.setCurrentFlowElement(cast(SubProcess) executionEntity.getCurrentFlowElement().getParentContainer());
         newSubProcessExecution.setEventScope(false);
         newSubProcessExecution.setScope(true);
 
@@ -116,11 +114,11 @@ class EventSubProcessSignalStartEventActivityBehavior extends AbstractBpmnActivi
         leave(outgoingFlowExecution);
     }
 
-    protected Map!(string, Object) processDataObjects(Collection<ValuedDataObject> dataObjects) {
-        Map!(string, Object) variablesMap = new HashMap<>();
+    protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {
+        Map!(string, Object) variablesMap = new HashMap!(string, Object)();
         // convert data objects to process variables
         if (dataObjects !is null) {
-            for (ValuedDataObject dataObject : dataObjects) {
+            foreach (ValuedDataObject dataObject ; dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }
         }

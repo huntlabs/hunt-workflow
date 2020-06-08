@@ -37,9 +37,9 @@ module flow.engine.repository.DiagramLayout;
 //
 //    private static final long serialVersionUID = 1L;
 //
-//    private Map<string, DiagramElement> elements;
+//    private Map!(string, DiagramElement) elements;
 //
-//    public DiagramLayout(Map<string, DiagramElement> elements) {
+//    public DiagramLayout(Map!(string, DiagramElement) elements) {
 //        this.setElements(elements);
 //    }
 //
@@ -61,17 +61,17 @@ module flow.engine.repository.DiagramLayout;
 //        }
 //    }
 //
-//    public Map<string, DiagramElement> getElements() {
+//    public Map!(string, DiagramElement) getElements() {
 //        return elements;
 //    }
 //
-//    public void setElements(Map<string, DiagramElement> elements) {
+//    public void setElements(Map!(string, DiagramElement) elements) {
 //        this.elements = elements;
 //    }
 //
-//    public List<DiagramNode> getNodes() {
-//        List<DiagramNode> nodes = new ArrayList<>();
-//        for (Entry<string, DiagramElement> entry : getElements().entrySet()) {
+//    public List!DiagramNode getNodes() {
+//        List!DiagramNode nodes = new ArrayList<>();
+//        for (Entry!(string, DiagramElement) entry : getElements().entrySet()) {
 //            DiagramElement element = entry.getValue();
 //            if (element instanceof DiagramNode) {
 //                nodes.add((DiagramNode) element);

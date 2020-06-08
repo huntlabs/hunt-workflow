@@ -43,7 +43,7 @@ class CachingAndArtifactsManager {
     public void updateCachingAndArtifacts(ParsedDeployment parsedDeployment) {
         CommandContext commandContext = Context.getCommandContext();
         final ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
-        DeploymentCache<ProcessDefinitionCacheEntry> processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
+        DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
         DeploymentEntity deployment = parsedDeployment.getDeployment();
 
         for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
@@ -63,7 +63,7 @@ class CachingAndArtifactsManager {
      */
     public void updateProcessDefinitionCache(ParsedDeployment parsedDeployment) {
         final ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
-        DeploymentCache<ProcessDefinitionCacheEntry> processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
+        DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
 
         for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
             BpmnModel bpmnModel = parsedDeployment.getBpmnModelForProcessDefinition(processDefinition);

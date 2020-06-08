@@ -26,7 +26,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Frederik Heremans
  */
-class HasTaskVariableCmd implements Command<bool>, Serializable {
+class HasTaskVariableCmd implements Command!bool, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected string taskId;
@@ -39,7 +39,7 @@ class HasTaskVariableCmd implements Command<bool>, Serializable {
         this.isLocal = isLocal;
     }
 
-    @Override
+    override
     public bool execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");

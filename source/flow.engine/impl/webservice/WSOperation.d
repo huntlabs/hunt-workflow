@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,7 +24,7 @@ import flow.engine.impl.bpmn.webservice.OperationImplementation;
 
 /**
  * Represents a WS implementation of a {@link Operation}
- * 
+ *
  * @author Esteban Robles Luna
  */
 class WSOperation implements OperationImplementation {
@@ -41,18 +41,18 @@ class WSOperation implements OperationImplementation {
         this.service = service;
     }
 
-    @Override
+    override
     public string getId() {
         return this.id;
     }
 
-    @Override
+    override
     public string getName() {
         return this.name;
     }
 
-    @Override
-    public MessageInstance sendFor(MessageInstance message, Operation operation, ConcurrentMap<QName, URL> overridenEndpointAddresses) throws Exception {
+    override
+    public MessageInstance sendFor(MessageInstance message, Operation operation, ConcurrentMap!(QName, URL) overridenEndpointAddresses) throws Exception {
         Object[] arguments = this.getArguments(message);
         Object[] results = this.safeSend(arguments, overridenEndpointAddresses);
         return this.createResponseMessage(results, operation);
@@ -62,7 +62,7 @@ class WSOperation implements OperationImplementation {
         return message.getStructureInstance().toArray();
     }
 
-    private Object[] safeSend(Object[] arguments, ConcurrentMap<QName, URL> overridenEndpointAddresses) throws Exception {
+    private Object[] safeSend(Object[] arguments, ConcurrentMap!(QName, URL) overridenEndpointAddresses) throws Exception {
         Object[] results = null;
 
         results = this.service.getClient().send(this.name, arguments, overridenEndpointAddresses);

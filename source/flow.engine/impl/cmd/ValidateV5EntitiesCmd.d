@@ -29,11 +29,11 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Tijs Rademakers
  */
-class ValidateV5EntitiesCmd implements Command<Void> {
+class ValidateV5EntitiesCmd implements Command!Void {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ValidateV5EntitiesCmd.class);
 
-    @Override
+    override
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() is null) {
@@ -43,7 +43,7 @@ class ValidateV5EntitiesCmd implements Command<Void> {
             LOGGER.info("Total of v5 deployments found: {}", numberOfV5Deployments);
 
             if (numberOfV5Deployments > 0) {
-                List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery()
+                List!ProcessDefinition processDefinitions = repositoryService.createProcessDefinitionQuery()
                         .latestVersion()
                         .processDefinitionEngineVersion(Flowable5Util.V5_ENGINE_TAG)
                         .list();

@@ -11,75 +11,75 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.ClaimTaskCmd;
 import flow.common.interceptor.CommandContext;
 import flow.common.runtime.Clock;
 import flow.engine.FlowableTaskAlreadyClaimedException;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
-import flow.engine.impl.util.TaskHelper;
+//import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.TaskHelper;
 import flow.identitylink.api.IdentityLinkType;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
+import hunt.Object;
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  */
-class ClaimTaskCmd extends NeedsActiveTaskCmd<Void> {
+class ClaimTaskCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
 
     protected string userId;
 
-    public ClaimTaskCmd(string taskId, string userId) {
+    this(string taskId, string userId) {
         super(taskId);
         this.userId = userId;
     }
 
-    @Override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.claimTask(taskId, userId);
-            return null;
-        }
-
-        if (userId !is null) {
-            Clock clock = CommandContextUtil.getProcessEngineConfiguration(commandContext).getClock();
-            task.setClaimTime(clock.getCurrentTime());
-
-            if (task.getAssignee() !is null) {
-                if (!task.getAssignee().equals(userId)) {
-                    // When the task is already claimed by another user, throw
-                    // exception. Otherwise, ignore this, post-conditions of method already met.
-                    throw new FlowableTaskAlreadyClaimedException(task.getId(), task.getAssignee());
-                }
-                CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordTaskInfoChange(task, clock.getCurrentTime());
-
-            } else {
-                TaskHelper.changeTaskAssignee(task, userId);
-            }
-
-            CommandContextUtil.getHistoryManager().createUserIdentityLinkComment(task, userId, IdentityLinkType.ASSIGNEE, true);
-
-        } else {
-            if (task.getAssignee() !is null) {
-                // Task claim time should be null
-                task.setClaimTime(null);
-
-                string oldAssigneeId = task.getAssignee();
-
-                // Task should be assigned to no one
-                TaskHelper.changeTaskAssignee(task, null);
-
-                CommandContextUtil.getHistoryManager().createUserIdentityLinkComment(task, oldAssigneeId, IdentityLinkType.ASSIGNEE, true, true);
-            }
-        }
+        implementationMissing(false);
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.claimTask(taskId, userId);
+        //    return null;
+        //}
+        //
+        //if (userId !is null) {
+        //    Clock clock = CommandContextUtil.getProcessEngineConfiguration(commandContext).getClock();
+        //    task.setClaimTime(clock.getCurrentTime());
+        //
+        //    if (task.getAssignee() !is null) {
+        //        if (!task.getAssignee().equals(userId)) {
+        //            // When the task is already claimed by another user, throw
+        //            // exception. Otherwise, ignore this, post-conditions of method already met.
+        //            throw new FlowableTaskAlreadyClaimedException(task.getId(), task.getAssignee());
+        //        }
+        //        CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordTaskInfoChange(task, clock.getCurrentTime());
+        //
+        //    } else {
+        //        TaskHelper.changeTaskAssignee(task, userId);
+        //    }
+        //
+        //    CommandContextUtil.getHistoryManager().createUserIdentityLinkComment(task, userId, IdentityLinkType.ASSIGNEE, true);
+        //
+        //} else {
+        //    if (task.getAssignee() !is null) {
+        //        // Task claim time should be null
+        //        task.setClaimTime(null);
+        //
+        //        string oldAssigneeId = task.getAssignee();
+        //
+        //        // Task should be assigned to no one
+        //        TaskHelper.changeTaskAssignee(task, null);
+        //
+        //        CommandContextUtil.getHistoryManager().createUserIdentityLinkComment(task, oldAssigneeId, IdentityLinkType.ASSIGNEE, true, true);
+        //    }
+        //}
 
         return null;
     }
 
-    @Override
     protected string getSuspendedTaskException() {
         return "Cannot claim a suspended task";
     }

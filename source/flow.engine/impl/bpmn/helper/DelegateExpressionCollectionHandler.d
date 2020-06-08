@@ -34,7 +34,7 @@ class DelegateExpressionCollectionHandler implements FlowableCollectionHandler {
         this.expression = expression;
     }
 
-	@Override
+	override
 	@SuppressWarnings("rawtypes")
 	public Collection resolveCollection(Object collectionValue, DelegateExecution execution) {
 		return getCollectionHandlerInstance(execution).resolveCollection(collectionValue, execution);

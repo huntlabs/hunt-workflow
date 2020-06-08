@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.deleg.FlowableCollectionHandler;
 
-
-import java.io.Serializable;
 import hunt.collection;
 
 import flow.engine.deleg.DelegateExecution;
@@ -21,8 +20,7 @@ import flow.engine.deleg.DelegateExecution;
 /**
  * @author Lori Small
  */
-interface FlowableCollectionHandler extends Serializable {
+interface FlowableCollectionHandler  {
 
-    @SuppressWarnings("rawtypes")
 	Collection resolveCollection(Object collectionValue, DelegateExecution execution);
 }

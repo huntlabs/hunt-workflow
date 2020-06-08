@@ -23,7 +23,7 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Brian Showers
  */
-class SetTaskDueDateCmd extends NeedsActiveTaskCmd<Void> {
+class SetTaskDueDateCmd : NeedsActiveTaskCmd!Void {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ class SetTaskDueDateCmd extends NeedsActiveTaskCmd<Void> {
         this.dueDate = dueDate;
     }
 
-    @Override
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
             Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();

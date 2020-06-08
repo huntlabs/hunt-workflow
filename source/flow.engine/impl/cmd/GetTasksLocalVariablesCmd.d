@@ -28,7 +28,7 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 /**
  * @author Daisuke Yoshimoto
  */
-class GetTasksLocalVariablesCmd implements Command<List<VariableInstance>>, Serializable {
+class GetTasksLocalVariablesCmd implements Command<List!VariableInstance>, Serializable {
 
     private static final long serialVersionUID = 1L;
     protected Set!string taskIds;
@@ -37,8 +37,8 @@ class GetTasksLocalVariablesCmd implements Command<List<VariableInstance>>, Seri
         this.taskIds = taskIds;
     }
 
-    @Override
-    public List<VariableInstance> execute(CommandContext commandContext) {
+    override
+    public List!VariableInstance execute(CommandContext commandContext) {
         if (taskIds is null) {
             throw new FlowableIllegalArgumentException("taskIds is null");
         }
@@ -46,8 +46,8 @@ class GetTasksLocalVariablesCmd implements Command<List<VariableInstance>>, Seri
             throw new FlowableIllegalArgumentException("Set of taskIds is empty");
         }
 
-        List<VariableInstance> instances = new ArrayList<>();
-        List<VariableInstanceEntity> entities = CommandContextUtil.getVariableService().findVariableInstancesByTaskIds(taskIds);
+        List!VariableInstance instances = new ArrayList<>();
+        List!VariableInstanceEntity entities = CommandContextUtil.getVariableService().findVariableInstancesByTaskIds(taskIds);
         for (VariableInstanceEntity entity : entities) {
             entity.getValue();
             instances.add(entity);

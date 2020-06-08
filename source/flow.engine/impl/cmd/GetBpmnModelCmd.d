@@ -23,7 +23,7 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
 /**
  * @author Joram Barrez
  */
-class GetBpmnModelCmd implements Command<BpmnModel>, Serializable {
+class GetBpmnModelCmd implements Command!BpmnModel, Serializable {
 
     private static final long serialVersionUID = 8167762371289445046L;
 
@@ -33,7 +33,7 @@ class GetBpmnModelCmd implements Command<BpmnModel>, Serializable {
         this.processDefinitionId = processDefinitionId;
     }
 
-    @Override
+    override
     public BpmnModel execute(CommandContext commandContext) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("processDefinitionId is null");
