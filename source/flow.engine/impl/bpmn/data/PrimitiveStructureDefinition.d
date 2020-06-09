@@ -10,34 +10,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.data.PrimitiveStructureDefinition;
 
+import flow.engine.impl.bpmn.data.StructureDefinition;
+import flow.engine.impl.bpmn.data.StructureInstance;
+import flow.engine.impl.bpmn.data.PrimitiveStructureInstance;
 
 /**
  * Represents a structure based on a primitive class
  *
  * @author Esteban Robles Luna
  */
-class PrimitiveStructureDefinition implements StructureDefinition {
+class PrimitiveStructureDefinition : StructureDefinition {
 
     protected string id;
 
-    protected Class<?> primitiveClass;
+    protected TypeInfo primitiveClass;
 
-    public PrimitiveStructureDefinition(string id, Class<?> primitiveClass) {
+    this(string id, TypeInfo primitiveClass) {
         this.id = id;
         this.primitiveClass = primitiveClass;
     }
 
-    override
     public string getId() {
         return this.id;
     }
 
-    class<?> getPrimitiveClass() {
+    TypeInfo getPrimitiveClass() {
         return primitiveClass;
     }
 
-    override
     public StructureInstance createInstance() {
         return new PrimitiveStructureInstance(this);
     }

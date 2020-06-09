@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.ListenerNotificationHelper;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -40,7 +40,11 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.task.service.deleg.BaseTaskListener;
 import flow.task.service.deleg.TaskListener;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import  std.uni;
+import flow.engine.impl.bpmn.listener.TransactionDependentExecutionListenerExecutionScope;
+import flow.engine.impl.bpmn.listener.ExecuteTaskListenerTransactionListener;
+import flow.engine.impl.bpmn.listener.ExecuteExecutionListenerTransactionListener;
+import flow.bpmn.model.Process;
 /**
  * @author Joram Barrez
  */
@@ -50,33 +54,33 @@ class ListenerNotificationHelper {
         List!FlowableListener listeners = elementWithExecutionListeners.getExecutionListeners();
         if (listeners !is null && listeners.size() > 0) {
             ListenerFactory listenerFactory = CommandContextUtil.getProcessEngineConfiguration().getListenerFactory();
-            for (FlowableListener listener : listeners) {
+            foreach (FlowableListener listener ; listeners) {
 
-                if (eventType.equals(listener.getEvent())) {
+                if (eventType == (listener.getEvent())) {
 
                     BaseExecutionListener executionListener = null;
 
-                    if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(listener.getImplementationType())) {
+                    if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_CLASS,(listener.getImplementationType())) == 0) {
                         executionListener = listenerFactory.createClassDelegateExecutionListener(listener);
-                    } else if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
+                    } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION ,(listener.getImplementationType())) == 0) {
                         executionListener = listenerFactory.createExpressionExecutionListener(listener);
-                    } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
-                        if (listener.getOnTransaction() !is null) {
+                    } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION ,(listener.getImplementationType())) == 0) {
+                        if (listener.getOnTransaction() !is null && listener.getOnTransaction().length != 0) {
                             executionListener = listenerFactory.createTransactionDependentDelegateExpressionExecutionListener(listener);
                         } else {
                             executionListener = listenerFactory.createDelegateExpressionExecutionListener(listener);
                         }
-                    } else if (ImplementationType.IMPLEMENTATION_TYPE_INSTANCE.equalsIgnoreCase(listener.getImplementationType())) {
-                        executionListener = (ExecutionListener) listener.getInstance();
+                    } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_INSTANCE,(listener.getImplementationType())) == 0) {
+                        executionListener = cast(ExecutionListener) listener.getInstance();
                     }
 
                     if (executionListener !is null) {
                         if (listener.getOnTransaction() !is null) {
-                            planTransactionDependentExecutionListener(listenerFactory, execution, (TransactionDependentExecutionListener) executionListener, listener);
+                            planTransactionDependentExecutionListener(listenerFactory, execution, cast(TransactionDependentExecutionListener) executionListener, listener);
                         } else {
                             execution.setEventName(eventType); // eventName is used to differentiate the event when reusing an execution listener for various events
                             execution.setCurrentFlowableListener(listener);
-                            ((ExecutionListener) executionListener).notify(execution);
+                            (cast(ExecutionListener) executionListener).notify(execution);
                             execution.setEventName(null);
                             execution.setCurrentFlowableListener(null);
                         }
@@ -93,10 +97,10 @@ class ListenerNotificationHelper {
         CustomPropertiesResolver customPropertiesResolver = createCustomPropertiesResolver(listener);
         Map!(string, Object) customPropertiesMapToUse = invokeCustomPropertiesResolver(execution, customPropertiesResolver);
 
-        TransactionDependentExecutionListenerExecutionScope scope = new TransactionDependentExecutionListenerExecutionScope(
+        TransactionDependentExecutionListenerExecutionScope scop = new TransactionDependentExecutionListenerExecutionScope(
                 execution.getProcessInstanceId(), execution.getId(), execution.getCurrentFlowElement(), executionVariablesToUse, customPropertiesMapToUse);
 
-        addTransactionListener(listener, new ExecuteExecutionListenerTransactionListener(executionListener, scope,
+        addTransactionListener(listener, new ExecuteExecutionListenerTransactionListener(executionListener, scop,
                         CommandContextUtil.getProcessEngineConfiguration().getCommandExecutor()));
     }
 
@@ -104,30 +108,30 @@ class ListenerNotificationHelper {
         if (taskEntity.getProcessDefinitionId() !is null) {
             flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(taskEntity.getProcessDefinitionId());
             FlowElement flowElement = process.getFlowElement(taskEntity.getTaskDefinitionKey(), true);
-            if (flowElement instanceof UserTask) {
-                UserTask userTask = (UserTask) flowElement;
+            if (cast(UserTask)flowElement !is null) {
+                UserTask userTask = cast(UserTask) flowElement;
                 executeTaskListeners(userTask, taskEntity, eventType);
             }
         }
     }
 
     public void executeTaskListeners(UserTask userTask, TaskEntity taskEntity, string eventType) {
-        for (FlowableListener listener : userTask.getTaskListeners()) {
+        foreach (FlowableListener listener ; userTask.getTaskListeners()) {
             string event = listener.getEvent();
-            if (event.equals(eventType) || event.equals(TaskListener.EVENTNAME_ALL_EVENTS)) {
+            if (event == (eventType) || event == (TaskListener.EVENTNAME_ALL_EVENTS)) {
                 BaseTaskListener taskListener = createTaskListener(listener);
 
                 if (listener.getOnTransaction() !is null) {
-                    planTransactionDependentTaskListener(ExecutionHelper.getExecution(taskEntity.getExecutionId()), (TransactionDependentTaskListener) taskListener, listener);
+                    planTransactionDependentTaskListener(ExecutionHelper.getExecution(taskEntity.getExecutionId()), cast(TransactionDependentTaskListener) taskListener, listener);
                 } else {
                     taskEntity.setEventName(eventType);
                     taskEntity.setEventHandlerId(listener.getId());
 
                     try {
                         CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor()
-                                .handleInvocation(new TaskListenerInvocation((TaskListener) taskListener, taskEntity));
+                                .handleInvocation(new TaskListenerInvocation(cast(TaskListener) taskListener, taskEntity));
                     } catch (Exception e) {
-                        throw new FlowableException("Exception while invoking TaskListener: " + e.getMessage(), e);
+                        throw new FlowableException("Exception while invoking TaskListener: ");
                     } finally {
                         taskEntity.setEventName(null);
                     }
@@ -140,18 +144,18 @@ class ListenerNotificationHelper {
         BaseTaskListener taskListener = null;
 
         ListenerFactory listenerFactory = CommandContextUtil.getProcessEngineConfiguration().getListenerFactory();
-        if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(listener.getImplementationType())) {
+        if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_CLASS,(listener.getImplementationType())) == 0) {
             taskListener = listenerFactory.createClassDelegateTaskListener(listener);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
+        } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION,(listener.getImplementationType())) == 0) {
             taskListener = listenerFactory.createExpressionTaskListener(listener);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
-            if (listener.getOnTransaction() !is null) {
+        } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION,(listener.getImplementationType())) == 0) {
+            if (listener.getOnTransaction() !is null && listener.getOnTransaction().length != 0) {
                 taskListener = listenerFactory.createTransactionDependentDelegateExpressionTaskListener(listener);
             } else {
                 taskListener = listenerFactory.createDelegateExpressionTaskListener(listener);
             }
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_INSTANCE.equalsIgnoreCase(listener.getImplementationType())) {
-            taskListener = (TaskListener) listener.getInstance();
+        } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_INSTANCE ,(listener.getImplementationType())) == 0) {
+            taskListener = cast(TaskListener) listener.getInstance();
         }
         return taskListener;
     }
@@ -161,20 +165,20 @@ class ListenerNotificationHelper {
         CustomPropertiesResolver customPropertiesResolver = createCustomPropertiesResolver(listener);
         Map!(string, Object) customPropertiesMapToUse = invokeCustomPropertiesResolver(execution, customPropertiesResolver);
 
-        TransactionDependentTaskListenerExecutionScope scope = new TransactionDependentTaskListenerExecutionScope(
-                execution.getProcessInstanceId(), execution.getId(), (Task) execution.getCurrentFlowElement(), executionVariablesToUse, customPropertiesMapToUse);
-        addTransactionListener(listener, new ExecuteTaskListenerTransactionListener(taskListener, scope,
+        TransactionDependentTaskListenerExecutionScope scop = new TransactionDependentTaskListenerExecutionScope(
+                execution.getProcessInstanceId(), execution.getId(), cast(Task) execution.getCurrentFlowElement(), executionVariablesToUse, customPropertiesMapToUse);
+        addTransactionListener(listener, new ExecuteTaskListenerTransactionListener(taskListener, scop,
                         CommandContextUtil.getProcessEngineConfiguration().getCommandExecutor()));
     }
 
     protected CustomPropertiesResolver createCustomPropertiesResolver(FlowableListener listener) {
         CustomPropertiesResolver customPropertiesResolver = null;
         ListenerFactory listenerFactory = CommandContextUtil.getProcessEngineConfiguration().getListenerFactory();
-        if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(listener.getCustomPropertiesResolverImplementationType())) {
+        if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_CLASS ,(listener.getCustomPropertiesResolverImplementationType())) == 0) {
             customPropertiesResolver = listenerFactory.createClassDelegateCustomPropertiesResolver(listener);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(listener.getCustomPropertiesResolverImplementationType())) {
+        } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION,(listener.getCustomPropertiesResolverImplementationType())) == 0) {
             customPropertiesResolver = listenerFactory.createExpressionCustomPropertiesResolver(listener);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(listener.getCustomPropertiesResolverImplementationType())) {
+        } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION,(listener.getCustomPropertiesResolverImplementationType())) == 0) {
             customPropertiesResolver = listenerFactory.createDelegateExpressionCustomPropertiesResolver(listener);
         }
         return customPropertiesResolver;
@@ -190,13 +194,13 @@ class ListenerNotificationHelper {
 
     protected void addTransactionListener(FlowableListener listener, TransactionListener transactionListener) {
         TransactionContext transactionContext = Context.getTransactionContext();
-        if (TransactionDependentExecutionListener.ON_TRANSACTION_BEFORE_COMMIT.equals(listener.getOnTransaction())) {
+        if (TransactionDependentExecutionListener.ON_TRANSACTION_BEFORE_COMMIT == (listener.getOnTransaction())) {
             transactionContext.addTransactionListener(TransactionState.COMMITTING, transactionListener);
 
-        } else if (TransactionDependentExecutionListener.ON_TRANSACTION_COMMITTED.equals(listener.getOnTransaction())) {
+        } else if (TransactionDependentExecutionListener.ON_TRANSACTION_COMMITTED == (listener.getOnTransaction())) {
             transactionContext.addTransactionListener(TransactionState.COMMITTED, transactionListener);
 
-        } else if (TransactionDependentExecutionListener.ON_TRANSACTION_ROLLED_BACK.equals(listener.getOnTransaction())) {
+        } else if (TransactionDependentExecutionListener.ON_TRANSACTION_ROLLED_BACK == (listener.getOnTransaction())) {
             transactionContext.addTransactionListener(TransactionState.ROLLED_BACK, transactionListener);
 
         }

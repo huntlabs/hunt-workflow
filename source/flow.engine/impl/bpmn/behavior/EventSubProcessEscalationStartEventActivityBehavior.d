@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.behavior.EventSubProcessEscalationStartEventActivityBehavior;
 
 
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
 /**
  * Implementation of the BPMN 2.0 event subprocess start event.
  *
@@ -24,11 +24,9 @@ import flow.engine.impl.util.CommandContextUtil;
  */
 class EventSubProcessEscalationStartEventActivityBehavior : FlowNodeActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
     override
     public void trigger(DelegateExecution execution, string signalName, Object signalData) {
-        CommandContextUtil.getActivityInstanceEntityManager().recordActivityStart((ExecutionEntity) execution);
+        CommandContextUtil.getActivityInstanceEntityManager().recordActivityStart(cast(ExecutionEntity) execution);
         super.trigger(execution, signalName, signalData);
     }
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 
 import flow.common.api.deleg.Expression;
 import flow.common.api.variable.VariableContainer;
@@ -18,7 +18,7 @@ import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.cfg.DelegateExpressionFieldInjectionMode;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.variable.service.api.deleg.VariableScope;
-
+import flow.engine.impl.bpmn.helper.ClassDelegate;
 import hunt.collection.List;
 
 /**
@@ -35,20 +35,20 @@ class DelegateExpressionUtil {
 
         // Note: we can't cache the result of the expression, because the
         // execution can change: eg. delegateExpression='${mySpringBeanFactory.randomSpringBean()}'
-        Object delegate = expression.getValue(variableScope);
+        Object deleg = expression.getValue(variableScope);
 
         if (fieldDeclarations !is null && fieldDeclarations.size() > 0) {
 
             DelegateExpressionFieldInjectionMode injectionMode = CommandContextUtil.getProcessEngineConfiguration().getDelegateExpressionFieldInjectionMode();
             if (injectionMode == DelegateExpressionFieldInjectionMode.COMPATIBILITY) {
-                ClassDelegate.applyFieldDeclaration(fieldDeclarations, delegate, true);
+                ClassDelegate.applyFieldDeclaration(fieldDeclarations, deleg, true);
             } else if (injectionMode == DelegateExpressionFieldInjectionMode.MIXED) {
-                ClassDelegate.applyFieldDeclaration(fieldDeclarations, delegate, false);
+                ClassDelegate.applyFieldDeclaration(fieldDeclarations, deleg, false);
             }
 
         }
 
-        return delegate;
+        return deleg;
     }
 
 }

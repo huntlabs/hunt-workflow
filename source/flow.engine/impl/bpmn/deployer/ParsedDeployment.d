@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.deployer.ParsedDeployment;
 
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -37,7 +37,7 @@ class ParsedDeployment {
     protected Map!(ProcessDefinitionEntity, BpmnParse) mapProcessDefinitionsToParses;
     protected Map!(ProcessDefinitionEntity, EngineResource) mapProcessDefinitionsToResources;
 
-    public ParsedDeployment(
+    this(
             DeploymentEntity entity, List!ProcessDefinitionEntity processDefinitions,
             Map!(ProcessDefinitionEntity, BpmnParse) mapProcessDefinitionsToParses,
             Map!(ProcessDefinitionEntity, EngineResource) mapProcessDefinitionsToResources) {

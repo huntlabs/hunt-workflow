@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.SignalThrowingEventListener;
 
 import hunt.collection.List;
 
@@ -25,7 +25,7 @@ import flow.engine.impl.util.EventSubscriptionUtil;
 import flow.engine.repository.ProcessDefinition;
 import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
-
+import flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
 /**
  * An {@link FlowableEventListener} that throws a signal event when an event is dispatched to it.
  *
@@ -37,13 +37,12 @@ class SignalThrowingEventListener : BaseDelegateEventListener {
     protected string signalName;
     protected bool processInstanceScope = true;
 
-    override
     public void onEvent(FlowableEvent event) {
-        if (isValidEvent(event) && event instanceof FlowableEngineEvent) {
+        if (isValidEvent(event) && cast(FlowableEngineEvent)event !is null) {
 
-            FlowableEngineEvent engineEvent = (FlowableEngineEvent) event;
+            FlowableEngineEvent engineEvent = cast(FlowableEngineEvent) event;
 
-            if (engineEvent.getProcessInstanceId() is null && processInstanceScope) {
+            if ((engineEvent.getProcessInstanceId() is null || engineEvent.getProcessInstanceId().length == 0) && processInstanceScope) {
                 throw new FlowableIllegalArgumentException("Cannot throw process-instance scoped signal, since the dispatched event is not part of an ongoing process instance");
             }
 
@@ -54,7 +53,7 @@ class SignalThrowingEventListener : BaseDelegateEventListener {
                 subscriptionEntities = eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(engineEvent.getProcessInstanceId(), signalName);
             } else {
                 string tenantId = null;
-                if (engineEvent.getProcessDefinitionId() !is null) {
+                if (engineEvent.getProcessDefinitionId() !is null && engineEvent.getProcessDefinitionId().length != 0) {
                     ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext)
                             .getDeploymentManager()
                             .findDeployedProcessDefinitionById(engineEvent.getProcessDefinitionId());
@@ -63,7 +62,7 @@ class SignalThrowingEventListener : BaseDelegateEventListener {
                 subscriptionEntities = eventSubscriptionService.findSignalEventSubscriptionsByEventName(signalName, tenantId);
             }
 
-            for (SignalEventSubscriptionEntity signalEventSubscriptionEntity : subscriptionEntities) {
+            foreach (SignalEventSubscriptionEntity signalEventSubscriptionEntity ; subscriptionEntities) {
                 EventSubscriptionUtil.eventReceived(signalEventSubscriptionEntity, null, false);
             }
         }
@@ -77,7 +76,6 @@ class SignalThrowingEventListener : BaseDelegateEventListener {
         this.processInstanceScope = processInstanceScope;
     }
 
-    override
     public bool isFailOnException() {
         return true;
     }

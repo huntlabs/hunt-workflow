@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.data.SimpleDataInputAssociation;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
-
+import flow.engine.impl.bpmn.data.AbstractDataAssociation;
+import flow.engine.impl.bpmn.data.Assignment;
 /**
  * A simple data input association between a source and a target with assignments
  *
@@ -25,16 +26,16 @@ import flow.engine.deleg.DelegateExecution;
  */
 class SimpleDataInputAssociation : AbstractDataAssociation {
 
-    private static final long serialVersionUID = 1L;
+    protected List!Assignment assignments  ;//= new ArrayList<>();
 
-    protected List!Assignment assignments = new ArrayList<>();
-
-    public SimpleDataInputAssociation(Expression sourceExpression, string target) {
+    this(Expression sourceExpression, string target) {
         super(sourceExpression, target);
+        assignments = new ArrayList!Assignment;
     }
 
-    public SimpleDataInputAssociation(string source, string target) {
+    this(string source, string target) {
         super(source, target);
+        assignments = new ArrayList!Assignment;
     }
 
     public void addAssignment(Assignment assignment) {
@@ -43,7 +44,7 @@ class SimpleDataInputAssociation : AbstractDataAssociation {
 
     override
     public void evaluate(DelegateExecution execution) {
-        for (Assignment assignment : this.assignments) {
+        foreach (Assignment assignment ; this.assignments) {
             assignment.evaluate(execution);
         }
     }

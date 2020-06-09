@@ -22,7 +22,7 @@ import hunt.collection.LinkedList;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.exceptions.XMLException;
 import flow.bpmn.model.BoundaryEvent;

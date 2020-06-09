@@ -11,12 +11,11 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.IntermediateThrowCompensationEventActivityBehavior;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.Activity;
 import flow.bpmn.model.Association;
 import flow.bpmn.model.BoundaryEvent;
@@ -34,6 +33,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
+import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
 
 /**
  * @author Tijs Rademakers
@@ -41,17 +41,15 @@ import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSub
  */
 class IntermediateThrowCompensationEventActivityBehavior : FlowNodeActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
+    protected  CompensateEventDefinition compensateEventDefinition;
 
-    protected final CompensateEventDefinition compensateEventDefinition;
-
-    public IntermediateThrowCompensationEventActivityBehavior(CompensateEventDefinition compensateEventDefinition) {
+    this(CompensateEventDefinition compensateEventDefinition) {
         this.compensateEventDefinition = compensateEventDefinition;
     }
 
     override
     public void execute(DelegateExecution execution) {
-        ThrowEvent throwEvent = (ThrowEvent) execution.getCurrentFlowElement();
+        ThrowEvent throwEvent = cast(ThrowEvent) execution.getCurrentFlowElement();
 
         /*
          * From the BPMN 2.0 spec:
@@ -61,13 +59,13 @@ class IntermediateThrowCompensationEventActivityBehavior : FlowNodeActivityBehav
          * If an Activity is not supplied, then the compensation is broadcast to all completed Activities in the current Sub- Process (if present), or the entire Process instance (if at the global
          * level). This “throws” the compensation.
          */
-        final string activityRef = compensateEventDefinition.getActivityRef();
+        string activityRef = compensateEventDefinition.getActivityRef();
 
         CommandContext commandContext = Context.getCommandContext();
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
 
-        List!CompensateEventSubscriptionEntity eventSubscriptions = new ArrayList<>();
-        if (StringUtils.isNotEmpty(activityRef)) {
+        List!CompensateEventSubscriptionEntity eventSubscriptions = new ArrayList!CompensateEventSubscriptionEntity();
+        if (activityRef !is null && activityRef.length != 0) {
 
             // If an activity ref is provided, only that activity is compensated
             List!CompensateEventSubscriptionEntity compensationEvents = eventSubscriptionService
@@ -79,19 +77,19 @@ class IntermediateThrowCompensationEventActivityBehavior : FlowNodeActivityBehav
                 string processDefinitionId = execution.getProcessDefinitionId();
                 Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
                 if (process is null) {
-                    throw new FlowableException("Process model (id = " + processDefinitionId + ") could not be found");
+                    throw new FlowableException("Process model (id = " ~ processDefinitionId ~ ") could not be found");
                 }
 
                 string compensationActivityId = null;
                 FlowElement flowElement = process.getFlowElement(activityRef, true);
-                if (flowElement instanceof Activity) {
-                    Activity activity = (Activity) flowElement;
+                if (cast(Activity)flowElement !is null) {
+                    Activity activity = cast(Activity) flowElement;
                     if (activity.isForCompensation()) {
                         List!Association associations = process.findAssociationsWithTargetRefRecursive(activity.getId());
-                        for (Association association : associations) {
+                        foreach (Association association ; associations) {
                             FlowElement sourceElement = process.getFlowElement(association.getSourceRef(), true);
-                            if (sourceElement instanceof BoundaryEvent) {
-                                BoundaryEvent sourceBoundaryEvent = (BoundaryEvent) sourceElement;
+                            if (cast(BoundaryEvent)sourceElement !is null) {
+                                BoundaryEvent sourceBoundaryEvent = cast(BoundaryEvent) sourceElement;
                                 if (sourceBoundaryEvent.getAttachedToRefId() !is null) {
                                     compensationActivityId = sourceBoundaryEvent.getAttachedToRefId();
                                     break;
@@ -121,8 +119,8 @@ class IntermediateThrowCompensationEventActivityBehavior : FlowNodeActivityBehav
                 flowElementsContainer = throwEvent.getSubProcess();
             }
 
-            for (FlowElement flowElement : flowElementsContainer.getFlowElements()) {
-                if (flowElement instanceof Activity) {
+            foreach (FlowElement flowElement ; flowElementsContainer.getFlowElements()) {
+                if (cast(Activity)flowElement !is null) {
                     eventSubscriptions.addAll(eventSubscriptionService
                             .findCompensateEventSubscriptionsByProcessInstanceIdAndActivityId(execution.getProcessInstanceId(), flowElement.getId()));
                 }

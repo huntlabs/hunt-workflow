@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.DelegateExpressionTaskListener;
 
 import hunt.collection.List;
 
@@ -27,27 +27,26 @@ import flow.task.service.deleg.TaskListener;
 /**
  * @author Joram Barrez
  */
-class DelegateExpressionTaskListener implements TaskListener {
+class DelegateExpressionTaskListener : TaskListener {
 
     protected Expression expression;
-    private final List!FieldDeclaration fieldDeclarations;
+    private  List!FieldDeclaration fieldDeclarations;
 
-    public DelegateExpressionTaskListener(Expression expression, List!FieldDeclaration fieldDeclarations) {
+    this(Expression expression, List!FieldDeclaration fieldDeclarations) {
         this.expression = expression;
         this.fieldDeclarations = fieldDeclarations;
     }
 
-    override
     public void notify(DelegateTask delegateTask) {
-        Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, delegateTask, fieldDeclarations);
-        if (delegate instanceof TaskListener) {
+        Object deleg = DelegateExpressionUtil.resolveDelegateExpression(expression, delegateTask, fieldDeclarations);
+        if (cast(TaskListener)deleg !is null) {
             try {
-                CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new TaskListenerInvocation((TaskListener) delegate, delegateTask));
+                CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new TaskListenerInvocation(cast(TaskListener) deleg, delegateTask));
             } catch (Exception e) {
-                throw new FlowableException("Exception while invoking TaskListener: " + e.getMessage(), e);
+                throw new FlowableException("Exception while invoking TaskListener: ");
             }
         } else {
-            throw new FlowableIllegalArgumentException("Delegate expression " + expression + " did not resolve to an implementation of " + TaskListener.class);
+            throw new FlowableIllegalArgumentException("Delegate expression " ~ " did not resolve to an implementation of " ~ typeid(TaskListener).toString);
         }
     }
 

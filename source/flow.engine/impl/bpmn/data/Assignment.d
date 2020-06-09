@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.data.Assignment;
 
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
@@ -27,13 +27,13 @@ class Assignment {
 
     protected Expression toExpression;
 
-    public Assignment(Expression fromExpression, Expression toExpression) {
+    this(Expression fromExpression, Expression toExpression) {
         this.fromExpression = fromExpression;
         this.toExpression = toExpression;
     }
 
     public void evaluate(DelegateExecution execution) {
-        VariableScope variableScope = (VariableScope) execution;
+        VariableScope variableScope = cast (VariableScope) execution;
         Object value = this.fromExpression.getValue(variableScope);
         this.toExpression.setValue(value, variableScope);
     }

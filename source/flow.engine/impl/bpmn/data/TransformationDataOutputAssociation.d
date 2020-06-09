@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.data.TransformationDataOutputAssociation;
 
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
+import flow.engine.impl.bpmn.data.AbstractDataAssociation;
+
 
 /**
  * A transformation based data output association
@@ -22,11 +24,9 @@ import flow.engine.deleg.DelegateExecution;
  */
 class TransformationDataOutputAssociation : AbstractDataAssociation {
 
-    private static final long serialVersionUID = 1L;
-
     protected Expression transformation;
 
-    public TransformationDataOutputAssociation(string sourceRef, string targetRef, Expression transformation) {
+    this(string sourceRef, string targetRef, Expression transformation) {
         super(sourceRef, targetRef);
         this.transformation = transformation;
     }

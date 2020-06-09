@@ -11,23 +11,26 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.bpmn.data.ClassStructureDefinition;
 
+import flow.engine.impl.bpmn.data.FieldBaseStructureDefinition;
 /**
  * Represents a structure encapsulated in a class
  *
  * @author Esteban Robles Luna
  */
-class ClassStructureDefinition implements FieldBaseStructureDefinition {
+class ClassStructureDefinition : FieldBaseStructureDefinition {
 
     protected string id;
 
-    protected Class<?> classStructure;
+    //protected Class<?> classStructure;
+    protected TypeInfo classStructure;
 
-    public ClassStructureDefinition(Class<?> classStructure) {
-        this(classStructure.getName(), classStructure);
+    this(TypeInfo classStructure) {
+        this(classStructure.toString, classStructure);
     }
 
-    public ClassStructureDefinition(string id, Class<?> classStructure) {
+    this(string id, TypeInfo classStructure) {
         this.id = id;
         this.classStructure = classStructure;
     }

@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
 
 import flow.common.api.deleg.event.AbstractFlowableEventListener;
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.api.deleg.event.FlowableEventListener;
-
+import hunt.Exceptions;
 /**
  * Base implementation of a {@link FlowableEventListener}, used when creating event-listeners that are part of a BPMN definition.
  *
@@ -24,25 +24,26 @@ import flow.common.api.deleg.event.FlowableEventListener;
  */
 abstract class BaseDelegateEventListener : AbstractFlowableEventListener {
 
-    protected Class<?> entityClass;
+    protected TypeInfo entityClass;
 
-    class<?> getEntityClass() {
+    TypeInfo getEntityClass() {
         return entityClass;
     }
 
-    public void setEntityClass(Class<?> entityClass) {
+    public void setEntityClass(TypeInfo entityClass) {
         this.entityClass = entityClass;
     }
 
     protected bool isValidEvent(FlowableEvent event) {
         bool valid = false;
         if (entityClass !is null) {
-            if (event instanceof FlowableEntityEvent) {
-                Object entity = ((FlowableEntityEvent) event).getEntity();
-                if (entity !is null) {
-                    valid = entityClass.isAssignableFrom(entity.getClass());
-                }
-            }
+            implementationMissing(false);
+            //if (cast(FlowableEntityEvent)event !is null) {
+            //    Object entity = (cast(FlowableEntityEvent) event).getEntity();
+            //    if (entity !is null) {
+            //        valid = entityClass.isAssignableFrom(entity.getClass());
+            //    }
+            //}
         } else {
             // If no class is specified, all events are valid
             valid = true;

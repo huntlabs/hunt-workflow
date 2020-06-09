@@ -10,25 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.data.FieldBaseStructureInstance;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
+import flow.engine.impl.bpmn.data.StructureInstance;
+import flow.engine.impl.bpmn.data.FieldBaseStructureDefinition;
 
 /**
  * An instance of {@link FieldBaseStructureDefinition}
  *
  * @author Esteban Robles Luna
  */
-class FieldBaseStructureInstance implements StructureInstance {
+class FieldBaseStructureInstance : StructureInstance {
 
     protected FieldBaseStructureDefinition structureDefinition;
 
     protected Map!(string, Object) fieldValues;
 
-    public FieldBaseStructureInstance(FieldBaseStructureDefinition structureDefinition) {
+    this(FieldBaseStructureDefinition structureDefinition) {
         this.structureDefinition = structureDefinition;
-        this.fieldValues = new HashMap<>();
+        this.fieldValues = new HashMap!(string, Object)();
     }
 
     public Object getFieldValue(string fieldName) {

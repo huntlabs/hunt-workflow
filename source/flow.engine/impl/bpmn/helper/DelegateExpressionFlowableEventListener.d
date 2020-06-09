@@ -10,15 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.DelegateExpressionFlowableEventListener;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.api.deleg.event.FlowableEventListener;
-import flow.variable.service.impl.el.NoExecutionVariableScope;
-
+//import flow.variable.service.impl.el.NoExecutionVariableScope;
+import flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
+import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 /**
  * An {@link FlowableEventListener} implementation which resolves an expression to a delegate {@link FlowableEventListener} instance and uses this for event notification. <br>
  * <br>
@@ -31,34 +32,32 @@ class DelegateExpressionFlowableEventListener : BaseDelegateEventListener {
     protected Expression expression;
     protected bool failOnException;
 
-    public DelegateExpressionFlowableEventListener(Expression expression, Class<?> entityClass) {
+    this(Expression expression, TypeInfo entityClass) {
         this.expression = expression;
         setEntityClass(entityClass);
     }
 
-    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event)) {
-            Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, new NoExecutionVariableScope());
-            if (delegate instanceof FlowableEventListener) {
+            Object deleg = DelegateExpressionUtil.resolveDelegateExpression(expression, new NoExecutionVariableScope());
+            if (cast(FlowableEventListener)deleg !is null) {
                 // Cache result of isFailOnException() from delegate-instance
                 // until next event is received. This prevents us from having to resolve
                 // the expression twice when an error occurs.
-                failOnException = ((FlowableEventListener) delegate).isFailOnException();
+                failOnException = (cast(FlowableEventListener) deleg).isFailOnException();
 
                 // Call the delegate
-                ((FlowableEventListener) delegate).onEvent(event);
+                (cast(FlowableEventListener) deleg).onEvent(event);
             } else {
 
                 // Force failing, since the exception we're about to throw
                 // cannot be ignored, because it did not originate from the listener itself
                 failOnException = true;
-                throw new FlowableIllegalArgumentException("Delegate expression " + expression + " did not resolve to an implementation of " + FlowableEventListener.class.getName());
+                throw new FlowableIllegalArgumentException("Delegate expression " ~ expression ~ " did not resolve to an implementation of " ~ typeid(FlowableEventListener).toString);
             }
         }
     }
 
-    override
     public bool isFailOnException() {
         return failOnException;
     }

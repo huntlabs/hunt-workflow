@@ -15,7 +15,7 @@
 import hunt.collection.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.CancelEventDefinition;

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.listener.ExpressionTaskListener;
 
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.TaskListener;
@@ -20,15 +20,14 @@ import flow.task.service.deleg.DelegateTask;
 /**
  * @author Joram Barrez
  */
-class ExpressionTaskListener implements TaskListener {
+class ExpressionTaskListener : TaskListener {
 
     protected Expression expression;
 
-    public ExpressionTaskListener(Expression expression) {
+    this(Expression expression) {
         this.expression = expression;
     }
 
-    override
     public void notify(DelegateTask delegateTask) {
         expression.getValue(delegateTask);
     }

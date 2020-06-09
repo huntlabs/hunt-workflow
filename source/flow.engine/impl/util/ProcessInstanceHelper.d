@@ -19,7 +19,7 @@ import hunt.collection.List;
 import hunt.collection.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.EventDefinition;
 import flow.bpmn.model.EventSubProcess;

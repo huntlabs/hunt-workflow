@@ -19,7 +19,7 @@ import hunt.collection.List;
 import hunt.collection.Map;
 import java.util.Objects;
 
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ExtensionElement;
 import flow.bpmn.model.StartEvent;

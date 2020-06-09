@@ -10,28 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.data.SimpleStructureDefinition;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
+import flow.engine.impl.bpmn.data.FieldBaseStructureDefinition;
+import flow.engine.impl.bpmn.data.StructureInstance;
+import flow.engine.impl.bpmn.data.FieldBaseStructureInstance;
 
 /**
  * Represents a simple in memory structure
  *
  * @author Esteban Robles Luna
  */
-class SimpleStructureDefinition implements FieldBaseStructureDefinition {
+class SimpleStructureDefinition : FieldBaseStructureDefinition {
 
     protected string id;
 
     protected List!string fieldNames;
 
-    protected List<Class<?>> fieldTypes;
+    //protected List<Class<?>> fieldTypes;
+    protected List!TypeInfo fieldTypes;
 
-    public SimpleStructureDefinition(string id) {
+    this(string id) {
         this.id = id;
-        this.fieldNames = new ArrayList<>();
-        this.fieldTypes = new ArrayList<>();
+        this.fieldNames = new ArrayList!string();
+        this.fieldTypes = new ArrayList!TypeInfo();
     }
 
     override
@@ -44,14 +48,14 @@ class SimpleStructureDefinition implements FieldBaseStructureDefinition {
         return this.id;
     }
 
-    public void setFieldName(int index, string fieldName, Class<?> type) {
+    public void setFieldName(int index, string fieldName, TypeInfo type) {
         this.growListToContain(index, this.fieldNames);
         this.growListToContain(index, this.fieldTypes);
         this.fieldNames.set(index, fieldName);
         this.fieldTypes.set(index, type);
     }
 
-    private void growListToContain(int index, List<?> list) {
+    private void growListToContain(int index, List!Object list) {
         if (!(list.size() - 1 >= index)) {
             for (int i = list.size(); i <= index; i++) {
                 list.add(null);
@@ -65,7 +69,7 @@ class SimpleStructureDefinition implements FieldBaseStructureDefinition {
     }
 
     override
-    class<?> getFieldTypeAt(int index) {
+    TypeInfo getFieldTypeAt(int index) {
         return this.fieldTypes.get(index);
     }
 

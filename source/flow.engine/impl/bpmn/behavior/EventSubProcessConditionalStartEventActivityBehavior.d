@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.EventSubProcessConditionalStartEventActivityBehavior;
 
 import flow.bpmn.model.ConditionalEventDefinition;
 import flow.common.api.deleg.Expression;
@@ -20,7 +20,8 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
+import hunt.Boolean;
 /**
  * Implementation of the BPMN 2.0 event subprocess start event.
  *
@@ -28,12 +29,10 @@ import flow.engine.impl.util.CommandContextUtil;
  */
 class EventSubProcessConditionalStartEventActivityBehavior : FlowNodeActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
     protected ConditionalEventDefinition conditionalEventDefinition;
     protected string conditionExpression;
 
-    public EventSubProcessConditionalStartEventActivityBehavior(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
+    this(ConditionalEventDefinition conditionalEventDefinition, string conditionExpression) {
         this.conditionalEventDefinition = conditionalEventDefinition;
         this.conditionExpression = conditionExpression;
     }
@@ -44,8 +43,8 @@ class EventSubProcessConditionalStartEventActivityBehavior : FlowNodeActivityBeh
 
         Expression expression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager().createExpression(conditionExpression);
         Object result = expression.getValue(execution);
-        if (result !is null && result instanceof bool && (bool) result) {
-            CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart((ExecutionEntity) execution);
+        if (result !is null && cast(Boolean)result !is null && (cast(Boolean)result).booleanValue()) {
+            CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(cast(ExecutionEntity) execution);
             super.trigger(execution, signalName, signalData);
         }
     }

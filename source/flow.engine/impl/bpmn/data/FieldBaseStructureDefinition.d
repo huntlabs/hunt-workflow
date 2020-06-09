@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.data.FieldBaseStructureDefinition;
 
 
+import flow.engine.impl.bpmn.data.StructureDefinition;
 /**
  * Represents a structure definition based on fields
  *
@@ -42,5 +44,5 @@ interface FieldBaseStructureDefinition : StructureDefinition {
      *            the position of the field
      * @return the type of the field
      */
-    Class<?> getFieldTypeAt(int index);
+    TypeInfo getFieldTypeAt(int index);
 }

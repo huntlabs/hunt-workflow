@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.listener.ExpressionExecutionListener;
 
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
@@ -22,15 +22,14 @@ import flow.engine.deleg.ExecutionListener;
  *
  * @author Frederik Heremans
  */
-class ExpressionExecutionListener implements ExecutionListener {
+class ExpressionExecutionListener : ExecutionListener {
 
     protected Expression expression;
 
-    public ExpressionExecutionListener(Expression expression) {
+    this(Expression expression) {
         this.expression = expression;
     }
 
-    override
     public void notify(DelegateExecution execution) {
         // Return value of expression is ignored
         expression.getValue(execution);

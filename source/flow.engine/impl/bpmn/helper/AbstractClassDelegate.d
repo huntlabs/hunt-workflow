@@ -11,15 +11,15 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.helper.AbstractClassDelegate;
 
 import hunt.collection.List;
 
 import flow.bpmn.model.ServiceTask;
-import flow.common.util.ReflectUtil;
+//import flow.common.util.ReflectUtil;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
-
+import hunt.Exceptions;
 /**
  * Helper class for bpmn constructs that allow class delegation.
  *
@@ -29,19 +29,17 @@ import flow.engine.impl.bpmn.parser.FieldDeclaration;
  */
 abstract class AbstractClassDelegate : AbstractBpmnActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
     protected string serviceTaskId;
     protected string className;
     protected List!FieldDeclaration fieldDeclarations;
 
-    public AbstractClassDelegate(string className, List!FieldDeclaration fieldDeclarations) {
+    this(string className, List!FieldDeclaration fieldDeclarations) {
         this.className = className;
         this.fieldDeclarations = fieldDeclarations;
     }
 
-    public AbstractClassDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
-        this.className = clazz.getName();
+    this(TypeInfo clazz, List!FieldDeclaration fieldDeclarations) {
+        this.className = clazz.toString();
         this.fieldDeclarations = fieldDeclarations;
     }
 
@@ -52,20 +50,22 @@ abstract class AbstractClassDelegate : AbstractBpmnActivityBehavior {
     // --HELPER METHODS (also usable by external classes)
     // ----------------------------------------
 
-    public static Object defaultInstantiateDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations, ServiceTask serviceTask) {
-        return defaultInstantiateDelegate(clazz.getName(), fieldDeclarations, serviceTask);
+    public static Object defaultInstantiateDelegate(TypeInfo clazz, List!FieldDeclaration fieldDeclarations, ServiceTask serviceTask) {
+        return defaultInstantiateDelegate(clazz.toString, fieldDeclarations, serviceTask);
     }
 
-    public static Object defaultInstantiateDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
-        return defaultInstantiateDelegate(clazz.getName(), fieldDeclarations);
+    public static Object defaultInstantiateDelegate(TypeInfo clazz, List!FieldDeclaration fieldDeclarations) {
+        return defaultInstantiateDelegate(clazz.toString, fieldDeclarations);
     }
 
     public static Object defaultInstantiateDelegate(string className, List!FieldDeclaration fieldDeclarations, ServiceTask serviceTask) {
-        Object object = ReflectUtil.instantiate(className);
+        //Object object = ReflectUtil.instantiate(className);
+        Object object = Object.factory(className);
         applyFieldDeclaration(fieldDeclarations, object);
 
         if (serviceTask !is null) {
-            ReflectUtil.invokeSetterOrField(object, "serviceTask", serviceTask, false);
+            implementationMissing(false);
+           // ReflectUtil.invokeSetterOrField(object, "serviceTask", serviceTask, false);
         }
 
         return object;
@@ -81,7 +81,7 @@ abstract class AbstractClassDelegate : AbstractBpmnActivityBehavior {
 
     public static void applyFieldDeclaration(List!FieldDeclaration fieldDeclarations, Object target, bool throwExceptionOnMissingField) {
         if (fieldDeclarations !is null) {
-            for (FieldDeclaration declaration : fieldDeclarations) {
+            foreach (FieldDeclaration declaration ; fieldDeclarations) {
                 applyFieldDeclaration(declaration, target, throwExceptionOnMissingField);
             }
         }
@@ -92,7 +92,8 @@ abstract class AbstractClassDelegate : AbstractBpmnActivityBehavior {
     }
 
     public static void applyFieldDeclaration(FieldDeclaration declaration, Object target, bool throwExceptionOnMissingField) {
-        ReflectUtil.invokeSetterOrField(target, declaration.getName(), declaration.getValue(), throwExceptionOnMissingField);
+        implementationMissing(false);
+        //ReflectUtil.invokeSetterOrField(target, declaration.getName(), declaration.getValue(), throwExceptionOnMissingField);
     }
 
     /**

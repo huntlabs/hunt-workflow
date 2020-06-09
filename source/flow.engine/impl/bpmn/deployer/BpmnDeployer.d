@@ -10,15 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.deployer.BpmnDeployer;
 
 import hunt.collection;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ExtensionElement;
 import flow.bpmn.model.FlowElement;
@@ -46,19 +45,24 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.impl.persistence.entity.ResourceEntity;
 import flow.engine.impl.persistence.entity.ResourceEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+//import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import flow.engine.impl.bpmn.deployer.ParsedDeploymentBuilderFactory;
+import flow.engine.impl.bpmn.deployer.ParsedDeployment;
+import flow.engine.impl.bpmn.deployer.CachingAndArtifactsManager;
+import flow.engine.impl.bpmn.deployer.ProcessDefinitionDiagramHelper;
+import hunt.logging;
+import hunt.String;
+import std.conv : to;
+import hunt.Exceptions;
 
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class BpmnDeployer implements EngineDeployer {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(BpmnDeployer.class);
+class BpmnDeployer : EngineDeployer {
 
     protected IdGenerator idGenerator;
     protected ParsedDeploymentBuilderFactory parsedDeploymentBuilderFactory;
@@ -69,7 +73,7 @@ class BpmnDeployer implements EngineDeployer {
 
     override
     public void deploy(EngineDeployment deployment, Map!(string, Object) deploymentSettings) {
-        LOGGER.debug("Processing deployment {}", deployment.getName());
+        logInfo("Processing deployment {%s}", deployment.getName());
 
         // The ParsedDeployment represents the deployment, the process definitions, and the BPMN
         // resource, parse, and model associated with each process definition.
@@ -110,7 +114,7 @@ class BpmnDeployer implements EngineDeployer {
             dispatchProcessDefinitionEntityInitializedEvent(parsedDeployment);
         }
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             BpmnModel bpmnModel = parsedDeployment.getBpmnModelForProcessDefinition(processDefinition);
             createLocalizationValues(processDefinition.getId(), bpmnModel.getProcessById(processDefinition.getKey()));
         }
@@ -123,12 +127,12 @@ class BpmnDeployer implements EngineDeployer {
      */
     protected void createAndPersistNewDiagramsIfNeeded(ParsedDeployment parsedDeployment) {
 
-        final ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
-        final DeploymentEntity deploymentEntity = parsedDeployment.getDeployment();
+         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
+         DeploymentEntity deploymentEntity = parsedDeployment.getDeployment();
 
-        final ResourceEntityManager resourceEntityManager = processEngineConfiguration.getResourceEntityManager();
+         ResourceEntityManager resourceEntityManager = processEngineConfiguration.getResourceEntityManager();
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             if (processDefinitionDiagramHelper.shouldCreateDiagram(processDefinition, deploymentEntity)) {
                 ResourceEntity resource = processDefinitionDiagramHelper.createDiagramForProcessDefinition(
                         processDefinition, parsedDeployment.getBpmnParseForProcessDefinition(processDefinition));
@@ -147,7 +151,7 @@ class BpmnDeployer implements EngineDeployer {
     protected void setProcessDefinitionDiagramNames(ParsedDeployment parsedDeployment) {
         Map!(string, EngineResource) resources = parsedDeployment.getDeployment().getResources();
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             string diagramResourceName = ResourceNameUtil.getProcessDiagramResourceNameFromDeployment(processDefinition, resources);
             processDefinition.setDiagramResourceName(diagramResourceName);
         }
@@ -159,9 +163,9 @@ class BpmnDeployer implements EngineDeployer {
     protected Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) getPreviousVersionsOfProcessDefinitions(
             ParsedDeployment parsedDeployment) {
 
-        Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) result = new LinkedHashMap<>();
+        Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) result = new LinkedHashMap!(ProcessDefinitionEntity, ProcessDefinitionEntity)();
 
-        for (ProcessDefinitionEntity newDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity newDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             ProcessDefinitionEntity existingDefinition = bpmnDeploymentHelper.getMostRecentVersionOfProcessDefinition(newDefinition);
 
             if (existingDefinition !is null) {
@@ -178,9 +182,9 @@ class BpmnDeployer implements EngineDeployer {
     protected Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) getPreviousDerivedFromVersionsOfProcessDefinitions(
             ParsedDeployment parsedDeployment) {
 
-        Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) result = new LinkedHashMap<>();
+        Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) result = new LinkedHashMap!(ProcessDefinitionEntity, ProcessDefinitionEntity)();
 
-        for (ProcessDefinitionEntity newDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity newDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             ProcessDefinitionEntity existingDefinition = bpmnDeploymentHelper.getMostRecentDerivedVersionOfProcessDefinition(newDefinition);
 
             if (existingDefinition !is null) {
@@ -199,21 +203,21 @@ class BpmnDeployer implements EngineDeployer {
             Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) mapNewToOldProcessDefinitions) {
         CommandContext commandContext = Context.getCommandContext();
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
-            int version = 1;
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
+            int ver = 1;
 
             ProcessDefinitionEntity latest = mapNewToOldProcessDefinitions.get(processDefinition);
             if (latest !is null) {
-                version = latest.getVersion() + 1;
+              ver = latest.getVersion() + 1;
             }
 
-            processDefinition.setVersion(version);
+            processDefinition.setVersion(ver);
             processDefinition.setId(getIdForNewProcessDefinition(processDefinition));
             Process process = parsedDeployment.getProcessModelForProcessDefinition(processDefinition);
             FlowElement initialElement = process.getInitialFlowElement();
-            if (initialElement instanceof StartEvent) {
-                StartEvent startEvent = (StartEvent) initialElement;
-                if (startEvent.getFormKey() !is null) {
+            if (cast(StartEvent)initialElement !is null) {
+                StartEvent startEvent = cast(StartEvent) initialElement;
+                if (startEvent.getFormKey() !is null && startEvent.getFormKey().length != 0) {
                     processDefinition.setHasStartFormKey(true);
                 }
             }
@@ -233,7 +237,7 @@ class BpmnDeployer implements EngineDeployer {
 
         CommandContext commandContext = Context.getCommandContext();
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             int derivedVersion = 1;
 
             ProcessDefinitionEntity latest = mapNewToOldProcessDefinitions.get(processDefinition);
@@ -244,19 +248,19 @@ class BpmnDeployer implements EngineDeployer {
             processDefinition.setVersion(0);
             processDefinition.setDerivedVersion(derivedVersion);
             if (usePrefixId) {
-                processDefinition.setId(processDefinition.getIdPrefix() + idGenerator.getNextId());
+                processDefinition.setId(processDefinition.getIdPrefix() ~ idGenerator.getNextId());
             } else {
                 processDefinition.setId(idGenerator.getNextId());
             }
 
-            processDefinition.setDerivedFrom((string) deploymentSettings.get(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ID));
-            processDefinition.setDerivedFromRoot((string) deploymentSettings.get(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ROOT_ID));
+            processDefinition.setDerivedFrom((cast(String) deploymentSettings.get(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ID)).value);
+            processDefinition.setDerivedFromRoot((cast(String) deploymentSettings.get(DeploymentSettings.DERIVED_PROCESS_DEFINITION_ROOT_ID)).value);
 
             Process process = parsedDeployment.getProcessModelForProcessDefinition(processDefinition);
             FlowElement initialElement = process.getInitialFlowElement();
-            if (initialElement instanceof StartEvent) {
-                StartEvent startEvent = (StartEvent) initialElement;
-                if (startEvent.getFormKey() !is null) {
+            if (cast(StartEvent)initialElement !is null) {
+                StartEvent startEvent = cast(StartEvent) initialElement;
+                if (startEvent.getFormKey() !is null && startEvent.getFormKey().length != 0) {
                     processDefinition.setHasStartFormKey(true);
                 }
             }
@@ -278,7 +282,7 @@ class BpmnDeployer implements EngineDeployer {
         CommandContext commandContext = Context.getCommandContext();
         ProcessDefinitionEntityManager processDefinitionManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             processDefinitionManager.insert(processDefinition, false);
             bpmnDeploymentHelper.addAuthorizationsForNewProcessDefinition(parsedDeployment.getProcessModelForProcessDefinition(processDefinition), processDefinition);
         }
@@ -287,7 +291,7 @@ class BpmnDeployer implements EngineDeployer {
     protected void updateTimersAndEvents(ParsedDeployment parsedDeployment,
             Map!(ProcessDefinitionEntity, ProcessDefinitionEntity) mapNewToOldProcessDefinitions) {
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             bpmnDeploymentHelper.updateTimersAndEvents(processDefinition,
                     mapNewToOldProcessDefinitions.get(processDefinition),
                     parsedDeployment);
@@ -296,7 +300,7 @@ class BpmnDeployer implements EngineDeployer {
 
     protected void dispatchProcessDefinitionEntityInitializedEvent(ParsedDeployment parsedDeployment) {
         CommandContext commandContext = Context.getCommandContext();
-        for (ProcessDefinitionEntity processDefinitionEntity : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinitionEntity ; parsedDeployment.getAllProcessDefinitions()) {
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
@@ -318,11 +322,11 @@ class BpmnDeployer implements EngineDeployer {
 
         string nextId = idGenerator.getNextId();
 
-        string result = prefixId + processDefinition.getKey() + ":" + processDefinition.getVersion() + ":" + nextId; // ACT-505
+        string result = prefixId ~ processDefinition.getKey() ~ ":" ~ to!string(processDefinition.getVersion()) ~ ":" ~ nextId; // ACT-505
         // ACT-115: maximum id length is 64 characters
         if (result.length() > 64) {
             // The length is exceeded due to the long process definition key
-            result = prefixId + nextId;
+            result = prefixId ~ nextId;
         }
 
         return result;
@@ -332,7 +336,7 @@ class BpmnDeployer implements EngineDeployer {
      * Loads the persisted version of each process definition and set values on the in-memory version to be consistent.
      */
     protected void makeProcessDefinitionsConsistentWithPersistedVersions(ParsedDeployment parsedDeployment) {
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             ProcessDefinitionEntity persistedProcessDefinition = bpmnDeploymentHelper.getPersistedInstanceOfProcessDefinition(processDefinition);
 
             if (persistedProcessDefinition !is null) {
@@ -346,163 +350,164 @@ class BpmnDeployer implements EngineDeployer {
     }
 
     protected void createLocalizationValues(string processDefinitionId, Process process) {
-        if (process is null)
-            return;
-
-        CommandContext commandContext = Context.getCommandContext();
-        DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
-        ObjectNode infoNode = dynamicBpmnService.getProcessDefinitionInfo(processDefinitionId);
-
-        bool localizationValuesChanged = false;
-        List!ExtensionElement localizationElements = process.getExtensionElements().get("localization");
-        if (localizationElements !is null) {
-            for (ExtensionElement localizationElement : localizationElements) {
-                if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
-                        BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
-
-                    string locale = localizationElement.getAttributeValue(null, "locale");
-                    string name = localizationElement.getAttributeValue(null, "name");
-                    string documentation = null;
-                    List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
-                    if (documentationElements !is null) {
-                        for (ExtensionElement documentationElement : documentationElements) {
-                            documentation = StringUtils.trimToNull(documentationElement.getElementText());
-                            break;
-                        }
-                    }
-
-                    string processId = process.getId();
-                    if (!isEqualToCurrentLocalizationValue(locale, processId, "name", name, infoNode)) {
-                        dynamicBpmnService.changeLocalizationName(locale, processId, name, infoNode);
-                        localizationValuesChanged = true;
-                    }
-
-                    if (documentation !is null && !isEqualToCurrentLocalizationValue(locale, processId, "description", documentation, infoNode)) {
-                        dynamicBpmnService.changeLocalizationDescription(locale, processId, documentation, infoNode);
-                        localizationValuesChanged = true;
-                    }
-                }
-            }
-        }
-
-        bool isFlowElementLocalizationChanged = localizeFlowElements(process.getFlowElements(), infoNode);
-        bool isDataObjectLocalizationChanged = localizeDataObjectElements(process.getDataObjects(), infoNode);
-        if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
-            localizationValuesChanged = true;
-        }
-
-        if (localizationValuesChanged) {
-            dynamicBpmnService.saveProcessDefinitionInfo(processDefinitionId, infoNode);
-        }
+        implementationMissing(false);
+        //if (process is null)
+        //    return;
+        //
+        //CommandContext commandContext = Context.getCommandContext();
+        //DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
+        //ObjectNode infoNode = dynamicBpmnService.getProcessDefinitionInfo(processDefinitionId);
+        //
+        //bool localizationValuesChanged = false;
+        //List!ExtensionElement localizationElements = process.getExtensionElements().get("localization");
+        //if (localizationElements !is null) {
+        //    for (ExtensionElement localizationElement : localizationElements) {
+        //        if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
+        //                BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
+        //
+        //            string locale = localizationElement.getAttributeValue(null, "locale");
+        //            string name = localizationElement.getAttributeValue(null, "name");
+        //            string documentation = null;
+        //            List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
+        //            if (documentationElements !is null) {
+        //                for (ExtensionElement documentationElement : documentationElements) {
+        //                    documentation = StringUtils.trimToNull(documentationElement.getElementText());
+        //                    break;
+        //                }
+        //            }
+        //
+        //            string processId = process.getId();
+        //            if (!isEqualToCurrentLocalizationValue(locale, processId, "name", name, infoNode)) {
+        //                dynamicBpmnService.changeLocalizationName(locale, processId, name, infoNode);
+        //                localizationValuesChanged = true;
+        //            }
+        //
+        //            if (documentation !is null && !isEqualToCurrentLocalizationValue(locale, processId, "description", documentation, infoNode)) {
+        //                dynamicBpmnService.changeLocalizationDescription(locale, processId, documentation, infoNode);
+        //                localizationValuesChanged = true;
+        //            }
+        //        }
+        //    }
+        //}
+        //
+        //bool isFlowElementLocalizationChanged = localizeFlowElements(process.getFlowElements(), infoNode);
+        //bool isDataObjectLocalizationChanged = localizeDataObjectElements(process.getDataObjects(), infoNode);
+        //if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
+        //    localizationValuesChanged = true;
+        //}
+        //
+        //if (localizationValuesChanged) {
+        //    dynamicBpmnService.saveProcessDefinitionInfo(processDefinitionId, infoNode);
+        //}
     }
 
-    protected bool localizeFlowElements(Collection!FlowElement flowElements, ObjectNode infoNode) {
-        bool localizationValuesChanged = false;
-
-        if (flowElements is null)
-            return localizationValuesChanged;
-
-        CommandContext commandContext = Context.getCommandContext();
-        DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
-
-        for (FlowElement flowElement : flowElements) {
-            if (flowElement instanceof UserTask || flowElement instanceof SubProcess) {
-                List!ExtensionElement localizationElements = flowElement.getExtensionElements().get("localization");
-                if (localizationElements !is null) {
-                    for (ExtensionElement localizationElement : localizationElements) {
-                        if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
-                                BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
-
-                            string locale = localizationElement.getAttributeValue(null, "locale");
-                            string name = localizationElement.getAttributeValue(null, "name");
-                            string documentation = null;
-                            List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
-                            if (documentationElements !is null) {
-                                for (ExtensionElement documentationElement : documentationElements) {
-                                    documentation = StringUtils.trimToNull(documentationElement.getElementText());
-                                    break;
-                                }
-                            }
-
-                            string flowElementId = flowElement.getId();
-                            if (!isEqualToCurrentLocalizationValue(locale, flowElementId, "name", name, infoNode)) {
-                                dynamicBpmnService.changeLocalizationName(locale, flowElementId, name, infoNode);
-                                localizationValuesChanged = true;
-                            }
-
-                            if (documentation !is null && !isEqualToCurrentLocalizationValue(locale, flowElementId, "description", documentation, infoNode)) {
-                                dynamicBpmnService.changeLocalizationDescription(locale, flowElementId, documentation, infoNode);
-                                localizationValuesChanged = true;
-                            }
-                        }
-                    }
-                }
-
-                if (flowElement instanceof SubProcess) {
-                    SubProcess subprocess = (SubProcess) flowElement;
-                    bool isFlowElementLocalizationChanged = localizeFlowElements(subprocess.getFlowElements(), infoNode);
-                    bool isDataObjectLocalizationChanged = localizeDataObjectElements(subprocess.getDataObjects(), infoNode);
-                    if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
-                        localizationValuesChanged = true;
-                    }
-                }
-            }
-        }
-
-        return localizationValuesChanged;
-    }
-
-    protected bool isEqualToCurrentLocalizationValue(string language, string id, string propertyName, string propertyValue, ObjectNode infoNode) {
-        bool isEqual = false;
-        JsonNode localizationNode = infoNode.path("localization").path(language).path(id).path(propertyName);
-        if (!localizationNode.isMissingNode() && !localizationNode.isNull() && localizationNode.asText().equals(propertyValue)) {
-            isEqual = true;
-        }
-        return isEqual;
-    }
-
-    protected bool localizeDataObjectElements(List!ValuedDataObject dataObjects, ObjectNode infoNode) {
-        bool localizationValuesChanged = false;
-        CommandContext commandContext = Context.getCommandContext();
-        DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
-
-        for (ValuedDataObject dataObject : dataObjects) {
-            List!ExtensionElement localizationElements = dataObject.getExtensionElements().get("localization");
-            if (localizationElements !is null) {
-                for (ExtensionElement localizationElement : localizationElements) {
-                    if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
-                            BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
-
-                        string locale = localizationElement.getAttributeValue(null, "locale");
-                        string name = localizationElement.getAttributeValue(null, "name");
-                        string documentation = null;
-
-                        List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
-                        if (documentationElements !is null) {
-                            for (ExtensionElement documentationElement : documentationElements) {
-                                documentation = StringUtils.trimToNull(documentationElement.getElementText());
-                                break;
-                            }
-                        }
-
-                        if (name !is null && !isEqualToCurrentLocalizationValue(locale, dataObject.getId(), DynamicBpmnConstants.LOCALIZATION_NAME, name, infoNode)) {
-                            dynamicBpmnService.changeLocalizationName(locale, dataObject.getId(), name, infoNode);
-                            localizationValuesChanged = true;
-                        }
-
-                        if (documentation !is null && !isEqualToCurrentLocalizationValue(locale, dataObject.getId(),
-                                DynamicBpmnConstants.LOCALIZATION_DESCRIPTION, documentation, infoNode)) {
-
-                            dynamicBpmnService.changeLocalizationDescription(locale, dataObject.getId(), documentation, infoNode);
-                            localizationValuesChanged = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return localizationValuesChanged;
-    }
+    //protected bool localizeFlowElements(Collection!FlowElement flowElements, ObjectNode infoNode) {
+    //    bool localizationValuesChanged = false;
+    //
+    //    if (flowElements is null)
+    //        return localizationValuesChanged;
+    //
+    //    CommandContext commandContext = Context.getCommandContext();
+    //    DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
+    //
+    //    for (FlowElement flowElement : flowElements) {
+    //        if (flowElement instanceof UserTask || flowElement instanceof SubProcess) {
+    //            List!ExtensionElement localizationElements = flowElement.getExtensionElements().get("localization");
+    //            if (localizationElements !is null) {
+    //                for (ExtensionElement localizationElement : localizationElements) {
+    //                    if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
+    //                            BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
+    //
+    //                        string locale = localizationElement.getAttributeValue(null, "locale");
+    //                        string name = localizationElement.getAttributeValue(null, "name");
+    //                        string documentation = null;
+    //                        List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
+    //                        if (documentationElements !is null) {
+    //                            for (ExtensionElement documentationElement : documentationElements) {
+    //                                documentation = StringUtils.trimToNull(documentationElement.getElementText());
+    //                                break;
+    //                            }
+    //                        }
+    //
+    //                        string flowElementId = flowElement.getId();
+    //                        if (!isEqualToCurrentLocalizationValue(locale, flowElementId, "name", name, infoNode)) {
+    //                            dynamicBpmnService.changeLocalizationName(locale, flowElementId, name, infoNode);
+    //                            localizationValuesChanged = true;
+    //                        }
+    //
+    //                        if (documentation !is null && !isEqualToCurrentLocalizationValue(locale, flowElementId, "description", documentation, infoNode)) {
+    //                            dynamicBpmnService.changeLocalizationDescription(locale, flowElementId, documentation, infoNode);
+    //                            localizationValuesChanged = true;
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //
+    //            if (flowElement instanceof SubProcess) {
+    //                SubProcess subprocess = (SubProcess) flowElement;
+    //                bool isFlowElementLocalizationChanged = localizeFlowElements(subprocess.getFlowElements(), infoNode);
+    //                bool isDataObjectLocalizationChanged = localizeDataObjectElements(subprocess.getDataObjects(), infoNode);
+    //                if (isFlowElementLocalizationChanged || isDataObjectLocalizationChanged) {
+    //                    localizationValuesChanged = true;
+    //                }
+    //            }
+    //        }
+    //    }
+    //
+    //    return localizationValuesChanged;
+    //}
+    //
+    //protected bool isEqualToCurrentLocalizationValue(string language, string id, string propertyName, string propertyValue, ObjectNode infoNode) {
+    //    bool isEqual = false;
+    //    JsonNode localizationNode = infoNode.path("localization").path(language).path(id).path(propertyName);
+    //    if (!localizationNode.isMissingNode() && !localizationNode.isNull() && localizationNode.asText().equals(propertyValue)) {
+    //        isEqual = true;
+    //    }
+    //    return isEqual;
+    //}
+    //
+    //protected bool localizeDataObjectElements(List!ValuedDataObject dataObjects, ObjectNode infoNode) {
+    //    bool localizationValuesChanged = false;
+    //    CommandContext commandContext = Context.getCommandContext();
+    //    DynamicBpmnService dynamicBpmnService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicBpmnService();
+    //
+    //    for (ValuedDataObject dataObject : dataObjects) {
+    //        List!ExtensionElement localizationElements = dataObject.getExtensionElements().get("localization");
+    //        if (localizationElements !is null) {
+    //            for (ExtensionElement localizationElement : localizationElements) {
+    //                if (BpmnXMLConstants.FLOWABLE_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix()) ||
+    //                        BpmnXMLConstants.ACTIVITI_EXTENSIONS_PREFIX.equals(localizationElement.getNamespacePrefix())) {
+    //
+    //                    string locale = localizationElement.getAttributeValue(null, "locale");
+    //                    string name = localizationElement.getAttributeValue(null, "name");
+    //                    string documentation = null;
+    //
+    //                    List!ExtensionElement documentationElements = localizationElement.getChildElements().get("documentation");
+    //                    if (documentationElements !is null) {
+    //                        for (ExtensionElement documentationElement : documentationElements) {
+    //                            documentation = StringUtils.trimToNull(documentationElement.getElementText());
+    //                            break;
+    //                        }
+    //                    }
+    //
+    //                    if (name !is null && !isEqualToCurrentLocalizationValue(locale, dataObject.getId(), DynamicBpmnConstants.LOCALIZATION_NAME, name, infoNode)) {
+    //                        dynamicBpmnService.changeLocalizationName(locale, dataObject.getId(), name, infoNode);
+    //                        localizationValuesChanged = true;
+    //                    }
+    //
+    //                    if (documentation !is null && !isEqualToCurrentLocalizationValue(locale, dataObject.getId(),
+    //                            DynamicBpmnConstants.LOCALIZATION_DESCRIPTION, documentation, infoNode)) {
+    //
+    //                        dynamicBpmnService.changeLocalizationDescription(locale, dataObject.getId(), documentation, infoNode);
+    //                        localizationValuesChanged = true;
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //
+    //    return localizationValuesChanged;
+    //}
 
     public IdGenerator getIdGenerator() {
         return idGenerator;

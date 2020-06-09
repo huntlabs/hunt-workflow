@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.data.IOSpecification;
 
 import hunt.collection.ArrayList;
 import hunt.collections;
 import hunt.collection.List;
-
+import hunt.collection.Collections;
 import flow.engine.deleg.DelegateExecution;
-
+import flow.engine.impl.bpmn.data.Data;
+import flow.engine.impl.bpmn.data.DataRef;
 /**
  * Implementation of the BPMN 2.0 'ioSpecification'
  *
@@ -34,29 +35,29 @@ class IOSpecification {
 
     protected List!DataRef dataOutputRefs;
 
-    public IOSpecification() {
-        this.dataInputs = new ArrayList<>();
-        this.dataOutputs = new ArrayList<>();
-        this.dataInputRefs = new ArrayList<>();
-        this.dataOutputRefs = new ArrayList<>();
+    this() {
+        this.dataInputs = new ArrayList!Data();
+        this.dataOutputs = new ArrayList!Data();
+        this.dataInputRefs = new ArrayList!DataRef();
+        this.dataOutputRefs = new ArrayList!DataRef();
     }
 
     public void initialize(DelegateExecution execution) {
-        for (Data data : this.dataInputs) {
+        foreach (Data data ; this.dataInputs) {
             execution.setTransientVariable(data.getName(), data.getDefinition().createInstance());
         }
 
-        for (Data data : this.dataOutputs) {
+        foreach (Data data ; this.dataOutputs) {
             execution.setTransientVariable(data.getName(), data.getDefinition().createInstance());
         }
     }
 
     public List!Data getDataInputs() {
-        return Collections.unmodifiableList(this.dataInputs);
+        return this.dataInputs;
     }
 
     public List!Data getDataOutputs() {
-        return Collections.unmodifiableList(this.dataOutputs);
+        return this.dataOutputs;
     }
 
     public void addInput(Data data) {

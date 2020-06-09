@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.DelegateFlowableEventListener;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.api.deleg.event.FlowableEventListener;
-import flow.common.util.ReflectUtil;
-
+//import flow.common.util.ReflectUtil;
+import flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
 /**
  * An {@link FlowableEventListener} implementation which uses a classname to create a delegate {@link FlowableEventListener} instance to use for event notification. <br>
  * <br>
@@ -32,19 +32,17 @@ class DelegateFlowableEventListener : BaseDelegateEventListener {
     protected FlowableEventListener delegateInstance;
     protected bool failOnException;
 
-    public DelegateFlowableEventListener(string className, Class<?> entityClass) {
+    this(string className, TypeInfo entityClass) {
         this.className = className;
         setEntityClass(entityClass);
     }
 
-    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event)) {
             getDelegateInstance().onEvent(event);
         }
     }
 
-    override
     public bool isFailOnException() {
         if (delegateInstance !is null) {
             return delegateInstance.isFailOnException();
@@ -54,14 +52,14 @@ class DelegateFlowableEventListener : BaseDelegateEventListener {
 
     protected FlowableEventListener getDelegateInstance() {
         if (delegateInstance is null) {
-            Object instance = ReflectUtil.instantiate(className);
-            if (instance instanceof FlowableEventListener) {
-                delegateInstance = (FlowableEventListener) instance;
+            Object instance =  Object.factory(className);
+            if (cast(FlowableEventListener)instance !is null) {
+                delegateInstance = cast(FlowableEventListener) instance;
             } else {
                 // Force failing of the listener invocation, since the delegate
                 // cannot be created
                 failOnException = true;
-                throw new FlowableIllegalArgumentException("Class " + className + " does not implement " + FlowableEventListener.class.getName());
+                throw new FlowableIllegalArgumentException("Class " ~ className ~ " does not implement " ~ typeid(FlowableEventListener).toString);
             }
         }
         return delegateInstance;

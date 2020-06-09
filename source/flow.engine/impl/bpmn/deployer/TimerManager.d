@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.deployer.TimerManager;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
@@ -21,7 +21,6 @@ import flow.bpmn.model.Process;
 import flow.bpmn.model.StartEvent;
 import flow.bpmn.model.TimerEventDefinition;
 import flow.common.context.Context;
-import flow.common.util.CollectionUtil;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.jobexecutor.TimerEventHandler;
 import flow.engine.impl.jobexecutor.TimerStartEventJobHandler;
@@ -40,7 +39,7 @@ class TimerManager {
     protected void removeObsoleteTimers(ProcessDefinitionEntity processDefinition) {
         List!TimerJobEntity jobsToDelete = null;
 
-        if (processDefinition.getTenantId() !is null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
+        if (processDefinition.getTenantId() !is null && processDefinition.getTenantId().length != 0 && ProcessEngineConfiguration.NO_TENANT_ID != (processDefinition.getTenantId())) {
             jobsToDelete = CommandContextUtil.getTimerJobService().findJobsByTypeAndProcessDefinitionKeyAndTenantId(
                     TimerStartEventJobHandler.TYPE, processDefinition.getKey(), processDefinition.getTenantId());
         } else {
@@ -49,7 +48,7 @@ class TimerManager {
         }
 
         if (jobsToDelete !is null) {
-            for (TimerJobEntity job : jobsToDelete) {
+            foreach (TimerJobEntity job ; jobsToDelete) {
                 new CancelJobsCmd(job.getId()).execute(Context.getCommandContext());
             }
         }
@@ -58,28 +57,28 @@ class TimerManager {
     protected void scheduleTimers(ProcessDefinitionEntity processDefinition, Process process) {
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
         List!TimerJobEntity timers = getTimerDeclarations(processDefinition, process);
-        for (TimerJobEntity timer : timers) {
+        foreach (TimerJobEntity timer ; timers) {
             timerJobService.scheduleTimerJob(timer);
         }
     }
 
     protected List!TimerJobEntity getTimerDeclarations(ProcessDefinitionEntity processDefinition, Process process) {
-        List!TimerJobEntity timers = new ArrayList<>();
-        if (CollectionUtil.isNotEmpty(process.getFlowElements())) {
-            for (FlowElement element : process.getFlowElements()) {
-                if (element instanceof StartEvent) {
-                    StartEvent startEvent = (StartEvent) element;
-                    if (CollectionUtil.isNotEmpty(startEvent.getEventDefinitions())) {
+        List!TimerJobEntity timers = new ArrayList!TimerJobEntity;
+        if (process.getFlowElements() !is null &&  !process.getFlowElements().isEmpty()) {
+            foreach (FlowElement element ; process.getFlowElements()) {
+                if (cast(StartEvent)element !is null) {
+                    StartEvent startEvent = cast(StartEvent) element;
+                    if (startEvent.getEventDefinitions() !is null && !startEvent.getEventDefinitions().isEmpty()) {
                         EventDefinition eventDefinition = startEvent.getEventDefinitions().get(0);
-                        if (eventDefinition instanceof TimerEventDefinition) {
-                            TimerEventDefinition timerEventDefinition = (TimerEventDefinition) eventDefinition;
+                        if (cast(TimerEventDefinition)eventDefinition !is null) {
+                            TimerEventDefinition timerEventDefinition = cast(TimerEventDefinition) eventDefinition;
                             TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE,
                                     TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
 
                             if (timerJob !is null) {
                                 timerJob.setProcessDefinitionId(processDefinition.getId());
 
-                                if (processDefinition.getTenantId() !is null) {
+                                if (processDefinition.getTenantId() !is null && processDefinition.getTenantId().length != 0) {
                                     timerJob.setTenantId(processDefinition.getTenantId());
                                 }
                                 timers.add(timerJob);

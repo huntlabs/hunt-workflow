@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.deployer.CachingAndArtifactsManager;
 
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Process;
@@ -27,9 +27,10 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionInfoEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import flow.engine.impl.bpmn.deployer.ParsedDeployment;
+import hunt.Exceptions;
+//import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Updates caches and artifacts for a deployment, its process definitions, and its process definition infos.
@@ -46,7 +47,7 @@ class CachingAndArtifactsManager {
         DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
         DeploymentEntity deployment = parsedDeployment.getDeployment();
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             BpmnModel bpmnModel = parsedDeployment.getBpmnModelForProcessDefinition(processDefinition);
             Process process = parsedDeployment.getProcessModelForProcessDefinition(processDefinition);
             ProcessDefinitionCacheEntry cacheEntry = new ProcessDefinitionCacheEntry(processDefinition, bpmnModel, process);
@@ -65,7 +66,7 @@ class CachingAndArtifactsManager {
         final ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
 
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             BpmnModel bpmnModel = parsedDeployment.getBpmnModelForProcessDefinition(processDefinition);
             Process process = parsedDeployment.getProcessModelForProcessDefinition(processDefinition);
             ProcessDefinitionCacheEntry cacheEntry = new ProcessDefinitionCacheEntry(processDefinition, bpmnModel, process);
@@ -79,37 +80,37 @@ class CachingAndArtifactsManager {
         if (!processEngineConfiguration.isEnableProcessDefinitionInfoCache()) {
             return;
         }
-
-        DeploymentManager deploymentManager = processEngineConfiguration.getDeploymentManager();
-        ProcessDefinitionInfoEntityManager definitionInfoEntityManager = CommandContextUtil.getProcessDefinitionInfoEntityManager(commandContext);
-        ObjectMapper objectMapper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getObjectMapper();
-        ProcessDefinitionInfoEntity definitionInfoEntity = definitionInfoEntityManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinition.getId());
-
-        ObjectNode infoNode = null;
-        if (definitionInfoEntity !is null && definitionInfoEntity.getInfoJsonId() !is null) {
-            byte[] infoBytes = definitionInfoEntityManager.findInfoJsonById(definitionInfoEntity.getInfoJsonId());
-            if (infoBytes !is null) {
-                try {
-                    infoNode = (ObjectNode) objectMapper.readTree(infoBytes);
-                } catch (Exception e) {
-                    throw new FlowableException("Error deserializing json info for process definition " + processDefinition.getId(), e);
-                }
-            }
-        }
-
-        ProcessDefinitionInfoCacheObject definitionCacheObject = new ProcessDefinitionInfoCacheObject();
-        if (definitionInfoEntity is null) {
-            definitionCacheObject.setRevision(0);
-        } else {
-            definitionCacheObject.setId(definitionInfoEntity.getId());
-            definitionCacheObject.setRevision(definitionInfoEntity.getRevision());
-        }
-
-        if (infoNode is null) {
-            infoNode = objectMapper.createObjectNode();
-        }
-        definitionCacheObject.setInfoNode(infoNode);
-
-        deploymentManager.getProcessDefinitionInfoCache().add(processDefinition.getId(), definitionCacheObject);
+        implementationMissing(false);
+        //DeploymentManager deploymentManager = processEngineConfiguration.getDeploymentManager();
+        //ProcessDefinitionInfoEntityManager definitionInfoEntityManager = CommandContextUtil.getProcessDefinitionInfoEntityManager(commandContext);
+        //ObjectMapper objectMapper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getObjectMapper();
+        //ProcessDefinitionInfoEntity definitionInfoEntity = definitionInfoEntityManager.findProcessDefinitionInfoByProcessDefinitionId(processDefinition.getId());
+        //
+        //ObjectNode infoNode = null;
+        //if (definitionInfoEntity !is null && definitionInfoEntity.getInfoJsonId() !is null) {
+        //    byte[] infoBytes = definitionInfoEntityManager.findInfoJsonById(definitionInfoEntity.getInfoJsonId());
+        //    if (infoBytes !is null) {
+        //        try {
+        //            infoNode = (ObjectNode) objectMapper.readTree(infoBytes);
+        //        } catch (Exception e) {
+        //            throw new FlowableException("Error deserializing json info for process definition " + processDefinition.getId(), e);
+        //        }
+        //    }
+        //}
+        //
+        //ProcessDefinitionInfoCacheObject definitionCacheObject = new ProcessDefinitionInfoCacheObject();
+        //if (definitionInfoEntity is null) {
+        //    definitionCacheObject.setRevision(0);
+        //} else {
+        //    definitionCacheObject.setId(definitionInfoEntity.getId());
+        //    definitionCacheObject.setRevision(definitionInfoEntity.getRevision());
+        //}
+        //
+        //if (infoNode is null) {
+        //    infoNode = objectMapper.createObjectNode();
+        //}
+        //definitionCacheObject.setInfoNode(infoNode);
+        //
+        //deploymentManager.getProcessDefinitionInfoCache().add(processDefinition.getId(), definitionCacheObject);
     }
 }

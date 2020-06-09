@@ -10,15 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.deployer.BpmnDeploymentHelper;
 
 import hunt.collection;
-import java.util.Iterator;
+import hunt.collection.Iterator;
 import hunt.collection.LinkedHashSet;
 import hunt.collection.List;
 import hunt.collection.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Process;
 import flow.common.api.FlowableException;
@@ -32,6 +31,8 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.identitylink.api.IdentityLinkType;
 import flow.identitylink.service.IdentityLinkService;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
+import  flow.engine.impl.bpmn.deployer.TimerManager;
+import  flow.engine.impl.bpmn.deployer.EventSubscriptionManager;
 
 /**
  * Methods for working with deployments. Much of the actual work of {@link BpmnDeployer} is done by orchestrating the different pieces of work this class does; by having them here, we allow other
@@ -50,8 +51,8 @@ class BpmnDeploymentHelper {
      */
     public void verifyProcessDefinitionsDoNotShareKeys(
             Collection!ProcessDefinitionEntity processDefinitions) {
-        Set!string keySet = new LinkedHashSet<>();
-        for (ProcessDefinitionEntity processDefinition : processDefinitions) {
+        Set!string keySet = new LinkedHashSet!string();
+        foreach (ProcessDefinitionEntity processDefinition ; processDefinitions) {
             if (keySet.contains(processDefinition.getKey())) {
                 throw new FlowableException(
                         "The deployment contains process definitions with the same key (process id attribute), this is not allowed");
@@ -69,7 +70,7 @@ class BpmnDeploymentHelper {
         string tenantId = deployment.getTenantId();
         string deploymentId = deployment.getId();
 
-        for (ProcessDefinitionEntity processDefinition : processDefinitions) {
+        foreach (ProcessDefinitionEntity processDefinition ; processDefinitions) {
 
             // Backwards compatibility
             if (engineVersion !is null) {
@@ -89,7 +90,7 @@ class BpmnDeploymentHelper {
      * Updates all the process definition entities to have the correct resource names.
      */
     public void setResourceNamesOnProcessDefinitions(ParsedDeployment parsedDeployment) {
-        for (ProcessDefinitionEntity processDefinition : parsedDeployment.getAllProcessDefinitions()) {
+        foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {
             string resourceName = parsedDeployment.getResourceForProcessDefinition(processDefinition).getName();
             processDefinition.setResourceName(resourceName);
         }
@@ -106,7 +107,7 @@ class BpmnDeploymentHelper {
 
         ProcessDefinitionEntity existingDefinition = null;
 
-        if (tenantId !is null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
+        if (tenantId !is null &&   tenantId != (ProcessEngineConfiguration.NO_TENANT_ID)) {
             existingDefinition = processDefinitionManager.findLatestProcessDefinitionByKeyAndTenantId(key, tenantId);
         } else {
             existingDefinition = processDefinitionManager.findLatestProcessDefinitionByKey(key);
@@ -126,7 +127,7 @@ class BpmnDeploymentHelper {
 
         ProcessDefinitionEntity existingDefinition = null;
 
-        if (tenantId !is null && !tenantId.equals(ProcessEngineConfiguration.NO_TENANT_ID)) {
+        if (tenantId !is null && tenantId != (ProcessEngineConfiguration.NO_TENANT_ID)) {
             existingDefinition = processDefinitionManager.findLatestDerivedProcessDefinitionByKeyAndTenantId(key, tenantId);
         } else {
             existingDefinition = processDefinitionManager.findLatestDerivedProcessDefinitionByKey(key);
@@ -141,13 +142,14 @@ class BpmnDeploymentHelper {
      */
     public ProcessDefinitionEntity getPersistedInstanceOfProcessDefinition(ProcessDefinitionEntity processDefinition) {
         string deploymentId = processDefinition.getDeploymentId();
-        if (StringUtils.isEmpty(processDefinition.getDeploymentId())) {
-            throw new IllegalStateException("Provided process definition must have a deployment id.");
+        if (processDefinition.getDeploymentId() is null || processDefinition.getDeploymentId().length == 0) {
+            logError("Provided process definition must have a deployment id.");
+           // throw new IllegalStateException("Provided process definition must have a deployment id.");
         }
 
         ProcessDefinitionEntityManager processDefinitionManager = CommandContextUtil.getProcessEngineConfiguration().getProcessDefinitionEntityManager();
         ProcessDefinitionEntity persistedProcessDefinition = null;
-        if (processDefinition.getTenantId() is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(processDefinition.getTenantId())) {
+        if (processDefinition.getTenantId() is null || ProcessEngineConfiguration.NO_TENANT_ID == (processDefinition.getTenantId())) {
             persistedProcessDefinition = processDefinitionManager.findProcessDefinitionByDeploymentAndKey(deploymentId, processDefinition.getKey());
         } else {
             persistedProcessDefinition = processDefinitionManager.findProcessDefinitionByDeploymentAndKeyAndTenantId(deploymentId, processDefinition.getKey(), processDefinition.getTenantId());
@@ -195,7 +197,6 @@ class BpmnDeploymentHelper {
             IdentityLinkService identityLinkService = CommandContextUtil.getIdentityLinkService();
             Iterator!string iterator = expressions.iterator();
             while (iterator.hasNext()) {
-                @SuppressWarnings("cast")
                 string expression = iterator.next();
                 IdentityLinkEntity identityLink = identityLinkService.createIdentityLink();
                 identityLink.setProcessDefId(processDefinition.getId());

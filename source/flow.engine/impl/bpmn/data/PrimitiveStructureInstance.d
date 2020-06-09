@@ -10,26 +10,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.data.PrimitiveStructureInstance;
 
-
+import flow.engine.impl.bpmn.data.StructureInstance;
+import  flow.engine.impl.bpmn.data.PrimitiveStructureDefinition;
 /**
  * An instance of {@link PrimitiveStructureDefinition}
  *
  * @author Esteban Robles Luna
  */
-class PrimitiveStructureInstance implements StructureInstance {
+class PrimitiveStructureInstance : StructureInstance {
 
     protected Object primitive;
-
     protected PrimitiveStructureDefinition definition;
 
-    public PrimitiveStructureInstance(PrimitiveStructureDefinition definition) {
+    private TypeInfo type;
+
+    this(PrimitiveStructureDefinition definition) {
         this(definition, null);
+        type = null;
     }
 
-    public PrimitiveStructureInstance(PrimitiveStructureDefinition definition, Object primitive) {
+    this(PrimitiveStructureDefinition definition, Object primitive , string typeStr = null)  {
         this.definition = definition;
         this.primitive = primitive;
+        type  = typeStr;
     }
 
     public Object getPrimitive() {
@@ -38,14 +43,14 @@ class PrimitiveStructureInstance implements StructureInstance {
 
     override
     public Object[] toArray() {
-        return new Object[] { this.primitive };
+        return new Object[this.primitive ];
     }
 
     override
     public void loadFrom(Object[] array) {
         for (int i = 0; i < array.length; i++) {
             Object object = array[i];
-            if (this.definition.getPrimitiveClass().isInstance(object)) {
+            if (this.definition.getPrimitiveClass() == type) {
                 this.primitive = object;
                 return;
             }

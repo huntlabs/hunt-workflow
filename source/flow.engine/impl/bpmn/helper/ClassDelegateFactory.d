@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.ClassDelegateFactory;
 
 import hunt.collection.List;
 
 import flow.bpmn.model.MapExceptionEntry;
 import flow.common.api.deleg.Expression;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
+import flow.engine.impl.bpmn.helper.ClassDelegate;
 
 /** Constructs {@link ClassDelegate}s. */
 interface ClassDelegateFactory {

@@ -11,21 +11,20 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.listener.ScriptTaskListener;
 
 import flow.engine.deleg.TaskListener;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.task.service.deleg.DelegateTask;
 import flow.common.api.deleg.Expression;
-import flow.common.scripting.ScriptingEngines;
-
+//import flow.common.scripting.ScriptingEngines;
+import hunt.Exceptions;
 /**
  * @author Rich Kroll
  * @author Joram Barrez
  */
-class ScriptTaskListener implements TaskListener {
+class ScriptTaskListener : TaskListener {
 
-    private static final long serialVersionUID = -8915149072830499057L;
 
     protected Expression script;
 
@@ -35,16 +34,16 @@ class ScriptTaskListener implements TaskListener {
 
     protected bool autoStoreVariables;
 
-    override
     public void notify(DelegateTask delegateTask) {
-        validateParameters();
-
-        ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
-        Object result = scriptingEngines.evaluate(script.getExpressionText(), language.getExpressionText(), delegateTask, autoStoreVariables);
-
-        if (resultVariable !is null) {
-            delegateTask.setVariable(resultVariable.getExpressionText(), result);
-        }
+        implementationMissing(false);
+        //validateParameters();
+        //
+        //ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
+        //Object result = scriptingEngines.evaluate(script.getExpressionText(), language.getExpressionText(), delegateTask, autoStoreVariables);
+        //
+        //if (resultVariable !is null) {
+        //    delegateTask.setVariable(resultVariable.getExpressionText(), result);
+        //}
     }
 
     protected void validateParameters() {

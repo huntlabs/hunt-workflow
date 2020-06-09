@@ -10,26 +10,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.deployer.ResourceNameUtil;
 
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.common.api.repository.EngineResource;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
-
+import std.algorithm.searching;
+import std.concurrency : initOnce;
+import hunt.logging;
 /**
  * Static methods for working with BPMN and image resource names.
  */
 class ResourceNameUtil {
 
-    public static final string[] BPMN_RESOURCE_SUFFIXES = new string[] { "bpmn20.xml", "bpmn" };
-    public static final string[] DIAGRAM_SUFFIXES = new string[] { "png", "jpg", "gif", "svg" };
+   // public static  string[] BPMN_RESOURCE_SUFFIXES = new string[ "bpmn20.xml", "bpmn" ];
+    //public static  string[] DIAGRAM_SUFFIXES = new string[ "png", "jpg", "gif", "svg" ];
+
+   static  string[] BPMN_RESOURCE_SUFFIXES() {
+     __gshared  string[] inst = null;
+     return initOnce!inst(new string[]("bpmn20.xml","bpmn"));
+   }
+
+  static  string[] DIAGRAM_SUFFIXES() {
+    __gshared  string[] inst = null;
+    return initOnce!inst(new string[]("png", "jpg", "gif", "svg"));
+  }
+
 
     public static string stripBpmnFileSuffix(string bpmnFileResource) {
-        for (string suffix : BPMN_RESOURCE_SUFFIXES) {
-            if (bpmnFileResource.endsWith(suffix)) {
-                return bpmnFileResource.substring(0, bpmnFileResource.length() - suffix.length());
+        foreach (string suffix ; BPMN_RESOURCE_SUFFIXES) {
+            if (endsWith(bpmnFileResource,suffix) == 0) {
+                return bpmnFileResource[0, bpmnFileResource.length() - suffix.length()];
             }
         }
         return bpmnFileResource;
@@ -37,7 +49,7 @@ class ResourceNameUtil {
 
     public static string getProcessDiagramResourceName(string bpmnFileResource, string processKey, string diagramSuffix) {
         string bpmnFileResourceBase = ResourceNameUtil.stripBpmnFileSuffix(bpmnFileResource);
-        return bpmnFileResourceBase + processKey + "." + diagramSuffix;
+        return bpmnFileResourceBase ~ processKey ~ "." ~ diagramSuffix;
     }
 
     /**
@@ -59,20 +71,21 @@ class ResourceNameUtil {
     public static string getProcessDiagramResourceNameFromDeployment(
             ProcessDefinitionEntity processDefinition, Map!(string, EngineResource) resources) {
 
-        if (StringUtils.isEmpty(processDefinition.getResourceName())) {
-            throw new IllegalStateException("Provided process definition must have its resource name set.");
+        if (processDefinition.getResourceName() is null || processDefinition.getResourceName().length == 0) {
+            logError("Provided process definition must have its resource name set.");
+           // throw new IllegalStateException("Provided process definition must have its resource name set.");
         }
 
         string bpmnResourceBase = stripBpmnFileSuffix(processDefinition.getResourceName());
         string key = processDefinition.getKey();
 
-        for (string diagramSuffix : DIAGRAM_SUFFIXES) {
-            string possibleName = bpmnResourceBase + key + "." + diagramSuffix;
+        foreach (string diagramSuffix ; DIAGRAM_SUFFIXES) {
+            string possibleName = bpmnResourceBase ~ key ~ "." ~ diagramSuffix;
             if (resources.containsKey(possibleName)) {
                 return possibleName;
             }
 
-            possibleName = bpmnResourceBase + diagramSuffix;
+            possibleName = bpmnResourceBase ~ diagramSuffix;
             if (resources.containsKey(possibleName)) {
                 return possibleName;
             }

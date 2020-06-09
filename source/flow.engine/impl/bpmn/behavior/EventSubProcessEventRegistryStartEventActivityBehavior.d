@@ -11,13 +11,12 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.behavior.EventSubProcessEventRegistryStartEventActivityBehavior;
 
 import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-import java.util.Objects;
 
 import flow.bpmn.model.EventSubProcess;
 import flow.bpmn.model.StartEvent;
@@ -33,7 +32,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-
+import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 /**
  * Implementation of the BPMN 2.0 event subprocess event registry start event.
  *
@@ -41,18 +40,16 @@ import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionE
  */
 class EventSubProcessEventRegistryStartEventActivityBehavior : AbstractBpmnActivityBehavior {
 
-    private static final long serialVersionUID = 1L;
-
     protected string eventDefinitionKey;
 
-    public EventSubProcessEventRegistryStartEventActivityBehavior(string eventDefinitionKey) {
+    this(string eventDefinitionKey) {
         this.eventDefinitionKey = eventDefinitionKey;
     }
 
     override
     public void execute(DelegateExecution execution) {
-        StartEvent startEvent = (StartEvent) execution.getCurrentFlowElement();
-        EventSubProcess eventSubProcess = (EventSubProcess) startEvent.getSubProcess();
+        StartEvent startEvent = cast(StartEvent) execution.getCurrentFlowElement();
+        EventSubProcess eventSubProcess = cast(EventSubProcess) startEvent.getSubProcess();
 
         execution.setScope(true);
 
@@ -67,24 +64,24 @@ class EventSubProcessEventRegistryStartEventActivityBehavior : AbstractBpmnActiv
     public void trigger(DelegateExecution execution, string triggerName, Object triggerData) {
         CommandContext commandContext = Context.getCommandContext();
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
 
-        StartEvent startEvent = (StartEvent) execution.getCurrentFlowElement();
+        StartEvent startEvent = cast(StartEvent) execution.getCurrentFlowElement();
         if (startEvent.isInterrupting()) {
             List!ExecutionEntity childExecutions = executionEntityManager.collectChildren(executionEntity.getParent());
             for (int i = childExecutions.size() - 1; i >= 0; i--) {
                 ExecutionEntity childExecutionEntity = childExecutions.get(i);
-                if (!childExecutionEntity.isEnded() && !childExecutionEntity.getId().equals(executionEntity.getId())) {
+                if (!childExecutionEntity.isEnded() && childExecutionEntity.getId()!=(executionEntity.getId())) {
                     executionEntityManager.deleteExecutionAndRelatedData(childExecutionEntity,
-                            DeleteReason.EVENT_SUBPROCESS_INTERRUPTING + "(" + startEvent.getId() + ")", false);
+                            DeleteReason.EVENT_SUBPROCESS_INTERRUPTING ~ "(" ~ startEvent.getId() ~ ")", false);
                 }
             }
 
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
             List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
 
-            for (EventSubscriptionEntity eventSubscription : eventSubscriptions) {
-                if (Objects.equals(eventDefinitionKey, eventSubscription.getEventType())) {
+            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+                if (eventDefinitionKey == eventSubscription.getEventType()) {
                     eventSubscriptionService.deleteEventSubscription(eventSubscription);
                     CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
                 }
@@ -92,7 +89,7 @@ class EventSubProcessEventRegistryStartEventActivityBehavior : AbstractBpmnActiv
         }
 
         ExecutionEntity newSubProcessExecution = executionEntityManager.createChildExecution(executionEntity.getParent());
-        newSubProcessExecution.setCurrentFlowElement((SubProcess) executionEntity.getCurrentFlowElement().getParentContainer());
+        newSubProcessExecution.setCurrentFlowElement(cast(SubProcess) executionEntity.getCurrentFlowElement().getParentContainer());
         newSubProcessExecution.setEventScope(false);
         newSubProcessExecution.setScope(true);
 
@@ -105,10 +102,10 @@ class EventSubProcessEventRegistryStartEventActivityBehavior : AbstractBpmnActiv
     }
 
     protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {
-        Map!(string, Object) variablesMap = new HashMap<>();
+        Map!(string, Object) variablesMap = new HashMap!(string, Object)();
         // convert data objects to process variables
         if (dataObjects !is null) {
-            for (ValuedDataObject dataObject : dataObjects) {
+            foreach (ValuedDataObject dataObject ; dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }
         }

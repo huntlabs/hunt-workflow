@@ -11,17 +11,15 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.listener.ScriptExecutionListener;
 
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.common.api.deleg.Expression;
-import flow.common.scripting.ScriptingEngines;
-
-class ScriptExecutionListener implements ExecutionListener {
-
-    private static final long serialVersionUID = 1L;
+//import flow.common.scripting.ScriptingEngines;
+import hunt.Exceptions;
+class ScriptExecutionListener : ExecutionListener {
 
     protected Expression script;
 
@@ -31,15 +29,15 @@ class ScriptExecutionListener implements ExecutionListener {
 
     override
     public void notify(DelegateExecution execution) {
-
-        validateParameters();
-
-        ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
-        Object result = scriptingEngines.evaluate(script.getExpressionText(), language.getExpressionText(), execution);
-
-        if (resultVariable !is null) {
-            execution.setVariable(resultVariable.getExpressionText(), result);
-        }
+        implementationMissing(false);
+        //validateParameters();
+        //
+        //ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
+        //Object result = scriptingEngines.evaluate(script.getExpressionText(), language.getExpressionText(), execution);
+        //
+        //if (resultVariable !is null) {
+        //    execution.setVariable(resultVariable.getExpressionText(), result);
+        //}
     }
 
     protected void validateParameters() {

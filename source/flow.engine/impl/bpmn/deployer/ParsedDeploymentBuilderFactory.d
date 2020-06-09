@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.deployer.ParsedDeploymentBuilderFactory;
 
 import hunt.collection.Map;
 
 import flow.common.api.repository.EngineDeployment;
 import flow.engine.impl.bpmn.parser.BpmnParser;
+import flow.engine.impl.bpmn.deployer.ParsedDeploymentBuilder;
 
 class ParsedDeploymentBuilderFactory {
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.MessageThrowingEventListener;
 
 import hunt.collection.List;
 
@@ -22,7 +22,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
-
+import flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
 /**
  * An {@link FlowableEventListener} that throws a message event when an event is dispatched to it. Sends the message to the execution the event was fired from. If the execution is not subscribed to a
  * message, the process-instance is checked.
@@ -33,22 +33,21 @@ import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscr
 class MessageThrowingEventListener : BaseDelegateEventListener {
 
     protected string messageName;
-    protected Class<?> entityClass;
+    protected TypeInfo entityClass;
 
-    override
     public void onEvent(FlowableEvent event) {
-        if (isValidEvent(event) && event instanceof FlowableEngineEvent) {
+        if (isValidEvent(event) && cast(FlowableEngineEvent)event !is null) {
 
-            FlowableEngineEvent engineEvent = (FlowableEngineEvent) event;
+            FlowableEngineEvent engineEvent = cast(FlowableEngineEvent) event;
 
-            if (engineEvent.getProcessInstanceId() is null) {
+            if (engineEvent.getProcessInstanceId() is null || engineEvent.getProcessInstanceId().length == 0) {
                 throw new FlowableIllegalArgumentException("Cannot throw process-instance scoped message, since the dispatched event is not part of an ongoing process instance");
             }
 
             List!MessageEventSubscriptionEntity subscriptionEntities = CommandContextUtil.getEventSubscriptionService().findMessageEventSubscriptionsByProcessInstanceAndEventName(
                     engineEvent.getProcessInstanceId(), messageName);
 
-            for (EventSubscriptionEntity messageEventSubscriptionEntity : subscriptionEntities) {
+            foreach (EventSubscriptionEntity messageEventSubscriptionEntity ; subscriptionEntities) {
                 EventSubscriptionUtil.eventReceived(messageEventSubscriptionEntity, null, false);
             }
         }
@@ -58,7 +57,6 @@ class MessageThrowingEventListener : BaseDelegateEventListener {
         this.messageName = messageName;
     }
 
-    override
     public bool isFailOnException() {
         return true;
     }

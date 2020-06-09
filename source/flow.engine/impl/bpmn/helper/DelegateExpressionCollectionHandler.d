@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.helper.DelegateExpressionCollectionHandler;
 
 import hunt.collection;
 
@@ -18,34 +18,30 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.deleg.FlowableCollectionHandler;
-
+import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 /**
  * @author Lori Small
  */
-class DelegateExpressionCollectionHandler implements FlowableCollectionHandler {
-
-	private static final long serialVersionUID = 1L;
+class DelegateExpressionCollectionHandler : FlowableCollectionHandler {
 
 	protected DelegateExecution execution;
 	protected Expression expression;
 
-    public DelegateExpressionCollectionHandler(DelegateExecution execution, Expression expression) {
+    this(DelegateExecution execution, Expression expression) {
         this.execution = execution;
         this.expression = expression;
     }
 
-	override
-	@SuppressWarnings("rawtypes")
 	public Collection resolveCollection(Object collectionValue, DelegateExecution execution) {
 		return getCollectionHandlerInstance(execution).resolveCollection(collectionValue, execution);
 	}
 
     protected FlowableCollectionHandler getCollectionHandlerInstance(DelegateExecution execution) {
         Object delegateInstance = DelegateExpressionUtil.resolveDelegateExpression(expression, execution);
-        if (delegateInstance instanceof FlowableCollectionHandler) {
-            return (FlowableCollectionHandler) delegateInstance;
+        if (cast(FlowableCollectionHandler)delegateInstance !is null) {
+            return cast(FlowableCollectionHandler) delegateInstance;
         } else {
-            throw new FlowableIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + FlowableCollectionHandler.class);
+            throw new FlowableIllegalArgumentException(typeid(delegateInstance).toString ~ " doesn't implement " ~ typeid(FlowableCollectionHandler).toString);
         }
     }
 }

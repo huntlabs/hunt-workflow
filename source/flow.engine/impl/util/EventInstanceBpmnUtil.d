@@ -22,7 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.flowable.bpmn.constants.BpmnXMLConstants;
+import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.ExtensionElement;
 import flow.bpmn.model.IOParameter;

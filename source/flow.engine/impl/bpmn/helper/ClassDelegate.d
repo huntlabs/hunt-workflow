@@ -11,12 +11,11 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.helper.ClassDelegate;
 
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.MapExceptionEntry;
 import flow.bpmn.model.Task;
@@ -44,9 +43,9 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.task.service.deleg.DelegateTask;
 import flow.task.service.deleg.TaskListener;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import flow.engine.impl.bpmn.helper.AbstractClassDelegate;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
+import hunt.Exceptions;
 /**
  * Helper class for bpmn constructs that allow class delegation.
  *
@@ -57,9 +56,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @author Saeid Mirzaei
  * @author Yvo Swillens
  */
-class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionListener, TransactionDependentExecutionListener, TransactionDependentTaskListener, SubProcessActivityBehavior, CustomPropertiesResolver {
-
-    private static final long serialVersionUID = 1L;
+class ClassDelegate : AbstractClassDelegate , TaskListener, ExecutionListener, TransactionDependentExecutionListener, TransactionDependentTaskListener, SubProcessActivityBehavior, CustomPropertiesResolver {
 
     protected ActivityBehavior activityBehaviorInstance;
     protected Expression skipExpression;
@@ -67,12 +64,12 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
     protected CustomPropertiesResolver customPropertiesResolverInstance;
     protected bool triggerable;
 
-    public ClassDelegate(string className, List!FieldDeclaration fieldDeclarations, Expression skipExpression) {
+    this(string className, List!FieldDeclaration fieldDeclarations, Expression skipExpression) {
         super(className, fieldDeclarations);
         this.skipExpression = skipExpression;
     }
 
-    public ClassDelegate(string id, string className, List!FieldDeclaration fieldDeclarations, bool triggerable, Expression skipExpression,
+    this(string id, string className, List!FieldDeclaration fieldDeclarations, bool triggerable, Expression skipExpression,
                          List!MapExceptionEntry mapExceptions) {
         this(className, fieldDeclarations, skipExpression);
         this.triggerable = triggerable;
@@ -80,27 +77,25 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
         this.mapExceptions = mapExceptions;
     }
 
-    public ClassDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations, Expression skipExpression) {
-        this(clazz.getName(), fieldDeclarations, skipExpression);
+    this(TypeInfo clazz, List!FieldDeclaration fieldDeclarations, Expression skipExpression) {
+        this(clazz.toString, fieldDeclarations, skipExpression);
     }
 
-    public ClassDelegate(string className, List!FieldDeclaration fieldDeclarations) {
+    this(string className, List!FieldDeclaration fieldDeclarations) {
         super(className, fieldDeclarations);
     }
 
-    public ClassDelegate(Class<?> clazz, List!FieldDeclaration fieldDeclarations) {
+    this(TypeInfo clazz, List!FieldDeclaration fieldDeclarations) {
         super(clazz, fieldDeclarations);
     }
 
     // Execution listener
-    override
     public void notify(DelegateExecution execution) {
         ExecutionListener executionListenerInstance = getExecutionListenerInstance();
         CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation(executionListenerInstance, execution));
     }
 
     // Transaction Dependent execution listener
-    override
     public void notify(string processInstanceId, string executionId, FlowElement flowElement, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
         TransactionDependentExecutionListener transactionDependentExecutionListenerInstance = getTransactionDependentExecutionListenerInstance();
 
@@ -108,7 +103,6 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
         transactionDependentExecutionListenerInstance.notify(processInstanceId, executionId, flowElement, executionVariables, customPropertiesMap);
     }
 
-    override
     public Map!(string, Object) getCustomPropertiesMap(DelegateExecution execution) {
         if (customPropertiesResolverInstance is null) {
             customPropertiesResolverInstance = getCustomPropertiesResolverInstance();
@@ -117,18 +111,16 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
     }
 
     // Task listener
-    override
     public void notify(DelegateTask delegateTask) {
         TaskListener taskListenerInstance = getTaskListenerInstance();
 
         try {
             CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new TaskListenerInvocation(taskListenerInstance, delegateTask));
         } catch (Exception e) {
-            throw new FlowableException("Exception while invoking TaskListener: " + e.getMessage(), e);
+            throw new FlowableException("Exception while invoking TaskListener: ");
         }
     }
 
-    override
     public void notify(string processInstanceId, string executionId, Task task, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
         TransactionDependentTaskListener transactionDependentTaskListenerInstance = getTransactionDependentTaskListenerInstance();
         transactionDependentTaskListenerInstance.notify(processInstanceId, executionId, task, executionVariables, customPropertiesMap);
@@ -136,48 +128,48 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
 
     protected ExecutionListener getExecutionListenerInstance() {
         Object delegateInstance = instantiateDelegate(className, fieldDeclarations);
-        if (delegateInstance instanceof ExecutionListener) {
-            return (ExecutionListener) delegateInstance;
-        } else if (delegateInstance instanceof JavaDelegate) {
-            return new ServiceTaskJavaDelegateActivityBehavior((JavaDelegate) delegateInstance, triggerable, skipExpression);
+        if (cast(ExecutionListener)delegateInstance !is null) {
+            return cast(ExecutionListener) delegateInstance;
+        } else if (cast(JavaDelegate)delegateInstance !is null) {
+            return new ServiceTaskJavaDelegateActivityBehavior(cast(JavaDelegate) delegateInstance, triggerable, skipExpression);
         } else {
-            throw new FlowableIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + ExecutionListener.class + " nor " + JavaDelegate.class);
+            throw new FlowableIllegalArgumentException(" doesn't implement " ~ typeid(ExecutionListener).toString ~ " nor " ~ typeid(JavaDelegate).toString);
         }
     }
 
     protected TransactionDependentExecutionListener getTransactionDependentExecutionListenerInstance() {
         Object delegateInstance = instantiateDelegate(className, fieldDeclarations);
-        if (delegateInstance instanceof TransactionDependentExecutionListener) {
-            return (TransactionDependentExecutionListener) delegateInstance;
+        if (cast(TransactionDependentExecutionListener)delegateInstance !is null) {
+            return cast(TransactionDependentExecutionListener) delegateInstance;
         } else {
-            throw new FlowableIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + TransactionDependentExecutionListener.class);
+            throw new FlowableIllegalArgumentException(" doesn't implement " ~ typeid(TransactionDependentExecutionListener).toString);
         }
     }
 
     protected CustomPropertiesResolver getCustomPropertiesResolverInstance() {
         Object delegateInstance = instantiateDelegate(className, fieldDeclarations);
-        if (delegateInstance instanceof CustomPropertiesResolver) {
-            return (CustomPropertiesResolver) delegateInstance;
+        if (cast(CustomPropertiesResolver)delegateInstance !is null) {
+            return cast(CustomPropertiesResolver) delegateInstance;
         } else {
-            throw new FlowableIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + CustomPropertiesResolver.class);
+            throw new FlowableIllegalArgumentException(" doesn't implement " ~ typeid(CustomPropertiesResolver).toString);
         }
     }
 
     protected TaskListener getTaskListenerInstance() {
         Object delegateInstance = instantiateDelegate(className, fieldDeclarations);
-        if (delegateInstance instanceof TaskListener) {
-            return (TaskListener) delegateInstance;
+        if (cast(TaskListener)delegateInstance !is null) {
+            return cast(TaskListener) delegateInstance;
         } else {
-            throw new FlowableIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + TaskListener.class);
+            throw new FlowableIllegalArgumentException(" doesn't implement " ~ typeid(TaskListener).toString);
         }
     }
 
     protected TransactionDependentTaskListener getTransactionDependentTaskListenerInstance() {
         Object delegateInstance = instantiateDelegate(className, fieldDeclarations);
-        if (delegateInstance instanceof TransactionDependentTaskListener) {
-            return (TransactionDependentTaskListener) delegateInstance;
+        if (cast(TransactionDependentTaskListener)delegateInstance !is null) {
+            return cast(TransactionDependentTaskListener) delegateInstance;
         } else {
-            throw new FlowableIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + TransactionDependentTaskListener.class);
+            throw new FlowableIllegalArgumentException(" doesn't implement " ~ typeid(TransactionDependentTaskListener).toString);
         }
     }
 
@@ -185,14 +177,15 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
     override
     public void execute(DelegateExecution execution) {
         if (CommandContextUtil.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {
-            ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
-            if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_CLASS_NAME)) {
-                string overrideClassName = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_CLASS_NAME).asText();
-                if (StringUtils.isNotEmpty(overrideClassName) && !overrideClassName.equals(className)) {
-                    className = overrideClassName;
-                    activityBehaviorInstance = null;
-                }
-            }
+              implementationMissing(false);
+            //ObjectNode taskElementProperties = BpmnOverrideContext.getBpmnOverrideElementProperties(serviceTaskId, execution.getProcessDefinitionId());
+            //if (taskElementProperties !is null && taskElementProperties.has(DynamicBpmnConstants.SERVICE_TASK_CLASS_NAME)) {
+            //    string overrideClassName = taskElementProperties.get(DynamicBpmnConstants.SERVICE_TASK_CLASS_NAME).asText();
+            //    if (StringUtils.isNotEmpty(overrideClassName) && !overrideClassName.equals(className)) {
+            //        className = overrideClassName;
+            //        activityBehaviorInstance = null;
+            //    }
+            //}
         }
 
         if (activityBehaviorInstance is null) {
@@ -202,10 +195,12 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
         try {
             activityBehaviorInstance.execute(execution);
         } catch (BpmnError error) {
-            ErrorPropagation.propagateError(error, execution);
+            implementationMissing(false);
+           // ErrorPropagation.propagateError(error, execution);
         } catch (RuntimeException e) {
-            if (!ErrorPropagation.mapException(e, (ExecutionEntity) execution, mapExceptions))
-                throw e;
+            implementationMissing(false);
+            //if (!ErrorPropagation.mapException(e, (ExecutionEntity) execution, mapExceptions))
+            //    throw e;
         }
     }
 
@@ -216,60 +211,60 @@ class ClassDelegate : AbstractClassDelegate implements TaskListener, ExecutionLi
             activityBehaviorInstance = getActivityBehaviorInstance();
         }
 
-        if (activityBehaviorInstance instanceof TriggerableActivityBehavior) {
-            ((TriggerableActivityBehavior) activityBehaviorInstance).trigger(execution, signalName, signalData);
+        if (cast(TriggerableActivityBehavior)activityBehaviorInstance !is null) {
+            (cast(TriggerableActivityBehavior) activityBehaviorInstance).trigger(execution, signalName, signalData);
             if(triggerable) {
                 leave(execution);
             }
         } else {
-            throw new FlowableException("signal() can only be called on a " + TriggerableActivityBehavior.class.getName() + " instance");
+            throw new FlowableException("signal() can only be called on a " ~ typeid(TriggerableActivityBehavior).toString ~ " instance");
         }
     }
 
     // Subprocess activityBehaviour
 
     override
-    public void completing(DelegateExecution execution, DelegateExecution subProcessInstance) throws Exception {
+    public void completing(DelegateExecution execution, DelegateExecution subProcessInstance) {
         if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
         }
 
-        if (activityBehaviorInstance instanceof SubProcessActivityBehavior) {
-            ((SubProcessActivityBehavior) activityBehaviorInstance).completing(execution, subProcessInstance);
+        if (cast(SubProcessActivityBehavior)activityBehaviorInstance !is null) {
+            (cast(SubProcessActivityBehavior) activityBehaviorInstance).completing(execution, subProcessInstance);
         } else {
-            throw new FlowableException("completing() can only be called on a " + SubProcessActivityBehavior.class.getName() + " instance");
+            throw new FlowableException("completing() can only be called on a " ~ typeid(SubProcessActivityBehavior).toString ~ " instance");
         }
     }
 
     override
-    public void completed(DelegateExecution execution) throws Exception {
+    public void completed(DelegateExecution execution){
         if (activityBehaviorInstance is null) {
             activityBehaviorInstance = getActivityBehaviorInstance();
         }
 
-        if (activityBehaviorInstance instanceof SubProcessActivityBehavior) {
-            ((SubProcessActivityBehavior) activityBehaviorInstance).completed(execution);
+        if (cast(SubProcessActivityBehavior)activityBehaviorInstance !is null) {
+            (cast(SubProcessActivityBehavior) activityBehaviorInstance).completed(execution);
         } else {
-            throw new FlowableException("completed() can only be called on a " + SubProcessActivityBehavior.class.getName() + " instance");
+            throw new FlowableException("completed() can only be called on a " ~ typeid(SubProcessActivityBehavior).toString ~ " instance");
         }
     }
 
     protected ActivityBehavior getActivityBehaviorInstance() {
         Object delegateInstance = instantiateDelegate(className, fieldDeclarations);
 
-        if (delegateInstance instanceof ActivityBehavior) {
-            return determineBehaviour((ActivityBehavior) delegateInstance);
-        } else if (delegateInstance instanceof JavaDelegate) {
-            return determineBehaviour(new ServiceTaskJavaDelegateActivityBehavior((JavaDelegate) delegateInstance, triggerable, skipExpression));
+        if (cast(ActivityBehavior)delegateInstance !is null) {
+            return determineBehaviour(cast(ActivityBehavior) delegateInstance);
+        } else if (cast(JavaDelegate)delegateInstance !is null) {
+            return determineBehaviour(new ServiceTaskJavaDelegateActivityBehavior(cast(JavaDelegate) delegateInstance, triggerable, skipExpression));
         } else {
-            throw new FlowableIllegalArgumentException(delegateInstance.getClass().getName() + " doesn't implement " + JavaDelegate.class.getName() + " nor " + ActivityBehavior.class.getName());
+            throw new FlowableIllegalArgumentException(" doesn't implement " ~ typeid(JavaDelegate).toString ~ " nor " ~ typeid(ActivityBehavior).toString);
         }
     }
 
     // Adds properties to the given delegation instance (eg multi instance) if needed
     protected ActivityBehavior determineBehaviour(ActivityBehavior delegateInstance) {
         if (hasMultiInstanceCharacteristics()) {
-            multiInstanceActivityBehavior.setInnerActivityBehavior((AbstractBpmnActivityBehavior) delegateInstance);
+            multiInstanceActivityBehavior.setInnerActivityBehavior(cast(AbstractBpmnActivityBehavior) delegateInstance);
             return multiInstanceActivityBehavior;
         }
         return delegateInstance;
