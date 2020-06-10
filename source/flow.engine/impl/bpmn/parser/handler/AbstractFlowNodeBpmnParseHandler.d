@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.AbstractFlowNodeBpmnParseHandler;
 
 import flow.bpmn.model.FlowNode;
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 
 /**
  * @author Joram Barrez
  */
-abstract class AbstractFlowNodeBpmnParseHandler<T : FlowNode> : AbstractBpmnParseHandler!T {
+abstract class AbstractFlowNodeBpmnParseHandler(T) : AbstractBpmnParseHandler!T {
 
 }

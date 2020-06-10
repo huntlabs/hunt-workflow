@@ -10,23 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.SequenceFlowParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.SequenceFlow;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
+import flow.bpmn.model.Process;
 /**
  * @author Joram Barrez
  */
 class SequenceFlowParseHandler : AbstractBpmnParseHandler!SequenceFlow {
 
-    public static final string PROPERTYNAME_CONDITION = "condition";
-    public static final string PROPERTYNAME_CONDITION_TEXT = "conditionText";
+    public static  string PROPERTYNAME_CONDITION = "condition";
+    public static  string PROPERTYNAME_CONDITION_TEXT = "conditionText";
 
     override
-    class<? : BaseElement> getHandledType() {
-        return SequenceFlow.class;
+    TypeInfo getHandledType() {
+        return typeid(SequenceFlow);
     }
 
     override

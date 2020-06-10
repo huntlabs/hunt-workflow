@@ -10,20 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.UserTaskParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.UserTask;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 /**
  * @author Joram Barrez
  */
 class UserTaskParseHandler : AbstractActivityBpmnParseHandler!UserTask {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return UserTask.class;
+    TypeInfo getHandledType() {
+        return typeid(UserTask);
     }
 
     override

@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.BoundaryEventParseHandler;
 
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BoundaryEvent;
@@ -29,8 +28,8 @@ import flow.bpmn.model.MessageEventDefinition;
 import flow.bpmn.model.SignalEventDefinition;
 import flow.bpmn.model.TimerEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.engine.impl.bpmn.parser.handler.AbstractFlowNodeBpmnParseHandler;
+import hunt.logging;
 
 /**
  * @author Joram Barrez
@@ -38,18 +37,16 @@ import org.slf4j.LoggerFactory;
  */
 class BoundaryEventParseHandler : AbstractFlowNodeBpmnParseHandler!BoundaryEvent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BoundaryEventParseHandler.class);
-
     override
-    class<? : BaseElement> getHandledType() {
-        return BoundaryEvent.class;
+    TypeInfo getHandledType() {
+        return typeid(BoundaryEvent);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, BoundaryEvent boundaryEvent) {
 
         if (boundaryEvent.getAttachedToRef() is null) {
-            LOGGER.warn("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event {}", boundaryEvent.getId());
+            logWarning("Invalid reference in boundary event. Make sure that the referenced activity is defined in the same scope as the boundary event {%s}", boundaryEvent.getId());
             return;
         }
 
@@ -58,9 +55,9 @@ class BoundaryEventParseHandler : AbstractFlowNodeBpmnParseHandler!BoundaryEvent
             eventDefinition = boundaryEvent.getEventDefinitions().get(0);
         }
 
-        if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof ErrorEventDefinition || eventDefinition instanceof SignalEventDefinition
-                || eventDefinition instanceof CancelEventDefinition || eventDefinition instanceof ConditionalEventDefinition || eventDefinition instanceof MessageEventDefinition
-                || eventDefinition instanceof EscalationEventDefinition || eventDefinition instanceof CompensateEventDefinition) {
+        if (cast(TimerEventDefinition)eventDefinition !is null || cast(ErrorEventDefinition)eventDefinition !is null || cast(SignalEventDefinition)eventDefinition !is null
+                || cast(CancelEventDefinition)eventDefinition !is null || cast(ConditionalEventDefinition)eventDefinition !is null || cast(MessageEventDefinition)eventDefinition !is null
+                || cast(EscalationEventDefinition)eventDefinition !is null || cast(CompensateEventDefinition)eventDefinition !is null) {
 
             bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse, eventDefinition);
             return;
@@ -69,7 +66,7 @@ class BoundaryEventParseHandler : AbstractFlowNodeBpmnParseHandler!BoundaryEvent
             List!ExtensionElement eventTypeExtensionElements = boundaryEvent.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_TYPE);
             if (eventTypeExtensionElements !is null && !eventTypeExtensionElements.isEmpty()) {
                 string eventTypeValue = eventTypeExtensionElements.get(0).getElementText();
-                if (StringUtils.isNotEmpty(eventTypeValue)) {
+                if (eventTypeValue !is null && eventTypeValue.length != 0) {
                     boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEventRegistryEventActivityBehavior(
                                     boundaryEvent, eventTypeValue, boundaryEvent.isCancelActivity()));
                     return;
@@ -79,7 +76,7 @@ class BoundaryEventParseHandler : AbstractFlowNodeBpmnParseHandler!BoundaryEvent
         }
 
         // Should already be picked up by process validator on deploy, so this is just to be sure
-        LOGGER.warn("Unsupported boundary event type for boundary event {}", boundaryEvent.getId());
+        logWarning("Unsupported boundary event type for boundary event {%s}", boundaryEvent.getId());
     }
 
 }

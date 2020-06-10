@@ -10,52 +10,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.parser.handler.SendTaskParseHandler;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.ImplementationType;
 import flow.bpmn.model.SendTask;
-import flow.engine.impl.bpmn.behavior.WebServiceActivityBehavior;
+//import flow.engine.impl.bpmn.behavior.WebServiceActivityBehavior;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  */
 class SendTaskParseHandler : AbstractActivityBpmnParseHandler!SendTask {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SendTaskParseHandler.class);
 
     override
-    class<? : BaseElement> getHandledType() {
-        return SendTask.class;
+    TypeInfo getHandledType() {
+        return typeid(SendTask);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, SendTask sendTask) {
-
-        if (StringUtils.isNotEmpty(sendTask.getType())) {
-
-            if (sendTask.getType().equalsIgnoreCase("mail")) {
-                sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createMailActivityBehavior(sendTask));
-            } else if (sendTask.getType().equalsIgnoreCase("mule")) {
-                sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createMuleActivityBehavior(sendTask));
-            } else if (sendTask.getType().equalsIgnoreCase("camel")) {
-                sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createCamelActivityBehavior(sendTask));
-            } else if (sendTask.getType().equalsIgnoreCase("dmn")) {
-                sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createDmnActivityBehavior(sendTask));
-            }
-
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(sendTask.getImplementationType()) && StringUtils.isNotEmpty(sendTask.getOperationRef())) {
-
-            WebServiceActivityBehavior webServiceActivityBehavior = bpmnParse.getActivityBehaviorFactory().createWebServiceActivityBehavior(sendTask, bpmnParse.getBpmnModel());
-            sendTask.setBehavior(webServiceActivityBehavior);
-
-        } else {
-            LOGGER.warn("One of the attributes 'type' or 'operation' is mandatory on sendTask {}", sendTask.getId());
-        }
+        implementationMissing(false);
+        //if (StringUtils.isNotEmpty(sendTask.getType())) {
+        //
+        //    if (sendTask.getType().equalsIgnoreCase("mail")) {
+        //        sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createMailActivityBehavior(sendTask));
+        //    } else if (sendTask.getType().equalsIgnoreCase("mule")) {
+        //        sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createMuleActivityBehavior(sendTask));
+        //    } else if (sendTask.getType().equalsIgnoreCase("camel")) {
+        //        sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createCamelActivityBehavior(sendTask));
+        //    } else if (sendTask.getType().equalsIgnoreCase("dmn")) {
+        //        sendTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createDmnActivityBehavior(sendTask));
+        //    }
+        //
+        //} else if (ImplementationType.IMPLEMENTATION_TYPE_WEBSERVICE.equalsIgnoreCase(sendTask.getImplementationType()) && StringUtils.isNotEmpty(sendTask.getOperationRef())) {
+        //
+        //    WebServiceActivityBehavior webServiceActivityBehavior = bpmnParse.getActivityBehaviorFactory().createWebServiceActivityBehavior(sendTask, bpmnParse.getBpmnModel());
+        //    sendTask.setBehavior(webServiceActivityBehavior);
+        //
+        //} else {
+        //    LOGGER.warn("One of the attributes 'type' or 'operation' is mandatory on sendTask {}", sendTask.getId());
+        //}
     }
 
 }

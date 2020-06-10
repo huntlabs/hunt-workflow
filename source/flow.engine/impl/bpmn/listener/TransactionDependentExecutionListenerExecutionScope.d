@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.TransactionDependentExecutionListenerExecutionScope;
 
 import hunt.collection.Map;
 
@@ -21,13 +21,13 @@ import flow.bpmn.model.FlowElement;
  */
 class TransactionDependentExecutionListenerExecutionScope {
 
-    protected final string processInstanceId;
-    protected final string executionId;
-    protected final FlowElement flowElement;
-    protected final Map!(string, Object) executionVariables;
-    protected final Map!(string, Object) customPropertiesMap;
+    protected  string processInstanceId;
+    protected  string executionId;
+    protected  FlowElement flowElement;
+    protected  Map!(string, Object) executionVariables;
+    protected  Map!(string, Object) customPropertiesMap;
 
-    public TransactionDependentExecutionListenerExecutionScope(string processInstanceId, string executionId,
+    this(string processInstanceId, string executionId,
             FlowElement flowElement, Map!(string, Object) executionVariables,
             Map!(string, Object) customPropertiesMap) {
         this.processInstanceId = processInstanceId;

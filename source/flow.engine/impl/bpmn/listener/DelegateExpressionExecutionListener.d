@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.DelegateExpressionExecutionListener;
 
 import hunt.collection.List;
 
@@ -28,25 +28,24 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class DelegateExpressionExecutionListener implements ExecutionListener {
+class DelegateExpressionExecutionListener : ExecutionListener {
 
     protected Expression expression;
-    private final List!FieldDeclaration fieldDeclarations;
+    private List!FieldDeclaration fieldDeclarations;
 
-    public DelegateExpressionExecutionListener(Expression expression, List!FieldDeclaration fieldDeclarations) {
+    this(Expression expression, List!FieldDeclaration fieldDeclarations) {
         this.expression = expression;
         this.fieldDeclarations = fieldDeclarations;
     }
 
-    override
     public void notify(DelegateExecution execution) {
-        Object delegate = DelegateExpressionUtil.resolveDelegateExpression(expression, execution, fieldDeclarations);
-        if (delegate instanceof ExecutionListener) {
-            CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation((ExecutionListener) delegate, execution));
-        } else if (delegate instanceof JavaDelegate) {
-            CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation((JavaDelegate) delegate, execution));
+        Object deleg = DelegateExpressionUtil.resolveDelegateExpression(expression, execution, fieldDeclarations);
+        if (cast(ExecutionListener)deleg !is null) {
+            CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new ExecutionListenerInvocation(cast(ExecutionListener) deleg, execution));
+        } else if (cast(JavaDelegate)deleg !is null) {
+            CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation(cast(JavaDelegate) deleg, execution));
         } else {
-            throw new FlowableIllegalArgumentException("Delegate expression " + expression + " did not resolve to an implementation of " + ExecutionListener.class + " nor " + JavaDelegate.class);
+            throw new FlowableIllegalArgumentException("Delegate expression " ~ " did not resolve to an implementation of " + typeid(ExecutionListener).toString ~ " nor " ~ typeid(JavaDelegate).toString);
         }
     }
 

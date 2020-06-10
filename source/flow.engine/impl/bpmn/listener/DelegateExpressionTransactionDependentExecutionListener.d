@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.DelegateExpressionTransactionDependentExecutionListener;
 
 import hunt.collection.Map;
 
@@ -23,24 +23,23 @@ import flow.variable.service.impl.el.NoExecutionVariableScope;
 /**
  * @author Yvo Swillens
  */
-class DelegateExpressionTransactionDependentExecutionListener implements TransactionDependentExecutionListener {
+class DelegateExpressionTransactionDependentExecutionListener : TransactionDependentExecutionListener {
 
     protected Expression expression;
 
-    public DelegateExpressionTransactionDependentExecutionListener(Expression expression) {
+    this(Expression expression) {
         this.expression = expression;
     }
 
-    override
     public void notify(string processInstanceId, string executionId, FlowElement flowElement, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
-        NoExecutionVariableScope scope = new NoExecutionVariableScope();
+        NoExecutionVariableScope scop = new NoExecutionVariableScope();
 
-        Object delegate = expression.getValue(scope);
+        Object deleg = expression.getValue(scop);
 
-        if (delegate instanceof TransactionDependentExecutionListener) {
-            ((TransactionDependentExecutionListener) delegate).notify(processInstanceId, executionId, flowElement, executionVariables, customPropertiesMap);
+        if (cast(TransactionDependentExecutionListener)deleg !is null) {
+            (cast(TransactionDependentExecutionListener) deleg).notify(processInstanceId, executionId, flowElement, executionVariables, customPropertiesMap);
         } else {
-            throw new FlowableIllegalArgumentException("Delegate expression " + expression + " did not resolve to an implementation of " + TransactionDependentExecutionListener.class);
+            throw new FlowableIllegalArgumentException("Delegate expression "  ~ " did not resolve to an implementation of " ~ typeid(TransactionDependentExecutionListener).toString);
         }
 
     }

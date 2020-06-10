@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.DelegateExpressionCustomPropertiesResolver;
 
 import hunt.collection.Map;
 
@@ -22,11 +22,11 @@ import flow.engine.deleg.DelegateExecution;
 /**
  * @author Yvo Swillens
  */
-class DelegateExpressionCustomPropertiesResolver implements CustomPropertiesResolver {
+class DelegateExpressionCustomPropertiesResolver : CustomPropertiesResolver {
 
     protected Expression expression;
 
-    public DelegateExpressionCustomPropertiesResolver(Expression expression) {
+    this(Expression expression) {
         this.expression = expression;
     }
 
@@ -35,12 +35,12 @@ class DelegateExpressionCustomPropertiesResolver implements CustomPropertiesReso
         // Note: we can't cache the result of the expression, because the
         // execution can change: eg.
         // delegateExpression='${mySpringBeanFactory.randomSpringBean()}'
-        Object delegate = expression.getValue(execution);
+        Object deleg = expression.getValue(execution);
 
-        if (delegate instanceof CustomPropertiesResolver) {
-            return ((CustomPropertiesResolver) delegate).getCustomPropertiesMap(execution);
+        if (cast(CustomPropertiesResolver)deleg !is null) {
+            return (cast(CustomPropertiesResolver) deleg).getCustomPropertiesMap(execution);
         } else {
-            throw new FlowableIllegalArgumentException("Custom properties resolver delegate expression " + expression + " did not resolve to an implementation of " + CustomPropertiesResolver.class);
+            throw new FlowableIllegalArgumentException("Custom properties resolver delegate expression "  ~ " did not resolve to an implementation of " ~ typeid(CustomPropertiesResolver).toString);
         }
     }
 

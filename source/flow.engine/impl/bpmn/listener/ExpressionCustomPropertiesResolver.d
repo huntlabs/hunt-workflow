@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.ExpressionCustomPropertiesResolver;
 
 
 import hunt.collection.Map;
@@ -25,22 +25,22 @@ import flow.engine.deleg.DelegateExecution;
  *
  * @author Yvo Swillens
  */
-class ExpressionCustomPropertiesResolver implements CustomPropertiesResolver {
+class ExpressionCustomPropertiesResolver : CustomPropertiesResolver {
 
     protected Expression expression;
 
-    public ExpressionCustomPropertiesResolver(Expression expression) {
+    this(Expression expression) {
         this.expression = expression;
     }
 
-    override
     public Map!(string, Object) getCustomPropertiesMap(DelegateExecution execution) {
         Object expressionValue = expression.getValue(execution);
-        if (expressionValue instanceof Map) {
-            return (Map!(string, Object)) expressionValue;
-        } else {
-            throw new FlowableIllegalArgumentException("Custom properties resolver expression " + expression + " did not return a Map!(string, Object)");
-        }
+        return cast(Map!(string, Object)) expressionValue;
+        //if (expressionValue instanceof Map) {
+        //    return (Map!(string, Object)) expressionValue;
+        //} else {
+        //    throw new FlowableIllegalArgumentException("Custom properties resolver expression " + expression + " did not return a Map!(string, Object)");
+        //}
     }
 
     /**

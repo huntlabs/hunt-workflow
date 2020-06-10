@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.factory.AbstractBehaviorFactory;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.FieldExtension;
 import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
@@ -30,14 +29,14 @@ abstract class AbstractBehaviorFactory {
     protected ExpressionManager expressionManager;
 
     public List!FieldDeclaration createFieldDeclarations(List!FieldExtension fieldList) {
-        List!FieldDeclaration fieldDeclarations = new ArrayList<>();
+        List!FieldDeclaration fieldDeclarations = new ArrayList!FieldDeclaration();
 
-        for (FieldExtension fieldExtension : fieldList) {
+        foreach (FieldExtension fieldExtension ; fieldList) {
             FieldDeclaration fieldDeclaration = null;
-            if (StringUtils.isNotEmpty(fieldExtension.getExpression())) {
-                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), Expression.class.getName(), expressionManager.createExpression(fieldExtension.getExpression()));
+            if (fieldExtension.getExpression() !is null && fieldExtension.getExpression().length != 0) {
+                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), typeid(Expression).toString, expressionManager.createExpression(fieldExtension.getExpression()));
             } else {
-                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), Expression.class.getName(), new FixedValue(fieldExtension.getStringValue()));
+                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), typeid(Expression).toString, new FixedValue(fieldExtension.getStringValue()));
             }
 
             fieldDeclarations.add(fieldDeclaration);

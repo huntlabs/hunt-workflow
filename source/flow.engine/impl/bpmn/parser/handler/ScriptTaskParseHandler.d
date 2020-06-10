@@ -10,32 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.parser.handler.ScriptTaskParseHandler;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.ScriptTask;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
+import hunt.logging;
 /**
  * @author Joram Barrez
  */
 class ScriptTaskParseHandler : AbstractActivityBpmnParseHandler!ScriptTask {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScriptTaskParseHandler.class);
-
     override
-    class<? : BaseElement> getHandledType() {
-        return ScriptTask.class;
+    TypeInfo getHandledType() {
+        return typeid(ScriptTask);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, ScriptTask scriptTask) {
 
-        if (StringUtils.isEmpty(scriptTask.getScript())) {
-            LOGGER.warn("No script provided for scriptTask {}", scriptTask.getId());
+        if (scriptTask.getScript() is null || scriptTask.getScript().length == 0) {
+            logWarning("No script provided for scriptTask {%s}", scriptTask.getId());
         }
 
         scriptTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createScriptTaskActivityBehavior(scriptTask));

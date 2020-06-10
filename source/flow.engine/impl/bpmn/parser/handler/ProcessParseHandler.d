@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.ProcessParseHandler;
 
 import hunt.collection.List;
 
@@ -24,27 +24,24 @@ import flow.common.event.FlowableEventSupport;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
+import hunt.logging;
 /**
  * @author Joram Barrez
  */
 class ProcessParseHandler : AbstractBpmnParseHandler!Process {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessParseHandler.class);
-
-    public static final string PROPERTYNAME_DOCUMENTATION = "documentation";
+    public static  string PROPERTYNAME_DOCUMENTATION = "documentation";
 
     override
-    class<? : BaseElement> getHandledType() {
-        return Process.class;
+    TypeInfo getHandledType() {
+        return typeid(Process);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, Process process) {
         if (!process.isExecutable()) {
-            LOGGER.info("Ignoring non-executable process with id='{}'. Set the attribute isExecutable=\"true\" to deploy this process.", process.getId());
+            logInfo("Ignoring non-executable process with id='{%s}'. Set the attribute isExecutable=\"true\" to deploy this process.", process.getId());
         } else {
             bpmnParse.getProcessDefinitions().add(transformProcess(bpmnParse, process));
         }
@@ -69,9 +66,9 @@ class ProcessParseHandler : AbstractBpmnParseHandler!Process {
 
         createEventListeners(bpmnParse, process.getEventListeners());
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Parsing process {}", currentProcessDefinition.getKey());
-        }
+        //if (LOGGER.isDebugEnabled()) {
+        //    LOGGER.debug("Parsing process {}", currentProcessDefinition.getKey());
+        //}
 
         bpmnParse.processFlowElements(process.getFlowElements());
         processArtifacts(bpmnParse, process.getArtifacts());
@@ -82,25 +79,25 @@ class ProcessParseHandler : AbstractBpmnParseHandler!Process {
     protected void createEventListeners(BpmnParse bpmnParse, List!EventListener eventListeners) {
 
         if (eventListeners !is null && !eventListeners.isEmpty()) {
-            for (EventListener eventListener : eventListeners) {
+            foreach (EventListener eventListener ; eventListeners) {
                 // Extract specific event-types (if any)
                 FlowableEngineEventType[] types = FlowableEngineEventType.getTypesFromString(eventListener.getEvents());
 
-                if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equals(eventListener.getImplementationType())) {
+                if (ImplementationType.IMPLEMENTATION_TYPE_CLASS == (eventListener.getImplementationType())) {
                     getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createClassDelegateEventListener(eventListener), types);
 
-                } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equals(eventListener.getImplementationType())) {
+                } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION == (eventListener.getImplementationType())) {
                     getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createDelegateExpressionEventListener(eventListener), types);
 
-                } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT.equals(eventListener.getImplementationType())
-                        || ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT.equals(eventListener.getImplementationType())
-                        || ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT.equals(eventListener.getImplementationType())
-                        || ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT.equals(eventListener.getImplementationType())) {
+                } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT == (eventListener.getImplementationType())
+                        || ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT == (eventListener.getImplementationType())
+                        || ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT == (eventListener.getImplementationType())
+                        || ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT == (eventListener.getImplementationType())) {
 
                     getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createEventThrowingEventListener(eventListener), types);
 
                 } else {
-                    LOGGER.warn("Unsupported implementation type for EventListener: {} for element {}", eventListener.getImplementationType(), bpmnParse.getCurrentFlowElement().getId());
+                    logWarning("Unsupported implementation type for EventListener: {%s} for element {%s}", eventListener.getImplementationType(), bpmnParse.getCurrentFlowElement().getId());
                 }
             }
         }
@@ -108,7 +105,7 @@ class ProcessParseHandler : AbstractBpmnParseHandler!Process {
     }
 
     protected FlowableEventSupport getEventSupport(BpmnModel bpmnModel) {
-        return (FlowableEventSupport) bpmnModel.getEventSupport();
+        return cast(FlowableEventSupport) bpmnModel.getEventSupport();
     }
 
 }

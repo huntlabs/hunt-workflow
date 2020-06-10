@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 
 import hunt.collection;
 import hunt.collection.HashSet;
@@ -29,31 +29,28 @@ import flow.bpmn.model.SequenceFlow;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.parse.BpmnParseHandler;
-
+import  std.uni;
 /**
  * @author Joram Barrez
  */
-abstract class AbstractBpmnParseHandler<T : BaseElement> implements BpmnParseHandler {
+abstract class AbstractBpmnParseHandler(T) : BpmnParseHandler {
 
-    public static final string PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION = "eventDefinitions";
+    public static  string PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION = "eventDefinitions";
 
-    public static final string PROPERTYNAME_ERROR_EVENT_DEFINITIONS = "errorEventDefinitions";
+    public static  string PROPERTYNAME_ERROR_EVENT_DEFINITIONS = "errorEventDefinitions";
 
-    public static final string PROPERTYNAME_TIMER_DECLARATION = "timerDeclarations";
+    public static  string PROPERTYNAME_TIMER_DECLARATION = "timerDeclarations";
 
-    override
-    public Set<Class<? : BaseElement>> getHandledTypes() {
-        Set<Class<? : BaseElement>> types = new HashSet<>();
+    public Set!TypeInfo getHandledTypes() {
+        Set!TypeInfo types = new HashSet!TypeInfo();
         types.add(getHandledType());
         return types;
     }
 
-    protected abstract Class<? : BaseElement> getHandledType();
+    protected abstract TypeInfo getHandledType();
 
-    @SuppressWarnings("unchecked")
-    override
     public void parse(BpmnParse bpmnParse, BaseElement element) {
-        T baseElement = (T) element;
+        T baseElement = cast(T) element;
         executeParse(bpmnParse, baseElement);
     }
 
@@ -62,11 +59,11 @@ abstract class AbstractBpmnParseHandler<T : BaseElement> implements BpmnParseHan
     protected ExecutionListener createExecutionListener(BpmnParse bpmnParse, FlowableListener listener) {
         ExecutionListener executionListener = null;
 
-        if (ImplementationType.IMPLEMENTATION_TYPE_CLASS.equalsIgnoreCase(listener.getImplementationType())) {
+        if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_CLASS,(listener.getImplementationType())) == 0) {
             executionListener = bpmnParse.getListenerFactory().createClassDelegateExecutionListener(listener);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
+        } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_EXPRESSION,(listener.getImplementationType())) == 0) {
             executionListener = bpmnParse.getListenerFactory().createExpressionExecutionListener(listener);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION.equalsIgnoreCase(listener.getImplementationType())) {
+        } else if (sicmp(ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION,(listener.getImplementationType())) == 0) {
             executionListener = bpmnParse.getListenerFactory().createDelegateExpressionExecutionListener(listener);
         }
         return executionListener;
@@ -74,9 +71,9 @@ abstract class AbstractBpmnParseHandler<T : BaseElement> implements BpmnParseHan
 
     protected string getPrecedingEventBasedGateway(BpmnParse bpmnParse, IntermediateCatchEvent event) {
         string eventBasedGatewayId = null;
-        for (SequenceFlow sequenceFlow : event.getIncomingFlows()) {
+        foreach (SequenceFlow sequenceFlow ; event.getIncomingFlows()) {
             FlowElement sourceElement = bpmnParse.getBpmnModel().getFlowElement(sequenceFlow.getSourceRef());
-            if (sourceElement instanceof EventGateway) {
+            if (cast(EventGateway)sourceElement !is null) {
                 eventBasedGatewayId = sourceElement.getId();
                 break;
             }
@@ -86,9 +83,9 @@ abstract class AbstractBpmnParseHandler<T : BaseElement> implements BpmnParseHan
 
     protected void processArtifacts(BpmnParse bpmnParse, Collection!Artifact artifacts) {
         // associations
-        for (Artifact artifact : artifacts) {
-            if (artifact instanceof Association) {
-                createAssociation(bpmnParse, (Association) artifact);
+        foreach (Artifact artifact ; artifacts) {
+            if (cast(Association)artifact !is null) {
+                createAssociation(bpmnParse, cast(Association) artifact);
             }
         }
     }

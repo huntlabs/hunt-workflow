@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,33 +11,30 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.bpmn.parser.FieldDeclaration;
 
-
-import java.io.Serializable;
 
 /**
  * Represents a field declaration in object form:
- * 
+ *
  * &lt;field name='someField&gt; &lt;string ...
- * 
+ *
  * @author Joram Barrez
  * @author Frederik Heremans
  */
-class FieldDeclaration implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+class FieldDeclaration {
 
     protected string name;
     protected string type;
     protected Object value;
 
-    public FieldDeclaration(string name, string type, Object value) {
+    this(string name, string type, Object value) {
         this.name = name;
         this.type = type;
         this.value = value;
     }
 
-    public FieldDeclaration() {
+    this() {
 
     }
 

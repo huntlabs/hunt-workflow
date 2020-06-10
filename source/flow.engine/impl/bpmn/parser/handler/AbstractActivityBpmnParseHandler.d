@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.Activity;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.FlowNode;
@@ -22,18 +21,18 @@ import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.util.CommandContextUtil;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractFlowNodeBpmnParseHandler;
 /**
  * @author Joram Barrez
  */
-abstract class AbstractActivityBpmnParseHandler<T : FlowNode> : AbstractFlowNodeBpmnParseHandler!T {
+abstract class AbstractActivityBpmnParseHandler(T) : AbstractFlowNodeBpmnParseHandler!T {
 
     override
     public void parse(BpmnParse bpmnParse, BaseElement element) {
         super.parse(bpmnParse, element);
 
-        if (element instanceof Activity && ((Activity) element).getLoopCharacteristics() !is null) {
-            createMultiInstanceLoopCharacteristics(bpmnParse, (Activity) element);
+        if (cast(Activity)element !is null && (cast(Activity) element).getLoopCharacteristics() !is null) {
+            createMultiInstanceLoopCharacteristics(bpmnParse, cast(Activity) element);
         }
     }
 
@@ -48,32 +47,32 @@ abstract class AbstractActivityBpmnParseHandler<T : FlowNode> : AbstractFlowNode
         ExpressionManager expressionManager = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager();
 
         // loop cardinality
-        if (StringUtils.isNotEmpty(loopCharacteristics.getLoopCardinality())) {
+        if (loopCharacteristics.getLoopCardinality() !is null && loopCharacteristics.getLoopCardinality().length != 0) {
             miActivityBehavior.setLoopCardinalityExpression(expressionManager.createExpression(loopCharacteristics.getLoopCardinality()));
         }
 
         // completion condition
-        if (StringUtils.isNotEmpty(loopCharacteristics.getCompletionCondition())) {
+        if (loopCharacteristics.getCompletionCondition() !is null && loopCharacteristics.getCompletionCondition().length != 0) {
             miActivityBehavior.setCompletionCondition(loopCharacteristics.getCompletionCondition());
         }
 
         // flowable:collection
-        if (StringUtils.isNotEmpty(loopCharacteristics.getInputDataItem())) {
+        if (loopCharacteristics.getInputDataItem() !is null && loopCharacteristics.getInputDataItem().length != 0) {
             miActivityBehavior.setCollectionExpression(expressionManager.createExpression(loopCharacteristics.getInputDataItem()));
         }
 
         // flowable:collectionString
-        if (StringUtils.isNotEmpty(loopCharacteristics.getCollectionString())) {
+        if (loopCharacteristics.getCollectionString() !is null && loopCharacteristics.getCollectionString().length != 0) {
             miActivityBehavior.setCollectionString(loopCharacteristics.getCollectionString());
         }
 
         // flowable:elementVariable
-        if (StringUtils.isNotEmpty(loopCharacteristics.getElementVariable())) {
+        if (loopCharacteristics.getElementVariable() !is null && loopCharacteristics.getElementVariable().length != 0) {
             miActivityBehavior.setCollectionElementVariable(loopCharacteristics.getElementVariable());
         }
 
         // flowable:elementIndexVariable
-        if (StringUtils.isNotEmpty(loopCharacteristics.getElementIndexVariable())) {
+        if (loopCharacteristics.getElementIndexVariable() !is null && loopCharacteristics.getElementIndexVariable().length != 0) {
             miActivityBehavior.setCollectionElementIndexVariable(loopCharacteristics.getElementIndexVariable());
         }
 
@@ -86,7 +85,7 @@ abstract class AbstractActivityBpmnParseHandler<T : FlowNode> : AbstractFlowNode
     protected MultiInstanceActivityBehavior createMultiInstanceActivityBehavior(Activity modelActivity, MultiInstanceLoopCharacteristics loopCharacteristics, BpmnParse bpmnParse) {
         MultiInstanceActivityBehavior miActivityBehavior = null;
 
-        AbstractBpmnActivityBehavior modelActivityBehavior = (AbstractBpmnActivityBehavior) modelActivity.getBehavior();
+        AbstractBpmnActivityBehavior modelActivityBehavior = cast(AbstractBpmnActivityBehavior) modelActivity.getBehavior();
         if (loopCharacteristics.isSequential()) {
             miActivityBehavior = bpmnParse.getActivityBehaviorFactory().createSequentialMultiInstanceBehavior(modelActivity, modelActivityBehavior);
         } else {

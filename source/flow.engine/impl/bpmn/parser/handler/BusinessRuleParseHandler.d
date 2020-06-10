@@ -10,20 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.BusinessRuleParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BusinessRuleTask;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 /**
  * @author Joram Barrez
  */
 class BusinessRuleParseHandler : AbstractActivityBpmnParseHandler!BusinessRuleTask {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return BusinessRuleTask.class;
+    TypeInfo getHandledType() {
+        return typeid(BusinessRuleTask);
     }
 
     override

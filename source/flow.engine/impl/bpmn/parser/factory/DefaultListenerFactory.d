@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.factory.DefaultListenerFactory;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -49,124 +49,132 @@ import flow.identitylink.api.IdentityLink;
 import flow.job.service.api.Job;
 import flow.task.api.Task;
 import flow.task.service.deleg.TaskListener;
-
+import flow.engine.impl.bpmn.parser.factory.AbstractBehaviorFactory;
+import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
+import std.concurrency : initOnce;
+import std.string;
 /**
  * Default implementation of the {@link ListenerFactory}. Used when no custom {@link ListenerFactory} is injected on the {@link ProcessEngineConfigurationImpl}.
  *
  * @author Joram Barrez
  */
-class DefaultListenerFactory : AbstractBehaviorFactory implements ListenerFactory {
-    private final ClassDelegateFactory classDelegateFactory;
+class DefaultListenerFactory : AbstractBehaviorFactory , ListenerFactory {
+    private ClassDelegateFactory classDelegateFactory;
 
-    public DefaultListenerFactory(ClassDelegateFactory classDelegateFactory) {
+    this(ClassDelegateFactory classDelegateFactory) {
         this.classDelegateFactory = classDelegateFactory;
     }
 
-    public DefaultListenerFactory() {
+    this() {
         this(new DefaultClassDelegateFactory());
     }
 
-    public static final Map<string, Class<?>> ENTITY_MAPPING = new HashMap<>();
-    static {
-        ENTITY_MAPPING.put("attachment", Attachment.class);
-        ENTITY_MAPPING.put("comment", Comment.class);
-        ENTITY_MAPPING.put("execution", Execution.class);
-        ENTITY_MAPPING.put("identity-link", IdentityLink.class);
-        ENTITY_MAPPING.put("job", Job.class);
-        ENTITY_MAPPING.put("process-definition", ProcessDefinition.class);
-        ENTITY_MAPPING.put("process-instance", ProcessInstance.class);
-        ENTITY_MAPPING.put("task", Task.class);
+    static Map!(string,TypeInfo) ENTITY_MAPPING() {
+      __gshared Map!(string,TypeInfo) inst;
+      return initOnce!inst(new HashMap!(string,TypeInfo));
     }
 
-    override
+   // public static final Map<string, Class<?>> ENTITY_MAPPING = new HashMap<>();
+    static shared this() {
+        ENTITY_MAPPING.put("attachment", typeid(Attachment));
+        ENTITY_MAPPING.put("comment", typeid(Comment));
+        ENTITY_MAPPING.put("execution", typeid(Execution));
+        ENTITY_MAPPING.put("identity-link", typeid(IdentityLink));
+        ENTITY_MAPPING.put("job", typeid(Job));
+        ENTITY_MAPPING.put("process-definition", typeid(ProcessDefinition));
+        ENTITY_MAPPING.put("process-instance", typeid(ProcessInstance));
+        ENTITY_MAPPING.put("task", typeid(Task));
+    }
+
+
     public TaskListener createClassDelegateTaskListener(FlowableListener listener) {
         return classDelegateFactory.create(listener.getImplementation(),
                 createFieldDeclarations(listener.getFieldExtensions()));
     }
 
-    override
+
     public TaskListener createExpressionTaskListener(FlowableListener listener) {
         return new ExpressionTaskListener(expressionManager.createExpression(listener.getImplementation()));
     }
 
-    override
+
     public TaskListener createDelegateExpressionTaskListener(FlowableListener listener) {
         return new DelegateExpressionTaskListener(expressionManager.createExpression(listener.getImplementation()), createFieldDeclarations(listener.getFieldExtensions()));
     }
 
-    override
+
     public TransactionDependentTaskListener createTransactionDependentDelegateExpressionTaskListener(FlowableListener listener) {
         return new DelegateExpressionTransactionDependentTaskListener(expressionManager.createExpression(listener.getImplementation()));
     }
 
-    override
+
     public ExecutionListener createClassDelegateExecutionListener(FlowableListener listener) {
         return classDelegateFactory.create(listener.getImplementation(), createFieldDeclarations(listener.getFieldExtensions()));
     }
 
-    override
+
     public ExecutionListener createExpressionExecutionListener(FlowableListener listener) {
         return new ExpressionExecutionListener(expressionManager.createExpression(listener.getImplementation()));
     }
 
-    override
+
     public ExecutionListener createDelegateExpressionExecutionListener(FlowableListener listener) {
         return new DelegateExpressionExecutionListener(expressionManager.createExpression(listener.getImplementation()), createFieldDeclarations(listener.getFieldExtensions()));
     }
 
-    override
+
     public DelegateExpressionTransactionDependentExecutionListener createTransactionDependentDelegateExpressionExecutionListener(FlowableListener listener) {
         return new DelegateExpressionTransactionDependentExecutionListener(expressionManager.createExpression(listener.getImplementation()));
     }
 
-    override
+
     public FlowableEventListener createClassDelegateEventListener(EventListener eventListener) {
         return new DelegateFlowableEventListener(eventListener.getImplementation(), getEntityType(eventListener.getEntityType()));
     }
 
-    override
+
     public FlowableEventListener createDelegateExpressionEventListener(EventListener eventListener) {
         return new DelegateExpressionFlowableEventListener(expressionManager.createExpression(eventListener.getImplementation()), getEntityType(eventListener.getEntityType()));
     }
 
-    override
+
     public FlowableEventListener createEventThrowingEventListener(EventListener eventListener) {
         BaseDelegateEventListener result = null;
-        if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT.equals(eventListener.getImplementationType())) {
+        if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT == (eventListener.getImplementationType())) {
             result = new SignalThrowingEventListener();
-            ((SignalThrowingEventListener) result).setSignalName(eventListener.getImplementation());
-            ((SignalThrowingEventListener) result).setProcessInstanceScope(true);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT.equals(eventListener.getImplementationType())) {
+            (cast(SignalThrowingEventListener) result).setSignalName(eventListener.getImplementation());
+            (cast(SignalThrowingEventListener) result).setProcessInstanceScope(true);
+        } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT == (eventListener.getImplementationType())) {
             result = new SignalThrowingEventListener();
-            ((SignalThrowingEventListener) result).setSignalName(eventListener.getImplementation());
-            ((SignalThrowingEventListener) result).setProcessInstanceScope(false);
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT.equals(eventListener.getImplementationType())) {
+            (cast(SignalThrowingEventListener) result).setSignalName(eventListener.getImplementation());
+            (cast(SignalThrowingEventListener) result).setProcessInstanceScope(false);
+        } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT == (eventListener.getImplementationType())) {
             result = new MessageThrowingEventListener();
-            ((MessageThrowingEventListener) result).setMessageName(eventListener.getImplementation());
-        } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT.equals(eventListener.getImplementationType())) {
+            (cast(MessageThrowingEventListener) result).setMessageName(eventListener.getImplementation());
+        } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT == (eventListener.getImplementationType())) {
             result = new ErrorThrowingEventListener();
-            ((ErrorThrowingEventListener) result).setErrorCode(eventListener.getImplementation());
+            (cast(ErrorThrowingEventListener) result).setErrorCode(eventListener.getImplementation());
         }
 
         if (result is null) {
-            throw new FlowableIllegalArgumentException("Cannot create an event-throwing event-listener, unknown implementation type: " + eventListener.getImplementationType());
+            throw new FlowableIllegalArgumentException("Cannot create an event-throwing event-listener, unknown implementation type: " ~ eventListener.getImplementationType());
         }
 
         result.setEntityClass(getEntityType(eventListener.getEntityType()));
         return result;
     }
 
-    override
+
     public CustomPropertiesResolver createClassDelegateCustomPropertiesResolver(FlowableListener listener) {
         return classDelegateFactory.create(listener.getCustomPropertiesResolverImplementation(), null);
     }
 
-    override
+
     public CustomPropertiesResolver createExpressionCustomPropertiesResolver(FlowableListener listener) {
         return new ExpressionCustomPropertiesResolver(expressionManager.createExpression(listener.getCustomPropertiesResolverImplementation()));
     }
 
-    override
+
     public CustomPropertiesResolver createDelegateExpressionCustomPropertiesResolver(FlowableListener listener) {
         return new DelegateExpressionCustomPropertiesResolver(expressionManager.createExpression(listener.getCustomPropertiesResolverImplementation()));
     }
@@ -178,11 +186,11 @@ class DefaultListenerFactory : AbstractBehaviorFactory implements ListenerFactor
      * @throws FlowableIllegalArgumentException
      *             when the given entity name
      */
-    protected Class<?> getEntityType(string entityType) {
+    protected TypeInfo getEntityType(string entityType) {
         if (entityType !is null) {
-            Class<?> entityClass = ENTITY_MAPPING.get(entityType.trim());
+            TypeInfo entityClass = ENTITY_MAPPING.get(strip(entityType));
             if (entityClass is null) {
-                throw new FlowableIllegalArgumentException("Unsupported entity-type for a FlowableEventListener: " + entityType);
+                throw new FlowableIllegalArgumentException("Unsupported entity-type for a FlowableEventListener: " ~ typeid(entityType).toString());
             }
             return entityClass;
         }

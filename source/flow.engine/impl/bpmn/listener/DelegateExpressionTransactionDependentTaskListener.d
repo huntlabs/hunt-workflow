@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.DelegateExpressionTransactionDependentTaskListener;
 
 import hunt.collection.Map;
 
@@ -23,24 +23,23 @@ import flow.variable.service.impl.el.NoExecutionVariableScope;
 /**
  * @author Yvo Swillens
  */
-class DelegateExpressionTransactionDependentTaskListener implements TransactionDependentTaskListener {
+class DelegateExpressionTransactionDependentTaskListener : TransactionDependentTaskListener {
 
     protected Expression expression;
 
-    public DelegateExpressionTransactionDependentTaskListener(Expression expression) {
+    this(Expression expression) {
         this.expression = expression;
     }
 
-    override
     public void notify(string processInstanceId, string executionId, Task task, Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap) {
-        NoExecutionVariableScope scope = new NoExecutionVariableScope();
+        NoExecutionVariableScope scop = new NoExecutionVariableScope();
 
-        Object delegate = expression.getValue(scope);
+        Object deleg = expression.getValue(scop);
 
-        if (delegate instanceof TransactionDependentTaskListener) {
-            ((TransactionDependentTaskListener) delegate).notify(processInstanceId, executionId, task, executionVariables, customPropertiesMap);
+        if (cast(TransactionDependentTaskListener)deleg !is null) {
+            (cast(TransactionDependentTaskListener) deleg).notify(processInstanceId, executionId, task, executionVariables, customPropertiesMap);
         } else {
-            throw new FlowableIllegalArgumentException("Delegate expression " + expression + " did not resolve to an implementation of " + TransactionDependentTaskListener.class);
+            throw new FlowableIllegalArgumentException("Delegate expression " ~ " did not resolve to an implementation of " ~ typeid(TransactionDependentTaskListener).toString);
         }
 
     }

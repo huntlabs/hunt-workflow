@@ -10,20 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.SubProcessParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.SubProcess;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 /**
  * @author Joram Barrez
  */
 class SubProcessParseHandler : AbstractActivityBpmnParseHandler!SubProcess {
 
     override
-    protected Class<? : BaseElement> getHandledType() {
-        return SubProcess.class;
+    protected TypeInfo getHandledType() {
+        return typeid(SubProcess);
     }
 
     override

@@ -30,23 +30,23 @@ module flow.common.api.deleg.FlowableFunctionDelegate;
 // * @author Tijs Rademakers
 // * @author Joram Barrez
 // */
-//interface FlowableFunctionDelegate {
-//
-//    /**
-//     * The prefix of the method when used in an expression, like the first part of ${prefix:method()}.
-//     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
-//     */
-//    string prefix();
-//
-//    /**
-//     * The name of the method when used in an expression, like the second part of ${prefix:method()}.
-//     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
-//     */
-//    string localName();
-//
-//    /**
-//     * Returns the method that is invoked by JUEL.
-//     */
-//    Method functionMethod();
-//
-//}
+interface FlowableFunctionDelegate {
+
+    /**
+     * The prefix of the method when used in an expression, like the first part of ${prefix:method()}.
+     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
+     */
+    string prefix();
+
+    /**
+     * The name of the method when used in an expression, like the second part of ${prefix:method()}.
+     * Will be used to match the text of the expression to the actual {@link FlowableFunctionDelegate} instance.
+     */
+    string localName();
+
+    /**
+     * Returns the method that is invoked by JUEL.
+     */
+    //Method functionMethod();
+
+}

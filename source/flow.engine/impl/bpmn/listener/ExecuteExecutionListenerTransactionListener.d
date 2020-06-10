@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.listener.ExecuteExecutionListenerTransactionListener;
 
 import flow.common.cfg.TransactionListener;
 import flow.common.cfg.TransactionPropagation;
@@ -20,33 +20,34 @@ import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.TransactionDependentExecutionListener;
+import flow.engine.impl.bpmn.listener.TransactionDependentExecutionListenerExecutionScope;
+import hunt.Object;
 
 /**
  * A {@link TransactionListener} that invokes an {@link ExecutionListener}.
  *
  * @author Joram Barrez
  */
-class ExecuteExecutionListenerTransactionListener implements TransactionListener {
+class ExecuteExecutionListenerTransactionListener : TransactionListener {
 
     protected TransactionDependentExecutionListener listener;
-    protected TransactionDependentExecutionListenerExecutionScope scope;
+    protected TransactionDependentExecutionListenerExecutionScope scop;
     protected CommandExecutor commandExecutor;
 
-    public ExecuteExecutionListenerTransactionListener(TransactionDependentExecutionListener listener,
-            TransactionDependentExecutionListenerExecutionScope scope, CommandExecutor commandExecutor) {
+    this(TransactionDependentExecutionListener listener,
+            TransactionDependentExecutionListenerExecutionScope scop, CommandExecutor commandExecutor) {
         this.listener = listener;
-        this.scope = scope;
+        this.scop = scop;
         this.commandExecutor = commandExecutor;
     }
 
     override
     public void execute(CommandContext commandContext) {
         CommandConfig commandConfig = new CommandConfig(false, TransactionPropagation.REQUIRES_NEW);
-        commandExecutor.execute(commandConfig, new Command!Void() {
-            override
+        commandExecutor.execute(commandConfig, new class Command!Void {
             public Void execute(CommandContext commandContext) {
-                listener.notify(scope.getProcessInstanceId(), scope.getExecutionId(), scope.getFlowElement(),
-                        scope.getExecutionVariables(), scope.getCustomPropertiesMap());
+                listener.notify(scop.getProcessInstanceId(), scop.getExecutionId(), scop.getFlowElement(),
+                        scop.getExecutionVariables(), scop.getCustomPropertiesMap());
                 return null;
             }
         });

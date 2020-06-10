@@ -1,26 +1,26 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.BpmnParser;
 
 import flow.engine.impl.bpmn.parser.factory.ActivityBehaviorFactory;
 import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
 import flow.engine.impl.cfg.BpmnParseFactory;
-
+import flow.engine.impl.bpmn.parser.BpmnParseHandlers;
 /**
  * Parser for BPMN 2.0 process models.
- * 
+ *
  * There is only one instance of this parser in the process engine. This {@link BpmnParser} creates {@link BpmnParse} instances that can be used to actually parse the BPMN 2.0 XML process definitions.
- * 
+ *
  * @author Tom Baeyens
  * @author Joram Barrez
  */
@@ -29,17 +29,17 @@ class BpmnParser {
     /**
      * The namespace of the BPMN 2.0 diagram interchange elements.
      */
-    public static final string BPMN_DI_NS = "http://www.omg.org/spec/BPMN/20100524/DI";
+    public static  string BPMN_DI_NS = "http://www.omg.org/spec/BPMN/20100524/DI";
 
     /**
      * The namespace of the BPMN 2.0 diagram common elements.
      */
-    public static final string BPMN_DC_NS = "http://www.omg.org/spec/DD/20100524/DC";
+    public static  string BPMN_DC_NS = "http://www.omg.org/spec/DD/20100524/DC";
 
     /**
      * The namespace of the generic OMG DI elements (don't ask me why they didn't use the BPMN_DI_NS ...)
      */
-    public static final string OMG_DI_NS = "http://www.omg.org/spec/DD/20100524/DI";
+    public static  string OMG_DI_NS = "http://www.omg.org/spec/DD/20100524/DI";
 
     protected ActivityBehaviorFactory activityBehaviorFactory;
     protected ListenerFactory listenerFactory;

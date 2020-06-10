@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.bpmn.parser.handler.EndEventParseHandler;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.CancelEventDefinition;
 import flow.bpmn.model.EndEvent;
@@ -22,8 +21,7 @@ import flow.bpmn.model.EscalationEventDefinition;
 import flow.bpmn.model.EventDefinition;
 import flow.bpmn.model.TerminateEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -31,11 +29,9 @@ import org.slf4j.LoggerFactory;
  */
 class EndEventParseHandler : AbstractActivityBpmnParseHandler!EndEvent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EndEventParseHandler.class);
-
     override
-    class<? : BaseElement> getHandledType() {
-        return EndEvent.class;
+    TypeInfo getHandledType() {
+        return typeid(EndEvent);
     }
 
     override
@@ -45,31 +41,31 @@ class EndEventParseHandler : AbstractActivityBpmnParseHandler!EndEvent {
         if (endEvent.getEventDefinitions().size() > 0) {
             eventDefinition = endEvent.getEventDefinitions().get(0);
 
-            if (eventDefinition instanceof ErrorEventDefinition) {
-                ErrorEventDefinition errorDefinition = (ErrorEventDefinition) eventDefinition;
+            if (cast(ErrorEventDefinition)eventDefinition !is null) {
+                ErrorEventDefinition errorDefinition = cast(ErrorEventDefinition) eventDefinition;
                 if (bpmnParse.getBpmnModel().containsErrorRef(errorDefinition.getErrorCode())) {
                     string errorCode = bpmnParse.getBpmnModel().getErrors().get(errorDefinition.getErrorCode());
-                    if (StringUtils.isEmpty(errorCode)) {
-                        LOGGER.warn("errorCode is required for an error event {}", endEvent.getId());
+                    if (errorCode !is null && errorCode.length != 0) {
+                        logWarning("errorCode is required for an error event {%s}", endEvent.getId());
                     }
                 }
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createErrorEndEventActivityBehavior(endEvent, errorDefinition));
 
-            } else if (eventDefinition instanceof EscalationEventDefinition) {
-                EscalationEventDefinition escalationDefinition = (EscalationEventDefinition) eventDefinition;
+            } else if (cast(EscalationEventDefinition)eventDefinition !is null) {
+                EscalationEventDefinition escalationDefinition = cast(EscalationEventDefinition) eventDefinition;
                 Escalation escalation = null;
                 if (bpmnParse.getBpmnModel().containsEscalationRef(escalationDefinition.getEscalationCode())) {
                     escalation = bpmnParse.getBpmnModel().getEscalation(escalationDefinition.getEscalationCode());
                     string escalationCode = escalation.getEscalationCode();
-                    if (StringUtils.isEmpty(escalationCode)) {
-                        LOGGER.warn("escalationCode is required for an escalation event {}", endEvent.getId());
+                    if (escalationCode is null || escalationCode.length == 0) {
+                        logWarning("escalationCode is required for an escalation event {%s}", endEvent.getId());
                     }
                 }
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createEscalationEndEventActivityBehavior(endEvent, escalationDefinition, escalation));
 
-            } else if (eventDefinition instanceof TerminateEventDefinition) {
+            } else if (cast(TerminateEventDefinition)eventDefinition !is null) {
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createTerminateEndEventActivityBehavior(endEvent));
-            } else if (eventDefinition instanceof CancelEventDefinition) {
+            } else if (cast(CancelEventDefinition)eventDefinition !is null) {
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createCancelEndEventActivityBehavior(endEvent));
             } else {
                 endEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createNoneEndEventActivityBehavior(endEvent));

@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.TransactionParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.Transaction;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -23,8 +24,8 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class TransactionParseHandler : AbstractActivityBpmnParseHandler!Transaction {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return Transaction.class;
+    TypeInfo getHandledType() {
+        return typeid(Transaction);
     }
 
     override

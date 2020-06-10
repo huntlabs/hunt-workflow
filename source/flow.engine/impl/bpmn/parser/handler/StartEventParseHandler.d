@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.StartEventParseHandler;
 
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ErrorEventDefinition;
@@ -28,8 +27,8 @@ import flow.bpmn.model.Signal;
 import flow.bpmn.model.SignalEventDefinition;
 import flow.bpmn.model.StartEvent;
 import flow.bpmn.model.TimerEventDefinition;
-import flow.common.util.CollectionUtil;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -38,21 +37,21 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class StartEventParseHandler : AbstractActivityBpmnParseHandler!StartEvent {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return StartEvent.class;
+    TypeInfo getHandledType() {
+        return typeid(StartEvent);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, StartEvent element) {
-        if (element.getSubProcess() !is null && element.getSubProcess() instanceof EventSubProcess) {
-            if (CollectionUtil.isNotEmpty(element.getEventDefinitions())) {
+        if (element.getSubProcess() !is null && cast(EventSubProcess)element.getSubProcess() !is null) {
+            if (element.getEventDefinitions() !is null && element.getEventDefinitions().size != 0) {
                 EventDefinition eventDefinition = element.getEventDefinitions().get(0);
-                if (eventDefinition instanceof MessageEventDefinition) {
+                if (cast(MessageEventDefinition)eventDefinition !is null) {
                     MessageEventDefinition messageDefinition = fillMessageRef(bpmnParse, eventDefinition);
                     element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessMessageStartEventActivityBehavior(element, messageDefinition));
 
-                } else if (eventDefinition instanceof SignalEventDefinition) {
-                    SignalEventDefinition signalDefinition = (SignalEventDefinition) eventDefinition;
+                } else if (cast(SignalEventDefinition)eventDefinition !is null) {
+                    SignalEventDefinition signalDefinition = cast(SignalEventDefinition) eventDefinition;
                     Signal signal = null;
                     if (bpmnParse.getBpmnModel().containsSignalId(signalDefinition.getSignalRef())) {
                         signal = bpmnParse.getBpmnModel().getSignal(signalDefinition.getSignalRef());
@@ -61,15 +60,15 @@ class StartEventParseHandler : AbstractActivityBpmnParseHandler!StartEvent {
                     element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessSignalStartEventActivityBehavior(
                             element, signalDefinition, signal));
 
-                } else if (eventDefinition instanceof TimerEventDefinition) {
-                    TimerEventDefinition timerEventDefinition = (TimerEventDefinition) eventDefinition;
+                } else if (cast(TimerEventDefinition)eventDefinition !is null) {
+                    TimerEventDefinition timerEventDefinition = cast(TimerEventDefinition) eventDefinition;
                     element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessTimerStartEventActivityBehavior(
                             element, timerEventDefinition));
 
-                } else if (eventDefinition instanceof ErrorEventDefinition) {
+                } else if (cast(ErrorEventDefinition)eventDefinition !is null) {
                     element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessErrorStartEventActivityBehavior(element));
 
-                } else if (eventDefinition instanceof EscalationEventDefinition) {
+                } else if (cast(EscalationEventDefinition)eventDefinition !is null) {
                     element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessEscalationStartEventActivityBehavior(element));
                 }
 
@@ -77,23 +76,23 @@ class StartEventParseHandler : AbstractActivityBpmnParseHandler!StartEvent {
                 List!ExtensionElement eventTypeElements = element.getExtensionElements().get("eventType");
                 if (eventTypeElements !is null && !eventTypeElements.isEmpty()) {
                     string eventType = eventTypeElements.get(0).getElementText();
-                    if (StringUtils.isNotEmpty(eventType)) {
+                    if (eventType !is null && eventType.length != 0) {
                         element.setBehavior(bpmnParse.getActivityBehaviorFactory().createEventSubProcessEventRegistryStartEventActivityBehavior(element, eventType));
                     }
                 }
             }
 
-        } else if (CollectionUtil.isEmpty(element.getEventDefinitions())) {
+        } else if (element.getEventDefinitions() is null || element.getEventDefinitions().size == 0) {
             element.setBehavior(bpmnParse.getActivityBehaviorFactory().createNoneStartEventActivityBehavior(element));
 
-        } else if (CollectionUtil.isNotEmpty(element.getEventDefinitions())) {
+        } else if (element.getEventDefinitions() !is null && element.getEventDefinitions().size != 0) {
             EventDefinition eventDefinition = element.getEventDefinitions().get(0);
-            if (eventDefinition instanceof MessageEventDefinition) {
+            if (cast(MessageEventDefinition)eventDefinition !is null) {
                 fillMessageRef(bpmnParse, eventDefinition);
             }
         }
 
-        if (element.getSubProcess() is null && (CollectionUtil.isEmpty(element.getEventDefinitions()) ||
+        if (element.getSubProcess() is null && ((element.getEventDefinitions() is null || element.getEventDefinitions().size == 0) ||
                 bpmnParse.getCurrentProcess().getInitialFlowElement() is null)) {
 
             bpmnParse.getCurrentProcess().setInitialFlowElement(element);
@@ -101,7 +100,7 @@ class StartEventParseHandler : AbstractActivityBpmnParseHandler!StartEvent {
     }
 
     protected MessageEventDefinition fillMessageRef(BpmnParse bpmnParse, EventDefinition eventDefinition) {
-        MessageEventDefinition messageDefinition = (MessageEventDefinition) eventDefinition;
+        MessageEventDefinition messageDefinition = cast(MessageEventDefinition) eventDefinition;
         BpmnModel bpmnModel = bpmnParse.getBpmnModel();
         string messageRef = messageDefinition.getMessageRef();
         if (bpmnModel.containsMessageId(messageRef)) {
