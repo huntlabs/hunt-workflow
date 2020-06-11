@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.CompensateEventDefinitionParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.CompensateEventDefinition;
 import flow.bpmn.model.ThrowEvent;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -25,20 +26,20 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class CompensateEventDefinitionParseHandler : AbstractBpmnParseHandler!CompensateEventDefinition {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return CompensateEventDefinition.class;
+    TypeInfo getHandledType() {
+        return typeid(CompensateEventDefinition);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, CompensateEventDefinition eventDefinition) {
 
-        if (bpmnParse.getCurrentFlowElement() instanceof ThrowEvent) {
-            ThrowEvent throwEvent = (ThrowEvent) bpmnParse.getCurrentFlowElement();
+        if (cast(ThrowEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            ThrowEvent throwEvent = cast(ThrowEvent) bpmnParse.getCurrentFlowElement();
             throwEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowCompensationEventActivityBehavior(
                     throwEvent, eventDefinition));
 
-        } else if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
-            BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();
+        } else if (cast(BoundaryEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            BoundaryEvent boundaryEvent = cast(BoundaryEvent) bpmnParse.getCurrentFlowElement();
             boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryCompensateEventActivityBehavior(boundaryEvent,
                     eventDefinition, boundaryEvent.isCancelActivity()));
 

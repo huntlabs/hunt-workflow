@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.ParallelGatewayParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.ParallelGateway;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -22,8 +23,8 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class ParallelGatewayParseHandler : AbstractActivityBpmnParseHandler!ParallelGateway {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return ParallelGateway.class;
+    TypeInfo getHandledType() {
+        return typeid(ParallelGateway);
     }
 
     override

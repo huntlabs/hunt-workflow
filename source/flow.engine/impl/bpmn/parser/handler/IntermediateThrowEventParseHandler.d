@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.IntermediateThrowEventParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.CompensateEventDefinition;
@@ -19,19 +19,17 @@ import flow.bpmn.model.EventDefinition;
 import flow.bpmn.model.SignalEventDefinition;
 import flow.bpmn.model.ThrowEvent;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
+import hunt.logging;
 /**
  * @author Joram Barrez
  */
 class IntermediateThrowEventParseHandler : AbstractActivityBpmnParseHandler!ThrowEvent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateThrowEventParseHandler.class);
 
     override
-    class<? : BaseElement> getHandledType() {
-        return ThrowEvent.class;
+    TypeInfo getHandledType() {
+        return typeid(ThrowEvent);
     }
 
     override
@@ -42,24 +40,24 @@ class IntermediateThrowEventParseHandler : AbstractActivityBpmnParseHandler!Thro
             eventDefinition = intermediateEvent.getEventDefinitions().get(0);
         }
 
-        if (eventDefinition instanceof SignalEventDefinition) {
-            SignalEventDefinition signalEventDefinition = (SignalEventDefinition) eventDefinition;
+        if (cast(SignalEventDefinition)eventDefinition !is null) {
+            SignalEventDefinition signalEventDefinition = cast(SignalEventDefinition) eventDefinition;
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowSignalEventActivityBehavior(intermediateEvent, signalEventDefinition,
                     bpmnParse.getBpmnModel().getSignal(signalEventDefinition.getSignalRef())));
 
-        } else if (eventDefinition instanceof EscalationEventDefinition) {
-            EscalationEventDefinition escalationEventDefinition = (EscalationEventDefinition) eventDefinition;
+        } else if (cast(EscalationEventDefinition)eventDefinition !is null) {
+            EscalationEventDefinition escalationEventDefinition = cast(EscalationEventDefinition) eventDefinition;
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowEscalationEventActivityBehavior(intermediateEvent, escalationEventDefinition,
                     bpmnParse.getBpmnModel().getEscalation(escalationEventDefinition.getEscalationCode())));
 
-        } else if (eventDefinition instanceof CompensateEventDefinition) {
-            CompensateEventDefinition compensateEventDefinition = (CompensateEventDefinition) eventDefinition;
+        } else if (cast(CompensateEventDefinition)eventDefinition !is null) {
+            CompensateEventDefinition compensateEventDefinition = cast(CompensateEventDefinition) eventDefinition;
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowCompensationEventActivityBehavior(intermediateEvent, compensateEventDefinition));
 
         } else if (eventDefinition is null) {
             intermediateEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateThrowNoneEventActivityBehavior(intermediateEvent));
         } else {
-            LOGGER.warn("Unsupported intermediate throw event type for throw event {}", intermediateEvent.getId());
+            logWarning("Unsupported intermediate throw event type for throw event {%s}", intermediateEvent.getId());
         }
     }
 }

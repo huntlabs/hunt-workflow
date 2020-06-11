@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.ProcessInstanceHistoryLogImpl;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
-import hunt.collections;
-import java.util.Comparator;
+import hunt.collection.Collections;
+import hunt.util.Comparator;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -26,72 +26,73 @@ import flow.engine.history.ProcessInstanceHistoryLog;
 /**
  * @author Joram Barrez
  */
-class ProcessInstanceHistoryLogImpl implements ProcessInstanceHistoryLog {
+class ProcessInstanceHistoryLogImpl : ProcessInstanceHistoryLog {
 
     protected HistoricProcessInstance historicProcessInstance;
 
-    protected List!HistoricData historicData = new ArrayList<>();
+    protected List!HistoricData historicData ;// = new ArrayList<>();
 
-    public ProcessInstanceHistoryLogImpl(HistoricProcessInstance historicProcessInstance) {
+    this(HistoricProcessInstance historicProcessInstance) {
         this.historicProcessInstance = historicProcessInstance;
+        historicData = new ArrayList!HistoricData;
     }
 
-    override
+
     public string getId() {
         return historicProcessInstance.getId();
     }
 
-    override
+
     public string getBusinessKey() {
         return historicProcessInstance.getBusinessKey();
     }
 
-    override
+
     public string getProcessDefinitionId() {
         return historicProcessInstance.getProcessDefinitionId();
     }
 
-    override
+
     public Date getStartTime() {
         return historicProcessInstance.getStartTime();
     }
 
-    override
+
     public Date getEndTime() {
         return historicProcessInstance.getEndTime();
     }
 
-    override
-    public Long getDurationInMillis() {
+
+    public long getDurationInMillis() {
         return historicProcessInstance.getDurationInMillis();
     }
 
-    override
+
     public string getStartUserId() {
         return historicProcessInstance.getStartUserId();
     }
 
-    override
+
     public string getStartActivityId() {
         return historicProcessInstance.getStartActivityId();
     }
 
-    override
+
     public string getDeleteReason() {
         return historicProcessInstance.getDeleteReason();
     }
 
-    override
+
     public string getSuperProcessInstanceId() {
         return historicProcessInstance.getSuperProcessInstanceId();
     }
 
-    override
+
     public string getTenantId() {
         return historicProcessInstance.getTenantId();
     }
 
-    override
+
     public List!HistoricData getHistoricData() {
         return historicData;
     }
@@ -100,15 +101,14 @@ class ProcessInstanceHistoryLogImpl implements ProcessInstanceHistoryLog {
         historicData.add(historicEvent);
     }
 
-    public void addHistoricData(Collection<? : HistoricData> historicEvents) {
+    public void addHistoricData(Collection!HistoricData historicEvents) {
         historicData.addAll(historicEvents);
     }
 
     public void orderHistoricData() {
-        Collections.sort(historicData, new Comparator!HistoricData() {
-            override
+        historicData.sort(new class Comparator!HistoricData {
             public int compare(HistoricData data1, HistoricData data2) {
-                return data1.getTime().compareTo(data2.getTime());
+                return cast(int)(data1.getTime().toEpochMilli - data2.getTime().toEpochMilli);
             }
         });
     }

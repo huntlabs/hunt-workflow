@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cfg.DefaultBpmnParseFactory;
 
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.bpmn.parser.BpmnParser;
-
+import flow.engine.impl.cfg.BpmnParseFactory;
 /**
  * @author Nico Rehwaldt
  */
-class DefaultBpmnParseFactory implements BpmnParseFactory {
+class DefaultBpmnParseFactory : BpmnParseFactory {
 
     override
     public BpmnParse createBpmnParse(BpmnParser bpmnParser) {

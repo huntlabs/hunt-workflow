@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.SignalEventDefinitionParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BoundaryEvent;
@@ -18,7 +18,7 @@ import flow.bpmn.model.IntermediateCatchEvent;
 import flow.bpmn.model.Signal;
 import flow.bpmn.model.SignalEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -26,8 +26,8 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class SignalEventDefinitionParseHandler : AbstractBpmnParseHandler!SignalEventDefinition {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return SignalEventDefinition.class;
+    TypeInfo getHandledType() {
+        return typeid(SignalEventDefinition);
     }
 
     override
@@ -38,12 +38,12 @@ class SignalEventDefinitionParseHandler : AbstractBpmnParseHandler!SignalEventDe
             signal = bpmnParse.getBpmnModel().getSignal(signalDefinition.getSignalRef());
         }
 
-        if (bpmnParse.getCurrentFlowElement() instanceof IntermediateCatchEvent) {
-            IntermediateCatchEvent intermediateCatchEvent = (IntermediateCatchEvent) bpmnParse.getCurrentFlowElement();
+        if (cast(IntermediateCatchEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            IntermediateCatchEvent intermediateCatchEvent = cast(IntermediateCatchEvent) bpmnParse.getCurrentFlowElement();
             intermediateCatchEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateCatchSignalEventActivityBehavior(intermediateCatchEvent, signalDefinition, signal));
 
-        } else if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
-            BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();
+        } else if (cast(BoundaryEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            BoundaryEvent boundaryEvent = cast(BoundaryEvent) bpmnParse.getCurrentFlowElement();
             boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundarySignalEventActivityBehavior(boundaryEvent, signalDefinition, signal, boundaryEvent.isCancelActivity()));
         }
     }

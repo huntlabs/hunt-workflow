@@ -13,7 +13,6 @@
 
 module flow.engine.impl.DeploymentQueryImpl;
 
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
@@ -23,7 +22,7 @@ import flow.common.query.AbstractQuery;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.DeploymentQuery;
-
+import flow.engine.impl.DeploymentQueryProperty;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez

@@ -33,7 +33,7 @@ class DelegateTaskCmd : NeedsActiveTaskCmd!Object {
 
     protected Object execute(CommandContext commandContext, TaskEntity task) {
         task.setDelegationState(DelegationState.PENDING);
-        if (task.getOwner() is null) {
+        if (task.getOwner() is null || task.getOwner().length == 0 ) {
             task.setOwner(task.getAssignee());
         }
         TaskHelper.changeTaskAssignee(task, userId);

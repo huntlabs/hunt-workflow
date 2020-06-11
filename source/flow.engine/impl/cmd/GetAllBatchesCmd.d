@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.GetAllBatchesCmd;
 
 import hunt.collection.List;
 
@@ -19,9 +19,8 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetAllBatchesCmd implements Command<List!Batch> {
+class GetAllBatchesCmd : Command!(List!Batch) {
 
-    override
     public List!Batch execute(CommandContext commandContext) {
         return CommandContextUtil.getBatchService(commandContext).getAllBatches();
     }

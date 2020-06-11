@@ -1,16 +1,16 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cfg.PerformanceSettings;
 
 /**
  * @author Joram Barrez
@@ -19,10 +19,10 @@ class PerformanceSettings {
 
     /**
      * If true, whenever an execution is fetched from the data store, the whole execution tree is fetched in the same roundtrip.
-     * 
-     * Less roundtrips to the database outweighs doing many, smaller fetches and often multiple executions from the same tree are 
+     *
+     * Less roundtrips to the database outweighs doing many, smaller fetches and often multiple executions from the same tree are
      * needed anyway when executing process instances.
-     * 
+     *
      * This enables the setting globally. However, it must also be enabled on a process definition itself.
      * If false, the setting on the process definition is ignored.
      */
@@ -30,10 +30,10 @@ class PerformanceSettings {
 
     /**
      * Keeps a count on each execution that holds how many variables, jobs, tasks, event subscriptions, etc. the execution has.
-     * 
-     * This makes the delete more performant as a query is not needed anymore to check if there is related data. 
+     *
+     * This makes the delete more performant as a query is not needed anymore to check if there is related data.
      * However, maintaining the count does mean more updates to the execution and potentially
-     * more optimistic locking opportunities. 
+     * more optimistic locking opportunities.
      * Typically keeping the counts lead to better performance as deletes are a large part of the execution tree maintenance.
      *
      * This property can only be enabled or disabled globally currently.

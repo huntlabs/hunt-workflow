@@ -22,7 +22,7 @@ module flow.engine.impl.RepositoryServiceImpl;
 
 
 
-import hunt.io.Common;
+import hunt.stream.Common;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -30,7 +30,7 @@ import flow.bpmn.model.BpmnModel;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.service.CommonEngineServiceImpl;
-import org.flowable.dmn.api.DmnDecisionTable;
+//import org.flowable.dmn.api.DmnDecisionTable;
 import flow.engine.RepositoryService;
 import flow.engine.app.AppModel;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -85,8 +85,14 @@ import flow.engine.repository.ProcessDefinition;
 import flow.engine.repository.ProcessDefinitionQuery;
 import flow.form.api.FormDefinition;
 import flow.identitylink.api.IdentityLink;
-import org.flowable.validation.ValidationError;
-
+//import org.flowable.validation.ValidationError;
+import flow.engine.impl.ProcessDefinitionQueryImpl;
+import flow.engine.impl.NativeProcessDefinitionQueryImpl;
+import flow.engine.impl.DeploymentQueryImpl;
+import flow.engine.impl.NativeDeploymentQueryImpl;
+import flow.engine.impl.ModelQueryImpl;
+//import flow.engine.impl.NativeModelQueryImpl;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Falko Menge
@@ -279,9 +285,9 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
     }
 
 
-    public DiagramLayout getProcessDiagramLayout(string processDefinitionId) {
-        return commandExecutor.execute(new GetDeploymentProcessDiagramLayoutCmd(processDefinitionId));
-    }
+    //public DiagramLayout getProcessDiagramLayout(string processDefinitionId) {
+    //    return commandExecutor.execute(new GetDeploymentProcessDiagramLayoutCmd(processDefinitionId));
+    //}
 
 
     public Object getAppResourceObject(string deploymentId) {
@@ -300,7 +306,7 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public void saveModel(Model model) {
-        commandExecutor.execute(new SaveModelCmd((ModelEntity) model));
+        commandExecutor.execute(new SaveModelCmd(cast(ModelEntity) model));
     }
 
 
@@ -325,7 +331,9 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public NativeModelQuery createNativeModelQuery() {
-        return new NativeModelQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+        //return new NativeModelQueryImpl(commandExecutor);
     }
 
 
@@ -369,14 +377,14 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
     }
 
 
-    public List!ValidationError validateProcess(BpmnModel bpmnModel) {
-        return commandExecutor.execute(new ValidateBpmnModelCmd(bpmnModel));
-    }
+    //public List!ValidationError validateProcess(BpmnModel bpmnModel) {
+    //    return commandExecutor.execute(new ValidateBpmnModelCmd(bpmnModel));
+    //}
 
 
-    public List!DmnDecisionTable getDecisionTablesForProcessDefinition(string processDefinitionId) {
-        return commandExecutor.execute(new GetDecisionTablesForProcessDefinitionCmd(processDefinitionId));
-    }
+    //public List!DmnDecisionTable getDecisionTablesForProcessDefinition(string processDefinitionId) {
+    //    return commandExecutor.execute(new GetDecisionTablesForProcessDefinitionCmd(processDefinitionId));
+    //}
 
 
     public List!FormDefinition getFormDefinitionsForProcessDefinition(string processDefinitionId) {

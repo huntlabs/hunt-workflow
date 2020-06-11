@@ -1,56 +1,56 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-
-import javax.transaction.TransactionManager;
-
-import flow.common.api.FlowableException;
-import flow.common.cfg.jta.JtaTransactionContextFactory;
-import flow.common.interceptor.CommandInterceptor;
-import flow.common.interceptor.JtaTransactionInterceptor;
-
-/**
- * @author Tom Baeyens
- */
-class JtaProcessEngineConfiguration : ProcessEngineConfigurationImpl {
-
-    protected TransactionManager transactionManager;
-
-    public JtaProcessEngineConfiguration() {
-        this.transactionsExternallyManaged = true;
-    }
-
-    override
-    public CommandInterceptor createTransactionInterceptor() {
-        if (transactionManager is null) {
-            throw new FlowableException("transactionManager is required property for JtaProcessEngineConfiguration, use " + StandaloneProcessEngineConfiguration.class.getName() + " otherwise");
-        }
-
-        return new JtaTransactionInterceptor(transactionManager);
-    }
-
-    override
-    public void initTransactionContextFactory() {
-        if (transactionContextFactory is null) {
-            transactionContextFactory = new JtaTransactionContextFactory(transactionManager);
-        }
-    }
-
-    public TransactionManager getTransactionManager() {
-        return transactionManager;
-    }
-
-    public void setTransactionManager(TransactionManager transactionManager) {
-        this.transactionManager = transactionManager;
-    }
-}
+///* Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *      http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//module flow.engine.impl.cfg.JtaProcessEngineConfiguration;
+//
+//import javax.transaction.TransactionManager;
+//
+//import flow.common.api.FlowableException;
+//import flow.common.cfg.jta.JtaTransactionContextFactory;
+//import flow.common.interceptor.CommandInterceptor;
+//import flow.common.interceptor.JtaTransactionInterceptor;
+//
+///**
+// * @author Tom Baeyens
+// */
+//class JtaProcessEngineConfiguration : ProcessEngineConfigurationImpl {
+//
+//    protected TransactionManager transactionManager;
+//
+//    public JtaProcessEngineConfiguration() {
+//        this.transactionsExternallyManaged = true;
+//    }
+//
+//    override
+//    public CommandInterceptor createTransactionInterceptor() {
+//        if (transactionManager is null) {
+//            throw new FlowableException("transactionManager is required property for JtaProcessEngineConfiguration, use " + StandaloneProcessEngineConfiguration.class.getName() + " otherwise");
+//        }
+//
+//        return new JtaTransactionInterceptor(transactionManager);
+//    }
+//
+//    override
+//    public void initTransactionContextFactory() {
+//        if (transactionContextFactory is null) {
+//            transactionContextFactory = new JtaTransactionContextFactory(transactionManager);
+//        }
+//    }
+//
+//    public TransactionManager getTransactionManager() {
+//        return transactionManager;
+//    }
+//
+//    public void setTransactionManager(TransactionManager transactionManager) {
+//        this.transactionManager = transactionManager;
+//    }
+//}

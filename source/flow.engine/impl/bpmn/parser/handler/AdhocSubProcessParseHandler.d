@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.AdhocSubProcessParseHandler;
 
 import flow.bpmn.model.AdhocSubProcess;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.SubProcess;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 /**
  * @author Tijs Rademakers
  */
 class AdhocSubProcessParseHandler : AbstractActivityBpmnParseHandler!SubProcess {
 
     override
-    protected Class<? : BaseElement> getHandledType() {
-        return AdhocSubProcess.class;
+    protected TypeInfo getHandledType() {
+        return typeid(AdhocSubProcess);
     }
 
     override

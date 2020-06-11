@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cfg.DefaultTaskAssignmentManager;
 
 import hunt.collection.ArrayList;
 import hunt.collection.List;
@@ -27,68 +27,68 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tijs Rademakers
  */
-class DefaultTaskAssignmentManager implements InternalTaskAssignmentManager {
+class DefaultTaskAssignmentManager : InternalTaskAssignmentManager {
 
-    override
+
     public void changeAssignee(Task task, string assignee) {
-        TaskHelper.changeTaskAssignee((TaskEntity) task, assignee);
+        TaskHelper.changeTaskAssignee(cast(TaskEntity) task, assignee);
     }
 
-    override
+
     public void changeOwner(Task task, string owner) {
-        TaskHelper.changeTaskOwner((TaskEntity) task, owner);
+        TaskHelper.changeTaskOwner(cast(TaskEntity) task, owner);
     }
 
-    override
+
     public void addCandidateUser(Task task, IdentityLink identityLink) {
-        IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
+        IdentityLinkUtil.handleTaskIdentityLinkAddition(cast(TaskEntity) task, cast(IdentityLinkEntity) identityLink);
     }
 
-    override
+
     public void addCandidateUsers(Task task, List!IdentityLink candidateUsers) {
-        List!IdentityLinkEntity identityLinks = new ArrayList<>();
-        for (IdentityLink identityLink : candidateUsers) {
-            identityLinks.add((IdentityLinkEntity) identityLink);
+        List!IdentityLinkEntity identityLinks = new ArrayList!IdentityLinkEntity();
+        foreach (IdentityLink identityLink ; candidateUsers) {
+            identityLinks.add(cast(IdentityLinkEntity) identityLink);
         }
-        IdentityLinkUtil.handleTaskIdentityLinkAdditions((TaskEntity) task, identityLinks);
+        IdentityLinkUtil.handleTaskIdentityLinkAdditions(cast(TaskEntity) task, identityLinks);
     }
 
-    override
+
     public void addCandidateGroup(Task task, IdentityLink identityLink) {
-        IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
+        IdentityLinkUtil.handleTaskIdentityLinkAddition(cast(TaskEntity) task, cast(IdentityLinkEntity) identityLink);
     }
 
-    override
+
     public void addCandidateGroups(Task task, List!IdentityLink candidateGroups) {
-        List!IdentityLinkEntity identityLinks = new ArrayList<>();
-        for (IdentityLink identityLink : candidateGroups) {
-            identityLinks.add((IdentityLinkEntity) identityLink);
+        List!IdentityLinkEntity identityLinks = new ArrayList!IdentityLinkEntity();
+        foreach (IdentityLink identityLink ; candidateGroups) {
+            identityLinks.add(cast(IdentityLinkEntity) identityLink);
         }
-        IdentityLinkUtil.handleTaskIdentityLinkAdditions((TaskEntity) task, identityLinks);
+        IdentityLinkUtil.handleTaskIdentityLinkAdditions(cast(TaskEntity) task, identityLinks);
     }
 
-    override
+
     public void addUserIdentityLink(Task task, IdentityLink identityLink) {
-        IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
+        IdentityLinkUtil.handleTaskIdentityLinkAddition(cast(TaskEntity) task, cast(IdentityLinkEntity) identityLink);
     }
 
-    override
+
     public void addGroupIdentityLink(Task task, IdentityLink identityLink) {
-        IdentityLinkUtil.handleTaskIdentityLinkAddition((TaskEntity) task, (IdentityLinkEntity) identityLink);
+        IdentityLinkUtil.handleTaskIdentityLinkAddition(cast(TaskEntity) task,cast(IdentityLinkEntity) identityLink);
     }
 
-    override
+
     public void deleteUserIdentityLink(Task task, IdentityLink identityLink) {
-        List!IdentityLinkEntity identityLinks = new ArrayList<>();
-        identityLinks.add((IdentityLinkEntity) identityLink);
-        IdentityLinkUtil.handleTaskIdentityLinkDeletions((TaskEntity) task, identityLinks, true, true);
+        List!IdentityLinkEntity identityLinks = new ArrayList!IdentityLinkEntity();
+        identityLinks.add(cast(IdentityLinkEntity) identityLink);
+        IdentityLinkUtil.handleTaskIdentityLinkDeletions(cast(TaskEntity) task, identityLinks, true, true);
     }
 
-    override
+
     public void deleteGroupIdentityLink(Task task, IdentityLink identityLink) {
-        List!IdentityLinkEntity identityLinks = new ArrayList<>();
-        identityLinks.add((IdentityLinkEntity) identityLink);
-        IdentityLinkUtil.handleTaskIdentityLinkDeletions((TaskEntity) task, identityLinks, true, true);
+        List!IdentityLinkEntity identityLinks = new ArrayList!IdentityLinkEntity();
+        identityLinks.add(cast(IdentityLinkEntity) identityLink);
+        IdentityLinkUtil.handleTaskIdentityLinkDeletions(cast(TaskEntity) task, identityLinks, true, true);
     }
 
 }

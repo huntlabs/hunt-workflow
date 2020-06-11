@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.HistoricDetailQueryProperty;
 
 
 import hunt.collection.HashMap;
@@ -18,27 +18,57 @@ import hunt.collection.Map;
 
 import flow.common.api.query.QueryProperty;
 import flow.engine.history.HistoricDetailQuery;
-
+import std.concurrency : initOnce;
 /**
  * Contains the possible properties which can be used in a {@link HistoricDetailQuery}.
  *
  * @author Tom Baeyens
  */
-class HistoricDetailQueryProperty implements QueryProperty {
+class HistoricDetailQueryProperty : QueryProperty {
 
-    private static final long serialVersionUID = 1L;
 
-    private static final Map!(string, HistoricDetailQueryProperty) properties = new HashMap<>();
+    //private static final Map!(string, HistoricDetailQueryProperty) properties = new HashMap<>();
+    //
+    //public static final HistoricDetailQueryProperty PROCESS_INSTANCE_ID = new HistoricDetailQueryProperty("PROC_INST_ID_");
+    //public static final HistoricDetailQueryProperty VARIABLE_NAME = new HistoricDetailQueryProperty("NAME_");
+    //public static final HistoricDetailQueryProperty VARIABLE_TYPE = new HistoricDetailQueryProperty("TYPE_");
+    //public static final HistoricDetailQueryProperty VARIABLE_REVISION = new HistoricDetailQueryProperty("REV_");
+    //public static final HistoricDetailQueryProperty TIME = new HistoricDetailQueryProperty("TIME_");
 
-    public static final HistoricDetailQueryProperty PROCESS_INSTANCE_ID = new HistoricDetailQueryProperty("PROC_INST_ID_");
-    public static final HistoricDetailQueryProperty VARIABLE_NAME = new HistoricDetailQueryProperty("NAME_");
-    public static final HistoricDetailQueryProperty VARIABLE_TYPE = new HistoricDetailQueryProperty("TYPE_");
-    public static final HistoricDetailQueryProperty VARIABLE_REVISION = new HistoricDetailQueryProperty("REV_");
-    public static final HistoricDetailQueryProperty TIME = new HistoricDetailQueryProperty("TIME_");
+
+   static Map!(string,HistoricDetailQueryProperty) properties() {
+     __gshared Map!(string,HistoricDetailQueryProperty) inst;
+     return initOnce!inst(new HashMap!(string,HistoricDetailQueryProperty));
+   }
+
+    static HistoricDetailQueryProperty PROCESS_INSTANCE_ID() {
+      __gshared HistoricDetailQueryProperty inst;
+      return initOnce!inst(new HistoricDetailQueryProperty("PROC_INST_ID_"));
+    }
+
+    static HistoricDetailQueryProperty VARIABLE_NAME() {
+      __gshared HistoricDetailQueryProperty inst;
+      return initOnce!inst(new HistoricDetailQueryProperty("NAME_"));
+    }
+
+    static HistoricDetailQueryProperty VARIABLE_TYPE() {
+      __gshared HistoricDetailQueryProperty inst;
+      return initOnce!inst(new HistoricDetailQueryProperty("TYPE_"));
+    }
+
+    static HistoricDetailQueryProperty VARIABLE_REVISION() {
+      __gshared HistoricDetailQueryProperty inst;
+      return initOnce!inst(new HistoricDetailQueryProperty("REV_"));
+    }
+
+    static HistoricDetailQueryProperty TIME() {
+      __gshared HistoricDetailQueryProperty inst;
+      return initOnce!inst(new HistoricDetailQueryProperty("TIME_"));
+    }
 
     private string name;
 
-    public HistoricDetailQueryProperty(string name) {
+    this(string name) {
         this.name = name;
         properties.put(name, this);
     }

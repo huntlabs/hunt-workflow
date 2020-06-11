@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cfg.DefaultTaskLocalizationManager;
 
 import flow.engine.DynamicBpmnConstants;
 import flow.engine.impl.context.BpmnOverrideContext;
@@ -20,66 +20,68 @@ import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskInstance;
 import flow.task.service.InternalTaskLocalizationManager;
 import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
+//import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
-class DefaultTaskLocalizationManager implements InternalTaskLocalizationManager {
+class DefaultTaskLocalizationManager : InternalTaskLocalizationManager {
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public DefaultTaskLocalizationManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    override
+
     public void localize(Task task, string locale, bool withLocalizationFallback) {
         task.setLocalizedName(null);
         task.setLocalizedDescription(null);
 
         if (locale !is null) {
-            string processDefinitionId = task.getProcessDefinitionId();
-            if (processDefinitionId !is null) {
-                ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, task.getTaskDefinitionKey(), processDefinitionId, withLocalizationFallback);
-                if (languageNode !is null) {
-                    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                    if (languageNameNode !is null && !languageNameNode.isNull()) {
-                        task.setLocalizedName(languageNameNode.asText());
-                    }
-
-                    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
-                        task.setLocalizedDescription(languageDescriptionNode.asText());
-                    }
-                }
-            }
+            implementationMissing(false);
+            //string processDefinitionId = task.getProcessDefinitionId();
+            //if (processDefinitionId !is null && processDefinitionId.length != 0) {
+            //    ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, task.getTaskDefinitionKey(), processDefinitionId, withLocalizationFallback);
+            //    if (languageNode !is null) {
+            //        JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+            //        if (languageNameNode !is null && !languageNameNode.isNull()) {
+            //            task.setLocalizedName(languageNameNode.asText());
+            //        }
+            //
+            //        JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+            //        if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
+            //            task.setLocalizedDescription(languageDescriptionNode.asText());
+            //        }
+            //    }
+            //}
         }
     }
 
-    override
+
     public void localize(HistoricTaskInstance task, string locale, bool withLocalizationFallback) {
-        HistoricTaskInstanceEntity taskEntity = (HistoricTaskInstanceEntity) task;
+        HistoricTaskInstanceEntity taskEntity = cast(HistoricTaskInstanceEntity) task;
         taskEntity.setLocalizedName(null);
         taskEntity.setLocalizedDescription(null);
 
         if (locale !is null) {
             string processDefinitionId = task.getProcessDefinitionId();
             if (processDefinitionId !is null) {
-                ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, task.getTaskDefinitionKey(), processDefinitionId, withLocalizationFallback);
-                if (languageNode !is null) {
-                    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                    if (languageNameNode !is null && !languageNameNode.isNull()) {
-                        taskEntity.setLocalizedName(languageNameNode.asText());
-                    }
-
-                    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
-                        taskEntity.setLocalizedDescription(languageDescriptionNode.asText());
-                    }
-                }
+                implementationMissing(false);
+                //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, task.getTaskDefinitionKey(), processDefinitionId, withLocalizationFallback);
+                //if (languageNode !is null) {
+                //    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+                //    if (languageNameNode !is null && !languageNameNode.isNull()) {
+                //        taskEntity.setLocalizedName(languageNameNode.asText());
+                //    }
+                //
+                //    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+                //    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
+                //        taskEntity.setLocalizedDescription(languageDescriptionNode.asText());
+                //    }
+                //}
             }
         }
     }

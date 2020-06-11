@@ -10,9 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-import java.io.Serializable;
+module flow.engine.impl.cmd.GetBpmnModelCmd;
 
 import flow.bpmn.model.BpmnModel;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -23,17 +21,15 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
 /**
  * @author Joram Barrez
  */
-class GetBpmnModelCmd implements Command!BpmnModel, Serializable {
+class GetBpmnModelCmd : Command!BpmnModel {
 
-    private static final long serialVersionUID = 8167762371289445046L;
 
     protected string processDefinitionId;
 
-    public GetBpmnModelCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    override
     public BpmnModel execute(CommandContext commandContext) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("processDefinitionId is null");

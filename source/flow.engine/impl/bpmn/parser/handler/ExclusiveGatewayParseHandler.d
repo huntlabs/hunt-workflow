@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.ExclusiveGatewayParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.ExclusiveGateway;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -22,8 +23,8 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class ExclusiveGatewayParseHandler : AbstractActivityBpmnParseHandler!ExclusiveGateway {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return ExclusiveGateway.class;
+    TypeInfo getHandledType() {
+        return typeid(ExclusiveGateway);
     }
 
     override

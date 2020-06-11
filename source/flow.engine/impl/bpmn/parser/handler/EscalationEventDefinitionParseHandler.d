@@ -10,28 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.EscalationEventDefinitionParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.Escalation;
 import flow.bpmn.model.EscalationEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 /**
  * @author Tijs Rademakers
  */
 class EscalationEventDefinitionParseHandler : AbstractBpmnParseHandler!EscalationEventDefinition {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return EscalationEventDefinition.class;
+    TypeInfo getHandledType() {
+        return typeid(EscalationEventDefinition);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, EscalationEventDefinition eventDefinition) {
-        if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
-            BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();
+        if (cast(BoundaryEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            BoundaryEvent boundaryEvent = cast(BoundaryEvent) bpmnParse.getCurrentFlowElement();
 
             Escalation escalation = null;
             if (bpmnParse.getBpmnModel().containsEscalationRef(eventDefinition.getEscalationCode())) {

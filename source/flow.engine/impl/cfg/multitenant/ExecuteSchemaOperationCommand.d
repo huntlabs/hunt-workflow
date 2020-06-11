@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cfg.multitenant.ExecuteSchemaOperationCommand;
 
 import flow.common.cfg.multitenant.TenantInfoHolder;
 import flow.common.db.SchemaManager;
@@ -19,43 +19,44 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
-
+import hunt.Object;
+import hunt.Exceptions;
 /**
  * {@link Command} that is used by the {@link MultiSchemaMultiTenantProcessEngineConfiguration} to make sure the 'databaseSchemaUpdate' setting is applied for each tenant datasource.
  *
  * @author Joram Barrez
  */
-class ExecuteSchemaOperationCommand implements Command!Void {
+class ExecuteSchemaOperationCommand : Command!Void {
 
     protected string schemaOperation;
 
     protected TenantInfoHolder tenantInfoHolder;
 
-    public ExecuteSchemaOperationCommand(string schemaOperation) {
+    this(string schemaOperation) {
         this.schemaOperation = schemaOperation;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
-        SchemaManager processSchemaManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getSchemaManager();
-        if (ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(schemaOperation)) {
-            try {
-                processSchemaManager.schemaDrop();
-            } catch (RuntimeException e) {
-                // ignore
-            }
-        }
-        if (flow.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_CREATE_DROP.equals(schemaOperation)
-                || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(schemaOperation)
-                || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_CREATE.equals(schemaOperation)) {
-            processSchemaManager.schemaCreate();
-
-        } else if (flow.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE.equals(schemaOperation)) {
-            processSchemaManager.schemaCheckVersion();
-
-        } else if (ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE.equals(schemaOperation)) {
-            processSchemaManager.schemaUpdate();
-        }
+        implementationMissing(false);
+        //SchemaManager processSchemaManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getSchemaManager();
+        //if (ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(schemaOperation)) {
+        //    try {
+        //        processSchemaManager.schemaDrop();
+        //    } catch (RuntimeException e) {
+        //        // ignore
+        //    }
+        //}
+        //if (flow.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_CREATE_DROP.equals(schemaOperation)
+        //        || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_DROP_CREATE.equals(schemaOperation)
+        //        || ProcessEngineConfigurationImpl.DB_SCHEMA_UPDATE_CREATE.equals(schemaOperation)) {
+        //    processSchemaManager.schemaCreate();
+        //
+        //} else if (flow.engine.ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE.equals(schemaOperation)) {
+        //    processSchemaManager.schemaCheckVersion();
+        //
+        //} else if (ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE.equals(schemaOperation)) {
+        //    processSchemaManager.schemaUpdate();
+        //}
 
         return null;
     }

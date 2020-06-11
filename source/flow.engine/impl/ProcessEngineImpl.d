@@ -29,14 +29,14 @@ import flow.common.api.engine.EngineLifecycleListener;
 import flow.common.cfg.TransactionContextFactory;
 import flow.common.interceptor.CommandExecutor;
 import flow.common.interceptor.SessionFactory;
-import flow.engine.DynamicBpmnService;
+//import flow.engine.DynamicBpmnService;
 import flow.engine.FormService;
 import flow.engine.HistoryService;
 import flow.engine.IdentityService;
 import flow.engine.ManagementService;
 import flow.engine.ProcessEngine;
 import flow.engine.ProcessEngines;
-import flow.engine.ProcessMigrationService;
+//import flow.engine.ProcessMigrationService;
 import flow.engine.RepositoryService;
 import flow.engine.RuntimeService;
 import flow.engine.TaskService;
@@ -44,7 +44,7 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.job.service.impl.asyncexecutor.AsyncExecutor;
 import hunt.logging;
-
+import hunt.util.Runnable;
 /**
  * @author Tom Baeyens
  */
@@ -81,7 +81,7 @@ class ProcessEngineImpl : ProcessEngine {
         this.asyncExecutor = processEngineConfiguration.getAsyncExecutor();
         this.asyncHistoryExecutor = processEngineConfiguration.getAsyncHistoryExecutor();
         this.commandExecutor = processEngineConfiguration.getCommandExecutor();
-        this.sessionFactories = processEngineConfiguration.getSessionFactories();
+        //this.sessionFactories = processEngineConfiguration.getSessionFactories();
         this.transactionContextFactory = processEngineConfiguration.getTransactionContextFactory();
 
         if (processEngineConfiguration.getSchemaManagementCmd() !is null) {
@@ -149,7 +149,7 @@ class ProcessEngineImpl : ProcessEngine {
         processEngineConfiguration.close();
 
         if (processEngineConfiguration.getEngineLifecycleListeners() !is null) {
-            for (EngineLifecycleListener engineLifecycleListener : processEngineConfiguration.getEngineLifecycleListeners()) {
+            foreach (EngineLifecycleListener engineLifecycleListener ; processEngineConfiguration.getEngineLifecycleListeners()) {
                 engineLifecycleListener.onEngineClosed(this);
             }
         }
@@ -200,15 +200,15 @@ class ProcessEngineImpl : ProcessEngine {
         return formService;
     }
 
-    override
-    public DynamicBpmnService getDynamicBpmnService() {
-        return dynamicBpmnService;
-    }
-
-    override
-    public ProcessMigrationService getProcessMigrationService() {
-        return processInstanceMigrationService;
-    }
+    //override
+    //public DynamicBpmnService getDynamicBpmnService() {
+    //    return dynamicBpmnService;
+    //}
+    //
+    //override
+    //public ProcessMigrationService getProcessMigrationService() {
+    //    return processInstanceMigrationService;
+    //}
 
     override
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {

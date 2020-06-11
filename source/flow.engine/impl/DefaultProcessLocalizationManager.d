@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.DefaultProcessLocalizationManager;
 
 import flow.engine.DynamicBpmnConstants;
 import flow.engine.InternalProcessLocalizationManager;
@@ -21,67 +21,69 @@ import flow.engine.impl.context.BpmnOverrideContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.HistoricProcessInstanceEntity;
 import flow.engine.runtime.ProcessInstance;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import hunt.Exceptions;
+//import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author David Lamas
  */
-class DefaultProcessLocalizationManager implements InternalProcessLocalizationManager {
+class DefaultProcessLocalizationManager : InternalProcessLocalizationManager {
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public DefaultProcessLocalizationManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    override
+
     public void localize(ProcessInstance processInstance, string locale, bool withLocalizationFallback) {
-        ExecutionEntity processInstanceExecution = (ExecutionEntity) processInstance;
+        ExecutionEntity processInstanceExecution = cast(EcutionEntity) processInstance;
         processInstanceExecution.setLocalizedName(null);
         processInstanceExecution.setLocalizedDescription(null);
 
         if (locale !is null) {
             string processDefinitionId = processInstanceExecution.getProcessDefinitionId();
             if (processDefinitionId !is null) {
-                ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, processInstanceExecution.getProcessDefinitionKey(), processDefinitionId, withLocalizationFallback);
-                if (languageNode !is null) {
-                    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                    if (languageNameNode !is null && !languageNameNode.isNull()) {
-                        processInstanceExecution.setLocalizedName(languageNameNode.asText());
-                    }
-
-                    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
-                        processInstanceExecution.setLocalizedDescription(languageDescriptionNode.asText());
-                    }
-                }
+                implementationMissing(false);
+                //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, processInstanceExecution.getProcessDefinitionKey(), processDefinitionId, withLocalizationFallback);
+                //if (languageNode !is null) {
+                //    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+                //    if (languageNameNode !is null && !languageNameNode.isNull()) {
+                //        processInstanceExecution.setLocalizedName(languageNameNode.asText());
+                //    }
+                //
+                //    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+                //    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
+                //        processInstanceExecution.setLocalizedDescription(languageDescriptionNode.asText());
+                //    }
+                //}
             }
         }
     }
 
-    override
+
     public void localize(HistoricProcessInstance historicProcessInstance, string locale, bool withLocalizationFallback) {
-        HistoricProcessInstanceEntity processInstanceEntity = (HistoricProcessInstanceEntity) historicProcessInstance;
+        HistoricProcessInstanceEntity processInstanceEntity = cast(HistoricProcessInstanceEntity) historicProcessInstance;
         processInstanceEntity.setLocalizedName(null);
         processInstanceEntity.setLocalizedDescription(null);
 
         if (locale !is null) {
             string processDefinitionId = processInstanceEntity.getProcessDefinitionId();
             if (processDefinitionId !is null) {
-                ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, processInstanceEntity.getProcessDefinitionKey(), processDefinitionId, withLocalizationFallback);
-                if (languageNode !is null) {
-                    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                    if (languageNameNode !is null && !languageNameNode.isNull()) {
-                        processInstanceEntity.setLocalizedName(languageNameNode.asText());
-                    }
-
-                    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
-                        processInstanceEntity.setLocalizedDescription(languageDescriptionNode.asText());
-                    }
-                }
+                implementationMissing(false);
+                //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, processInstanceEntity.getProcessDefinitionKey(), processDefinitionId, withLocalizationFallback);
+                //if (languageNode !is null) {
+                //    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+                //    if (languageNameNode !is null && !languageNameNode.isNull()) {
+                //        processInstanceEntity.setLocalizedName(languageNameNode.asText());
+                //    }
+                //
+                //    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+                //    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
+                //        processInstanceEntity.setLocalizedDescription(languageDescriptionNode.asText());
+                //    }
+                //}
             }
         }
     }

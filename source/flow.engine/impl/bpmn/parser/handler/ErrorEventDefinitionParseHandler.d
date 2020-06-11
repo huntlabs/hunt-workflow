@@ -10,12 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.ErrorEventDefinitionParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.ErrorEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -24,14 +25,14 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class ErrorEventDefinitionParseHandler : AbstractBpmnParseHandler!ErrorEventDefinition {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return ErrorEventDefinition.class;
+    TypeInfo getHandledType() {
+        return typeid(ErrorEventDefinition);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, ErrorEventDefinition eventDefinition) {
-        if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
-            BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();
+        if (cast(BoundaryEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            BoundaryEvent boundaryEvent = cast(BoundaryEvent) bpmnParse.getCurrentFlowElement();
             boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryEventActivityBehavior(boundaryEvent, true));
         }
     }

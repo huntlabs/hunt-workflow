@@ -11,29 +11,28 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cfg.DefaultTaskVariableScopeResolver;
 
 import flow.engine.impl.persistence.entity.ExecutionEntityImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.task.service.InternalTaskVariableScopeResolver;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
-
+import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 /**
  * @author Tijs Rademakers
  */
-class DefaultTaskVariableScopeResolver implements InternalTaskVariableScopeResolver {
+class DefaultTaskVariableScopeResolver : InternalTaskVariableScopeResolver {
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public DefaultTaskVariableScopeResolver(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    override
     public VariableScopeImpl resolveParentVariableScope(TaskEntity task) {
-        if (task.getExecutionId() !is null) {
-            return (ExecutionEntityImpl) getExecutionEntityManager().findById(task.getExecutionId());
+        if (task.getExecutionId() !is null && task.getExecutionId().length != 0) {
+            return cast(ExecutionEntityImpl) getExecutionEntityManager().findById(task.getExecutionId());
         }
         return null;
     }

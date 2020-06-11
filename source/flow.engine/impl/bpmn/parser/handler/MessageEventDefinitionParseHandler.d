@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.MessageEventDefinitionParseHandler;
 
 import hunt.collection.List;
 
@@ -22,6 +22,7 @@ import flow.bpmn.model.IntermediateCatchEvent;
 import flow.bpmn.model.Message;
 import flow.bpmn.model.MessageEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -30,8 +31,8 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class MessageEventDefinitionParseHandler : AbstractBpmnParseHandler!MessageEventDefinition {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return MessageEventDefinition.class;
+    TypeInfo getHandledType() {
+        return typeid(MessageEventDefinition);
     }
 
     override
@@ -42,19 +43,19 @@ class MessageEventDefinitionParseHandler : AbstractBpmnParseHandler!MessageEvent
             Message message = bpmnModel.getMessage(messageRef);
             messageDefinition.setMessageRef(message.getName());
 
-            for(List!ExtensionElement extensionElementList : message.getExtensionElements().values()) {
-                for(ExtensionElement extensionElement : extensionElementList) {
+            foreach(List!ExtensionElement extensionElementList ; message.getExtensionElements().values()) {
+                foreach(ExtensionElement extensionElement ; extensionElementList) {
                     messageDefinition.addExtensionElement(extensionElement);
                 }
             }
         }
 
-        if (bpmnParse.getCurrentFlowElement() instanceof IntermediateCatchEvent) {
-            IntermediateCatchEvent intermediateCatchEvent = (IntermediateCatchEvent) bpmnParse.getCurrentFlowElement();
+        if (cast(IntermediateCatchEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            IntermediateCatchEvent intermediateCatchEvent = cast(IntermediateCatchEvent) bpmnParse.getCurrentFlowElement();
             intermediateCatchEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateCatchMessageEventActivityBehavior(intermediateCatchEvent, messageDefinition));
 
-        } else if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
-            BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();
+        } else if (cast(BoundaryEvent)bpmnParse.getCurrentFlowElement() !is null) {
+            BoundaryEvent boundaryEvent = cast(BoundaryEvent) bpmnParse.getCurrentFlowElement();
             boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryMessageEventActivityBehavior(boundaryEvent, messageDefinition, boundaryEvent.isCancelActivity()));
         }
 

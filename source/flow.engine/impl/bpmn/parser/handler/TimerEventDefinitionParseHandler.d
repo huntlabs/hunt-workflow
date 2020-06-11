@@ -10,13 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.TimerEventDefinitionParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.IntermediateCatchEvent;
 import flow.bpmn.model.TimerEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
+
 
 /**
  * @author Joram Barrez
@@ -24,21 +26,21 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class TimerEventDefinitionParseHandler : AbstractBpmnParseHandler!TimerEventDefinition {
 
     override
-    class<? : BaseElement> getHandledType() {
-        return TimerEventDefinition.class;
+    TypeInfo getHandledType() {
+        return typeid(TimerEventDefinition);
     }
 
     override
     protected void executeParse(BpmnParse bpmnParse, TimerEventDefinition timerEventDefinition) {
 
-        if (bpmnParse.getCurrentFlowElement() instanceof IntermediateCatchEvent) {
+        if (cast(IntermediateCatchEvent)bpmnParse.getCurrentFlowElement() !is null) {
 
-            IntermediateCatchEvent intermediateCatchEvent = (IntermediateCatchEvent) bpmnParse.getCurrentFlowElement();
+            IntermediateCatchEvent intermediateCatchEvent = cast(IntermediateCatchEvent) bpmnParse.getCurrentFlowElement();
             intermediateCatchEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateCatchTimerEventActivityBehavior(intermediateCatchEvent, timerEventDefinition));
 
-        } else if (bpmnParse.getCurrentFlowElement() instanceof BoundaryEvent) {
+        } else if (cast(BoundaryEvent)bpmnParse.getCurrentFlowElement() !is null) {
 
-            BoundaryEvent boundaryEvent = (BoundaryEvent) bpmnParse.getCurrentFlowElement();
+            BoundaryEvent boundaryEvent = cast(BoundaryEvent) bpmnParse.getCurrentFlowElement();
             boundaryEvent.setBehavior(bpmnParse.getActivityBehaviorFactory().createBoundaryTimerEventActivityBehavior(boundaryEvent, timerEventDefinition, boundaryEvent.isCancelActivity()));
         }
     }

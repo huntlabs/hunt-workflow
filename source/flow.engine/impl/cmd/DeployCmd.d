@@ -77,7 +77,7 @@ class DeployCmd(T) : Command!Deployment {
         if (deploymentBuilder.isDuplicateFilterEnabled()) {
 
             List!Deployment existingDeployments = new ArrayList!Deployment();
-            if (deployment.getTenantId().empty() || ProcessEngineConfiguration.NO_TENANT_ID == (deployment.getTenantId())) {
+            if (deployment.getTenantId() is null || ProcessEngineConfiguration.NO_TENANT_ID == (deployment.getTenantId())) {
                 implementationMissing(false);
                 //List!Deployment deploymentEntities = new DeploymentQueryImpl(processEngineConfiguration.getCommandExecutor())
                 //        .deploymentName(deployment.getName())

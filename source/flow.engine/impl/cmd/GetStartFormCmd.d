@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetStartFormCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -23,31 +22,29 @@ import flow.engine.form.StartFormData;
 import flow.engine.impl.form.FormHandlerHelper;
 import flow.engine.impl.form.StartFormHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.ProcessDefinition;
 
 /**
  * @author Tom Baeyens
  */
-class GetStartFormCmd implements Command!StartFormData, Serializable {
+class GetStartFormCmd : Command!StartFormData {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
 
-    public GetStartFormCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    override
     public StartFormData execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("No process definition found for id '" + processDefinitionId + "'", ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("No process definition found for id '" ~ processDefinitionId ~ "'", typeid(ProcessDefinition).toString);
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
-            return Flowable5Util.getFlowable5CompatibilityHandler().getStartFormData(processDefinitionId);
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
+        //    return Flowable5Util.getFlowable5CompatibilityHandler().getStartFormData(processDefinitionId);
+        //}
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         StartFormHandler startFormHandler = formHandlerHelper.getStartFormHandler(commandContext, processDefinition);

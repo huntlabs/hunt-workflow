@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.HistoryServiceImpl;
 
 import hunt.collection.List;
 
@@ -47,152 +47,155 @@ import flow.task.service.history.NativeHistoricTaskInstanceQuery;
 import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 import flow.task.service.impl.HistoricTaskLogEntryBuilderImpl;
 import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
-import flow.task.service.impl.NativeHistoricTaskInstanceQueryImpl;
-import flow.task.service.impl.NativeHistoricTaskLogEntryQueryImpl;
+//import flow.task.service.impl.NativeHistoricTaskInstanceQueryImpl;
+//import flow.task.service.impl.NativeHistoricTaskLogEntryQueryImpl;
 import flow.variable.service.api.history.HistoricVariableInstanceQuery;
 import flow.variable.service.api.history.NativeHistoricVariableInstanceQuery;
 import flow.variable.service.impl.HistoricVariableInstanceQueryImpl;
-import flow.variable.service.impl.NativeHistoricVariableInstanceQueryImpl;
+//import flow.variable.service.impl.NativeHistoricVariableInstanceQueryImpl;
+import flow.engine.impl.NativeHistoricDetailQueryImpl;
+import flow.engine.impl.NativeHistoricProcessInstanceQueryImpl;
+import flow.engine.impl.NativeHistoricActivityInstanceQueryImpl;
 
 /**
  * @author Tom Baeyens
  * @author Bernd Ruecker (camunda)
  * @author Christian Stettler
  */
-class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl implements HistoryService {
+class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl , HistoryService {
 
-    public HistoryServiceImpl(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         super(processEngineConfiguration);
     }
 
-    override
+
     public HistoricProcessInstanceQuery createHistoricProcessInstanceQuery() {
         return new HistoricProcessInstanceQueryImpl(commandExecutor);
     }
 
-    override
+
     public HistoricActivityInstanceQuery createHistoricActivityInstanceQuery() {
         return new HistoricActivityInstanceQueryImpl(commandExecutor);
     }
 
-    override
+
     public HistoricTaskInstanceQuery createHistoricTaskInstanceQuery() {
         return new HistoricTaskInstanceQueryImpl(commandExecutor, configuration.getDatabaseType());
     }
 
-    override
+
     public HistoricDetailQuery createHistoricDetailQuery() {
         return new HistoricDetailQueryImpl(commandExecutor);
     }
 
-    override
+
     public NativeHistoricDetailQuery createNativeHistoricDetailQuery() {
         return new NativeHistoricDetailQueryImpl(commandExecutor);
     }
 
-    override
+
     public HistoricVariableInstanceQuery createHistoricVariableInstanceQuery() {
         return new HistoricVariableInstanceQueryImpl(commandExecutor);
     }
 
-    override
-    public NativeHistoricVariableInstanceQuery createNativeHistoricVariableInstanceQuery() {
-        return new NativeHistoricVariableInstanceQueryImpl(commandExecutor);
-    }
 
-    override
+    //public NativeHistoricVariableInstanceQuery createNativeHistoricVariableInstanceQuery() {
+    //    return new NativeHistoricVariableInstanceQueryImpl(commandExecutor);
+    //}
+
+
     public void deleteHistoricTaskInstance(string taskId) {
         commandExecutor.execute(new DeleteHistoricTaskInstanceCmd(taskId));
     }
 
-    override
+
     public void deleteHistoricProcessInstance(string processInstanceId) {
         commandExecutor.execute(new DeleteHistoricProcessInstanceCmd(processInstanceId));
     }
 
-    override
+
     public void deleteTaskAndActivityDataOfRemovedHistoricProcessInstances() {
         commandExecutor.execute(new DeleteTaskAndActivityDataOfRemovedHistoricProcessInstancesCmd());
     }
 
-    override
+
     public void deleteRelatedDataOfRemovedHistoricProcessInstances() {
         commandExecutor.execute(new DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd());
     }
 
-    override
+
     public NativeHistoricProcessInstanceQuery createNativeHistoricProcessInstanceQuery() {
         return new NativeHistoricProcessInstanceQueryImpl(commandExecutor);
     }
 
-    override
-    public NativeHistoricTaskInstanceQuery createNativeHistoricTaskInstanceQuery() {
-        return new NativeHistoricTaskInstanceQueryImpl(commandExecutor);
-    }
 
-    override
+    //public NativeHistoricTaskInstanceQuery createNativeHistoricTaskInstanceQuery() {
+    //    return new NativeHistoricTaskInstanceQueryImpl(commandExecutor);
+    //}
+
+
     public NativeHistoricActivityInstanceQuery createNativeHistoricActivityInstanceQuery() {
         return new NativeHistoricActivityInstanceQueryImpl(commandExecutor);
     }
 
-    override
+
     public List!HistoricIdentityLink getHistoricIdentityLinksForProcessInstance(string processInstanceId) {
         return commandExecutor.execute(new GetHistoricIdentityLinksForTaskCmd(null, processInstanceId));
     }
 
-    override
+
     public List!HistoricIdentityLink getHistoricIdentityLinksForTask(string taskId) {
         return commandExecutor.execute(new GetHistoricIdentityLinksForTaskCmd(taskId, null));
     }
 
-    override
+
     public List!HistoricEntityLink getHistoricEntityLinkChildrenForProcessInstance(string processInstanceId) {
         return commandExecutor.execute(new GetHistoricEntityLinkChildrenForProcessInstanceCmd(processInstanceId));
     }
 
-    override
+
     public List!HistoricEntityLink getHistoricEntityLinkChildrenForTask(string taskId) {
         return commandExecutor.execute(new GetHistoricEntityLinkChildrenForTaskCmd(taskId));
     }
 
-    override
+
     public List!HistoricEntityLink getHistoricEntityLinkParentsForProcessInstance(string processInstanceId) {
         return commandExecutor.execute(new GetHistoricEntityLinkParentsForProcessInstanceCmd(processInstanceId));
     }
 
-    override
+
     public List!HistoricEntityLink getHistoricEntityLinkParentsForTask(string taskId) {
         return commandExecutor.execute(new GetHistoricEntityLinkParentsForTaskCmd(taskId));
     }
 
-    override
+
     public ProcessInstanceHistoryLogQuery createProcessInstanceHistoryLogQuery(string processInstanceId) {
         return new ProcessInstanceHistoryLogQueryImpl(commandExecutor, processInstanceId);
     }
 
-    override
+
     public void deleteHistoricTaskLogEntry(long logNumber) {
         commandExecutor.execute(new DeleteHistoricTaskLogEntryByLogNumberCmd(logNumber));
     }
 
-    override
+
     public HistoricTaskLogEntryBuilder createHistoricTaskLogEntryBuilder(TaskInfo task) {
         return new HistoricTaskLogEntryBuilderImpl(commandExecutor, task);
     }
 
-    override
+
     public HistoricTaskLogEntryBuilder createHistoricTaskLogEntryBuilder() {
         return new HistoricTaskLogEntryBuilderImpl(commandExecutor);
     }
 
-    override
+
     public HistoricTaskLogEntryQuery createHistoricTaskLogEntryQuery() {
         return new HistoricTaskLogEntryQueryImpl(commandExecutor);
     }
 
-    override
-    public NativeHistoricTaskLogEntryQuery createNativeHistoricTaskLogEntryQuery() {
-        return new NativeHistoricTaskLogEntryQueryImpl(commandExecutor);
-    }
+
+    //public NativeHistoricTaskLogEntryQuery createNativeHistoricTaskLogEntryQuery() {
+    //    return new NativeHistoricTaskLogEntryQueryImpl(commandExecutor);
+    //}
 
 }

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cfg.ServiceInvoker;
 
 import hunt.collection.Map;
 

@@ -33,7 +33,7 @@ import flow.engine.runtime.ProcessInstance;
  * @author Tom Baeyens
  * @author Falko Menge (camunda)
  */
-class FormServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl implements FormService {
+class FormServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl , FormService {
 
     override
     public Object getRenderedStartForm(string processDefinitionId) {

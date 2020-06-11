@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTaskEventCmd;
 
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -24,12 +23,11 @@ import flow.engine.task.Event;
 /**
  * @author Frederik Heremans
  */
-class GetTaskEventCmd implements Command!Event, Serializable {
+class GetTaskEventCmd : Command!Event {
 
-    private static final long serialVersionUID = 1L;
     protected string eventId;
 
-    public GetTaskEventCmd(string eventId) {
+    this(string eventId) {
         this.eventId = eventId;
 
         if (eventId is null) {
@@ -37,7 +35,6 @@ class GetTaskEventCmd implements Command!Event, Serializable {
         }
     }
 
-    override
     public Event execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findEvent(eventId);
     }

@@ -10,32 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTableNameCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetTableNameCmd implements Command!string, Serializable {
+class GetTableNameCmd : Command!string {
 
-    private static final long serialVersionUID = 1L;
-
-    protected Class<?> entityClass;
+    protected TypeInfo entityClass;
     protected bool withPrefix = true;
 
-    public GetTableNameCmd(Class<?> entityClass) {
+    this(TypeInfo entityClass) {
         this.entityClass = entityClass;
     }
 
-    public GetTableNameCmd(Class<?> entityClass, bool withPrefix) {
+    this(TypeInfo entityClass, bool withPrefix) {
         this.entityClass = entityClass;
         this.withPrefix = withPrefix;
     }
 
-    override
     public string execute(CommandContext commandContext) {
         if (entityClass is null) {
             throw new FlowableIllegalArgumentException("entityClass is null");

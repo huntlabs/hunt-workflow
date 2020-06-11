@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.ExecutionQueryImpl;
 
 import hunt.collection.ArrayList;
 import hunt.time.LocalDateTime;
@@ -33,23 +33,22 @@ import flow.engine.runtime.Execution;
 import flow.engine.runtime.ExecutionQuery;
 import flow.eventsubscription.service.impl.EventSubscriptionQueryValue;
 import flow.variable.service.impl.AbstractVariableQueryImpl;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import hunt.Exceptions;
+//import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Joram Barrez
  * @author Frederik Heremans
  * @author Daniel Meyer
  */
-class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution) implements ExecutionQuery, QueryCacheValues {
+class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution) , ExecutionQuery, QueryCacheValues {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
     protected string processDefinitionKey;
     protected string processDefinitionCategory;
     protected string processDefinitionName;
-    protected Integer processDefinitionVersion;
+    protected int processDefinitionVersion;
     protected string processDefinitionEngineVersion;
     protected string activityId;
     protected string executionId;
@@ -98,19 +97,22 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     protected string referenceId;
     protected string referenceType;
 
-    protected List!ExecutionQueryImpl orQueryObjects = new ArrayList<>();
+    protected List!ExecutionQueryImpl orQueryObjects ;//= new ArrayList<>();
     protected ExecutionQueryImpl currentOrQueryObject;
     protected bool inOrStatement;
 
-    public ExecutionQueryImpl() {
+    this() {
+        orQueryObjects = new ArrayList!ExecutionQueryImpl;
     }
 
-    public ExecutionQueryImpl(CommandContext commandContext) {
+    this(CommandContext commandContext) {
         super(commandContext);
+        orQueryObjects = new ArrayList!ExecutionQueryImpl;
     }
 
-    public ExecutionQueryImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
+        orQueryObjects = new ArrayList!ExecutionQueryImpl;
     }
 
     public bool isProcessInstancesOnly() {
@@ -170,7 +172,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
-    public ExecutionQuery processDefinitionVersion(Integer processDefinitionVersion) {
+    public ExecutionQuery processDefinitionVersion(int processDefinitionVersion) {
         if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition version is null");
         }
@@ -424,13 +426,13 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
 
         if (inOrStatement) {
             if (this.currentOrQueryObject.eventSubscriptions is null) {
-                this.currentOrQueryObject.eventSubscriptions = new ArrayList<>();
+                this.currentOrQueryObject.eventSubscriptions = new ArrayList!EventSubscriptionQueryValue();
             }
             this.currentOrQueryObject.eventSubscriptions.add(new EventSubscriptionQueryValue(eventName, eventType));
 
         } else {
             if (eventSubscriptions is null) {
-                eventSubscriptions = new ArrayList<>();
+                eventSubscriptions = new ArrayList!EventSubscriptionQueryValue();
             }
             eventSubscriptions.add(new EventSubscriptionQueryValue(eventName, eventType));
         }
@@ -828,7 +830,6 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         return CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionCountByQueryCriteria(this);
     }
 
-    @SuppressWarnings({ "unchecked" })
     override
     public List!Execution executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
@@ -838,13 +839,13 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
             processEngineConfiguration.getExecutionQueryInterceptor().beforeExecutionQueryExecute(this);
         }
 
-        List<?> executions = CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionsByQueryCriteria(this);
+        auto executions = CommandContextUtil.getExecutionEntityManager(commandContext).findExecutionsByQueryCriteria(this);
 
         if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization()) {
-            for (ExecutionEntity execution : (List!ExecutionEntity) executions) {
+            foreach (ExecutionEntity execution ; cast(List!ExecutionEntity) executions) {
                 string activityId = null;
-                if (execution.getId().equals(execution.getProcessInstanceId())) {
-                    if (execution.getProcessDefinitionId() !is null) {
+                if (execution.getId() == (execution.getProcessInstanceId())) {
+                    if (execution.getProcessDefinitionId() !is null && execution.getProcessDefinitionId().length != 0) {
                         ProcessDefinition processDefinition = processEngineConfiguration
                                 .getDeploymentManager()
                                 .findDeployedProcessDefinitionById(execution.getProcessDefinitionId());
@@ -862,31 +863,32 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         }
 
         if (processEngineConfiguration.getExecutionQueryInterceptor() !is null) {
-            processEngineConfiguration.getExecutionQueryInterceptor().afterExecutionQueryExecute(this, (List!Execution) executions);
+            processEngineConfiguration.getExecutionQueryInterceptor().afterExecutionQueryExecute(this, cast(List!Execution) executions);
         }
 
-        return (List!Execution) executions;
+        return cast(List!Execution) executions;
     }
 
     protected void localize(Execution execution, string activityId) {
-        ExecutionEntity executionEntity = (ExecutionEntity) execution;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
         executionEntity.setLocalizedName(null);
         executionEntity.setLocalizedDescription(null);
 
         string processDefinitionId = executionEntity.getProcessDefinitionId();
         if (locale !is null && processDefinitionId !is null) {
-            ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, activityId, processDefinitionId, withLocalizationFallback);
-            if (languageNode !is null) {
-                JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                if (languageNameNode !is null && !languageNameNode.isNull()) {
-                    executionEntity.setLocalizedName(languageNameNode.asText());
-                }
-
-                JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
-                    executionEntity.setLocalizedDescription(languageDescriptionNode.asText());
-                }
-            }
+            implementationMissing(false);
+            //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, activityId, processDefinitionId, withLocalizationFallback);
+            //if (languageNode !is null) {
+            //    JsonNode languageNameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+            //    if (languageNameNode !is null && !languageNameNode.isNull()) {
+            //        executionEntity.setLocalizedName(languageNameNode.asText());
+            //    }
+            //
+            //    JsonNode languageDescriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+            //    if (languageDescriptionNode !is null && !languageDescriptionNode.isNull()) {
+            //        executionEntity.setLocalizedDescription(languageDescriptionNode.asText());
+            //    }
+            //}
         }
     }
 
@@ -894,7 +896,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     protected void ensureVariablesInitialized() {
         super.ensureVariablesInitialized();
 
-        for (ExecutionQueryImpl orQueryObject : orQueryObjects) {
+        foreach (ExecutionQueryImpl orQueryObject ; orQueryObjects) {
             orQueryObject.ensureVariablesInitialized();
         }
     }
@@ -921,7 +923,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         return processDefinitionName;
     }
 
-    public Integer getProcessDefinitionVersion() {
+    public int getProcessDefinitionVersion() {
         return processDefinitionVersion;
     }
 

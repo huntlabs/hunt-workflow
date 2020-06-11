@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.DefaultProcessJobParentStateResolver;
 
-
-import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.runtime.ProcessInstance;
@@ -22,17 +21,16 @@ import flow.job.service.InternalJobParentStateResolver;
 /**
  * @author martin.grofcik
  */
-class DefaultProcessJobParentStateResolver implements InternalJobParentStateResolver {
+class DefaultProcessJobParentStateResolver : InternalJobParentStateResolver {
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public DefaultProcessJobParentStateResolver(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    override
     public bool isSuspended(Job job) {
-        if (StringUtils.isEmpty(job.getProcessInstanceId())) {
-            throw new FlowableIllegalArgumentException("Job " + job.getId() + " parent is not process instance");
+        if (job.getProcessInstanceId() is null || job.getProcessInstanceId().length == 0) {
+            throw new FlowableIllegalArgumentException("Job " ~ job.getId() ~ " parent is not process instance");
         }
         ProcessInstance processInstance = this.processEngineConfiguration.getRuntimeService().createProcessInstanceQuery().processInstanceId(job.getProcessInstanceId()).singleResult();
         return processInstance.isSuspended();

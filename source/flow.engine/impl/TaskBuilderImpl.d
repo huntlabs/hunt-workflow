@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.TaskBuilderImpl;
 
 import flow.common.interceptor.CommandExecutor;
 import flow.engine.impl.cmd.CreateTaskCmd;
@@ -22,7 +22,7 @@ import flow.task.service.impl.BaseTaskBuilderImpl;
  * {@link TaskBuilder} implementation
  */
 class TaskBuilderImpl : BaseTaskBuilderImpl {
-    TaskBuilderImpl(CommandExecutor commandExecutor) {
+    this(CommandExecutor commandExecutor) {
         super(commandExecutor);
     }
 

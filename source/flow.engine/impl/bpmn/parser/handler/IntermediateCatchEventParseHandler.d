@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.bpmn.parser.handler.IntermediateCatchEventParseHandler;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.ConditionalEventDefinition;
@@ -20,20 +20,18 @@ import flow.bpmn.model.MessageEventDefinition;
 import flow.bpmn.model.SignalEventDefinition;
 import flow.bpmn.model.TimerEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import flow.engine.impl.bpmn.parser.handler.AbstractFlowNodeBpmnParseHandler;
+import hunt.logging;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
 class IntermediateCatchEventParseHandler : AbstractFlowNodeBpmnParseHandler!IntermediateCatchEvent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IntermediateCatchEventParseHandler.class);
 
     override
-    class<? : BaseElement> getHandledType() {
-        return IntermediateCatchEvent.class;
+    TypeInfo getHandledType() {
+        return typeid(IntermediateCatchEvent);
     }
 
     override
@@ -47,13 +45,13 @@ class IntermediateCatchEventParseHandler : AbstractFlowNodeBpmnParseHandler!Inte
             event.setBehavior(bpmnParse.getActivityBehaviorFactory().createIntermediateCatchEventActivityBehavior(event));
 
         } else {
-            if (eventDefinition instanceof TimerEventDefinition || eventDefinition instanceof SignalEventDefinition ||
-                            eventDefinition instanceof MessageEventDefinition || eventDefinition instanceof ConditionalEventDefinition) {
+            if (cast(TimerEventDefinition)eventDefinition !is null || cast(SignalEventDefinition)eventDefinition !is null ||
+                            cast(MessageEventDefinition)eventDefinition !is null || cast(ConditionalEventDefinition)eventDefinition !is null) {
 
                 bpmnParse.getBpmnParserHandlers().parseElement(bpmnParse, eventDefinition);
 
             } else {
-                LOGGER.warn("Unsupported intermediate catch event type for event {}", event.getId());
+                logWarning("Unsupported intermediate catch event type for event {%s}", event.getId());
             }
         }
     }

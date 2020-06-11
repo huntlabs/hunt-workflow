@@ -11,10 +11,11 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.bpmn.parser.handler.EventSubProcessParseHandler;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.EventSubProcess;
 import flow.engine.impl.bpmn.parser.BpmnParse;
+import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 
 /**
  * @author Joram Barrez
@@ -22,8 +23,8 @@ import flow.engine.impl.bpmn.parser.BpmnParse;
 class EventSubProcessParseHandler : AbstractActivityBpmnParseHandler!EventSubProcess {
 
     override
-    protected Class<? : BaseElement> getHandledType() {
-        return EventSubProcess.class;
+    protected TypeInfo getHandledType() {
+        return typeid(EventSubProcess);
     }
 
     override
