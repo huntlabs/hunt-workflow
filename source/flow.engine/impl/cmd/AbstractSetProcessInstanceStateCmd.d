@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.AbstractSetProcessInstanceStateCmd;
 
 import hunt.collection;
 import hunt.collection.List;
@@ -25,7 +25,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.persistence.entity.SuspensionStateUtil;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
 import flow.job.service.JobService;
 import flow.job.service.TimerJobService;
@@ -33,20 +33,19 @@ import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-abstract class AbstractSetProcessInstanceStateCmd implements Command!Void {
+abstract class AbstractSetProcessInstanceStateCmd : Command!Void {
 
-    protected final string processInstanceId;
+    protected  string processInstanceId;
 
-    public AbstractSetProcessInstanceStateCmd(string processInstanceId) {
+    this(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
 
         if (processInstanceId is null) {
@@ -57,28 +56,28 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command!Void {
         ExecutionEntity executionEntity = executionEntityManager.findById(processInstanceId);
 
         if (executionEntity is null) {
-            throw new FlowableObjectNotFoundException("Cannot find processInstance for id '" + processInstanceId + "'.", Execution.class);
+            throw new FlowableObjectNotFoundException("Cannot find processInstance for id '" ~ processInstanceId ~ "'.");
         }
         if (!executionEntity.isProcessInstanceType()) {
-            throw new FlowableException("Cannot set suspension state for execution '" + processInstanceId + "': not a process instance.");
+            throw new FlowableException("Cannot set suspension state for execution '" ~ processInstanceId ~ "': not a process instance.");
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, executionEntity.getProcessDefinitionId())) {
-            if (getNewState() == SuspensionState.ACTIVE) {
-                CommandContextUtil.getProcessEngineConfiguration().getFlowable5CompatibilityHandler().activateProcessInstance(processInstanceId);
-            } else {
-                CommandContextUtil.getProcessEngineConfiguration().getFlowable5CompatibilityHandler().suspendProcessInstance(processInstanceId);
-            }
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, executionEntity.getProcessDefinitionId())) {
+        //    if (getNewState() == SuspensionState.ACTIVE) {
+        //        CommandContextUtil.getProcessEngineConfiguration().getFlowable5CompatibilityHandler().activateProcessInstance(processInstanceId);
+        //    } else {
+        //        CommandContextUtil.getProcessEngineConfiguration().getFlowable5CompatibilityHandler().suspendProcessInstance(processInstanceId);
+        //    }
+        //    return null;
+        //}
 
         SuspensionStateUtil.setSuspensionState(executionEntity, getNewState());
         executionEntityManager.update(executionEntity, false);
 
         // All child executions are suspended
         Collection!ExecutionEntity childExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(processInstanceId);
-        for (ExecutionEntity childExecution : childExecutions) {
-            if (!childExecution.getId().equals(processInstanceId)) {
+        foreach (ExecutionEntity childExecution ; childExecutions) {
+            if (childExecution.getId() != (processInstanceId)) {
                 SuspensionStateUtil.setSuspensionState(childExecution, getNewState());
                 executionEntityManager.update(childExecution, false);
             }
@@ -86,7 +85,7 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command!Void {
 
         // All tasks are suspended
         List!TaskEntity tasks = CommandContextUtil.getTaskService().findTasksByProcessInstanceId(processInstanceId);
-        for (TaskEntity taskEntity : tasks) {
+        foreach (TaskEntity taskEntity ; tasks) {
             SuspensionStateUtil.setSuspensionState(taskEntity, getNewState());
             CommandContextUtil.getTaskService().updateTask(taskEntity, false);
         }
@@ -95,19 +94,19 @@ abstract class AbstractSetProcessInstanceStateCmd implements Command!Void {
         JobService jobService = CommandContextUtil.getJobService(commandContext);
         if (getNewState() == SuspensionState.ACTIVE) {
             List!SuspendedJobEntity suspendedJobs = jobService.findSuspendedJobsByProcessInstanceId(processInstanceId);
-            for (SuspendedJobEntity suspendedJob : suspendedJobs) {
+            foreach (SuspendedJobEntity suspendedJob ; suspendedJobs) {
                 jobService.activateSuspendedJob(suspendedJob);
             }
 
         } else {
             TimerJobService timerJobService = CommandContextUtil.getTimerJobService(commandContext);
             List!TimerJobEntity timerJobs = timerJobService.findTimerJobsByProcessInstanceId(processInstanceId);
-            for (TimerJobEntity timerJob : timerJobs) {
+            foreach (TimerJobEntity timerJob ; timerJobs) {
                 jobService.moveJobToSuspendedJob(timerJob);
             }
 
             List!JobEntity jobs = jobService.findJobsByProcessInstanceId(processInstanceId);
-            for (JobEntity job : jobs) {
+            foreach (JobEntity job ; jobs) {
                 jobService.moveJobToSuspendedJob(job);
             }
         }

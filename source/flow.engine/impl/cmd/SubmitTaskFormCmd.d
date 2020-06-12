@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.SubmitTaskFormCmd;
 
 import hunt.collection.Map;
 
@@ -21,9 +21,11 @@ import flow.engine.impl.form.FormHandlerHelper;
 import flow.engine.impl.form.TaskFormHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.TaskHelper;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
+import hunt.Object;
 
 /**
  * @author Tom Baeyens
@@ -31,13 +33,11 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  */
 class SubmitTaskFormCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
-
     protected string taskId;
     protected Map!(string, string) properties;
     protected bool completeTask;
 
-    public SubmitTaskFormCmd(string taskId, Map!(string, string) properties, bool completeTask) {
+    this(string taskId, Map!(string, string) properties, bool completeTask) {
         super(taskId);
         this.taskId = taskId;
         this.properties = properties;
@@ -48,13 +48,13 @@ class SubmitTaskFormCmd : NeedsActiveTaskCmd!Void {
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
         // Backwards compatibility
-        if (task.getProcessDefinitionId() !is null) {
-            if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-                Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                compatibilityHandler.submitTaskFormData(taskId, properties, completeTask);
-                return null;
-            }
-        }
+        //if (task.getProcessDefinitionId() !is null) {
+        //    if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //        Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //        compatibilityHandler.submitTaskFormData(taskId, properties, completeTask);
+        //        return null;
+        //    }
+        //}
 
         ExecutionEntity executionEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getExecutionId());
         CommandContextUtil.getHistoryManager(commandContext)

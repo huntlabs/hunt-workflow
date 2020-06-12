@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetExecutionVariableCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -21,27 +20,24 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
 
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class GetExecutionVariableCmd implements Command!Object, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class GetExecutionVariableCmd : Command!Object {
     protected string executionId;
     protected string variableName;
     protected bool isLocal;
 
-    public GetExecutionVariableCmd(string executionId, string variableName, bool isLocal) {
+    this(string executionId, string variableName, bool isLocal) {
         this.executionId = executionId;
         this.variableName = variableName;
         this.isLocal = isLocal;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
@@ -53,13 +49,13 @@ class GetExecutionVariableCmd implements Command!Object, Serializable {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
         if (execution is null) {
-            throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
+            throw new FlowableObjectNotFoundException("execution " ~ executionId ~ " doesn't exist");
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            return compatibilityHandler.getExecutionVariable(executionId, variableName, isLocal);
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    return compatibilityHandler.getExecutionVariable(executionId, variableName, isLocal);
+        //}
 
         Object value;
 

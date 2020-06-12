@@ -10,23 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.AddEventConsumerCommand;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.event.registry.api.EventRegistryEventConsumer;
+import hunt.Object;
 
-class AddEventConsumerCommand implements Command!Void {
+class AddEventConsumerCommand : Command!Void {
 
     protected EventRegistryEventConsumer eventConsumer;
 
-    public AddEventConsumerCommand(EventRegistryEventConsumer eventConsumer) {
+    this(EventRegistryEventConsumer eventConsumer) {
         this.eventConsumer = eventConsumer;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (eventConsumer is null) {
             throw new FlowableIllegalArgumentException("event consumer is null.");

@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTasksLocalVariablesCmd;
 
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import hunt.collection.Set;
@@ -28,16 +27,14 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 /**
  * @author Daisuke Yoshimoto
  */
-class GetTasksLocalVariablesCmd implements Command<List!VariableInstance>, Serializable {
+class GetTasksLocalVariablesCmd : Command!(List!VariableInstance) {
 
-    private static final long serialVersionUID = 1L;
     protected Set!string taskIds;
 
-    public GetTasksLocalVariablesCmd(Set!string taskIds) {
+    this(Set!string taskIds) {
         this.taskIds = taskIds;
     }
 
-    override
     public List!VariableInstance execute(CommandContext commandContext) {
         if (taskIds is null) {
             throw new FlowableIllegalArgumentException("taskIds is null");
@@ -46,9 +43,9 @@ class GetTasksLocalVariablesCmd implements Command<List!VariableInstance>, Seria
             throw new FlowableIllegalArgumentException("Set of taskIds is empty");
         }
 
-        List!VariableInstance instances = new ArrayList<>();
+        List!VariableInstance instances = new ArrayList!VariableInstance();
         List!VariableInstanceEntity entities = CommandContextUtil.getVariableService().findVariableInstancesByTaskIds(taskIds);
-        for (VariableInstanceEntity entity : entities) {
+        foreach (VariableInstanceEntity entity ; entities) {
             entity.getValue();
             instances.add(entity);
         }

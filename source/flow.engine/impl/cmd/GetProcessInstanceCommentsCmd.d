@@ -11,39 +11,34 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetProcessInstanceCommentsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.task.Comment;
-
+import std.string;
 /**
  * @author Tom Baeyens
  */
-class GetProcessInstanceCommentsCmd implements Command<List!Comment>, Serializable {
+class GetProcessInstanceCommentsCmd : Command!(List!Comment) {
 
-    private static final long serialVersionUID = 1L;
     protected string processInstanceId;
     protected string type;
 
-    public GetProcessInstanceCommentsCmd(string processInstanceId) {
+    this(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    public GetProcessInstanceCommentsCmd(string processInstanceId, string type) {
+    this(string processInstanceId, string type) {
         this.processInstanceId = processInstanceId;
         this.type = type;
     }
 
-    @SuppressWarnings("unchecked")
-    override
     public List!Comment execute(CommandContext commandContext) {
-        if (StringUtils.isNotBlank(type)) {
+        if (type !is null && strip(type).length != 0) {
             List!Comment commentsByProcessInstanceId = CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByProcessInstanceId(processInstanceId, type);
             return commentsByProcessInstanceId;
         } else {

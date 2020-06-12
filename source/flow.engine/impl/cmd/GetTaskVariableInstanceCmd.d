@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTaskVariableInstanceCmd;
 
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -24,20 +23,18 @@ import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
-class GetTaskVariableInstanceCmd implements Command!VariableInstance, Serializable {
+class GetTaskVariableInstanceCmd : Command!VariableInstance {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
     protected string variableName;
     protected bool isLocal;
 
-    public GetTaskVariableInstanceCmd(string taskId, string variableName, bool isLocal) {
+    this(string taskId, string variableName, bool isLocal) {
         this.taskId = taskId;
         this.variableName = variableName;
         this.isLocal = isLocal;
     }
 
-    override
     public VariableInstance execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
@@ -49,7 +46,7 @@ class GetTaskVariableInstanceCmd implements Command!VariableInstance, Serializab
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
+            throw new FlowableObjectNotFoundException("task " ~ taskId ~ " doesn't exist");
         }
 
         VariableInstance variableEntity;

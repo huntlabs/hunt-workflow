@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.AbstractSetProcessDefinitionStateCmd;
 
 import hunt.collection.ArrayList;
-import hunt.collections;
+import hunt.collection.Collections;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 
@@ -32,19 +32,21 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.impl.persistence.entity.SuspensionStateUtil;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ProcessInstance;
 import flow.job.service.JobHandler;
 import flow.job.service.TimerJobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
-
+import hunt.Object;
+import hunt.Exceptions;
+import flow.engine.impl.cmd.AbstractSetProcessInstanceStateCmd;
 /**
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
+abstract class AbstractSetProcessDefinitionStateCmd : Command!Void {
 
     protected string processDefinitionId;
     protected string processDefinitionKey;
@@ -53,14 +55,14 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
     protected Date executionDate;
     protected string tenantId;
 
-    public AbstractSetProcessDefinitionStateCmd(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
+    this(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
         this.processDefinitionEntity = processDefinitionEntity;
         this.includeProcessInstances = includeProcessInstances;
         this.executionDate = executionDate;
         this.tenantId = tenantId;
     }
 
-    public AbstractSetProcessDefinitionStateCmd(string processDefinitionId, string processDefinitionKey, bool includeProcessInstances, Date executionDate, string tenantId) {
+    this(string processDefinitionId, string processDefinitionKey, bool includeProcessInstances, Date executionDate, string tenantId) {
         this.processDefinitionId = processDefinitionId;
         this.processDefinitionKey = processDefinitionKey;
         this.includeProcessInstances = includeProcessInstances;
@@ -73,23 +75,23 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
 
         List!ProcessDefinitionEntity processDefinitions = findProcessDefinition(commandContext);
         bool hasV5ProcessDefinitions = false;
-        for (ProcessDefinitionEntity processDefinitionEntity : processDefinitions) {
-            if (Flowable5Util.isFlowable5ProcessDefinition(processDefinitionEntity, commandContext)) {
-                hasV5ProcessDefinitions = true;
-                break;
-            }
-        }
-
-        if (hasV5ProcessDefinitions) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            if (getProcessDefinitionSuspensionState() == SuspensionState.ACTIVE) {
-                compatibilityHandler.activateProcessDefinition(processDefinitionId, processDefinitionKey, includeProcessInstances, executionDate, tenantId);
-            } else if (getProcessDefinitionSuspensionState() == SuspensionState.SUSPENDED) {
-                compatibilityHandler.suspendProcessDefinition(processDefinitionId, processDefinitionKey, includeProcessInstances, executionDate, tenantId);
-            }
-            return null;
-        }
-
+        //for (ProcessDefinitionEntity processDefinitionEntity : processDefinitions) {
+        //    if (Flowable5Util.isFlowable5ProcessDefinition(processDefinitionEntity, commandContext)) {
+        //        hasV5ProcessDefinitions = true;
+        //        break;
+        //    }
+        //}
+        //
+        //if (hasV5ProcessDefinitions) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    if (getProcessDefinitionSuspensionState() == SuspensionState.ACTIVE) {
+        //        compatibilityHandler.activateProcessDefinition(processDefinitionId, processDefinitionKey, includeProcessInstances, executionDate, tenantId);
+        //    } else if (getProcessDefinitionSuspensionState() == SuspensionState.SUSPENDED) {
+        //        compatibilityHandler.suspendProcessDefinition(processDefinitionId, processDefinitionKey, includeProcessInstances, executionDate, tenantId);
+        //    }
+        //    return null;
+        //}
+        implementationMissing(false);
         if (executionDate !is null) { // Process definition state change is delayed
             createTimerForDelayedExecution(commandContext, processDefinitions);
         } else { // Process definition state is changed now
@@ -112,14 +114,14 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
             throw new FlowableIllegalArgumentException("Process definition id or key cannot be null");
         }
 
-        List!ProcessDefinitionEntity processDefinitionEntities = new ArrayList<>();
+        List!ProcessDefinitionEntity processDefinitionEntities = new ArrayList!ProcessDefinitionEntity();
         ProcessDefinitionEntityManager processDefinitionManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
 
-        if (processDefinitionId !is null) {
+        if (processDefinitionId !is null && processDefinitionId.length != 0) {
 
             ProcessDefinitionEntity processDefinitionEntity = processDefinitionManager.findById(processDefinitionId);
             if (processDefinitionEntity is null) {
-                throw new FlowableObjectNotFoundException("Cannot find process definition for id '" + processDefinitionId + "'", ProcessDefinition.class);
+                throw new FlowableObjectNotFoundException("Cannot find process definition for id '" ~ processDefinitionId ~ "'");
             }
             processDefinitionEntities.add(processDefinitionEntity);
 
@@ -127,7 +129,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
 
             ProcessDefinitionQueryImpl query = new ProcessDefinitionQueryImpl(commandContext).processDefinitionKey(processDefinitionKey);
 
-            if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+            if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID == (tenantId)) {
                 query.processDefinitionWithoutTenantId();
             } else {
                 query.processDefinitionTenantId(tenantId);
@@ -135,11 +137,11 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
 
             List!ProcessDefinition processDefinitions = query.list();
             if (processDefinitions.isEmpty()) {
-                throw new FlowableException("Cannot find process definition for key '" + processDefinitionKey + "'");
+                throw new FlowableException("Cannot find process definition for key '" ~ processDefinitionKey ~ "'");
             }
 
-            for (ProcessDefinition processDefinition : processDefinitions) {
-                processDefinitionEntities.add((ProcessDefinitionEntity) processDefinition);
+            foreach (ProcessDefinition processDefinition ; processDefinitions) {
+                processDefinitionEntities.add(cast(ProcessDefinitionEntity) processDefinition);
             }
 
         }
@@ -147,10 +149,10 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
     }
 
     protected void createTimerForDelayedExecution(CommandContext commandContext, List!ProcessDefinitionEntity processDefinitions) {
-        for (ProcessDefinitionEntity processDefinition : processDefinitions) {
+        foreach (ProcessDefinitionEntity processDefinition ; processDefinitions) {
 
-            if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext))
-                continue;
+            //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext))
+            //    continue;
 
             TimerJobService timerJobService = CommandContextUtil.getTimerJobService(commandContext);
             TimerJobEntity timer = timerJobService.createTimerJob();
@@ -170,10 +172,10 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
     }
 
     protected void changeProcessDefinitionState(CommandContext commandContext, List!ProcessDefinitionEntity processDefinitions) {
-        for (ProcessDefinitionEntity processDefinition : processDefinitions) {
+        foreach (ProcessDefinitionEntity processDefinition ; processDefinitions) {
 
-            if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext))
-                continue;
+            //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext))
+            //    continue;
 
             SuspensionStateUtil.setSuspensionState(processDefinition, getProcessDefinitionSuspensionState());
 
@@ -187,7 +189,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
                 List!ProcessInstance processInstances = fetchProcessInstancesPage(commandContext, processDefinition, currentStartIndex);
                 while (!processInstances.isEmpty()) {
 
-                    for (ProcessInstance processInstance : processInstances) {
+                    foreach (ProcessInstance processInstance ; processInstances) {
                         AbstractSetProcessInstanceStateCmd processInstanceCmd = getProcessInstanceChangeStateCmd(processInstance);
                         processInstanceCmd.execute(commandContext);
                     }
@@ -202,7 +204,7 @@ abstract class AbstractSetProcessDefinitionStateCmd implements Command!Void {
 
     protected List!ProcessInstance fetchProcessInstancesPage(CommandContext commandContext, ProcessDefinition processDefinition, int currentPageStartIndex) {
 
-        if (SuspensionState.ACTIVE.equals(getProcessDefinitionSuspensionState())) {
+        if (SuspensionState.ACTIVE == (getProcessDefinitionSuspensionState())) {
             return new ProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).suspended()
                     .listPage(currentPageStartIndex, CommandContextUtil.getProcessEngineConfiguration(commandContext).getBatchSizeProcessInstances());
         } else {

@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.TriggerCaseTaskCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.Map;
 
 import flow.bpmn.model.CaseServiceTask;
@@ -25,18 +24,17 @@ import flow.engine.impl.bpmn.behavior.CaseTaskActivityBehavior;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import hunt.Object;
 
 /**
  * @author Tijs Rademakers
  */
-class TriggerCaseTaskCmd implements Command!Void, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class TriggerCaseTaskCmd : Command!Void {
 
     protected string executionId;
     protected Map!(string, Object) variables;
 
-    public TriggerCaseTaskCmd(string executionId, Map!(string, Object) variables) {
+    this(string executionId, Map!(string, Object) variables) {
         this.executionId = executionId;
 
         if (executionId is null) {
@@ -46,22 +44,21 @@ class TriggerCaseTaskCmd implements Command!Void, Serializable {
         this.variables = variables;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        ExecutionEntity execution = (ExecutionEntity) processEngineConfiguration.getExecutionEntityManager().findById(executionId);
+        ExecutionEntity execution = cast(ExecutionEntity) processEngineConfiguration.getExecutionEntityManager().findById(executionId);
         if (execution is null) {
-            throw new FlowableException("No execution could be found for id " + executionId);
+            throw new FlowableException("No execution could be found for id " ~ executionId);
         }
 
         FlowElement flowElement = execution.getCurrentFlowElement();
-        if (!(flowElement instanceof CaseServiceTask)) {
+        if (cast(CaseServiceTask)flowElement  is null) {
             throw new FlowableException("No execution could be found with a case service task for id " + executionId);
         }
 
-        CaseServiceTask caseServiceTask = (CaseServiceTask) flowElement;
+        CaseServiceTask caseServiceTask = cast(CaseServiceTask) flowElement;
 
-        CaseTaskActivityBehavior caseTaskActivityBehavior = (CaseTaskActivityBehavior) caseServiceTask.getBehavior();
+        CaseTaskActivityBehavior caseTaskActivityBehavior = cast(CaseTaskActivityBehavior) caseServiceTask.getBehavior();
         caseTaskActivityBehavior.triggerCaseTask(execution, variables);
 
         return null;

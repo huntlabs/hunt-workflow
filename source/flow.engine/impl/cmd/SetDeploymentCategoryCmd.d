@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SetDeploymentCategoryCmd;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -21,23 +21,22 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.DeploymentEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.Deployment;
-
+import hunt.Object;
 /**
  * @author Tijs Rademakers
  */
-class SetDeploymentCategoryCmd implements Command!Void {
+class SetDeploymentCategoryCmd : Command!Void {
 
     protected string deploymentId;
     protected string category;
 
-    public SetDeploymentCategoryCmd(string deploymentId, string category) {
+    this(string deploymentId, string category) {
         this.deploymentId = deploymentId;
         this.category = category;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
 
         if (deploymentId is null) {
@@ -47,12 +46,12 @@ class SetDeploymentCategoryCmd implements Command!Void {
         DeploymentEntity deployment = CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId);
 
         if (deployment is null) {
-            throw new FlowableObjectNotFoundException("No deployment found for id = '" + deploymentId + "'", Deployment.class);
+            throw new FlowableObjectNotFoundException("No deployment found for id = '" ~ deploymentId);
         }
 
-        if (Flowable5Util.isFlowable5Deployment(deployment, commandContext)) {
-            CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler().setDeploymentCategory(deploymentId, category);
-        }
+        //if (Flowable5Util.isFlowable5Deployment(deployment, commandContext)) {
+        //    CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler().setDeploymentCategory(deploymentId, category);
+        //}
 
         // Update category
         deployment.setCategory(category);

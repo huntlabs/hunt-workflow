@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.HasTaskVariableCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -26,20 +25,18 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Frederik Heremans
  */
-class HasTaskVariableCmd implements Command!bool, Serializable {
+class HasTaskVariableCmd : Command!bool {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
     protected string variableName;
     protected bool isLocal;
 
-    public HasTaskVariableCmd(string taskId, string variableName, bool isLocal) {
+    this(string taskId, string variableName, bool isLocal) {
         this.taskId = taskId;
         this.variableName = variableName;
         this.isLocal = isLocal;
     }
 
-    override
     public bool execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
@@ -51,7 +48,7 @@ class HasTaskVariableCmd implements Command!bool, Serializable {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
+            throw new FlowableObjectNotFoundException("task " ~ taskId ~ " doesn't exist");
         }
         bool hasVariable = false;
 

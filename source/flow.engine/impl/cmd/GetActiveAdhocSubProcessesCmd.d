@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetActiveAdhocSubProcessesCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
@@ -27,21 +26,19 @@ import flow.engine.runtime.Execution;
 /**
  * @author Tijs Rademakers
  */
-class GetActiveAdhocSubProcessesCmd implements Command<List!Execution>, Serializable {
+class GetActiveAdhocSubProcessesCmd : Command!(List!Execution) {
 
-    private static final long serialVersionUID = 1L;
     protected string processInstanceId;
 
-    public GetActiveAdhocSubProcessesCmd(string processInstanceId) {
+    this(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    override
     public List!Execution execute(CommandContext commandContext) {
-        List!Execution adhocExecutions = new ArrayList<>();
+        List!Execution adhocExecutions = new ArrayList!Execution();
         List!ExecutionEntity executions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByProcessInstanceId(processInstanceId);
-        for (Execution execution : executions) {
-            if (((ExecutionEntity) execution).getCurrentFlowElement() instanceof AdhocSubProcess) {
+        foreach (Execution execution ; executions) {
+            if (cast(AdhocSubProcess)((cast(ExecutionEntity) execution).getCurrentFlowElement()) !is null) {
                 adhocExecutions.add(execution);
             }
         }

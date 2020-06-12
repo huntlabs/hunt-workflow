@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetEntityLinkParentsForTaskCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
@@ -29,24 +28,22 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Javier Casal
  */
-class GetEntityLinkParentsForTaskCmd implements Command<List!EntityLink>, Serializable {
+class GetEntityLinkParentsForTaskCmd : Command!(List!EntityLink) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetEntityLinkParentsForTaskCmd(string taskId) {
+    this(string taskId) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is required");
         }
         this.taskId = taskId;
     }
 
-    override
     public List!EntityLink execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("Cannot find task with id " + taskId, ExecutionEntity.class);
+            throw new FlowableObjectNotFoundException("Cannot find task with id " ~ taskId);
         }
 
         return CommandContextUtil.getEntityLinkService().findEntityLinksByReferenceScopeIdAndType(task.getId(), ScopeTypes.TASK, EntityLinkType.CHILD);

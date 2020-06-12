@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.ChangeDeploymentTenantIdCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableException;
@@ -27,28 +26,26 @@ import flow.engine.impl.repository.AddAsOldDeploymentMergeStrategy;
 import flow.engine.impl.repository.MergeByDateDeploymentMergeStrategy;
 import flow.engine.impl.repository.VerifyDeploymentMergeStrategy;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.DeploymentMergeStrategy;
 import flow.engine.repository.MergeMode;
 import flow.engine.repository.ProcessDefinition;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  */
-class ChangeDeploymentTenantIdCmd implements Command!Void, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class ChangeDeploymentTenantIdCmd : Command!Void {
 
     protected string deploymentId;
     protected string newTenantId;
     protected DeploymentMergeStrategy deploymentMergeStrategy;
 
-    public ChangeDeploymentTenantIdCmd(string deploymentId, string newTenantId) {
+    this(string deploymentId, string newTenantId) {
         this(deploymentId, newTenantId, MergeMode.VERIFY);
     }
 
-    public ChangeDeploymentTenantIdCmd(string deploymentId, string newTenantId, MergeMode mergeMode) {
+    this(string deploymentId, string newTenantId, MergeMode mergeMode) {
         this.deploymentId = deploymentId;
         this.newTenantId = newTenantId;
         switch (mergeMode) {
@@ -65,17 +62,16 @@ class ChangeDeploymentTenantIdCmd implements Command!Void, Serializable {
                 deploymentMergeStrategy = new MergeByDateDeploymentMergeStrategy();
                 break;
             default:
-                throw new FlowableException("Merge mode '" + mergeMode + "' not found.");
+                throw new FlowableException("Merge mode  not found.");
         }
     }
 
-    public ChangeDeploymentTenantIdCmd(string deploymentId, string newTenantId, DeploymentMergeStrategy deploymentMergeStrategy) {
+    this(string deploymentId, string newTenantId, DeploymentMergeStrategy deploymentMergeStrategy) {
         this.deploymentId = deploymentId;
         this.newTenantId = newTenantId;
         this.deploymentMergeStrategy = deploymentMergeStrategy;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");
@@ -85,13 +81,13 @@ class ChangeDeploymentTenantIdCmd implements Command!Void, Serializable {
 
         DeploymentEntity deployment = CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId);
         if (deployment is null) {
-            throw new FlowableObjectNotFoundException("Could not find deployment with id " + deploymentId, Deployment.class);
+            throw new FlowableObjectNotFoundException("Could not find deployment with id " ~ deploymentId);
         }
 
-        if (Flowable5Util.isFlowable5Deployment(deployment, commandContext)) {
-            CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler().changeDeploymentTenantId(deploymentId, newTenantId);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5Deployment(deployment, commandContext)) {
+        //    CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler().changeDeploymentTenantId(deploymentId, newTenantId);
+        //    return null;
+        //}
 
         deploymentMergeStrategy.prepareMerge(commandContext, deploymentId, newTenantId);
         string oldTenantId = deployment.getTenantId();
@@ -109,7 +105,7 @@ class ChangeDeploymentTenantIdCmd implements Command!Void, Serializable {
 
         // Doing process definitions in memory, cause we need to clear the process definition cache
         List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
-        for (ProcessDefinition processDefinition : processDefinitions) {
+        foreach (ProcessDefinition processDefinition ; processDefinitions) {
             CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessDefinitionCache().remove(processDefinition.getId());
         }
 

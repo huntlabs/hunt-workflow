@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.CompleteAdhocSubProcessCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.bpmn.model.AdhocSubProcess;
@@ -24,33 +23,30 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-
+import hunt.Object;
 /**
  * @author Tijs Rademakers
  */
-class CompleteAdhocSubProcessCmd implements Command!Void, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class CompleteAdhocSubProcessCmd : Command!Void {
 
     protected string executionId;
 
-    public CompleteAdhocSubProcessCmd(string executionId) {
+    this(string executionId) {
         this.executionId = executionId;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity execution = executionEntityManager.findById(executionId);
         if (execution is null) {
-            throw new FlowableObjectNotFoundException("No execution found for id '" + executionId + "'", ExecutionEntity.class);
+            throw new FlowableObjectNotFoundException("No execution found for id '" ~ executionId ~ "'");
         }
 
-        if (!(execution.getCurrentFlowElement() instanceof AdhocSubProcess)) {
-            throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
-        }
+        //if (!(execution.getCurrentFlowElement() instanceof AdhocSubProcess)) {
+        //    throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
+        //}
 
-        List<? : ExecutionEntity> childExecutions = execution.getExecutions();
+        List!ExecutionEntity childExecutions = execution.getExecutions();
         if (childExecutions.size() > 0) {
             throw new FlowableException("Ad-hoc sub process has running child executions that need to be completed first");
         }

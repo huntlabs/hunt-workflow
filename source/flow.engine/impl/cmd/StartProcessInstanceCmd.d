@@ -11,14 +11,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.StartProcessInstanceCmd;
 
-
-import java.io.Serializable;
 import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Process;
@@ -49,9 +47,8 @@ import flow.variable.service.impl.el.NoExecutionVariableScope;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable {
+class StartProcessInstanceCmd(T) : Command!ProcessInstance {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionKey;
     protected string processDefinitionId;
     protected Map!(string, Object) variables;
@@ -71,19 +68,19 @@ class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable
     protected bool fallbackToDefaultTenant;
     protected ProcessInstanceHelper processInstanceHelper;
 
-    public StartProcessInstanceCmd(string processDefinitionKey, string processDefinitionId, string businessKey, Map!(string, Object) variables) {
+    this(string processDefinitionKey, string processDefinitionId, string businessKey, Map!(string, Object) variables) {
         this.processDefinitionKey = processDefinitionKey;
         this.processDefinitionId = processDefinitionId;
         this.businessKey = businessKey;
         this.variables = variables;
     }
 
-    public StartProcessInstanceCmd(string processDefinitionKey, string processDefinitionId, string businessKey, Map!(string, Object) variables, string tenantId) {
+    this(string processDefinitionKey, string processDefinitionId, string businessKey, Map!(string, Object) variables, string tenantId) {
         this(processDefinitionKey, processDefinitionId, businessKey, variables);
         this.tenantId = tenantId;
     }
 
-    public StartProcessInstanceCmd(ProcessInstanceBuilderImpl processInstanceBuilder) {
+    this(ProcessInstanceBuilderImpl processInstanceBuilder) {
         this(processInstanceBuilder.getProcessDefinitionKey(),
                 processInstanceBuilder.getProcessDefinitionId(),
                 processInstanceBuilder.getBusinessKey(),
@@ -132,12 +129,12 @@ class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable
             Process process = bpmnModel.getProcessById(processDefinition.getKey());
             FlowElement startElement = process.getInitialFlowElement();
 
-            if (startElement instanceof StartEvent) {
-                StartEvent startEvent = (StartEvent) startElement;
-                if (StringUtils.isNotEmpty(startEvent.getFormKey())) {
+            if (cast(StartEvent)startElement !is null) {
+                StartEvent startEvent = cast(StartEvent) startElement;
+                if (startEvent.getFormKey() !is null && startEvent.getFormKey().length != 0) {
                     FormRepositoryService formRepositoryService = CommandContextUtil.getFormRepositoryService(commandContext);
 
-                    if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+                    if (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID == (tenantId)) {
                         formInfo = formRepositoryService.getFormModelByKey(startEvent.getFormKey());
                     } else {
                         formInfo = formRepositoryService.getFormModelByKey(startEvent.getFormKey(), tenantId, processEngineConfiguration.isFallbackToDefaultTenant());
@@ -152,7 +149,7 @@ class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable
                         processVariables = formService.getVariablesFromFormSubmission(formInfo, startFormVariables, outcome);
                         if (processVariables !is null) {
                             if (variables is null) {
-                                variables = new HashMap<>();
+                                variables = new HashMap!(string, Object)();
                             }
                             variables.putAll(processVariables);
                         }
@@ -190,7 +187,7 @@ class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable
     }
 
     protected bool hasStartFormData() {
-        return startFormVariables !is null || outcome !is null;
+        return startFormVariables !is null || outcome !is null || outcome.length == 0;
     }
 
     protected ProcessDefinition getProcessDefinition(ProcessEngineConfigurationImpl processEngineConfiguration) {
@@ -198,25 +195,25 @@ class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable
 
         // Find the process definition
         ProcessDefinition processDefinition = null;
-        if (processDefinitionId !is null) {
+        if (processDefinitionId !is null && processDefinitionId.length != 0) {
             processDefinition = processDefinitionEntityManager.findById(processDefinitionId);
             if (processDefinition is null) {
-                throw new FlowableObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'", ProcessDefinition.class);
+                throw new FlowableObjectNotFoundException("No process definition found for id = '" ~ processDefinitionId ~ "'");
             }
 
-        } else if (processDefinitionKey !is null && (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId))) {
+        } else if (processDefinitionKey !is null  && processDefinitionKey.length != 0 && (tenantId is null || ProcessEngineConfiguration.NO_TENANT_ID == (tenantId))) {
 
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
             if (processDefinition is null) {
-                throw new FlowableObjectNotFoundException("No process definition found for key '" + processDefinitionKey + "'", ProcessDefinition.class);
+                throw new FlowableObjectNotFoundException("No process definition found for key '" ~ processDefinitionKey ~ "'");
             }
 
-        } else if (processDefinitionKey !is null && tenantId !is null && !ProcessEngineConfiguration.NO_TENANT_ID.equals(tenantId)) {
+        } else if (processDefinitionKey !is null &&processDefinitionKey.length != 0 && tenantId !is null && ProcessEngineConfiguration.NO_TENANT_ID != (tenantId)) {
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
             if (processDefinition is null) {
                 if (fallbackToDefaultTenant || processEngineConfiguration.isFallbackToDefaultTenant()) {
                     string defaultTenant = processEngineConfiguration.getDefaultTenantProvider().getDefaultTenant(tenantId, ScopeTypes.BPMN, processDefinitionKey);
-                    if (StringUtils.isNotEmpty(defaultTenant)) {
+                    if (defaultTenant !is null && defaultTenant.length != 0) {
                         processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, defaultTenant);
                         if (processDefinition !is null) {
                             overrideDefinitionTenantId = tenantId;
@@ -227,12 +224,12 @@ class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable
                     }
 
                     if (processDefinition is null) {
-                        throw new FlowableObjectNotFoundException("No process definition found for key '" + processDefinitionKey +
-                            "'. Fallback to default tenant was also applied.", ProcessDefinition.class);
+                        throw new FlowableObjectNotFoundException("No process definition found for key '" ~ processDefinitionKey ~
+                            "'. Fallback to default tenant was also applied.");
                     }
                 } else {
-                    throw new FlowableObjectNotFoundException("Process definition with key '" + processDefinitionKey +
-                        "' and tenantId '"+ tenantId +"' was not found", ProcessDefinition.class);
+                    throw new FlowableObjectNotFoundException("Process definition with key '" ~ processDefinitionKey ~
+                        "' and tenantId '"~ tenantId ~"' was not found");
                 }
             }
 
@@ -243,10 +240,10 @@ class StartProcessInstanceCmd!T implements Command!ProcessInstance, Serializable
     }
 
     protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {
-        Map!(string, Object) variablesMap = new HashMap<>();
+        Map!(string, Object) variablesMap = new HashMap!(string, Object)();
         // convert data objects to process variables
         if (dataObjects !is null) {
-            for (ValuedDataObject dataObject : dataObjects) {
+            foreach (ValuedDataObject dataObject ; dataObjects) {
                 variablesMap.put(dataObject.getName(), dataObject.getValue());
             }
         }

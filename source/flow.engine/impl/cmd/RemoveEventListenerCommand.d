@@ -10,29 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.RemoveEventListenerCommand;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-
+import hunt.Object;
 /**
  * Command that removes an event-listener from the process engine.
  *
  * @author Frederik Heremans
  */
-class RemoveEventListenerCommand implements Command!Void {
+class RemoveEventListenerCommand : Command!Void {
 
     protected FlowableEventListener listener;
 
-    public RemoveEventListenerCommand(FlowableEventListener listener) {
+    this(FlowableEventListener listener) {
         super();
         this.listener = listener;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (listener is null) {
             throw new FlowableIllegalArgumentException("listener is null.");

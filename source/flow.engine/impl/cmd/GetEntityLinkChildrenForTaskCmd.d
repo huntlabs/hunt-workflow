@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetEntityLinkChildrenForTaskCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.scop.ScopeTypes;
@@ -26,16 +25,14 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tijs Rademakers
  */
-class GetEntityLinkChildrenForTaskCmd implements Command<List!EntityLink>, Serializable {
+class GetEntityLinkChildrenForTaskCmd : Command!(List!EntityLink) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetEntityLinkChildrenForTaskCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    override
     public List!EntityLink execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
         return CommandContextUtil.getEntityLinkService().findEntityLinksByScopeIdAndType(task.getId(), ScopeTypes.TASK, EntityLinkType.CHILD);

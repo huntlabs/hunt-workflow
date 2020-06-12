@@ -11,35 +11,32 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.IsProcessDefinitionSuspendedCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 
 /**
  * @author Tijs Rademakers
  */
-class IsProcessDefinitionSuspendedCmd implements Command!bool, Serializable {
+class IsProcessDefinitionSuspendedCmd : Command!bool {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
 
-    public IsProcessDefinitionSuspendedCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    override
     public bool execute(CommandContext commandContext) {
         // Backwards compatibility
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processDefinitionId)) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            return compatibilityHandler.isProcessDefinitionSuspended(processDefinitionId);
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processDefinitionId)) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    return compatibilityHandler.isProcessDefinitionSuspended(processDefinitionId);
+        //}
 
         return ProcessDefinitionUtil.isProcessDefinitionSuspended(processDefinitionId);
     }

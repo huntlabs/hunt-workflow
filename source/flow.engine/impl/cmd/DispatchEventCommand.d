@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.DispatchEventCommand;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -19,21 +19,21 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
+import hunt.Object;
 
 /**
  * Command that dispatches an event.
  *
  * @author Frederik Heremans
  */
-class DispatchEventCommand implements Command!Void {
+class DispatchEventCommand : Command!Void {
 
     protected FlowableEvent event;
 
-    public DispatchEventCommand(FlowableEvent event) {
+    this(FlowableEvent event) {
         this.event = event;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (event is null) {
             throw new FlowableIllegalArgumentException("event is null");

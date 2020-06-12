@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.SetProcessInstanceNameCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -22,22 +21,20 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.ProcessInstance;
+import hunt.Object;
 
-class SetProcessInstanceNameCmd implements Command!Void, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class SetProcessInstanceNameCmd : Command!Void{
 
     protected string processInstanceId;
     protected string name;
 
-    public SetProcessInstanceNameCmd(string processInstanceId, string name) {
+    this(string processInstanceId, string name) {
         this.processInstanceId = processInstanceId;
         this.name = name;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
@@ -47,26 +44,26 @@ class SetProcessInstanceNameCmd implements Command!Void, Serializable {
 
         if (execution is null) {
 
-            if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isFlowable5CompatibilityEnabled()) {
-                Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                if (compatibilityHandler !is null) {
-                    ProcessInstance processInstance = compatibilityHandler.getProcessInstance(processInstanceId);
-                    if (processInstance !is null) {
-                        compatibilityHandler.setProcessInstanceName(processInstance.getId(), name);
-                        return null;
-                    }
-                }
-            }
+            //if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isFlowable5CompatibilityEnabled()) {
+            //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+            //    if (compatibilityHandler !is null) {
+            //        ProcessInstance processInstance = compatibilityHandler.getProcessInstance(processInstanceId);
+            //        if (processInstance !is null) {
+            //            compatibilityHandler.setProcessInstanceName(processInstance.getId(), name);
+            //            return null;
+            //        }
+            //    }
+            //}
 
-            throw new FlowableObjectNotFoundException("process instance " + processInstanceId + " doesn't exist", ProcessInstance.class);
+            throw new FlowableObjectNotFoundException("process instance " ~ processInstanceId ~ " doesn't exist");
         }
 
         if (!execution.isProcessInstanceType()) {
-            throw new FlowableObjectNotFoundException("process instance " + processInstanceId + " doesn't exist, the given ID references an execution, though", ProcessInstance.class);
+            throw new FlowableObjectNotFoundException("process instance " ~ processInstanceId ~ " doesn't exist, the given ID references an execution, though");
         }
 
         if (execution.isSuspended()) {
-            throw new FlowableException("process instance " + processInstanceId + " is suspended, cannot set name");
+            throw new FlowableException("process instance " ~ processInstanceId ~ " is suspended, cannot set name");
         }
 
         // Actually set the name

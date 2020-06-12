@@ -10,27 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SetExecutionVariablesCmd;
 
 import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-import flow.engine.impl.util.Flowable5Util;
-
+//mport flow.engine.impl.util.Flowable5Util;
+import flow.engine.impl.cmd.NeedsActiveExecutionCmd;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
 class SetExecutionVariablesCmd : NeedsActiveExecutionCmd!Object {
 
-    private static final long serialVersionUID = 1L;
-
-    protected Map<string, ? : Object> variables;
+    protected Map!(string, Object) variables;
     protected bool isLocal;
 
-    public SetExecutionVariablesCmd(string executionId, Map<string, ? : Object> variables, bool isLocal) {
+    this(string executionId, Map!(string, Object) variables, bool isLocal) {
         super(executionId);
         this.variables = variables;
         this.isLocal = isLocal;
@@ -39,22 +37,22 @@ class SetExecutionVariablesCmd : NeedsActiveExecutionCmd!Object {
     override
     protected Object execute(CommandContext commandContext, ExecutionEntity execution) {
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.setExecutionVariables(executionId, variables, isLocal);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.setExecutionVariables(executionId, variables, isLocal);
+        //    return null;
+        //}
 
         if (isLocal) {
             if (variables !is null) {
-                for (string variableName : variables.keySet()) {
-                    execution.setVariableLocal(variableName, variables.get(variableName), false);
+                foreach (MapEntry!(string, Object) variableName ; variables) {
+                    execution.setVariableLocal(variableName.getKey(), variables.get(variableName.getKey()), false);
                 }
             }
         } else {
             if (variables !is null) {
-                for (string variableName : variables.keySet()) {
-                    execution.setVariable(variableName, variables.get(variableName), false);
+                foreach (MapEntry!(string, Object) variableName ; variables) {
+                    execution.setVariable(variableName.getKey(), variables.get(variableName.getKey()), false);
                 }
             }
         }
@@ -69,7 +67,7 @@ class SetExecutionVariablesCmd : NeedsActiveExecutionCmd!Object {
 
     override
     protected string getSuspendedExceptionMessage() {
-        return "Cannot set variables because execution '" + executionId + "' is suspended";
+        return "Cannot set variables because execution '" ~ executionId ~ "' is suspended";
     }
 
 }

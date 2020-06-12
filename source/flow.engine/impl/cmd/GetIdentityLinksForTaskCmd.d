@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetIdentityLinksForTaskCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableObjectNotFoundException;
@@ -28,17 +27,14 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Joram Barrez
  * @author Falko Menge
  */
-class GetIdentityLinksForTaskCmd implements Command<List!IdentityLink>, Serializable {
+class GetIdentityLinksForTaskCmd : Command!(List!IdentityLink) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetIdentityLinksForTaskCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    override
     public List!IdentityLink execute(CommandContext commandContext) {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
@@ -46,7 +42,7 @@ class GetIdentityLinksForTaskCmd implements Command<List!IdentityLink>, Serializ
             throw new FlowableObjectNotFoundException("task not found");
         }
 
-        List!IdentityLink identityLinks = (List) task.getIdentityLinks();
+        List!IdentityLink identityLinks = cast(List!IdentityLink) task.getIdentityLinks();
 
         // assignee is not part of identity links in the db.
         // so if there is one, we add it here.
@@ -56,14 +52,14 @@ class GetIdentityLinksForTaskCmd implements Command<List!IdentityLink>, Serializ
         // Note: we cant move this code to the TaskEntity (which would be cleaner),
         // since the task.delete cascaded to all associated identityLinks
         // and of course this leads to exception while trying to delete a non-existing identityLink
-        if (task.getAssignee() !is null) {
+        if (task.getAssignee() !is null && task.getAssignee().length != 0) {
             IdentityLinkEntity identityLink = CommandContextUtil.getIdentityLinkService().createIdentityLink();
             identityLink.setUserId(task.getAssignee());
             identityLink.setType(IdentityLinkType.ASSIGNEE);
             identityLink.setTaskId(task.getId());
             identityLinks.add(identityLink);
         }
-        if (task.getOwner() !is null) {
+        if (task.getOwner() !is null && task.getOwner().length != 0) {
             IdentityLinkEntity identityLink = CommandContextUtil.getIdentityLinkService().createIdentityLink();
             identityLink.setUserId(task.getOwner());
             identityLink.setTaskId(task.getId());

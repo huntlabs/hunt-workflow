@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SuspendProcessDefinitionCmd;
 
 import hunt.time.LocalDateTime;
 
@@ -18,18 +18,18 @@ import flow.common.db.SuspensionState;
 import flow.engine.impl.jobexecutor.TimerSuspendProcessDefinitionHandler;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.runtime.ProcessInstance;
-
+import flow.engine.impl.cmd.AbstractSetProcessDefinitionStateCmd;
 /**
  * @author Daniel Meyer
  * @author Joram Barrez
  */
 class SuspendProcessDefinitionCmd : AbstractSetProcessDefinitionStateCmd {
 
-    public SuspendProcessDefinitionCmd(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
+    this(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
         super(processDefinitionEntity, includeProcessInstances, executionDate, tenantId);
     }
 
-    public SuspendProcessDefinitionCmd(string processDefinitionId, string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate, string tenantId) {
+    this(string processDefinitionId, string processDefinitionKey, bool suspendProcessInstances, Date suspensionDate, string tenantId) {
         super(processDefinitionId, processDefinitionKey, suspendProcessInstances, suspensionDate, tenantId);
     }
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.GetBatchDocumentCmd;
 
 import flow.batch.service.api.Batch;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -18,19 +18,18 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetBatchDocumentCmd implements Command!string {
+class GetBatchDocumentCmd : Command!string {
 
     protected string batchId;
 
-    public GetBatchDocumentCmd(string batchId) {
+    this(string batchId) {
         this.batchId = batchId;
     }
 
-    override
     public string execute(CommandContext commandContext) {
         Batch batch = CommandContextUtil.getBatchService(commandContext).getBatch(batchId);
         if (batch is null) {
-            throw new FlowableObjectNotFoundException("No batch found for id " + batchId);
+            throw new FlowableObjectNotFoundException("No batch found for id " ~ batchId);
         }
 
         return batch.getBatchDocumentJson();

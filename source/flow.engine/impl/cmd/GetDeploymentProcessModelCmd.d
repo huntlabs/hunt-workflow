@@ -11,35 +11,32 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetDeploymentProcessModelCmd;
 
-
-import java.io.InputStream;
-import java.io.Serializable;
+import hunt.stream.Common;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.ProcessDefinition;
-
+import flow.engine.impl.cmd.GetDeploymentResourceCmd;
 /**
  * Gives access to a deployed process model, e.g., a BPMN 2.0 XML file, through a stream of bytes.
  *
  * @author Falko Menge
  */
-class GetDeploymentProcessModelCmd implements Command!InputStream, Serializable {
+class GetDeploymentProcessModelCmd : Command!InputStream {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
 
-    public GetDeploymentProcessModelCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         if (processDefinitionId is null || processDefinitionId.length() < 1) {
-            throw new FlowableIllegalArgumentException("The process definition id is mandatory, but '" + processDefinitionId + "' has been provided.");
+            throw new FlowableIllegalArgumentException("The process definition id is mandatory, but '" ~ processDefinitionId ~ "' has been provided.");
         }
         this.processDefinitionId = processDefinitionId;
     }
 
-    override
     public InputStream execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
         string deploymentId = processDefinition.getDeploymentId();

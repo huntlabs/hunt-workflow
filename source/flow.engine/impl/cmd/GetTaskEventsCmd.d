@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetTaskEventsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -24,16 +23,14 @@ import flow.engine.task.Event;
 /**
  * @author Tom Baeyens
  */
-class GetTaskEventsCmd implements Command<List!Event>, Serializable {
+class GetTaskEventsCmd : Command!(List!Event) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetTaskEventsCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    override
     public List!Event execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findEventsByTaskId(taskId);
     }

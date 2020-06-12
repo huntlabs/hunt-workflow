@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetExecutionsVariablesCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import hunt.collection.Set;
@@ -27,16 +26,14 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 /**
  * @author Daisuke Yoshimoto
  */
-class GetExecutionsVariablesCmd implements Command<List!VariableInstance>, Serializable {
+class GetExecutionsVariablesCmd : Command!(List!VariableInstance) {
 
-    private static final long serialVersionUID = 1L;
     protected Set!string executionIds;
 
-    public GetExecutionsVariablesCmd(Set!string executionIds) {
+    this(Set!string executionIds) {
         this.executionIds = executionIds;
     }
 
-    override
     public List!VariableInstance execute(CommandContext commandContext) {
         // Verify existence of executions
         if (executionIds is null) {
@@ -46,9 +43,9 @@ class GetExecutionsVariablesCmd implements Command<List!VariableInstance>, Seria
             throw new FlowableIllegalArgumentException("Set of executionIds is empty");
         }
 
-        List!VariableInstance instances = new ArrayList<>();
+        List!VariableInstance instances = new ArrayList!VariableInstance();
         List!VariableInstanceEntity entities = CommandContextUtil.getVariableService().findVariableInstancesByExecutionIds(executionIds);
-        for (VariableInstanceEntity entity : entities) {
+        foreach (VariableInstanceEntity entity ; entities) {
             entity.getValue();
             instances.add(entity);
         }

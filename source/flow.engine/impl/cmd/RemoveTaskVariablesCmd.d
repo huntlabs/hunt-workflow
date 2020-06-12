@@ -10,27 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.RemoveTaskVariablesCmd;
 
 import hunt.collection;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
+import hunt.Object;
 /**
  * @author roman.smirnov
  * @author Joram Barrez
  */
 class RemoveTaskVariablesCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
+    private  Collection!string variableNames;
+    private  bool isLocal;
 
-    private final Collection!string variableNames;
-    private final bool isLocal;
-
-    public RemoveTaskVariablesCmd(string taskId, Collection!string variableNames, bool isLocal) {
+    this(string taskId, Collection!string variableNames, bool isLocal) {
         super(taskId);
         this.variableNames = variableNames;
         this.isLocal = isLocal;
@@ -39,11 +38,11 @@ class RemoveTaskVariablesCmd : NeedsActiveTaskCmd!Void {
     override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
-        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.removeTaskVariables(taskId, variableNames, isLocal);
-            return null;
-        }
+        //if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.removeTaskVariables(taskId, variableNames, isLocal);
+        //    return null;
+        //}
 
         if (isLocal) {
             task.removeVariablesLocal(variableNames);

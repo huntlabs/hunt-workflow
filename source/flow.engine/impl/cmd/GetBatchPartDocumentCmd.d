@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.GetBatchPartDocumentCmd;
 
 import flow.batch.service.api.BatchPart;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -18,19 +18,18 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class GetBatchPartDocumentCmd implements Command!string {
+class GetBatchPartDocumentCmd : Command!string {
 
     protected string batchPartId;
 
-    public GetBatchPartDocumentCmd(string batchPartId) {
+    this(string batchPartId) {
         this.batchPartId = batchPartId;
     }
 
-    override
     public string execute(CommandContext commandContext) {
         BatchPart batchPart = CommandContextUtil.getBatchService(commandContext).getBatchPart(batchPartId);
         if (batchPart is null) {
-            throw new FlowableObjectNotFoundException("No batch part found for id " + batchPartId);
+            throw new FlowableObjectNotFoundException("No batch part found for id " ~ batchPartId);
         }
 
         return batchPart.getResultDocumentJson();

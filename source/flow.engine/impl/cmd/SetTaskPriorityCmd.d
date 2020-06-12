@@ -10,35 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SetTaskPriorityCmd;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
+import hunt.Object;
 /**
  * @author Joram Barrez
  */
 class SetTaskPriorityCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
 
     protected int priority;
 
-    public SetTaskPriorityCmd(string taskId, int priority) {
+    this(string taskId, int priority) {
         super(taskId);
         this.priority = priority;
     }
 
     override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.setTaskPriority(taskId, priority);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.setTaskPriority(taskId, priority);
+        //    return null;
+        //}
 
         task.setPriority(priority);
         CommandContextUtil.getActivityInstanceEntityManager(commandContext)

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.CompleteTaskWithFormCmd;
 
 import hunt.collection.Map;
 
@@ -26,34 +26,36 @@ import flow.form.api.FormInfo;
 import flow.form.api.FormRepositoryService;
 import flow.form.api.FormService;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import hunt.Object;
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
+
 
 /**
  * @author Tijs Rademakers
  */
 class CompleteTaskWithFormCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
     protected string formDefinitionId;
     protected string outcome;
     protected Map!(string, Object) variables;
     protected Map!(string, Object) transientVariables;
     protected bool localScope;
 
-    public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome, Map!(string, Object) variables) {
+    this(string taskId, string formDefinitionId, string outcome, Map!(string, Object) variables) {
         super(taskId);
         this.formDefinitionId = formDefinitionId;
         this.outcome = outcome;
         this.variables = variables;
     }
 
-    public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome,
+    this(string taskId, string formDefinitionId, string outcome,
             Map!(string, Object) variables, bool localScope) {
 
         this(taskId, formDefinitionId, outcome, variables);
         this.localScope = localScope;
     }
 
-    public CompleteTaskWithFormCmd(string taskId, string formDefinitionId, string outcome,
+    this(string taskId, string formDefinitionId, string outcome,
             Map!(string, Object) variables, Map!(string, Object) transientVariables) {
 
         this(taskId, formDefinitionId, outcome, variables);
@@ -82,7 +84,7 @@ class CompleteTaskWithFormCmd : NeedsActiveTaskCmd!Void {
 
             // The taskVariables are the variables that should be used when completing the task
             // the actual variables should instead be used when saving the form instances
-            if (task.getProcessInstanceId() !is null) {
+            if (task.getProcessInstanceId() !is null && task.getProcessInstanceId().length != 0) {
                 formService.saveFormInstance(variables, formInfo, task.getId(), task.getProcessInstanceId(),
                                 task.getProcessDefinitionId(), task.getTenantId(), outcome);
             } else {
@@ -104,7 +106,7 @@ class CompleteTaskWithFormCmd : NeedsActiveTaskCmd!Void {
     protected bool isFormFieldValidationEnabled(TaskEntity task, ProcessEngineConfigurationImpl processEngineConfiguration, string processDefinitionId,
         string taskDefinitionKey) {
         if (processEngineConfiguration.isFormFieldValidationEnabled()) {
-            UserTask userTask = (UserTask) ProcessDefinitionUtil.getBpmnModel(processDefinitionId).getFlowElement(taskDefinitionKey);
+            UserTask userTask = cast(UserTask) ProcessDefinitionUtil.getBpmnModel(processDefinitionId).getFlowElement(taskDefinitionKey);
             string formFieldValidationExpression = userTask.getValidateFormFields();
             return TaskHelper.isFormFieldValidationEnabled(task, processEngineConfiguration, formFieldValidationExpression);
         }

@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetExecutionVariableInstanceCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -21,24 +20,22 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
-class GetExecutionVariableInstanceCmd implements Command!VariableInstance, Serializable {
+class GetExecutionVariableInstanceCmd : Command!VariableInstance {
 
-    private static final long serialVersionUID = 1L;
     protected string executionId;
     protected string variableName;
     protected bool isLocal;
 
-    public GetExecutionVariableInstanceCmd(string executionId, string variableName, bool isLocal) {
+    this(string executionId, string variableName, bool isLocal) {
         this.executionId = executionId;
         this.variableName = variableName;
         this.isLocal = isLocal;
     }
 
-    override
     public VariableInstance execute(CommandContext commandContext) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
@@ -50,21 +47,21 @@ class GetExecutionVariableInstanceCmd implements Command!VariableInstance, Seria
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
         if (execution is null) {
-            throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
+            throw new FlowableObjectNotFoundException("execution " ~ executionId ~ " doesn't exist");
         }
 
         VariableInstance variableEntity = null;
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            variableEntity = compatibilityHandler.getExecutionVariableInstance(executionId, variableName, isLocal);
-
-        } else {
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    variableEntity = compatibilityHandler.getExecutionVariableInstance(executionId, variableName, isLocal);
+        //
+        //} else {
             if (isLocal) {
                 variableEntity = execution.getVariableInstanceLocal(variableName, false);
             } else {
                 variableEntity = execution.getVariableInstance(variableName, false);
             }
-        }
+       // }
 
         return variableEntity;
     }

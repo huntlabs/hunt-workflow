@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.DeleteProcessInstanceCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -21,24 +20,22 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.ProcessInstance;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  */
-class DeleteProcessInstanceCmd implements Command!Void, Serializable {
+class DeleteProcessInstanceCmd : Command!Void {
 
-    private static final long serialVersionUID = 1L;
     protected string processInstanceId;
     protected string deleteReason;
 
-    public DeleteProcessInstanceCmd(string processInstanceId, string deleteReason) {
+    this(string processInstanceId, string deleteReason) {
         this.processInstanceId = processInstanceId;
         this.deleteReason = deleteReason;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
@@ -46,18 +43,18 @@ class DeleteProcessInstanceCmd implements Command!Void, Serializable {
 
         ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
         if (processInstanceEntity is null) {
-            throw new FlowableObjectNotFoundException("No process instance found for id '" + processInstanceId + "'", ProcessInstance.class);
+            throw new FlowableObjectNotFoundException("No process instance found for id '" ~ processInstanceId ~ "'");
         }
         if (processInstanceEntity.isDeleted()) {
             return null;
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstanceEntity.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.deleteProcessInstance(processInstanceId, deleteReason);
-        } else {
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstanceEntity.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.deleteProcessInstance(processInstanceId, deleteReason);
+        //} else {
             CommandContextUtil.getExecutionEntityManager(commandContext).deleteProcessInstance(processInstanceEntity.getProcessInstanceId(), deleteReason, false);
-        }
+ //       }
 
         return null;
     }

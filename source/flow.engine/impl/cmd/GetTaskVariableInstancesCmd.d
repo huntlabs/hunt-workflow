@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTaskVariableInstancesCmd;
 
 
-
-import java.io.Serializable;
 import hunt.collection;
 import hunt.collection.Map;
 
@@ -26,20 +25,18 @@ import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 
-class GetTaskVariableInstancesCmd implements Command<Map!(string, VariableInstance)>, Serializable {
+class GetTaskVariableInstancesCmd : Command!(Map!(string, VariableInstance)) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
     protected Collection!string variableNames;
     protected bool isLocal;
 
-    public GetTaskVariableInstancesCmd(string taskId, Collection!string variableNames, bool isLocal) {
+    this(string taskId, Collection!string variableNames, bool isLocal) {
         this.taskId = taskId;
         this.variableNames = variableNames;
         this.isLocal = isLocal;
     }
 
-    override
     public Map!(string, VariableInstance) execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
@@ -48,7 +45,7 @@ class GetTaskVariableInstancesCmd implements Command<Map!(string, VariableInstan
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
+            throw new FlowableObjectNotFoundException("task " ~ taskId ~ " doesn't exist");
         }
 
         Map!(string, VariableInstance) variables = null;

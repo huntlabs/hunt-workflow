@@ -11,17 +11,19 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.DeleteIdentityLinkCmd;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.impl.util.TaskHelper;
 import flow.identitylink.api.IdentityLinkType;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
+import hunt.Object;
 
 /**
  * @author Tom Baeyens
@@ -30,10 +32,8 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  */
 class DeleteIdentityLinkCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
-
-    public static final  int IDENTITY_USER = 1;
-    public static final  int IDENTITY_GROUP = 2;
+    public static   int IDENTITY_USER = 1;
+    public static   int IDENTITY_GROUP = 2;
 
     protected string userId;
 
@@ -41,7 +41,7 @@ class DeleteIdentityLinkCmd : NeedsActiveTaskCmd!Void {
 
     protected string type;
 
-    public DeleteIdentityLinkCmd(string taskId, string userId, string groupId, string type) {
+    this(string taskId, string userId, string groupId, string type) {
         super(taskId);
         validateParams(userId, groupId, type, taskId);
         this.taskId = taskId;
@@ -60,7 +60,7 @@ class DeleteIdentityLinkCmd : NeedsActiveTaskCmd!Void {
         }
 
         // Special treatment for assignee and owner: group cannot be used and userId may be null
-        if (IdentityLinkType.ASSIGNEE.equals(type) || IdentityLinkType.OWNER.equals(type)) {
+        if (IdentityLinkType.ASSIGNEE == (type) || IdentityLinkType.OWNER == (type)) {
             if (groupId !is null) {
                 throw new FlowableIllegalArgumentException("Incompatible usage: cannot use type '" + type + "' together with a groupId");
             }
@@ -73,15 +73,15 @@ class DeleteIdentityLinkCmd : NeedsActiveTaskCmd!Void {
 
     override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
-        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.deleteIdentityLink(taskId, userId, groupId, type);
-            return null;
-        }
+        //if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.deleteIdentityLink(taskId, userId, groupId, type);
+        //    return null;
+        //}
 
-        if (IdentityLinkType.ASSIGNEE.equals(type)) {
+        if (IdentityLinkType.ASSIGNEE == (type)) {
             TaskHelper.changeTaskAssignee(task, null);
-        } else if (IdentityLinkType.OWNER.equals(type)) {
+        } else if (IdentityLinkType.OWNER == (type)) {
             TaskHelper.changeTaskOwner(task, null);
         } else {
             IdentityLinkUtil.deleteTaskIdentityLinks(task, userId, groupId, type);

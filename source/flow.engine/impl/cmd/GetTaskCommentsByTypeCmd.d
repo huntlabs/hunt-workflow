@@ -11,23 +11,22 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.GetTaskCommentsByTypeCmd;
 
 import hunt.collection.List;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.task.Comment;
-
+import flow.engine.impl.cmd.GetTaskCommentsCmd;
 /**
  * @author Sam Kim
  */
 class GetTaskCommentsByTypeCmd : GetTaskCommentsCmd {
 
-    private static final long serialVersionUID = 1L;
     protected string type;
 
-    public GetTaskCommentsByTypeCmd(string taskId, string type) {
+    this(string taskId, string type) {
         super(taskId);
         this.type = type;
     }

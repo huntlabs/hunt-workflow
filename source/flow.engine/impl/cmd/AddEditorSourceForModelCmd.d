@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.AddEditorSourceForModelCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -22,19 +21,16 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class AddEditorSourceForModelCmd implements Command!Object, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class AddEditorSourceForModelCmd : Command!Object {
 
     protected string modelId;
     protected byte[] bytes;
 
-    public AddEditorSourceForModelCmd(string modelId, byte[] bytes) {
+    this(string modelId, byte[] bytes) {
         this.modelId = modelId;
         this.bytes = bytes;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         CommandContextUtil.getModelEntityManager(commandContext).insertEditorSourceForModel(modelId, bytes);
 

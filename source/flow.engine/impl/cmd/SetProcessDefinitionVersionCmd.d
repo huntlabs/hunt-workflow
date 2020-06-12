@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.SetProcessDefinitionVersionCmd;
 
 
-
-import java.io.Serializable;
 import hunt.collection;
 import hunt.collection.List;
 
@@ -28,11 +27,13 @@ import flow.engine.impl.persistence.deploy.DeploymentManager;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ProcessInstance;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import hunt.Object;
+import flow.bpmn.model.Process;
 
 /**
  * {@link Command} that changes the process definition version of an existing process instance.
@@ -52,38 +53,35 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @see {http://forums.activiti.org/en/viewtopic.php?t=2918}
  * @author Falko Menge
  */
-class SetProcessDefinitionVersionCmd implements Command!Void, Serializable {
+class SetProcessDefinitionVersionCmd : Command!Void {
 
-    private static final long serialVersionUID = 1L;
+    private  string processInstanceId;
+    private  int processDefinitionVersion;
 
-    private final string processInstanceId;
-    private final Integer processDefinitionVersion;
-
-    public SetProcessDefinitionVersionCmd(string processInstanceId, Integer processDefinitionVersion) {
+    this(string processInstanceId, int processDefinitionVersion) {
         if (processInstanceId is null || processInstanceId.length() < 1) {
-            throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" + processInstanceId + "' has been provided.");
+            throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" ~ processInstanceId ~ "' has been provided.");
         }
         if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("The process definition version is mandatory, but 'null' has been provided.");
         }
         if (processDefinitionVersion < 1) {
-            throw new FlowableIllegalArgumentException("The process definition version must be positive, but '" + processDefinitionVersion + "' has been provided.");
+            throw new FlowableIllegalArgumentException("The process definition version must be positive, but '" ~ processDefinitionVersion ~ "' has been provided.");
         }
         this.processInstanceId = processInstanceId;
         this.processDefinitionVersion = processDefinitionVersion;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         // check that the new process definition is just another version of the same
         // process definition that the process instance is using
         ExecutionEntityManager executionManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity processInstance = executionManager.findById(processInstanceId);
         if (processInstance is null) {
-            throw new FlowableObjectNotFoundException("No process instance found for id = '" + processInstanceId + "'.", ProcessInstance.class);
+            throw new FlowableObjectNotFoundException("No process instance found for id = '" ~ processInstanceId ~ "'.");
         } else if (!processInstance.isProcessInstanceType()) {
-            throw new FlowableIllegalArgumentException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' " + "points to a child execution of process instance " + "'"
-                    + processInstance.getProcessInstanceId() + "'. " + "Please invoke the " + getClass().getSimpleName() + " with a root execution id.");
+            //throw new FlowableIllegalArgumentException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' " + "points to a child execution of process instance " + "'"
+            //        + processInstance.getProcessInstanceId() + "'. " + "Please invoke the " + getClass().getSimpleName() + " with a root execution id.");
         }
 
         DeploymentManager deploymentCache = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager();
@@ -92,11 +90,11 @@ class SetProcessDefinitionVersionCmd implements Command!Void, Serializable {
         ProcessDefinition newProcessDefinition = deploymentCache
                 .findDeployedProcessDefinitionByKeyAndVersionAndTenantId(currentProcessDefinition.getKey(), processDefinitionVersion, currentProcessDefinition.getTenantId());
 
-        if (Flowable5Util.isFlowable5ProcessDefinition(currentProcessDefinition, commandContext) && !Flowable5Util
-            .isFlowable5ProcessDefinition(newProcessDefinition, commandContext)) {
-            throw new FlowableIllegalArgumentException("The current process definition (id = '" + currentProcessDefinition.getId() + "') is a v5 definition."
-                + " However the new process definition (id = '" + newProcessDefinition.getId() + "') is not a v5 definition.");
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinition(currentProcessDefinition, commandContext) && !Flowable5Util
+        //    .isFlowable5ProcessDefinition(newProcessDefinition, commandContext)) {
+        //    throw new FlowableIllegalArgumentException("The current process definition (id = '" + currentProcessDefinition.getId() + "') is a v5 definition."
+        //        + " However the new process definition (id = '" + newProcessDefinition.getId() + "') is not a v5 definition.");
+        //}
 
         validateAndSwitchVersionOfExecution(commandContext, processInstance, newProcessDefinition);
 
@@ -105,7 +103,7 @@ class SetProcessDefinitionVersionCmd implements Command!Void, Serializable {
 
         // switch all sub-executions of the process instance to the new process definition version
         Collection!ExecutionEntity childExecutions = executionManager.findChildExecutionsByProcessInstanceId(processInstanceId);
-        for (ExecutionEntity executionEntity : childExecutions) {
+        foreach (ExecutionEntity executionEntity ; childExecutions) {
             validateAndSwitchVersionOfExecution(commandContext, executionEntity, newProcessDefinition);
         }
 
@@ -115,9 +113,9 @@ class SetProcessDefinitionVersionCmd implements Command!Void, Serializable {
     protected void validateAndSwitchVersionOfExecution(CommandContext commandContext, ExecutionEntity execution, ProcessDefinition newProcessDefinition) {
         // check that the new process definition version contains the current activity
         flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(newProcessDefinition.getId());
-        if (execution.getActivityId() !is null && process.getFlowElement(execution.getActivityId(), true) is null) {
-            throw new FlowableException("The new process definition " + "(key = '" + newProcessDefinition.getKey() + "') " + "does not contain the current activity " + "(id = '"
-                    + execution.getActivityId() + "') " + "of the process instance " + "(id = '" + processInstanceId + "').");
+        if (execution.getActivityId() !is null && execution.getActivityId().length != 0 && process.getFlowElement(execution.getActivityId(), true) is null) {
+            //throw new FlowableException("The new process definition " + "(key = '" + newProcessDefinition.getKey() + "') " + "does not contain the current activity " + "(id = '"
+            //        + execution.getActivityId() + "') " + "of the process instance " + "(id = '" + processInstanceId + "').");
         }
 
         // switch the process instance to the new process definition version
@@ -128,7 +126,7 @@ class SetProcessDefinitionVersionCmd implements Command!Void, Serializable {
         // and change possible existing tasks (as the process definition id is stored there too)
         List!TaskEntity tasks = CommandContextUtil.getTaskService(commandContext).findTasksByExecutionId(execution.getId());
         Clock clock = commandContext.getCurrentEngineConfiguration().getClock();
-        for (TaskEntity taskEntity : tasks) {
+        foreach (TaskEntity taskEntity ; tasks) {
             taskEntity.setProcessDefinitionId(newProcessDefinition.getId());
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordTaskInfoChange(taskEntity, clock.getCurrentTime());
         }

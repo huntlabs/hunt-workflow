@@ -10,14 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTaskFormModelCmd;
 
-
-import java.io.Serializable;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
@@ -33,23 +31,20 @@ import flow.form.api.FormRepositoryService;
 import flow.form.api.FormService;
 import flow.task.api.TaskInfo;
 import flow.task.api.history.HistoricTaskInstance;
-
+import flow.variable.service.api.persistence.entity.VariableInstance;
 /**
  * @author Tijs Rademakers
  */
-class GetTaskFormModelCmd implements Command!FormInfo, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class GetTaskFormModelCmd : Command!FormInfo {
 
     protected string taskId;
     protected bool ignoreVariables;
 
-    public GetTaskFormModelCmd(string taskId, bool ignoreVariables) {
+    this(string taskId, bool ignoreVariables) {
         this.taskId = taskId;
         this.ignoreVariables = ignoreVariables;
     }
 
-    override
     public FormInfo execute(CommandContext commandContext) {
         bool historic = false;
 
@@ -65,7 +60,7 @@ class GetTaskFormModelCmd implements Command!FormInfo, Serializable {
             historic = true;
             task = CommandContextUtil.getHistoricTaskService(commandContext).getHistoricTask(taskId);
             if (task !is null) {
-                endTime = ((HistoricTaskInstance) task).getEndTime();
+                endTime = (cast(HistoricTaskInstance) task).getEndTime();
             }
         }
 
@@ -73,37 +68,54 @@ class GetTaskFormModelCmd implements Command!FormInfo, Serializable {
             throw new FlowableObjectNotFoundException("Task not found with id " + taskId);
         }
 
-        Map!(string, Object) variables = new HashMap<>();
-        if (!ignoreVariables && task.getProcessInstanceId() !is null) {
+        Map!(string, Object) variables = new HashMap!(string, Object)();
+        if (!ignoreVariables && task.getProcessInstanceId() !is null && task.getProcessInstanceId().length != 0) {
 
             if (!historic) {
-                processEngineConfiguration.getTaskService()
-                        .getVariableInstances(taskId).values()
-                        .stream()
-                        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getName(), variableInstance.getValue()));
+                //processEngineConfiguration.getTaskService()
+                //        .getVariableInstances(taskId).values()
+                //        .stream()
+                //        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getName(), variableInstance.getValue()));
+                foreach (VariableInstance variableInstance ; processEngineConfiguration.getTaskService().getVariableInstances(taskId).values())
+                {
+                    variables.putIfAbsent(variableInstance.getName(), variableInstance.getValue());
+                }
 
-                processEngineConfiguration.getRuntimeService().getVariableInstances(task.getProcessInstanceId()).values()
-                        .stream()
-                        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getName(), variableInstance.getValue()));
+                //processEngineConfiguration.getRuntimeService().getVariableInstances(task.getProcessInstanceId()).values()
+                //        .stream()
+                //        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getName(), variableInstance.getValue()));
+
+                foreach(VariableInstance variableInstance ; processEngineConfiguration.getRuntimeService().getVariableInstances(task.getProcessInstanceId()).values())
+                {
+                    variables.putIfAbsent(variableInstance.getName(), variableInstance.getValue());
+                }
 
 
             } else {
 
-                processEngineConfiguration.getHistoryService()
-                        .createHistoricVariableInstanceQuery().taskId(taskId).list()
-                        .stream()
-                        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue()));
+                foreach(VariableInstance variableInstance ;  processEngineConfiguration.getHistoryService().createHistoricVariableInstanceQuery().taskId(taskId).list())
+                {
+                    variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue());
+                }
+                //processEngineConfiguration.getHistoryService()
+                //        .createHistoricVariableInstanceQuery().taskId(taskId).list()
+                //        .stream()
+                //        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue()));
 
-                processEngineConfiguration.getHistoryService()
-                        .createHistoricVariableInstanceQuery().processInstanceId(task.getProcessInstanceId()).list()
-                        .stream()
-                        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue()));
+                foreach (VariableInstance variableInstance ; processEngineConfiguration.getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(task.getProcessInstanceId()).list())
+                {
+                    variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue());
+                }
+                //processEngineConfiguration.getHistoryService()
+                //        .createHistoricVariableInstanceQuery().processInstanceId(task.getProcessInstanceId()).list()
+                //        .stream()
+                //        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue()));
 
             }
         }
 
         string parentDeploymentId = null;
-        if (StringUtils.isNotEmpty(task.getProcessDefinitionId())) {
+        if (task.getProcessDefinitionId() !is null && task.getProcessDefinitionId().length != 0) {
             RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();
             ProcessDefinition processDefinition = repositoryService.getProcessDefinition(task.getProcessDefinitionId());
             Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
@@ -127,7 +139,7 @@ class GetTaskFormModelCmd implements Command!FormInfo, Serializable {
 
         // If form does not exists, we don't want to leak out this info to just anyone
         if (formInfo is null) {
-            throw new FlowableObjectNotFoundException("Form model for task " + task.getTaskDefinitionKey() + " cannot be found for form key " + task.getFormKey());
+            throw new FlowableObjectNotFoundException("Form model for task " ~ task.getTaskDefinitionKey() ~ " cannot be found for form key " ~ task.getFormKey());
         }
 
         FormFieldHandler formFieldHandler = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormFieldHandler();

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.SubmitStartFormCmd;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -23,22 +23,21 @@ import flow.engine.impl.form.StartFormHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.ProcessInstanceHelper;
 import flow.engine.runtime.ProcessInstance;
-
+import flow.engine.impl.cmd.NeedsActiveProcessDefinitionCmd;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
 class SubmitStartFormCmd : NeedsActiveProcessDefinitionCmd!ProcessInstance {
 
-    private static final long serialVersionUID = 1L;
 
-    protected final string businessKey;
+    protected  string businessKey;
     protected Map!(string, string) properties;
 
-    public SubmitStartFormCmd(string processDefinitionId, string businessKey, Map!(string, string) properties) {
+    this(string processDefinitionId, string businessKey, Map!(string, string) properties) {
         super(processDefinitionId);
         this.businessKey = businessKey;
         this.properties = properties;
@@ -46,19 +45,19 @@ class SubmitStartFormCmd : NeedsActiveProcessDefinitionCmd!ProcessInstance {
 
     override
     protected ProcessInstance execute(CommandContext commandContext, ProcessDefinitionEntity processDefinition) {
-        if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            return compatibilityHandler.submitStartFormData(processDefinition.getId(), businessKey, properties);
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    return compatibilityHandler.submitStartFormData(processDefinition.getId(), businessKey, properties);
+        //}
 
         ExecutionEntity processInstance = null;
         ProcessInstanceHelper processInstanceHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceHelper();
 
         // TODO: backwards compatibility? Only create the process instance and not start it? How?
-        if (businessKey !is null) {
-            processInstance = (ExecutionEntity) processInstanceHelper.createProcessInstance(processDefinition, businessKey, null, null, null);
+        if (businessKey !is null && businessKey.length != 0) {
+            processInstance = cast(ExecutionEntity) processInstanceHelper.createProcessInstance(processDefinition, businessKey, null, null, null);
         } else {
-            processInstance = (ExecutionEntity) processInstanceHelper.createProcessInstance(processDefinition, null, null, null, null);
+            processInstance = cast(ExecutionEntity) processInstanceHelper.createProcessInstance(processDefinition, null, null, null, null);
         }
 
         CommandContextUtil.getHistoryManager(commandContext).recordFormPropertiesSubmitted(processInstance.getExecutions().get(0), properties, null,
@@ -74,9 +73,9 @@ class SubmitStartFormCmd : NeedsActiveProcessDefinitionCmd!ProcessInstance {
     }
 
     protected Map!(string, Object) convertPropertiesToVariablesMap() {
-        Map!(string, Object) vars = new HashMap<>(properties.size());
-        for (string key : properties.keySet()) {
-            vars.put(key, properties.get(key));
+        Map!(string, Object) vars = new HashMap!(string, Object)(properties.size());
+        foreach (MapEntry!(string, Object) key ; properties) {
+            vars.put(key.getKey(), properties.get(key.getKey()));
         }
         return vars;
     }

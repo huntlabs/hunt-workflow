@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.FindActiveActivityIdsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
@@ -30,16 +29,14 @@ import flow.engine.runtime.Execution;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class FindActiveActivityIdsCmd implements Command<List!string>, Serializable {
+class FindActiveActivityIdsCmd : Command!(List!string) {
 
-    private static final long serialVersionUID = 1L;
     protected string executionId;
 
-    public FindActiveActivityIdsCmd(string executionId) {
+    this(string executionId) {
         this.executionId = executionId;
     }
 
-    override
     public List!string execute(CommandContext commandContext) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
@@ -49,24 +46,24 @@ class FindActiveActivityIdsCmd implements Command<List!string>, Serializable {
         ExecutionEntity execution = executionEntityManager.findById(executionId);
 
         if (execution is null) {
-            throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
+            throw new FlowableObjectNotFoundException("execution " ~ executionId ~ " doesn't exist");
         }
 
         return findActiveActivityIds(execution);
     }
 
     public List!string findActiveActivityIds(ExecutionEntity executionEntity) {
-        List!string activeActivityIds = new ArrayList<>();
+        List!string activeActivityIds = new ArrayList!string();
         collectActiveActivityIds(executionEntity, activeActivityIds);
         return activeActivityIds;
     }
 
     protected void collectActiveActivityIds(ExecutionEntity executionEntity, List!string activeActivityIds) {
-        if (executionEntity.isActive() && executionEntity.getActivityId() !is null) {
+        if (executionEntity.isActive() && executionEntity.getActivityId() !is null && executionEntity.getActivityId().length != 0) {
             activeActivityIds.add(executionEntity.getActivityId());
         }
 
-        for (ExecutionEntity childExecution : executionEntity.getExecutions()) {
+        foreach (ExecutionEntity childExecution ; executionEntity.getExecutions()) {
             collectActiveActivityIds(childExecution, activeActivityIds);
         }
     }

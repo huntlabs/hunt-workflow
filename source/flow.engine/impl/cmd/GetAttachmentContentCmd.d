@@ -11,11 +11,10 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetAttachmentContentCmd;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.Serializable;
+import hunt.stream.ByteArrayInputStream;
+import hunt.stream.Common;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -26,16 +25,14 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tom Baeyens
  */
-class GetAttachmentContentCmd implements Command!InputStream, Serializable {
+class GetAttachmentContentCmd : Command!InputStream {
 
-    private static final long serialVersionUID = 1L;
     protected string attachmentId;
 
-    public GetAttachmentContentCmd(string attachmentId) {
+    this(string attachmentId) {
         this.attachmentId = attachmentId;
     }
 
-    override
     public InputStream execute(CommandContext commandContext) {
         AttachmentEntity attachment = CommandContextUtil.getAttachmentEntityManager().findById(attachmentId);
 

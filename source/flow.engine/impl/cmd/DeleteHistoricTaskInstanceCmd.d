@@ -11,28 +11,25 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.DeleteHistoricTaskInstanceCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TaskHelper;
-
+import hunt.Object;
 /**
  * @author Tom Baeyens
  */
-class DeleteHistoricTaskInstanceCmd implements Command!Object, Serializable {
+class DeleteHistoricTaskInstanceCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public DeleteHistoricTaskInstanceCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
 
         if (taskId is null) {

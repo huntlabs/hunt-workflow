@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.ValidateV5EntitiesCmd;
 
 import hunt.collection.List;
 
@@ -21,61 +21,58 @@ import flow.engine.RepositoryService;
 import flow.engine.RuntimeService;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.ProcessDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.Object;
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
-class ValidateV5EntitiesCmd implements Command!Void {
+class ValidateV5EntitiesCmd : Command!Void {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidateV5EntitiesCmd.class);
-
-    override
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
-        if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() is null) {
-
-            RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();
-            long numberOfV5Deployments = repositoryService.createDeploymentQuery().deploymentEngineVersion(Flowable5Util.V5_ENGINE_TAG).count();
-            LOGGER.info("Total of v5 deployments found: {}", numberOfV5Deployments);
-
-            if (numberOfV5Deployments > 0) {
-                List!ProcessDefinition processDefinitions = repositoryService.createProcessDefinitionQuery()
-                        .latestVersion()
-                        .processDefinitionEngineVersion(Flowable5Util.V5_ENGINE_TAG)
-                        .list();
-
-                if (!processDefinitions.isEmpty()) {
-                    string message = new StringBuilder("Found v5 process definitions that are the latest version.")
-                            .append(" Enable the 'flowable5CompatibilityEnabled' property in the process engine configuration")
-                            .append(" and make sure the flowable5-compatibility dependency is available on the classpath").toString();
-                    LOGGER.error(message);
-
-                    for (ProcessDefinition processDefinition : processDefinitions) {
-                        LOGGER.error("Found v5 process definition with id: {}, and key: {}", processDefinition.getId(), processDefinition.getKey());
-                    }
-
-                    throw new FlowableException(message);
-                }
-
-                RuntimeService runtimeService = processEngineConfiguration.getRuntimeService();
-                long numberOfV5ProcessInstances = runtimeService.createProcessInstanceQuery().processDefinitionEngineVersion(Flowable5Util.V5_ENGINE_TAG).count();
-
-                if (numberOfV5ProcessInstances > 0) {
-                    string message = new StringBuilder("Found at least one running v5 process instance.")
-                            .append(" Enable the 'flowable5CompatibilityEnabled' property in the process engine configuration")
-                            .append(" and make sure the flowable5-compatibility dependency is available on the classpath").toString();
-                    LOGGER.error(message);
-
-                    throw new FlowableException(message);
-                }
-            }
+        implementationMissing(false);
+        //if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() is null) {
+        //
+        //    RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();
+        //    long numberOfV5Deployments = repositoryService.createDeploymentQuery().deploymentEngineVersion(Flowable5Util.V5_ENGINE_TAG).count();
+        //    LOGGER.info("Total of v5 deployments found: {}", numberOfV5Deployments);
+        //
+        //    if (numberOfV5Deployments > 0) {
+        //        List!ProcessDefinition processDefinitions = repositoryService.createProcessDefinitionQuery()
+        //                .latestVersion()
+        //                .processDefinitionEngineVersion(Flowable5Util.V5_ENGINE_TAG)
+        //                .list();
+        //
+        //        if (!processDefinitions.isEmpty()) {
+        //            string message = new StringBuilder("Found v5 process definitions that are the latest version.")
+        //                    .append(" Enable the 'flowable5CompatibilityEnabled' property in the process engine configuration")
+        //                    .append(" and make sure the flowable5-compatibility dependency is available on the classpath").toString();
+        //            LOGGER.error(message);
+        //
+        //            for (ProcessDefinition processDefinition : processDefinitions) {
+        //                LOGGER.error("Found v5 process definition with id: {}, and key: {}", processDefinition.getId(), processDefinition.getKey());
+        //            }
+        //
+        //            throw new FlowableException(message);
+        //        }
+        //
+        //        RuntimeService runtimeService = processEngineConfiguration.getRuntimeService();
+        //        long numberOfV5ProcessInstances = runtimeService.createProcessInstanceQuery().processDefinitionEngineVersion(Flowable5Util.V5_ENGINE_TAG).count();
+        //
+        //        if (numberOfV5ProcessInstances > 0) {
+        //            string message = new StringBuilder("Found at least one running v5 process instance.")
+        //                    .append(" Enable the 'flowable5CompatibilityEnabled' property in the process engine configuration")
+        //                    .append(" and make sure the flowable5-compatibility dependency is available on the classpath").toString();
+        //            LOGGER.error(message);
+        //
+        //            throw new FlowableException(message);
+        //        }
+        //    }
         }
 
-        return null;
+       // return null;
     }
 
 }

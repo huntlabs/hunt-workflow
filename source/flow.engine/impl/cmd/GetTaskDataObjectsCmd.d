@@ -10,14 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTaskDataObjectsCmd;
 
 
-
-import java.io.Serializable;
 import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
-import java.util.Map.Entry;
 
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.SubProcess;
@@ -36,31 +34,29 @@ import flow.engine.runtime.DataObject;
 import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.persistence.entity.VariableInstance;
+import hunt.Exceptions;
+//import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+class GetTaskDataObjectsCmd : Command!(Map!(string, DataObject)) {
 
-class GetTaskDataObjectsCmd implements Command<Map!(string, DataObject)>, Serializable {
-
-    private static final long serialVersionUID = 1L;
     protected string taskId;
     protected Collection!string variableNames;
     protected string locale;
     protected bool withLocalizationFallback;
 
-    public GetTaskDataObjectsCmd(string taskId, Collection!string variableNames) {
+    this(string taskId, Collection!string variableNames) {
         this.taskId = taskId;
         this.variableNames = variableNames;
     }
 
-    public GetTaskDataObjectsCmd(string taskId, Collection!string variableNames, string locale, bool withLocalizationFallback) {
+    this(string taskId, Collection!string variableNames, string locale, bool withLocalizationFallback) {
         this.taskId = taskId;
         this.variableNames = variableNames;
         this.locale = locale;
         this.withLocalizationFallback = withLocalizationFallback;
     }
 
-    override
     public Map!(string, DataObject) execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
@@ -69,7 +65,7 @@ class GetTaskDataObjectsCmd implements Command<Map!(string, DataObject)>, Serial
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
+            throw new FlowableObjectNotFoundException("task " ~ taskId ~ " doesn't exist");
         }
 
         Map!(string, DataObject) dataObjects = null;
@@ -81,9 +77,9 @@ class GetTaskDataObjectsCmd implements Command<Map!(string, DataObject)>, Serial
         }
 
         if (variables !is null) {
-            dataObjects = new HashMap<>(variables.size());
+            dataObjects = new HashMap!(string, DataObject) (variables.size());
 
-            for (Entry!(string, VariableInstance) entry : variables.entrySet()) {
+            for (MapEntry!(string, VariableInstance) entry ; variables) {
                 VariableInstance variableEntity = entry.getValue();
 
                 string localizedName = null;
@@ -96,17 +92,17 @@ class GetTaskDataObjectsCmd implements Command<Map!(string, DataObject)>, Serial
 
                 BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(executionEntity.getProcessDefinitionId());
                 ValuedDataObject foundDataObject = null;
-                if (executionEntity.getParentId() is null) {
-                    for (ValuedDataObject dataObject : bpmnModel.getMainProcess().getDataObjects()) {
-                        if (dataObject.getName().equals(variableEntity.getName())) {
+                if (executionEntity.getParentId() is null || executionEntity.getParentId().length == 0) {
+                    foreach (ValuedDataObject dataObject ; bpmnModel.getMainProcess().getDataObjects()) {
+                        if (getName() == (variableEntity.getName())) {
                             foundDataObject = dataObject;
                             break;
                         }
                     }
                 } else {
-                    SubProcess subProcess = (SubProcess) bpmnModel.getFlowElement(executionEntity.getActivityId());
-                    for (ValuedDataObject dataObject : subProcess.getDataObjects()) {
-                        if (dataObject.getName().equals(variableEntity.getName())) {
+                    SubProcess subProcess = cast(SubProcess) bpmnModel.getFlowElement(executionEntity.getActivityId());
+                    foreach (ValuedDataObject dataObject ; subProcess.getDataObjects()) {
+                        if (getName() == (variableEntity.getName())) {
                             foundDataObject = dataObject;
                             break;
                         }
@@ -114,19 +110,20 @@ class GetTaskDataObjectsCmd implements Command<Map!(string, DataObject)>, Serial
                 }
 
                 if (locale !is null && foundDataObject !is null) {
-                    ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, foundDataObject.getId(),
-                            task.getProcessDefinitionId(), withLocalizationFallback);
-
-                    if (languageNode !is null) {
-                        JsonNode nameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                        if (nameNode !is null) {
-                            localizedName = nameNode.asText();
-                        }
-                        JsonNode descriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                        if (descriptionNode !is null) {
-                            localizedDescription = descriptionNode.asText();
-                        }
-                    }
+                    implementationMissing(false);
+                    //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, foundDataObject.getId(),
+                    //        task.getProcessDefinitionId(), withLocalizationFallback);
+                    //
+                    //if (languageNode !is null) {
+                    //    JsonNode nameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+                    //    if (nameNode !is null) {
+                    //        localizedName = nameNode.asText();
+                    //    }
+                    //    JsonNode descriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+                    //    if (descriptionNode !is null) {
+                    //        localizedDescription = descriptionNode.asText();
+                    //    }
+                    //}
                 }
 
                 if (foundDataObject !is null) {

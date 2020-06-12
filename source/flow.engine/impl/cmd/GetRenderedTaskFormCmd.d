@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetRenderedTaskFormCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -32,18 +31,16 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class GetRenderedTaskFormCmd implements Command!Object, Serializable {
+class GetRenderedTaskFormCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
     protected string formEngineName;
 
-    public GetRenderedTaskFormCmd(string taskId, string formEngineName) {
+    this(string taskId, string formEngineName) {
         this.taskId = taskId;
         this.formEngineName = formEngineName;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
 
         if (taskId is null) {
@@ -52,7 +49,7 @@ class GetRenderedTaskFormCmd implements Command!Object, Serializable {
 
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
         if (task is null) {
-            throw new FlowableObjectNotFoundException("Task '" + taskId + "' not found", Task.class);
+            throw new FlowableObjectNotFoundException("Task '" ~ taskId ~ "' not found");
         }
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
@@ -62,7 +59,7 @@ class GetRenderedTaskFormCmd implements Command!Object, Serializable {
             FormEngine formEngine = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormEngines().get(formEngineName);
 
             if (formEngine is null) {
-                throw new FlowableException("No formEngine '" + formEngineName + "' defined process engine configuration");
+                throw new FlowableException("No formEngine '" ~ formEngineName ~ "' defined process engine configuration");
             }
 
             TaskFormData taskForm = taskFormHandler.createTaskForm(task);

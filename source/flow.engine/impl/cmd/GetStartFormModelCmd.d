@@ -10,11 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetStartFormModelCmd;
 
-
-import java.io.Serializable;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.Process;
@@ -35,19 +32,16 @@ import flow.form.api.FormService;
 /**
  * @author Tijs Rademakers
  */
-class GetStartFormModelCmd implements Command!FormInfo, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class GetStartFormModelCmd : Command!FormInfo {
 
     protected string processDefinitionId;
     protected string processInstanceId;
 
-    public GetStartFormModelCmd(string processDefinitionId, string processInstanceId) {
+    this(string processDefinitionId, string processInstanceId) {
         this.processDefinitionId = processDefinitionId;
         this.processInstanceId = processInstanceId;
     }
 
-    override
     public FormInfo execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         FormService formService = CommandContextUtil.getFormService(commandContext);
@@ -60,9 +54,9 @@ class GetStartFormModelCmd implements Command!FormInfo, Serializable {
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionId);
         Process process = bpmnModel.getProcessById(processDefinition.getKey());
         FlowElement startElement = process.getInitialFlowElement();
-        if (startElement instanceof StartEvent) {
-            StartEvent startEvent = (StartEvent) startElement;
-            if (StringUtils.isNotEmpty(startEvent.getFormKey())) {
+        if (cast(StartEvent)startElement !is null) {
+            StartEvent startEvent = cast(StartEvent) startElement;
+            if (startEvent.getFormKey() !is null && startEvent.getFormKey().length != 0) {
                 Deployment deployment = CommandContextUtil.getDeploymentEntityManager(commandContext).findById(processDefinition.getDeploymentId());
                 formInfo = formService.getFormInstanceModelByKeyAndParentDeploymentId(startEvent.getFormKey(), deployment.getParentDeploymentId(),
                                 null, processInstanceId, null, processDefinition.getTenantId(), processEngineConfiguration.isFallbackToDefaultTenant());
@@ -71,7 +65,7 @@ class GetStartFormModelCmd implements Command!FormInfo, Serializable {
 
         // If form does not exists, we don't want to leak out this info to just anyone
         if (formInfo is null) {
-            throw new FlowableObjectNotFoundException("Form model for process definition " + processDefinitionId + " cannot be found");
+            throw new FlowableObjectNotFoundException("Form model for process definition " ~ processDefinitionId ~ " cannot be found");
         }
 
         FormFieldHandler formFieldHandler = processEngineConfiguration.getFormFieldHandler();

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SignalEventReceivedCmd;
 
 
 import hunt.collection.HashMap;
@@ -27,28 +27,28 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.Execution;
 import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class SignalEventReceivedCmd implements Command!Void {
+class SignalEventReceivedCmd : Command!Void {
 
-    protected final string eventName;
-    protected final string executionId;
-    protected final Map!(string, Object) payload;
-    protected final bool async;
+    protected  string eventName;
+    protected  string executionId;
+    protected  Map!(string, Object) payload;
+    protected  bool async;
     protected string tenantId;
 
-    public SignalEventReceivedCmd(string eventName, string executionId, Map!(string, Object) processVariables, string tenantId) {
+    this(string eventName, string executionId, Map!(string, Object) processVariables, string tenantId) {
         this.eventName = eventName;
         this.executionId = executionId;
         if (processVariables !is null) {
-            this.payload = new HashMap<>(processVariables);
+            this.payload = new HashMap!(string, Object)(processVariables);
 
         } else {
             this.payload = null;
@@ -57,7 +57,7 @@ class SignalEventReceivedCmd implements Command!Void {
         this.tenantId = tenantId;
     }
 
-    public SignalEventReceivedCmd(string eventName, string executionId, bool async, string tenantId) {
+    this(string eventName, string executionId, bool async, string tenantId) {
         this.eventName = eventName;
         this.executionId = executionId;
         this.async = async;
@@ -65,56 +65,55 @@ class SignalEventReceivedCmd implements Command!Void {
         this.tenantId = tenantId;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
 
         List!SignalEventSubscriptionEntity signalEvents = null;
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-        if (executionId is null) {
+        if (executionId is null || executionId.length == 0) {
             signalEvents = eventSubscriptionService.findSignalEventSubscriptionsByEventName(eventName, tenantId);
         } else {
 
             ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
             if (execution is null) {
-                throw new FlowableObjectNotFoundException("Cannot find execution with id '" + executionId + "'", Execution.class);
+                throw new FlowableObjectNotFoundException("Cannot find execution with id '" ~ executionId);
             }
 
             if (execution.isSuspended()) {
-                throw new FlowableException("Cannot throw signal event '" + eventName + "' because execution '" + executionId + "' is suspended");
+                throw new FlowableException("Cannot throw signal event '" ~ eventName ~ "' because execution '" ~ executionId ~ "' is suspended");
             }
 
-            if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
-                Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                compatibilityHandler.signalEventReceived(eventName, executionId, payload, async, tenantId);
-                return null;
-            }
+            //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
+            //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+            //    compatibilityHandler.signalEventReceived(eventName, executionId, payload, async, tenantId);
+            //    return null;
+            //}
 
             signalEvents = eventSubscriptionService.findSignalEventSubscriptionsByNameAndExecution(eventName, executionId);
 
             if (signalEvents.isEmpty()) {
-                throw new FlowableException("Execution '" + executionId + "' has not subscribed to a signal event with name '" + eventName + "'.");
+                throw new FlowableException("Execution '" ~ executionId ~ "' has not subscribed to a signal event with name '" ~ eventName ~ "'.");
             }
         }
 
-        for (SignalEventSubscriptionEntity signalEventSubscriptionEntity : signalEvents) {
+        foreach (SignalEventSubscriptionEntity signalEventSubscriptionEntity ; signalEvents) {
             // We only throw the event to globally scoped signals.
             // Process instance scoped signals must be thrown within the process itself
             if (signalEventSubscriptionEntity.isGlobalScoped()) {
 
-                if (executionId is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, signalEventSubscriptionEntity.getProcessDefinitionId())) {
-                    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                    compatibilityHandler.signalEventReceived(signalEventSubscriptionEntity, payload, async);
-
-                } else {
+                //if (executionId is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, signalEventSubscriptionEntity.getProcessDefinitionId())) {
+                //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+                //    compatibilityHandler.signalEventReceived(signalEventSubscriptionEntity, payload, async);
+                //
+                //} else {
                     CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
                             FlowableEventBuilder.createSignalEvent(FlowableEngineEventType.ACTIVITY_SIGNALED, signalEventSubscriptionEntity.getActivityId(), eventName,
                                     payload, signalEventSubscriptionEntity.getExecutionId(), signalEventSubscriptionEntity.getProcessInstanceId(),
                                     signalEventSubscriptionEntity.getProcessDefinitionId()));
 
                     EventSubscriptionUtil.eventReceived(signalEventSubscriptionEntity, payload, async);
-                }
+                //}
             }
         }
 

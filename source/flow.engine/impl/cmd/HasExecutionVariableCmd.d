@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.HasExecutionVariableCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -25,20 +24,18 @@ import flow.engine.runtime.Execution;
 /**
  * @author Frederik Heremans
  */
-class HasExecutionVariableCmd implements Command!bool, Serializable {
+class HasExecutionVariableCmd : Command!bool {
 
-    private static final long serialVersionUID = 1L;
     protected string executionId;
     protected string variableName;
     protected bool isLocal;
 
-    public HasExecutionVariableCmd(string executionId, string variableName, bool isLocal) {
+    this(string executionId, string variableName, bool isLocal) {
         this.executionId = executionId;
         this.variableName = variableName;
         this.isLocal = isLocal;
     }
 
-    override
     public bool execute(CommandContext commandContext) {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("executionId is null");
@@ -50,7 +47,7 @@ class HasExecutionVariableCmd implements Command!bool, Serializable {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
 
         if (execution is null) {
-            throw new FlowableObjectNotFoundException("execution " + executionId + " doesn't exist", Execution.class);
+            throw new FlowableObjectNotFoundException("execution " ~ executionId ~ " doesn't exist");
         }
 
         bool hasVariable = false;

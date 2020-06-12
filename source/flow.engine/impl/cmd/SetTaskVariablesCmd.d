@@ -11,27 +11,26 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.SetTaskVariablesCmd;
 
 import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
 class SetTaskVariablesCmd : NeedsActiveTaskCmd!Object {
 
-    private static final long serialVersionUID = 1L;
 
-    protected Map<string, ? : Object> variables;
+    protected Map!(string,  Object) variables;
     protected bool isLocal;
 
-    public SetTaskVariablesCmd(string taskId, Map<string, ? : Object> variables, bool isLocal) {
+    this(string taskId, Map!(string,  Object) variables, bool isLocal) {
         super(taskId);
         this.taskId = taskId;
         this.variables = variables;
@@ -41,23 +40,23 @@ class SetTaskVariablesCmd : NeedsActiveTaskCmd!Object {
     override
     protected Object execute(CommandContext commandContext, TaskEntity task) {
 
-        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.setTaskVariables(taskId, variables, isLocal);
-            return null;
-        }
+        //if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.setTaskVariables(taskId, variables, isLocal);
+        //    return null;
+        //}
 
         if (isLocal) {
             if (variables !is null) {
-                for (string variableName : variables.keySet()) {
-                    task.setVariableLocal(variableName, variables.get(variableName), false);
+                foreach (MapEntry!(string,  Object) variableName ; variables) {
+                    task.setVariableLocal(variableName.getKey(), variables.get(variableName.getKey()), false);
                 }
             }
 
         } else {
             if (variables !is null) {
-                for (string variableName : variables.keySet()) {
-                    task.setVariable(variableName, variables.get(variableName), false);
+                foreach (MapEntry!(string,  Object) variableName ; variables) {
+                    task.setVariable(variableName.getKey(), variables.get(variableName.getKey()), false);
                 }
             }
         }

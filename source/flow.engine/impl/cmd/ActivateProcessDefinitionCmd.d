@@ -11,25 +11,25 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.ActivateProcessDefinitionCmd;
 import hunt.time.LocalDateTime;
 
 import flow.common.db.SuspensionState;
 import flow.engine.impl.jobexecutor.TimerActivateProcessDefinitionHandler;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.runtime.ProcessInstance;
-
+import flow.engine.impl.cmd.AbstractSetProcessDefinitionStateCmd;
 /**
  * @author Daniel Meyer
  * @author Joram Barrez
  */
 class ActivateProcessDefinitionCmd : AbstractSetProcessDefinitionStateCmd {
 
-    public ActivateProcessDefinitionCmd(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
+    this(ProcessDefinitionEntity processDefinitionEntity, bool includeProcessInstances, Date executionDate, string tenantId) {
         super(processDefinitionEntity, includeProcessInstances, executionDate, tenantId);
     }
 
-    public ActivateProcessDefinitionCmd(string processDefinitionId, string processDefinitionKey, bool includeProcessInstances, Date executionDate, string tenantId) {
+    this(string processDefinitionId, string processDefinitionKey, bool includeProcessInstances, Date executionDate, string tenantId) {
         super(processDefinitionId, processDefinitionKey, includeProcessInstances, executionDate, tenantId);
     }
 

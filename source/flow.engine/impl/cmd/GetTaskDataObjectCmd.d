@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTaskDataObjectCmd;
 
 
-
-import java.io.Serializable;
 
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.SubProcess;
@@ -32,31 +31,29 @@ import flow.engine.runtime.DataObject;
 import flow.task.api.Task;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.api.persistence.entity.VariableInstance;
+import hunt.Exceptions;
+//import com.fasterxml.jackson.databind.JsonNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+class GetTaskDataObjectCmd : Command!DataObject {
 
-class GetTaskDataObjectCmd implements Command!DataObject, Serializable {
-
-    private static final long serialVersionUID = 1L;
     protected string taskId;
     protected string variableName;
     protected string locale;
     protected bool withLocalizationFallback;
 
-    public GetTaskDataObjectCmd(string taskId, string variableName) {
+    this(string taskId, string variableName) {
         this.taskId = taskId;
         this.variableName = variableName;
     }
 
-    public GetTaskDataObjectCmd(string taskId, string variableName, string locale, bool withLocalizationFallback) {
+    this(string taskId, string variableName, string locale, bool withLocalizationFallback) {
         this.taskId = taskId;
         this.variableName = variableName;
         this.locale = locale;
         this.withLocalizationFallback = withLocalizationFallback;
     }
 
-    override
     public DataObject execute(CommandContext commandContext) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is null");
@@ -68,7 +65,7 @@ class GetTaskDataObjectCmd implements Command!DataObject, Serializable {
         TaskEntity task = CommandContextUtil.getTaskService().getTask(taskId);
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("task " + taskId + " doesn't exist", Task.class);
+            throw new FlowableObjectNotFoundException("task " ~ taskId ~ " doesn't exist");
         }
 
         DataObject dataObject = null;
@@ -85,17 +82,17 @@ class GetTaskDataObjectCmd implements Command!DataObject, Serializable {
 
             BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(executionEntity.getProcessDefinitionId());
             ValuedDataObject foundDataObject = null;
-            if (executionEntity.getParentId() is null) {
-                for (ValuedDataObject dataObjectDefinition : bpmnModel.getMainProcess().getDataObjects()) {
-                    if (dataObjectDefinition.getName().equals(variableEntity.getName())) {
+            if (executionEntity.getParentId() is null || executionEntity.getParentId().length == 0) {
+                foreach (ValuedDataObject dataObjectDefinition ; bpmnModel.getMainProcess().getDataObjects()) {
+                    if (dataObjectDefinition.getName() == (variableEntity.getName())) {
                         foundDataObject = dataObjectDefinition;
                         break;
                     }
                 }
             } else {
-                SubProcess subProcess = (SubProcess) bpmnModel.getFlowElement(executionEntity.getActivityId());
-                for (ValuedDataObject dataObjectDefinition : subProcess.getDataObjects()) {
-                    if (dataObjectDefinition.getName().equals(variableEntity.getName())) {
+                SubProcess subProcess = cast(SubProcess) bpmnModel.getFlowElement(executionEntity.getActivityId());
+                foreach (ValuedDataObject dataObjectDefinition ; subProcess.getDataObjects()) {
+                    if (dataObjectDefinition.getName() == (variableEntity.getName())) {
                         foundDataObject = dataObjectDefinition;
                         break;
                     }
@@ -103,19 +100,20 @@ class GetTaskDataObjectCmd implements Command!DataObject, Serializable {
             }
 
             if (locale !is null && foundDataObject !is null) {
-                ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, foundDataObject.getId(),
-                        task.getProcessDefinitionId(), withLocalizationFallback);
-
-                if (languageNode !is null) {
-                    JsonNode nameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
-                    if (nameNode !is null) {
-                        localizedName = nameNode.asText();
-                    }
-                    JsonNode descriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
-                    if (descriptionNode !is null) {
-                        localizedDescription = descriptionNode.asText();
-                    }
-                }
+                implementationMissing(false);
+                //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, foundDataObject.getId(),
+                //        task.getProcessDefinitionId(), withLocalizationFallback);
+                //
+                //if (languageNode !is null) {
+                //    JsonNode nameNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_NAME);
+                //    if (nameNode !is null) {
+                //        localizedName = nameNode.asText();
+                //    }
+                //    JsonNode descriptionNode = languageNode.get(DynamicBpmnConstants.LOCALIZATION_DESCRIPTION);
+                //    if (descriptionNode !is null) {
+                //        localizedDescription = descriptionNode.asText();
+                //    }
+                //}
             }
 
             if (foundDataObject !is null) {

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.StartProcessInstanceAsyncCmd;
 
 import flow.bpmn.model.Process;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -26,13 +26,13 @@ import flow.engine.repository.ProcessDefinition;
 import flow.engine.runtime.ProcessInstance;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
-
+import flow.engine.impl.cmd.StartProcessInstanceCmd;
 /**
  * author martin.grofcik
  */
 class StartProcessInstanceAsyncCmd : StartProcessInstanceCmd {
 
-    public StartProcessInstanceAsyncCmd(ProcessInstanceBuilderImpl processInstanceBuilder) {
+    this(ProcessInstanceBuilderImpl processInstanceBuilder) {
         super(processInstanceBuilder);
     }
 
@@ -41,7 +41,7 @@ class StartProcessInstanceAsyncCmd : StartProcessInstanceCmd {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         ProcessDefinition processDefinition = getProcessDefinition(processEngineConfiguration);
         processInstanceHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceHelper();
-        ExecutionEntity processInstance = (ExecutionEntity) processInstanceHelper.createProcessInstance(processDefinition, businessKey, processInstanceName,
+        ExecutionEntity processInstance = cast(ExecutionEntity) processInstanceHelper.createProcessInstance(processDefinition, businessKey, processInstanceName,
             overrideDefinitionTenantId, predefinedProcessInstanceId, variables, transientVariables,
             callbackId, callbackType, referenceId, referenceType, stageInstanceId, false);
         ExecutionEntity execution = processInstance.getExecutions().get(0);
@@ -71,7 +71,7 @@ class StartProcessInstanceAsyncCmd : StartProcessInstanceCmd {
         job.setJobHandlerType(AsyncContinuationJobHandler.TYPE);
 
         // Inherit tenant id (if applicable)
-        if (execution.getTenantId() !is null) {
+        if (execution.getTenantId() !is null && execution.getTenantId().length != 0) {
             job.setTenantId(execution.getTenantId());
         }
 

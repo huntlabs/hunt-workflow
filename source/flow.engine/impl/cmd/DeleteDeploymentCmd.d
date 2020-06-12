@@ -10,30 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.DeleteDeploymentCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  */
-class DeleteDeploymentCmd implements Command!Void, Serializable {
+class DeleteDeploymentCmd : Command!Void {
 
-    private static final long serialVersionUID = 1L;
     protected string deploymentId;
     protected bool cascade;
 
-    public DeleteDeploymentCmd(string deploymentId, bool cascade) {
+    this(string deploymentId, bool cascade) {
         this.deploymentId = deploymentId;
         this.cascade = cascade;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");

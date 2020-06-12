@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTableMetaDataCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.management.TableMetaData;
@@ -23,16 +22,14 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class GetTableMetaDataCmd implements Command!TableMetaData, Serializable {
+class GetTableMetaDataCmd : Command!TableMetaData {
 
-    private static final long serialVersionUID = 1L;
     protected string tableName;
 
-    public GetTableMetaDataCmd(string tableName) {
+    this(string tableName) {
         this.tableName = tableName;
     }
 
-    override
     public TableMetaData execute(CommandContext commandContext) {
         if (tableName is null) {
             throw new FlowableIllegalArgumentException("tableName is null");

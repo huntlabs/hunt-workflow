@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetPotentialStarterGroupsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
@@ -25,34 +24,31 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.ProcessDefinition;
 import flow.identitylink.api.IdentityLink;
 import flow.idm.api.Group;
-
+import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 /**
  * @author Tijs Rademakers
  */
-class GetPotentialStarterGroupsCmd implements Command<List!Group>, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class GetPotentialStarterGroupsCmd : Command!(List!Group) {
 
     protected string processDefinitionId;
 
-    public GetPotentialStarterGroupsCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    override
     public List!Group execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process definition with id " + processDefinitionId, ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("Cannot find process definition with id " ~ processDefinitionId);
         }
 
         IdentityService identityService = CommandContextUtil.getProcessEngineConfiguration(commandContext).getIdentityService();
 
-        List!string groupIds = new ArrayList<>();
-        List!IdentityLink identityLinks = (List) processDefinition.getIdentityLinks();
-        for (IdentityLink identityLink : identityLinks) {
+        List!string groupIds = new ArrayList!string();
+       // List!IdentityLink identityLinks = cast(List!IdentityLink) processDefinition.getIdentityLinks();
+        foreach (IdentityLinkEntity link ; processDefinition.getIdentityLinks()) {
+            IdentityLink identityLink = cast(IdentityLink)link;
             if (identityLink.getGroupId() !is null && identityLink.getGroupId().length() > 0) {
 
                 if (!groupIds.contains(identityLink.getGroupId())) {
@@ -65,7 +61,7 @@ class GetPotentialStarterGroupsCmd implements Command<List!Group>, Serializable 
             return identityService.createGroupQuery().groupIds(groupIds).list();
 
         } else {
-            return new ArrayList<>();
+            return new ArrayList!Group();
         }
     }
 

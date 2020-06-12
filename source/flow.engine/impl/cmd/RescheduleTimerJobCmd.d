@@ -11,11 +11,9 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.RescheduleTimerJobCmd;
 
-
-import java.io.Serializable;
-import java.util.Arrays;
-import hunt.collections;
+import hunt.collection.Collections;
 
 import flow.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -23,29 +21,27 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.TimerUtil;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
+import hunt.Exceptions;
+class RescheduleTimerJobCmd : Command!TimerJobEntity {
 
-class RescheduleTimerJobCmd implements Command!TimerJobEntity, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private final string timerJobId;
+    private string timerJobId;
     private string timeDate;
     private string timeDuration;
     private string timeCycle;
     private string endDate;
     private string calendarName;
 
-    public RescheduleTimerJobCmd(string timerJobId, string timeDate, string timeDuration, string timeCycle, string endDate, string calendarName) {
+    this(string timerJobId, string timeDate, string timeDuration, string timeCycle, string endDate, string calendarName) {
         if (timerJobId is null) {
             throw new FlowableIllegalArgumentException("The timer job id is mandatory, but 'null' has been provided.");
         }
 
-        int timeValues = Collections.frequency(Arrays.asList(timeDate, timeDuration, timeCycle), null);
-        if (timeValues == 0) {
-            throw new FlowableIllegalArgumentException("A non-null value is required for one of timeDate, timeDuration, or timeCycle");
-        } else if (timeValues != 2) {
-            throw new FlowableIllegalArgumentException("At most one non-null value can be provided for timeDate, timeDuration, or timeCycle");
-        }
+       // int timeValues = Collections.frequency(Arrays.asList(timeDate, timeDuration, timeCycle), null);
+       // if (timeValues == 0) {
+       //     throw new FlowableIllegalArgumentException("A non-null value is required for one of timeDate, timeDuration, or timeCycle");
+       // } else if (timeValues != 2) {
+       //     throw new FlowableIllegalArgumentException("At most one non-null value can be provided for timeDate, timeDuration, or timeCycle");
+       // }
 
         if (endDate !is null && timeCycle is null) {
             throw new FlowableIllegalArgumentException("An end date can only be provided when rescheduling a timer using timeDuration.");
@@ -59,16 +55,17 @@ class RescheduleTimerJobCmd implements Command!TimerJobEntity, Serializable {
         this.calendarName = calendarName;
     }
 
-    override
     public TimerJobEntity execute(CommandContext commandContext) {
-        TimerEventDefinition ted = new TimerEventDefinition();
-        ted.setTimeDate(timeDate);
-        ted.setTimeDuration(timeDuration);
-        ted.setTimeCycle(timeCycle);
-        ted.setEndDate(endDate);
-        ted.setCalendarName(calendarName);
-        TimerJobEntity timerJob = TimerUtil.rescheduleTimerJob(timerJobId, ted);
-        return timerJob;
+        implementationMissing(false);
+        null;
+        //TimerEventDefinition ted = new TimerEventDefinition();
+        //ted.setTimeDate(timeDate);
+        //ted.setTimeDuration(timeDuration);
+        //ted.setTimeCycle(timeCycle);
+        //ted.setEndDate(endDate);
+        //ted.setCalendarName(calendarName);
+        //TimerJobEntity timerJob = TimerUtil.rescheduleTimerJob(timerJobId, ted);
+        //return timerJob;
     }
 
 }

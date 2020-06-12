@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetTaskCommentsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -24,16 +23,14 @@ import flow.engine.task.Comment;
 /**
  * @author Tom Baeyens
  */
-class GetTaskCommentsCmd implements Command<List!Comment>, Serializable {
+class GetTaskCommentsCmd : Command!(List!Comment) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetTaskCommentsCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    override
     public List!Comment execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByTaskId(taskId);
     }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.FindBatchPartsByBatchIdCmd;
 
 import hunt.collection.List;
 
@@ -19,21 +19,20 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class FindBatchPartsByBatchIdCmd implements Command<List!BatchPart> {
+class FindBatchPartsByBatchIdCmd : Command!(List!BatchPart) {
 
     protected string batchId;
     protected string status;
 
-    public FindBatchPartsByBatchIdCmd(string batchId) {
+    this(string batchId) {
         this.batchId = batchId;
     }
 
-    public FindBatchPartsByBatchIdCmd(string batchId, string status) {
+    this(string batchId, string status) {
         this.batchId = batchId;
         this.status = status;
     }
 
-    override
     public List!BatchPart execute(CommandContext commandContext) {
         if (status !is null) {
             return CommandContextUtil.getBatchService(commandContext).findBatchPartsByBatchIdAndStatus(batchId, status);

@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetAppResourceObjectCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -23,17 +22,14 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class GetAppResourceObjectCmd implements Command!Object, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class GetAppResourceObjectCmd : Command!Object {
 
     protected string deploymentId;
 
-    public GetAppResourceObjectCmd(string deploymentId) {
+    this(string deploymentId) {
         this.deploymentId = deploymentId;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");

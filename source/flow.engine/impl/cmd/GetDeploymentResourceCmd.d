@@ -10,11 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetDeploymentResourceCmd;
 
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.Serializable;
+import hunt.stream.ByteArrayInputStream;
+import hunt.stream.Common;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -27,18 +26,16 @@ import flow.engine.repository.Deployment;
 /**
  * @author Joram Barrez
  */
-class GetDeploymentResourceCmd implements Command!InputStream, Serializable {
+class GetDeploymentResourceCmd : Command!InputStream {
 
-    private static final long serialVersionUID = 1L;
     protected string deploymentId;
     protected string resourceName;
 
-    public GetDeploymentResourceCmd(string deploymentId, string resourceName) {
+    this(string deploymentId, string resourceName) {
         this.deploymentId = deploymentId;
         this.resourceName = resourceName;
     }
 
-    override
     public InputStream execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");
@@ -50,9 +47,9 @@ class GetDeploymentResourceCmd implements Command!InputStream, Serializable {
         ResourceEntity resource = CommandContextUtil.getResourceEntityManager().findResourceByDeploymentIdAndResourceName(deploymentId, resourceName);
         if (resource is null) {
             if (CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId) is null) {
-                throw new FlowableObjectNotFoundException("deployment does not exist: " + deploymentId, Deployment.class);
+                throw new FlowableObjectNotFoundException("deployment does not exist: " ~ deploymentId);
             } else {
-                throw new FlowableObjectNotFoundException("no resource found with name '" + resourceName + "' in deployment '" + deploymentId + "'", InputStream.class);
+                throw new FlowableObjectNotFoundException("no resource found with name '" ~ resourceName ~ "' in deployment '" ~ deploymentId ~ "'");
             }
         }
         return new ByteArrayInputStream(resource.getBytes());

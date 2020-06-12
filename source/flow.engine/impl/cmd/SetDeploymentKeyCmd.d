@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SetDeploymentKeyCmd;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -22,23 +22,23 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.DeploymentEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.Deployment;
+import hunt.Object;
 
 /**
  * @author Tijs Rademakers
  */
-class SetDeploymentKeyCmd implements Command!Void {
+class SetDeploymentKeyCmd : Command!Void {
 
     protected string deploymentId;
     protected string key;
 
-    public SetDeploymentKeyCmd(string deploymentId, string key) {
+    this(string deploymentId, string key) {
         this.deploymentId = deploymentId;
         this.key = key;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
 
         if (deploymentId is null) {
@@ -48,12 +48,12 @@ class SetDeploymentKeyCmd implements Command!Void {
         DeploymentEntity deployment = CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId);
 
         if (deployment is null) {
-            throw new FlowableObjectNotFoundException("No deployment found for id = '" + deploymentId + "'", Deployment.class);
+            throw new FlowableObjectNotFoundException("No deployment found for id = '" ~ deploymentId ~ "'");
         }
 
-        if (Flowable5Util.isFlowable5Deployment(deployment, commandContext)) {
-            throw new FlowableException("Not supported for version 5 deployments");
-        }
+        //if (Flowable5Util.isFlowable5Deployment(deployment, commandContext)) {
+        //    throw new FlowableException("Not supported for version 5 deployments");
+        //}
 
         // Update category
         deployment.setKey(key);

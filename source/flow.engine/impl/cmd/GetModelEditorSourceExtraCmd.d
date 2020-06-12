@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetModelEditorSourceExtraCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -22,16 +21,14 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class GetModelEditorSourceExtraCmd implements Command<byte[]>, Serializable {
+class GetModelEditorSourceExtraCmd : Command!(byte[]) {
 
-    private static final long serialVersionUID = 1L;
     protected string modelId;
 
-    public GetModelEditorSourceExtraCmd(string modelId) {
+    this(string modelId) {
         this.modelId = modelId;
     }
 
-    override
     public byte[] execute(CommandContext commandContext) {
         if (modelId is null) {
             throw new FlowableIllegalArgumentException("modelId is null");

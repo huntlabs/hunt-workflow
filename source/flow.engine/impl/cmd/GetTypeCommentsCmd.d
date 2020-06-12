@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTypeCommentsCmd;
 
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -24,16 +23,14 @@ import flow.engine.task.Comment;
 /**
  * @author Sam Kim
  */
-class GetTypeCommentsCmd implements Command<List!Comment>, Serializable {
+class GetTypeCommentsCmd : Command!(List!Comment) {
 
-    private static final long serialVersionUID = 1L;
     protected string type;
 
-    public GetTypeCommentsCmd(string type) {
+    this(string type) {
         this.type = type;
     }
 
-    override
     public List!Comment execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByType(type);
     }

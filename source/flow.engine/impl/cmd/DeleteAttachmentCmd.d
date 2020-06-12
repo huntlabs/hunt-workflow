@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.DeleteAttachmentCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -24,53 +23,50 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.AttachmentEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class DeleteAttachmentCmd implements Command!Object, Serializable {
+class DeleteAttachmentCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
     protected string attachmentId;
 
-    public DeleteAttachmentCmd(string attachmentId) {
+    this(string attachmentId) {
         this.attachmentId = attachmentId;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         AttachmentEntity attachment = CommandContextUtil.getAttachmentEntityManager().findById(attachmentId);
 
         string processInstanceId = attachment.getProcessInstanceId();
         string processDefinitionId = null;
         ExecutionEntity processInstance = null;
-        if (attachment.getProcessInstanceId() !is null) {
+        if (attachment.getProcessInstanceId() !is null && attachment.getProcessInstanceId().length != 0) {
             processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
             if (processInstance !is null) {
                 processDefinitionId = processInstance.getProcessDefinitionId();
-                if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
-                    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                    compatibilityHandler.deleteAttachment(attachmentId);
-                    return null;
-                }
+                //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
+                //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+                //    compatibilityHandler.deleteAttachment(attachmentId);
+                //    return null;
+                //}
             }
         }
 
-        CommandContextUtil.getAttachmentEntityManager().delete(attachment, false);
+        CommandContextUtil.getAttachmentEntityManager().dele(attachment, false);
 
-        if (attachment.getContentId() !is null) {
+        if (attachment.getContentId() !is null && attachment.getContentId().length != 0) {
             CommandContextUtil.getByteArrayEntityManager().deleteByteArrayById(attachment.getContentId());
         }
 
         TaskEntity task = null;
-        if (attachment.getTaskId() !is null) {
+        if (attachment.getTaskId() !is null && attachment.getTaskId().length != 0) {
             task = CommandContextUtil.getTaskService().getTask(attachment.getTaskId());
         }
 
-        if (attachment.getTaskId() !is null) {
+        if (attachment.getTaskId() !is null && attachment.getTaskId().length != 0) {
             CommandContextUtil.getHistoryManager(commandContext).createAttachmentComment(task, processInstance, attachment.getName(), false);
         }
 

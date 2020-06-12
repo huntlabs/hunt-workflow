@@ -10,24 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.DeleteEventLogEntry;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  */
-class DeleteEventLogEntry implements Command!Void {
+class DeleteEventLogEntry : Command!Void {
 
     protected long logNr;
 
-    public DeleteEventLogEntry(long logNr) {
+    this(long logNr) {
         this.logNr = logNr;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         CommandContextUtil.getEventLogEntryEntityManager(commandContext).deleteEventLogEntry(logNr);
         return null;

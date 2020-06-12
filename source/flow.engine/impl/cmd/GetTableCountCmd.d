@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetTableCountCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.Map;
 
 import flow.common.interceptor.Command;
@@ -22,12 +21,10 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tom Baeyens
  */
-class GetTableCountCmd implements Command<Map!(string, Long)>, Serializable {
+class GetTableCountCmd : Command!(Map!(string, long)) {
 
-    private static final long serialVersionUID = 1L;
 
-    override
-    public Map!(string, Long) execute(CommandContext commandContext) {
+    public Map!(string, long) execute(CommandContext commandContext) {
         return CommandContextUtil.getTableDataManager(commandContext).getTableCount();
     }
 }

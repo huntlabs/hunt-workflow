@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetRenderedStartFormCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -23,35 +22,33 @@ import flow.engine.impl.form.FormEngine;
 import flow.engine.impl.form.FormHandlerHelper;
 import flow.engine.impl.form.StartFormHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.ProcessDefinition;
 
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class GetRenderedStartFormCmd implements Command!Object, Serializable {
+class GetRenderedStartFormCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
     protected string formEngineName;
 
-    public GetRenderedStartFormCmd(string processDefinitionId, string formEngineName) {
+    this(string processDefinitionId, string formEngineName) {
         this.processDefinitionId = processDefinitionId;
         this.formEngineName = formEngineName;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
 
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("Process Definition '" + processDefinitionId + "' not found", ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("Process Definition '" ~ processDefinitionId ~ "' not found");
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
-            return Flowable5Util.getFlowable5CompatibilityHandler().getRenderedStartForm(processDefinitionId, formEngineName);
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
+        //    return Flowable5Util.getFlowable5CompatibilityHandler().getRenderedStartForm(processDefinitionId, formEngineName);
+        //}
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         StartFormHandler startFormHandler = formHandlerHelper.getStartFormHandler(commandContext, processDefinition);
@@ -62,7 +59,7 @@ class GetRenderedStartFormCmd implements Command!Object, Serializable {
         FormEngine formEngine = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormEngines().get(formEngineName);
 
         if (formEngine is null) {
-            throw new FlowableException("No formEngine '" + formEngineName + "' defined process engine configuration");
+            throw new FlowableException("No formEngine '" ~ formEngineName ~ "' defined process engine configuration");
         }
 
         StartFormData startForm = startFormHandler.createStartFormData(processDefinition);

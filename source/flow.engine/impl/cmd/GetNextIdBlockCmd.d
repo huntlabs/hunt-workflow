@@ -10,32 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.GetNextIdBlockCmd;
 
 import flow.common.db.IdBlock;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.persistence.entity.PropertyEntity;
 import flow.engine.impl.util.CommandContextUtil;
-
+import std.conv : to;
 /**
  * @author Tom Baeyens
  */
-class GetNextIdBlockCmd implements Command!IdBlock {
+class GetNextIdBlockCmd : Command!IdBlock {
 
-    private static final long serialVersionUID = 1L;
     protected int idBlockSize;
 
-    public GetNextIdBlockCmd(int idBlockSize) {
+    this(int idBlockSize) {
         this.idBlockSize = idBlockSize;
     }
 
-    override
     public IdBlock execute(CommandContext commandContext) {
-        PropertyEntity property = (PropertyEntity) CommandContextUtil.getPropertyEntityManager(commandContext).findById("next.dbid");
-        long oldValue = Long.parseLong(property.getValue());
+        PropertyEntity property = cast(PropertyEntity) CommandContextUtil.getPropertyEntityManager(commandContext).findById("next.dbid");
+        long oldValue = to!long(property.getValue());
         long newValue = oldValue + idBlockSize;
-        property.setValue(Long.toString(newValue));
+        property.setValue(to!string(newValue));
         return new IdBlock(oldValue, newValue - 1);
     }
 }

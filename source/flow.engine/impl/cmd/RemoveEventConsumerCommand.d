@@ -10,19 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.RemoveEventConsumerCommand;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.event.registry.api.EventRegistryEventConsumer;
+import hunt.Object;
 
-class RemoveEventConsumerCommand implements Command!Void {
+class RemoveEventConsumerCommand : Command!Void {
 
     protected EventRegistryEventConsumer eventConsumer;
 
-    public RemoveEventConsumerCommand(EventRegistryEventConsumer eventConsumer) {
+    this(EventRegistryEventConsumer eventConsumer) {
         this.eventConsumer = eventConsumer;
     }
 

@@ -10,28 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.AddIdentityLinkCmd;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.IdentityLinkUtil;
 import flow.engine.impl.util.TaskHelper;
 import flow.identitylink.api.IdentityLinkType;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.engine.impl.cmd.NeedsActiveTaskCmd;
+import hunt.Object;
 
 /**
  * @author Joram Barrez
  */
 class AddIdentityLinkCmd : NeedsActiveTaskCmd!Void {
 
-    private static final long serialVersionUID = 1L;
-
-    public static final int IDENTITY_USER = 1;
-    public static final int IDENTITY_GROUP = 2;
+    public static  int IDENTITY_USER = 1;
+    public static  int IDENTITY_GROUP = 2;
 
     protected string identityId;
 
@@ -39,7 +39,7 @@ class AddIdentityLinkCmd : NeedsActiveTaskCmd!Void {
 
     protected string identityType;
 
-    public AddIdentityLinkCmd(string taskId, string identityId, int identityIdType, string identityType) {
+    this(string taskId, string identityId, int identityIdType, string identityType) {
         super(taskId);
         validateParams(taskId, identityId, identityIdType, identityType);
         this.taskId = taskId;
@@ -58,7 +58,7 @@ class AddIdentityLinkCmd : NeedsActiveTaskCmd!Void {
         }
 
         if (identityId is null && (identityIdType == IDENTITY_GROUP ||
-                (!IdentityLinkType.ASSIGNEE.equals(identityType) && !IdentityLinkType.OWNER.equals(identityType)))) {
+                (IdentityLinkType.ASSIGNEE != (identityType) && IdentityLinkType.OWNER != (identityType)))) {
 
             throw new FlowableIllegalArgumentException("identityId is null");
         }
@@ -71,36 +71,36 @@ class AddIdentityLinkCmd : NeedsActiveTaskCmd!Void {
     override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
 
-        if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.addIdentityLink(taskId, identityId, identityIdType, identityType);
-            return null;
-        }
+        //if (task.getProcessDefinitionId() !is null && Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.addIdentityLink(taskId, identityId, identityIdType, identityType);
+        //    return null;
+        //}
 
         string oldAssigneeId = task.getAssignee();
         string oldOwnerId = task.getOwner();
 
         bool assignedToNoOne = false;
-        if (IdentityLinkType.ASSIGNEE.equals(identityType)) {
+        if (IdentityLinkType.ASSIGNEE == (identityType)) {
 
             if (oldAssigneeId is null && identityId is null) {
                 return null;
             }
 
-            if (oldAssigneeId !is null && oldAssigneeId.equals(identityId)) {
+            if (oldAssigneeId !is null && oldAssigneeId == (identityId)) {
                 return null;
             }
 
             TaskHelper.changeTaskAssignee(task, identityId);
             assignedToNoOne = identityId is null;
 
-        } else if (IdentityLinkType.OWNER.equals(identityType)) {
+        } else if (IdentityLinkType.OWNER == (identityType)) {
 
             if (oldOwnerId is null && identityId is null) {
                 return null;
             }
 
-            if (oldOwnerId !is null && oldOwnerId.equals(identityId)) {
+            if (oldOwnerId !is null && oldOwnerId == identityId) {
                 return null;
             }
 
@@ -122,7 +122,7 @@ class AddIdentityLinkCmd : NeedsActiveTaskCmd!Void {
             // ACT-1317: Special handling when assignee is set to NULL, a
             // CommentEntity notifying of assignee-delete should be created
             forceNullUserId = true;
-            if (IdentityLinkType.ASSIGNEE.equals(identityType)) {
+            if (IdentityLinkType.ASSIGNEE == (identityType)) {
                 identityId = oldAssigneeId;
             } else {
                 identityId = oldOwnerId;

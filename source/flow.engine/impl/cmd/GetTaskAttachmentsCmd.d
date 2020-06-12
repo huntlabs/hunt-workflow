@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetTaskAttachmentsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -24,17 +23,15 @@ import flow.engine.task.Attachment;
 /**
  * @author Tom Baeyens
  */
-class GetTaskAttachmentsCmd implements Command<List<? : Attachment>>, Serializable {
+class GetTaskAttachmentsCmd : Command!(List!Attachment) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetTaskAttachmentsCmd(string taskId) {
+    this(string taskId) {
         this.taskId = taskId;
     }
 
-    override
-    public List<? : Attachment> execute(CommandContext commandContext) {
+    public List!Attachment execute(CommandContext commandContext) {
         return CommandContextUtil.getAttachmentEntityManager().findAttachmentsByTaskId(taskId);
     }
 }

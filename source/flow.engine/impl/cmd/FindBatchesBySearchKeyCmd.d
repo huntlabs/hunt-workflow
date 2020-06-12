@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.FindBatchesBySearchKeyCmd;
 
 import hunt.collection.List;
 
@@ -19,15 +19,14 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class FindBatchesBySearchKeyCmd implements Command<List!Batch> {
+class FindBatchesBySearchKeyCmd : Command!(List!Batch) {
 
     protected string searchKey;
 
-    public FindBatchesBySearchKeyCmd(string searchKey) {
+    this(string searchKey) {
         this.searchKey = searchKey;
     }
 
-    override
     public List!Batch execute(CommandContext commandContext) {
         return CommandContextUtil.getBatchService(commandContext).findBatchesBySearchKey(searchKey);
     }

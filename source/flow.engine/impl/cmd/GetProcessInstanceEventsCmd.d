@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetProcessInstanceEventsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -24,16 +23,14 @@ import flow.engine.task.Event;
 /**
  * @author Tom Baeyens
  */
-class GetProcessInstanceEventsCmd implements Command<List!Event>, Serializable {
+class GetProcessInstanceEventsCmd : Command!(List!Event) {
 
-    private static final long serialVersionUID = 1L;
     protected string processInstanceId;
 
-    public GetProcessInstanceEventsCmd(string processInstanceId) {
+    this(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    override
     public List!Event execute(CommandContext commandContext) {
         return CommandContextUtil.getCommentEntityManager(commandContext).findEventsByProcessInstanceId(processInstanceId);
     }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.MessageEventReceivedCmd;
 
 
 import hunt.collection.HashMap;
@@ -25,9 +25,11 @@ import flow.engine.impl.event.MessageEventHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.EventSubscriptionUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.engine.impl.cmd.NeedsActiveExecutionCmd;
+import hunt.Object;
 
 /**
  * @author Daniel Meyer
@@ -35,18 +37,16 @@ import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionE
  */
 class MessageEventReceivedCmd : NeedsActiveExecutionCmd!Void {
 
-    private static final long serialVersionUID = 1L;
+    protected  Map!(string, Object) payload;
+    protected  string messageName;
+    protected  bool async;
 
-    protected final Map!(string, Object) payload;
-    protected final string messageName;
-    protected final bool async;
-
-    public MessageEventReceivedCmd(string messageName, string executionId, Map!(string, Object) processVariables) {
+    this(string messageName, string executionId, Map!(string, Object) processVariables) {
         super(executionId);
         this.messageName = messageName;
 
         if (processVariables !is null) {
-            this.payload = new HashMap<>(processVariables);
+            this.payload = new HashMap!(string, Object)(processVariables);
 
         } else {
             this.payload = null;
@@ -54,7 +54,7 @@ class MessageEventReceivedCmd : NeedsActiveExecutionCmd!Void {
         this.async = false;
     }
 
-    public MessageEventReceivedCmd(string messageName, string executionId, bool async) {
+    this(string messageName, string executionId, bool async) {
         super(executionId);
         this.messageName = messageName;
         this.payload = null;
@@ -67,17 +67,17 @@ class MessageEventReceivedCmd : NeedsActiveExecutionCmd!Void {
             throw new FlowableIllegalArgumentException("messageName cannot be null");
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.messageEventReceived(messageName, executionId, payload, async);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.messageEventReceived(messageName, executionId, payload, async);
+        //    return null;
+        //}
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
         List!EventSubscriptionEntity eventSubscriptions = eventSubscriptionService.findEventSubscriptionsByNameAndExecution(MessageEventHandler.EVENT_HANDLER_TYPE, messageName, executionId);
 
         if (eventSubscriptions.isEmpty()) {
-            throw new FlowableException("Execution with id '" + executionId + "' does not have a subscription to a message event with name '" + messageName + "'");
+            throw new FlowableException("Execution with id '" ~ executionId ~ "' does not have a subscription to a message event with name '" ~ messageName ~ "'");
         }
 
         // there can be only one:

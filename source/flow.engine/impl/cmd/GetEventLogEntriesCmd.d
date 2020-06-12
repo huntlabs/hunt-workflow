@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.GetEventLogEntriesCmd;
 
 import hunt.collection.List;
 
@@ -22,31 +22,30 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class GetEventLogEntriesCmd implements Command<List!EventLogEntry> {
+class GetEventLogEntriesCmd : Command!(List!EventLogEntry) {
 
     protected string processInstanceId;
-    protected Long startLogNr;
-    protected Long pageSize;
+    protected long startLogNr;
+    protected long pageSize;
 
-    public GetEventLogEntriesCmd() {
+    this() {
 
     }
 
-    public GetEventLogEntriesCmd(string processInstanceId) {
+    this(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    public GetEventLogEntriesCmd(Long startLogNr, Long pageSize) {
+    this(long startLogNr, long pageSize) {
         this.startLogNr = startLogNr;
         this.pageSize = pageSize;
     }
 
-    override
     public List!EventLogEntry execute(CommandContext commandContext) {
-        if (processInstanceId !is null) {
+        if (processInstanceId !is null && processInstanceId.length != 0) {
             return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntriesByProcessInstanceId(processInstanceId);
 
-        } else if (startLogNr !is null) {
+        } else if (startLogNr != 0) {
             return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntries(startLogNr, pageSize !is null ? pageSize : -1);
 
         } else {

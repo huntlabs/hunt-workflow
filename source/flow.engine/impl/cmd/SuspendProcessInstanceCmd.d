@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SuspendProcessInstanceCmd;
 
 import flow.common.db.SuspensionState;
-
+import flow.engine.impl.cmd.AbstractSetProcessInstanceStateCmd;
 /**
  *
  * @author Daniel Meyer
  */
 class SuspendProcessInstanceCmd : AbstractSetProcessInstanceStateCmd {
 
-    public SuspendProcessInstanceCmd(string executionId) {
+    this(string executionId) {
         super(executionId);
     }
 

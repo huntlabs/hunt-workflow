@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.EvaluateConditionalEventsCmd;
 
 import hunt.collection.Map;
 
@@ -19,24 +19,24 @@ import flow.common.api.FlowableException;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.cmd.NeedsActiveExecutionCmd;
+
 
 /**
  * @author Tijs Rademakers
  */
 class EvaluateConditionalEventsCmd : NeedsActiveExecutionCmd!Object {
 
-    private static final long serialVersionUID = 1L;
-
     protected Map!(string, Object) processVariables;
     protected Map!(string, Object) transientVariables;
     protected bool async;
 
-    public EvaluateConditionalEventsCmd(string processInstanceId, Map!(string, Object) processVariables) {
+    this(string processInstanceId, Map!(string, Object) processVariables) {
         super(processInstanceId);
         this.processVariables = processVariables;
     }
 
-    public EvaluateConditionalEventsCmd(string processInstanceId, Map!(string, Object) processVariables, Map!(string, Object) transientVariables) {
+    this(string processInstanceId, Map!(string, Object) processVariables, Map!(string, Object) transientVariables) {
         this(processInstanceId, processVariables);
         this.transientVariables = transientVariables;
     }

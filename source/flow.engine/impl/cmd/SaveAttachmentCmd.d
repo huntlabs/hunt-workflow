@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.SaveAttachmentCmd;
 
 
-
-import java.io.Serializable;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -24,36 +23,34 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.AttachmentEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.task.Attachment;
 
 /**
  * @author Tom Baeyens
  */
-class SaveAttachmentCmd implements Command!Object, Serializable {
+class SaveAttachmentCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
     protected Attachment attachment;
 
-    public SaveAttachmentCmd(Attachment attachment) {
+    this(Attachment attachment) {
         this.attachment = attachment;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         AttachmentEntity updateAttachment = CommandContextUtil.getAttachmentEntityManager().findById(attachment.getId());
 
         string processInstanceId = updateAttachment.getProcessInstanceId();
         string processDefinitionId = null;
-        if (updateAttachment.getProcessInstanceId() !is null) {
+        if (updateAttachment.getProcessInstanceId() !is null && updateAttachment.getProcessInstanceId().length != 0) {
             ExecutionEntity process = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
             if (process !is null) {
                 processDefinitionId = process.getProcessDefinitionId();
-                if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, process.getProcessDefinitionId())) {
-                    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-                    compatibilityHandler.saveAttachment(attachment);
-                    return null;
-                }
+                //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, process.getProcessDefinitionId())) {
+                //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+                //    compatibilityHandler.saveAttachment(attachment);
+                //    return null;
+                //}
             }
         }
 
