@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.DeleteIdentityLinkForProcessInstanceCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -22,16 +21,15 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.IdentityLinkUtil;
-
+import hunt.Object;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
-class DeleteIdentityLinkForProcessInstanceCmd implements Command!Object, Serializable {
+class DeleteIdentityLinkForProcessInstanceCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
 
     protected string processInstanceId;
 
@@ -41,7 +39,7 @@ class DeleteIdentityLinkForProcessInstanceCmd implements Command!Object, Seriali
 
     protected string type;
 
-    public DeleteIdentityLinkForProcessInstanceCmd(string processInstanceId, string userId, string groupId, string type) {
+    this(string processInstanceId, string userId, string groupId, string type) {
         validateParams(userId, groupId, processInstanceId, type);
         this.processInstanceId = processInstanceId;
         this.userId = userId;
@@ -63,19 +61,18 @@ class DeleteIdentityLinkForProcessInstanceCmd implements Command!Object, Seriali
         }
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         ExecutionEntity processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
 
         if (processInstance is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process instance with id " + processInstanceId, ExecutionEntity.class);
+            throw new FlowableObjectNotFoundException("Cannot find process instance with id " ~ processInstanceId);
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.deleteIdentityLinkForProcessInstance(processInstanceId, userId, groupId, type);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.deleteIdentityLinkForProcessInstance(processInstanceId, userId, groupId, type);
+        //    return null;
+        //}
 
         IdentityLinkUtil.deleteProcessInstanceIdentityLinks(processInstance, userId, groupId, type);
         CommandContextUtil.getHistoryManager(commandContext).createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, type, false);

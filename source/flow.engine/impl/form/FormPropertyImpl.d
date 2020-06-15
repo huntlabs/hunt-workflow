@@ -11,15 +11,15 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.form.FormPropertyImpl;
 
 import flow.engine.form.FormProperty;
 import flow.engine.form.FormType;
-
+import flow.engine.impl.form.FormPropertyHandler;
 /**
  * @author Tom Baeyens
  */
-class FormPropertyImpl implements FormProperty {
+class FormPropertyImpl : FormProperty {
 
     protected string id;
     protected string name;
@@ -30,7 +30,7 @@ class FormPropertyImpl implements FormProperty {
 
     protected string value;
 
-    public FormPropertyImpl(FormPropertyHandler formPropertyHandler) {
+    this(FormPropertyHandler formPropertyHandler) {
         this.id = formPropertyHandler.getId();
         this.name = formPropertyHandler.getName();
         this.type = formPropertyHandler.getType();
@@ -39,32 +39,32 @@ class FormPropertyImpl implements FormProperty {
         this.isWritable = formPropertyHandler.isWritable();
     }
 
-    override
+
     public string getId() {
         return id;
     }
 
-    override
+
     public string getName() {
         return name;
     }
 
-    override
+
     public FormType getType() {
         return type;
     }
 
-    override
+
     public string getValue() {
         return value;
     }
 
-    override
+
     public bool isRequired() {
         return isRequired;
     }
 
-    override
+
     public bool isReadable() {
         return isReadable;
     }
@@ -73,7 +73,7 @@ class FormPropertyImpl implements FormProperty {
         this.value = value;
     }
 
-    override
+
     public bool isWritable() {
         return isWritable;
     }

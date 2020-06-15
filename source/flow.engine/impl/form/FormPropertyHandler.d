@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.form.FormPropertyHandler;
 
 
-
-import java.io.Serializable;
 import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
@@ -22,13 +21,12 @@ import flow.engine.form.AbstractFormType;
 import flow.engine.form.FormProperty;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.variable.service.impl.el.NoExecutionVariableScope;
-
+import flow.engine.impl.form.FormPropertyImpl;
+import hunt.String;
 /**
  * @author Tom Baeyens
  */
-class FormPropertyHandler implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+class FormPropertyHandler {
 
     protected string id;
     protected string name;
@@ -46,7 +44,7 @@ class FormPropertyHandler implements Serializable {
 
         if (execution !is null) {
             if (variableName !is null || variableExpression is null) {
-                final string varName = variableName !is null ? variableName : id;
+               string varName = variableName !is null ? variableName : id;
                 if (execution.hasVariable(varName)) {
                     modelValue = execution.getVariable(varName);
                 } else if (defaultExpression !is null) {
@@ -63,13 +61,13 @@ class FormPropertyHandler implements Serializable {
             }
         }
 
-        if (modelValue instanceof string) {
-            formProperty.setValue((string) modelValue);
+        if (cast(String)modelValue !is null) {
+            formProperty.setValue((cast(String) modelValue).value);
         } else if (type !is null) {
             string formValue = type.convertModelValueToFormValue(modelValue);
             formProperty.setValue(formValue);
         } else if (modelValue !is null) {
-            formProperty.setValue(modelValue.toString());
+            formProperty.setValue((cast(String)modelValue).value);
         }
 
         return formProperty;
@@ -77,30 +75,30 @@ class FormPropertyHandler implements Serializable {
 
     public void submitFormProperty(ExecutionEntity execution, Map!(string, string) properties) {
         if (!isWritable && properties.containsKey(id)) {
-            throw new FlowableException("form property '" + id + "' is not writable");
+            throw new FlowableException("form property '" ~ id ~ "' is not writable");
         }
 
         if (isRequired && !properties.containsKey(id) && defaultExpression is null) {
-            throw new FlowableException("form property '" + id + "' is required");
+            throw new FlowableException("form property '" ~ id ~ "' is required");
         }
         bool propertyExists = false;
         Object modelValue = null;
         if (properties.containsKey(id)) {
             propertyExists = true;
-            final string propertyValue = properties.remove(id);
+            string propertyValue = properties.remove(id);
             if (type !is null) {
                 modelValue = type.convertFormValueToModelValue(propertyValue);
             } else {
                 modelValue = propertyValue;
             }
         } else if (defaultExpression !is null) {
-            final Object expressionValue = defaultExpression.getValue(execution);
+            Object expressionValue = defaultExpression.getValue(execution);
             if (type !is null && expressionValue !is null) {
-                modelValue = type.convertFormValueToModelValue(expressionValue.toString());
+                modelValue = type.convertFormValueToModelValue((cast(String)expressionValue).value);
             } else if (expressionValue !is null) {
-                modelValue = expressionValue.toString();
+                modelValue = cast(String)expressionValue;
             } else if (isRequired) {
-                throw new FlowableException("form property '" + id + "' is required");
+                throw new FlowableException("form property '" ~ id ~ "' is required");
             }
         }
         if (propertyExists || (modelValue !is null)) {

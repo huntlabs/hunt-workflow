@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.event.SignalEventHandler;
 
 
 import hunt.collection.Map;
@@ -24,28 +24,27 @@ import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.impl.util.ProcessInstanceHelper;
 import flow.engine.repository.ProcessDefinition;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-
+import flow.engine.impl.event.AbstractEventHandler;
+import flow.bpmn.model.Process;
 /**
  * @author Daniel Meyer
  * @author Joram Barrez
  */
 class SignalEventHandler : AbstractEventHandler {
 
-    public static final string EVENT_HANDLER_TYPE = "signal";
+    public static  string EVENT_HANDLER_TYPE = "signal";
 
-    override
     public string getEventHandlerType() {
         return EVENT_HANDLER_TYPE;
     }
 
-    @SuppressWarnings("unchecked")
     override
     public void handleEvent(EventSubscriptionEntity eventSubscription, Object payload, CommandContext commandContext) {
-        if (eventSubscription.getExecutionId() !is null) {
+        if (eventSubscription.getExecutionId() !is null && eventSubscription.getExecutionId().length != 0) {
 
             super.handleEvent(eventSubscription, payload, commandContext);
 
-        } else if (eventSubscription.getProcessDefinitionId() !is null) {
+        } else if (eventSubscription.getProcessDefinitionId() !is null && eventSubscription.getProcessDefinitionId().length != 0) {
 
             // Find initial flow element matching the signal start event
             string processDefinitionId = eventSubscription.getProcessDefinitionId();
@@ -53,23 +52,23 @@ class SignalEventHandler : AbstractEventHandler {
             ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
 
             if (processDefinition.isSuspended()) {
-                throw new FlowableException("Could not handle signal: process definition with id: " + processDefinitionId + " is suspended");
+                throw new FlowableException("Could not handle signal: process definition with id: " ~ processDefinitionId ~ " is suspended");
             }
 
             FlowElement flowElement = process.getFlowElement(eventSubscription.getActivityId(), true);
             if (flowElement is null) {
-                throw new FlowableException("Could not find matching FlowElement for activityId " + eventSubscription.getActivityId());
+                throw new FlowableException("Could not find matching FlowElement for activityId " ~ eventSubscription.getActivityId());
             }
 
             // Start process instance via that flow element
             Map!(string, Object) variables = null;
-            if (payload instanceof Map) {
-                variables = (Map!(string, Object)) payload;
+            if (cast(Map!(string, Object))payload !is null) {
+                variables = cast(Map!(string, Object)) payload;
             }
             ProcessInstanceHelper processInstanceHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceHelper();
             processInstanceHelper.createAndStartProcessInstanceWithInitialFlowElement(processDefinition, null, null, flowElement, process, variables, null, true);
 
-        } else if (eventSubscription.getScopeId() !is null && ScopeTypes.CMMN.equals(eventSubscription.getScopeType())) {
+        } else if (eventSubscription.getScopeId() !is null && eventSubscription.getScopeId().length != 0 && ScopeTypes.CMMN == (eventSubscription.getScopeType())) {
             CommandContextUtil.getProcessEngineConfiguration(commandContext).getCaseInstanceService().handleSignalEvent(eventSubscription);
 
         } else {

@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.dynamic.MoveExecutionEntityContainer;
 
 import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-import java.util.Optional;
 
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.CallActivity;
@@ -32,7 +31,7 @@ class MoveExecutionEntityContainer {
     protected bool moveToSubProcessInstance;
     protected bool directExecutionMigration;
     protected string callActivityId;
-    protected Integer callActivitySubProcessVersion;
+    protected int callActivitySubProcessVersion;
     protected CallActivity callActivity;
     protected string subProcessDefKey;
     protected ProcessDefinition subProcessDefinition;
@@ -40,12 +39,14 @@ class MoveExecutionEntityContainer {
     protected BpmnModel processModel;
     protected ExecutionEntity superExecution;
     protected string newAssigneeId;
-    protected Map!(string, ExecutionEntity) continueParentExecutionMap = new HashMap<>();
-    protected Map!(string, FlowElementMoveEntry) moveToFlowElementMap = new HashMap<>();
+    protected Map!(string, ExecutionEntity) continueParentExecutionMap ;// = new HashMap<>();
+    protected Map!(string, FlowElementMoveEntry) moveToFlowElementMap ;//= new HashMap<>();
 
-    public MoveExecutionEntityContainer(List!ExecutionEntity executions, List!string moveToActivityIds) {
+    this(List!ExecutionEntity executions, List!string moveToActivityIds) {
         this.executions = executions;
         this.moveToActivityIds = moveToActivityIds;
+      continueParentExecutionMap = new HashMap!(string, ExecutionEntity);
+      moveToFlowElementMap = new HashMap!(string, FlowElementMoveEntry);
     }
 
     public List!ExecutionEntity getExecutions() {
@@ -88,11 +89,11 @@ class MoveExecutionEntityContainer {
         this.callActivityId = callActivityId;
     }
 
-    public Integer getCallActivitySubProcessVersion() {
+    public int getCallActivitySubProcessVersion() {
         return callActivitySubProcessVersion;
     }
 
-    public void setCallActivitySubProcessVersion(Integer callActivitySubProcessVersion) {
+    public void setCallActivitySubProcessVersion(int callActivitySubProcessVersion) {
         this.callActivitySubProcessVersion = callActivitySubProcessVersion;
     }
 
@@ -144,9 +145,9 @@ class MoveExecutionEntityContainer {
         this.newAssigneeId = newAssigneeId;
     }
 
-    public Optional!string getNewAssigneeId() {
-        return Optional.ofNullable(newAssigneeId);
-    }
+    //public Optional!string getNewAssigneeId() {
+    //    return Optional.ofNullable(newAssigneeId);
+    //}
 
     public void setSuperExecution(ExecutionEntity superExecution) {
         this.superExecution = superExecution;
@@ -177,15 +178,15 @@ class MoveExecutionEntityContainer {
     }
 
     public List!FlowElementMoveEntry getMoveToFlowElements() {
-        return new ArrayList<>(moveToFlowElementMap.values());
+        return new ArrayList!FlowElementMoveEntry(moveToFlowElementMap.values());
     }
 
-    public static class FlowElementMoveEntry {
+    class FlowElementMoveEntry {
 
         protected FlowElement originalFlowElement;
         protected FlowElement newFlowElement;
 
-        public FlowElementMoveEntry(FlowElement originalFlowElement, FlowElement newFlowElement) {
+        this(FlowElement originalFlowElement, FlowElement newFlowElement) {
             this.originalFlowElement = originalFlowElement;
             this.newFlowElement = newFlowElement;
         }

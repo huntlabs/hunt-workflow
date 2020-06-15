@@ -10,11 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetProcessDefinitionHistoryLevelModelCmd;
 
-
-import java.io.Serializable;
-
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.ExtensionElement;
 import flow.bpmn.model.Process;
@@ -25,21 +22,18 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.repository.ProcessDefinition;
-
+import hunt.collection.Iterator;
 /**
  * @author Tijs Rademakers
  */
-class GetProcessDefinitionHistoryLevelModelCmd implements Command!HistoryLevel, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class GetProcessDefinitionHistoryLevelModelCmd : Command!HistoryLevel {
 
     protected string processDefinitionId;
 
-    public GetProcessDefinitionHistoryLevelModelCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    override
     public HistoryLevel execute(CommandContext commandContext) {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("processDefinitionId is null");
@@ -55,7 +49,7 @@ class GetProcessDefinitionHistoryLevelModelCmd implements Command!HistoryLevel, 
         if (process.getExtensionElements().containsKey("historyLevel")) {
             ExtensionElement historyLevelElement = process.getExtensionElements().get("historyLevel").iterator().next();
             string historyLevelValue = historyLevelElement.getElementText();
-            if (StringUtils.isNotEmpty(historyLevelValue)) {
+            if (historyLevelValue !is null && historyLevelValue.length != 0) {
                 try {
                     historyLevel = HistoryLevel.getHistoryLevelForKey(historyLevelValue);
 

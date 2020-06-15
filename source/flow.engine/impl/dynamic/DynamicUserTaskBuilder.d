@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.dynamic.DynamicUserTaskBuilder;
 
 import hunt.collection.Map;
-
+import std.conv : to;
 import flow.bpmn.model.FlowElement;
+import flow.engine.impl.dynamic.DynamicUserTaskCallback;
 
 class DynamicUserTaskBuilder {
 
@@ -25,11 +26,11 @@ class DynamicUserTaskBuilder {
     protected string dynamicTaskId;
     protected int counter = 1;
 
-    public DynamicUserTaskBuilder() {
+    this() {
 
     }
 
-    public DynamicUserTaskBuilder(string id) {
+    this(string id) {
         this.id = id;
     }
 
@@ -125,8 +126,8 @@ class DynamicUserTaskBuilder {
         string nextId = null;
         bool nextIdNotFound = true;
         while (nextIdNotFound) {
-            if (!flowElementMap.containsKey(prefix + counter)) {
-                nextId = prefix + counter;
+            if (!flowElementMap.containsKey(prefix ~ to!string(counter))) {
+                nextId = prefix ~ to!string(counter);
                 nextIdNotFound = false;
             }
 

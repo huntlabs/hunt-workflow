@@ -11,19 +11,16 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.form.BooleanFormType;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.form.AbstractFormType;
-
+import hunt.Boolean;
 /**
  * @author Frederik Heremans
  */
 class BooleanFormType : AbstractFormType {
 
-    private static final long serialVersionUID = 1L;
-
-    override
     public string getName() {
         return "bool";
     }
@@ -34,10 +31,10 @@ class BooleanFormType : AbstractFormType {
 
     override
     public Object convertFormValueToModelValue(string propertyValue) {
-        if (propertyValue is null || "".equals(propertyValue)) {
+        if (propertyValue is null || "" == (propertyValue)) {
             return null;
         }
-        return bool.valueOf(propertyValue);
+        return Boolean.valueOf(propertyValue);
     }
 
     override
@@ -47,9 +44,11 @@ class BooleanFormType : AbstractFormType {
             return null;
         }
 
-        if (bool.class.isAssignableFrom(modelValue.getClass()) || bool.class.isAssignableFrom(modelValue.getClass())) {
-            return modelValue.toString();
-        }
-        throw new FlowableIllegalArgumentException("Model value is not of type bool, but of type " + modelValue.getClass().getName());
+        return (cast(Boolean)modelValue).toString();
+
+        //if (bool.class.isAssignableFrom(modelValue.getClass()) || bool.class.isAssignableFrom(modelValue.getClass())) {
+        //    return modelValue.toString();
+        //}
+        //throw new FlowableIllegalArgumentException("Model value is not of type bool, but of type " + modelValue.getClass().getName());
     }
 }

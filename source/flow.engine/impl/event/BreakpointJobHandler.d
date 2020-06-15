@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.event.BreakpointJobHandler;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.agenda.ContinueProcessOperation;
@@ -26,18 +26,16 @@ import flow.variable.service.api.deleg.VariableScope;
  *
  * @author martin.grofcik
  */
-class BreakpointJobHandler implements JobHandler {
+class BreakpointJobHandler : JobHandler {
 
-    public static final string JOB_HANDLER_TYPE = "breakpoint";
+    public static  string JOB_HANDLER_TYPE = "breakpoint";
 
-    override
     public string getType() {
         return JOB_HANDLER_TYPE;
     }
 
-    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
-        ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) variableScope;
         CommandContextUtil.getAgenda(commandContext).planOperation(new ContinueProcessOperation(commandContext, executionEntity, true, false), executionEntity);
     }
 }

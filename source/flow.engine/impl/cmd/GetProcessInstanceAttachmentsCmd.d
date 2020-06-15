@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetProcessInstanceAttachmentsCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.interceptor.Command;
@@ -24,17 +23,15 @@ import flow.engine.task.Attachment;
 /**
  * @author Tom Baeyens
  */
-class GetProcessInstanceAttachmentsCmd implements Command<List<? : Attachment>>, Serializable {
+class GetProcessInstanceAttachmentsCmd : Command!(List!Attachment) {
 
-    private static final long serialVersionUID = 1L;
     protected string processInstanceId;
 
-    public GetProcessInstanceAttachmentsCmd(string taskId) {
+    this(string taskId) {
         this.processInstanceId = taskId;
     }
 
-    override
-    public List<? : Attachment> execute(CommandContext commandContext) {
+    public List!Attachment execute(CommandContext commandContext) {
         return CommandContextUtil.getAttachmentEntityManager().findAttachmentsByProcessInstanceId(processInstanceId);
     }
 }

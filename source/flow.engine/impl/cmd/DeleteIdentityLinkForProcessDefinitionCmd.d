@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.DeleteIdentityLinkForProcessDefinitionCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -22,15 +21,13 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.ProcessDefinition;
-
+import hunt.Object;
 /**
  * @author Tijs Rademakers
  */
-class DeleteIdentityLinkForProcessDefinitionCmd implements Command!Object, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class DeleteIdentityLinkForProcessDefinitionCmd : Command!Object {
 
     protected string processDefinitionId;
 
@@ -38,7 +35,7 @@ class DeleteIdentityLinkForProcessDefinitionCmd implements Command!Object, Seria
 
     protected string groupId;
 
-    public DeleteIdentityLinkForProcessDefinitionCmd(string processDefinitionId, string userId, string groupId) {
+    this(string processDefinitionId, string userId, string groupId) {
         validateParams(userId, groupId, processDefinitionId);
         this.processDefinitionId = processDefinitionId;
         this.userId = userId;
@@ -55,19 +52,18 @@ class DeleteIdentityLinkForProcessDefinitionCmd implements Command!Object, Seria
         }
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process definition with id " + processDefinitionId, ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("Cannot find process definition with id " ~ processDefinitionId);
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.deleteCandidateStarter(processDefinitionId, userId, groupId);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.deleteCandidateStarter(processDefinitionId, userId, groupId);
+        //    return null;
+        //}
 
         CommandContextUtil.getIdentityLinkService().deleteProcessDefinitionIdentityLink(processDefinition.getId(), userId, groupId);
 

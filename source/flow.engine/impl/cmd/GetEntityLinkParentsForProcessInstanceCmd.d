@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetEntityLinkParentsForProcessInstanceCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableObjectNotFoundException;
@@ -27,22 +26,19 @@ import flow.entitylink.service.api.EntityLinkType;
 /**
  * @author Javier Casal
  */
-class GetEntityLinkParentsForProcessInstanceCmd implements Command<List!EntityLink>, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class GetEntityLinkParentsForProcessInstanceCmd : Command!(List!EntityLink) {
 
     protected string processInstanceId;
 
-    public GetEntityLinkParentsForProcessInstanceCmd(string processInstanceId) {
+    this(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    override
     public List!EntityLink execute(CommandContext commandContext) {
         ExecutionEntity processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
 
         if (processInstance is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process instance with id " + processInstanceId, ExecutionEntity.class);
+            throw new FlowableObjectNotFoundException("Cannot find process instance with id " ~ processInstanceId);
         }
 
         return CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByReferenceScopeIdAndType(

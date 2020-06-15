@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.dynamic.DynamicUserTaskCallback;
 
 import flow.bpmn.model.FlowElementsContainer;
 import flow.bpmn.model.Process;

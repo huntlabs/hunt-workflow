@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.SetProcessInstanceBusinessKeyCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -22,24 +21,22 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.runtime.ProcessInstance;
-
+import hunt.Object;
 /**
  * {@link Command} that changes the business key of an existing process instance.
  *
  * @author Tijs Rademakers
  */
-class SetProcessInstanceBusinessKeyCmd implements Command!Void, Serializable {
+class SetProcessInstanceBusinessKeyCmd : Command!Void {
 
-    private static final long serialVersionUID = 1L;
+    private  string processInstanceId;
+    private  string businessKey;
 
-    private final string processInstanceId;
-    private final string businessKey;
-
-    public SetProcessInstanceBusinessKeyCmd(string processInstanceId, string businessKey) {
+    this(string processInstanceId, string businessKey) {
         if (processInstanceId is null || processInstanceId.length() < 1) {
-            throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" + processInstanceId + "' has been provided.");
+            throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" ~ processInstanceId~ "' has been provided.");
         }
         if (businessKey is null) {
             throw new FlowableIllegalArgumentException("The business key is mandatory, but 'null' has been provided.");
@@ -49,21 +46,20 @@ class SetProcessInstanceBusinessKeyCmd implements Command!Void, Serializable {
         this.businessKey = businessKey;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         ExecutionEntityManager executionManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity processInstance = executionManager.findById(processInstanceId);
         if (processInstance is null) {
-            throw new FlowableObjectNotFoundException("No process instance found for id = '" + processInstanceId + "'.", ProcessInstance.class);
+            throw new FlowableObjectNotFoundException("No process instance found for id = '" ~ processInstanceId ~ "'.");
         } else if (!processInstance.isProcessInstanceType()) {
-            throw new FlowableIllegalArgumentException("A process instance id is required, but the provided id " + "'" + processInstanceId + "' " + "points to a child execution of process instance " + "'"
-                    + processInstance.getProcessInstanceId() + "'. " + "Please invoke the " + getClass().getSimpleName() + " with a root execution id.");
+            throw new FlowableIllegalArgumentException("A process instance id is required, but the provided id " ~ "'" ~ processInstanceId ~ "' " ~ "points to a child execution of process instance " ~ "'"
+                    ~ processInstance.getProcessInstanceId() ~ "'. " ~ "Please invoke the "  ~ " with a root execution id.");
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
-            CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler().updateBusinessKey(processInstanceId, businessKey);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
+        //    CommandContextUtil.getProcessEngineConfiguration(commandContext).getFlowable5CompatibilityHandler().updateBusinessKey(processInstanceId, businessKey);
+        //    return null;
+        //}
 
         executionManager.updateProcessInstanceBusinessKey(processInstance, businessKey);
 

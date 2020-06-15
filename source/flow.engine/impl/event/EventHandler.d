@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.event.EventHandler;
 
 import flow.common.interceptor.CommandContext;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;

@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.NeedsActiveProcessDefinitionCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.interceptor.Command;
@@ -24,13 +23,11 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Joram Barrez
  */
-abstract class NeedsActiveProcessDefinitionCmd!T implements Command!T, Serializable {
-
-    private static final long serialVersionUID = 1L;
+abstract class NeedsActiveProcessDefinitionCmd(T) : Command!T {
 
     protected string processDefinitionId;
 
-    public NeedsActiveProcessDefinitionCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
@@ -39,7 +36,7 @@ abstract class NeedsActiveProcessDefinitionCmd!T implements Command!T, Serializa
         ProcessDefinitionEntity processDefinition = ProcessDefinitionUtil.getProcessDefinitionFromDatabase(processDefinitionId);
 
         if (processDefinition.isSuspended()) {
-            throw new FlowableException("Cannot execute operation because process definition '" + processDefinition.getName() + "' (id=" + processDefinition.getId() + ") is suspended");
+            throw new FlowableException("Cannot execute operation because process definition '" ~ processDefinition.getName() ~ "' (id=" ~ processDefinition.getId() ~ ") is suspended");
         }
 
         return execute(commandContext, processDefinition);

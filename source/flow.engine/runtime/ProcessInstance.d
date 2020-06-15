@@ -50,7 +50,7 @@ interface ProcessInstance : Execution {
     /**
      * The version of the process definition of the process instance.
      */
-    Integer getProcessDefinitionVersion();
+    int getProcessDefinitionVersion();
 
     /**
      * The deployment id of the process definition of the process instance.

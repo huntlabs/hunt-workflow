@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.event.CompensationEventHandler;
 
 import hunt.collection.List;
 
@@ -33,23 +33,22 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
+import flow.engine.impl.event.EventHandler;
 
 /**
  * @author Tijs Rademakers
  */
-class CompensationEventHandler implements EventHandler {
+class CompensationEventHandler : EventHandler {
 
-    override
     public string getEventHandlerType() {
         return CompensateEventSubscriptionEntity.EVENT_TYPE;
     }
 
-    override
     public void handleEvent(EventSubscriptionEntity eventSubscription, Object payload, CommandContext commandContext) {
 
         string configuration = eventSubscription.getConfiguration();
         if (configuration is null) {
-            throw new FlowableException("Compensating execution not set for compensate event subscription with id " + eventSubscription.getId());
+            throw new FlowableException("Compensating execution not set for compensate event subscription with id " ~ eventSubscription.getId());
         }
 
         ExecutionEntity compensatingExecution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(configuration);
@@ -57,12 +56,12 @@ class CompensationEventHandler implements EventHandler {
         string processDefinitionId = compensatingExecution.getProcessDefinitionId();
         Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
         if (process is null) {
-            throw new FlowableException("Cannot start process instance. Process model (id = " + processDefinitionId + ") could not be found");
+            throw new FlowableException("Cannot start process instance. Process model (id = " ~ processDefinitionId ~ ") could not be found");
         }
 
         FlowElement flowElement = process.getFlowElement(eventSubscription.getActivityId(), true);
 
-        if (flowElement instanceof SubProcess && !((SubProcess) flowElement).isForCompensation()) {
+        if (cast(SubProcess)flowElement !is null && !(cast(SubProcess) flowElement).isForCompensation()) {
 
             // descend into scope:
             compensatingExecution.setScope(true);
@@ -81,15 +80,15 @@ class CompensationEventHandler implements EventHandler {
                 }
 
                 Activity compensationActivity = null;
-                Activity activity = (Activity) flowElement;
+                Activity activity = cast(Activity) flowElement;
                 if (!activity.isForCompensation() && activity.getBoundaryEvents().size() > 0) {
-                    for (BoundaryEvent boundaryEvent : activity.getBoundaryEvents()) {
-                        if (boundaryEvent.getEventDefinitions().size() > 0 && boundaryEvent.getEventDefinitions().get(0) instanceof CompensateEventDefinition) {
+                    foreach (BoundaryEvent boundaryEvent ; activity.getBoundaryEvents()) {
+                        if (boundaryEvent.getEventDefinitions().size() > 0 && cast(CompensateEventDefinition)(boundaryEvent.getEventDefinitions().get(0)) !is null) {
                             List!Association associations = process.findAssociationsWithSourceRefRecursive(boundaryEvent.getId());
-                            for (Association association : associations) {
+                            foreach (Association association ; associations) {
                                 FlowElement targetElement = process.getFlowElement(association.getTargetRef(), true);
-                                if (targetElement instanceof Activity) {
-                                    Activity targetActivity = (Activity) targetElement;
+                                if (targetElement !is null) {
+                                    Activity targetActivity = cast(Activity) targetElement;
                                     if (targetActivity.isForCompensation()) {
                                         compensationActivity = targetActivity;
                                         break;
@@ -108,7 +107,7 @@ class CompensationEventHandler implements EventHandler {
                 CommandContextUtil.getAgenda().planContinueProcessInCompensation(compensatingExecution);
 
             } catch (Exception e) {
-                throw new FlowableException("Error while handling compensation event " + eventSubscription, e);
+                throw new FlowableException("Error while handling compensation event ");
             }
 
         }

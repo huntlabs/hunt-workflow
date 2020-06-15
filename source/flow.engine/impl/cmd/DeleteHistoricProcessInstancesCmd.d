@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.DeleteHistoricProcessInstancesCmd;
 
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
@@ -21,16 +20,14 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.HistoricProcessInstanceQueryImpl;
 import flow.engine.impl.util.CommandContextUtil;
 
-class DeleteHistoricProcessInstancesCmd implements Command!Object, Serializable {
+class DeleteHistoricProcessInstancesCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
     protected HistoricProcessInstanceQueryImpl historicProcessInstanceQuery;
 
-    public DeleteHistoricProcessInstancesCmd(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery) {
+    this(HistoricProcessInstanceQueryImpl historicProcessInstanceQuery) {
         this.historicProcessInstanceQuery = historicProcessInstanceQuery;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         if (historicProcessInstanceQuery is null) {
             throw new FlowableIllegalArgumentException("query is null");

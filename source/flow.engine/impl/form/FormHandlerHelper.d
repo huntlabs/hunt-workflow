@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.form.FormHandlerHelper;
 
 import hunt.collection.List;
 
@@ -24,6 +24,11 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.engine.repository.ProcessDefinition;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.engine.impl.form.StartFormHandler;
+import flow.bpmn.model.Process;
+import flow.engine.impl.form.TaskFormHandler;
+import flow.engine.impl.form.DefaultStartFormHandler;
+import flow.engine.impl.form.DefaultTaskFormHandler;
 
 /**
  * @author Joram Barrez
@@ -35,9 +40,9 @@ class FormHandlerHelper {
         flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinition.getId());
 
         FlowElement initialFlowElement = process.getInitialFlowElement();
-        if (initialFlowElement instanceof StartEvent) {
+        if (cast(StartEvent)initialFlowElement !is null) {
 
-            StartEvent startEvent = (StartEvent) initialFlowElement;
+            StartEvent startEvent = cast(StartEvent) initialFlowElement;
 
             List!FormProperty formProperties = startEvent.getFormProperties();
             string formKey = startEvent.getFormKey();
@@ -54,8 +59,8 @@ class FormHandlerHelper {
     public TaskFormHandler getTaskFormHandlder(string processDefinitionId, string taskId) {
         flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
         FlowElement flowElement = process.getFlowElement(taskId, true);
-        if (flowElement instanceof UserTask) {
-            UserTask userTask = (UserTask) flowElement;
+        if (cast(UserTask)flowElement !is null) {
+            UserTask userTask = cast(UserTask) flowElement;
 
             ProcessDefinition processDefinitionEntity = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
             DeploymentEntity deploymentEntity = CommandContextUtil.getProcessEngineConfiguration()
@@ -71,7 +76,7 @@ class FormHandlerHelper {
     }
 
     public TaskFormHandler getTaskFormHandlder(TaskEntity taskEntity) {
-        if (taskEntity.getProcessDefinitionId() !is null) {
+        if (taskEntity.getProcessDefinitionId() !is null && taskEntity.getProcessDefinitionId().length != 0) {
             return getTaskFormHandlder(taskEntity.getProcessDefinitionId(), taskEntity.getTaskDefinitionKey());
         }
         return null;

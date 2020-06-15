@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.form.FormDataImpl;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
@@ -23,28 +22,30 @@ import flow.engine.form.FormProperty;
 /**
  * @author Tom Baeyens
  */
-abstract class FormDataImpl implements FormData, Serializable {
-
-    private static final long serialVersionUID = 1L;
+abstract class FormDataImpl : FormData {
 
     protected string formKey;
     protected string deploymentId;
-    protected List!FormProperty formProperties = new ArrayList<>();
+    protected List!FormProperty formProperties ;//= new ArrayList<>();
 
     // getters and setters
     // //////////////////////////////////////////////////////
+    this()
+    {
+      formProperties = new ArrayList!FormProperty;
+    }
 
-    override
+
     public string getFormKey() {
         return formKey;
     }
 
-    override
+
     public string getDeploymentId() {
         return deploymentId;
     }
 
-    override
+
     public List!FormProperty getFormProperties() {
         return formProperties;
     }

@@ -10,40 +10,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.form.DateFormType;
 
 
-
-import java.text.Format;
-import java.text.ParseException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.FastDateFormat;
+//import java.text.Format;
+//import java.text.ParseException;
+//
+//import org.apache.commons.lang3.StringUtils;
+//import org.apache.commons.lang3.time.FastDateFormat;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.form.AbstractFormType;
-
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  */
 class DateFormType : AbstractFormType {
 
-    private static final long serialVersionUID = 1L;
-
     protected string datePattern;
-    protected Format dateFormat;
+   // protected Format dateFormat;
 
-    public DateFormType(string datePattern) {
+    this(string datePattern) {
         this.datePattern = datePattern;
-        this.dateFormat = FastDateFormat.getInstance(datePattern);
+      //  this.dateFormat = FastDateFormat.getInstance(datePattern);
     }
 
-    override
     public string getName() {
         return "date";
     }
 
     override
     public Object getInformation(string key) {
-        if ("datePattern".equals(key)) {
+        if ("datePattern" == (key)) {
             return datePattern;
         }
         return null;
@@ -51,21 +48,25 @@ class DateFormType : AbstractFormType {
 
     override
     public Object convertFormValueToModelValue(string propertyValue) {
-        if (StringUtils.isEmpty(propertyValue)) {
-            return null;
-        }
-        try {
-            return dateFormat.parseObject(propertyValue);
-        } catch (ParseException e) {
-            throw new FlowableIllegalArgumentException("invalid date value " + propertyValue, e);
-        }
+        implementationMissing(false);
+        return null;
+        //if (propertyValue is null || propertyValue.length == 0) {
+        //    return null;
+        //}
+        //try {
+        //    return dateFormat.parseObject(propertyValue);
+        //} catch (ParseException e) {
+        //    throw new FlowableIllegalArgumentException("invalid date value " + propertyValue, e);
+        //}
     }
 
     override
     public string convertModelValueToFormValue(Object modelValue) {
-        if (modelValue is null) {
-            return null;
-        }
-        return dateFormat.format(modelValue);
+        implementationMissing(false);
+        return "";
+        //if (modelValue is null) {
+        //    return null;
+        //}
+        //return dateFormat.format(modelValue);
     }
 }

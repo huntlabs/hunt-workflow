@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetHistoricEntityLinkChildrenForTaskCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableIllegalArgumentException;
@@ -26,19 +25,17 @@ import flow.entitylink.service.api.history.HistoricEntityLink;
 /**
  * @author Javier Casal
  */
-class GetHistoricEntityLinkChildrenForTaskCmd implements Command<List!HistoricEntityLink>, Serializable {
+class GetHistoricEntityLinkChildrenForTaskCmd : Command!(List!HistoricEntityLink) {
 
-    private static final long serialVersionUID = 1L;
     protected string taskId;
 
-    public GetHistoricEntityLinkChildrenForTaskCmd(string taskId) {
+    this(string taskId) {
         if (taskId is null) {
             throw new FlowableIllegalArgumentException("taskId is required");
         }
         this.taskId = taskId;
     }
 
-    override
     public List!HistoricEntityLink execute(CommandContext commandContext) {
         return CommandContextUtil.getHistoricEntityLinkService().findHistoricEntityLinksByScopeIdAndScopeType(
             taskId, ScopeTypes.TASK, EntityLinkType.CHILD);

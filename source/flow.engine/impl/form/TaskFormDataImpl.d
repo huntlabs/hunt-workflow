@@ -11,24 +11,22 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.form.TaskFormDataImpl;
 
 import flow.engine.form.TaskFormData;
 import flow.task.api.Task;
-
+import flow.engine.impl.form.FormDataImpl;
 /**
  * @author Tom Baeyens
  */
-class TaskFormDataImpl : FormDataImpl implements TaskFormData {
+class TaskFormDataImpl : FormDataImpl , TaskFormData {
 
-    private static final long serialVersionUID = 1L;
 
     protected Task task;
 
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    override
     public Task getTask() {
         return task;
     }

@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetIdentityLinksForProcessDefinitionCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 
 import flow.common.api.FlowableObjectNotFoundException;
@@ -26,25 +25,22 @@ import flow.identitylink.api.IdentityLink;
 /**
  * @author Tijs Rademakers
  */
-class GetIdentityLinksForProcessDefinitionCmd implements Command<List!IdentityLink>, Serializable {
+class GetIdentityLinksForProcessDefinitionCmd : Command!(List!IdentityLink) {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
 
-    public GetIdentityLinksForProcessDefinitionCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    override
     public List!IdentityLink execute(CommandContext commandContext) {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process definition with id " + processDefinitionId, ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("Cannot find process definition with id " ~ processDefinitionId);
         }
 
-        List!IdentityLink identityLinks = (List) processDefinition.getIdentityLinks();
+        List!IdentityLink identityLinks = cast(List!IdentityLink) processDefinition.getIdentityLinks();
         return identityLinks;
     }
 

@@ -10,19 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.form.LongFormType;
 
 
 import flow.engine.form.AbstractFormType;
-
+import hunt.Long;
 /**
  * @author Tom Baeyens
  */
 class LongFormType : AbstractFormType {
 
-    private static final long serialVersionUID = 1L;
 
-    override
     public string getName() {
         return "long";
     }
@@ -31,19 +29,19 @@ class LongFormType : AbstractFormType {
         return "plain/text";
     }
 
-    override
+
     public Object convertFormValueToModelValue(string propertyValue) {
-        if (propertyValue is null || "".equals(propertyValue)) {
+        if (propertyValue is null || "" == (propertyValue)) {
             return null;
         }
         return Long.valueOf(propertyValue);
     }
 
-    override
+
     public string convertModelValueToFormValue(Object modelValue) {
         if (modelValue is null) {
             return null;
         }
-        return modelValue.toString();
+        return (cast(Long)modelValue).toString;
     }
 }

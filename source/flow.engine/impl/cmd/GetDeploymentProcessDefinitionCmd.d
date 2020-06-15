@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.GetDeploymentProcessDefinitionCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -23,16 +22,14 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Tom Baeyens
  */
-class GetDeploymentProcessDefinitionCmd implements Command!ProcessDefinition, Serializable {
+class GetDeploymentProcessDefinitionCmd : Command!ProcessDefinition {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
 
-    public GetDeploymentProcessDefinitionCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    override
     public ProcessDefinition execute(CommandContext commandContext) {
         return CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
     }

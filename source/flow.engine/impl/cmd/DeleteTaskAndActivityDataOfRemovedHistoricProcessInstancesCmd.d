@@ -11,19 +11,15 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.DeleteTaskAndActivityDataOfRemovedHistoricProcessInstancesCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 
-class DeleteTaskAndActivityDataOfRemovedHistoricProcessInstancesCmd implements Command!Object, Serializable {
+class DeleteTaskAndActivityDataOfRemovedHistoricProcessInstancesCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
-
-    override
     public Object execute(CommandContext commandContext) {
         CommandContextUtil.getHistoricTaskService(commandContext).deleteHistoricTaskInstancesForNonExistingProcessInstances();
         CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).deleteHistoricActivityInstancesForNonExistingProcessInstances();

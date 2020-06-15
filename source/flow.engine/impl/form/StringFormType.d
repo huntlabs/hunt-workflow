@@ -11,18 +11,16 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.form.StringFormType;
 
 import flow.engine.form.AbstractFormType;
-
+import hunt.String;
 /**
  * @author Tom Baeyens
  */
 class StringFormType : AbstractFormType {
 
-    private static final long serialVersionUID = 1L;
 
-    override
     public string getName() {
         return "string";
     }
@@ -33,12 +31,12 @@ class StringFormType : AbstractFormType {
 
     override
     public Object convertFormValueToModelValue(string propertyValue) {
-        return propertyValue;
+        return new String(propertyValue);
     }
 
     override
     public string convertModelValueToFormValue(Object modelValue) {
-        return (string) modelValue;
+        return (cast(String) modelValue).value;
     }
 
 }

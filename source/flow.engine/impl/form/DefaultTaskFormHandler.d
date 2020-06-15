@@ -10,32 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.form.DefaultTaskFormHandler;
 
 
 import flow.engine.form.TaskFormData;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.task.service.impl.persistence.entity.TaskEntity;
-
+import flow.engine.impl.form.DefaultFormHandler;
+import flow.engine.impl.form.TaskFormHandler;
+import flow.engine.impl.form.TaskFormDataImpl;
+import hunt.String;
 /**
  * @author Tom Baeyens
  */
-class DefaultTaskFormHandler : DefaultFormHandler implements TaskFormHandler {
+class DefaultTaskFormHandler : DefaultFormHandler , TaskFormHandler {
 
-    override
     public TaskFormData createTaskForm(TaskEntity task) {
         TaskFormDataImpl taskFormData = new TaskFormDataImpl();
 
         ExecutionEntity executionEntity = null;
-        if (task.getExecutionId() !is null) {
+        if (task.getExecutionId() !is null && task.getExecutionId().length != 0) {
             executionEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getExecutionId());
         }
 
         if (formKey !is null) {
             Object formValue = formKey.getValue(executionEntity);
             if (formValue !is null) {
-                taskFormData.setFormKey(formValue.toString());
+                taskFormData.setFormKey((cast(String)formValue).value);
             }
         }
         taskFormData.setDeploymentId(deploymentId);

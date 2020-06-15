@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.AddIdentityLinkForProcessInstanceCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -22,16 +21,15 @@ import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.impl.util.IdentityLinkUtil;
+import hunt.Object;
 
 /**
  * @author Marcus Klimstra
  * @author Joram Barrez
  */
-class AddIdentityLinkForProcessInstanceCmd implements Command!Void, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class AddIdentityLinkForProcessInstanceCmd : Command!Void {
 
     protected string processInstanceId;
 
@@ -41,7 +39,7 @@ class AddIdentityLinkForProcessInstanceCmd implements Command!Void, Serializable
 
     protected string type;
 
-    public AddIdentityLinkForProcessInstanceCmd(string processInstanceId, string userId, string groupId, string type) {
+    this(string processInstanceId, string userId, string groupId, string type) {
         validateParams(processInstanceId, userId, groupId, type);
         this.processInstanceId = processInstanceId;
         this.userId = userId;
@@ -65,21 +63,20 @@ class AddIdentityLinkForProcessInstanceCmd implements Command!Void, Serializable
 
     }
 
-    override
     public Void execute(CommandContext commandContext) {
 
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
         ExecutionEntity processInstance = executionEntityManager.findById(processInstanceId);
 
         if (processInstance is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process instance with id " + processInstanceId, ExecutionEntity.class);
+            throw new FlowableObjectNotFoundException("Cannot find process instance with id " ~ processInstanceId);
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.addIdentityLinkForProcessInstance(processInstanceId, userId, groupId, type);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, processInstance.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.addIdentityLinkForProcessInstance(processInstanceId, userId, groupId, type);
+        //    return null;
+        //}
 
         IdentityLinkUtil.createProcessInstanceIdentityLink(processInstance, userId, groupId, type);
         CommandContextUtil.getHistoryManager(commandContext).createProcessInstanceIdentityLinkComment(processInstance, userId, groupId, type, true);

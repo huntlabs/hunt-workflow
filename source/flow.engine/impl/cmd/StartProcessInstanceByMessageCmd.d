@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.cmd.StartProcessInstanceByMessageCmd;
 
 import hunt.collection.Map;
 
@@ -32,7 +32,7 @@ import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscr
  * @author Joram Barrez
  * @author Tijs Rademakers
  */
-class StartProcessInstanceByMessageCmd implements Command!ProcessInstance {
+class StartProcessInstanceByMessageCmd : Command!ProcessInstance {
 
     protected string messageName;
     protected string businessKey;
@@ -44,14 +44,14 @@ class StartProcessInstanceByMessageCmd implements Command!ProcessInstance {
     protected string referenceType;
     protected string tenantId;
 
-    public StartProcessInstanceByMessageCmd(string messageName, string businessKey, Map!(string, Object) processVariables, string tenantId) {
+    this(string messageName, string businessKey, Map!(string, Object) processVariables, string tenantId) {
         this.messageName = messageName;
         this.businessKey = businessKey;
         this.processVariables = processVariables;
         this.tenantId = tenantId;
     }
 
-    public StartProcessInstanceByMessageCmd(ProcessInstanceBuilderImpl processInstanceBuilder) {
+    this(ProcessInstanceBuilderImpl processInstanceBuilder) {
         this(processInstanceBuilder.getMessageName(),
              processInstanceBuilder.getBusinessKey(),
              processInstanceBuilder.getVariables(),
@@ -63,7 +63,6 @@ class StartProcessInstanceByMessageCmd implements Command!ProcessInstance {
         this.referenceType = processInstanceBuilder.getReferenceType();
     }
 
-    override
     public ProcessInstance execute(CommandContext commandContext) {
 
         if (messageName is null) {
@@ -73,19 +72,19 @@ class StartProcessInstanceByMessageCmd implements Command!ProcessInstance {
         MessageEventSubscriptionEntity messageEventSubscription = CommandContextUtil.getEventSubscriptionService(commandContext).findMessageStartEventSubscriptionByName(messageName, tenantId);
 
         if (messageEventSubscription is null) {
-            throw new FlowableObjectNotFoundException("Cannot start process instance by message: no subscription to message with name '" + messageName + "' found.", MessageEventSubscriptionEntity.class);
+            throw new FlowableObjectNotFoundException("Cannot start process instance by message: no subscription to message with name '" ~ messageName ~ "' found.");
         }
 
         string processDefinitionId = messageEventSubscription.getConfiguration();
         if (processDefinitionId is null) {
-            throw new FlowableException("Cannot start process instance by message: subscription to message with name '" + messageName + "' is not a message start event.");
+            throw new FlowableException("Cannot start process instance by message: subscription to message with name '" ~ messageName ~ "' is not a message start event.");
         }
 
         DeploymentManager deploymentCache = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager();
 
         ProcessDefinition processDefinition = deploymentCache.findDeployedProcessDefinitionById(processDefinitionId);
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("No process definition found for id '" + processDefinitionId + "'", ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("No process definition found for id '" ~ processDefinitionId ~ "'");
         }
 
         ProcessInstanceHelper processInstanceHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceHelper();

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.SetProcessDefinitionCategoryCmd;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -24,23 +24,22 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 import flow.engine.repository.ProcessDefinition;
-
+import hunt.Object;
 /**
  * @author Joram Barrez
  */
-class SetProcessDefinitionCategoryCmd implements Command!Void {
+class SetProcessDefinitionCategoryCmd : Command!Void {
 
     protected string processDefinitionId;
     protected string category;
 
-    public SetProcessDefinitionCategoryCmd(string processDefinitionId, string category) {
+    this(string processDefinitionId, string category) {
         this.processDefinitionId = processDefinitionId;
         this.category = category;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
 
         if (processDefinitionId is null) {
@@ -50,14 +49,14 @@ class SetProcessDefinitionCategoryCmd implements Command!Void {
         ProcessDefinitionEntity processDefinition = CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findById(processDefinitionId);
 
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("No process definition found for id = '" + processDefinitionId + "'", ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("No process definition found for id = '" ~ processDefinitionId ~ "'");
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.setProcessDefinitionCategory(processDefinitionId, category);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.setProcessDefinitionCategory(processDefinitionId, category);
+        //    return null;
+        //}
 
         // Update category
         processDefinition.setCategory(category);

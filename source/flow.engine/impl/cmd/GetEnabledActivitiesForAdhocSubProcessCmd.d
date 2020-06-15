@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetEnabledActivitiesForAdhocSubProcessCmd;
 
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 
@@ -30,29 +29,27 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class GetEnabledActivitiesForAdhocSubProcessCmd implements Command<List!FlowNode>, Serializable {
+class GetEnabledActivitiesForAdhocSubProcessCmd : Command!(List!FlowNode) {
 
-    private static final long serialVersionUID = 1L;
     protected string executionId;
 
-    public GetEnabledActivitiesForAdhocSubProcessCmd(string executionId) {
+    this(string executionId) {
         this.executionId = executionId;
     }
 
-    override
     public List!FlowNode execute(CommandContext commandContext) {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
         if (execution is null) {
-            throw new FlowableObjectNotFoundException("No execution found for id '" + executionId + "'", ExecutionEntity.class);
+            throw new FlowableObjectNotFoundException("No execution found for id '" ~ executionId ~ "'");
         }
 
-        if (!(execution.getCurrentFlowElement() instanceof AdhocSubProcess)) {
-            throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
-        }
+        //if (!(execution.getCurrentFlowElement() instanceof AdhocSubProcess)) {
+        //    throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
+        //}
 
-        List!FlowNode enabledFlowNodes = new ArrayList<>();
+        List!FlowNode enabledFlowNodes = new ArrayList!FlowNode();
 
-        AdhocSubProcess adhocSubProcess = (AdhocSubProcess) execution.getCurrentFlowElement();
+        AdhocSubProcess adhocSubProcess = cast(AdhocSubProcess) execution.getCurrentFlowElement();
 
         // if sequential ordering, only one child execution can be active, so no enabled activities
         if (adhocSubProcess.hasSequentialOrdering()) {
@@ -61,9 +58,9 @@ class GetEnabledActivitiesForAdhocSubProcessCmd implements Command<List!FlowNode
             }
         }
 
-        for (FlowElement flowElement : adhocSubProcess.getFlowElements()) {
-            if (flowElement instanceof FlowNode) {
-                FlowNode flowNode = (FlowNode) flowElement;
+        foreach (FlowElement flowElement ; adhocSubProcess.getFlowElements()) {
+            if (cast(FlowNode)flowElement !is null) {
+                FlowNode flowNode = cast(FlowNode) flowElement;
                 if (flowNode.getIncomingFlows().size() == 0) {
                     enabledFlowNodes.add(flowNode);
                 }

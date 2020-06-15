@@ -10,39 +10,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.el.UelExpressionCondition;
 
 
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.Condition;
-
+import hunt.Boolean;
 /**
  * {@link Condition} that resolves an UEL expression at runtime.
  *
  * @author Joram Barrez
  * @author Frederik Heremans
  */
-class UelExpressionCondition implements Condition {
+class UelExpressionCondition : Condition {
 
     protected Expression expression;
 
-    public UelExpressionCondition(Expression expression) {
+    this(Expression expression) {
         this.expression = expression;
     }
 
-    override
     public bool evaluate(string sequenceFlowId, DelegateExecution execution) {
         Object result = expression.getValue(execution);
 
         if (result is null) {
-            throw new FlowableException("condition expression returns null (sequenceFlowId: " + sequenceFlowId + ")" );
+            throw new FlowableException("condition expression returns null (sequenceFlowId: " ~ sequenceFlowId ~ ")" );
         }
-        if (!(result instanceof bool)) {
-            throw new FlowableException("condition expression returns non-bool (sequenceFlowId: " + sequenceFlowId + "): " + result + " (" + result.getClass().getName() + ")");
-        }
-        return (bool) result;
+        //if (!(result instanceof bool)) {
+        //    throw new FlowableException("condition expression returns non-bool (sequenceFlowId: " + sequenceFlowId + "): " + result + " (" + result.getClass().getName() + ")");
+        //}
+        return (cast(Boolean) result).booleanValue();
     }
 
 }

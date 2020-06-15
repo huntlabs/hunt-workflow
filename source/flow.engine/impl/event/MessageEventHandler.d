@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.event.MessageEventHandler;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -21,15 +21,14 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-
+import flow.engine.impl.event.AbstractEventHandler;
 /**
  * @author Daniel Meyer
  */
 class MessageEventHandler : AbstractEventHandler {
 
-    public static final string EVENT_HANDLER_TYPE = "message";
+    public static  string EVENT_HANDLER_TYPE = "message";
 
-    override
     public string getEventHandlerType() {
         return EVENT_HANDLER_TYPE;
     }

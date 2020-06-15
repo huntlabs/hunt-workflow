@@ -10,25 +10,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.form.FormTypes;
 
 
 import hunt.collection.HashMap;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.FormProperty;
 import flow.bpmn.model.FormValue;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.form.AbstractFormType;
+import flow.engine.impl.form.DateFormType;
+import flow.engine.impl.form.EnumFormType;
 
 /**
  * @author Tom Baeyens
  */
 class FormTypes {
 
-    protected Map!(string, AbstractFormType) formTypes = new HashMap<>();
+    protected Map!(string, AbstractFormType) formTypes ;//= new HashMap<>();
+
+    this()
+    {
+      formTypes = new HashMap!(string, AbstractFormType);
+    }
 
     public void addFormType(AbstractFormType formType) {
         formTypes.put(formType.getName(), formType);
@@ -37,22 +43,22 @@ class FormTypes {
     public AbstractFormType parseFormPropertyType(FormProperty formProperty) {
         AbstractFormType formType = null;
 
-        if ("date".equals(formProperty.getType()) && StringUtils.isNotEmpty(formProperty.getDatePattern())) {
+        if ("date" == (formProperty.getType()) && (formProperty.getDatePattern() !is null && formProperty.getDatePattern().length != 0)) {
             formType = new DateFormType(formProperty.getDatePattern());
 
-        } else if ("enum".equals(formProperty.getType())) {
+        } else if ("enum" == (formProperty.getType())) {
             // ACT-1023: Using linked hashmap to preserve the order in which the
             // entries are defined
-            Map!(string, string) values = new LinkedHashMap<>();
-            for (FormValue formValue : formProperty.getFormValues()) {
+            Map!(string, string) values = new LinkedHashMap!(string, string);
+            foreach (FormValue formValue ; formProperty.getFormValues()) {
                 values.put(formValue.getId(), formValue.getName());
             }
             formType = new EnumFormType(values);
 
-        } else if (StringUtils.isNotEmpty(formProperty.getType())) {
+        } else if (formProperty.getType() !is null && formProperty.getType().length != 0) {
             formType = formTypes.get(formProperty.getType());
             if (formType is null) {
-                throw new FlowableIllegalArgumentException("unknown type '" + formProperty.getType() + "' " + formProperty.getId());
+                throw new FlowableIllegalArgumentException("unknown type '" ~ formProperty.getType() ~ "' " ~ formProperty.getId());
             }
         }
         return formType;

@@ -11,20 +11,16 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.entitylink.service.api.history.HistoricEntityLinkService;
 
-class DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd implements Command!Object, Serializable {
+class DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
-
-    override
     public Object execute(CommandContext commandContext) {
         CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricProcessIdentityLinksForNonExistingInstances();
         CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricTaskIdentityLinksForNonExistingInstances();

@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.cmd.DeleteHistoricProcessInstanceCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -23,21 +22,19 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.Flowable5Util;
+//import flow.engine.impl.util.Flowable5Util;
 
 /**
  * @author Frederik Heremans
  */
-class DeleteHistoricProcessInstanceCmd implements Command!Object, Serializable {
+class DeleteHistoricProcessInstanceCmd : Command!Object {
 
-    private static final long serialVersionUID = 1L;
     protected string processInstanceId;
 
-    public DeleteHistoricProcessInstanceCmd(string processInstanceId) {
+    this(string processInstanceId) {
         this.processInstanceId = processInstanceId;
     }
 
-    override
     public Object execute(CommandContext commandContext) {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
@@ -46,17 +43,17 @@ class DeleteHistoricProcessInstanceCmd implements Command!Object, Serializable {
         HistoricProcessInstance instance = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findById(processInstanceId);
 
         if (instance is null) {
-            throw new FlowableObjectNotFoundException("No historic process instance found with id: " + processInstanceId, HistoricProcessInstance.class);
+            throw new FlowableObjectNotFoundException("No historic process instance found with id: " ~ processInstanceId);
         }
         if (instance.getEndTime() is null) {
-            throw new FlowableException("Process instance is still running, cannot delete historic process instance: " + processInstanceId);
+            throw new FlowableException("Process instance is still running, cannot delete historic process instance: " ~ processInstanceId);
         }
 
-        if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, instance.getProcessDefinitionId())) {
-            Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-            compatibilityHandler.deleteHistoricProcessInstance(processInstanceId);
-            return null;
-        }
+        //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, instance.getProcessDefinitionId())) {
+        //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+        //    compatibilityHandler.deleteHistoricProcessInstance(processInstanceId);
+        //    return null;
+        //}
 
         CommandContextUtil.getHistoryManager(commandContext).recordProcessInstanceDeleted(processInstanceId, instance.getProcessDefinitionId(), instance.getTenantId());
 

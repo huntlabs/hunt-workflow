@@ -10,25 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.form.StartFormDataImpl;
 
 
 import flow.engine.form.StartFormData;
 import flow.engine.repository.ProcessDefinition;
-
+import flow.engine.impl.form.FormDataImpl;
 /**
  * @author Tom Baeyens
  */
-class StartFormDataImpl : FormDataImpl implements StartFormData {
+class StartFormDataImpl : FormDataImpl , StartFormData {
 
-    private static final long serialVersionUID = 1L;
 
     protected ProcessDefinition processDefinition;
 
     // getters and setters
     // //////////////////////////////////////////////////////
 
-    override
     public ProcessDefinition getProcessDefinition() {
         return processDefinition;
     }

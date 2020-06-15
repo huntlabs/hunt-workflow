@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.ExecuteActivityForAdhocSubProcessCmd;
 
 
-
-import java.io.Serializable;
 
 import flow.bpmn.model.AdhocSubProcess;
 import flow.bpmn.model.FlowElement;
@@ -29,30 +28,28 @@ import flow.engine.runtime.Execution;
 /**
  * @author Tijs Rademakers
  */
-class ExecuteActivityForAdhocSubProcessCmd implements Command!Execution, Serializable {
+class ExecuteActivityForAdhocSubProcessCmd : Command!Execution {
 
-    private static final long serialVersionUID = 1L;
     protected string executionId;
     protected string activityId;
 
-    public ExecuteActivityForAdhocSubProcessCmd(string executionId, string activityId) {
+    this(string executionId, string activityId) {
         this.executionId = executionId;
         this.activityId = activityId;
     }
 
-    override
     public Execution execute(CommandContext commandContext) {
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
         if (execution is null) {
-            throw new FlowableObjectNotFoundException("No execution found for id '" + executionId + "'", ExecutionEntity.class);
+            throw new FlowableObjectNotFoundException("No execution found for id '" ~ executionId ~ "'");
         }
 
-        if (!(execution.getCurrentFlowElement() instanceof AdhocSubProcess)) {
-            throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
-        }
+        //if (!(execution.getCurrentFlowElement() instanceof AdhocSubProcess)) {
+        //    throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
+        //}
 
         FlowNode foundNode = null;
-        AdhocSubProcess adhocSubProcess = (AdhocSubProcess) execution.getCurrentFlowElement();
+        AdhocSubProcess adhocSubProcess = cast(AdhocSubProcess) execution.getCurrentFlowElement();
 
         // if sequential ordering, only one child execution can be active
         if (adhocSubProcess.hasSequentialOrdering()) {
@@ -61,9 +58,9 @@ class ExecuteActivityForAdhocSubProcessCmd implements Command!Execution, Seriali
             }
         }
 
-        for (FlowElement flowElement : adhocSubProcess.getFlowElements()) {
-            if (activityId.equals(flowElement.getId()) && flowElement instanceof FlowNode) {
-                FlowNode flowNode = (FlowNode) flowElement;
+        foreach (FlowElement flowElement ; adhocSubProcess.getFlowElements()) {
+            if (activityId == (flowElement.getId()) && cast(FlowNode)flowElement !is null) {
+                FlowNode flowNode = cast(FlowNode) flowElement;
                 if (flowNode.getIncomingFlows().size() == 0) {
                     foundNode = flowNode;
                 }
@@ -71,7 +68,7 @@ class ExecuteActivityForAdhocSubProcessCmd implements Command!Execution, Seriali
         }
 
         if (foundNode is null) {
-            throw new FlowableException("The requested activity with id " + activityId + " can not be enabled");
+            throw new FlowableException("The requested activity with id " ~ activityId ~ " can not be enabled");
         }
 
         ExecutionEntity activityExecution = CommandContextUtil.getExecutionEntityManager().createChildExecution(execution);

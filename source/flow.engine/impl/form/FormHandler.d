@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
+module flow.engine.impl.form.FormHandler;
 
-
-import java.io.Serializable;
 import hunt.collection.List;
 import hunt.collection.Map;
 
@@ -25,9 +24,9 @@ import flow.engine.repository.ProcessDefinition;
 /**
  * @author Tom Baeyens
  */
-interface FormHandler : Serializable {
+interface FormHandler  {
 
-    ThreadLocal!FormHandler current = new ThreadLocal<>();
+    //ThreadLocal!FormHandler current = new ThreadLocal<>();
 
     void parseConfiguration(List!FormProperty formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition);
 

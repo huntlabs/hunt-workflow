@@ -11,18 +11,16 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.form.DoubleFormType;
 
 import flow.engine.form.AbstractFormType;
+import hunt.Double;
 
 /**
  * @author Tom Baeyens
  */
 class DoubleFormType : AbstractFormType {
 
-    private static final long serialVersionUID = 1L;
-
-    override
     public string getName() {
         return "double";
     }
@@ -31,19 +29,19 @@ class DoubleFormType : AbstractFormType {
         return "plain/text";
     }
 
-    override
+
     public Object convertFormValueToModelValue(string propertyValue) {
-        if (propertyValue is null || "".equals(propertyValue)) {
+        if (propertyValue is null || "" == (propertyValue)) {
             return null;
         }
         return Double.valueOf(propertyValue);
     }
 
-    override
+
     public string convertModelValueToFormValue(Object modelValue) {
         if (modelValue is null) {
             return null;
         }
-        return modelValue.toString();
+        return (cast(Double)modelValue).toString();
     }
 }

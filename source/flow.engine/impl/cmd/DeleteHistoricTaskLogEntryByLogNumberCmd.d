@@ -10,24 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.DeleteHistoricTaskLogEntryByLogNumberCmd;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
-
+import hunt.Object;
 /**
  * @author martin.grofcik
  */
-class DeleteHistoricTaskLogEntryByLogNumberCmd implements Command!Void {
+class DeleteHistoricTaskLogEntryByLogNumberCmd : Command!Void {
 
     protected long logNumber;
 
-    public DeleteHistoricTaskLogEntryByLogNumberCmd(long logNumber) {
+    this(long logNumber) {
         this.logNumber = logNumber;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         CommandContextUtil.getTaskServiceConfiguration(commandContext).getInternalHistoryTaskManager().deleteHistoryUserTaskLog(logNumber);
         return null;

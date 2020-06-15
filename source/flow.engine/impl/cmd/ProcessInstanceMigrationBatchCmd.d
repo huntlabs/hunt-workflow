@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.ProcessInstanceMigrationBatchCmd;
 
 
 import flow.batch.service.api.Batch;
@@ -21,7 +21,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.migration.ProcessInstanceMigrationDocument;
 import flow.engine.migration.ProcessInstanceMigrationManager;
 
-class ProcessInstanceMigrationBatchCmd implements Command!Batch {
+class ProcessInstanceMigrationBatchCmd : Command!Batch {
 
     protected string processDefinitionId;
     protected string processDefinitionKey;
@@ -29,7 +29,7 @@ class ProcessInstanceMigrationBatchCmd implements Command!Batch {
     protected string processDefinitionTenantId;
     protected ProcessInstanceMigrationDocument processInstanceMigrationDocument;
 
-    public ProcessInstanceMigrationBatchCmd(string processDefinitionId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
+    this(string processDefinitionId, ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
         if (processDefinitionId is null) {
             throw new FlowableException("Must specify a process definition id to migrate");
         }
@@ -42,7 +42,7 @@ class ProcessInstanceMigrationBatchCmd implements Command!Batch {
         this.processInstanceMigrationDocument = processInstanceMigrationDocument;
     }
 
-    public ProcessInstanceMigrationBatchCmd(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId,
+    this(string processDefinitionKey, int processDefinitionVersion, string processDefinitionTenantId,
                     ProcessInstanceMigrationDocument processInstanceMigrationDocument) {
 
         if (processDefinitionKey is null) {
@@ -59,10 +59,9 @@ class ProcessInstanceMigrationBatchCmd implements Command!Batch {
         this.processInstanceMigrationDocument = processInstanceMigrationDocument;
     }
 
-    override
     public Batch execute(CommandContext commandContext) {
         ProcessInstanceMigrationManager migrationManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getProcessInstanceMigrationManager();
-        if (processDefinitionId !is null) {
+        if (processDefinitionId !is null && processDefinitionId.length != 0) {
             return migrationManager.batchMigrateProcessInstancesOfProcessDefinition(processDefinitionId, processInstanceMigrationDocument, commandContext);
         }
 

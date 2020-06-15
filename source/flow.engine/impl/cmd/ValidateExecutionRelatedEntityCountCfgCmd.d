@@ -10,26 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.cmd.ValidateExecutionRelatedEntityCountCfgCmd;
 
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.persistence.entity.PropertyEntity;
 import flow.common.persistence.entity.PropertyEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import hunt.Object;
+import std.conv : to;
 /**
  * @author Joram Barrez
  */
-class ValidateExecutionRelatedEntityCountCfgCmd implements Command!Void {
+class ValidateExecutionRelatedEntityCountCfgCmd : Command!Void {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidateExecutionRelatedEntityCountCfgCmd.class);
 
-    public static final string PROPERTY_EXECUTION_RELATED_ENTITY_COUNT = "cfg.execution-related-entities-count";
+    public static  string PROPERTY_EXECUTION_RELATED_ENTITY_COUNT = "cfg.execution-related-entities-count";
 
-    override
     public Void execute(CommandContext commandContext) {
 
         /*
@@ -63,23 +60,23 @@ class ValidateExecutionRelatedEntityCountCfgCmd implements Command!Void {
 
             PropertyEntity newPropertyEntity = propertyEntityManager.create();
             newPropertyEntity.setName(PROPERTY_EXECUTION_RELATED_ENTITY_COUNT);
-            newPropertyEntity.setValue(bool.toString(configProperty));
+            newPropertyEntity.setValue(to!string(configProperty));
             propertyEntityManager.insert(newPropertyEntity);
 
         } else {
 
-            bool propertyValue = bool.valueOf(propertyEntity.getValue().toLowerCase());
+            bool propertyValue = to!bool(propertyEntity.getValue());
             if (!configProperty && propertyValue) {
-                if (LOGGER.isInfoEnabled()) {
-                    LOGGER.info("Configuration change: execution related entity counting feature was enabled before, but now disabled. "
-                            + "Updating all execution entities.");
-                }
+                //if (LOGGER.isInfoEnabled()) {
+                //    LOGGER.info("Configuration change: execution related entity counting feature was enabled before, but now disabled. "
+                //            + "Updating all execution entities.");
+                //}
                 CommandContextUtil.getProcessEngineConfiguration(commandContext).getExecutionDataManager().updateAllExecutionRelatedEntityCountFlags(configProperty);
             }
 
             // Update property
             if (configProperty != propertyValue) {
-                propertyEntity.setValue(bool.toString(configProperty));
+                propertyEntity.setValue(to!string(configProperty));
                 propertyEntityManager.update(propertyEntity);
             }
 

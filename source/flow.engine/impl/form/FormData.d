@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.form.FormData;
 
 import hunt.collection;
 import hunt.collection.Map;
@@ -21,69 +21,69 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 /**
  * @author Tom Baeyens
  */
-class FormData implements Map!(string, Object) {
+class FormData : Map!(string, Object) {
 
     TaskEntity task;
 
-    public FormData(TaskEntity task) {
+    this(TaskEntity task) {
         this.task = task;
     }
 
-    override
+
     public void clear() {
     }
 
-    override
+
     public bool containsKey(Object key) {
         return false;
     }
 
-    override
+
     public bool containsValue(Object value) {
         return false;
     }
 
-    override
-    public Set<Map.Entry!(string, Object)> entrySet() {
-        return null;
-    }
 
-    override
+    //public Set<Map.Entry!(string, Object)> entrySet() {
+    //    return null;
+    //}
+
+
     public Object get(Object key) {
         return null;
     }
 
-    override
+
     public bool isEmpty() {
         return false;
     }
 
-    override
+
     public Set!string keySet() {
         return null;
     }
 
-    override
+
     public Object put(string key, Object value) {
         return null;
     }
 
-    override
-    public void putAll(Map<? : string, ? : Object> m) {
+
+    public void putAll(Map!(string, Object) m) {
     }
 
-    override
+
     public Object remove(Object key) {
         return null;
     }
 
-    override
+
     public int size() {
         return 0;
     }
 
-    override
-    public Collection!Object values() {
+
+    public Object[] values() {
         return null;
     }
 

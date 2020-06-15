@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.event.AbstractEventHandler;
 
 
 import hunt.collection.Map;
@@ -21,25 +21,23 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
-
+import flow.engine.impl.event.EventHandler;
 /**
  * @author Tijs Rademakers
  */
-abstract class AbstractEventHandler implements EventHandler {
+abstract class AbstractEventHandler : EventHandler {
 
-    override
     public void handleEvent(EventSubscriptionEntity eventSubscription, Object payload, CommandContext commandContext) {
         string executionId = eventSubscription.getExecutionId();
         ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager(commandContext).findById(executionId);
-        FlowNode currentFlowElement = (FlowNode) execution.getCurrentFlowElement();
+        FlowNode currentFlowElement = cast(FlowNode) execution.getCurrentFlowElement();
 
         if (currentFlowElement is null) {
-            throw new FlowableException("Error while sending signal for event subscription '" + eventSubscription.getId() + "': " + "no activity associated with event subscription");
+            throw new FlowableException("Error while sending signal for event subscription '" ~ eventSubscription.getId() ~ "': " ~ "no activity associated with event subscription");
         }
 
-        if (payload instanceof Map) {
-            @SuppressWarnings("unchecked")
-            Map!(string, Object) processVariables = (Map!(string, Object)) payload;
+        if (cast(Map!(string, Object))payload !is null) {
+            Map!(string, Object) processVariables = cast(Map!(string, Object)) payload;
             execution.setVariables(processVariables);
         }
 

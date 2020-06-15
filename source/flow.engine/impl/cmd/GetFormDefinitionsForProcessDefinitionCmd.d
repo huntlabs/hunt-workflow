@@ -10,15 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.GetFormDefinitionsForProcessDefinitionCmd;
 
-
-import java.io.Serializable;
 import hunt.collection.ArrayList;
 import hunt.collection.HashSet;
 import hunt.collection.List;
 import hunt.collection.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.StartEvent;
 import flow.bpmn.model.UserTask;
@@ -38,28 +36,26 @@ import flow.form.api.FormRepositoryService;
 /**
  * @author Yvo Swillens
  */
-class GetFormDefinitionsForProcessDefinitionCmd implements Command<List!FormDefinition>, Serializable {
+class GetFormDefinitionsForProcessDefinitionCmd : Command!(List!FormDefinition) {
 
-    private static final long serialVersionUID = 1L;
     protected string processDefinitionId;
     protected FormRepositoryService formRepositoryService;
 
-    public GetFormDefinitionsForProcessDefinitionCmd(string processDefinitionId) {
+    this(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
     }
 
-    override
     public List!FormDefinition execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
 
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process definition for id: " + processDefinitionId, ProcessDefinition.class);
+            throw new FlowableObjectNotFoundException("Cannot find process definition for id: " ~ processDefinitionId);
         }
 
         BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(processDefinitionId);
 
         if (bpmnModel is null) {
-            throw new FlowableObjectNotFoundException("Cannot find bpmn model for process definition id: " + processDefinitionId, BpmnModel.class);
+            throw new FlowableObjectNotFoundException("Cannot find bpmn model for process definition id: " ~ processDefinitionId);
         }
 
         if (CommandContextUtil.getFormRepositoryService() is null) {
@@ -73,28 +69,28 @@ class GetFormDefinitionsForProcessDefinitionCmd implements Command<List!FormDefi
     }
 
     protected List!FormDefinition getFormDefinitionsFromModel(BpmnModel bpmnModel, ProcessDefinition processDefinition) {
-        Set!string formKeys = new HashSet<>();
-        List!FormDefinition formDefinitions = new ArrayList<>();
+        Set!string formKeys = new HashSet!string();
+        List!FormDefinition formDefinitions = new ArrayList!FormDefinition();
 
         // for all start events
-        List!StartEvent startEvents = bpmnModel.getMainProcess().findFlowElementsOfType(StartEvent.class, true);
+        List!StartEvent startEvents = bpmnModel.getMainProcess().findFlowElementsOfType!StartEvent(typeid(StartEvent), true);
 
-        for (StartEvent startEvent : startEvents) {
-            if (StringUtils.isNotEmpty(startEvent.getFormKey())) {
+        foreach (StartEvent startEvent ; startEvents) {
+            if (startEvent.getFormKey() !is null && startEvent.getFormKey().length != 0) {
                 formKeys.add(startEvent.getFormKey());
             }
         }
 
         // for all user tasks
-        List!UserTask userTasks = bpmnModel.getMainProcess().findFlowElementsOfType(UserTask.class, true);
+        List!UserTask userTasks = bpmnModel.getMainProcess().findFlowElementsOfType!UserTask(typeid(UserTask), true);
 
-        for (UserTask userTask : userTasks) {
-            if (StringUtils.isNotEmpty(userTask.getFormKey())) {
+        foreach (UserTask userTask ; userTasks) {
+            if (userTask.getFormKey() !is null && userTask.getFormKey().length != 0) {
                 formKeys.add(userTask.getFormKey());
             }
         }
 
-        for (string formKey : formKeys) {
+        foreach (string formKey ; formKeys) {
             addFormDefinitionToCollection(formDefinitions, formKey, processDefinition);
         }
 

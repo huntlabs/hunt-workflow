@@ -11,8 +11,8 @@
  * limitations under the License.
  */
 
-
-
+module flow.engine.impl.el.FixedValue;
+import flow.common.el.FixedValue;
 /**
  * Expression that always returns the same value when <code>getValue</code> is called. Setting of the value is not supported.
  *
@@ -20,7 +20,7 @@
  */
 class FixedValue : flow.common.el.FixedValue {
 
-    public FixedValue(Object value) {
+    this(Object value) {
         super(value);
     }
 

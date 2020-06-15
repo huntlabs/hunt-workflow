@@ -10,17 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.dynamic.ProcessInstanceChangeState;
 
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-import java.util.Optional;
 
 import flow.bpmn.model.StartEvent;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
-
+import flow.engine.impl.dynamic.MoveExecutionEntityContainer;
 /**
  * @author Dennis
  */
@@ -29,14 +28,18 @@ class ProcessInstanceChangeState {
 
     protected string processInstanceId;
     protected ProcessDefinition processDefinitionToMigrateTo;
-    protected Map!(string, Object) processVariables = new HashMap<>();
-    protected Map<string, Map!(string, Object)> localVariables = new HashMap<>();
-    protected Map<string, List!ExecutionEntity> processInstanceActiveEmbeddedExecutions;
+    protected Map!(string, Object) processVariables ;//= new HashMap<>();
+    protected Map!(string, Map!(string, Object)) localVariables ;// = new HashMap<>();
+    protected Map!(string, List!ExecutionEntity) processInstanceActiveEmbeddedExecutions;
     protected List!MoveExecutionEntityContainer moveExecutionEntityContainers;
-    protected HashMap!(string, ExecutionEntity) createdEmbeddedSubProcess = new HashMap<>();
-    protected HashMap!(StartEvent, ExecutionEntity) pendingEventSubProcessesStartEvents = new HashMap<>();
+    protected HashMap!(string, ExecutionEntity) createdEmbeddedSubProcess ;//= new HashMap<>();
+    protected HashMap!(StartEvent, ExecutionEntity) pendingEventSubProcessesStartEvents ;//= new HashMap<>();
 
-    public ProcessInstanceChangeState() {
+    this() {
+        processVariables = new HashMap!(string, Object);
+        localVariables = new HashMap!(string, Map!(string, Object));
+        createdEmbeddedSubProcess = new HashMap!(string, ExecutionEntity);
+        pendingEventSubProcessesStartEvents = new HashMap!(StartEvent, ExecutionEntity);
     }
 
     public string getProcessInstanceId() {
@@ -48,18 +51,18 @@ class ProcessInstanceChangeState {
         return this;
     }
 
-    public Optional!ProcessDefinition getProcessDefinitionToMigrateTo() {
-        return Optional.ofNullable(processDefinitionToMigrateTo);
-    }
+    //public Optional!ProcessDefinition getProcessDefinitionToMigrateTo() {
+    //    return Optional.ofNullable(processDefinitionToMigrateTo);
+    //}
 
     public ProcessInstanceChangeState setProcessDefinitionToMigrateTo(ProcessDefinition processDefinitionToMigrateTo) {
         this.processDefinitionToMigrateTo = processDefinitionToMigrateTo;
         return this;
     }
 
-    public bool isMigrateToProcessDefinition() {
-        return getProcessDefinitionToMigrateTo().isPresent();
-    }
+    //public bool isMigrateToProcessDefinition() {
+    //    return getProcessDefinitionToMigrateTo().isPresent();
+    //}
 
     public Map!(string, Object) getProcessInstanceVariables() {
         return processVariables;
@@ -70,11 +73,11 @@ class ProcessInstanceChangeState {
         return this;
     }
 
-    public Map<string, Map!(string, Object)> getLocalVariables() {
+    public Map!(string, Map!(string, Object)) getLocalVariables() {
         return localVariables;
     }
 
-    public ProcessInstanceChangeState setLocalVariables(Map<string, Map!(string, Object)> localVariables) {
+    public ProcessInstanceChangeState setLocalVariables(Map!(string, Map!(string, Object)) localVariables) {
         this.localVariables = localVariables;
         return this;
     }
@@ -92,19 +95,19 @@ class ProcessInstanceChangeState {
         return createdEmbeddedSubProcess;
     }
 
-    public Optional!ExecutionEntity getCreatedEmbeddedSubProcessByKey(string key) {
-        return Optional.ofNullable(createdEmbeddedSubProcess.get(key));
-    }
+    //public Optional!ExecutionEntity getCreatedEmbeddedSubProcessByKey(string key) {
+    //    return Optional.ofNullable(createdEmbeddedSubProcess.get(key));
+    //}
 
     public void addCreatedEmbeddedSubProcess(string key, ExecutionEntity executionEntity) {
         this.createdEmbeddedSubProcess.put(key, executionEntity);
     }
 
-    public Map<string, List!ExecutionEntity> getProcessInstanceActiveEmbeddedExecutions() {
+    public Map!(string, List!ExecutionEntity) getProcessInstanceActiveEmbeddedExecutions() {
         return processInstanceActiveEmbeddedExecutions;
     }
 
-    public ProcessInstanceChangeState setProcessInstanceActiveEmbeddedExecutions(Map<string, List!ExecutionEntity> processInstanceActiveEmbeddedExecutions) {
+    public ProcessInstanceChangeState setProcessInstanceActiveEmbeddedExecutions(Map!(string, List!ExecutionEntity) processInstanceActiveEmbeddedExecutions) {
         this.processInstanceActiveEmbeddedExecutions = processInstanceActiveEmbeddedExecutions;
         return this;
     }

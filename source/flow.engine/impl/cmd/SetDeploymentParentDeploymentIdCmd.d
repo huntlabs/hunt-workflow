@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.cmd.SetDeploymentParentDeploymentIdCmd;
 
-
-import java.io.Serializable;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
@@ -20,23 +19,21 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.DeploymentEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import hunt.Object;
 
 /**
  * @author Tijs Rademakers
  */
-class SetDeploymentParentDeploymentIdCmd implements Command!Void, Serializable {
-
-    private static final long serialVersionUID = 1L;
+class SetDeploymentParentDeploymentIdCmd : Command!Void{
 
     protected string deploymentId;
     protected string newParentDeploymentId;
 
-    public SetDeploymentParentDeploymentIdCmd(string deploymentId, string newParentDeploymentId) {
+    this(string deploymentId, string newParentDeploymentId) {
         this.deploymentId = deploymentId;
         this.newParentDeploymentId = newParentDeploymentId;
     }
 
-    override
     public Void execute(CommandContext commandContext) {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("deploymentId is null");
@@ -46,7 +43,7 @@ class SetDeploymentParentDeploymentIdCmd implements Command!Void, Serializable {
 
         DeploymentEntity deployment = CommandContextUtil.getDeploymentEntityManager(commandContext).findById(deploymentId);
         if (deployment is null) {
-            throw new FlowableObjectNotFoundException("Could not find deployment with id " + deploymentId);
+            throw new FlowableObjectNotFoundException("Could not find deployment with id " ~ deploymentId);
         }
 
         deployment.setParentDeploymentId(newParentDeploymentId);
