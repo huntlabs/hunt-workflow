@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.DefaultFailedJobCommandFactory;
 
 import flow.common.interceptor.Command;
 import flow.engine.impl.cmd.JobRetryCmd;
@@ -19,9 +19,8 @@ import flow.job.service.impl.asyncexecutor.FailedJobCommandFactory;
 /**
  * @author Saeid Mirzaei
  */
-class DefaultFailedJobCommandFactory implements FailedJobCommandFactory {
+class DefaultFailedJobCommandFactory : FailedJobCommandFactory {
 
-    override
     public Command!Object getCommand(string jobId, Throwable exception) {
         return new JobRetryCmd(jobId, exception);
     }

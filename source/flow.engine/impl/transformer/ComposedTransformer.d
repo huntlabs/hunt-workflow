@@ -10,9 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.transformer.ComposedTransformer;
 
 import hunt.collection.List;
+import flow.engine.impl.transformer.AbstractTransformer;
+import flow.engine.impl.transformer.Transformer;
 
 /**
  * Applies a list of transformers to the input object
@@ -24,9 +26,9 @@ class ComposedTransformer : AbstractTransformer {
     protected List!Transformer transformers;
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
+    protected Object primTransform(Object anObject) {
         Object current = anObject;
-        for (Transformer transformer : this.transformers) {
+        foreach (Transformer transformer ; this.transformers) {
             current = transformer.transform(current);
         }
         return current;

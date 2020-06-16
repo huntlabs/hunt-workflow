@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.AsyncContinuationJobHandler;
 
 import flow.bpmn.model.FlowElement;
 import flow.common.interceptor.CommandContext;
-import flow.common.logging.LoggingSessionConstants;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
-import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.JobHandler;
 import flow.job.service.impl.persistence.entity.JobEntity;
@@ -26,24 +24,22 @@ import flow.variable.service.api.deleg.VariableScope;
  *
  * @author Tijs Rademakers
  */
-class AsyncContinuationJobHandler implements JobHandler {
+class AsyncContinuationJobHandler : JobHandler {
 
-    public static final string TYPE = "async-continuation";
+    public static  string TYPE = "async-continuation";
 
-    override
     public string getType() {
         return TYPE;
     }
 
-    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
-        ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) variableScope;
 
-        if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isLoggingSessionEnabled()) {
-            FlowElement flowElement = executionEntity.getCurrentFlowElement();
-            BpmnLoggingSessionUtil.addAsyncActivityLoggingData("Executing async job for " + flowElement.getId() + ", with job id " + job.getId(),
-                            LoggingSessionConstants.TYPE_SERVICE_TASK_EXECUTE_ASYNC_JOB, job, flowElement, executionEntity);
-        }
+        //if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isLoggingSessionEnabled()) {
+        //    FlowElement flowElement = executionEntity.getCurrentFlowElement();
+        //    BpmnLoggingSessionUtil.addAsyncActivityLoggingData("Executing async job for " + flowElement.getId() + ", with job id " + job.getId(),
+        //                    LoggingSessionConstants.TYPE_SERVICE_TASK_EXECUTE_ASYNC_JOB, job, flowElement, executionEntity);
+        //}
 
         CommandContextUtil.getAgenda(commandContext).planContinueProcessSynchronousOperation(executionEntity);
     }

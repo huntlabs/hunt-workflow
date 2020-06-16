@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.TriggerTimerEventJobHandler;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -25,18 +25,16 @@ import flow.variable.service.api.deleg.VariableScope;
 /**
  * @author Joram Barrez
  */
-class TriggerTimerEventJobHandler implements JobHandler {
+class TriggerTimerEventJobHandler : JobHandler {
 
-    public static final string TYPE = "trigger-timer";
+    public static  string TYPE = "trigger-timer";
 
-    override
     public string getType() {
         return TYPE;
     }
 
-    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
-        ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) variableScope;
         CommandContextUtil.getAgenda(commandContext).planTriggerExecutionOperation(executionEntity);
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {

@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
+module flow.engine.impl.transformer.LongToInteger;
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.Long;
+import hunt.Integer;
 /**
  * Transforms a {@link Long} to a {@link Integer}
  *
@@ -20,7 +22,7 @@
 class LongToInteger : AbstractTransformer {
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return Integer.valueOf(((Long) anObject).toString());
+    protected Object primTransform(Object anObject){
+        return Integer.valueOf((cast(Long) anObject).toString());
     }
 }

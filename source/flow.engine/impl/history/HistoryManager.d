@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.histroy.HistoryManager;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.Map;
@@ -22,7 +22,7 @@ import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.runtime.ActivityInstance;
 import flow.entitylink.service.api.EntityLink;
-import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
+import flow.entitylink.service.impl.persistence.entity.EntityLinkEntity;
 import flow.identitylink.api.IdentityLink;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;

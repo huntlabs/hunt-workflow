@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.repository.AddAsNewDeploymentMergeStrategy;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.ProcessDefinitionQueryImpl;
@@ -22,37 +22,35 @@ import flow.engine.repository.ProcessDefinition;
 
 import hunt.collection.List;
 import hunt.collection.Map;
-import java.util.stream.Collectors;
-
+import hunt.Exceptions;
 /**
  * @author Valentin Zickner
  */
-class AddAsNewDeploymentMergeStrategy implements DeploymentMergeStrategy {
+class AddAsNewDeploymentMergeStrategy : DeploymentMergeStrategy {
 
-    override
     public void prepareMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
         List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
         ProcessDefinitionEntityManager processDefinitionEntityManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
-        for (ProcessDefinition processDefinition : processDefinitions) {
+        foreach (ProcessDefinition processDefinition ; processDefinitions) {
             processDefinitionEntityManager.updateProcessDefinitionVersionForProcessDefinitionId(processDefinition.getId(), 0);
         }
     }
 
-    override
     public void finalizeMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
-        List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
-
-        Map!(string, Integer) latestVersionNumberLookupTable = new ProcessDefinitionQueryImpl()
-                .processDefinitionTenantId(newTenantId)
-                .latestVersion()
-                .list()
-                .stream()
-                .collect(Collectors.toMap(ProcessDefinition::getKey, ProcessDefinition::getVersion));
-        ProcessDefinitionEntityManager processDefinitionEntityManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
-        for (ProcessDefinition processDefinition : processDefinitions) {
-            int nextVersionNumber = latestVersionNumberLookupTable.getOrDefault(processDefinition.getKey(), 0) + 1;
-            processDefinitionEntityManager.updateProcessDefinitionVersionForProcessDefinitionId(processDefinition.getId(), nextVersionNumber);
-        }
+        implementationMissing(false);
+        //List!ProcessDefinition processDefinitions = new ProcessDefinitionQueryImpl().deploymentId(deploymentId).list();
+        //
+        //Map!(string, Integer) latestVersionNumberLookupTable = new ProcessDefinitionQueryImpl()
+        //        .processDefinitionTenantId(newTenantId)
+        //        .latestVersion()
+        //        .list()
+        //        .stream()
+        //        .collect(Collectors.toMap(ProcessDefinition::getKey, ProcessDefinition::getVersion));
+        //ProcessDefinitionEntityManager processDefinitionEntityManager = CommandContextUtil.getProcessDefinitionEntityManager(commandContext);
+        //for (ProcessDefinition processDefinition : processDefinitions) {
+        //    int nextVersionNumber = latestVersionNumberLookupTable.getOrDefault(processDefinition.getKey(), 0) + 1;
+        //    processDefinitionEntityManager.updateProcessDefinitionVersionForProcessDefinitionId(processDefinition.getId(), nextVersionNumber);
+        //}
     }
 
 }

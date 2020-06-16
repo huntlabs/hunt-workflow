@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
+module flow.engine.impl.transformer.BooleanToString;
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.Boolean;
+import hunt.String;
 /**
  * Transforms a {@link bool} to a {@link string}
  *
@@ -20,7 +22,7 @@
 class BooleanToString : AbstractTransformer {
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return ((bool) anObject).toString();
+    protected Object primTransform(Object anObject) {
+        return new String((cast(Boolean) anObject).toString());
     }
 }

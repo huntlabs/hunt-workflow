@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.AsyncTriggerJobHandler;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -23,18 +23,18 @@ import flow.variable.service.api.deleg.VariableScope;
  *
  * @author Tijs Rademakers
  */
-class AsyncTriggerJobHandler implements JobHandler {
+class AsyncTriggerJobHandler : JobHandler {
 
-    public static final string TYPE = "async-trigger";
+    public static  string TYPE = "async-trigger";
 
-    override
+
     public string getType() {
         return TYPE;
     }
 
-    override
+
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
-        ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) variableScope;
 
         CommandContextUtil.getAgenda(commandContext).planTriggerExecutionOperation(executionEntity);
     }

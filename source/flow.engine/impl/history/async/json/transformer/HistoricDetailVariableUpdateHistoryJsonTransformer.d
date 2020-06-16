@@ -1,116 +1,116 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-
-import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getBooleanFromJson;
-import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDateFromJson;
-import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDoubleFromJson;
-import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
-import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getLongFromJson;
-import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
-
-import java.util.Base64;
-import hunt.collections;
-import hunt.time.LocalDateTime;
-import hunt.collection.List;
-
-import org.apache.commons.lang3.StringUtils;
-import flow.common.interceptor.CommandContext;
-import flow.engine.history.HistoricActivityInstance;
-import flow.engine.impl.history.async.HistoryJsonConstants;
-import flow.engine.impl.persistence.entity.HistoricDetailEntityManager;
-import flow.engine.impl.persistence.entity.HistoricDetailVariableInstanceUpdateEntity;
-import flow.engine.impl.persistence.entity.data.HistoricDetailDataManager;
-import flow.engine.impl.util.CommandContextUtil;
-import flow.job.service.impl.persistence.entity.HistoryJobEntity;
-import flow.variable.service.api.types.VariableType;
-import flow.variable.service.api.types.VariableTypes;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-class HistoricDetailVariableUpdateHistoryJsonTransformer : AbstractHistoryJsonTransformer {
-
-    override
-    public List!string getTypes() {
-        return Collections.singletonList(HistoryJsonConstants.TYPE_HISTORIC_DETAIL_VARIABLE_UPDATE);
-    }
-
-    override
-    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
-        string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
-
-        // Variables for a mi root execution (like nrOfInstances, nrOfCompletedInstance, etc.) are stored without a reference to the historical activity.
-        bool isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
-
-        if (!isMiRootExecution && StringUtils.isNotEmpty(activityId)) {
-            HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext,
-                    getStringFromJson(historicalData, HistoryJsonConstants.SOURCE_EXECUTION_ID), activityId);
-            if (activityInstance is null) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    override
-    public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
-        HistoricDetailDataManager historicDetailDataManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getHistoricDetailDataManager();
-        HistoricDetailVariableInstanceUpdateEntity historicDetailEntity = historicDetailDataManager.createHistoricDetailVariableInstanceUpdate();
-        historicDetailEntity.setProcessInstanceId(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID));
-        historicDetailEntity.setExecutionId(getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID));
-        historicDetailEntity.setTaskId(getStringFromJson(historicalData, HistoryJsonConstants.TASK_ID));
-        historicDetailEntity.setRevision(getIntegerFromJson(historicalData, HistoryJsonConstants.REVISION));
-        historicDetailEntity.setName(getStringFromJson(historicalData, HistoryJsonConstants.NAME));
-
-        bool isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
-        if (!isMiRootExecution) {
-            string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
-            if (StringUtils.isNotEmpty(runtimeActivityInstanceId)) {
-                historicDetailEntity.setActivityInstanceId(runtimeActivityInstanceId);
-            } else {
-                // there can be still jobs in the queue without runtimeActivityInstanceId
-                string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
-                if (StringUtils.isNotEmpty(activityId)) {
-                    HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext,
-                        getStringFromJson(historicalData, HistoryJsonConstants.SOURCE_EXECUTION_ID), activityId);
-
-                    if (activityInstance !is null) {
-                        historicDetailEntity.setActivityInstanceId(activityInstance.getId());
-                    }
-                }
-            }
-        }
-
-        VariableTypes variableTypes = CommandContextUtil.getProcessEngineConfiguration().getVariableTypes();
-        VariableType variableType = variableTypes.getVariableType(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TYPE));
-
-        historicDetailEntity.setVariableType(variableType);
-
-        historicDetailEntity.setTextValue(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TEXT_VALUE));
-        historicDetailEntity.setTextValue2(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TEXT_VALUE2));
-        historicDetailEntity.setDoubleValue(getDoubleFromJson(historicalData, HistoryJsonConstants.VARIABLE_DOUBLE_VALUE));
-        historicDetailEntity.setLongValue(getLongFromJson(historicalData, HistoryJsonConstants.VARIABLE_LONG_VALUE));
-
-        string variableBytes = getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_BYTES_VALUE);
-        if (StringUtils.isNotEmpty(variableBytes)) {
-            historicDetailEntity.setBytes(Base64.getDecoder().decode(variableBytes));
-        }
-
-        Date time = getDateFromJson(historicalData, HistoryJsonConstants.CREATE_TIME);
-        historicDetailEntity.setTime(time);
-
-        HistoricDetailEntityManager historicDetailEntityManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getHistoricDetailEntityManager();
-        historicDetailEntityManager.insert(historicDetailEntity);
-    }
-
-}
+///* Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *      http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//
+//
+//import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getBooleanFromJson;
+//import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDateFromJson;
+//import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getDoubleFromJson;
+//import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getIntegerFromJson;
+//import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getLongFromJson;
+//import static flow.job.service.impl.history.async.util.AsyncHistoryJsonUtil.getStringFromJson;
+//
+//import java.util.Base64;
+//import hunt.collections;
+//import hunt.time.LocalDateTime;
+//import hunt.collection.List;
+//
+//import org.apache.commons.lang3.StringUtils;
+//import flow.common.interceptor.CommandContext;
+//import flow.engine.history.HistoricActivityInstance;
+//import flow.engine.impl.history.async.HistoryJsonConstants;
+//import flow.engine.impl.persistence.entity.HistoricDetailEntityManager;
+//import flow.engine.impl.persistence.entity.HistoricDetailVariableInstanceUpdateEntity;
+//import flow.engine.impl.persistence.entity.data.HistoricDetailDataManager;
+//import flow.engine.impl.util.CommandContextUtil;
+//import flow.job.service.impl.persistence.entity.HistoryJobEntity;
+//import flow.variable.service.api.types.VariableType;
+//import flow.variable.service.api.types.VariableTypes;
+//
+//import com.fasterxml.jackson.databind.node.ObjectNode;
+//
+//class HistoricDetailVariableUpdateHistoryJsonTransformer : AbstractHistoryJsonTransformer {
+//
+//    override
+//    public List!string getTypes() {
+//        return Collections.singletonList(HistoryJsonConstants.TYPE_HISTORIC_DETAIL_VARIABLE_UPDATE);
+//    }
+//
+//    override
+//    public bool isApplicable(ObjectNode historicalData, CommandContext commandContext) {
+//        string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
+//
+//        // Variables for a mi root execution (like nrOfInstances, nrOfCompletedInstance, etc.) are stored without a reference to the historical activity.
+//        bool isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
+//
+//        if (!isMiRootExecution && StringUtils.isNotEmpty(activityId)) {
+//            HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext,
+//                    getStringFromJson(historicalData, HistoryJsonConstants.SOURCE_EXECUTION_ID), activityId);
+//            if (activityInstance is null) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    override
+//    public void transformJson(HistoryJobEntity job, ObjectNode historicalData, CommandContext commandContext) {
+//        HistoricDetailDataManager historicDetailDataManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getHistoricDetailDataManager();
+//        HistoricDetailVariableInstanceUpdateEntity historicDetailEntity = historicDetailDataManager.createHistoricDetailVariableInstanceUpdate();
+//        historicDetailEntity.setProcessInstanceId(getStringFromJson(historicalData, HistoryJsonConstants.PROCESS_INSTANCE_ID));
+//        historicDetailEntity.setExecutionId(getStringFromJson(historicalData, HistoryJsonConstants.EXECUTION_ID));
+//        historicDetailEntity.setTaskId(getStringFromJson(historicalData, HistoryJsonConstants.TASK_ID));
+//        historicDetailEntity.setRevision(getIntegerFromJson(historicalData, HistoryJsonConstants.REVISION));
+//        historicDetailEntity.setName(getStringFromJson(historicalData, HistoryJsonConstants.NAME));
+//
+//        bool isMiRootExecution = getBooleanFromJson(historicalData, HistoryJsonConstants.IS_MULTI_INSTANCE_ROOT_EXECUTION, false);
+//        if (!isMiRootExecution) {
+//            string runtimeActivityInstanceId = getStringFromJson(historicalData, HistoryJsonConstants.RUNTIME_ACTIVITY_INSTANCE_ID);
+//            if (StringUtils.isNotEmpty(runtimeActivityInstanceId)) {
+//                historicDetailEntity.setActivityInstanceId(runtimeActivityInstanceId);
+//            } else {
+//                // there can be still jobs in the queue without runtimeActivityInstanceId
+//                string activityId = getStringFromJson(historicalData, HistoryJsonConstants.ACTIVITY_ID);
+//                if (StringUtils.isNotEmpty(activityId)) {
+//                    HistoricActivityInstance activityInstance = findHistoricActivityInstance(commandContext,
+//                        getStringFromJson(historicalData, HistoryJsonConstants.SOURCE_EXECUTION_ID), activityId);
+//
+//                    if (activityInstance !is null) {
+//                        historicDetailEntity.setActivityInstanceId(activityInstance.getId());
+//                    }
+//                }
+//            }
+//        }
+//
+//        VariableTypes variableTypes = CommandContextUtil.getProcessEngineConfiguration().getVariableTypes();
+//        VariableType variableType = variableTypes.getVariableType(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TYPE));
+//
+//        historicDetailEntity.setVariableType(variableType);
+//
+//        historicDetailEntity.setTextValue(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TEXT_VALUE));
+//        historicDetailEntity.setTextValue2(getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_TEXT_VALUE2));
+//        historicDetailEntity.setDoubleValue(getDoubleFromJson(historicalData, HistoryJsonConstants.VARIABLE_DOUBLE_VALUE));
+//        historicDetailEntity.setLongValue(getLongFromJson(historicalData, HistoryJsonConstants.VARIABLE_LONG_VALUE));
+//
+//        string variableBytes = getStringFromJson(historicalData, HistoryJsonConstants.VARIABLE_BYTES_VALUE);
+//        if (StringUtils.isNotEmpty(variableBytes)) {
+//            historicDetailEntity.setBytes(Base64.getDecoder().decode(variableBytes));
+//        }
+//
+//        Date time = getDateFromJson(historicalData, HistoryJsonConstants.CREATE_TIME);
+//        historicDetailEntity.setTime(time);
+//
+//        HistoricDetailEntityManager historicDetailEntityManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getHistoricDetailEntityManager();
+//        historicDetailEntityManager.insert(historicDetailEntity);
+//    }
+//
+//}

@@ -10,24 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.transformer.AbstractTransformer;
 
 import flow.common.api.FlowableException;
+import flow.engine.impl.transformer.Transformer;
 
 /**
  * A Transformer is responsible of transforming an object into a different object
  *
  * @author Esteban Robles Luna
  */
-abstract class AbstractTransformer implements Transformer {
+abstract class AbstractTransformer : Transformer {
 
-    override
     public Object transform(Object anObject) {
         try {
             return this.primTransform(anObject);
         } catch (Exception e) {
 
-            throw new FlowableException("Error while executing transformation from object: " + anObject + " using transformer " + this, e);
+            throw new FlowableException("Error while executing transformation from object: using transformer ");
         }
     }
 
@@ -38,5 +38,5 @@ abstract class AbstractTransformer implements Transformer {
      *            the object to be transformed
      * @return the transformed object
      */
-    protected abstract Object primTransform(Object anObject) throws Exception;
+    protected abstract Object primTransform(Object anObject) ;
 }

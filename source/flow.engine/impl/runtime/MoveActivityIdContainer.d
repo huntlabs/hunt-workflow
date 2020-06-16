@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.runtime.MoveActivityIdContainer;
 
-
-import hunt.collections;
+import hunt.collection.Collections;
 import hunt.collection.List;
-import java.util.Optional;
-
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -26,45 +25,49 @@ class MoveActivityIdContainer {
     protected bool moveToParentProcess;
     protected bool moveToSubProcessInstance;
     protected string callActivityId;
-    protected Integer callActivitySubProcessVersion;
+    protected int callActivitySubProcessVersion;
     protected string newAssigneeId;
 
-    public MoveActivityIdContainer(string singleActivityId, string moveToActivityId) {
+    this(string singleActivityId, string moveToActivityId) {
         this(singleActivityId, moveToActivityId, null);
     }
 
-    public MoveActivityIdContainer(string singleActivityId, string moveToActivityId, string newAssigneeId) {
-        this.activityIds = Collections.singletonList(singleActivityId);
-        this.moveToActivityIds = Collections.singletonList(moveToActivityId);
+    this(string singleActivityId, string moveToActivityId, string newAssigneeId) {
+        this.activityIds = Collections.singletonList!string(singleActivityId);
+        this.moveToActivityIds = Collections.singletonList!string(moveToActivityId);
         this.newAssigneeId = newAssigneeId;
     }
 
-    public MoveActivityIdContainer(List!string activityIds, string moveToActivityId) {
+    this(List!string activityIds, string moveToActivityId) {
         this(activityIds, moveToActivityId, null);
     }
 
-    public MoveActivityIdContainer(List!string activityIds, string moveToActivityId, string newAssigneeId) {
+    this(List!string activityIds, string moveToActivityId, string newAssigneeId) {
         this.activityIds = activityIds;
-        this.moveToActivityIds = Collections.singletonList(moveToActivityId);
+        this.moveToActivityIds = Collections.singletonList!string(moveToActivityId);
         this.newAssigneeId = newAssigneeId;
     }
 
-    public MoveActivityIdContainer(string singleActivityId, List!string moveToActivityIds) {
+    this(string singleActivityId, List!string moveToActivityIds) {
         this(singleActivityId, moveToActivityIds, null);
     }
 
-    public MoveActivityIdContainer(string singleActivityId, List!string moveToActivityIds, string newAssigneeId) {
-        this.activityIds = Collections.singletonList(singleActivityId);
+    this(string singleActivityId, List!string moveToActivityIds, string newAssigneeId) {
+        this.activityIds = Collections.singletonList!string(singleActivityId);
         this.moveToActivityIds = moveToActivityIds;
         this.newAssigneeId = newAssigneeId;
     }
 
     public List!string getActivityIds() {
-        return Optional.ofNullable(activityIds).orElse(Collections.emptyList());
+        implementationMissing(false);
+        return null;
+      //return Optional.ofNullable(activityIds).orElse(Collections.emptyList());
     }
 
     public List!string getMoveToActivityIds() {
-        return Optional.ofNullable(moveToActivityIds).orElse(Collections.emptyList());
+         implementationMissing(false);
+          return;
+        //return Optional.ofNullable(moveToActivityIds).orElse(Collections.emptyList());
     }
 
     public bool isMoveToParentProcess() {
@@ -91,15 +94,15 @@ class MoveActivityIdContainer {
         this.callActivityId = callActivityId;
     }
 
-    public Integer getCallActivitySubProcessVersion() {
+    public int getCallActivitySubProcessVersion() {
         return callActivitySubProcessVersion;
     }
 
-    public void setCallActivitySubProcessVersion(Integer callActivitySubProcessVersion) {
+    public void setCallActivitySubProcessVersion(int callActivitySubProcessVersion) {
         this.callActivitySubProcessVersion = callActivitySubProcessVersion;
     }
 
-    public Optional!string getNewAssigneeId() {
-        return Optional.ofNullable(newAssigneeId);
-    }
+    //public Optional!string getNewAssigneeId() {
+    //    return Optional.ofNullable(newAssigneeId);
+    //}
 }

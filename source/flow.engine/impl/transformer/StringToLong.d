@@ -11,7 +11,10 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.transformer.StringToLong;
+import hunt.Long;
+import hunt.String;
+import flow.engine.impl.transformer.AbstractTransformer;
 /**
  * Transforms a {@link string} to a {@link Long}
  *
@@ -20,7 +23,7 @@
 class StringToLong : AbstractTransformer {
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return Long.valueOf((string) anObject);
+    protected Object primTransform(Object anObject) {
+        return Long.valueOf((cast(String) anObject).value);
     }
 }

@@ -10,7 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.transformer.IntegerToLong;
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.Integer;
+import hunt.Long;
 
 /**
  * Transforms a {@link Integer} to a {@link Long}
@@ -20,7 +23,7 @@
 class IntegerToLong : AbstractTransformer {
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return Long.valueOf((Integer) anObject);
+    protected Object primTransform(Object anObject) {
+        return Long.valueOf((cast(Integer) anObject).toString);
     }
 }

@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.transformer.DateToString;
 
-
-import java.text.Format;
+//import java.text.Format;
 import hunt.time.LocalDateTime;
-
-import org.apache.commons.lang3.time.FastDateFormat;
-
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.time.LocalDateTime;
+import hunt.Exceptions;
+alias Date = LocalDateTime;
 /**
  * Transforms a {@link Date} to a {@link string}
  *
@@ -24,10 +25,11 @@ import org.apache.commons.lang3.time.FastDateFormat;
  */
 class DateToString : AbstractTransformer {
 
-    protected Format format = FastDateFormat.getInstance("dd/MM/yyyy");
+   // protected Format format = FastDateFormat.getInstance("dd/MM/yyyy");
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return format.format((Date) anObject);
+    protected Object primTransform(Object anObject)  {
+        implementationMissing(false);
+    //       return format.format(cast(Date) anObject);
     }
 }

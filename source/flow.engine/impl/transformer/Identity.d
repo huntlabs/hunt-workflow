@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.transformer.Identity;
 
-
+import flow.engine.impl.transformer.AbstractTransformer;
+import std.concurrency : initOnce;
 /**
  *
  *
@@ -19,21 +21,26 @@
  */
 class Identity : AbstractTransformer {
 
-    private static Identity instance = new Identity();
+    //private static Identity instance = new Identity();
+    //
+    //public static synchronized Identity getInstance() {
+    //    if (instance is null) {
+    //        instance = new Identity();
+    //    }
+    //    return instance;
+    //}
+    //
+    //private Identity() {
+    //
+    //}
 
-    public static synchronized Identity getInstance() {
-        if (instance is null) {
-            instance = new Identity();
-        }
-        return instance;
-    }
-
-    private Identity() {
-
+    static Identity getInstance() {
+      __gshared Identity inst;
+      return initOnce!inst(new Identity());
     }
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
+    protected Object primTransform(Object anObject) {
         return anObject;
     }
 }

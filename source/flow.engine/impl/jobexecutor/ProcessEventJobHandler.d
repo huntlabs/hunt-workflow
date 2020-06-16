@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.ProcessEventJobHandler;
 
 
 import flow.common.interceptor.CommandContext;
@@ -26,16 +26,14 @@ import flow.variable.service.api.deleg.VariableScope;
  * @author Daniel Meyer
  * @author Joram Barrez
  */
-class ProcessEventJobHandler implements JobHandler {
+class ProcessEventJobHandler : JobHandler {
 
-    public static final string TYPE = "event";
+    public static  string TYPE = "event";
 
-    override
     public string getType() {
         return TYPE;
     }
 
-    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);

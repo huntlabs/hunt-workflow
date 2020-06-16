@@ -10,8 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.engine.impl.transformer.LongToString;
 
-
+import hunt.Long;
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.String;
 /**
  * Transforms a {@link Long} to a {@link string}
  *
@@ -20,7 +23,7 @@
 class LongToString : AbstractTransformer {
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return ((Long) anObject).toString();
+    protected Object primTransform(Object anObject) {
+        return new String((cast(Long) anObject).toString());
     }
 }

@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.transformer.StringToDate;
 
 import hunt.time.LocalDateTime;
 
-import org.apache.commons.lang3.time.FastDateFormat;
-
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.Exceptions;
 /**
  * Transforms a {@link string} to a {@link Date}
  *
@@ -23,10 +23,12 @@ import org.apache.commons.lang3.time.FastDateFormat;
  */
 class StringToDate : AbstractTransformer {
 
-    protected FastDateFormat format = FastDateFormat.getInstance("dd/MM/yyyy");
+    //protected FastDateFormat format = FastDateFormat.getInstance("dd/MM/yyyy");
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return format.parse((string) anObject);
+    protected Object primTransform(Object anObject)  {
+        implementationMissing(false);
+        return null;
+       // return format.parse((string) anObject);
     }
 }

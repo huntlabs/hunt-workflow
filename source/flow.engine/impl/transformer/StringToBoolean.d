@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
+module flow.engine.impl.transformer.StringToBoolean;
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.String;
+import hunt.Boolean;
 /**
  * Transforms a {@link string} to a {@link bool}
  *
@@ -20,7 +22,7 @@
 class StringToBoolean : AbstractTransformer {
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return bool.valueOf((string) anObject);
+    protected Object primTransform(Object anObject) {
+        return Boolean.valueOf((cast(String) anObject).value);
     }
 }

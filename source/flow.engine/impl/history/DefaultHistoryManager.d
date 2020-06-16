@@ -10,15 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.histroy.DefaultHistoryManager;
 
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;
-import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.scop.ScopeTypes;
@@ -37,8 +35,8 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.TaskHelper;
 import flow.engine.runtime.ActivityInstance;
 import flow.entitylink.service.api.history.HistoricEntityLinkService;
-import org.flowable.entitylink.service.impl.persistence.entity.EntityLinkEntity;
-import org.flowable.entitylink.service.impl.persistence.entity.HistoricEntityLinkEntity;
+import flow.entitylink.service.impl.persistence.entity.EntityLinkEntity;
+import flow.entitylink.service.impl.persistence.entity.HistoricEntityLinkEntity;
 import flow.identitylink.service.HistoricIdentityLinkService;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
@@ -49,8 +47,7 @@ import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import flow.engine.impl.histroy.AbstractHistoryManager;
 
 /**
  * Manager class that centralises recording of all history-related operations that are originated from inside the engine.
@@ -60,7 +57,6 @@ import org.slf4j.LoggerFactory;
  */
 class DefaultHistoryManager : AbstractHistoryManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHistoryManager.class.getName());
 
     public DefaultHistoryManager(ProcessEngineConfigurationImpl processEngineConfiguration, HistoryLevel historyLevel, bool usePrefixId) {
         super(processEngineConfiguration, historyLevel, usePrefixId);

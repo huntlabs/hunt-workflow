@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
+module flow.engine.impl.transformer.StringToInteger;
+import flow.engine.impl.transformer.AbstractTransformer;
+import hunt.String;
+import hunt.Integer;
 /**
  * Transforms a {@link string} to a {@link Integer}
  *
@@ -20,7 +22,7 @@
 class StringToInteger : AbstractTransformer {
 
     override
-    protected Object primTransform(Object anObject) throws Exception {
-        return Integer.valueOf((string) anObject);
+    protected Object primTransform(Object anObject) {
+        return Integer.valueOf((cast(String) anObject).value);
     }
 }

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.repository.VerifyDeploymentMergeStrategy;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.repository.DeploymentMergeStrategy;
@@ -19,13 +19,11 @@ import flow.engine.repository.DeploymentMergeStrategy;
 /**
  * @author Valentin Zickner
  */
-class VerifyDeploymentMergeStrategy implements DeploymentMergeStrategy {
+class VerifyDeploymentMergeStrategy : DeploymentMergeStrategy {
 
-    override
     public void prepareMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
     }
 
-    override
     public void finalizeMerge(CommandContext commandContext, string deploymentId, string newTenantId) {
     }
 

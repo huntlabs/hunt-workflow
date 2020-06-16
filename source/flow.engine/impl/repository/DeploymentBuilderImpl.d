@@ -22,7 +22,7 @@ module flow.engine.impl.repository.DeploymentBuilderImpl;
 
 
 
-import hunt.io.Common;
+import hunt.stream.Common;
 //import java.io.Serializable;
 //import java.nio.charset.StandardCharsets;
 import hunt.time.LocalDateTime;
@@ -31,12 +31,12 @@ import hunt.collection.Map;
 //import java.util.zip.ZipEntry;
 //import java.util.zip.ZipInputStream;
 
-import org.flowable.bpmn.converter.BpmnXMLConverter;
+import flow.bpmn.converter.converter.BpmnXMLConverter;
 import flow.bpmn.model.BpmnModel;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.common.util.IoUtil;
-import flow.common.util.ReflectUtil;
+//import flow.common.util.IoUtil;
+//import flow.common.util.ReflectUtil;
 import flow.engine.impl.RepositoryServiceImpl;
 import flow.engine.impl.persistence.entity.DeploymentEntity;
 import flow.engine.impl.persistence.entity.ResourceEntity;
@@ -44,15 +44,14 @@ import flow.engine.impl.persistence.entity.ResourceEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.DeploymentBuilder;
-
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
  */
 class DeploymentBuilderImpl : DeploymentBuilder {
 
-    private static  long serialVersionUID = 1L;
-    protected  final string DEFAULT_ENCODING = "UTF-8";
+    protected  string DEFAULT_ENCODING = "UTF-8";
 
     protected  RepositoryServiceImpl repositoryService;
     protected  ResourceEntityManager resourceEntityManager;
@@ -71,45 +70,48 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         this.deploymentProperties = new HashMap!(string, Object);
     }
 
-    override
+
     public DeploymentBuilder addInputStream(string resourceName, InputStream inputStream) {
         if (inputStream is null) {
-            throw new FlowableIllegalArgumentException("inputStream for resource '" + resourceName + "' is null");
+            throw new FlowableIllegalArgumentException("inputStream for resource '" ~ resourceName ~ "' is null");
         }
-        byte[] bytes = IoUtil.readInputStream(inputStream, resourceName);
-        ResourceEntity resource = resourceEntityManager.create();
-        resource.setName(resourceName);
-        resource.setBytes(bytes);
-        deployment.addResource(resource);
+        implementationMissing(false);
+        //byte[] bytes = IoUtil.readInputStream(inputStream, resourceName);
+        //ResourceEntity resource = resourceEntityManager.create();
+        //resource.setName(resourceName);
+        //resource.setBytes(bytes);
+        //deployment.addResource(resource);
         return this;
     }
 
-    override
+
     public DeploymentBuilder addClasspathResource(string resource) {
-        InputStream inputStream = ReflectUtil.getResourceAsStream(resource);
-        if (inputStream is null) {
-            throw new FlowableIllegalArgumentException("resource '" + resource + "' not found");
-        }
+        implementationMissing(false);
+        //InputStream inputStream = ReflectUtil.getResourceAsStream(resource);
+        //if (inputStream is null) {
+        //    throw new FlowableIllegalArgumentException("resource '" + resource + "' not found");
+        //}
         return addInputStream(resource, inputStream);
     }
 
-    override
+
     public DeploymentBuilder addString(string resourceName, string text) {
-        if (text is null) {
-            throw new FlowableIllegalArgumentException("text is null");
-        }
-        ResourceEntity resource = resourceEntityManager.create();
-        resource.setName(resourceName);
-        try {
-            resource.setBytes(text.getBytes(DEFAULT_ENCODING));
-        } catch (UnsupportedEncodingException e) {
-            throw new FlowableException("Unable to get process bytes.", e);
-        }
-        deployment.addResource(resource);
+        implementationMissing(false);
+        //if (text is null) {
+        //    throw new FlowableIllegalArgumentException("text is null");
+        //}
+        //ResourceEntity resource = resourceEntityManager.create();
+        //resource.setName(resourceName);
+        //try {
+        //    resource.setBytes(text.getBytes(DEFAULT_ENCODING));
+        //} catch (UnsupportedEncodingException e) {
+        //    throw new FlowableException("Unable to get process bytes.", e);
+        //}
+        //deployment.addResource(resource);
         return this;
     }
 
-    override
+
     public DeploymentBuilder addBytes(string resourceName, byte[] bytes) {
         if (bytes is null) {
             throw new FlowableIllegalArgumentException("bytes is null");
@@ -122,96 +124,97 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         return this;
     }
 
-    override
-    public DeploymentBuilder addZipInputStream(ZipInputStream zipInputStream) {
-        try {
-            ZipEntry entry = zipInputStream.getNextEntry();
-            while (entry !is null) {
-                if (!entry.isDirectory()) {
-                    string entryName = entry.getName();
-                    byte[] bytes = IoUtil.readInputStream(zipInputStream, entryName);
-                    ResourceEntity resource = resourceEntityManager.create();
-                    resource.setName(entryName);
-                    resource.setBytes(bytes);
-                    deployment.addResource(resource);
-                }
-                entry = zipInputStream.getNextEntry();
-            }
-        } catch (Exception e) {
-            throw new FlowableException("problem reading zip input stream", e);
-        }
-        return this;
-    }
 
-    override
+    //public DeploymentBuilder addZipInputStream(ZipInputStream zipInputStream) {
+    //    try {
+    //        ZipEntry entry = zipInputStream.getNextEntry();
+    //        while (entry !is null) {
+    //            if (!entry.isDirectory()) {
+    //                string entryName = entry.getName();
+    //                byte[] bytes = IoUtil.readInputStream(zipInputStream, entryName);
+    //                ResourceEntity resource = resourceEntityManager.create();
+    //                resource.setName(entryName);
+    //                resource.setBytes(bytes);
+    //                deployment.addResource(resource);
+    //            }
+    //            entry = zipInputStream.getNextEntry();
+    //        }
+    //    } catch (Exception e) {
+    //        throw new FlowableException("problem reading zip input stream", e);
+    //    }
+    //    return this;
+    //}
+
+
     public DeploymentBuilder addBpmnModel(string resourceName, BpmnModel bpmnModel) {
-        BpmnXMLConverter bpmnXMLConverter = new BpmnXMLConverter();
-        string bpmn20Xml = new string(bpmnXMLConverter.convertToXML(bpmnModel), StandardCharsets.UTF_8);
-        addString(resourceName, bpmn20Xml);
+        implementationMissing(false);
+        //BpmnXMLConverter bpmnXMLConverter = new BpmnXMLConverter();
+        //string bpmn20Xml = new string(bpmnXMLConverter.convertToXML(bpmnModel), StandardCharsets.UTF_8);
+        //addString(resourceName, bpmn20Xml);
         return this;
     }
 
-    override
+
     public DeploymentBuilder name(string name) {
         deployment.setName(name);
         return this;
     }
 
-    override
+
     public DeploymentBuilder category(string category) {
         deployment.setCategory(category);
         return this;
     }
 
-    override
+
     public DeploymentBuilder key(string key) {
         deployment.setKey(key);
         return this;
     }
 
-    override
+
     public DeploymentBuilder parentDeploymentId(string parentDeploymentId) {
         deployment.setParentDeploymentId(parentDeploymentId);
         return this;
     }
 
-    override
+
     public DeploymentBuilder disableBpmnValidation() {
         this.isProcessValidationEnabled = false;
         return this;
     }
 
-    override
+
     public DeploymentBuilder disableSchemaValidation() {
         this.isBpmn20XsdValidationEnabled = false;
         return this;
     }
 
-    override
+
     public DeploymentBuilder tenantId(string tenantId) {
         deployment.setTenantId(tenantId);
         return this;
     }
 
-    override
+
     public DeploymentBuilder enableDuplicateFiltering() {
         this.isDuplicateFilterEnabled = true;
         return this;
     }
 
-    override
+
     public DeploymentBuilder activateProcessDefinitionsOn(Date date) {
         this.processDefinitionsActivationDate = date;
         return this;
     }
 
-    override
+
     public DeploymentBuilder deploymentProperty(string propertyKey, Object propertyValue) {
         deploymentProperties.put(propertyKey, propertyValue);
         return this;
     }
 
-    override
+
     public Deployment deploy() {
         return repositoryService.deploy(this);
     }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.histroy.DefaultHistoryVariableManager;
 
 
 import hunt.time.LocalDateTime;
@@ -18,35 +18,37 @@ import hunt.time.LocalDateTime;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.variable.service.history.InternalHistoryVariableManager;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.engine.impl.histroy.HistoryManager;
 
-class DefaultHistoryVariableManager implements InternalHistoryVariableManager {
+
+class DefaultHistoryVariableManager : InternalHistoryVariableManager {
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public DefaultHistoryVariableManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
-    override
+
     public void recordVariableCreate(VariableInstanceEntity variable, Date createTime) {
         getHistoryManager().recordVariableCreate(variable, createTime);
-        if (variable.getProcessInstanceId() !is null || variable.getExecutionId() !is null || variable.getTaskId() !is null) {
+        if ((variable.getProcessInstanceId() !is null && variable.getProcessInstanceId().length != 0)|| (variable.getExecutionId() !is null && variable.getExecutionId().length != 0) || (variable.getTaskId() !is null && variable.getTaskId().length != 0)) {
             getHistoryManager().recordHistoricDetailVariableCreate(variable, null, false, null, createTime);
         }
     }
 
-    override
+
     public void recordVariableUpdate(VariableInstanceEntity variable, Date updateTime) {
         getHistoryManager().recordVariableUpdate(variable, updateTime);
-        if (variable.getProcessInstanceId() !is null || variable.getExecutionId() !is null || variable.getTaskId() !is null) {
+        if ((variable.getProcessInstanceId() !is null && variable.getProcessInstanceId().length != 0)|| (variable.getExecutionId() !is null && variable.getExecutionId().length != 0)|| (variable.getTaskId() !is null && variable.getTaskId().length != 0)) {
             getHistoryManager().recordHistoricDetailVariableCreate(variable, null, false, null, updateTime);
         }
     }
 
-    override
+
     public void recordVariableRemoved(VariableInstanceEntity variable, Date removeTime) {
         getHistoryManager().recordVariableRemoved(variable);
-        if (variable.getProcessInstanceId() !is null || variable.getExecutionId() !is null || variable.getTaskId() !is null) {
+        if ((variable.getProcessInstanceId() !is null && variable.getProcessInstanceId().length != 0)|| (variable.getExecutionId() !is null && variable.getExecutionId().length != 0)|| (variable.getTaskId() !is null && variable.getTaskId().length != 0)) {
             getHistoryManager().recordHistoricDetailVariableCreate(variable, null, false, null, removeTime);
         }
     }

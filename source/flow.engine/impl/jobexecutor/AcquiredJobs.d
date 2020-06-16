@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.AcquiredJobs;
 
 import hunt.collection.ArrayList;
 import hunt.collection.HashSet;
@@ -23,10 +23,16 @@ import hunt.collection.Set;
  */
 class AcquiredJobs {
 
-    protected List<List!string> acquiredJobBatches = new ArrayList<>();
-    protected Set!string acquiredJobs = new HashSet<>();
+    protected List!(List!string) acquiredJobBatches  ;//= new ArrayList<>();
+    protected Set!string acquiredJobs ;//= new HashSet<>();
 
-    public List<List!string> getJobIdBatches() {
+    this()
+    {
+        acquiredJobBatches = new ArrayList!(List!string);
+        acquiredJobs = new HashSet!string;
+    }
+
+    public List!(List!string) getJobIdBatches() {
         return acquiredJobBatches;
     }
 

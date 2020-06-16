@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.engine.impl.histroy.DefaultHistoryTaskManager;
 
 import hunt.time.LocalDateTime;
 
@@ -22,32 +22,30 @@ import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.service.history.InternalHistoryTaskManager;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 
-class DefaultHistoryTaskManager implements InternalHistoryTaskManager {
+class DefaultHistoryTaskManager : InternalHistoryTaskManager {
 
     protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
-    public DefaultHistoryTaskManager(ProcessEngineConfigurationImpl processEngineConfiguration) {
+    this(ProcessEngineConfigurationImpl processEngineConfiguration) {
         this.processEngineConfiguration = processEngineConfiguration;
     }
 
 
-
-    override
     public void recordTaskInfoChange(TaskEntity taskEntity, Date changeTime) {
         getActivityInstanceEntityManager().recordTaskInfoChange(taskEntity, changeTime);
     }
 
-    override
+
     public void recordTaskCreated(TaskEntity taskEntity) {
         CommandContextUtil.getHistoryManager().recordTaskCreated(taskEntity, null);
     }
 
-    override
+
     public void recordHistoryUserTaskLog(HistoricTaskLogEntryBuilder taskLogEntryBuilder) {
         CommandContextUtil.getHistoryManager().recordHistoricUserTaskLogEntry(taskLogEntryBuilder);
     }
 
-    override
+
     public void deleteHistoryUserTaskLog(long logNumber) {
         CommandContextUtil.getHistoryManager().deleteHistoryUserTaskLog(logNumber);
     }

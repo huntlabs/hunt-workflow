@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.runtime.ProcessInstanceBuilderImpl;
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -23,7 +23,7 @@ import flow.engine.runtime.ProcessInstanceBuilder;
  * @author Bassam Al-Sarori
  * @author Joram Barrez
  */
-class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
+class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
 
     protected RuntimeServiceImpl runtimeService;
 
@@ -46,92 +46,92 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
     protected string outcome;
     protected bool fallbackToDefaultTenant;
 
-    public ProcessInstanceBuilderImpl(RuntimeServiceImpl runtimeService) {
+    this(RuntimeServiceImpl runtimeService) {
         this.runtimeService = runtimeService;
     }
 
-    override
+
     public ProcessInstanceBuilder processDefinitionId(string processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder processDefinitionKey(string processDefinitionKey) {
         this.processDefinitionKey = processDefinitionKey;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder messageName(string messageName) {
         this.messageName = messageName;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder name(string processInstanceName) {
         this.processInstanceName = processInstanceName;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder businessKey(string businessKey) {
         this.businessKey = businessKey;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder callbackId(string callbackId) {
         this.callbackId = callbackId;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder callbackType(string callbackType) {
         this.callbackType = callbackType;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder referenceId(string referenceId) {
         this.referenceId = referenceId;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder referenceType(string referenceType) {
         this.referenceType = referenceType;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder stageInstanceId(string stageInstanceId) {
         this.stageInstanceId = stageInstanceId;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder tenantId(string tenantId) {
         this.tenantId = tenantId;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder overrideProcessDefinitionTenantId(string tenantId) {
         this.overrideDefinitionTenantId = tenantId;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder predefineProcessInstanceId(string processInstanceId) {
         this.predefinedProcessInstanceId = processInstanceId;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder variables(Map!(string, Object) variables) {
         if (this.variables is null) {
-            this.variables = new HashMap<>();
+            this.variables = new HashMap!(string, Object)();
         }
         if (variables !is null) {
             this.variables.putAll(variables);
@@ -139,19 +139,19 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder variable(string variableName, Object value) {
         if (this.variables is null) {
-            this.variables = new HashMap<>();
+            this.variables = new HashMap!(string, Object)();
         }
         this.variables.put(variableName, value);
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder transientVariables(Map!(string, Object) transientVariables) {
         if (this.transientVariables is null) {
-            this.transientVariables = new HashMap<>();
+            this.transientVariables = new HashMap!(string, Object)();
         }
         if (transientVariables !is null) {
             this.transientVariables.putAll(transientVariables);
@@ -159,19 +159,19 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder transientVariable(string variableName, Object value) {
         if (this.transientVariables is null) {
-            this.transientVariables = new HashMap<>();
+            this.transientVariables = new HashMap!(string, Object)();
         }
         this.transientVariables.put(variableName, value);
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder startFormVariables(Map!(string, Object) startFormVariables) {
         if (this.startFormVariables is null) {
-            this.startFormVariables = new HashMap<>();
+            this.startFormVariables = new HashMap!(string, Object)();
         }
         if (startFormVariables !is null) {
             this.startFormVariables.putAll(startFormVariables);
@@ -179,33 +179,33 @@ class ProcessInstanceBuilderImpl implements ProcessInstanceBuilder {
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder startFormVariable(string variableName, Object value) {
         if (this.startFormVariables is null) {
-            this.startFormVariables = new HashMap<>();
+            this.startFormVariables = new HashMap!(string, Object)();
         }
         this.startFormVariables.put(variableName, value);
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder outcome(string outcome) {
         this.outcome = outcome;
         return this;
     }
 
-    override
+
     public ProcessInstanceBuilder fallbackToDefaultTenant() {
         this.fallbackToDefaultTenant = true;
         return this;
     }
 
-    override
+
     public ProcessInstance start() {
         return runtimeService.startProcessInstance(this);
     }
 
-    override
+
     public ProcessInstance startAsync() {
         return runtimeService.startProcessInstanceAsync(this);
     }

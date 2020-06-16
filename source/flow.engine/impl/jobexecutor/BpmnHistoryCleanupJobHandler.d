@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.BpmnHistoryCleanupJobHandler;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -19,16 +19,14 @@ import flow.job.service.JobHandler;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.variable.service.api.deleg.VariableScope;
 
-class BpmnHistoryCleanupJobHandler implements JobHandler {
+class BpmnHistoryCleanupJobHandler : JobHandler {
 
-    public static final string TYPE = "bpmn-history-cleanup";
+    public static  string TYPE = "bpmn-history-cleanup";
 
-    override
     public string getType() {
         return TYPE;
     }
 
-    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 

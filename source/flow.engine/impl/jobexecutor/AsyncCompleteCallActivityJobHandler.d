@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.AsyncCompleteCallActivityJobHandler;
 
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -31,16 +31,14 @@ import flow.variable.service.api.deleg.VariableScope;
  *
  * @author Joram Barrez
  */
-class AsyncCompleteCallActivityJobHandler implements JobHandler {
+class AsyncCompleteCallActivityJobHandler : JobHandler {
 
-    public static final string TYPE = "async-complete-call-actiivty";
+    public static  string TYPE = "async-complete-call-actiivty";
 
-    override
     public string getType() {
         return TYPE;
     }
 
-    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {  // the executionId of the job = the parent execution, which will be used for locking
         ExecutionEntity childProcessInstanceExecutionEntity = CommandContextUtil.getExecutionEntityManager(commandContext).findById(configuration); // the child process instance execution
         CommandContextUtil.getAgenda(commandContext).planEndExecutionOperationSynchronous(childProcessInstanceExecutionEntity);

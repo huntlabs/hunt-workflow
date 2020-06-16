@@ -10,10 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.jobexecutor.AsyncSendEventJobHandler;
 
 import hunt.collection;
-import java.util.Objects;
 
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.SendEventServiceTask;
@@ -34,34 +33,32 @@ import flow.variable.service.api.deleg.VariableScope;
  *
  * @author Tijs Rademakers
  */
-class AsyncSendEventJobHandler implements JobHandler {
+class AsyncSendEventJobHandler : JobHandler {
 
-    public static final string TYPE = "async-send-event";
+    public static  string TYPE = "async-send-event";
 
-    override
     public string getType() {
         return TYPE;
     }
 
-    override
     public void execute(JobEntity job, string configuration, VariableScope variableScope, CommandContext commandContext) {
-        ExecutionEntity executionEntity = (ExecutionEntity) variableScope;
+        ExecutionEntity executionEntity = cast(ExecutionEntity) variableScope;
         FlowElement flowElement = executionEntity.getCurrentFlowElement();
 
-        if (!(flowElement instanceof SendEventServiceTask)) {
-            throw new FlowableException(string.format("unexpected activity type found for job %s, at activity %s", job.getId(), flowElement.getId()));
-        }
-        SendEventServiceTask sendEventServiceTask = (SendEventServiceTask) flowElement;
+        //if (!(flowElement instanceof SendEventServiceTask)) {
+        //    throw new FlowableException(string.format("unexpected activity type found for job %s, at activity %s", job.getId(), flowElement.getId()));
+        //}
+        SendEventServiceTask sendEventServiceTask = cast(SendEventServiceTask) flowElement;
 
         EventModel eventModel = null;
-        if (Objects.equals(ProcessEngineConfiguration.NO_TENANT_ID, job.getTenantId())) {
+        if (ProcessEngineConfiguration.NO_TENANT_ID == job.getTenantId()) {
             eventModel = CommandContextUtil.getEventRepositoryService(commandContext).getEventModelByKey(sendEventServiceTask.getEventType());
         } else {
             eventModel = CommandContextUtil.getEventRepositoryService(commandContext).getEventModelByKey(sendEventServiceTask.getEventType(), job.getTenantId());
         }
 
         if (eventModel is null) {
-            throw new FlowableException("No event model found for event key " + sendEventServiceTask.getEventType());
+            throw new FlowableException("No event model found for event key " );
         }
 
         EventInstanceImpl eventInstance = new EventInstanceImpl();
