@@ -31,6 +31,7 @@ import hunt.collection.List;
 import hunt.collection.Map;
 import hunt.collection.Set;
 import hunt.util.Runnable;
+import hunt.stream.Common;
 //import java.util.concurrent.ArrayBlockingQueue;
 //import java.util.concurrent.BlockingQueue;
 //import java.util.concurrent.ConcurrentHashMap;
@@ -437,6 +438,8 @@ import flow.variable.service.impl.types.StringType;
 import flow.variable.service.impl.types.UUIDType;
 import flow.engine.impl.RepositoryServiceImpl;
 import flow.engine.impl.cfg.PerformanceSettings;
+import hunt.Object;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -913,18 +916,18 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      *
      * @since 5.21
      */
-    protected DelegateExpressionFieldInjectionMode delegateExpressionFieldInjectionMode = DelegateExpressionFieldInjectionMode.MIXED;
+    protected DelegateExpressionFieldInjectionMode delegateExpressionFieldInjectionMode ;//= DelegateExpressionFieldInjectionMode.MIXED;
 
     protected List!Object flowable5JobProcessors ;// = Collections.emptyList();
-    protected List!JobProcessor jobProcessors = Collections.emptyList();
-    protected List!HistoryJobProcessor historyJobProcessors = Collections.emptyList();
+    protected List!JobProcessor jobProcessors ;//= Collections.emptyList();
+    protected List!HistoryJobProcessor historyJobProcessors ;// = Collections.emptyList();
 
     /**
      * Enabled a very verbose debug output of the execution tree whilst executing operations. Most useful for core engine developers or people fiddling around with the execution tree.
      */
     protected bool enableVerboseExecutionTreeLogging;
 
-    protected PerformanceSettings performanceSettings = new PerformanceSettings();
+    protected PerformanceSettings performanceSettings ;//= new PerformanceSettings();
 
     // agenda factory
     protected FlowableEngineAgendaFactory agendaFactory;
@@ -944,8 +947,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected bool flowable5CompatibilityEnabled; // Default flowable 5 backwards compatibility is disabled!
     protected bool validateFlowable5EntitiesEnabled = true; // When disabled no checks are performed for existing flowable 5 entities in the db
     protected bool redeployFlowable5ProcessDefinitions;
-    protected Flowable5CompatibilityHandlerFactory flowable5CompatibilityHandlerFactory;
-    protected Flowable5CompatibilityHandler flowable5CompatibilityHandler;
+    //protected Flowable5CompatibilityHandlerFactory flowable5CompatibilityHandlerFactory;
+    //protected Flowable5CompatibilityHandler flowable5CompatibilityHandler;
 
     // Can't have a dependency on the Flowable5-engine module
     protected Object flowable5ActivityBehaviorFactory;
@@ -959,6 +962,10 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     this() {
         mybatisMappingFile = DEFAULT_MYBATIS_MAPPING_FILE;
+        jobProcessors = Collections.emptyList();
+        historyJobProcessors = Collections.emptyList();
+        performanceSettings =   new PerformanceSettings();
+        delegateExpressionFieldInjectionMode = DelegateExpressionFieldInjectionMode.MIXED;
     }
 
     // buildProcessEngine
@@ -974,16 +981,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
 
         // trigger build of Flowable 5 Engine
-        if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {
-            commandExecutor.execute(new Command!Void() {
-
-                override
-                public Void execute(CommandContext commandContext) {
-                    flowable5CompatibilityHandler.getRawProcessEngine();
-                    return null;
-                }
-            });
-        }
+        //if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {
+        //    commandExecutor.execute(new Command!Void() {
+        //
+        //        override
+        //        public Void execute(CommandContext commandContext) {
+        //            flowable5CompatibilityHandler.getRawProcessEngine();
+        //            return null;
+        //        }
+        //    });
+        //}
 
         postProcessEngineInitialisation();
 
@@ -1134,8 +1141,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         initService(taskService);
         initService(formService);
         initService(managementService);
-        initService(dynamicBpmnService);
-        initService(processInstanceMigrationService);
+        //initService(dynamicBpmnService);
+        //initService(processInstanceMigrationService);
     }
 
     override
@@ -1157,76 +1164,76 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     protected void initProcessSchemaManager() {
-        if (this.schemaManager is null) {
-            this.schemaManager = new ProcessDbSchemaManager();
-        }
+        //if (this.schemaManager is null) {
+        //    this.schemaManager = new ProcessDbSchemaManager();
+        //}
     }
 
     protected void initVariableSchemaManager() {
-        if (this.variableSchemaManager is null) {
-            this.variableSchemaManager = new VariableDbSchemaManager();
-        }
+        //if (this.variableSchemaManager is null) {
+        //    this.variableSchemaManager = new VariableDbSchemaManager();
+        //}
     }
 
     protected void initTaskSchemaManager() {
-        if (this.taskSchemaManager is null) {
-            this.taskSchemaManager = new TaskDbSchemaManager();
-        }
+        //if (this.taskSchemaManager is null) {
+        //    this.taskSchemaManager = new TaskDbSchemaManager();
+        //}
     }
 
     protected void initIdentityLinkSchemaManager() {
-        if (this.identityLinkSchemaManager is null) {
-            this.identityLinkSchemaManager = new IdentityLinkDbSchemaManager();
-        }
+        //if (this.identityLinkSchemaManager is null) {
+        //    this.identityLinkSchemaManager = new IdentityLinkDbSchemaManager();
+        //}
     }
 
     protected void initEntityLinkSchemaManager() {
-        if (this.entityLinkSchemaManager is null) {
-            this.entityLinkSchemaManager = new EntityLinkDbSchemaManager();
-        }
+        //if (this.entityLinkSchemaManager is null) {
+        //    this.entityLinkSchemaManager = new EntityLinkDbSchemaManager();
+        //}
     }
 
     protected void initEventSubscriptionSchemaManager() {
-        if (this.eventSubscriptionSchemaManager is null) {
-            this.eventSubscriptionSchemaManager = new EventSubscriptionDbSchemaManager();
-        }
+        //if (this.eventSubscriptionSchemaManager is null) {
+        //    this.eventSubscriptionSchemaManager = new EventSubscriptionDbSchemaManager();
+        //}
     }
 
     protected void initJobSchemaManager() {
-        if (this.jobSchemaManager is null) {
-            this.jobSchemaManager = new JobDbSchemaManager();
-        }
+        //if (this.jobSchemaManager is null) {
+        //    this.jobSchemaManager = new JobDbSchemaManager();
+        //}
     }
 
     protected void initBatchSchemaManager() {
-        if (this.batchSchemaManager is null) {
-            this.batchSchemaManager = new BatchDbSchemaManager();
-        }
+        //if (this.batchSchemaManager is null) {
+        //    this.batchSchemaManager = new BatchDbSchemaManager();
+        //}
     }
 
     public void initSchemaManagementCommand() {
-        if (schemaManagementCmd is null) {
-            if (usingRelationalDatabase && databaseSchemaUpdate !is null) {
-                this.schemaManagementCmd = new SchemaOperationsProcessEngineBuild();
-            }
-        }
+        //if (schemaManagementCmd is null) {
+        //    if (usingRelationalDatabase && databaseSchemaUpdate !is null) {
+        //        this.schemaManagementCmd = new SchemaOperationsProcessEngineBuild();
+        //    }
+        //}
     }
 
-    override
-    public void initMybatisTypeHandlers(Configuration configuration) {
-        configuration.getTypeHandlerRegistry().register(VariableType.class, JdbcType.VARCHAR, new IbatisVariableTypeHandler(variableTypes));
-    }
+    //override
+    //public void initMybatisTypeHandlers(Configuration configuration) {
+    //    configuration.getTypeHandlerRegistry().register(VariableType.class, JdbcType.VARCHAR, new IbatisVariableTypeHandler(variableTypes));
+    //}
 
     override
     public InputStream getMyBatisXmlConfigurationStream() {
         return getResourceAsStream(mybatisMappingFile);
     }
 
-    override
-    public ProcessEngineConfigurationImpl setCustomMybatisMappers(Set<Class<?>> customMybatisMappers) {
-        this.customMybatisMappers = customMybatisMappers;
-        return this;
-    }
+    //override
+    //public ProcessEngineConfigurationImpl setCustomMybatisMappers(Set<Class<?>> customMybatisMappers) {
+    //    this.customMybatisMappers = customMybatisMappers;
+    //    return this;
+    //}
 
     override
     public ProcessEngineConfigurationImpl setCustomMybatisXMLMappers(Set!string customMybatisXMLMappers) {
@@ -1237,39 +1244,38 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     // Data managers ///////////////////////////////////////////////////////////
 
     override
-    @SuppressWarnings("rawtypes")
     public void initDataManagers() {
         super.initDataManagers();
-        if (attachmentDataManager is null) {
-            attachmentDataManager = new MybatisAttachmentDataManager(this);
-        }
+        //if (attachmentDataManager is null) {
+        //    attachmentDataManager = new MybatisAttachmentDataManager(this);
+        //}
         if (byteArrayDataManager is null) {
             byteArrayDataManager = new MybatisByteArrayDataManager(this);
         }
-        if (commentDataManager is null) {
-            commentDataManager = new MybatisCommentDataManager(this);
-        }
+        //if (commentDataManager is null) {
+        //    commentDataManager = new MybatisCommentDataManager(this);
+        //}
         if (deploymentDataManager is null) {
             deploymentDataManager = new MybatisDeploymentDataManager(this);
         }
-        if (eventLogEntryDataManager is null) {
-            eventLogEntryDataManager = new MybatisEventLogEntryDataManager(this);
-        }
+        //if (eventLogEntryDataManager is null) {
+        //    eventLogEntryDataManager = new MybatisEventLogEntryDataManager(this);
+        //}
         if (executionDataManager is null) {
             executionDataManager = new MybatisExecutionDataManager(this);
         }
-        if (dbSqlSessionFactory !is null && executionDataManager instanceof AbstractDataManager) {
-            dbSqlSessionFactory.addLogicalEntityClassMapping("execution", ((AbstractDataManager) executionDataManager).getManagedEntityClass());
-        }
+        //if (dbSqlSessionFactory !is null && executionDataManager instanceof AbstractDataManager) {
+        //    dbSqlSessionFactory.addLogicalEntityClassMapping("execution", ((AbstractDataManager) executionDataManager).getManagedEntityClass());
+        //}
         if (historicActivityInstanceDataManager is null) {
             historicActivityInstanceDataManager = new MybatisHistoricActivityInstanceDataManager(this);
         }
         if (activityInstanceDataManager is null) {
             activityInstanceDataManager = new MybatisActivityInstanceDataManager(this);
         }
-        if (historicDetailDataManager is null) {
-            historicDetailDataManager = new MybatisHistoricDetailDataManager(this);
-        }
+        //if (historicDetailDataManager is null) {
+        //    historicDetailDataManager = new MybatisHistoricDetailDataManager(this);
+        //}
         if (historicProcessInstanceDataManager is null) {
             historicProcessInstanceDataManager = new MybatisHistoricProcessInstanceDataManager(this);
         }
@@ -1279,9 +1285,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (processDefinitionDataManager is null) {
             processDefinitionDataManager = new MybatisProcessDefinitionDataManager(this);
         }
-        if (processDefinitionInfoDataManager is null) {
-            processDefinitionInfoDataManager = new MybatisProcessDefinitionInfoDataManager(this);
-        }
+        //if (processDefinitionInfoDataManager is null) {
+        //    processDefinitionInfoDataManager = new MybatisProcessDefinitionInfoDataManager(this);
+        //}
         if (resourceDataManager is null) {
             resourceDataManager = new MybatisResourceDataManager(this);
         }
@@ -1304,9 +1310,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (deploymentEntityManager is null) {
             deploymentEntityManager = new DeploymentEntityManagerImpl(this, deploymentDataManager);
         }
-        if (eventLogEntryEntityManager is null) {
-            eventLogEntryEntityManager = new EventLogEntryEntityManagerImpl(this, eventLogEntryDataManager);
-        }
+        //if (eventLogEntryEntityManager is null) {
+        //    eventLogEntryEntityManager = new EventLogEntryEntityManagerImpl(this, eventLogEntryDataManager);
+        //}
         if (executionEntityManager is null) {
             executionEntityManager = new ExecutionEntityManagerImpl(this, executionDataManager);
         }
@@ -1316,9 +1322,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (historicActivityInstanceEntityManager is null) {
             historicActivityInstanceEntityManager = new HistoricActivityInstanceEntityManagerImpl(this, historicActivityInstanceDataManager);
         }
-        if (historicDetailEntityManager is null) {
-            historicDetailEntityManager = new HistoricDetailEntityManagerImpl(this, historicDetailDataManager);
-        }
+        //if (historicDetailEntityManager is null) {
+        //    historicDetailEntityManager = new HistoricDetailEntityManagerImpl(this, historicDetailDataManager);
+        //}
         if (historicProcessInstanceEntityManager is null) {
             historicProcessInstanceEntityManager = new HistoricProcessInstanceEntityManagerImpl(this, historicProcessInstanceDataManager);
         }
@@ -1334,9 +1340,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (resourceEntityManager is null) {
             resourceEntityManager = new ResourceEntityManagerImpl(this, resourceDataManager);
         }
-        if (tableDataManager is null) {
-            tableDataManager = new TableDataManagerImpl(this);
-        }
+        //if (tableDataManager is null) {
+        //    tableDataManager = new TableDataManagerImpl(this);
+        //}
     }
 
     // CandidateManager //////////////////////////////
@@ -1352,7 +1358,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     public void initHistoryManager() {
         if (historyManager is null) {
             if (isAsyncHistoryEnabled) {
-                historyManager = new AsyncHistoryManager(this, historyLevel, usePrefixId);
+
+              //  historyManager = new AsyncHistoryManager(this, historyLevel, usePrefixId);
             } else {
                 historyManager = new DefaultHistoryManager(this, historyLevel, usePrefixId);
             }
@@ -1362,15 +1369,15 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     // Dynamic state manager ////////////////////////////////////////////////////
 
     public void initDynamicStateManager() {
-        if (dynamicStateManager is null) {
-            dynamicStateManager = new DefaultDynamicStateManager();
-        }
+        //if (dynamicStateManager is null) {
+        //    dynamicStateManager = new DefaultDynamicStateManager();
+        //}
     }
 
     public void initProcessInstanceMigrationValidationManager() {
-        if (processInstanceMigrationManager is null) {
-            processInstanceMigrationManager = new ProcessInstanceMigrationManagerImpl();
-        }
+        //if (processInstanceMigrationManager is null) {
+        //    processInstanceMigrationManager = new ProcessInstanceMigrationManagerImpl();
+        //}
     }
 
     // identity link interceptor ///////////////////////////////////////////////
@@ -1385,7 +1392,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     override
     public void initSessionFactories() {
         if (sessionFactories is null) {
-            sessionFactories = new HashMap<>();
+            sessionFactories = new HashMap!(TypeInfo, SessionFactory)();
 
             if (usingRelationalDatabase) {
                 initDbSqlSessionFactory();
@@ -1399,18 +1406,19 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
                 addSessionFactory(new AgendaSessionFactory(agendaFactory));
             }
 
-            addSessionFactory(new GenericManagerFactory(EntityCache.class, EntityCacheImpl.class));
+           // addSessionFactory(new GenericManagerFactory(EntityCache.class, EntityCacheImpl.class));
 
             commandContextFactory.setSessionFactories(sessionFactories);
 
         } else {
             if (isAsyncHistoryEnabled) {
-                if (!sessionFactories.containsKey(AsyncHistorySession.class)) {
-                    initAsyncHistorySessionFactory();
-                }
+                implementationMissing(false);
+                //if (!sessionFactories.containsKey(AsyncHistorySession.class)) {
+                //    initAsyncHistorySessionFactory();
+                //}
             }
 
-            if (!sessionFactories.containsKey(FlowableEngineAgenda.class)) {
+            if (!sessionFactories.containsKey(typeid(FlowableEngineAgenda))) {
                 if (agendaFactory !is null) {
                     addSessionFactory(new AgendaSessionFactory(agendaFactory));
                 }
@@ -1418,16 +1426,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
 
         if (isLoggingSessionEnabled()) {
-            if (!sessionFactories.containsKey(LoggingSession.class)) {
-                LoggingSessionFactory loggingSessionFactory = new LoggingSessionFactory();
-                loggingSessionFactory.setLoggingListener(loggingListener);
-                loggingSessionFactory.setObjectMapper(objectMapper);
-                sessionFactories.put(LoggingSession.class, loggingSessionFactory);
-            }
+            //if (!sessionFactories.containsKey(LoggingSession.class)) {
+            //    LoggingSessionFactory loggingSessionFactory = new LoggingSessionFactory();
+            //    loggingSessionFactory.setLoggingListener(loggingListener);
+            //    loggingSessionFactory.setObjectMapper(objectMapper);
+            //    sessionFactories.put(LoggingSession.class, loggingSessionFactory);
+            //}
         }
 
         if (customSessionFactories !is null) {
-            for (SessionFactory sessionFactory : customSessionFactories) {
+            foreach (SessionFactory sessionFactory ; customSessionFactories) {
                 addSessionFactory(sessionFactory);
             }
         }
@@ -1436,36 +1444,36 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     override
     protected void initDbSqlSessionFactoryEntitySettings() {
-        defaultInitDbSqlSessionFactoryEntitySettings(EntityDependencyOrder.INSERT_ORDER, EntityDependencyOrder.DELETE_ORDER);
-
-        // Oracle doesn't support bulk inserting for event log entries
-        if (isBulkInsertEnabled && "oracle".equals(databaseType)) {
-            dbSqlSessionFactory.getBulkInserteableEntityClasses().remove(EventLogEntryEntityImpl.class);
-        }
+        //defaultInitDbSqlSessionFactoryEntitySettings(EntityDependencyOrder.INSERT_ORDER, EntityDependencyOrder.DELETE_ORDER);
+        //
+        //// Oracle doesn't support bulk inserting for event log entries
+        //if (isBulkInsertEnabled && "oracle".equals(databaseType)) {
+        //    dbSqlSessionFactory.getBulkInserteableEntityClasses().remove(EventLogEntryEntityImpl.class);
+        //}
     }
 
     public void initAsyncHistorySessionFactory() {
-        if (!sessionFactories.containsKey(AsyncHistorySession.class)) {
-            AsyncHistorySessionFactory asyncHistorySessionFactory = new AsyncHistorySessionFactory();
-            if (asyncHistoryListener is null) {
-                initDefaultAsyncHistoryListener();
-            }
-            asyncHistorySessionFactory.setAsyncHistoryListener(asyncHistoryListener);
-            sessionFactories.put(AsyncHistorySession.class, asyncHistorySessionFactory);
-        }
-
-        ((AsyncHistorySessionFactory) sessionFactories.get(AsyncHistorySession.class)).registerJobDataTypes(HistoryJsonConstants.ORDERED_TYPES);
+        //if (!sessionFactories.containsKey(AsyncHistorySession.class)) {
+        //    AsyncHistorySessionFactory asyncHistorySessionFactory = new AsyncHistorySessionFactory();
+        //    if (asyncHistoryListener is null) {
+        //        initDefaultAsyncHistoryListener();
+        //    }
+        //    asyncHistorySessionFactory.setAsyncHistoryListener(asyncHistoryListener);
+        //    sessionFactories.put(AsyncHistorySession.class, asyncHistorySessionFactory);
+        //}
+        //
+        //((AsyncHistorySessionFactory) sessionFactories.get(AsyncHistorySession.class)).registerJobDataTypes(HistoryJsonConstants.ORDERED_TYPES);
     }
 
     protected void initDefaultAsyncHistoryListener() {
-        asyncHistoryListener = new DefaultAsyncHistoryJobProducer();
+       // asyncHistoryListener = new DefaultAsyncHistoryJobProducer();
     }
 
     public void initVariableServiceConfiguration() {
         this.variableServiceConfiguration = instantiateVariableServiceConfiguration();
         this.variableServiceConfiguration.setHistoryLevel(this.historyLevel);
         this.variableServiceConfiguration.setClock(this.clock);
-        this.variableServiceConfiguration.setObjectMapper(this.objectMapper);
+        //this.variableServiceConfiguration.setObjectMapper(this.objectMapper);
         this.variableServiceConfiguration.setEventDispatcher(this.eventDispatcher);
 
         this.variableServiceConfiguration.setVariableTypes(this.variableTypes);
@@ -1493,7 +1501,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.identityLinkServiceConfiguration = instantiateIdentityLinkServiceConfiguration();
         this.identityLinkServiceConfiguration.setHistoryLevel(this.historyLevel);
         this.identityLinkServiceConfiguration.setClock(this.clock);
-        this.identityLinkServiceConfiguration.setObjectMapper(this.objectMapper);
+       // this.identityLinkServiceConfiguration.setObjectMapper(this.objectMapper);
         this.identityLinkServiceConfiguration.setEventDispatcher(this.eventDispatcher);
         this.identityLinkServiceConfiguration.setIdentityLinkEventHandler(this.identityLinkEventHandler);
 
@@ -1511,7 +1519,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.entityLinkServiceConfiguration = instantiateEntityLinkServiceConfiguration();
             this.entityLinkServiceConfiguration.setHistoryLevel(this.historyLevel);
             this.entityLinkServiceConfiguration.setClock(this.clock);
-            this.entityLinkServiceConfiguration.setObjectMapper(this.objectMapper);
+           // this.entityLinkServiceConfiguration.setObjectMapper(this.objectMapper);
             this.entityLinkServiceConfiguration.setEventDispatcher(this.eventDispatcher);
 
             this.entityLinkServiceConfiguration.init();
@@ -1520,14 +1528,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
     }
 
-    protected EntityLinkServiceConfiguration instantiateEntityLinkServiceConfiguration() {
-        return new EntityLinkServiceConfiguration(ScopeTypes.BPMN);
-    }
+    //protected EntityLinkServiceConfiguration instantiateEntityLinkServiceConfiguration() {
+    //    return new EntityLinkServiceConfiguration(ScopeTypes.BPMN);
+    //}
 
     public void initEventSubscriptionServiceConfiguration() {
         this.eventSubscriptionServiceConfiguration = instantiateEventSubscriptionServiceConfiguration();
         this.eventSubscriptionServiceConfiguration.setClock(this.clock);
-        this.eventSubscriptionServiceConfiguration.setObjectMapper(this.objectMapper);
+        //this.eventSubscriptionServiceConfiguration.setObjectMapper(this.objectMapper);
         this.eventSubscriptionServiceConfiguration.setEventDispatcher(this.eventDispatcher);
 
         this.eventSubscriptionServiceConfiguration.init();
@@ -1543,7 +1551,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.taskServiceConfiguration = instantiateTaskServiceConfiguration();
         this.taskServiceConfiguration.setHistoryLevel(this.historyLevel);
         this.taskServiceConfiguration.setClock(this.clock);
-        this.taskServiceConfiguration.setObjectMapper(this.objectMapper);
+       // this.taskServiceConfiguration.setObjectMapper(this.objectMapper);
         this.taskServiceConfiguration.setEventDispatcher(this.eventDispatcher);
         this.taskServiceConfiguration.setEnableHistoricTaskLogging(this.enableHistoricTaskLogging);
 
@@ -1562,19 +1570,19 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (this.internalTaskVariableScopeResolver !is null) {
             this.taskServiceConfiguration.setInternalTaskVariableScopeResolver(this.internalTaskVariableScopeResolver);
         } else {
-            this.taskServiceConfiguration.setInternalTaskVariableScopeResolver(new DefaultTaskVariableScopeResolver(this));
+          //  this.taskServiceConfiguration.setInternalTaskVariableScopeResolver(new DefaultTaskVariableScopeResolver(this));
         }
 
         if (this.internalTaskAssignmentManager !is null) {
             this.taskServiceConfiguration.setInternalTaskAssignmentManager(this.internalTaskAssignmentManager);
         } else {
-            this.taskServiceConfiguration.setInternalTaskAssignmentManager(new DefaultTaskAssignmentManager());
+            //this.taskServiceConfiguration.setInternalTaskAssignmentManager(new DefaultTaskAssignmentManager());
         }
 
         if (this.internalTaskLocalizationManager !is null) {
             this.taskServiceConfiguration.setInternalTaskLocalizationManager(this.internalTaskLocalizationManager);
         } else {
-            this.taskServiceConfiguration.setInternalTaskLocalizationManager(new DefaultTaskLocalizationManager(this));
+           // this.taskServiceConfiguration.setInternalTaskLocalizationManager(new DefaultTaskLocalizationManager(this));
         }
 
         this.taskServiceConfiguration.setEnableTaskRelationshipCounts(this.performanceSettings.isEnableTaskRelationshipCounts());
@@ -1586,9 +1594,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
         this.taskServiceConfiguration.init();
 
-        if (dbSqlSessionFactory !is null && taskServiceConfiguration.getTaskDataManager() instanceof AbstractDataManager) {
-            dbSqlSessionFactory.addLogicalEntityClassMapping("task", ((AbstractDataManager) taskServiceConfiguration.getTaskDataManager()).getManagedEntityClass());
-        }
+        //if (dbSqlSessionFactory !is null && taskServiceConfiguration.getTaskDataManager() instanceof AbstractDataManager) {
+        //    dbSqlSessionFactory.addLogicalEntityClassMapping("task", ((AbstractDataManager) taskServiceConfiguration.getTaskDataManager()).getManagedEntityClass());
+        //}
 
         addServiceConfiguration(EngineConfigurationConstants.KEY_TASK_SERVICE_CONFIG, this.taskServiceConfiguration);
     }
@@ -1602,7 +1610,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.jobServiceConfiguration = instantiateJobServiceConfiguration();
             this.jobServiceConfiguration.setHistoryLevel(this.historyLevel);
             this.jobServiceConfiguration.setClock(this.clock);
-            this.jobServiceConfiguration.setObjectMapper(this.objectMapper);
+           // this.jobServiceConfiguration.setObjectMapper(this.objectMapper);
             this.jobServiceConfiguration.setEventDispatcher(this.eventDispatcher);
             this.jobServiceConfiguration.setCommandExecutor(this.commandExecutor);
             this.jobServiceConfiguration.setExpressionManager(this.expressionManager);
@@ -1610,7 +1618,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
             this.jobServiceConfiguration.setFailedJobCommandFactory(this.failedJobCommandFactory);
 
-            List!AsyncRunnableExecutionExceptionHandler exceptionHandlers = new ArrayList<>();
+            List!AsyncRunnableExecutionExceptionHandler exceptionHandlers = new ArrayList!AsyncRunnableExecutionExceptionHandler();
             if (customAsyncRunnableExecutionExceptionHandlers !is null) {
                 exceptionHandlers.addAll(customAsyncRunnableExecutionExceptionHandlers);
             }
