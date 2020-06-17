@@ -10,18 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.util.EventInstanceBpmnUtil;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
-import hunt.collections;
+import hunt.collection.Collections;
 import hunt.collection.List;
 import hunt.collection.Map;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+//import java.util.Optional;
+//import java.util.function.Function;
+//import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.ExtensionElement;
@@ -35,6 +34,7 @@ import flow.event.registry.runtime.EventPayloadInstanceImpl;
 import flow.event.registry.model.EventModel;
 import flow.event.registry.model.EventPayload;
 import flow.variable.service.api.deleg.VariableScope;
+import hunt.Exceptions;
 
 class EventInstanceBpmnUtil {
 
@@ -44,30 +44,31 @@ class EventInstanceBpmnUtil {
      * Typically used when mapping incoming event payload into a runtime instance (the {@link VariableScope)}.
      */
     public static void handleEventInstanceOutParameters(VariableScope variableScope, BaseElement baseElement, EventInstance eventInstance) {
-        Map!(string, EventPayloadInstance) payloadInstances = eventInstance.getPayloadInstances()
-                .stream()
-                .collect(Collectors.toMap(EventPayloadInstance::getDefinitionName, Function.identity()));
-
-        if (baseElement instanceof SendEventServiceTask) {
-            SendEventServiceTask eventServiceTask = (SendEventServiceTask) baseElement;
-            if (!eventServiceTask.getEventOutParameters().isEmpty()) {
-                for (IOParameter parameter : eventServiceTask.getEventOutParameters()) {
-                    setEventParameterVariable(parameter.getSource(), parameter.getTarget(), parameter.isTransient(), payloadInstances, variableScope);
-                }
-            }
-
-        } else {
-            List!ExtensionElement outParameters = baseElement.getExtensionElements()
-                    .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_OUT_PARAMETER, Collections.emptyList());
-            if (!outParameters.isEmpty()) {
-                for (ExtensionElement outParameter : outParameters) {
-                    string payloadSourceName = outParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_SOURCE);
-                    string variableName = outParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_TARGET);
-                    bool isTransient = bool.valueOf(outParameter.getAttributeValue(null, "transient"));
-                    setEventParameterVariable(payloadSourceName, variableName, isTransient, payloadInstances, variableScope);
-                }
-            }
-        }
+        implementationMissing(false);
+        //Map!(string, EventPayloadInstance) payloadInstances = eventInstance.getPayloadInstances()
+        //        .stream()
+        //        .collect(Collectors.toMap(EventPayloadInstance::getDefinitionName, Function.identity()));
+        //
+        //if (baseElement instanceof SendEventServiceTask) {
+        //    SendEventServiceTask eventServiceTask = (SendEventServiceTask) baseElement;
+        //    if (!eventServiceTask.getEventOutParameters().isEmpty()) {
+        //        for (IOParameter parameter : eventServiceTask.getEventOutParameters()) {
+        //            setEventParameterVariable(parameter.getSource(), parameter.getTarget(), parameter.isTransient(), payloadInstances, variableScope);
+        //        }
+        //    }
+        //
+        //} else {
+        //    List!ExtensionElement outParameters = baseElement.getExtensionElements()
+        //            .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_OUT_PARAMETER, Collections.emptyList());
+        //    if (!outParameters.isEmpty()) {
+        //        for (ExtensionElement outParameter : outParameters) {
+        //            string payloadSourceName = outParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_SOURCE);
+        //            string variableName = outParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_TARGET);
+        //            bool isTransient = bool.valueOf(outParameter.getAttributeValue(null, "transient"));
+        //            setEventParameterVariable(payloadSourceName, variableName, isTransient, payloadInstances, variableScope);
+        //        }
+        //    }
+        //}
     }
 
     /**
@@ -78,13 +79,13 @@ class EventInstanceBpmnUtil {
     public static Collection!EventPayloadInstance createEventPayloadInstances(VariableScope variableScope, ExpressionManager expressionManager,
             BaseElement baseElement, EventModel eventDefinition) {
 
-        List!EventPayloadInstance eventPayloadInstances = new ArrayList<>();
-        if (baseElement instanceof SendEventServiceTask) {
-            SendEventServiceTask eventServiceTask = (SendEventServiceTask) baseElement;
+        List!EventPayloadInstance eventPayloadInstances = new ArrayList!EventPayloadInstance();
+        if (cast(SendEventServiceTask)baseElement !is null) {
+            SendEventServiceTask eventServiceTask = cast(SendEventServiceTask) baseElement;
             if (!eventServiceTask.getEventInParameters().isEmpty()) {
-                for (IOParameter parameter : eventServiceTask.getEventInParameters()) {
+                foreach (IOParameter parameter ; eventServiceTask.getEventInParameters()) {
                     string sourceValue = null;
-                    if (StringUtils.isNotEmpty(parameter.getSourceExpression())) {
+                    if (parameter.getSourceExpression() !is null && parameter.getSourceExpression().length != 0) {
                         sourceValue = parameter.getSourceExpression();
                     } else {
                         sourceValue = parameter.getSource();
@@ -100,14 +101,14 @@ class EventInstanceBpmnUtil {
 
             if (!inParameters.isEmpty()) {
 
-                for (ExtensionElement inParameter : inParameters) {
+                foreach (ExtensionElement inParameter ; inParameters) {
 
                     string sourceExpression = inParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_SOURCE_EXPRESSION);
                     string source = inParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_SOURCE);
                     string target = inParameter.getAttributeValue(null, BpmnXMLConstants.ATTRIBUTE_IOPARAMETER_TARGET);
 
                     string sourceValue = null;
-                    if (StringUtils.isNotEmpty(sourceExpression)) {
+                    if (sourceExpression !is null && sourceExpression.length != 0) {
                         sourceValue = sourceExpression;
                     } else {
                         sourceValue = source;
@@ -125,9 +126,9 @@ class EventInstanceBpmnUtil {
                     Map!(string, EventPayloadInstance) payloadInstances, VariableScope variableScope) {
 
         EventPayloadInstance payloadInstance = payloadInstances.get(source);
-        if (StringUtils.isNotEmpty(target)) {
+        if (target !is null && target.length != 0) {
             Object value = payloadInstance !is null ? payloadInstance.getValue() : null;
-            if (bool.TRUE.equals(isTransient)) {
+            if (isTransient) {
                 variableScope.setTransientVariable(target, value);
             } else {
                 variableScope.setVariable(target, value);
@@ -137,19 +138,20 @@ class EventInstanceBpmnUtil {
 
     protected static void addEventPayloadInstance(List!EventPayloadInstance eventPayloadInstances, string source, string target,
                     VariableScope variableScope, ExpressionManager expressionManager, EventModel eventDefinition) {
-
-        Optional!EventPayload matchingEventDefinition = eventDefinition.getPayload()
-            .stream()
-            .filter(e -> e.getName().equals(target))
-            .findFirst();
-        if (matchingEventDefinition.isPresent()) {
-            EventPayload eventPayloadDefinition = matchingEventDefinition.get();
-
-            Expression sourceExpression = expressionManager.createExpression(source);
-            Object value = sourceExpression.getValue(variableScope);
-
-            eventPayloadInstances.add(new EventPayloadInstanceImpl(eventPayloadDefinition, value));
-        }
+        implementationMissing(false);
+        //
+        //Optional!EventPayload matchingEventDefinition = eventDefinition.getPayload()
+        //    .stream()
+        //    .filter(e -> e.getName().equals(target))
+        //    .findFirst();
+        //if (matchingEventDefinition.isPresent()) {
+        //    EventPayload eventPayloadDefinition = matchingEventDefinition.get();
+        //
+        //    Expression sourceExpression = expressionManager.createExpression(source);
+        //    Object value = sourceExpression.getValue(variableScope);
+        //
+        //    eventPayloadInstances.add(new EventPayloadInstanceImpl(eventPayloadDefinition, value));
+        //}
     }
 
 }

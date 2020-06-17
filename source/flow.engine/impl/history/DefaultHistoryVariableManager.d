@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module flow.engine.impl.histroy.DefaultHistoryVariableManager;
+module flow.engine.impl.history.DefaultHistoryVariableManager;
 
 
 import hunt.time.LocalDateTime;
@@ -18,7 +18,7 @@ import hunt.time.LocalDateTime;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.variable.service.history.InternalHistoryVariableManager;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
-import flow.engine.impl.histroy.HistoryManager;
+import flow.engine.impl.history.HistoryManager;
 
 
 class DefaultHistoryVariableManager : InternalHistoryVariableManager {

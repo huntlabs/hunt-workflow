@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module flow.engine.impl.histroy.AbstractHistoryManager;
+module flow.engine.impl.history.AbstractHistoryManager;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
@@ -40,7 +40,7 @@ import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.service.HistoricTaskService;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
-import flow.engine.impl.histroy.HistoryManager;
+import flow.engine.impl.history.HistoryManager;
 import hunt.Exceptions;
 
 

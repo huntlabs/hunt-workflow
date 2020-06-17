@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module flow.engine.impl.histroy.HistoryManager;
+module flow.engine.impl.history.HistoryManager;
 
 import hunt.time.LocalDateTime;
 import hunt.collection.Map;

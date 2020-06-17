@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-module flow.engine.impl.histroy.DefaultHistoryTaskManager;
+module flow.engine.impl.history.DefaultHistoryTaskManager;
 
 import hunt.time.LocalDateTime;
 

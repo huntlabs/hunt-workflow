@@ -49,17 +49,17 @@ import flow.engine.impl.cmd.GetAppResourceObjectCmd;
 import flow.engine.impl.cmd.GetBpmnModelCmd;
 import flow.engine.impl.cmd.GetDecisionTablesForProcessDefinitionCmd;
 import flow.engine.impl.cmd.GetDeploymentProcessDefinitionCmd;
-import flow.engine.impl.cmd.GetDeploymentProcessDiagramCmd;
-import flow.engine.impl.cmd.GetDeploymentProcessDiagramLayoutCmd;
+//import flow.engine.impl.cmd.GetDeploymentProcessDiagramCmd;
+//import flow.engine.impl.cmd.GetDeploymentProcessDiagramLayoutCmd;
 import flow.engine.impl.cmd.GetDeploymentProcessModelCmd;
 import flow.engine.impl.cmd.GetDeploymentResourceCmd;
-import flow.engine.impl.cmd.GetDeploymentResourceNamesCmd;
+//import flow.engine.impl.cmd.GetDeploymentResourceNamesCmd;
 import flow.engine.impl.cmd.GetFormDefinitionsForProcessDefinitionCmd;
 import flow.engine.impl.cmd.GetIdentityLinksForProcessDefinitionCmd;
 import flow.engine.impl.cmd.GetModelCmd;
 import flow.engine.impl.cmd.GetModelEditorSourceCmd;
 import flow.engine.impl.cmd.GetModelEditorSourceExtraCmd;
-import flow.engine.impl.cmd.IsFlowable5ProcessDefinitionCmd;
+//import flow.engine.impl.cmd.IsFlowable5ProcessDefinitionCmd;
 import flow.engine.impl.cmd.IsProcessDefinitionSuspendedCmd;
 import flow.engine.impl.cmd.SaveModelCmd;
 import flow.engine.impl.cmd.SetDeploymentCategoryCmd;
@@ -67,7 +67,7 @@ import flow.engine.impl.cmd.SetDeploymentKeyCmd;
 import flow.engine.impl.cmd.SetDeploymentParentDeploymentIdCmd;
 import flow.engine.impl.cmd.SetProcessDefinitionCategoryCmd;
 import flow.engine.impl.cmd.SuspendProcessDefinitionCmd;
-import flow.engine.impl.cmd.ValidateBpmnModelCmd;
+//import flow.engine.impl.cmd.ValidateBpmnModelCmd;
 import flow.engine.impl.persistence.entity.ModelEntity;
 import flow.engine.impl.repository.DeploymentBuilderImpl;
 import flow.engine.repository.DeploymentMergeStrategy;
@@ -87,9 +87,9 @@ import flow.form.api.FormDefinition;
 import flow.identitylink.api.IdentityLink;
 //import org.flowable.validation.ValidationError;
 import flow.engine.impl.ProcessDefinitionQueryImpl;
-import flow.engine.impl.NativeProcessDefinitionQueryImpl;
+//import flow.engine.impl.NativeProcessDefinitionQueryImpl;
 import flow.engine.impl.DeploymentQueryImpl;
-import flow.engine.impl.NativeDeploymentQueryImpl;
+//import flow.engine.impl.NativeDeploymentQueryImpl;
 import flow.engine.impl.ModelQueryImpl;
 //import flow.engine.impl.NativeModelQueryImpl;
 import hunt.Exceptions;
@@ -147,12 +147,14 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public NativeProcessDefinitionQuery createNativeProcessDefinitionQuery() {
-        return new NativeProcessDefinitionQueryImpl(commandExecutor);
+        implementationMissing(false);
+        //return new NativeProcessDefinitionQueryImpl(commandExecutor);
     }
 
 
     public List!string getDeploymentResourceNames(string deploymentId) {
-        return commandExecutor.execute(new GetDeploymentResourceNamesCmd(deploymentId));
+        implementationMissing(false);
+        //return commandExecutor.execute(new GetDeploymentResourceNamesCmd(deploymentId));
     }
 
 
@@ -182,7 +184,8 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public NativeDeploymentQuery createNativeDeploymentQuery() {
-        return new NativeDeploymentQueryImpl(commandExecutor);
+        implementationMissing(false);
+       // return new NativeDeploymentQueryImpl(commandExecutor);
     }
 
 
@@ -192,7 +195,9 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public bool isFlowable5ProcessDefinition(string processDefinitionId) {
-        return commandExecutor.execute(new IsFlowable5ProcessDefinitionCmd(processDefinitionId));
+        implementationMissing(false);
+        return false;
+     //   return commandExecutor.execute(new IsFlowable5ProcessDefinitionCmd(processDefinitionId));
     }
 
 
@@ -281,7 +286,9 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public InputStream getProcessDiagram(string processDefinitionId) {
-        return commandExecutor.execute(new GetDeploymentProcessDiagramCmd(processDefinitionId));
+        implementationMissing(false);
+        return null;
+        //return commandExecutor.execute(new GetDeploymentProcessDiagramCmd(processDefinitionId));
     }
 
 

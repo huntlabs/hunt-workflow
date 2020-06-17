@@ -24,6 +24,9 @@ import flow.identitylink.service.impl.persistence.entity.data.HistoricIdentityLi
 import flow.identitylink.service.impl.persistence.entity.data.IdentityLinkDataManager;
 import flow.identitylink.service.impl.persistence.entity.data.impl.MybatisHistoricIdentityLinkDataManager;
 import flow.identitylink.service.impl.persistence.entity.data.impl.MybatisIdentityLinkDataManager;
+import flow.identitylink.service.IdentityLinkService;
+import flow.identitylink.service.HistoricIdentityLinkService;
+import flow.identitylink.service.IdentityLinkEventHandler;
 import hunt.logging;
 
 
@@ -55,7 +58,7 @@ class IdentityLinkServiceConfiguration : AbstractServiceConfiguration {
 
     protected HistoryLevel historyLevel;
 
-    protected ObjectMapper objectMapper;
+    //protected ObjectMapper objectMapper;
 
     this(string engineName) {
         super(engineName);

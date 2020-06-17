@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.util.ProcessDefinitionUtil;
 
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.Process;
@@ -23,6 +23,8 @@ import flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.repository.ProcessDefinition;
+import flow.engine.impl.util.CommandContextUtil;
+import hunt.Exceptions;
 
 /**
  * A utility class that hides the complexity of {@link ProcessDefinitionEntity} and {@link Process} lookup. Use this class rather than accessing the process definition cache or
@@ -56,7 +58,8 @@ class ProcessDefinitionUtil {
             throw new FlowableException("Cannot get process model: no current command context is active");
 
         } else if (CommandContextUtil.getProcessEngineConfiguration() is null) {
-            return Flowable5Util.getFlowable5CompatibilityHandler().getProcessDefinitionProcessObject(processDefinitionId);
+            implementationMissing(false);
+          //  return Flowable5Util.getFlowable5CompatibilityHandler().getProcessDefinitionProcessObject(processDefinitionId);
 
         } else {
             DeploymentManager deploymentManager = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager();
@@ -69,7 +72,8 @@ class ProcessDefinitionUtil {
 
     public static BpmnModel getBpmnModel(string processDefinitionId) {
         if (CommandContextUtil.getProcessEngineConfiguration() is null) {
-            return Flowable5Util.getFlowable5CompatibilityHandler().getProcessDefinitionBpmnModel(processDefinitionId);
+            implementationMissing(false);
+          //  return Flowable5Util.getFlowable5CompatibilityHandler().getProcessDefinitionBpmnModel(processDefinitionId);
 
         } else {
             DeploymentManager deploymentManager = CommandContextUtil.getProcessEngineConfiguration().getDeploymentManager();
@@ -97,7 +101,7 @@ class ProcessDefinitionUtil {
         ProcessDefinitionEntityManager processDefinitionEntityManager = CommandContextUtil.getProcessEngineConfiguration().getProcessDefinitionEntityManager();
         ProcessDefinitionEntity processDefinition = processDefinitionEntityManager.findById(processDefinitionId);
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("No process definition found with id " + processDefinitionId);
+            throw new FlowableObjectNotFoundException("No process definition found with id " ~ processDefinitionId);
         }
 
         return processDefinition;

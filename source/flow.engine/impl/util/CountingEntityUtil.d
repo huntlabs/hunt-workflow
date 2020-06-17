@@ -22,6 +22,8 @@ import flow.eventsubscription.service.api.EventSubscription;
 import flow.task.service.impl.persistence.CountingTaskEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.util.EventUtil;
 
 /**
  * @author Tijs Rademakers
@@ -30,13 +32,13 @@ class CountingEntityUtil {
 
     public static void handleDeleteVariableInstanceEntityCount(VariableInstanceEntity variableInstance, bool fireDeleteEvent) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
-        if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
-            CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskService().getTask(variableInstance.getTaskId());
+        if (variableInstance.getTaskId() !is null && variableInstance.getTaskId().length != 0 && isTaskRelatedEntityCountEnabledGlobally()) {
+            CountingTaskEntity countingTaskEntity = cast(CountingTaskEntity) CommandContextUtil.getTaskService().getTask(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() - 1);
             }
-        } else if (variableInstance.getExecutionId() !is null && isExecutionRelatedEntityCountEnabledGlobally()) {
-            CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager(commandContext).findById(variableInstance.getExecutionId());
+        } else if (variableInstance.getExecutionId() !is null && variableInstance.getExecutionId().length != 0 && isExecutionRelatedEntityCountEnabledGlobally()) {
+            CountingExecutionEntity executionEntity = cast(CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager(commandContext).findById(variableInstance.getExecutionId());
             if (isExecutionRelatedEntityCountEnabled(executionEntity)) {
                 executionEntity.setVariableCount(executionEntity.getVariableCount() - 1);
             }
@@ -52,13 +54,13 @@ class CountingEntityUtil {
 
     public static void handleInsertVariableInstanceEntityCount(VariableInstanceEntity variableInstance) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
-        if (variableInstance.getTaskId() !is null && isTaskRelatedEntityCountEnabledGlobally()) {
-            CountingTaskEntity countingTaskEntity = (CountingTaskEntity) CommandContextUtil.getTaskService().getTask(variableInstance.getTaskId());
+        if (variableInstance.getTaskId() !is null && variableInstance.getTaskId().length != 0 && isTaskRelatedEntityCountEnabledGlobally()) {
+            CountingTaskEntity countingTaskEntity = cast(CountingTaskEntity) CommandContextUtil.getTaskService().getTask(variableInstance.getTaskId());
             if (isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setVariableCount(countingTaskEntity.getVariableCount() + 1);
             }
-        } else if (variableInstance.getExecutionId() !is null && isExecutionRelatedEntityCountEnabledGlobally()) {
-            CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager(commandContext).findById(variableInstance.getExecutionId());
+        } else if (variableInstance.getExecutionId() !is null && variableInstance.getExecutionId().length != 0 && isExecutionRelatedEntityCountEnabledGlobally()) {
+            CountingExecutionEntity executionEntity = cast(CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager(commandContext).findById(variableInstance.getExecutionId());
             if (isExecutionRelatedEntityCountEnabled(executionEntity)) {
                 executionEntity.setVariableCount(executionEntity.getVariableCount() + 1);
             }
@@ -66,8 +68,8 @@ class CountingEntityUtil {
     }
 
     public static void handleInsertEventSubscriptionEntityCount(EventSubscription eventSubscription) {
-        if (eventSubscription.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
-            CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
+        if (eventSubscription.getExecutionId() !is null && eventSubscription.getExecutionId().length != 0 && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
+            CountingExecutionEntity executionEntity = cast(CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
                             eventSubscription.getExecutionId());
 
             if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(executionEntity)) {
@@ -77,8 +79,8 @@ class CountingEntityUtil {
     }
 
     public static void handleDeleteEventSubscriptionEntityCount(EventSubscription eventSubscription) {
-        if (eventSubscription.getExecutionId() !is null && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
-            CountingExecutionEntity executionEntity = (CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
+        if (eventSubscription.getExecutionId() !is null && eventSubscription.getExecutionId().length != 0 && CountingEntityUtil.isExecutionRelatedEntityCountEnabledGlobally()) {
+            CountingExecutionEntity executionEntity = cast(CountingExecutionEntity) CommandContextUtil.getExecutionEntityManager().findById(
                             eventSubscription.getExecutionId());
 
             if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(executionEntity)) {
@@ -101,15 +103,15 @@ class CountingEntityUtil {
     }
 
     public static bool isExecutionRelatedEntityCountEnabled(ExecutionEntity executionEntity) {
-        if (executionEntity.isProcessInstanceType() || executionEntity instanceof CountingExecutionEntity) {
-            return isExecutionRelatedEntityCountEnabled((CountingExecutionEntity) executionEntity);
+        if (executionEntity.isProcessInstanceType() || cast(CountingExecutionEntity)executionEntity !is null) {
+            return isExecutionRelatedEntityCountEnabled(cast(CountingExecutionEntity) executionEntity);
         }
         return false;
     }
 
     public static bool isTaskRelatedEntityCountEnabled(TaskEntity taskEntity) {
-        if (taskEntity instanceof CountingTaskEntity) {
-            return isTaskRelatedEntityCountEnabled((CountingTaskEntity) taskEntity);
+        if (cast(CountingTaskEntity)taskEntity !is null) {
+            return isTaskRelatedEntityCountEnabled(cast(CountingTaskEntity) taskEntity);
         }
         return false;
     }

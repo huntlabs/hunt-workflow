@@ -21,7 +21,6 @@ import flow.engine.impl.deleg.invocation.DelegateInvocation;
  */
 class DefaultDelegateInterceptor : DelegateInterceptor {
 
-    override
     public void handleInvocation(DelegateInvocation invocation) {
         invocation.proceed();
     }

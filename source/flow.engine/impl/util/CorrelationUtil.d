@@ -10,19 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.util.CorrelationUtil;
 
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import flow.bpmn.model.ExtensionElement;
 import flow.bpmn.model.FlowElement;
 import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
+import hunt.String;
 
 class CorrelationUtil {
 
@@ -38,16 +38,16 @@ class CorrelationUtil {
                 ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
                 ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
 
-                Map!(string, Object) correlationParameters = new HashMap<>();
-                for (ExtensionElement eventCorrelation : eventCorrelations) {
+                Map!(string, Object) correlationParameters = new HashMap!(string, Object)();
+                foreach (ExtensionElement eventCorrelation ; eventCorrelations) {
                     string name = eventCorrelation.getAttributeValue(null, "name");
                     string valueExpression = eventCorrelation.getAttributeValue(null, "value");
-                    if (StringUtils.isNotEmpty(valueExpression)) {
+                    if (valueExpression !is null && valueExpression.length != 0) {
                         if (executionEntity !is null) {
                             Object value = expressionManager.createExpression(valueExpression).getValue(executionEntity);
                             correlationParameters.put(name, value);
                         } else {
-                            correlationParameters.put(name, valueExpression);
+                            correlationParameters.put(name, new String(valueExpression));
                         }
 
                     } else {

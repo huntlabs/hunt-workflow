@@ -10,7 +10,7 @@
  * See the License foreach the specific language governing permissions and
  * limitations under the License.
  */
-module flow.engine.impl.histroy.CompositeHistoryManager;
+module flow.engine.impl.history.CompositeHistoryManager;
 
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -28,7 +28,7 @@ import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import flow.task.api.history.HistoricTaskLogEntryBuilder;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
-import flow.engine.impl.histroy.HistoryManager;
+import flow.engine.impl.history.HistoryManager;
 
 /**
  * @author Filip Hrisafov

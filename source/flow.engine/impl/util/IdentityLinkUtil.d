@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.util.IdentityLinkUtil;
 
 import hunt.collection.List;
 
-import flow.common.identity.Authentication;
+//import flow.common.identity.Authentication;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
@@ -23,8 +23,10 @@ import flow.task.service.TaskServiceConfiguration;
 import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
 import flow.task.service.impl.persistence.CountingTaskEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
+import flow.engine.impl.util.CommandContextUtil;
+import hunt.Exceptions;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+//import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * @author Tijs Rademakers
@@ -52,14 +54,14 @@ class IdentityLinkUtil {
     public static void deleteProcessInstanceIdentityLinks(ExecutionEntity processInstanceEntity, string userId, string groupId, string type) {
         List!IdentityLinkEntity removedIdentityLinkEntities = CommandContextUtil.getIdentityLinkService().deleteProcessInstanceIdentityLink(
                         processInstanceEntity.getId(), userId, groupId, type);
-        for (IdentityLinkEntity identityLinkEntity : removedIdentityLinkEntities) {
+        foreach (IdentityLinkEntity identityLinkEntity ; removedIdentityLinkEntities) {
             CommandContextUtil.getHistoryManager().recordIdentityLinkDeleted(identityLinkEntity);
         }
         processInstanceEntity.getIdentityLinks().removeAll(removedIdentityLinkEntities);
     }
 
     public static void handleTaskIdentityLinkAdditions(TaskEntity taskEntity, List!IdentityLinkEntity identityLinkEntities) {
-        for (IdentityLinkEntity identityLinkEntity : identityLinkEntities) {
+        foreach (IdentityLinkEntity identityLinkEntity ; identityLinkEntities) {
             handleTaskIdentityLinkAddition(taskEntity, identityLinkEntity);
         }
     }
@@ -68,7 +70,7 @@ class IdentityLinkUtil {
         CommandContextUtil.getHistoryManager().recordIdentityLinkCreated(identityLinkEntity);
 
         if (CountingEntityUtil.isTaskRelatedEntityCountEnabledGlobally()) {
-            CountingTaskEntity countingTaskEntity = (CountingTaskEntity) taskEntity;
+            CountingTaskEntity countingTaskEntity = cast(CountingTaskEntity) taskEntity;
             if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setIdentityLinkCount(countingTaskEntity.getIdentityLinkCount() + 1);
             }
@@ -85,7 +87,7 @@ class IdentityLinkUtil {
     }
 
     public static void handleTaskIdentityLinkDeletions(TaskEntity taskEntity, List!IdentityLinkEntity identityLinks, bool cascadeHistory, bool updateTaskCounts) {
-        for (IdentityLinkEntity identityLinkEntity : identityLinks) {
+        foreach (IdentityLinkEntity identityLinkEntity ; identityLinks) {
             if (cascadeHistory) {
                 CommandContextUtil.getHistoryManager().recordIdentityLinkDeleted(identityLinkEntity);
             }
@@ -100,7 +102,7 @@ class IdentityLinkUtil {
 
     protected static void handleTaskCountsForIdentityLinkDeletion(TaskEntity taskEntity, IdentityLinkEntity identityLink) {
         if (CountingEntityUtil.isTaskRelatedEntityCountEnabledGlobally()) {
-            CountingTaskEntity countingTaskEntity = (CountingTaskEntity) taskEntity;
+            CountingTaskEntity countingTaskEntity = cast(CountingTaskEntity) taskEntity;
             if (CountingEntityUtil.isTaskRelatedEntityCountEnabled(countingTaskEntity)) {
                 countingTaskEntity.setIdentityLinkCount(countingTaskEntity.getIdentityLinkCount() - 1);
             }
@@ -108,22 +110,23 @@ class IdentityLinkUtil {
     }
 
     protected static void logTaskIdentityLinkEvent(string eventType, TaskEntity taskEntity, IdentityLinkEntity identityLinkEntity) {
-        TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration();
-        if (taskServiceConfiguration.isEnableHistoricTaskLogging()) {
-            BaseHistoricTaskLogEntryBuilderImpl taskLogEntryBuilder = new BaseHistoricTaskLogEntryBuilderImpl(taskEntity);
-            ObjectNode data = CommandContextUtil.getTaskServiceConfiguration().getObjectMapper().createObjectNode();
-            if (identityLinkEntity.isUser()) {
-                data.put("userId", identityLinkEntity.getUserId());
-            } else if (identityLinkEntity.isGroup()) {
-                data.put("groupId", identityLinkEntity.getGroupId());
-            }
-            data.put("type", identityLinkEntity.getType());
-            taskLogEntryBuilder.timeStamp(taskServiceConfiguration.getClock().getCurrentTime());
-            taskLogEntryBuilder.userId(Authentication.getAuthenticatedUserId());
-            taskLogEntryBuilder.data(data.toString());
-            taskLogEntryBuilder.type(eventType);
-            taskServiceConfiguration.getInternalHistoryTaskManager().recordHistoryUserTaskLog(taskLogEntryBuilder);
-        }
+        implementationMissing(false);
+        //TaskServiceConfiguration taskServiceConfiguration = CommandContextUtil.getTaskServiceConfiguration();
+        //if (taskServiceConfiguration.isEnableHistoricTaskLogging()) {
+        //    BaseHistoricTaskLogEntryBuilderImpl taskLogEntryBuilder = new BaseHistoricTaskLogEntryBuilderImpl(taskEntity);
+        //    ObjectNode data = CommandContextUtil.getTaskServiceConfiguration().getObjectMapper().createObjectNode();
+        //    if (identityLinkEntity.isUser()) {
+        //        data.put("userId", identityLinkEntity.getUserId());
+        //    } else if (identityLinkEntity.isGroup()) {
+        //        data.put("groupId", identityLinkEntity.getGroupId());
+        //    }
+        //    data.put("type", identityLinkEntity.getType());
+        //    taskLogEntryBuilder.timeStamp(taskServiceConfiguration.getClock().getCurrentTime());
+        //    taskLogEntryBuilder.userId(Authentication.getAuthenticatedUserId());
+        //    taskLogEntryBuilder.data(data.toString());
+        //    taskLogEntryBuilder.type(eventType);
+        //    taskServiceConfiguration.getInternalHistoryTaskManager().recordHistoryUserTaskLog(taskLogEntryBuilder);
+        //}
     }
 
 }

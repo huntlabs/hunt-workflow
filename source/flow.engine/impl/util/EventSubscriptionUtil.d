@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.engine.impl.util.EventSubscriptionUtil;
 
 import flow.common.api.FlowableException;
 import flow.engine.impl.event.EventHandler;
@@ -19,6 +19,8 @@ import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSub
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.util.CountingEntityUtil;
 
 class EventSubscriptionUtil {
 
@@ -33,14 +35,14 @@ class EventSubscriptionUtil {
     protected static void processEventSync(EventSubscriptionEntity eventSubscriptionEntity, Object payload) {
 
         // A compensate event needs to be deleted before the handlers are called
-        if (eventSubscriptionEntity instanceof CompensateEventSubscriptionEntity) {
+        if (cast(CompensateEventSubscriptionEntity)eventSubscriptionEntity !is null) {
             CommandContextUtil.getEventSubscriptionService().deleteEventSubscription(eventSubscriptionEntity);
             CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscriptionEntity);
         }
 
         EventHandler eventHandler = CommandContextUtil.getProcessEngineConfiguration().getEventHandler(eventSubscriptionEntity.getEventType());
         if (eventHandler is null) {
-            throw new FlowableException("Could not find eventhandler for event of type '" + eventSubscriptionEntity.getEventType() + "'.");
+            throw new FlowableException("Could not find eventhandler for event of type '" ~ eventSubscriptionEntity.getEventType() ~ "'.");
         }
         eventHandler.handleEvent(eventSubscriptionEntity, payload, CommandContextUtil.getCommandContext());
     }

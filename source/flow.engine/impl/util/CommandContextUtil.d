@@ -60,7 +60,7 @@ import flow.engine.impl.persistence.entity.ResourceEntityManager;
 import flow.engine.impl.persistence.entity.TableDataManager;
 import flow.entitylink.service.api.EntityLinkService;
 import flow.entitylink.service.api.history.HistoricEntityLinkService;
-import org.flowable.entitylink.service.EntityLinkServiceConfiguration;
+//import flow.entitylink.service.EntityLinkServiceConfiguration;
 import flow.event.registry.api.EventRegistry;
 import flow.event.registry.api.EventRepositoryService;
 import flow.event.registry.EventRegistryEngineConfiguration;
@@ -87,10 +87,11 @@ import flow.task.service.TaskServiceConfiguration;
 import flow.variable.service.HistoricVariableService;
 import flow.variable.service.VariableService;
 import flow.variable.service.VariableServiceConfiguration;
+import flow.engine.impl.util.ProcessInstanceHelper;
 
 class CommandContextUtil {
 
-    public static final string ATTRIBUTE_INVOLVED_EXECUTIONS = "ctx.attribute.involvedExecutions";
+    public static string ATTRIBUTE_INVOLVED_EXECUTIONS = "ctx.attribute.involvedExecutions";
 
     public static ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
         return getProcessEngineConfiguration(getCommandContext());
@@ -172,38 +173,38 @@ class CommandContextUtil {
     }
 
     // ENTITY LINK SERVICE
-    public static EntityLinkServiceConfiguration getEntityLinkServiceConfiguration() {
-        return getEntityLinkServiceConfiguration(getCommandContext());
-    }
-
-    public static EntityLinkServiceConfiguration getEntityLinkServiceConfiguration(CommandContext commandContext) {
-        return cast(EntityLinkServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
-            .get(EngineConfigurationConstants.KEY_ENTITY_LINK_SERVICE_CONFIG);
-    }
+    //public static EntityLinkServiceConfiguration getEntityLinkServiceConfiguration() {
+    //    return getEntityLinkServiceConfiguration(getCommandContext());
+    //}
+    //
+    //public static EntityLinkServiceConfiguration getEntityLinkServiceConfiguration(CommandContext commandContext) {
+    //    return cast(EntityLinkServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+    //        .get(EngineConfigurationConstants.KEY_ENTITY_LINK_SERVICE_CONFIG);
+    //}
 
     public static EntityLinkService getEntityLinkService() {
         return getEntityLinkService(getCommandContext());
     }
 
-    public static EntityLinkService getEntityLinkService(CommandContext commandContext) {
-        EntityLinkService entityLinkService = null;
-        EntityLinkServiceConfiguration entityLinkServiceConfiguration = getEntityLinkServiceConfiguration(commandContext);
-        if (entityLinkServiceConfiguration !is null) {
-            entityLinkService = entityLinkServiceConfiguration.getEntityLinkService();
-        }
-
-        return entityLinkService;
-    }
-
-    public static HistoricEntityLinkService getHistoricEntityLinkService() {
-        HistoricEntityLinkService historicEntityLinkService = null;
-        EntityLinkServiceConfiguration entityLinkServiceConfiguration = getEntityLinkServiceConfiguration();
-        if (entityLinkServiceConfiguration !is null) {
-            historicEntityLinkService = entityLinkServiceConfiguration.getHistoricEntityLinkService();
-        }
-
-        return historicEntityLinkService;
-    }
+    //public static EntityLinkService getEntityLinkService(CommandContext commandContext) {
+    //    EntityLinkService entityLinkService = null;
+    //    EntityLinkServiceConfiguration entityLinkServiceConfiguration = getEntityLinkServiceConfiguration(commandContext);
+    //    if (entityLinkServiceConfiguration !is null) {
+    //        entityLinkService = entityLinkServiceConfiguration.getEntityLinkService();
+    //    }
+    //
+    //    return entityLinkService;
+    //}
+    //
+    //public static HistoricEntityLinkService getHistoricEntityLinkService() {
+    //    HistoricEntityLinkService historicEntityLinkService = null;
+    //    EntityLinkServiceConfiguration entityLinkServiceConfiguration = getEntityLinkServiceConfiguration();
+    //    if (entityLinkServiceConfiguration !is null) {
+    //        historicEntityLinkService = entityLinkServiceConfiguration.getHistoricEntityLinkService();
+    //    }
+    //
+    //    return historicEntityLinkService;
+    //}
 
     // EVENT SUBSCRIPTION SERVICE
     public static EventSubscriptionServiceConfiguration getEventSubscriptionServiceConfiguration() {
@@ -211,7 +212,7 @@ class CommandContextUtil {
     }
 
     public static EventSubscriptionServiceConfiguration getEventSubscriptionServiceConfiguration(CommandContext commandContext) {
-        return (EventSubscriptionServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+        return cast(EventSubscriptionServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
                         .get(EngineConfigurationConstants.KEY_EVENT_SUBSCRIPTION_SERVICE_CONFIG);
     }
 
@@ -272,7 +273,7 @@ class CommandContextUtil {
     }
 
     public static JobServiceConfiguration getJobServiceConfiguration(CommandContext commandContext) {
-        return (JobServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+        return cast(JobServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
             .get(EngineConfigurationConstants.KEY_JOB_SERVICE_CONFIG);
     }
 
@@ -324,7 +325,7 @@ class CommandContextUtil {
     }
 
     public static BatchServiceConfiguration getBatchServiceConfiguration(CommandContext commandContext) {
-        return (BatchServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
+        return cast(BatchServiceConfiguration) getProcessEngineConfiguration(commandContext).getServiceConfigurations()
             .get(EngineConfigurationConstants.KEY_BATCH_SERVICE_CONFIG);
     }
 
@@ -349,7 +350,7 @@ class CommandContextUtil {
     }
 
     public static IdmEngineConfigurationApi getIdmEngineConfiguration(CommandContext commandContext) {
-        return (IdmEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_IDM_ENGINE_CONFIG);
+        return cast(IdmEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_IDM_ENGINE_CONFIG);
     }
 
     public static IdmIdentityService getIdmIdentityService() {
@@ -369,7 +370,7 @@ class CommandContextUtil {
     }
 
     public static EventRegistryEngineConfiguration getEventRegistryEngineConfiguration(CommandContext commandContext) {
-        return (EventRegistryEngineConfiguration) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_EVENT_REGISTRY_CONFIG);
+        return cast(EventRegistryEngineConfiguration) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_EVENT_REGISTRY_CONFIG);
     }
 
     public static EventRegistry getEventRegistry() {
@@ -402,43 +403,43 @@ class CommandContextUtil {
 
     // DMN ENGINE
 
-    public static DmnEngineConfigurationApi getDmnEngineConfiguration() {
-        return getDmnEngineConfiguration(getCommandContext());
-    }
-
-    public static DmnEngineConfigurationApi getDmnEngineConfiguration(CommandContext commandContext) {
-        return (DmnEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_DMN_ENGINE_CONFIG);
-    }
-
-    public static DmnRepositoryService getDmnRepositoryService() {
-        DmnRepositoryService dmnRepositoryService = null;
-        DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
-        if (dmnEngineConfiguration !is null) {
-            dmnRepositoryService = dmnEngineConfiguration.getDmnRepositoryService();
-        }
-
-        return dmnRepositoryService;
-    }
-
-    public static DmnRuleService getDmnRuleService() {
-        DmnRuleService dmnRuleService = null;
-        DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
-        if (dmnEngineConfiguration !is null) {
-            dmnRuleService = dmnEngineConfiguration.getDmnRuleService();
-        }
-
-        return dmnRuleService;
-    }
-
-    public static DmnManagementService getDmnManagementService() {
-        DmnManagementService dmnManagementService = null;
-        DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
-        if (dmnEngineConfiguration !is null) {
-            dmnManagementService = dmnEngineConfiguration.getDmnManagementService();
-        }
-
-        return dmnManagementService;
-    }
+    //public static DmnEngineConfigurationApi getDmnEngineConfiguration() {
+    //    return getDmnEngineConfiguration(getCommandContext());
+    //}
+    //
+    //public static DmnEngineConfigurationApi getDmnEngineConfiguration(CommandContext commandContext) {
+    //    return (DmnEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_DMN_ENGINE_CONFIG);
+    //}
+    //
+    //public static DmnRepositoryService getDmnRepositoryService() {
+    //    DmnRepositoryService dmnRepositoryService = null;
+    //    DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
+    //    if (dmnEngineConfiguration !is null) {
+    //        dmnRepositoryService = dmnEngineConfiguration.getDmnRepositoryService();
+    //    }
+    //
+    //    return dmnRepositoryService;
+    //}
+    //
+    //public static DmnRuleService getDmnRuleService() {
+    //    DmnRuleService dmnRuleService = null;
+    //    DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
+    //    if (dmnEngineConfiguration !is null) {
+    //        dmnRuleService = dmnEngineConfiguration.getDmnRuleService();
+    //    }
+    //
+    //    return dmnRuleService;
+    //}
+    //
+    //public static DmnManagementService getDmnManagementService() {
+    //    DmnManagementService dmnManagementService = null;
+    //    DmnEngineConfigurationApi dmnEngineConfiguration = getDmnEngineConfiguration();
+    //    if (dmnEngineConfiguration !is null) {
+    //        dmnManagementService = dmnEngineConfiguration.getDmnManagementService();
+    //    }
+    //
+    //    return dmnManagementService;
+    //}
 
     // FORM ENGINE
 
@@ -447,7 +448,7 @@ class CommandContextUtil {
     }
 
     public static FormEngineConfigurationApi getFormEngineConfiguration(CommandContext commandContext) {
-        return (FormEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_FORM_ENGINE_CONFIG);
+        return cast(FormEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_FORM_ENGINE_CONFIG);
     }
 
     public static FormRepositoryService getFormRepositoryService() {
@@ -493,73 +494,71 @@ class CommandContextUtil {
     }
 
     // CONTENT ENGINE
-
-    public static ContentEngineConfigurationApi getContentEngineConfiguration() {
-        return getContentEngineConfiguration(getCommandContext());
-    }
-
-    public static ContentEngineConfigurationApi getContentEngineConfiguration(CommandContext commandContext) {
-        return (ContentEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_CONTENT_ENGINE_CONFIG);
-    }
-
-    public static ContentService getContentService() {
-        return getContentService(getCommandContext());
-    }
-
-    public static ContentService getContentService(CommandContext commandContext) {
-        ContentService contentService = null;
-        ContentEngineConfigurationApi contentEngineConfiguration = getContentEngineConfiguration(commandContext);
-        if (contentEngineConfiguration !is null) {
-            contentService = contentEngineConfiguration.getContentService();
-        }
-
-        return contentService;
-    }
+    //
+    //public static ContentEngineConfigurationApi getContentEngineConfiguration() {
+    //    return getContentEngineConfiguration(getCommandContext());
+    //}
+    //
+    //public static ContentEngineConfigurationApi getContentEngineConfiguration(CommandContext commandContext) {
+    //    return (ContentEngineConfigurationApi) commandContext.getEngineConfigurations().get(EngineConfigurationConstants.KEY_CONTENT_ENGINE_CONFIG);
+    //}
+    //
+    //public static ContentService getContentService() {
+    //    return getContentService(getCommandContext());
+    //}
+    //
+    //public static ContentService getContentService(CommandContext commandContext) {
+    //    ContentService contentService = null;
+    //    ContentEngineConfigurationApi contentEngineConfiguration = getContentEngineConfiguration(commandContext);
+    //    if (contentEngineConfiguration !is null) {
+    //        contentService = contentEngineConfiguration.getContentService();
+    //    }
+    //
+    //    return contentService;
+    //}
 
     public static FlowableEngineAgenda getAgenda() {
         return getAgenda(getCommandContext());
     }
 
     public static FlowableEngineAgenda getAgenda(CommandContext commandContext) {
-        return commandContext.getSession(FlowableEngineAgenda.class);
+        return commandContext.getSession(typeid(FlowableEngineAgenda));
     }
 
-    public static DbSqlSession getDbSqlSession() {
-        return getDbSqlSession(getCommandContext());
-    }
+    //public static DbSqlSession getDbSqlSession() {
+    //    return getDbSqlSession(getCommandContext());
+    //}
+    //
+    //public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
+    //    return commandContext.getSession(DbSqlSession.class);
+    //}
+    //
+    //public static EntityCache getEntityCache() {
+    //    return getEntityCache(getCommandContext());
+    //}
+    //
+    //public static EntityCache getEntityCache(CommandContext commandContext) {
+    //    return commandContext.getSession(EntityCache.class);
+    //}
 
-    public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
-        return commandContext.getSession(DbSqlSession.class);
-    }
-
-    public static EntityCache getEntityCache() {
-        return getEntityCache(getCommandContext());
-    }
-
-    public static EntityCache getEntityCache(CommandContext commandContext) {
-        return commandContext.getSession(EntityCache.class);
-    }
-
-    @SuppressWarnings("unchecked")
     public static void addInvolvedExecution(CommandContext commandContext, ExecutionEntity executionEntity) {
-        if (executionEntity.getId() !is null) {
+        if (executionEntity.getId() !is null && executionEntity.getId().length != 0) {
             Map!(string, ExecutionEntity) involvedExecutions = null;
             Object obj = commandContext.getAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS);
             if (obj !is null) {
-                involvedExecutions = (Map!(string, ExecutionEntity)) obj;
+                involvedExecutions = cast(Map!(string, ExecutionEntity)) obj;
             } else {
-                involvedExecutions = new HashMap<>();
+                involvedExecutions = new HashMap!(string, ExecutionEntity)();
                 commandContext.addAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS, involvedExecutions);
             }
             involvedExecutions.put(executionEntity.getId(), executionEntity);
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static Map!(string, ExecutionEntity) getInvolvedExecutions(CommandContext commandContext) {
         Object obj = commandContext.getAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS);
         if (obj !is null) {
-            return (Map!(string, ExecutionEntity)) obj;
+            return cast(Map!(string, ExecutionEntity)) obj;
         }
         return null;
     }
