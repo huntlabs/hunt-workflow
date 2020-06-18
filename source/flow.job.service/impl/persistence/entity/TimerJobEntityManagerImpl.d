@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 module flow.job.service.impl.persistence.entity.TimerJobEntityManagerImpl;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.ArrayList;

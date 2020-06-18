@@ -18,7 +18,7 @@
 
 module flow.common.api.io.InputStreamProvider;
 
-import hunt.io.Common;
+import hunt.stream.Common;
 
 
 

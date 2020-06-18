@@ -11,6 +11,7 @@
 // * limitations under the License.
 // */
 //
+module flow.event.registry.cmd.GetDeploymentResourceNamesCmd;
 //
 //import java.io.Serializable;
 //import hunt.collection.List;

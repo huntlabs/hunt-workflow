@@ -81,7 +81,7 @@ class IdmByteArrayEntityImpl : AbstractIdmEngineEntity , Model, IdmByteArrayEnti
         public bool opEquals(Object obj) {
             if (cast(PersistentState)obj !is null) {
                 PersistentState other = cast(PersistentState) obj;
-                return this.name == other.name && this.bytes ==  other.bytes);
+                return this.name == other.name && this.bytes ==  other.bytes;
             }
             return false;
         }

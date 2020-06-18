@@ -31,7 +31,7 @@ class ScriptTextParser : BaseChildElementParser {
 
     override
     public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
-        if (cast(ScriptTask) is null)
+        if (cast(ScriptTask) parentElement is null)
             return;
 
         (cast(ScriptTask) parentElement).setScript(xtr.getText());

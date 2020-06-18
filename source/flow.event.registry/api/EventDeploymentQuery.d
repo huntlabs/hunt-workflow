@@ -15,7 +15,7 @@ module flow.event.registry.api.EventDeploymentQuery;
 
 import flow.common.api.query.Query;
 import flow.event.registry.api.EventDeployment;
-import hunt.string;
+import hunt.String;
 /**
  * Allows programmatic querying of {@link EventDeployment}s.
  *

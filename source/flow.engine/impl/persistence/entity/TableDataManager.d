@@ -17,7 +17,7 @@ import hunt.collection.Map;
 
 import flow.common.api.management.TableMetaData;
 import flow.common.api.management.TablePage;
-import flow.engine.impl.TablePageQueryImpl;
+//import flow.engine.impl.TablePageQueryImpl;
 
 /**
  * @author Joram Barrez
@@ -28,7 +28,7 @@ interface TableDataManager {
 
     List!string getTablesPresentInDatabase();
 
-    TablePage getTablePage(TablePageQueryImpl tablePageQuery, int firstResult, int maxResults);
+   // TablePage getTablePage(TablePageQueryImpl tablePageQuery, int firstResult, int maxResults);
 
     //string getTableName(Class<?> entityClass, bool withPrefix);
 

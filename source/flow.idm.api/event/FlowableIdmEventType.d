@@ -143,7 +143,7 @@ class FlowableIdmEventType : AbstractEnum!FlowableIdmEventType,  FlowableEventTy
     }
 
         static FlowableIdmEventType[]  EMPTY_ARRAY() {
-            __gshared FlowableIdmEventType  inst[];
+            __gshared FlowableIdmEventType [] inst;
             return initOnce!inst(inst = new FlowableIdmEventType[]);
         }
     /**

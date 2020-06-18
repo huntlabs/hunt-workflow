@@ -24,7 +24,7 @@ module flow.engine.deleg.BpmnError;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
-import flow.engine.impl.bpmn.parser.Error;
+import flow.engine.impl.bpmn.parser.Erro;
 
 /**
  * Special exception that can be used to throw a BPMN Error from {@link JavaDelegate}s and expressions.

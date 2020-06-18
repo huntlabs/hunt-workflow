@@ -1681,7 +1681,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public Collection!string getCandidateGroups() {
         if (candidateGroup !is null) {
-            Collection!string candidateGroupList = new ArrayList<>(1);
+            Collection!string candidateGroupList = new ArrayList!string(1);
             candidateGroupList.add(candidateGroup);
             return candidateGroupList;
 

@@ -30,8 +30,8 @@ import flow.engine.TaskService;
 import flow.engine.HistoryService;
 import flow.engine.IdentityService;
 import flow.engine.ManagementService;
-import flow.engine.DynamicBpmnService;
-import flow.engine.ProcessMigrationService;
+//import flow.engine.DynamicBpmnService;
+//import flow.engine.ProcessMigrationService;
 import flow.engine.ProcessEngineConfiguration;
 
 /**
@@ -77,9 +77,9 @@ interface ProcessEngine : Engine {
 
     ManagementService getManagementService();
 
-    DynamicBpmnService getDynamicBpmnService();
-
-    ProcessMigrationService getProcessMigrationService();
+    //DynamicBpmnService getDynamicBpmnService();
+    //
+    //ProcessMigrationService getProcessMigrationService();
 
     ProcessEngineConfiguration getProcessEngineConfiguration();
 }

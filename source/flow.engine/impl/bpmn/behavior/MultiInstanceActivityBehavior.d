@@ -41,9 +41,9 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.bpmn.helper.ClassDelegateCollectionHandler;
 import flow.engine.impl.bpmn.helper.DelegateExpressionCollectionHandler;
 import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
-import flow.engine.impl.bpmn.helper.ErrorPropagation;
+//import flow.engine.impl.bpmn.helper.ErrorPropagation;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
-import flow.engine.impl.context.BpmnOverrideContext;
+//import flow.engine.impl.context.BpmnOverrideContext;
 import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.deleg.FlowableCollectionHandler;
 import flow.engine.impl.deleg.SubProcessActivityBehavior;
@@ -115,7 +115,7 @@ abstract class MultiInstanceActivityBehavior : FlowNodeActivityBehavior , SubPro
             try {
                 nrOfInstances = createInstances(delegateExecution);
             } catch (BpmnError error) {
-                ErrorPropagation.propagateError(error, execution);
+               // ErrorPropagation.propagateError(error, execution);
             }
 
             if (nrOfInstances == 0) {

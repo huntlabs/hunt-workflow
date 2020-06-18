@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-module flow.engine.impl.bpmn.parser.Error;
+module flow.engine.impl.bpmn.parser.Erro;
 
 
 /**
@@ -18,7 +18,7 @@ module flow.engine.impl.bpmn.parser.Error;
  *
  * @author Joram Barrez
  */
-class Error {
+class Erro {
 
     protected string id;
     protected string errorCode;

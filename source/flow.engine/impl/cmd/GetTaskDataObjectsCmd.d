@@ -79,7 +79,7 @@ class GetTaskDataObjectsCmd : Command!(Map!(string, DataObject)) {
         if (variables !is null) {
             dataObjects = new HashMap!(string, DataObject) (variables.size());
 
-            for (MapEntry!(string, VariableInstance) entry ; variables) {
+            foreach (MapEntry!(string, VariableInstance) entry ; variables) {
                 VariableInstance variableEntity = entry.getValue();
 
                 string localizedName = null;

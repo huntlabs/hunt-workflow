@@ -19,7 +19,7 @@
 module flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 
 
-
+import flow.engine.impl.cfg.DefaultBpmnParseFactory;
 import flow.engine.impl.cfg.BpmnParseFactory;
 import  hunt.util.Common;
 //import java.net.URL;
@@ -32,6 +32,7 @@ import hunt.collection.Map;
 import hunt.collection.Set;
 import hunt.util.Runnable;
 import hunt.stream.Common;
+import flow.common.event.EventDispatchAction;
 //import java.util.concurrent.ArrayBlockingQueue;
 //import java.util.concurrent.BlockingQueue;
 //import java.util.concurrent.ConcurrentHashMap;
@@ -143,6 +144,7 @@ import flow.engine.impl.ProcessEngineImpl;
 //import flow.engine.impl.ProcessMigrationServiceImpl;
 import flow.engine.impl.RepositoryServiceImpl;
 import flow.engine.impl.RuntimeServiceImpl;
+import flow.engine.impl.cfg.DefaultInternalJobManager;
 //import flow.engine.impl.SchemaOperationProcessEngineClose;
 //import flow.engine.impl.SchemaOperationsProcessEngineBuild;
 import flow.engine.impl.TaskServiceImpl;
@@ -1515,17 +1517,17 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public void initEntityLinkServiceConfiguration() {
-        if (this.enableEntityLinks) {
-            this.entityLinkServiceConfiguration = instantiateEntityLinkServiceConfiguration();
-            this.entityLinkServiceConfiguration.setHistoryLevel(this.historyLevel);
-            this.entityLinkServiceConfiguration.setClock(this.clock);
-           // this.entityLinkServiceConfiguration.setObjectMapper(this.objectMapper);
-            this.entityLinkServiceConfiguration.setEventDispatcher(this.eventDispatcher);
-
-            this.entityLinkServiceConfiguration.init();
-
-            addServiceConfiguration(EngineConfigurationConstants.KEY_ENTITY_LINK_SERVICE_CONFIG, this.entityLinkServiceConfiguration);
-        }
+        //if (this.enableEntityLinks) {
+        //    this.entityLinkServiceConfiguration = instantiateEntityLinkServiceConfiguration();
+        //    this.entityLinkServiceConfiguration.setHistoryLevel(this.historyLevel);
+        //    this.entityLinkServiceConfiguration.setClock(this.clock);
+        //   // this.entityLinkServiceConfiguration.setObjectMapper(this.objectMapper);
+        //    this.entityLinkServiceConfiguration.setEventDispatcher(this.eventDispatcher);
+        //
+        //    this.entityLinkServiceConfiguration.init();
+        //
+        //    addServiceConfiguration(EngineConfigurationConstants.KEY_ENTITY_LINK_SERVICE_CONFIG, this.entityLinkServiceConfiguration);
+        //}
     }
 
     //protected EntityLinkServiceConfiguration instantiateEntityLinkServiceConfiguration() {
@@ -1614,7 +1616,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.jobServiceConfiguration.setEventDispatcher(this.eventDispatcher);
             this.jobServiceConfiguration.setCommandExecutor(this.commandExecutor);
             this.jobServiceConfiguration.setExpressionManager(this.expressionManager);
-            this.jobServiceConfiguration.setBusinessCalendarManager(this.businessCalendarManager);
+           // this.jobServiceConfiguration.setBusinessCalendarManager(this.businessCalendarManager);
 
             this.jobServiceConfiguration.setFailedJobCommandFactory(this.failedJobCommandFactory);
 
@@ -1650,12 +1652,12 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             if (this.internalJobCompatibilityManager !is null) {
                 this.jobServiceConfiguration.setInternalJobCompatibilityManager(internalJobCompatibilityManager);
             } else {
-                this.jobServiceConfiguration.setInternalJobCompatibilityManager(new DefaultInternalJobCompatibilityManager(this));
+               // this.jobServiceConfiguration.setInternalJobCompatibilityManager(new DefaultInternalJobCompatibilityManager(this));
             }
 
             // Async history job config
-            jobServiceConfiguration.setJobTypeAsyncHistory(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY);
-            jobServiceConfiguration.setJobTypeAsyncHistoryZipped(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY_ZIPPED);
+            //jobServiceConfiguration.setJobTypeAsyncHistory(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY);
+            //jobServiceConfiguration.setJobTypeAsyncHistoryZipped(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY_ZIPPED);
             jobServiceConfiguration.setAsyncHistoryJsonGzipCompressionEnabled(isAsyncHistoryJsonGzipCompressionEnabled);
             jobServiceConfiguration.setAsyncHistoryJsonGroupingEnabled(isAsyncHistoryJsonGroupingEnabled);
             jobServiceConfiguration.setAsyncHistoryJsonGroupingThreshold(asyncHistoryJsonGroupingThreshold);
@@ -1671,14 +1673,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
 
         if (this.jobHandlers !is null) {
-            for (string type : this.jobHandlers.keySet()) {
+            foreach (string type ; this.jobHandlers.keySet()) {
                 this.jobServiceConfiguration.addJobHandler(type, this.jobHandlers.get(type));
             }
         }
 
         if (this.historyJobHandlers !is null) {
-            for (string type : this.historyJobHandlers.keySet()) {
-                this.jobServiceConfiguration.addHistoryJobHandler(type, this.historyJobHandlers.get(type));
+            foreach (MapEntry!(string, HistoryJobHandler) type ; this.historyJobHandlers) {
+                this.jobServiceConfiguration.addHistoryJobHandler(type.getKey(), this.historyJobHandlers.get(type.getKey()));
             }
         }
 
@@ -1711,25 +1713,26 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public void initBatchServiceConfiguration() {
-        if (batchServiceConfiguration is null) {
-            this.batchServiceConfiguration = instantiateBatchServiceConfiguration();
-            this.batchServiceConfiguration.setClock(this.clock);
-            this.batchServiceConfiguration.setObjectMapper(this.objectMapper);
-            this.batchServiceConfiguration.setEventDispatcher(this.eventDispatcher);
-
-            this.batchServiceConfiguration.init();
-        }
-
-        addServiceConfiguration(EngineConfigurationConstants.KEY_BATCH_SERVICE_CONFIG, this.batchServiceConfiguration);
+        implementationMissing(false);
+        //if (batchServiceConfiguration is null) {
+        //    this.batchServiceConfiguration = instantiateBatchServiceConfiguration();
+        //    this.batchServiceConfiguration.setClock(this.clock);
+        //    this.batchServiceConfiguration.setObjectMapper(this.objectMapper);
+        //    this.batchServiceConfiguration.setEventDispatcher(this.eventDispatcher);
+        //
+        //    this.batchServiceConfiguration.init();
+        //}
+        //
+        //addServiceConfiguration(EngineConfigurationConstants.KEY_BATCH_SERVICE_CONFIG, this.batchServiceConfiguration);
     }
 
-    protected BatchServiceConfiguration instantiateBatchServiceConfiguration() {
-        return new BatchServiceConfiguration(ScopeTypes.BPMN);
-    }
+    //protected BatchServiceConfiguration instantiateBatchServiceConfiguration() {
+    //    return new BatchServiceConfiguration(ScopeTypes.BPMN);
+    //}
 
     public void afterInitTaskServiceConfiguration() {
         if (engineConfigurations.containsKey(EngineConfigurationConstants.KEY_IDM_ENGINE_CONFIG)) {
-            IdmEngineConfigurationApi idmEngineConfiguration = (IdmEngineConfigurationApi) engineConfigurations.get(EngineConfigurationConstants.KEY_IDM_ENGINE_CONFIG);
+            IdmEngineConfigurationApi idmEngineConfiguration = cast(IdmEngineConfigurationApi) engineConfigurations.get(EngineConfigurationConstants.KEY_IDM_ENGINE_CONFIG);
             this.taskServiceConfiguration.setIdmIdentityService(idmEngineConfiguration.getIdmIdentityService());
         }
     }
@@ -1739,16 +1742,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (eventRegistryEventConsumer !is null) {
             bpmnEventRegistryEventConsumer = eventRegistryEventConsumer;
         } else {
-            bpmnEventRegistryEventConsumer = new BpmnEventRegistryEventConsumer(this);
+           // bpmnEventRegistryEventConsumer = new BpmnEventRegistryEventConsumer(this);
         }
 
         addEventRegistryEventConsumer(bpmnEventRegistryEventConsumer.getConsumerKey(), bpmnEventRegistryEventConsumer);
     }
 
     public void initHistoryCleaningManager() {
-        if (historyCleaningManager is null) {
-            historyCleaningManager = new DefaultHistoryCleaningManager(this);
-        }
+        //if (historyCleaningManager is null) {
+        //    historyCleaningManager = new DefaultHistoryCleaningManager(this);
+        //}
     }
 
     public void removeHistoryJobHandler(string historyJobHandlerType) {
@@ -1762,13 +1765,13 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     // ////////////////////////////////////////////////////////////////
 
     public void initProcessDefinitionCache() {
-        if (processDefinitionCache is null) {
-            if (processDefinitionCacheLimit <= 0) {
-                processDefinitionCache = new DefaultDeploymentCache<>();
-            } else {
-                processDefinitionCache = new DefaultDeploymentCache<>(processDefinitionCacheLimit);
-            }
-        }
+        //if (processDefinitionCache is null) {
+        //    if (processDefinitionCacheLimit <= 0) {
+        //        processDefinitionCache = new DefaultDeploymentCache<>();
+        //    } else {
+        //        processDefinitionCache = new DefaultDeploymentCache<>(processDefinitionCacheLimit);
+        //    }
+        //}
     }
 
     public void initProcessDefinitionInfoCache() {
@@ -1782,28 +1785,28 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public void initAppResourceCache() {
-        if (appResourceCache is null) {
-            if (appResourceCacheLimit <= 0) {
-                appResourceCache = new DefaultDeploymentCache<>();
-            } else {
-                appResourceCache = new DefaultDeploymentCache<>(appResourceCacheLimit);
-            }
-        }
+        //if (appResourceCache is null) {
+        //    if (appResourceCacheLimit <= 0) {
+        //        appResourceCache = new DefaultDeploymentCache<>();
+        //    } else {
+        //        appResourceCache = new DefaultDeploymentCache<>(appResourceCacheLimit);
+        //    }
+        //}
     }
 
     public void initKnowledgeBaseCache() {
-        if (knowledgeBaseCache is null) {
-            if (knowledgeBaseCacheLimit <= 0) {
-                knowledgeBaseCache = new DefaultDeploymentCache<>();
-            } else {
-                knowledgeBaseCache = new DefaultDeploymentCache<>(knowledgeBaseCacheLimit);
-            }
-        }
+        //if (knowledgeBaseCache is null) {
+        //    if (knowledgeBaseCacheLimit <= 0) {
+        //        knowledgeBaseCache = new DefaultDeploymentCache<>();
+        //    } else {
+        //        knowledgeBaseCache = new DefaultDeploymentCache<>(knowledgeBaseCacheLimit);
+        //    }
+        //}
     }
 
     public void initDeployers() {
         if (this.deployers is null) {
-            this.deployers = new ArrayList<>();
+            this.deployers = new ArrayList!EngineDeployer();
             if (customPreDeployers !is null) {
                 this.deployers.addAll(customPreDeployers);
             }
@@ -1827,7 +1830,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
 
         if (appResourceConverter is null) {
-            appResourceConverter = new AppResourceConverterImpl(objectMapper);
+         //   appResourceConverter = new AppResourceConverterImpl(objectMapper);
         }
     }
 
@@ -1867,8 +1870,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
     }
 
-    public Collection<? : EngineDeployer> getDefaultDeployers() {
-        List!EngineDeployer defaultDeployers = new ArrayList<>();
+    public Collection!EngineDeployer getDefaultDeployers() {
+        List!EngineDeployer defaultDeployers = new ArrayList!EngineDeployer();
 
         if (bpmnDeployer is null) {
             bpmnDeployer = new BpmnDeployer();
@@ -1899,16 +1902,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             DefaultListenerFactory defaultListenerFactory = new DefaultListenerFactory();
             defaultListenerFactory.setExpressionManager(expressionManager);
             listenerFactory = defaultListenerFactory;
-        } else if ((listenerFactory instanceof AbstractBehaviorFactory) && ((AbstractBehaviorFactory) listenerFactory).getExpressionManager() is null) {
-            ((AbstractBehaviorFactory) listenerFactory).setExpressionManager(expressionManager);
+        } else if ((cast(AbstractBehaviorFactory)listenerFactory !is null) && (cast(AbstractBehaviorFactory) listenerFactory).getExpressionManager() is null) {
+            (cast(AbstractBehaviorFactory) listenerFactory).setExpressionManager(expressionManager);
         }
     }
 
     public void initWsdlImporterFactory() {
-        if (wsWsdlImporterFactory is null) {
-            DefaultXMLImporterFactory defaultListenerFactory = new DefaultXMLImporterFactory();
-            wsWsdlImporterFactory = defaultListenerFactory;
-        }
+        //if (wsWsdlImporterFactory is null) {
+        //    DefaultXMLImporterFactory defaultListenerFactory = new DefaultXMLImporterFactory();
+        //    wsWsdlImporterFactory = defaultListenerFactory;
+        //}
     }
 
     public void initBehaviorFactory() {
@@ -1916,8 +1919,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             DefaultActivityBehaviorFactory defaultActivityBehaviorFactory = new DefaultActivityBehaviorFactory();
             defaultActivityBehaviorFactory.setExpressionManager(expressionManager);
             activityBehaviorFactory = defaultActivityBehaviorFactory;
-        } else if ((activityBehaviorFactory instanceof AbstractBehaviorFactory) && ((AbstractBehaviorFactory) activityBehaviorFactory).getExpressionManager() is null) {
-            ((AbstractBehaviorFactory) activityBehaviorFactory).setExpressionManager(expressionManager);
+        } else if ((cast(AbstractBehaviorFactory)activityBehaviorFactory !is null) && (cast(AbstractBehaviorFactory) activityBehaviorFactory).getExpressionManager() is null) {
+            (cast(AbstractBehaviorFactory) activityBehaviorFactory).setExpressionManager(expressionManager);
         }
     }
 
@@ -1934,7 +1937,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         bpmnParser.setActivityBehaviorFactory(activityBehaviorFactory);
         bpmnParser.setListenerFactory(listenerFactory);
 
-        List!BpmnParseHandler parseHandlers = new ArrayList<>();
+        List!BpmnParseHandler parseHandlers = new ArrayList!BpmnParseHandler();
         if (getPreBpmnParseHandlers() !is null) {
             parseHandlers.addAll(getPreBpmnParseHandlers());
         }
@@ -1951,7 +1954,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     public List!BpmnParseHandler getDefaultBpmnParseHandlers() {
 
         // Alphabetic list of default parse handler classes
-        List!BpmnParseHandler bpmnParserHandlers = new ArrayList<>();
+        List!BpmnParseHandler bpmnParserHandlers = new ArrayList!BpmnParseHandler();
         bpmnParserHandlers.add(new BoundaryEventParseHandler());
         bpmnParserHandlers.add(new BusinessRuleParseHandler());
         bpmnParserHandlers.add(new CallActivityParseHandler());
@@ -1991,45 +1994,45 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         // Replace any default handler if the user wants to replace them
         if (customDefaultBpmnParseHandlers !is null) {
 
-            Map<Class<?>, BpmnParseHandler> customParseHandlerMap = new HashMap<>();
-            for (BpmnParseHandler bpmnParseHandler : customDefaultBpmnParseHandlers) {
-                for (Class<?> handledType : bpmnParseHandler.getHandledTypes()) {
-                    customParseHandlerMap.put(handledType, bpmnParseHandler);
-                }
-            }
-
-            for (int i = 0; i < bpmnParserHandlers.size(); i++) {
-                // All the default handlers support only one type
-                BpmnParseHandler defaultBpmnParseHandler = bpmnParserHandlers.get(i);
-                if (defaultBpmnParseHandler.getHandledTypes().size() != 1) {
-                    StringBuilder supportedTypes = new StringBuilder();
-                    for (Class<?> type : defaultBpmnParseHandler.getHandledTypes()) {
-                        supportedTypes.append(" ").append(type.getCanonicalName()).append(" ");
-                    }
-                    throw new FlowableException("The default BPMN parse handlers should only support one type, but " + defaultBpmnParseHandler.getClass() + " supports " + supportedTypes
-                        + ". This is likely a programmatic error");
-                } else {
-                    Class<?> handledType = defaultBpmnParseHandler.getHandledTypes().iterator().next();
-                    if (customParseHandlerMap.containsKey(handledType)) {
-                        BpmnParseHandler newBpmnParseHandler = customParseHandlerMap.get(handledType);
-                        logger.info("Replacing default BpmnParseHandler {} with {}", defaultBpmnParseHandler.getClass().getName(), newBpmnParseHandler.getClass().getName());
-                        bpmnParserHandlers.set(i, newBpmnParseHandler);
-                    }
-                }
-            }
+            //Map<Class<?>, BpmnParseHandler> customParseHandlerMap = new HashMap<>();
+            //for (BpmnParseHandler bpmnParseHandler : customDefaultBpmnParseHandlers) {
+            //    for (Class<?> handledType : bpmnParseHandler.getHandledTypes()) {
+            //        customParseHandlerMap.put(handledType, bpmnParseHandler);
+            //    }
+            //}
+            //
+            //for (int i = 0; i < bpmnParserHandlers.size(); i++) {
+            //    // All the default handlers support only one type
+            //    BpmnParseHandler defaultBpmnParseHandler = bpmnParserHandlers.get(i);
+            //    if (defaultBpmnParseHandler.getHandledTypes().size() != 1) {
+            //        StringBuilder supportedTypes = new StringBuilder();
+            //        for (Class<?> type : defaultBpmnParseHandler.getHandledTypes()) {
+            //            supportedTypes.append(" ").append(type.getCanonicalName()).append(" ");
+            //        }
+            //        throw new FlowableException("The default BPMN parse handlers should only support one type, but " + defaultBpmnParseHandler.getClass() + " supports " + supportedTypes
+            //            + ". This is likely a programmatic error");
+            //    } else {
+            //        Class<?> handledType = defaultBpmnParseHandler.getHandledTypes().iterator().next();
+            //        if (customParseHandlerMap.containsKey(handledType)) {
+            //            BpmnParseHandler newBpmnParseHandler = customParseHandlerMap.get(handledType);
+            //            logger.info("Replacing default BpmnParseHandler {} with {}", defaultBpmnParseHandler.getClass().getName(), newBpmnParseHandler.getClass().getName());
+            //            bpmnParserHandlers.set(i, newBpmnParseHandler);
+            //        }
+            //    }
+            //}
         }
 
         return bpmnParserHandlers;
     }
 
     public void initProcessDiagramGenerator() {
-        if (processDiagramGenerator is null) {
-            processDiagramGenerator = new DefaultProcessDiagramGenerator();
-        }
+        //if (processDiagramGenerator is null) {
+        //    processDiagramGenerator = new DefaultProcessDiagramGenerator();
+        //}
     }
 
     public void initJobHandlers() {
-        jobHandlers = new HashMap<>();
+        jobHandlers = new HashMap!(string, JobHandler)();
 
         AsyncContinuationJobHandler asyncContinuationJobHandler = new AsyncContinuationJobHandler();
         jobHandlers.put(asyncContinuationJobHandler.getType(), asyncContinuationJobHandler);
@@ -2040,14 +2043,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         TriggerTimerEventJobHandler triggerTimerEventJobHandler = new TriggerTimerEventJobHandler();
         jobHandlers.put(triggerTimerEventJobHandler.getType(), triggerTimerEventJobHandler);
 
-        TimerStartEventJobHandler timerStartEvent = new TimerStartEventJobHandler();
-        jobHandlers.put(timerStartEvent.getType(), timerStartEvent);
-
-        TimerSuspendProcessDefinitionHandler suspendProcessDefinitionHandler = new TimerSuspendProcessDefinitionHandler();
-        jobHandlers.put(suspendProcessDefinitionHandler.getType(), suspendProcessDefinitionHandler);
-
-        TimerActivateProcessDefinitionHandler activateProcessDefinitionHandler = new TimerActivateProcessDefinitionHandler();
-        jobHandlers.put(activateProcessDefinitionHandler.getType(), activateProcessDefinitionHandler);
+        //TimerStartEventJobHandler timerStartEvent = new TimerStartEventJobHandler();
+        //jobHandlers.put(timerStartEvent.getType(), timerStartEvent);
+        //
+        //TimerSuspendProcessDefinitionHandler suspendProcessDefinitionHandler = new TimerSuspendProcessDefinitionHandler();
+        //jobHandlers.put(suspendProcessDefinitionHandler.getType(), suspendProcessDefinitionHandler);
+        //
+        //TimerActivateProcessDefinitionHandler activateProcessDefinitionHandler = new TimerActivateProcessDefinitionHandler();
+        //jobHandlers.put(activateProcessDefinitionHandler.getType(), activateProcessDefinitionHandler);
 
         ProcessEventJobHandler processEventJobHandler = new ProcessEventJobHandler();
         jobHandlers.put(processEventJobHandler.getType(), processEventJobHandler);
@@ -2061,15 +2064,15 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         BpmnHistoryCleanupJobHandler bpmnHistoryCleanupJobHandler = new BpmnHistoryCleanupJobHandler();
         jobHandlers.put(bpmnHistoryCleanupJobHandler.getType(), bpmnHistoryCleanupJobHandler);
 
-        ProcessInstanceMigrationJobHandler processInstanceMigrationJobHandler = new ProcessInstanceMigrationJobHandler();
-        jobHandlers.put(processInstanceMigrationJobHandler.getType(), processInstanceMigrationJobHandler);
-
-        ProcessInstanceMigrationStatusJobHandler processInstanceMigrationStatusJobHandler = new ProcessInstanceMigrationStatusJobHandler();
-        jobHandlers.put(processInstanceMigrationStatusJobHandler.getType(), processInstanceMigrationStatusJobHandler);
+        //ProcessInstanceMigrationJobHandler processInstanceMigrationJobHandler = new ProcessInstanceMigrationJobHandler();
+        //jobHandlers.put(processInstanceMigrationJobHandler.getType(), processInstanceMigrationJobHandler);
+        //
+        //ProcessInstanceMigrationStatusJobHandler processInstanceMigrationStatusJobHandler = new ProcessInstanceMigrationStatusJobHandler();
+        //jobHandlers.put(processInstanceMigrationStatusJobHandler.getType(), processInstanceMigrationStatusJobHandler);
 
         // if we have custom job handlers, register them
         if (getCustomJobHandlers() !is null) {
-            for (JobHandler customJobHandler : getCustomJobHandlers()) {
+            foreach (JobHandler customJobHandler ; getCustomJobHandlers()) {
                 jobHandlers.put(customJobHandler.getType(), customJobHandler);
             }
         }
@@ -2077,205 +2080,205 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     protected void initHistoryJobHandlers() {
         if (isAsyncHistoryEnabled) {
-            historyJobHandlers = new HashMap<>();
+            historyJobHandlers = new HashMap!(string, HistoryJobHandler)();
 
-            List!HistoryJsonTransformer allHistoryJsonTransformers = new ArrayList<>(initDefaultHistoryJsonTransformers());
-            if (customHistoryJsonTransformers !is null) {
-                allHistoryJsonTransformers.addAll(customHistoryJsonTransformers);
-            }
-
-            AsyncHistoryJobHandler asyncHistoryJobHandler = new AsyncHistoryJobHandler(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY);
-            allHistoryJsonTransformers.forEach(asyncHistoryJobHandler::addHistoryJsonTransformer);
-            asyncHistoryJobHandler.setAsyncHistoryJsonGroupingEnabled(isAsyncHistoryJsonGroupingEnabled);
-            historyJobHandlers.put(asyncHistoryJobHandler.getType(), asyncHistoryJobHandler);
-
-            AsyncHistoryJobZippedHandler asyncHistoryJobZippedHandler = new AsyncHistoryJobZippedHandler(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY_ZIPPED);
-            allHistoryJsonTransformers.forEach(asyncHistoryJobZippedHandler::addHistoryJsonTransformer);
-            asyncHistoryJobZippedHandler.setAsyncHistoryJsonGroupingEnabled(isAsyncHistoryJsonGroupingEnabled);
-            historyJobHandlers.put(asyncHistoryJobZippedHandler.getType(), asyncHistoryJobZippedHandler);
+            //List!HistoryJsonTransformer allHistoryJsonTransformers = new ArrayList<>(initDefaultHistoryJsonTransformers());
+            //if (customHistoryJsonTransformers !is null) {
+            //    allHistoryJsonTransformers.addAll(customHistoryJsonTransformers);
+            //}
+            //
+            //AsyncHistoryJobHandler asyncHistoryJobHandler = new AsyncHistoryJobHandler(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY);
+            //allHistoryJsonTransformers.forEach(asyncHistoryJobHandler::addHistoryJsonTransformer);
+            //asyncHistoryJobHandler.setAsyncHistoryJsonGroupingEnabled(isAsyncHistoryJsonGroupingEnabled);
+            //historyJobHandlers.put(asyncHistoryJobHandler.getType(), asyncHistoryJobHandler);
+            //
+            //AsyncHistoryJobZippedHandler asyncHistoryJobZippedHandler = new AsyncHistoryJobZippedHandler(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY_ZIPPED);
+            //allHistoryJsonTransformers.forEach(asyncHistoryJobZippedHandler::addHistoryJsonTransformer);
+            //asyncHistoryJobZippedHandler.setAsyncHistoryJsonGroupingEnabled(isAsyncHistoryJsonGroupingEnabled);
+            //historyJobHandlers.put(asyncHistoryJobZippedHandler.getType(), asyncHistoryJobZippedHandler);
 
             if (getCustomHistoryJobHandlers() !is null) {
-                for (HistoryJobHandler customJobHandler : getCustomHistoryJobHandlers()) {
+                foreach (HistoryJobHandler customJobHandler ; getCustomHistoryJobHandlers()) {
                     historyJobHandlers.put(customJobHandler.getType(), customJobHandler);
                 }
             }
         }
     }
 
-    protected List!HistoryJsonTransformer initDefaultHistoryJsonTransformers() {
-        List!HistoryJsonTransformer historyJsonTransformers = new ArrayList<>();
-        historyJsonTransformers.add(new ProcessInstanceStartHistoryJsonTransformer());
-        historyJsonTransformers.add(new ProcessInstanceEndHistoryJsonTransformer());
-        historyJsonTransformers.add(new ProcessInstanceDeleteHistoryJsonTransformer());
-        historyJsonTransformers.add(new ProcessInstanceDeleteHistoryByProcessDefinitionIdJsonTransformer());
-        historyJsonTransformers.add(new ProcessInstancePropertyChangedHistoryJsonTransformer());
-        historyJsonTransformers.add(new SubProcessInstanceStartHistoryJsonTransformer());
-        historyJsonTransformers.add(new SetProcessDefinitionHistoryJsonTransformer());
-        historyJsonTransformers.add(new UpdateProcessDefinitionCascadeHistoryJsonTransformer());
-
-        historyJsonTransformers.add(new ActivityStartHistoryJsonTransformer());
-        historyJsonTransformers.add(new ActivityEndHistoryJsonTransformer());
-        historyJsonTransformers.add(new ActivityFullHistoryJsonTransformer());
-        historyJsonTransformers.add(new ActivityUpdateHistoryJsonTransformer());
-
-        historyJsonTransformers.add(new TaskCreatedHistoryJsonTransformer());
-        historyJsonTransformers.add(new TaskEndedHistoryJsonTransformer());
-
-        historyJsonTransformers.add(new TaskPropertyChangedHistoryJsonTransformer());
-        historyJsonTransformers.add(new TaskAssigneeChangedHistoryJsonTransformer());
-        historyJsonTransformers.add(new TaskOwnerChangedHistoryJsonTransformer());
-
-        historyJsonTransformers.add(new IdentityLinkCreatedHistoryJsonTransformer());
-        historyJsonTransformers.add(new IdentityLinkDeletedHistoryJsonTransformer());
-
-        historyJsonTransformers.add(new EntityLinkCreatedHistoryJsonTransformer());
-        historyJsonTransformers.add(new EntityLinkDeletedHistoryJsonTransformer());
-
-        historyJsonTransformers.add(new VariableCreatedHistoryJsonTransformer());
-        historyJsonTransformers.add(new VariableUpdatedHistoryJsonTransformer());
-        historyJsonTransformers.add(new VariableRemovedHistoryJsonTransformer());
-        historyJsonTransformers.add(new HistoricDetailVariableUpdateHistoryJsonTransformer());
-        historyJsonTransformers.add(new FormPropertiesSubmittedHistoryJsonTransformer());
-
-        historyJsonTransformers.add(new HistoricUserTaskLogRecordJsonTransformer());
-        historyJsonTransformers.add(new HistoricUserTaskLogDeleteJsonTransformer());
-        return historyJsonTransformers;
-    }
+    //protected List!HistoryJsonTransformer initDefaultHistoryJsonTransformers() {
+    //    List!HistoryJsonTransformer historyJsonTransformers = new ArrayList<>();
+    //    historyJsonTransformers.add(new ProcessInstanceStartHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new ProcessInstanceEndHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new ProcessInstanceDeleteHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new ProcessInstanceDeleteHistoryByProcessDefinitionIdJsonTransformer());
+    //    historyJsonTransformers.add(new ProcessInstancePropertyChangedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new SubProcessInstanceStartHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new SetProcessDefinitionHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new UpdateProcessDefinitionCascadeHistoryJsonTransformer());
+    //
+    //    historyJsonTransformers.add(new ActivityStartHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new ActivityEndHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new ActivityFullHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new ActivityUpdateHistoryJsonTransformer());
+    //
+    //    historyJsonTransformers.add(new TaskCreatedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new TaskEndedHistoryJsonTransformer());
+    //
+    //    historyJsonTransformers.add(new TaskPropertyChangedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new TaskAssigneeChangedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new TaskOwnerChangedHistoryJsonTransformer());
+    //
+    //    historyJsonTransformers.add(new IdentityLinkCreatedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new IdentityLinkDeletedHistoryJsonTransformer());
+    //
+    //    historyJsonTransformers.add(new EntityLinkCreatedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new EntityLinkDeletedHistoryJsonTransformer());
+    //
+    //    historyJsonTransformers.add(new VariableCreatedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new VariableUpdatedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new VariableRemovedHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new HistoricDetailVariableUpdateHistoryJsonTransformer());
+    //    historyJsonTransformers.add(new FormPropertiesSubmittedHistoryJsonTransformer());
+    //
+    //    historyJsonTransformers.add(new HistoricUserTaskLogRecordJsonTransformer());
+    //    historyJsonTransformers.add(new HistoricUserTaskLogDeleteJsonTransformer());
+    //    return historyJsonTransformers;
+    //}
 
     // async executor
     // /////////////////////////////////////////////////////////////
 
     public void initAsyncExecutor() {
         if (asyncExecutor is null) {
-            DefaultAsyncJobExecutor defaultAsyncExecutor = new DefaultAsyncJobExecutor();
-            if (asyncExecutorExecuteAsyncRunnableFactory !is null) {
-                defaultAsyncExecutor.setExecuteAsyncRunnableFactory(asyncExecutorExecuteAsyncRunnableFactory);
-            }
-
-            // Message queue mode
-            defaultAsyncExecutor.setMessageQueueMode(asyncExecutorMessageQueueMode);
-
-            // Thread pool config
-            defaultAsyncExecutor.setCorePoolSize(asyncExecutorCorePoolSize);
-            defaultAsyncExecutor.setMaxPoolSize(asyncExecutorMaxPoolSize);
-            defaultAsyncExecutor.setKeepAliveTime(asyncExecutorThreadKeepAliveTime);
-
-            // Threadpool queue
-            if (asyncExecutorThreadPoolQueue !is null) {
-                defaultAsyncExecutor.setThreadPoolQueue(asyncExecutorThreadPoolQueue);
-            }
-            defaultAsyncExecutor.setQueueSize(asyncExecutorThreadPoolQueueSize);
-
-            // Thread flags
-            defaultAsyncExecutor.setAsyncJobAcquisitionEnabled(isAsyncExecutorAsyncJobAcquisitionEnabled);
-            defaultAsyncExecutor.setTimerJobAcquisitionEnabled(isAsyncExecutorTimerJobAcquisitionEnabled);
-            defaultAsyncExecutor.setResetExpiredJobEnabled(isAsyncExecutorResetExpiredJobsEnabled);
-
-            // Acquisition wait time
-            defaultAsyncExecutor.setDefaultTimerJobAcquireWaitTimeInMillis(asyncExecutorDefaultTimerJobAcquireWaitTime);
-            defaultAsyncExecutor.setDefaultAsyncJobAcquireWaitTimeInMillis(asyncExecutorDefaultAsyncJobAcquireWaitTime);
-
-            // Queue full wait time
-            defaultAsyncExecutor.setDefaultQueueSizeFullWaitTimeInMillis(asyncExecutorDefaultQueueSizeFullWaitTime);
-
-            // Job locking
-            defaultAsyncExecutor.setTimerLockTimeInMillis(asyncExecutorTimerLockTimeInMillis);
-            defaultAsyncExecutor.setAsyncJobLockTimeInMillis(asyncExecutorAsyncJobLockTimeInMillis);
-            if (asyncExecutorLockOwner !is null) {
-                defaultAsyncExecutor.setLockOwner(asyncExecutorLockOwner);
-            }
-
-            // Reset expired
-            defaultAsyncExecutor.setResetExpiredJobsInterval(asyncExecutorResetExpiredJobsInterval);
-            defaultAsyncExecutor.setResetExpiredJobsPageSize(asyncExecutorResetExpiredJobsPageSize);
-
-            // Core thread timeout
-            defaultAsyncExecutor.setAllowCoreThreadTimeout(asyncExecutorAllowCoreThreadTimeout);
-
-            // Shutdown
-            defaultAsyncExecutor.setSecondsToWaitOnShutdown(asyncExecutorSecondsToWaitOnShutdown);
-
-            // Tenant
-            defaultAsyncExecutor.setTenantId(asyncExecutorTenantId);
-
-            asyncExecutor = defaultAsyncExecutor;
+            //DefaultAsyncJobExecutor defaultAsyncExecutor = new DefaultAsyncJobExecutor();
+            //if (asyncExecutorExecuteAsyncRunnableFactory !is null) {
+            //    defaultAsyncExecutor.setExecuteAsyncRunnableFactory(asyncExecutorExecuteAsyncRunnableFactory);
+            //}
+            //
+            //// Message queue mode
+            //defaultAsyncExecutor.setMessageQueueMode(asyncExecutorMessageQueueMode);
+            //
+            //// Thread pool config
+            //defaultAsyncExecutor.setCorePoolSize(asyncExecutorCorePoolSize);
+            //defaultAsyncExecutor.setMaxPoolSize(asyncExecutorMaxPoolSize);
+            //defaultAsyncExecutor.setKeepAliveTime(asyncExecutorThreadKeepAliveTime);
+            //
+            //// Threadpool queue
+            //if (asyncExecutorThreadPoolQueue !is null) {
+            //    defaultAsyncExecutor.setThreadPoolQueue(asyncExecutorThreadPoolQueue);
+            //}
+            //defaultAsyncExecutor.setQueueSize(asyncExecutorThreadPoolQueueSize);
+            //
+            //// Thread flags
+            //defaultAsyncExecutor.setAsyncJobAcquisitionEnabled(isAsyncExecutorAsyncJobAcquisitionEnabled);
+            //defaultAsyncExecutor.setTimerJobAcquisitionEnabled(isAsyncExecutorTimerJobAcquisitionEnabled);
+            //defaultAsyncExecutor.setResetExpiredJobEnabled(isAsyncExecutorResetExpiredJobsEnabled);
+            //
+            //// Acquisition wait time
+            //defaultAsyncExecutor.setDefaultTimerJobAcquireWaitTimeInMillis(asyncExecutorDefaultTimerJobAcquireWaitTime);
+            //defaultAsyncExecutor.setDefaultAsyncJobAcquireWaitTimeInMillis(asyncExecutorDefaultAsyncJobAcquireWaitTime);
+            //
+            //// Queue full wait time
+            //defaultAsyncExecutor.setDefaultQueueSizeFullWaitTimeInMillis(asyncExecutorDefaultQueueSizeFullWaitTime);
+            //
+            //// Job locking
+            //defaultAsyncExecutor.setTimerLockTimeInMillis(asyncExecutorTimerLockTimeInMillis);
+            //defaultAsyncExecutor.setAsyncJobLockTimeInMillis(asyncExecutorAsyncJobLockTimeInMillis);
+            //if (asyncExecutorLockOwner !is null) {
+            //    defaultAsyncExecutor.setLockOwner(asyncExecutorLockOwner);
+            //}
+            //
+            //// Reset expired
+            //defaultAsyncExecutor.setResetExpiredJobsInterval(asyncExecutorResetExpiredJobsInterval);
+            //defaultAsyncExecutor.setResetExpiredJobsPageSize(asyncExecutorResetExpiredJobsPageSize);
+            //
+            //// Core thread timeout
+            //defaultAsyncExecutor.setAllowCoreThreadTimeout(asyncExecutorAllowCoreThreadTimeout);
+            //
+            //// Shutdown
+            //defaultAsyncExecutor.setSecondsToWaitOnShutdown(asyncExecutorSecondsToWaitOnShutdown);
+            //
+            //// Tenant
+            //defaultAsyncExecutor.setTenantId(asyncExecutorTenantId);
+            //
+            //asyncExecutor = defaultAsyncExecutor;
         }
 
-        asyncExecutor.setJobServiceConfiguration(jobServiceConfiguration);
-        asyncExecutor.setAutoActivate(asyncExecutorActivate);
-        jobServiceConfiguration.setAsyncExecutor(asyncExecutor);
+        //asyncExecutor.setJobServiceConfiguration(jobServiceConfiguration);
+        //asyncExecutor.setAutoActivate(asyncExecutorActivate);
+        //jobServiceConfiguration.setAsyncExecutor(asyncExecutor);
     }
 
     public void initAsyncHistoryExecutor() {
-        if (isAsyncHistoryEnabled) {
-            if (asyncHistoryExecutor is null) {
-                DefaultAsyncHistoryJobExecutor defaultAsyncHistoryExecutor = new DefaultAsyncHistoryJobExecutor();
-
-                // Message queue mode
-                defaultAsyncHistoryExecutor.setMessageQueueMode(asyncHistoryExecutorMessageQueueMode);
-
-                // Thread pool config
-                defaultAsyncHistoryExecutor.setCorePoolSize(asyncHistoryExecutorCorePoolSize);
-                defaultAsyncHistoryExecutor.setMaxPoolSize(asyncHistoryExecutorMaxPoolSize);
-                defaultAsyncHistoryExecutor.setKeepAliveTime(asyncHistoryExecutorThreadKeepAliveTime);
-
-                // Threadpool queue
-                if (asyncHistoryExecutorThreadPoolQueue !is null) {
-                    defaultAsyncHistoryExecutor.setThreadPoolQueue(asyncHistoryExecutorThreadPoolQueue);
-                }
-                defaultAsyncHistoryExecutor.setQueueSize(asyncHistoryExecutorThreadPoolQueueSize);
-
-                // Thread flags
-                defaultAsyncHistoryExecutor.setAsyncJobAcquisitionEnabled(isAsyncHistoryExecutorAsyncJobAcquisitionEnabled);
-                defaultAsyncHistoryExecutor.setTimerJobAcquisitionEnabled(isAsyncHistoryExecutorTimerJobAcquisitionEnabled);
-                defaultAsyncHistoryExecutor.setResetExpiredJobEnabled(isAsyncHistoryExecutorResetExpiredJobsEnabled);
-
-                // Acquisition wait time
-                defaultAsyncHistoryExecutor.setDefaultAsyncJobAcquireWaitTimeInMillis(asyncHistoryExecutorDefaultAsyncJobAcquireWaitTime);
-
-                // Queue full wait time
-                defaultAsyncHistoryExecutor.setDefaultQueueSizeFullWaitTimeInMillis(asyncHistoryExecutorDefaultQueueSizeFullWaitTime);
-
-                // Job locking
-                defaultAsyncHistoryExecutor.setAsyncJobLockTimeInMillis(asyncHistoryExecutorAsyncJobLockTimeInMillis);
-                if (asyncHistoryExecutorLockOwner !is null) {
-                    defaultAsyncHistoryExecutor.setLockOwner(asyncHistoryExecutorLockOwner);
-                }
-
-                // Reset expired
-                defaultAsyncHistoryExecutor.setResetExpiredJobsInterval(asyncHistoryExecutorResetExpiredJobsInterval);
-                defaultAsyncHistoryExecutor.setResetExpiredJobsPageSize(asyncHistoryExecutorResetExpiredJobsPageSize);
-
-                // Shutdown
-                defaultAsyncHistoryExecutor.setSecondsToWaitOnShutdown(asyncHistoryExecutorSecondsToWaitOnShutdown);
-
-                asyncHistoryExecutor = defaultAsyncHistoryExecutor;
-
-                if (asyncHistoryExecutor.getJobServiceConfiguration() is null) {
-                    asyncHistoryExecutor.setJobServiceConfiguration(jobServiceConfiguration);
-                }
-                asyncHistoryExecutor.setAutoActivate(asyncHistoryExecutorActivate);
-
-            } else {
-                // In case an async history executor was injected, only the job handlers are set.
-                // In the normal case, these are set on the jobServiceConfiguration, but these are not shared between instances
-                if (historyJobHandlers !is null) {
-                    if (asyncHistoryExecutor.getJobServiceConfiguration() is null) {
-                        asyncHistoryExecutor.setJobServiceConfiguration(jobServiceConfiguration);
-                    }
-                    historyJobHandlers.forEach((type, handler) -> {
-                        asyncHistoryExecutor.getJobServiceConfiguration().mergeHistoryJobHandler(handler);
-                    });
-                }
-
-            }
-
-        }
-
-        if (asyncHistoryExecutor !is null) {
-            jobServiceConfiguration.setAsyncHistoryExecutor(asyncHistoryExecutor);
-            jobServiceConfiguration.setAsyncHistoryExecutorNumberOfRetries(asyncHistoryExecutorNumberOfRetries);
-        }
+        //if (isAsyncHistoryEnabled) {
+        //    if (asyncHistoryExecutor is null) {
+        //        DefaultAsyncHistoryJobExecutor defaultAsyncHistoryExecutor = new DefaultAsyncHistoryJobExecutor();
+        //
+        //        // Message queue mode
+        //        defaultAsyncHistoryExecutor.setMessageQueueMode(asyncHistoryExecutorMessageQueueMode);
+        //
+        //        // Thread pool config
+        //        defaultAsyncHistoryExecutor.setCorePoolSize(asyncHistoryExecutorCorePoolSize);
+        //        defaultAsyncHistoryExecutor.setMaxPoolSize(asyncHistoryExecutorMaxPoolSize);
+        //        defaultAsyncHistoryExecutor.setKeepAliveTime(asyncHistoryExecutorThreadKeepAliveTime);
+        //
+        //        // Threadpool queue
+        //        if (asyncHistoryExecutorThreadPoolQueue !is null) {
+        //            defaultAsyncHistoryExecutor.setThreadPoolQueue(asyncHistoryExecutorThreadPoolQueue);
+        //        }
+        //        defaultAsyncHistoryExecutor.setQueueSize(asyncHistoryExecutorThreadPoolQueueSize);
+        //
+        //        // Thread flags
+        //        defaultAsyncHistoryExecutor.setAsyncJobAcquisitionEnabled(isAsyncHistoryExecutorAsyncJobAcquisitionEnabled);
+        //        defaultAsyncHistoryExecutor.setTimerJobAcquisitionEnabled(isAsyncHistoryExecutorTimerJobAcquisitionEnabled);
+        //        defaultAsyncHistoryExecutor.setResetExpiredJobEnabled(isAsyncHistoryExecutorResetExpiredJobsEnabled);
+        //
+        //        // Acquisition wait time
+        //        defaultAsyncHistoryExecutor.setDefaultAsyncJobAcquireWaitTimeInMillis(asyncHistoryExecutorDefaultAsyncJobAcquireWaitTime);
+        //
+        //        // Queue full wait time
+        //        defaultAsyncHistoryExecutor.setDefaultQueueSizeFullWaitTimeInMillis(asyncHistoryExecutorDefaultQueueSizeFullWaitTime);
+        //
+        //        // Job locking
+        //        defaultAsyncHistoryExecutor.setAsyncJobLockTimeInMillis(asyncHistoryExecutorAsyncJobLockTimeInMillis);
+        //        if (asyncHistoryExecutorLockOwner !is null) {
+        //            defaultAsyncHistoryExecutor.setLockOwner(asyncHistoryExecutorLockOwner);
+        //        }
+        //
+        //        // Reset expired
+        //        defaultAsyncHistoryExecutor.setResetExpiredJobsInterval(asyncHistoryExecutorResetExpiredJobsInterval);
+        //        defaultAsyncHistoryExecutor.setResetExpiredJobsPageSize(asyncHistoryExecutorResetExpiredJobsPageSize);
+        //
+        //        // Shutdown
+        //        defaultAsyncHistoryExecutor.setSecondsToWaitOnShutdown(asyncHistoryExecutorSecondsToWaitOnShutdown);
+        //
+        //        asyncHistoryExecutor = defaultAsyncHistoryExecutor;
+        //
+        //        if (asyncHistoryExecutor.getJobServiceConfiguration() is null) {
+        //            asyncHistoryExecutor.setJobServiceConfiguration(jobServiceConfiguration);
+        //        }
+        //        asyncHistoryExecutor.setAutoActivate(asyncHistoryExecutorActivate);
+        //
+        //    } else {
+        //        // In case an async history executor was injected, only the job handlers are set.
+        //        // In the normal case, these are set on the jobServiceConfiguration, but these are not shared between instances
+        //        if (historyJobHandlers !is null) {
+        //            if (asyncHistoryExecutor.getJobServiceConfiguration() is null) {
+        //                asyncHistoryExecutor.setJobServiceConfiguration(jobServiceConfiguration);
+        //            }
+        //            historyJobHandlers.forEach((type, handler) -> {
+        //                asyncHistoryExecutor.getJobServiceConfiguration().mergeHistoryJobHandler(handler);
+        //            });
+        //        }
+        //
+        //    }
+        //
+        //}
+        //
+        //if (asyncHistoryExecutor !is null) {
+        //    jobServiceConfiguration.setAsyncHistoryExecutor(asyncHistoryExecutor);
+        //    jobServiceConfiguration.setAsyncHistoryExecutorNumberOfRetries(asyncHistoryExecutorNumberOfRetries);
+        //}
     }
 
     // history
@@ -2292,24 +2295,24 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     override
     public void initIdGenerator() {
-        if (idGenerator is null) {
-            DbIdGenerator dbIdGenerator = new DbIdGenerator();
-            dbIdGenerator.setIdBlockSize(idBlockSize);
-            idGenerator = dbIdGenerator;
-        }
-
-        if (idGenerator instanceof DbIdGenerator) {
-            DbIdGenerator dbIdGenerator = (DbIdGenerator) idGenerator;
-            if (dbIdGenerator.getIdBlockSize() == 0) {
-                dbIdGenerator.setIdBlockSize(idBlockSize);
-            }
-            if (dbIdGenerator.getCommandExecutor() is null) {
-                dbIdGenerator.setCommandExecutor(getCommandExecutor());
-            }
-            if (dbIdGenerator.getCommandConfig() is null) {
-                dbIdGenerator.setCommandConfig(getDefaultCommandConfig().transactionRequiresNew());
-            }
-        }
+        //if (idGenerator is null) {
+        //    DbIdGenerator dbIdGenerator = new DbIdGenerator();
+        //    dbIdGenerator.setIdBlockSize(idBlockSize);
+        //    idGenerator = dbIdGenerator;
+        //}
+        //
+        //if (idGenerator instanceof DbIdGenerator) {
+        //    DbIdGenerator dbIdGenerator = (DbIdGenerator) idGenerator;
+        //    if (dbIdGenerator.getIdBlockSize() == 0) {
+        //        dbIdGenerator.setIdBlockSize(idBlockSize);
+        //    }
+        //    if (dbIdGenerator.getCommandExecutor() is null) {
+        //        dbIdGenerator.setCommandExecutor(getCommandExecutor());
+        //    }
+        //    if (dbIdGenerator.getCommandConfig() is null) {
+        //        dbIdGenerator.setCommandConfig(getDefaultCommandConfig().transactionRequiresNew());
+        //    }
+        //}
     }
 
     // OTHER
@@ -2317,13 +2320,13 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     override
     public void initTransactionFactory() {
-        if (transactionFactory is null) {
-            if (transactionsExternallyManaged) {
-                transactionFactory = new ManagedTransactionFactory();
-            } else {
-                transactionFactory = new JdbcTransactionFactory();
-            }
-        }
+        //if (transactionFactory is null) {
+        //    if (transactionsExternallyManaged) {
+        //        transactionFactory = new ManagedTransactionFactory();
+        //    } else {
+        //        transactionFactory = new JdbcTransactionFactory();
+        //    }
+        //}
     }
 
     public void initHelpers() {
@@ -2342,31 +2345,31 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (variableTypes is null) {
             variableTypes = new DefaultVariableTypes();
             if (customPreVariableTypes !is null) {
-                for (VariableType customVariableType : customPreVariableTypes) {
+                foreach (VariableType customVariableType ; customPreVariableTypes) {
                     variableTypes.addType(customVariableType);
                 }
             }
             variableTypes.addType(new NullType());
             variableTypes.addType(new StringType(getMaxLengthString()));
-            variableTypes.addType(new LongStringType(getMaxLengthString() + 1));
+           // variableTypes.addType(new LongStringType(getMaxLengthString() + 1));
             variableTypes.addType(new BooleanType());
             variableTypes.addType(new ShortType());
             variableTypes.addType(new IntegerType());
             variableTypes.addType(new LongType());
             variableTypes.addType(new DateType());
             variableTypes.addType(new InstantType());
-            variableTypes.addType(new LocalDateType());
-            variableTypes.addType(new LocalDateTimeType());
-            variableTypes.addType(new JodaDateType());
-            variableTypes.addType(new JodaDateTimeType());
+            //variableTypes.addType(new LocalDateType());
+            //variableTypes.addType(new LocalDateTimeType());
+            //variableTypes.addType(new JodaDateType());
+            //variableTypes.addType(new JodaDateTimeType());
             variableTypes.addType(new DoubleType());
             variableTypes.addType(new UUIDType());
-            variableTypes.addType(new JsonType(getMaxLengthString(), objectMapper));
-            variableTypes.addType(new LongJsonType(getMaxLengthString() + 1, objectMapper));
+            //variableTypes.addType(new JsonType(getMaxLengthString(), objectMapper));
+            //variableTypes.addType(new LongJsonType(getMaxLengthString() + 1, objectMapper));
             variableTypes.addType(new ByteArrayType());
-            variableTypes.addType(new SerializableType(serializableVariableTypeTrackDeserializedObjects));
+            //variableTypes.addType(new SerializableType(serializableVariableTypeTrackDeserializedObjects));
             if (customPostVariableTypes !is null) {
-                for (VariableType customVariableType : customPostVariableTypes) {
+                foreach (VariableType customVariableType ; customPostVariableTypes) {
                     variableTypes.addType(customVariableType);
                 }
             }
@@ -2375,14 +2378,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     public void initFormEngines() {
         if (formEngines is null) {
-            formEngines = new HashMap<>();
-            FormEngine defaultFormEngine = new JuelFormEngine();
-            formEngines.put(null, defaultFormEngine); // default form engine is
-            // looked up with null
-            formEngines.put(defaultFormEngine.getName(), defaultFormEngine);
+            //formEngines = new HashMap!(string, FormEngine);
+            //FormEngine defaultFormEngine = new JuelFormEngine();
+            //formEngines.put(null, defaultFormEngine); // default form engine is
+            //// looked up with null
+            //formEngines.put(defaultFormEngine.getName(), defaultFormEngine);
         }
         if (customFormEngines !is null) {
-            for (FormEngine formEngine : customFormEngines) {
+            foreach (FormEngine formEngine ; customFormEngines) {
                 formEngines.put(formEngine.getName(), formEngine);
             }
         }
@@ -2398,47 +2401,47 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             formTypes.addFormType(new DoubleFormType());
         }
         if (customFormTypes !is null) {
-            for (AbstractFormType customFormType : customFormTypes) {
+            foreach (AbstractFormType customFormType ; customFormTypes) {
                 formTypes.addFormType(customFormType);
             }
         }
     }
 
     public void initScriptingEngines() {
-        if (resolverFactories is null) {
-            resolverFactories = new ArrayList<>();
-            resolverFactories.add(new VariableScopeResolverFactory());
-            resolverFactories.add(new BeansResolverFactory());
-        }
-        if (scriptingEngines is null) {
-            scriptingEngines = new ScriptingEngines(new ScriptBindingsFactory(this, resolverFactories));
-        }
+        //if (resolverFactories is null) {
+        //    resolverFactories = new ArrayList<>();
+        //    resolverFactories.add(new VariableScopeResolverFactory());
+        //    resolverFactories.add(new BeansResolverFactory());
+        //}
+        //if (scriptingEngines is null) {
+        //    scriptingEngines = new ScriptingEngines(new ScriptBindingsFactory(this, resolverFactories));
+        //}
     }
 
     public void initExpressionManager() {
-        if (expressionManager is null) {
-            ProcessExpressionManager processExpressionManager = new ProcessExpressionManager(delegateInterceptor, beans);
-
-            if (isExpressionCacheEnabled) {
-                processExpressionManager.setExpressionCache(new DefaultDeploymentCache<>(expressionCacheSize));
-                processExpressionManager.setExpressionTextLengthCacheLimit(expressionTextLengthCacheLimit);
-            }
-
-            expressionManager = processExpressionManager;
-        }
-        expressionManager.setFunctionDelegates(flowableFunctionDelegates);
-        expressionManager.setExpressionEnhancers(expressionEnhancers);
+        //if (expressionManager is null) {
+        //    ProcessExpressionManager processExpressionManager = new ProcessExpressionManager(delegateInterceptor, beans);
+        //
+        //    if (isExpressionCacheEnabled) {
+        //        processExpressionManager.setExpressionCache(new DefaultDeploymentCache<>(expressionCacheSize));
+        //        processExpressionManager.setExpressionTextLengthCacheLimit(expressionTextLengthCacheLimit);
+        //    }
+        //
+        //    expressionManager = processExpressionManager;
+        //}
+        //expressionManager.setFunctionDelegates(flowableFunctionDelegates);
+        //expressionManager.setExpressionEnhancers(expressionEnhancers);
     }
 
     public void initBusinessCalendarManager() {
-        if (businessCalendarManager is null) {
-            MapBusinessCalendarManager mapBusinessCalendarManager = new MapBusinessCalendarManager();
-            mapBusinessCalendarManager.addBusinessCalendar(DurationBusinessCalendar.NAME, new DurationBusinessCalendar(this.clock));
-            mapBusinessCalendarManager.addBusinessCalendar(DueDateBusinessCalendar.NAME, new DueDateBusinessCalendar(this.clock));
-            mapBusinessCalendarManager.addBusinessCalendar(CycleBusinessCalendar.NAME, new CycleBusinessCalendar(this.clock));
-
-            businessCalendarManager = mapBusinessCalendarManager;
-        }
+        //if (businessCalendarManager is null) {
+        //    MapBusinessCalendarManager mapBusinessCalendarManager = new MapBusinessCalendarManager();
+        //    mapBusinessCalendarManager.addBusinessCalendar(DurationBusinessCalendar.NAME, new DurationBusinessCalendar(this.clock));
+        //    mapBusinessCalendarManager.addBusinessCalendar(DueDateBusinessCalendar.NAME, new DueDateBusinessCalendar(this.clock));
+        //    mapBusinessCalendarManager.addBusinessCalendar(CycleBusinessCalendar.NAME, new CycleBusinessCalendar(this.clock));
+        //
+        //    businessCalendarManager = mapBusinessCalendarManager;
+        //}
     }
 
     public void initAgendaFactory() {
@@ -2455,7 +2458,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     public void initEventHandlers() {
         if (eventHandlers is null) {
-            eventHandlers = new HashMap<>();
+            eventHandlers = new HashMap!(string, EventHandler)();
 
             SignalEventHandler signalEventHandler = new SignalEventHandler();
             eventHandlers.put(signalEventHandler.getEventHandlerType(), signalEventHandler);
@@ -2468,7 +2471,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
         }
         if (customEventHandlers !is null) {
-            for (EventHandler eventHandler : customEventHandlers) {
+            foreach (EventHandler eventHandler ; customEventHandlers) {
                 eventHandlers.put(eventHandler.getEventHandlerType(), eventHandler);
             }
         }
@@ -2478,85 +2481,85 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     // //////////////////////////////////////////////////////////////////////
 
     public void initJpa() {
-        if (jpaPersistenceUnitName !is null) {
-            jpaEntityManagerFactory = JpaHelper.createEntityManagerFactory(jpaPersistenceUnitName);
-        }
-        if (jpaEntityManagerFactory !is null) {
-            sessionFactories.put(EntityManagerSession.class, new EntityManagerSessionFactory(jpaEntityManagerFactory, jpaHandleTransaction, jpaCloseEntityManager));
-            VariableType jpaType = variableTypes.getVariableType(JPAEntityVariableType.TYPE_NAME);
-            // Add JPA-type
-            if (jpaType is null) {
-                // We try adding the variable right before SerializableType, if
-                // available
-                int serializableIndex = variableTypes.getTypeIndex(SerializableType.TYPE_NAME);
-                if (serializableIndex > -1) {
-                    variableTypes.addType(new JPAEntityVariableType(), serializableIndex);
-                } else {
-                    variableTypes.addType(new JPAEntityVariableType());
-                }
-            }
-
-            jpaType = variableTypes.getVariableType(JPAEntityListVariableType.TYPE_NAME);
-
-            // Add JPA-list type after regular JPA type if not already present
-            if (jpaType is null) {
-                variableTypes.addType(new JPAEntityListVariableType(), variableTypes.getTypeIndex(JPAEntityVariableType.TYPE_NAME));
-            }
-        }
+        //if (jpaPersistenceUnitName !is null) {
+        //    jpaEntityManagerFactory = JpaHelper.createEntityManagerFactory(jpaPersistenceUnitName);
+        //}
+        //if (jpaEntityManagerFactory !is null) {
+        //    sessionFactories.put(EntityManagerSession.class, new EntityManagerSessionFactory(jpaEntityManagerFactory, jpaHandleTransaction, jpaCloseEntityManager));
+        //    VariableType jpaType = variableTypes.getVariableType(JPAEntityVariableType.TYPE_NAME);
+        //    // Add JPA-type
+        //    if (jpaType is null) {
+        //        // We try adding the variable right before SerializableType, if
+        //        // available
+        //        int serializableIndex = variableTypes.getTypeIndex(SerializableType.TYPE_NAME);
+        //        if (serializableIndex > -1) {
+        //            variableTypes.addType(new JPAEntityVariableType(), serializableIndex);
+        //        } else {
+        //            variableTypes.addType(new JPAEntityVariableType());
+        //        }
+        //    }
+        //
+        //    jpaType = variableTypes.getVariableType(JPAEntityListVariableType.TYPE_NAME);
+        //
+        //    // Add JPA-list type after regular JPA type if not already present
+        //    if (jpaType is null) {
+        //        variableTypes.addType(new JPAEntityListVariableType(), variableTypes.getTypeIndex(JPAEntityVariableType.TYPE_NAME));
+        //    }
+        //}
     }
 
     public void initProcessValidator() {
-        if (this.processValidator is null) {
-            this.processValidator = new ProcessValidatorFactory().createDefaultProcessValidator();
-        }
+        //if (this.processValidator is null) {
+        //    this.processValidator = new ProcessValidatorFactory().createDefaultProcessValidator();
+        //}
     }
 
     override
     protected void initAdditionalEventDispatchActions() {
         if (this.additionalEventDispatchActions is null) {
-            this.additionalEventDispatchActions = new ArrayList<>();
+            this.additionalEventDispatchActions = new ArrayList!EventDispatchAction();
             this.additionalEventDispatchActions.add(new BpmnModelEventDispatchAction());
         }
     }
 
     public void initFormFieldHandler() {
-        if (this.formFieldHandler is null) {
-            this.formFieldHandler = new DefaultFormFieldHandler();
-        }
+        //if (this.formFieldHandler is null) {
+        //    this.formFieldHandler = new DefaultFormFieldHandler();
+        //}
     }
 
     public void initShortHandExpressionFunctions() {
-        if (shortHandExpressionFunctions is null) {
-            shortHandExpressionFunctions = new ArrayList<>();
-
-            shortHandExpressionFunctions.add(new VariableGetExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableGetOrDefaultExpressionFunction());
-
-            shortHandExpressionFunctions.add(new VariableContainsAnyExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableContainsExpressionFunction());
-
-            shortHandExpressionFunctions.add(new VariableEqualsExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableNotEqualsExpressionFunction());
-
-            shortHandExpressionFunctions.add(new VariableExistsExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableIsEmptyExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableIsNotEmptyExpressionFunction());
-
-            shortHandExpressionFunctions.add(new VariableLowerThanExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableLowerThanOrEqualsExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableGreaterThanExpressionFunction());
-            shortHandExpressionFunctions.add(new VariableGreaterThanOrEqualsExpressionFunction());
-
-            shortHandExpressionFunctions.add(new VariableBase64ExpressionFunction());
-        }
+        //if (shortHandExpressionFunctions is null) {
+        //    shortHandExpressionFunctions = new ArrayList<>();
+        //
+        //    shortHandExpressionFunctions.add(new VariableGetExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableGetOrDefaultExpressionFunction());
+        //
+        //    shortHandExpressionFunctions.add(new VariableContainsAnyExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableContainsExpressionFunction());
+        //
+        //    shortHandExpressionFunctions.add(new VariableEqualsExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableNotEqualsExpressionFunction());
+        //
+        //    shortHandExpressionFunctions.add(new VariableExistsExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableIsEmptyExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableIsNotEmptyExpressionFunction());
+        //
+        //    shortHandExpressionFunctions.add(new VariableLowerThanExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableLowerThanOrEqualsExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableGreaterThanExpressionFunction());
+        //    shortHandExpressionFunctions.add(new VariableGreaterThanOrEqualsExpressionFunction());
+        //
+        //    shortHandExpressionFunctions.add(new VariableBase64ExpressionFunction());
+        //}
     }
 
     public void initFunctionDelegates() {
-        if (this.flowableFunctionDelegates is null) {
-            this.flowableFunctionDelegates = new ArrayList<>();
-            this.flowableFunctionDelegates.add(new FlowableDateFunctionDelegate());
-            flowableFunctionDelegates.addAll(shortHandExpressionFunctions);
-        }
+        //if (this.flowableFunctionDelegates is null) {
+        //    this.flowableFunctionDelegates = new ArrayList!FlowableFunctionDelegate();
+        //    this.flowableFunctionDelegates.add(new FlowableDateFunctionDelegate());
+        //    flowableFunctionDelegates.addAll(shortHandExpressionFunctions);
+        //}
 
         if (this.customFlowableFunctionDelegates !is null) {
             this.flowableFunctionDelegates.addAll(this.customFlowableFunctionDelegates);
@@ -2564,10 +2567,10 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public void initExpressionEnhancers() {
-        if (expressionEnhancers is null) {
-            expressionEnhancers = new ArrayList<>();
-            expressionEnhancers.addAll(shortHandExpressionFunctions);
-        }
+        //if (expressionEnhancers is null) {
+        //    expressionEnhancers = new ArrayList!FlowableExpressionEnhancer();
+        //    expressionEnhancers.addAll(shortHandExpressionFunctions);
+        //}
 
         if (customExpressionEnhancers !is null) {
             expressionEnhancers.addAll(customExpressionEnhancers);
@@ -2575,33 +2578,33 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public void initDatabaseEventLogging() {
-        if (enableDatabaseEventLogging) {
-            // Database event logging uses the default logging mechanism and adds
-            // a specific event listener to the list of event listeners
-            getEventDispatcher().addEventListener(new EventLogger(clock, objectMapper));
-        }
+        //if (enableDatabaseEventLogging) {
+        //    // Database event logging uses the default logging mechanism and adds
+        //    // a specific event listener to the list of event listeners
+        //    getEventDispatcher().addEventListener(new EventLogger(clock, objectMapper));
+        //}
     }
 
     public void initFlowable5CompatibilityHandler() {
 
         // If Flowable 5 compatibility is disabled, no need to do anything
         // If handler is injected, no need to do anything
-        if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler is null) {
-
-            // Create default factory if nothing set
-            if (flowable5CompatibilityHandlerFactory is null) {
-                flowable5CompatibilityHandlerFactory = new DefaultFlowable5CompatibilityHandlerFactory();
-            }
-
-            // Create handler instance
-            flowable5CompatibilityHandler = flowable5CompatibilityHandlerFactory.createFlowable5CompatibilityHandler();
-
-            if (flowable5CompatibilityHandler !is null) {
-                logger.info("Found compatibility handler instance : {}", flowable5CompatibilityHandler.getClass());
-
-                flowable5CompatibilityHandler.setFlowable6ProcessEngineConfiguration(this);
-            }
-        }
+        //if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler is null) {
+        //
+        //    // Create default factory if nothing set
+        //    if (flowable5CompatibilityHandlerFactory is null) {
+        //        flowable5CompatibilityHandlerFactory = new DefaultFlowable5CompatibilityHandlerFactory();
+        //    }
+        //
+        //    // Create handler instance
+        //    flowable5CompatibilityHandler = flowable5CompatibilityHandlerFactory.createFlowable5CompatibilityHandler();
+        //
+        //    if (flowable5CompatibilityHandler !is null) {
+        //        logger.info("Found compatibility handler instance : {}", flowable5CompatibilityHandler.getClass());
+        //
+        //        flowable5CompatibilityHandler.setFlowable6ProcessEngineConfiguration(this);
+        //    }
+        //}
 
     }
 
@@ -2626,17 +2629,17 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
 
         // if Flowable 5 support is needed configure the Flowable 5 job processors via the compatibility handler
-        if (flowable5CompatibilityEnabled) {
-            flowable5CompatibilityHandler.setJobProcessor(this.flowable5JobProcessors);
-        }
+        //if (flowable5CompatibilityEnabled) {
+        //    flowable5CompatibilityHandler.setJobProcessor(this.flowable5JobProcessors);
+        //}
     }
 
     public Runnable getProcessEngineCloseRunnable() {
-        return new class Runnable {
-             void run() {
-                commandExecutor.execute(getSchemaCommandConfig(), new SchemaOperationProcessEngineClose());
-            }
-        }
+        //return new class Runnable {
+        //     void run() {
+        //        commandExecutor.execute(getSchemaCommandConfig(), new SchemaOperationProcessEngineClose());
+        //    }
+        //}
     }
 
     override
@@ -2649,7 +2652,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
                 if (eventRegistryConfiurator !is null) {
                     specificConfigurators.add(eventRegistryConfigurator);
                     } else {
-                    specificConfigurators.add(new EventRegistryEngineConfigurator());
+                   // specificConfigurators.add(new EventRegistryEngineConfigurator());
                 }
             }
             if (!disableIdmEngine) {
@@ -2677,7 +2680,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
 
         if(this.internalProcessDefinitionLocalizationManager is null) {
-            this.setInternalProcessDefinitionLocalizationManager(new DefaultProcessDefinitionLocalizationManager(this));
+           // this.setInternalProcessDefinitionLocalizationManager(new DefaultProcessDefinitionLocalizationManager(this));
         }
 
     }
@@ -2818,22 +2821,22 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public DynamicBpmnService getDynamicBpmnService() {
-        return dynamicBpmnService;
-    }
+    //public DynamicBpmnService getDynamicBpmnService() {
+    //    return dynamicBpmnService;
+    //}
 
-    public ProcessEngineConfigurationImpl setDynamicBpmnService(DynamicBpmnService dynamicBpmnService) {
-        this.dynamicBpmnService = dynamicBpmnService;
-        return this;
-    }
+    //public ProcessEngineConfigurationImpl setDynamicBpmnService(DynamicBpmnService dynamicBpmnService) {
+    //    this.dynamicBpmnService = dynamicBpmnService;
+    //    return this;
+    //}
 
-    public ProcessMigrationService getProcessMigrationService() {
-        return processInstanceMigrationService;
-    }
+    //public ProcessMigrationService getProcessMigrationService() {
+    //    return processInstanceMigrationService;
+    //}
 
-    public void setProcessInstanceMigrationService(ProcessMigrationService processInstanceMigrationService) {
-        this.processInstanceMigrationService = processInstanceMigrationService;
-    }
+    //public void setProcessInstanceMigrationService(ProcessMigrationService processInstanceMigrationService) {
+    //    this.processInstanceMigrationService = processInstanceMigrationService;
+    //}
 
     override
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
@@ -2859,7 +2862,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    public ProcessEngineConfigurationImpl setSessionFactories(Map<Class<?>, SessionFactory> sessionFactories) {
+    public ProcessEngineConfigurationImpl setSessionFactories(Map!(TypeInfo, SessionFactory) sessionFactories) {
         this.sessionFactories = sessionFactories;
         return this;
     }
@@ -2948,14 +2951,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public XMLImporterFactory getWsdlImporterFactory() {
-        return wsWsdlImporterFactory;
-    }
+    //public XMLImporterFactory getWsdlImporterFactory() {
+    //    return wsWsdlImporterFactory;
+    //}
 
-    public ProcessEngineConfigurationImpl setWsdlImporterFactory(XMLImporterFactory wsWsdlImporterFactory) {
-        this.wsWsdlImporterFactory = wsWsdlImporterFactory;
-        return this;
-    }
+    //public ProcessEngineConfigurationImpl setWsdlImporterFactory(XMLImporterFactory wsWsdlImporterFactory) {
+    //    this.wsWsdlImporterFactory = wsWsdlImporterFactory;
+    //    return this;
+    //}
 
     /**
      * Add or replace the address of the given web-service endpoint with the given value
@@ -2965,10 +2968,10 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * @param address
      *     The new address of the endpoint
      */
-    public ProcessEngineConfiguration addWsEndpointAddress(QName endpointName, URL address) {
-        this.wsOverridenEndpointAddresses.put(endpointName, address);
-        return this;
-    }
+    //public ProcessEngineConfiguration addWsEndpointAddress(QName endpointName, URL address) {
+    //    this.wsOverridenEndpointAddresses.put(endpointName, address);
+    //    return this;
+    //}
 
     /**
      * Remove the address definition of the given web-service endpoint
@@ -2976,19 +2979,19 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * @param endpointName
      *     The endpoint name for which the address definition must be removed
      */
-    public ProcessEngineConfiguration removeWsEndpointAddress(QName endpointName) {
-        this.wsOverridenEndpointAddresses.remove(endpointName);
-        return this;
-    }
-
-    public ConcurrentMap!(QName, URL) getWsOverridenEndpointAddresses() {
-        return this.wsOverridenEndpointAddresses;
-    }
-
-    public ProcessEngineConfiguration setWsOverridenEndpointAddresses( ConcurrentMap!(QName, URL) wsOverridenEndpointAddress) {
-        this.wsOverridenEndpointAddresses.putAll(wsOverridenEndpointAddress);
-        return this;
-    }
+    //public ProcessEngineConfiguration removeWsEndpointAddress(QName endpointName) {
+    //    this.wsOverridenEndpointAddresses.remove(endpointName);
+    //    return this;
+    //}
+    //
+    //public ConcurrentMap!(QName, URL) getWsOverridenEndpointAddresses() {
+    //    return this.wsOverridenEndpointAddresses;
+    //}
+    //
+    //public ProcessEngineConfiguration setWsOverridenEndpointAddresses( ConcurrentMap!(QName, URL) wsOverridenEndpointAddress) {
+    //    this.wsOverridenEndpointAddresses.putAll(wsOverridenEndpointAddress);
+    //    return this;
+    //}
 
     public Map!(string, FormEngine) getFormEngines() {
         return formEngines;
@@ -3008,16 +3011,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    override
-    public ScriptingEngines getScriptingEngines() {
-        return scriptingEngines;
-    }
+    //override
+    //public ScriptingEngines getScriptingEngines() {
+    //    return scriptingEngines;
+    //}
 
-    override
-    public ProcessEngineConfigurationImpl setScriptingEngines(ScriptingEngines scriptingEngines) {
-        this.scriptingEngines = scriptingEngines;
-        return this;
-    }
+    //override
+    //public ProcessEngineConfigurationImpl setScriptingEngines(ScriptingEngines scriptingEngines) {
+    //    this.scriptingEngines = scriptingEngines;
+    //    return this;
+    //}
 
     override
     public VariableTypes getVariableTypes() {
@@ -3166,14 +3169,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public BusinessCalendarManager getBusinessCalendarManager() {
-        return businessCalendarManager;
-    }
-
-    public ProcessEngineConfigurationImpl setBusinessCalendarManager(BusinessCalendarManager businessCalendarManager) {
-        this.businessCalendarManager = businessCalendarManager;
-        return this;
-    }
+    //public BusinessCalendarManager getBusinessCalendarManager() {
+    //    return businessCalendarManager;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setBusinessCalendarManager(BusinessCalendarManager businessCalendarManager) {
+    //    this.businessCalendarManager = businessCalendarManager;
+    //    return this;
+    //}
 
     public StartProcessInstanceInterceptor getStartProcessInstanceInterceptor() {
         return startProcessInstanceInterceptor;
@@ -3337,17 +3340,17 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    override
-    public ProcessEngineConfigurationImpl setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-        this.sqlSessionFactory = sqlSessionFactory;
-        return this;
-    }
-
-    override
-    public ProcessEngineConfigurationImpl setTransactionFactory(TransactionFactory transactionFactory) {
-        this.transactionFactory = transactionFactory;
-        return this;
-    }
+    //override
+    //public ProcessEngineConfigurationImpl setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+    //    this.sqlSessionFactory = sqlSessionFactory;
+    //    return this;
+    //}
+    //
+    //override
+    //public ProcessEngineConfigurationImpl setTransactionFactory(TransactionFactory transactionFactory) {
+    //    this.transactionFactory = transactionFactory;
+    //    return this;
+  //  }
 
     override
     public ProcessEngineConfigurationImpl addCustomSessionFactory(SessionFactory sessionFactory) {
@@ -3372,7 +3375,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     public ProcessEngineConfigurationImpl addCustomJobHandler(JobHandler customJobHandler) {
         if (this.customJobHandlers is null) {
-            this.customJobHandlers = new ArrayList<>();
+            this.customJobHandlers = new ArrayList!JobHandler();
         }
         this.customJobHandlers.add(customJobHandler);
         return this;
@@ -3387,14 +3390,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List!HistoryJsonTransformer getCustomHistoryJsonTransformers() {
-        return customHistoryJsonTransformers;
-    }
+    //public List!HistoryJsonTransformer getCustomHistoryJsonTransformers() {
+    //    return customHistoryJsonTransformers;
+    //}
 
-    public ProcessEngineConfigurationImpl setCustomHistoryJsonTransformers(List!HistoryJsonTransformer customHistoryJsonTransformers) {
-        this.customHistoryJsonTransformers = customHistoryJsonTransformers;
-        return this;
-    }
+    //public ProcessEngineConfigurationImpl setCustomHistoryJsonTransformers(List!HistoryJsonTransformer customHistoryJsonTransformers) {
+    //    this.customHistoryJsonTransformers = customHistoryJsonTransformers;
+    //    return this;
+    //}
 
     public List!FormEngine getCustomFormEngines() {
         return customFormEngines;
@@ -3495,14 +3498,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List!ResolverFactory getResolverFactories() {
-        return resolverFactories;
-    }
-
-    public ProcessEngineConfigurationImpl setResolverFactories(List!ResolverFactory resolverFactories) {
-        this.resolverFactories = resolverFactories;
-        return this;
-    }
+    //public List!ResolverFactory getResolverFactories() {
+    //    return resolverFactories;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setResolverFactories(List!ResolverFactory resolverFactories) {
+    //    this.resolverFactories = resolverFactories;
+    //    return this;
+    //}
 
     public DeploymentManager getDeploymentManager() {
         return deploymentManager;
@@ -3580,23 +3583,23 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public DeploymentCache!ProcessDefinitionCacheEntry getProcessDefinitionCache() {
-        return processDefinitionCache;
-    }
+    //public DeploymentCache!ProcessDefinitionCacheEntry getProcessDefinitionCache() {
+    //    return processDefinitionCache;
+    //}
 
-    public ProcessEngineConfigurationImpl setProcessDefinitionCache(DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache) {
-        this.processDefinitionCache = processDefinitionCache;
-        return this;
-    }
-
-    public ProcessEngineConfigurationImpl setProcessDefinitionInfoCache(DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache){
-        this.processDefinitionInfoCache = processDefinitionInfoCache;
-        return this;
-    }
-
-    public DeploymentCache!ProcessDefinitionInfoCacheObject getProcessDefinitionInfoCache() {
-        return processDefinitionInfoCache;
-    }
+    //public ProcessEngineConfigurationImpl setProcessDefinitionCache(DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache) {
+    //    this.processDefinitionCache = processDefinitionCache;
+    //    return this;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setProcessDefinitionInfoCache(DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache){
+    //    this.processDefinitionInfoCache = processDefinitionInfoCache;
+    //    return this;
+    //}
+    //
+    //public DeploymentCache!ProcessDefinitionInfoCacheObject getProcessDefinitionInfoCache() {
+    //    return processDefinitionInfoCache;
+    //}
 
     public int getKnowledgeBaseCacheLimit() {
         return knowledgeBaseCacheLimit;
@@ -3607,23 +3610,23 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public DeploymentCache!Object getKnowledgeBaseCache() {
-        return knowledgeBaseCache;
-    }
-
-    public ProcessEngineConfigurationImpl setKnowledgeBaseCache(DeploymentCache!Object knowledgeBaseCache) {
-        this.knowledgeBaseCache = knowledgeBaseCache;
-        return this;
-    }
-
-    public DeploymentCache!Object getAppResourceCache() {
-        return appResourceCache;
-    }
-
-    public ProcessEngineConfigurationImpl setAppResourceCache(DeploymentCache!Object appResourceCache) {
-        this.appResourceCache = appResourceCache;
-        return this;
-    }
+    //public DeploymentCache!Object getKnowledgeBaseCache() {
+    //    return knowledgeBaseCache;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setKnowledgeBaseCache(DeploymentCache!Object knowledgeBaseCache) {
+    //    this.knowledgeBaseCache = knowledgeBaseCache;
+    //    return this;
+    //}
+    //
+    //public DeploymentCache!Object getAppResourceCache() {
+    //    return appResourceCache;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setAppResourceCache(DeploymentCache!Object appResourceCache) {
+    //    this.appResourceCache = appResourceCache;
+    //    return this;
+    //}
 
     public int getAppResourceCacheLimit() {
         return appResourceCacheLimit;
@@ -3676,14 +3679,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public ProcessValidator getProcessValidator() {
-        return processValidator;
-    }
-
-    public ProcessEngineConfigurationImpl setProcessValidator(ProcessValidator processValidator) {
-        this.processValidator = processValidator;
-        return this;
-    }
+    //public ProcessValidator getProcessValidator() {
+    //    return processValidator;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setProcessValidator(ProcessValidator processValidator) {
+    //    this.processValidator = processValidator;
+    //    return this;
+    //}
 
     public FormFieldHandler getFormFieldHandler() {
         return formFieldHandler;
@@ -3748,14 +3751,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public List!FlowableShortHandExpressionFunction getShortHandExpressionFunctions() {
-        return shortHandExpressionFunctions;
-    }
+    //public List!FlowableShortHandExpressionFunction getShortHandExpressionFunctions() {
+    //    return shortHandExpressionFunctions;
+    //}
 
-    public ProcessEngineConfigurationImpl setShortHandExpressionFunctions(List!FlowableShortHandExpressionFunction shortHandExpressionFunctions) {
-        this.shortHandExpressionFunctions = shortHandExpressionFunctions;
-        return this;
-    }
+    //public ProcessEngineConfigurationImpl setShortHandExpressionFunctions(List!FlowableShortHandExpressionFunction shortHandExpressionFunctions) {
+    //    this.shortHandExpressionFunctions = shortHandExpressionFunctions;
+    //    return this;
+    //}
 
     public bool isEnableDatabaseEventLogging() {
         return enableDatabaseEventLogging;
@@ -4163,14 +4166,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         this.asyncHistoryJsonGroupingThreshold = asyncHistoryJsonGroupingThreshold;
     }
 
-    public AsyncHistoryListener getAsyncHistoryListener() {
-        return asyncHistoryListener;
-    }
+    //public AsyncHistoryListener getAsyncHistoryListener() {
+    //    return asyncHistoryListener;
+    //}
 
-    public ProcessEngineConfigurationImpl setAsyncHistoryListener(AsyncHistoryListener asyncHistoryListener) {
-        this.asyncHistoryListener = asyncHistoryListener;
-        return this;
-    }
+    //public ProcessEngineConfigurationImpl setAsyncHistoryListener(AsyncHistoryListener asyncHistoryListener) {
+    //    this.asyncHistoryListener = asyncHistoryListener;
+    //    return this;
+    //}
 
     public JobManager getJobManager() {
         return jobManager;
@@ -4190,23 +4193,23 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public ProcessInstanceMigrationManager getProcessInstanceMigrationManager() {
-        return processInstanceMigrationManager;
-    }
-
-    public ProcessEngineConfigurationImpl setProcessInstanceMigrationManager(ProcessInstanceMigrationManager processInstanceMigrationValidationMananger) {
-        this.processInstanceMigrationManager = processInstanceMigrationValidationMananger;
-        return this;
-    }
-
-    public DecisionTableVariableManager getDecisionTableVariableManager() {
-        return decisionTableVariableManager;
-    }
-
-    public ProcessEngineConfigurationImpl setDecisionTableVariableManager(DecisionTableVariableManager decisionTableVariableManager) {
-        this.decisionTableVariableManager = decisionTableVariableManager;
-        return this;
-    }
+    //public ProcessInstanceMigrationManager getProcessInstanceMigrationManager() {
+    //    return processInstanceMigrationManager;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setProcessInstanceMigrationManager(ProcessInstanceMigrationManager processInstanceMigrationValidationMananger) {
+    //    this.processInstanceMigrationManager = processInstanceMigrationValidationMananger;
+    //    return this;
+    //}
+    //
+    //public DecisionTableVariableManager getDecisionTableVariableManager() {
+    //    return decisionTableVariableManager;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setDecisionTableVariableManager(DecisionTableVariableManager decisionTableVariableManager) {
+    //    this.decisionTableVariableManager = decisionTableVariableManager;
+    //    return this;
+    //}
 
     public IdentityLinkInterceptor getIdentityLinkInterceptor() {
         return identityLinkInterceptor;
@@ -4225,18 +4228,18 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             this.clock.setCurrentCalendar(clock.getCurrentCalendar());
         }
 
-        if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {
-            getFlowable5CompatibilityHandler().setClock(clock);
-        }
+        //if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {
+        //    getFlowable5CompatibilityHandler().setClock(clock);
+        //}
         return this;
     }
 
     public void resetClock() {
         if (this.clock !is null) {
             clock.reset();
-            if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {
-                getFlowable5CompatibilityHandler().resetClock();
-            }
+            //if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {
+            //    getFlowable5CompatibilityHandler().resetClock();
+            //}
         }
     }
 
@@ -4276,14 +4279,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public Map!(string, List!RuntimeInstanceStateChangeCallback) getProcessInstanceStateChangedCallbacks() {
-        return processInstanceStateChangedCallbacks;
-    }
+    //public Map!(string, List!RuntimeInstanceStateChangeCallback) getProcessInstanceStateChangedCallbacks() {
+    //    return processInstanceStateChangedCallbacks;
+    //}
 
-    public ProcessEngineConfigurationImpl setProcessInstanceStateChangedCallbacks(Map!(string, List!RuntimeInstanceStateChangeCallback) processInstanceStateChangedCallbacks) {
-        this.processInstanceStateChangedCallbacks = processInstanceStateChangedCallbacks;
-        return this;
-    }
+    //public ProcessEngineConfigurationImpl setProcessInstanceStateChangedCallbacks(Map!(string, List!RuntimeInstanceStateChangeCallback) processInstanceStateChangedCallbacks) {
+    //    this.processInstanceStateChangedCallbacks = processInstanceStateChangedCallbacks;
+    //    return this;
+    //}
 
     public SchemaManager getVariableSchemaManager() {
         return variableSchemaManager;
@@ -4394,23 +4397,23 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public Flowable5CompatibilityHandlerFactory getFlowable5CompatibilityHandlerFactory() {
-        return flowable5CompatibilityHandlerFactory;
-    }
-
-    public ProcessEngineConfigurationImpl setFlowable5CompatibilityHandlerFactory(Flowable5CompatibilityHandlerFactory flowable5CompatibilityHandlerFactory) {
-        this.flowable5CompatibilityHandlerFactory = flowable5CompatibilityHandlerFactory;
-        return this;
-    }
-
-    public Flowable5CompatibilityHandler getFlowable5CompatibilityHandler() {
-        return flowable5CompatibilityHandler;
-    }
-
-    public ProcessEngineConfigurationImpl setFlowable5CompatibilityHandler(Flowable5CompatibilityHandler flowable5CompatibilityHandler) {
-        this.flowable5CompatibilityHandler = flowable5CompatibilityHandler;
-        return this;
-    }
+    //public Flowable5CompatibilityHandlerFactory getFlowable5CompatibilityHandlerFactory() {
+    //    return flowable5CompatibilityHandlerFactory;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setFlowable5CompatibilityHandlerFactory(Flowable5CompatibilityHandlerFactory flowable5CompatibilityHandlerFactory) {
+    //    this.flowable5CompatibilityHandlerFactory = flowable5CompatibilityHandlerFactory;
+    //    return this;
+    //}
+    //
+    //public Flowable5CompatibilityHandler getFlowable5CompatibilityHandler() {
+    //    return flowable5CompatibilityHandler;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setFlowable5CompatibilityHandler(Flowable5CompatibilityHandler flowable5CompatibilityHandler) {
+    //    this.flowable5CompatibilityHandler = flowable5CompatibilityHandler;
+    //    return this;
+    //}
 
     public Object getFlowable5ActivityBehaviorFactory() {
         return flowable5ActivityBehaviorFactory;
@@ -4466,14 +4469,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public Set<Class<?>> getFlowable5CustomMybatisMappers() {
-        return flowable5CustomMybatisMappers;
-    }
-
-    public ProcessEngineConfigurationImpl setFlowable5CustomMybatisMappers(Set<Class<?>> flowable5CustomMybatisMappers) {
-        this.flowable5CustomMybatisMappers = flowable5CustomMybatisMappers;
-        return this;
-    }
+    //public Set<Class<?>> getFlowable5CustomMybatisMappers() {
+    //    return flowable5CustomMybatisMappers;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setFlowable5CustomMybatisMappers(Set<Class<?>> flowable5CustomMybatisMappers) {
+    //    this.flowable5CustomMybatisMappers = flowable5CustomMybatisMappers;
+    //    return this;
+    //}
 
     public Set!string getFlowable5CustomMybatisXMLMappers() {
         return flowable5CustomMybatisXMLMappers;
@@ -4544,14 +4547,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public BlockingQueue!Runnable getAsyncExecutorThreadPoolQueue() {
-        return asyncExecutorThreadPoolQueue;
-    }
-
-    public ProcessEngineConfigurationImpl setAsyncExecutorThreadPoolQueue(BlockingQueue!Runnable asyncExecutorThreadPoolQueue) {
-        this.asyncExecutorThreadPoolQueue = asyncExecutorThreadPoolQueue;
-        return this;
-    }
+    //public BlockingQueue!Runnable getAsyncExecutorThreadPoolQueue() {
+    //    return asyncExecutorThreadPoolQueue;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setAsyncExecutorThreadPoolQueue(BlockingQueue!Runnable asyncExecutorThreadPoolQueue) {
+    //    this.asyncExecutorThreadPoolQueue = asyncExecutorThreadPoolQueue;
+    //    return this;
+    //}
 
     public long getAsyncExecutorSecondsToWaitOnShutdown() {
         return asyncExecutorSecondsToWaitOnShutdown;
@@ -4751,14 +4754,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    public BlockingQueue!Runnable getAsyncHistoryExecutorThreadPoolQueue() {
-        return asyncHistoryExecutorThreadPoolQueue;
-    }
-
-    public ProcessEngineConfigurationImpl setAsyncHistoryExecutorThreadPoolQueue(BlockingQueue!Runnable asyncHistoryExecutorThreadPoolQueue) {
-        this.asyncHistoryExecutorThreadPoolQueue = asyncHistoryExecutorThreadPoolQueue;
-        return this;
-    }
+    //public BlockingQueue!Runnable getAsyncHistoryExecutorThreadPoolQueue() {
+    //    return asyncHistoryExecutorThreadPoolQueue;
+    //}
+    //
+    //public ProcessEngineConfigurationImpl setAsyncHistoryExecutorThreadPoolQueue(BlockingQueue!Runnable asyncHistoryExecutorThreadPoolQueue) {
+    //    this.asyncHistoryExecutorThreadPoolQueue = asyncHistoryExecutorThreadPoolQueue;
+    //    return this;
+    //}
 
     public long getAsyncHistoryExecutorSecondsToWaitOnShutdown() {
         return asyncHistoryExecutorSecondsToWaitOnShutdown;

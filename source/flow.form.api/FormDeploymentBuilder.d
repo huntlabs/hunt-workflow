@@ -12,7 +12,7 @@
  */
 module flow.form.api.FormDeploymentBuilder;
 
-import hunt.io.Common;
+import hunt.stream.Common;
 import flow.form.api.FormDeployment;
 
 /**

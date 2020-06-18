@@ -22,7 +22,7 @@ module flow.common.FlowableVersion;
 
 
 
-import hunt.collections;
+import hunt.collection.Collections;
 import hunt.collection.List;
 
 /**
@@ -44,7 +44,7 @@ class FlowableVersion {
         this.alternativeVersionStrings = Collections.singletonList(mainVersion);
     }
 
-    public FlowableVersion(string mainVersion, List!string alternativeVersionStrings) {
+    this(string mainVersion, List!string alternativeVersionStrings) {
         this.mainVersion = mainVersion;
         this.alternativeVersionStrings = alternativeVersionStrings;
     }
@@ -53,36 +53,36 @@ class FlowableVersion {
         return mainVersion;
     }
 
-    public bool matches(string version) {
-        if (version.equals(mainVersion)) {
+    public bool matches(string ver) {
+        if (ver == (mainVersion)) {
             return true;
         } else if (!alternativeVersionStrings.isEmpty()) {
-            return alternativeVersionStrings.contains(version);
+            return alternativeVersionStrings.contains(ver);
         } else {
             return false;
         }
     }
 
-    @Override
-    public int hashCode() {
+    override
+    public int toHash() {
         int result = 0;
         result = 31 * result + (mainVersion !is null ? mainVersion.hashCode() : 0);
-        result = 31 * result + (alternativeVersionStrings !is null ? alternativeVersionStrings.hashCode() : 0);
+        result = 31 * result + (alternativeVersionStrings !is null ? alternativeVersionStrings.toHash() : 0);
         return result;
     }
 
-    @Override
-    public bool equals(Object obj) {
-        if (!(obj instanceof FlowableVersion)) {
+    override
+    public bool opEquals(Object obj) {
+        if (cast(FlowableVersion)obj is null) {
             return false;
         }
-        FlowableVersion other = (FlowableVersion) obj;
-        bool mainVersionEqual = mainVersion.equals(other.mainVersion);
+        FlowableVersion other = cast(FlowableVersion) obj;
+        bool mainVersionEqual = (mainVersion == (other.mainVersion));
         if (!mainVersionEqual) {
             return false;
         } else {
             if (alternativeVersionStrings !is null) {
-                return alternativeVersionStrings.equals(other.alternativeVersionStrings);
+                return alternativeVersionStrings == (other.alternativeVersionStrings);
             } else {
                 return other.alternativeVersionStrings is null;
             }

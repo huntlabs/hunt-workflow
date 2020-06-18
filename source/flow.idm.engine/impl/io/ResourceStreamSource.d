@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.idm.engine.impl.io.ResourceStreamSource;
 
 //import java.io.BufferedInputStream;
 //import java.io.InputStream;

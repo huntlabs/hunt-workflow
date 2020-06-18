@@ -22,7 +22,7 @@ import flow.idm.engine.impl.persistence.entity.IdentityInfoEntity;
 /**
  * @author Tom Baeyens
  */
-@Table("ACT_ID_INFO");
+@Table("ACT_ID_INFO")
 class IdentityInfoEntityImpl : AbstractIdmEngineEntity , Model, IdentityInfoEntity {
 
     mixin MakeModel;

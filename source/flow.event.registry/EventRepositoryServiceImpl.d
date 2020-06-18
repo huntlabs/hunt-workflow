@@ -28,29 +28,29 @@ import flow.event.registry.api.EventRepositoryService;
 import flow.event.registry.api.model.EventModelBuilder;
 import flow.event.registry.api.model.InboundChannelModelBuilder;
 import flow.event.registry.api.model.OutboundChannelModelBuilder;
-import flow.event.registry.cmd.DeleteDeploymentCmd;
-import flow.event.registry.cmd.DeployCmd;
-import flow.event.registry.cmd.GetChannelDefinitionCmd;
-import flow.event.registry.cmd.GetChannelDefinitionResourceCmd;
-import flow.event.registry.cmd.GetChannelModelCmd;
-import flow.event.registry.cmd.GetDeploymentResourceCmd;
-import flow.event.registry.cmd.GetDeploymentResourceNamesCmd;
-import flow.event.registry.cmd.GetEventDefinitionCmd;
-import flow.event.registry.cmd.GetEventDefinitionResourceCmd;
-import flow.event.registry.cmd.GetEventModelCmd;
-import flow.event.registry.cmd.SetChannelDefinitionCategoryCmd;
-import flow.event.registry.cmd.SetDeploymentCategoryCmd;
-import flow.event.registry.cmd.SetDeploymentParentDeploymentIdCmd;
-import flow.event.registry.cmd.SetDeploymentTenantIdCmd;
-import flow.event.registry.cmd.SetEventDefinitionCategoryCmd;
+//import flow.event.registry.cmd.DeleteDeploymentCmd;
+//import flow.event.registry.cmd.DeployCmd;
+//import flow.event.registry.cmd.GetChannelDefinitionCmd;
+//import flow.event.registry.cmd.GetChannelDefinitionResourceCmd;
+//import flow.event.registry.cmd.GetChannelModelCmd;
+//import flow.event.registry.cmd.GetDeploymentResourceCmd;
+//import flow.event.registry.cmd.GetDeploymentResourceNamesCmd;
+//import flow.event.registry.cmd.GetEventDefinitionCmd;
+//import flow.event.registry.cmd.GetEventDefinitionResourceCmd;
+//import flow.event.registry.cmd.GetEventModelCmd;
+//import flow.event.registry.cmd.SetChannelDefinitionCategoryCmd;
+//import flow.event.registry.cmd.SetDeploymentCategoryCmd;
+//import flow.event.registry.cmd.SetDeploymentParentDeploymentIdCmd;
+//import flow.event.registry.cmd.SetDeploymentTenantIdCmd;
+//import flow.event.registry.cmd.SetEventDefinitionCategoryCmd;
 import flow.event.registry.model.EventModelBuilderImpl;
-import flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
+//import flow.event.registry.model.InboundChannelDefinitionBuilderImpl;
 import flow.event.registry.model.OutboundChannelDefinitionBuilderImpl;
-import flow.event.registry.repository.EventDeploymentBuilderImpl;
+//import flow.event.registry.repository.EventDeploymentBuilderImpl;
 import flow.event.registry.model.ChannelModel;
 import flow.event.registry.model.EventModel;
 import flow.event.registry.EventRegistryEngineConfiguration;
-
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -65,34 +65,43 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
     }
 
     public EventDeploymentBuilder createDeployment() {
-        return commandExecutor.execute(new class Command!EventDeploymentBuilder {
-            public EventDeploymentBuilder execute(CommandContext commandContext) {
-                return new EventDeploymentBuilderImpl();
-            }
-        });
+        implementationMissing(false);
+        return null;
+        //return commandExecutor.execute(new class Command!EventDeploymentBuilder {
+        //    public EventDeploymentBuilder execute(CommandContext commandContext) {
+        //        return new EventDeploymentBuilderImpl();
+        //    }
+        //});
     }
 
-    public EventDeployment deploy(EventDeploymentBuilderImpl deploymentBuilder) {
-        return commandExecutor.execute(new DeployCmd<EventDeployment>(deploymentBuilder));
-    }
+    //public EventDeployment deploy(EventDeploymentBuilderImpl deploymentBuilder) {
+    //    return commandExecutor.execute(new DeployCmd<EventDeployment>(deploymentBuilder));
+    //}
 
     public void deleteDeployment(string deploymentId) {
-        commandExecutor.execute(new DeleteDeploymentCmd(deploymentId));
+        implementationMissing(false);
+       // commandExecutor.execute(new DeleteDeploymentCmd(deploymentId));
     }
 
 
     public EventDefinitionQuery createEventDefinitionQuery() {
-        return new EventDefinitionQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+       // return new EventDefinitionQueryImpl(commandExecutor);
     }
 
 
     public ChannelDefinitionQuery createChannelDefinitionQuery() {
-        return new ChannelDefinitionQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+       // return new ChannelDefinitionQueryImpl(commandExecutor);
     }
 
 
     public List!string getDeploymentResourceNames(string deploymentId) {
-        return commandExecutor.execute(new GetDeploymentResourceNamesCmd(deploymentId));
+        implementationMissing(false);
+        return null;
+        //return commandExecutor.execute(new GetDeploymentResourceNamesCmd(deploymentId));
     }
 
 
@@ -102,27 +111,33 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
 
     public void setDeploymentCategory(string deploymentId, string category) {
-        commandExecutor.execute(new SetDeploymentCategoryCmd(deploymentId, category));
+        implementationMissing(false);
+
+        //commandExecutor.execute(new SetDeploymentCategoryCmd(deploymentId, category));
     }
 
 
     public void setDeploymentTenantId(string deploymentId, string newTenantId) {
-        commandExecutor.execute(new SetDeploymentTenantIdCmd(deploymentId, newTenantId));
+        implementationMissing(false);
+       // commandExecutor.execute(new SetDeploymentTenantIdCmd(deploymentId, newTenantId));
     }
 
 
     public void changeDeploymentParentDeploymentId(string deploymentId, string newParentDeploymentId) {
-        commandExecutor.execute(new SetDeploymentParentDeploymentIdCmd(deploymentId, newParentDeploymentId));
+        implementationMissing(false);
+        //commandExecutor.execute(new SetDeploymentParentDeploymentIdCmd(deploymentId, newParentDeploymentId));
     }
 
 
     public EventDeploymentQuery createDeploymentQuery() {
-        return new EventDeploymentQueryImpl(commandExecutor);
+        implementationMissing(false);
+        //return new EventDeploymentQueryImpl(commandExecutor);
     }
 
 
     public EventDefinition getEventDefinition(string eventDefinitionId) {
-        return commandExecutor.execute(new GetEventDefinitionCmd(eventDefinitionId));
+        implementationMissing(false);
+       // return commandExecutor.execute(new GetEventDefinitionCmd(eventDefinitionId));
     }
 
 
@@ -132,12 +147,14 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
 
     public void setEventDefinitionCategory(string eventDefinitionId, string category) {
-        commandExecutor.execute(new SetEventDefinitionCategoryCmd(eventDefinitionId, category));
+      implementationMissing(false);
+        //commandExecutor.execute(new SetEventDefinitionCategoryCmd(eventDefinitionId, category));
     }
 
 
     public ChannelDefinition getChannelDefinition(string channelDefinitionId) {
-        return commandExecutor.execute(new GetChannelDefinitionCmd(channelDefinitionId));
+      implementationMissing(false);
+      //  return commandExecutor.execute(new GetChannelDefinitionCmd(channelDefinitionId));
     }
 
 
@@ -147,57 +164,78 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
 
     public void setChannelDefinitionCategory(string channelDefinitionId, string category) {
-        commandExecutor.execute(new SetChannelDefinitionCategoryCmd(channelDefinitionId, category));
+      implementationMissing(false);
+       // commandExecutor.execute(new SetChannelDefinitionCategoryCmd(channelDefinitionId, category));
     }
 
 
     public EventModel getEventModelById(string eventDefinitionId) {
-        return commandExecutor.execute(new GetEventModelCmd(null, eventDefinitionId));
+      implementationMissing(false);
+      return null;
+      //  return commandExecutor.execute(new GetEventModelCmd(null, eventDefinitionId));
     }
 
 
     public EventModel getEventModelByKey(string eventDefinitionKey) {
-        return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, null));
+      implementationMissing(false);
+        return null;
+       // return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, null));
     }
 
 
     public EventModel getEventModelByKey(string eventDefinitionKey, string tenantId) {
-        return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, tenantId, null));
+      implementationMissing(false);
+        return null;
+       // return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, tenantId, null));
     }
 
 
     public EventModel getEventModelByKeyAndParentDeploymentId(string eventDefinitionKey, string parentDeploymentId) {
-        return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, null, parentDeploymentId));
+      implementationMissing(false);
+        return null;
+        //return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, null, parentDeploymentId));
     }
 
 
     public EventModel getEventModelByKeyAndParentDeploymentId(string eventDefinitionKey, string parentDeploymentId, string tenantId) {
-        return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, tenantId, parentDeploymentId));
+      implementationMissing(false);
+      return null;
+        //return commandExecutor.execute(new GetEventModelCmd(eventDefinitionKey, tenantId, parentDeploymentId));
     }
 
 
     public ChannelModel getChannelModelById(string channelDefinitionId) {
-        return commandExecutor.execute(new GetChannelModelCmd(null, channelDefinitionId));
+      implementationMissing(false);
+        return null;
+       // return commandExecutor.execute(new GetChannelModelCmd(null, channelDefinitionId));
     }
 
 
     public ChannelModel getChannelModelByKey(string channelDefinitionKey) {
-        return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, null));
+      implementationMissing(false);
+        return null;
+       // return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, null));
     }
 
 
     public ChannelModel getChannelModelByKey(string channelDefinitionKey, string tenantId) {
-        return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, tenantId, null));
+      implementationMissing(false);
+        return null;
+       // return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, tenantId, null));
     }
 
 
     public ChannelModel getChannelModelByKeyAndParentDeploymentId(string channelDefinitionKey, string parentDeploymentId) {
-        return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, null, parentDeploymentId));
+      implementationMissing(false);
+        return null;
+        //return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, null, parentDeploymentId));
     }
 
 
     public ChannelModel getChannelModelByKeyAndParentDeploymentId(string channelDefinitionKey, string parentDeploymentId, string tenantId) {
-        return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, tenantId, parentDeploymentId));
+      implementationMissing(false);
+      return null;
+       // return commandExecutor.execute(new GetChannelModelCmd(channelDefinitionKey, tenantId, parentDeploymentId));
     }
 
 
@@ -208,12 +246,16 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
 
     public InboundChannelModelBuilder createInboundChannelModelBuilder() {
-        return new InboundChannelDefinitionBuilderImpl(eventRegistryEngineConfiguration.getEventRepositoryService());
+      implementationMissing(false);
+      return null;
+       // return new InboundChannelDefinitionBuilderImpl(eventRegistryEngineConfiguration.getEventRepositoryService());
     }
 
 
     public OutboundChannelModelBuilder createOutboundChannelModelBuilder() {
-        return new OutboundChannelDefinitionBuilderImpl(eventRegistryEngineConfiguration.getEventRepositoryService());
+        implementationMissing(false);
+        return null;
+        //return new OutboundChannelDefinitionBuilderImpl(eventRegistryEngineConfiguration.getEventRepositoryService());
     }
 
     public void registerEventModel(EventModel eventModel) {

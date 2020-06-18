@@ -43,17 +43,17 @@ import flow.bpmn.converter.converter.alfresco.AlfrescoUserTaskXMLConverter;
 import flow.bpmn.converter.converter.child.DocumentationParser;
 import flow.bpmn.converter.converter.child.IOSpecificationParser;
 import flow.bpmn.converter.converter.child.MultiInstanceParser;
-import flow.bpmn.converter.converter.exp.BPMNDIExport;
-import flow.bpmn.converter.converter.exp.CollaborationExport;
-import flow.bpmn.converter.converter.exp.DataStoreExport;
-import flow.bpmn.converter.converter.exp.DefinitionsRootExport;
-import flow.bpmn.converter.converter.exp.EscalationDefinitionExport;
-import flow.bpmn.converter.converter.exp.FlowableListenerExport;
-import flow.bpmn.converter.converter.exp.MultiInstanceExport;
+//import flow.bpmn.converter.converter.exp.BPMNDIExport;
+//import flow.bpmn.converter.converter.exp.CollaborationExport;
+//import flow.bpmn.converter.converter.exp.DataStoreExport;
+//import flow.bpmn.converter.converter.exp.DefinitionsRootExport;
+//import flow.bpmn.converter.converter.exp.EscalationDefinitionExport;
+//import flow.bpmn.converter.converter.exp.FlowableListenerExport;
+//import flow.bpmn.converter.converter.exp.MultiInstanceExport;
 import flow.bpmn.converter.converter.exp.ProcessExport;
-import flow.bpmn.converter.converter.exp.SignalAndMessageDefinitionExport;
-import flow.bpmn.converter.converter.parser.BpmnEdgeParser;
-import flow.bpmn.converter.converter.parser.BpmnShapeParser;
+//import flow.bpmn.converter.converter.exp.SignalAndMessageDefinitionExport;
+//import flow.bpmn.converter.converter.parser.BpmnEdgeParser;
+//import flow.bpmn.converter.converter.parser.BpmnShapeParser;
 import flow.bpmn.converter.converter.parser.DataStoreParser;
 import flow.bpmn.converter.converter.parser.DefinitionsParser;
 import flow.bpmn.converter.converter.parser.ExtensionElementsParser;
@@ -64,7 +64,7 @@ import flow.bpmn.converter.converter.parser.LaneParser;
 import flow.bpmn.converter.converter.parser.MessageFlowParser;
 import flow.bpmn.converter.converter.parser.MessageParser;
 import flow.bpmn.converter.converter.parser.ParticipantParser;
-import flow.bpmn.converter.converter.parser.PotentialStarterParser;
+//import flow.bpmn.converter.converter.parser.PotentialStarterParser;
 import flow.bpmn.converter.converter.parser.ProcessParser;
 import flow.bpmn.converter.converter.parser.ResourceParser;
 import flow.bpmn.converter.converter.parser.SignalParser;
@@ -517,10 +517,12 @@ class BpmnXMLConverter : BpmnXMLConstants {
                   }
 
               } else if (ELEMENT_DI_SHAPE == (element.getName())) {
-                  bpmnShapeParser.parse(element, model);
+                //  bpmnShapeParser.parse(element, model);
+                  implementationMissing(false);
 
               } else if (ELEMENT_DI_EDGE == (element.getName())) {
-                  bpmnEdgeParser.parse(element, model);
+                 // bpmnEdgeParser.parse(element, model);
+                  implementationMissing(false);
 
               } else {
 

@@ -12,7 +12,7 @@
  */
 module flow.event.registry.api.EventDeploymentBuilder;
 
-import hunt.io.Common;
+import hunt.stream.Common;
 import flow.event.registry.api.EventDeployment;
 /**
  * Builder for creating new deployments.

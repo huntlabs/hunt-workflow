@@ -11,21 +11,21 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.interceptor.CommandContextInterceptor;
- 
- 
- 
+
+
+
 
 
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
-import flow.common.runtime.AbstractEngineConfiguration;
+import flow.common.AbstractEngineConfiguration;
 import flow.common.context.Context;
 import flow.common.interceptor.AbstractCommandInterceptor;
 import flow.common.interceptor.CommandContextFactory;

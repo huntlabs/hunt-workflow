@@ -15,7 +15,7 @@ module flow.bpmn.converter.converter.SendTaskXMLConverter;
 //import javax.xml.stream.XMLStreamReader;
 //import javax.xml.stream.XMLStreamWriter;
 
-import flow.bpmn.converter.converter.exp.FieldExtensionExport;
+//import flow.bpmn.converter.converter.exp.FieldExtensionExport;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;

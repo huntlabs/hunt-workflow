@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.idm.engine.impl.persistence.ByteArrayRefTypeHandler;
 //
 //import java.sql.CallableStatement;
 //import java.sql.PreparedStatement;

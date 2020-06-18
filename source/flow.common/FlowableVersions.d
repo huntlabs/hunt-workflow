@@ -23,11 +23,10 @@ module flow.common.FlowableVersions;
 
 
 import hunt.collection.ArrayList;
-import java.util.Arrays;
 import hunt.collection.List;
 
 import flow.common.api.FlowableException;
-
+import flow.common.FlowableVersion;
 /**
  * @author Joram Barrez
  */
@@ -41,7 +40,7 @@ class FlowableVersions {
 
     public static  string LAST_V6_VERSION_BEFORE_SERVICES = "6.1.2.0";
 
-    static {
+    shared static this () {
 
         /* Previous */
 
@@ -120,7 +119,7 @@ class FlowableVersions {
         //FLOWABLE_VERSIONS.add(new FlowableVersion("6.5.0.5"));
 
         /* Current */
-        FLOWABLE_VERSIONS.add(new FlowableVersion(CURRENT_VERSION));
+        FLOWABLE_VERSIONS.add( new FlowableVersion(CURRENT_VERSION));
     }
 
     /**
@@ -143,8 +142,8 @@ class FlowableVersions {
         return matchingVersionIndex;
     }
 
-    public static FlowableVersion getPreviousVersion(string version) {
-        int currentVersion = findMatchingVersionIndex(version);
+    public static FlowableVersion getPreviousVersion(string ver) {
+        int currentVersion = findMatchingVersionIndex(ver);
         if (currentVersion > 0) {
             return FLOWABLE_VERSIONS.get(currentVersion - 1);
         }

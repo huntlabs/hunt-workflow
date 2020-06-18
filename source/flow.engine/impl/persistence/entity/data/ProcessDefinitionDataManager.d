@@ -45,7 +45,7 @@ interface ProcessDefinitionDataManager : DataManager!ProcessDefinitionEntity {
 
     ProcessDefinitionEntity findProcessDefinitionByKeyAndVersion(string processDefinitionKey, int processDefinitionVersion);
 
-    ProcessDefinitionEntity findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, Integer processDefinitionVersion, string tenantId);
+    ProcessDefinitionEntity findProcessDefinitionByKeyAndVersionAndTenantId(string processDefinitionKey, int processDefinitionVersion, string tenantId);
 
     List!ProcessDefinition findProcessDefinitionsByNativeQuery(Map!(string, Object) parameterMap);
 
@@ -53,6 +53,6 @@ interface ProcessDefinitionDataManager : DataManager!ProcessDefinitionEntity {
 
     void updateProcessDefinitionTenantIdForDeployment(string deploymentId, string newTenantId);
 
-    void updateProcessDefinitionVersionForProcessDefinitionId(string processDefinitionId, int version);
+    void updateProcessDefinitionVersionForProcessDefinitionId(string processDefinitionId, int ver);
 
 }

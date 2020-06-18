@@ -11,38 +11,39 @@
  * limitations under the License.
  */
 
-
+module flow.batch.service.api.BatchPartQuery;
 
 import flow.common.api.query.Query;
+import flow.batch.service.api.Batch;
 
-interface BatchPartQuery extends Query<BatchPartQuery, Batch> {
+interface BatchPartQuery : Query!(BatchPartQuery, Batch) {
 
     /** Only select batches with the given id */
-    BatchPartQuery batchId(String batchId);
+    BatchPartQuery batchId(string batchId);
 
     /** Only select batches which exist for the given type. **/
-    BatchPartQuery batchType(String batchType);
+    BatchPartQuery batchType(string batchType);
 
     /** Only select batches which exist for the given search key. **/
-    BatchPartQuery searchKey(String searchKey);
+    BatchPartQuery searchKey(string searchKey);
 
     /** Only select batches which exist for the given search key. **/
-    BatchPartQuery searchKey2(String searchKey2);
+    BatchPartQuery searchKey2(string searchKey2);
 
     /** Only select batches which exist for the given scope id. **/
-    BatchPartQuery scopeId(String scopeId);
+    BatchPartQuery scopeId(string scopeId);
 
     /** Only select batches which exist for the given sub scope id. **/
-    BatchPartQuery subScopeId(String subScopeId);
+    BatchPartQuery subScopeId(string subScopeId);
 
     /** Only select batches which exist for the given scope type. **/
-    BatchPartQuery scopeType(String scopeType);
+    BatchPartQuery scopeType(string scopeType);
 
     /** Only select batches which exist for the given tenant id. **/
-    BatchPartQuery tenantId(String tenantId);
+    BatchPartQuery tenantId(string tenantId);
 
     /** Only select batches with a tenant id like the given one. **/
-    BatchPartQuery tenantIdLike(String tenantIdLike);
+    BatchPartQuery tenantIdLike(string tenantIdLike);
 
     /** Only select batches that do not have a tenant id. **/
     BatchPartQuery withoutTenantId();

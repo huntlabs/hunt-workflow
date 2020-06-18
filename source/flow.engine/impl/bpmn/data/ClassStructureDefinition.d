@@ -14,6 +14,9 @@
 module flow.engine.impl.bpmn.data.ClassStructureDefinition;
 
 import flow.engine.impl.bpmn.data.FieldBaseStructureDefinition;
+import flow.engine.impl.bpmn.data.StructureInstance;
+import flow.engine.impl.bpmn.data.FieldBaseStructureInstance;
+
 /**
  * Represents a structure encapsulated in a class
  *
@@ -53,7 +56,7 @@ class ClassStructureDefinition : FieldBaseStructureDefinition {
     }
 
     override
-    class<?> getFieldTypeAt(int index) {
+    TypeInfo getFieldTypeAt(int index) {
         // TODO
         return null;
     }

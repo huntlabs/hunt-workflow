@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+module flow.event.registry.io.ResourceStreamSource;
 //
 //import java.io.BufferedInputStream;
 //import java.io.InputStream;

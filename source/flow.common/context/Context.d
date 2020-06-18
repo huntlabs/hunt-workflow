@@ -36,7 +36,7 @@ class Context {
 
     //protected static ThreadLocal<Stack<CommandContext>> commandContextThreadLocal = new ThreadLocal<>();
     List!CommandContext commandContextThreadLocal;
-    static shared this()
+  shared static  this()
     {
         List!CommandContext commandContextThreadLocal = new ArrayList!CommandContext;
     }

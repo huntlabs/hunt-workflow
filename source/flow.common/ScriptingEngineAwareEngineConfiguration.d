@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.ScriptingEngineAwareEngineConfiguration;
- 
- 
- 
 
 
-import flow.common.scripting.ScriptingEngines;
 
-/**
- * Interface that could be implemented by EngineConfiguration to access ScriptingEngines. with fluent setter
- * @author Dennis
- */
-interface ScriptingEngineAwareEngineConfiguration {
 
-    public ScriptingEngines getScriptingEngines();
 
-    public AbstractEngineConfiguration setScriptingEngines(ScriptingEngines scriptingEngines);
-}
+//import flow.common.scripting.ScriptingEngines;
+//
+///**
+// * Interface that could be implemented by EngineConfiguration to access ScriptingEngines. with fluent setter
+// * @author Dennis
+// */
+//interface ScriptingEngineAwareEngineConfiguration {
+//
+//    public ScriptingEngines getScriptingEngines();
+//
+//    public AbstractEngineConfiguration setScriptingEngines(ScriptingEngines scriptingEngines);
+//}

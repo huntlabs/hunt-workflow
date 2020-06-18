@@ -53,7 +53,8 @@ class ScriptTaskActivityBehavior : TaskActivityBehavior {
 
     override
     public void execute(DelegateExecution execution) {
-          implementationMissing(false);
+      implementationMissing( false);
+    }
     //    ScriptingEngines scriptingEngines = CommandContextUtil.getProcessEngineConfiguration().getScriptingEngines();
     //
     //    if (CommandContextUtil.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()) {

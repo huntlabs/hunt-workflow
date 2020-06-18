@@ -11,6 +11,7 @@
 // * limitations under the License.
 // */
 //
+module flow.event.registry.db.DbSchemaDrop;
 //
 //
 //import javax.sql.DataSource;

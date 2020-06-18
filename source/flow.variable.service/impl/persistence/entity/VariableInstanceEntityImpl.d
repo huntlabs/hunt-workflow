@@ -21,7 +21,7 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import hunt.Long;
 import hunt.Double;
 import hunt.entity;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 import hunt.Exceptions;
 import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 /**

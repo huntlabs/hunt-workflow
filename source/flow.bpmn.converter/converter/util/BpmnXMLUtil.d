@@ -63,7 +63,7 @@ import flow.bpmn.model.ExtensionAttribute;
 import flow.bpmn.model.ExtensionElement;
 import flow.bpmn.model.GraphicInfo;
 import flow.bpmn.model.IOParameter;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 import std.string;
 import std.algorithm;
 import std.concurrency : initOnce;
@@ -78,7 +78,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
       return initOnce!inst(new HashMap!(string, BaseChildElementParser));
     }
 
-    static shared this () {
+   shared static this () {
         addGenericParser(new CancelEventDefinitionParser());
         addGenericParser(new CompensateEventDefinitionParser());
         addGenericParser(new ConditionalEventDefinitionParser());
@@ -623,6 +623,6 @@ class BpmnXMLUtil : BpmnXMLConstants {
         //        }
         //    }
         }
-        return false;
-    }
+        //return false;
+   // }
 }

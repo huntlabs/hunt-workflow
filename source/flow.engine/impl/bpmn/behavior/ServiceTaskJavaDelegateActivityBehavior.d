@@ -24,7 +24,7 @@ import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.deleg.TriggerableActivityBehavior;
 import flow.engine.impl.deleg.invocation.JavaDelegateInvocation;
-import flow.engine.impl.util.BpmnLoggingSessionUtil;
+//import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.bpmn.behavior.TaskActivityBehavior;
 /**

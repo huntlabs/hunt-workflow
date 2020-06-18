@@ -35,7 +35,7 @@ class TransactionContextHolder {
 
     //protected static ThreadLocal<Stack<TransactionContext>> transactionContextThreadLocal = new ThreadLocal<>();
     List!TransactionContext transactionContextThreadLocal;
-    static shared this()
+  shared static  this()
     {
         transactionContextThreadLocal = new ArrayList!TransactionContext;
     }

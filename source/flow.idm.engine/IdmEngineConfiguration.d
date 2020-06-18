@@ -12,7 +12,7 @@
  */
 module flow.idm.engine.IdmEngineConfiguration;
 
-import hunt.io.Common;
+import hunt.stream.Common;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -357,7 +357,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
 
     public void initCommandInterceptors() {
         if (commandInterceptors is null) {
-            commandInterceptors = new ArrayList<>();
+            commandInterceptors = new ArrayList!CommandInterceptor();
             if (customPreCommandInterceptors !is null) {
                 commandInterceptors.addAll(customPreCommandInterceptors);
             }
@@ -403,7 +403,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
         }
 
         if (typedEventListeners !is null) {
-            for (MapEntry!(string, List!FlowableEventListener) listenersToAdd ; typedEventListeners) {
+            foreach (MapEntry!(string, List!FlowableEventListener) listenersToAdd ; typedEventListeners) {
                 // Extract types from the given string
                 FlowableIdmEventType[] types = FlowableIdmEventType.getTypesFromString(listenersToAdd.getKey());
 

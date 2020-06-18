@@ -112,7 +112,7 @@ class BatchEntityImpl : AbstractBatchServiceEntity , Model, BatchEntity {
     }
 
     public void setCompleteTime(Date completeTime) {
-        this.completeTime = cast(int)completeTime.toEpochMilli();;
+        this.completeTime = cast(int)completeTime.toEpochMilli();
     }
 
 

@@ -15,6 +15,7 @@ module flow.variable.service.impl.types.IntegerType;
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
 import hunt.Integer;
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  */
@@ -52,10 +53,12 @@ class IntegerType : VariableType {
     }
 
 
-    public boolean isAbleToStore(Object value) {
-        if (value is null) {
-            return true;
-        }
-        return Integer.class.isAssignableFrom(value.getClass()) || int.class.isAssignableFrom(value.getClass());
+    public bool isAbleToStore(Object value) {
+        implementationMissing(false);
+        return false;
+        //if (value is null) {
+        //    return true;
+        //}
+        //return Integer.class.isAssignableFrom(value.getClass()) || int.class.isAssignableFrom(value.getClass());
     }
 }

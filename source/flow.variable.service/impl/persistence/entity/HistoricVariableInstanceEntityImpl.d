@@ -23,7 +23,7 @@ import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 import hunt.Long;
 import hunt.Double;
 import hunt.entity;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 
 alias Date = LocalDateTime;
 /**

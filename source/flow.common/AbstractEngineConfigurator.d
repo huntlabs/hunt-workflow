@@ -20,10 +20,10 @@ module flow.common.AbstractEngineConfigurator;
 
 
 
-
+import flow.common.HasVariableTypes;
 import flow.common.AbstractEngineConfiguration;
 //import java.io.IOException;
-import hunt.io.Common;
+import hunt.stream.Common;
 import hunt.collection.ArrayList;
 import hunt.collection.HashSet;
 import hunt.collection.List;
@@ -306,8 +306,8 @@ class AbstractEngineConfigurator : EngineConfigurator {
     }
 
     protected void initVariableTypes(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        if (engineConfiguration instanceof HasVariableTypes && targetEngineConfiguration instanceof HasVariableTypes) {
-            ((HasVariableTypes) targetEngineConfiguration).setVariableTypes(((HasVariableTypes) engineConfiguration).getVariableTypes());
+        if (cast(HasVariableTypes)engineConfiguration !is null && cast(HasVariableTypes)targetEngineConfiguration !is null) {
+            (cast(HasVariableTypes) targetEngineConfiguration).setVariableTypes((cast(HasVariableTypes) engineConfiguration).getVariableTypes());
         }
     }
 

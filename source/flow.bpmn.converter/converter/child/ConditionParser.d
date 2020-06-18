@@ -12,7 +12,7 @@
  */
 module flow.bpmn.converter.converter.child.ConditionParser;
 
-import javax.xml.stream.XMLStreamReader;
+//import javax.xml.stream.XMLStreamReader;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;

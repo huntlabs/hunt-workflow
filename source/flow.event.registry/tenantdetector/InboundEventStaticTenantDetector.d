@@ -18,7 +18,7 @@ import flow.event.registry.api.InboundEventTenantDetector;
 /**
  * @author Joram Barrez
  */
-class InboundEventStaticTenantDetector(T) , InboundEventTenantDetector!T {
+class InboundEventStaticTenantDetector(T) : InboundEventTenantDetector!T {
 
     protected string staticTenantId;
 

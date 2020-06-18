@@ -75,7 +75,7 @@ class DefaultListenerFactory : AbstractBehaviorFactory , ListenerFactory {
     }
 
    // public static final Map<string, Class<?>> ENTITY_MAPPING = new HashMap<>();
-    static shared this() {
+  shared static  this() {
         ENTITY_MAPPING.put("attachment", typeid(Attachment));
         ENTITY_MAPPING.put("comment", typeid(Comment));
         ENTITY_MAPPING.put("execution", typeid(Execution));

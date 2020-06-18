@@ -11,21 +11,21 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.DefaultTenantProvider;
- 
- 
- 
+
+
+
 
 /**
  * @author Valentin Zickner
  */
 interface DefaultTenantProvider {
 
-    string getDefaultTenant(string tenantId, string scope, string scopeKey);
+    string getDefaultTenant(string tenantId, string scop, string scopeKey);
 
 }

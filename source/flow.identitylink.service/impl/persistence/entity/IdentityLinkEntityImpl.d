@@ -19,7 +19,7 @@ import flow.common.api.FlowableException;
 import flow.identitylink.service.impl.persistence.entity.AbstractIdentityLinkServiceNoRevisionEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import hunt.entity;
-import hunt.text.StringBuilder;
+import hunt.util.StringBuilder;
 /**
  * @author Joram Barrez
  */

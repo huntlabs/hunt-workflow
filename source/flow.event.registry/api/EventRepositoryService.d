@@ -12,7 +12,7 @@
  */
 module flow.event.registry.api.EventRepositoryService;
 
-import hunt.io.Common;
+import hunt.stream.Common;
 import hunt.collection.List;
 import flow.event.registry.api.model.EventModelBuilder;
 import flow.event.registry.api.model.InboundChannelModelBuilder;

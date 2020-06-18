@@ -168,7 +168,7 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
           _manager.close();
         }
 
-        ProcessDefinitionEntityImpl[] array =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.deploymentId = :deploymentId AND u.key = :processDefinitionKey AND (u.tenantId = "" OR u.tenantId is null)")
+        ProcessDefinitionEntityImpl[] array =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.deploymentId = :deploymentId AND u.key = :processDefinitionKey AND (u.tenantId = \"\" OR u.tenantId is null)")
         .setParameter("deploymentId",deploymentId)
         .setParameter("processDefinitionKey",processDefinitionKey)
         .getResultList();
@@ -207,7 +207,7 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
           _manager.close();
         }
 
-        ProcessDefinitionEntityImpl[] results =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.key = :processDefinitionKey AND u.ver = :ver AND (u.tenantId = "" OR u.tenantId is null)")
+        ProcessDefinitionEntityImpl[] results =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.key = :processDefinitionKey AND u.ver = :ver AND (u.tenantId = \"\" OR u.tenantId is null)")
         .setParameter("processDefinitionKey",processDefinitionKey)
         .setParameter("ver",processDefinitionVersion)
         .getResultList();

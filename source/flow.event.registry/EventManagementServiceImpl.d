@@ -17,10 +17,10 @@ import hunt.collection.Map;
 
 import flow.common.service.CommonEngineServiceImpl;
 import flow.event.registry.api.EventManagementService;
-import flow.event.registry.cmd.GetTableCountsCmd;
-import flow.event.registry.cmd.GetTableNamesCmd;
+//import flow.event.registry.cmd.GetTableCountsCmd;
+//import flow.event.registry.cmd.GetTableNamesCmd;
 import flow.event.registry.EventRegistryEngineConfiguration;
-
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -31,11 +31,13 @@ class EventManagementServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
     }
 
     public Map!(string, long) getTableCounts() {
-        return commandExecutor.execute(new GetTableCountsCmd());
+        implementationMissing(false);
+       // return commandExecutor.execute(new GetTableCountsCmd());
     }
 
     public Collection!string getTableNames() {
-        return commandExecutor.execute(new GetTableNamesCmd());
+        implementationMissing(false);
+       // return commandExecutor.execute(new GetTableNamesCmd());
     }
 
     public void executeEventRegistryChangeDetection() {

@@ -274,13 +274,13 @@ class UserTaskXMLConverter : BaseBpmnXMLConverter {
 
     class PotentialOwnerParser : BaseChildElementParser {
 
-        override
-        public string getElementName() {
-            return "potentialOwner";
-        }
+      override
+      public string getElementName() {
+        return "potentialOwner";
+      }
 
-        override
-        public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
+      override
+      public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
         //    string resourceElement = XMLStreamReaderUtil.moveDown(xtr);
         //    if (stringUtils.isNotEmpty(resourceElement) && ELEMENT_RESOURCE_ASSIGNMENT.equals(resourceElement)) {
         //        string expression = XMLStreamReaderUtil.moveDown(xtr);
@@ -324,61 +324,63 @@ class UserTaskXMLConverter : BaseBpmnXMLConverter {
         //        }
         //    }
         //}
-          implementationMissing(false);
-    }
+        implementationMissing( false);
+      }
 
-    class CustomIdentityLinkParser : BaseChildElementParser {
+      class CustomIdentityLinkParser : BaseChildElementParser {
 
         override
         public string getElementName() {
-            return ELEMENT_CUSTOM_RESOURCE;
+          return ELEMENT_CUSTOM_RESOURCE;
         }
 
         override
         public void parseChildElement(Element xtr, BaseElement parentElement, BpmnModel model)  {
-        //    string identityLinkType = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_NAME, xtr);
-        //
-        //    // the attribute value may be unqualified
-        //    if (identityLinkType is null) {
-        //        identityLinkType = xtr.getAttributeValue(null, ATTRIBUTE_NAME);
-        //    }
-        //
-        //    if (identityLinkType is null)
-        //        return;
-        //
-        //    string resourceElement = XMLStreamReaderUtil.moveDown(xtr);
-        //    if (stringUtils.isNotEmpty(resourceElement) && ELEMENT_RESOURCE_ASSIGNMENT.equals(resourceElement)) {
-        //        string expression = XMLStreamReaderUtil.moveDown(xtr);
-        //        if (stringUtils.isNotEmpty(expression) && ELEMENT_FORMAL_EXPRESSION.equals(expression)) {
-        //
-        //            List<string> assignmentList = CommaSplitter.splitCommas(xtr.getElementText());
-        //
-        //            for (string assignmentValue : assignmentList) {
-        //                if (assignmentValue is null) {
-        //                    continue;
-        //                }
-        //
-        //                assignmentValue = assignmentValue.trim();
-        //
-        //                if (assignmentValue.length() == 0) {
-        //                    continue;
-        //                }
-        //
-        //                string userPrefix = "user(";
-        //                string groupPrefix = "group(";
-        //                if (assignmentValue.startsWith(userPrefix)) {
-        //                    assignmentValue = assignmentValue.substring(userPrefix.length(), assignmentValue.length() - 1).trim();
-        //                    ((UserTask) parentElement).addCustomUserIdentityLink(assignmentValue, identityLinkType);
-        //                } else if (assignmentValue.startsWith(groupPrefix)) {
-        //                    assignmentValue = assignmentValue.substring(groupPrefix.length(), assignmentValue.length() - 1).trim();
-        //                    ((UserTask) parentElement).addCustomGroupIdentityLink(assignmentValue, identityLinkType);
-        //                } else {
-        //                    ((UserTask) parentElement).addCustomGroupIdentityLink(assignmentValue, identityLinkType);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-          implementationMissing(false);
+          //    string identityLinkType = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_NAME, xtr);
+          //
+          //    // the attribute value may be unqualified
+          //    if (identityLinkType is null) {
+          //        identityLinkType = xtr.getAttributeValue(null, ATTRIBUTE_NAME);
+          //    }
+          //
+          //    if (identityLinkType is null)
+          //        return;
+          //
+          //    string resourceElement = XMLStreamReaderUtil.moveDown(xtr);
+          //    if (stringUtils.isNotEmpty(resourceElement) && ELEMENT_RESOURCE_ASSIGNMENT.equals(resourceElement)) {
+          //        string expression = XMLStreamReaderUtil.moveDown(xtr);
+          //        if (stringUtils.isNotEmpty(expression) && ELEMENT_FORMAL_EXPRESSION.equals(expression)) {
+          //
+          //            List<string> assignmentList = CommaSplitter.splitCommas(xtr.getElementText());
+          //
+          //            for (string assignmentValue : assignmentList) {
+          //                if (assignmentValue is null) {
+          //                    continue;
+          //                }
+          //
+          //                assignmentValue = assignmentValue.trim();
+          //
+          //                if (assignmentValue.length() == 0) {
+          //                    continue;
+          //                }
+          //
+          //                string userPrefix = "user(";
+          //                string groupPrefix = "group(";
+          //                if (assignmentValue.startsWith(userPrefix)) {
+          //                    assignmentValue = assignmentValue.substring(userPrefix.length(), assignmentValue.length() - 1).trim();
+          //                    ((UserTask) parentElement).addCustomUserIdentityLink(assignmentValue, identityLinkType);
+          //                } else if (assignmentValue.startsWith(groupPrefix)) {
+          //                    assignmentValue = assignmentValue.substring(groupPrefix.length(), assignmentValue.length() - 1).trim();
+          //                    ((UserTask) parentElement).addCustomGroupIdentityLink(assignmentValue, identityLinkType);
+          //                } else {
+          //                    ((UserTask) parentElement).addCustomGroupIdentityLink(assignmentValue, identityLinkType);
+          //                }
+          //            }
+          //        }
+          //    }
+          //}
+          implementationMissing( false);
+        }
+      }
     }
 }

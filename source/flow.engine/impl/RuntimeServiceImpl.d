@@ -74,7 +74,8 @@ import flow.engine.impl.cmd.StartProcessInstanceByMessageCmd;
 import flow.engine.impl.cmd.StartProcessInstanceCmd;
 import flow.engine.impl.cmd.SuspendProcessInstanceCmd;
 import flow.engine.impl.cmd.TriggerCmd;
-import flow.engine.impl.runtime.ChangeActivityStateBuilderImpl;
+import hunt.Exceptions;
+//import flow.engine.impl.runtime.ChangeActivityStateBuilderImpl;
 import flow.engine.impl.runtime.ProcessInstanceBuilderImpl;
 import flow.engine.runtime.ChangeActivityStateBuilder;
 import flow.engine.runtime.DataObject;
@@ -95,9 +96,11 @@ import flow.identitylink.api.IdentityLink;
 import flow.identitylink.api.IdentityLinkType;
 import flow.variable.service.api.persistence.entity.VariableInstance;
 import flow.engine.impl.ExecutionQueryImpl;
-import flow.engine.impl.NativeExecutionQueryImpl;
-import flow.engine.impl.NativeProcessInstanceQueryImpl;
-import flow.engine.impl.NativeProcessInstanceQueryImpl;
+import flow.engine.impl.ProcessInstanceQueryImpl;
+import flow.engine.impl.ActivityInstanceQueryImpl;
+//import flow.engine.impl.NativeExecutionQueryImpl;
+//import flow.engine.impl.NativeProcessInstanceQueryImpl;
+//import flow.engine.impl.NativeProcessInstanceQueryImpl;
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
@@ -190,19 +193,19 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    public NativeExecutionQuery createNativeExecutionQuery() {
-        return new NativeExecutionQueryImpl(commandExecutor);
-    }
-
-
-    public NativeProcessInstanceQuery createNativeProcessInstanceQuery() {
-        return new NativeProcessInstanceQueryImpl(commandExecutor);
-    }
-
-
-    public NativeActivityInstanceQueryImpl createNativeActivityInstanceQuery() {
-        return new NativeActivityInstanceQueryImpl(commandExecutor);
-    }
+    //public NativeExecutionQuery createNativeExecutionQuery() {
+    //    return new NativeExecutionQueryImpl(commandExecutor);
+    //}
+    //
+    //
+    //public NativeProcessInstanceQuery createNativeProcessInstanceQuery() {
+    //    return new NativeProcessInstanceQueryImpl(commandExecutor);
+    //}
+    //
+    //
+    //public NativeActivityInstanceQueryImpl createNativeActivityInstanceQuery() {
+    //    return new NativeActivityInstanceQueryImpl(commandExecutor);
+    //}
 
 
     public EventSubscriptionQuery createEventSubscriptionQuery() {
@@ -270,9 +273,9 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    public <T> T getVariable(string executionId, string variableName, Class!T variableClass) {
-        return variableClass.cast(getVariable(executionId, variableName));
-    }
+    //public <T> T getVariable(string executionId, string variableName, Class!T variableClass) {
+    //    return variableClass.cast(getVariable(executionId, variableName));
+    //}
 
 
     public bool hasVariable(string executionId, string variableName) {
@@ -290,9 +293,9 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    public <T> T getVariableLocal(string executionId, string variableName, Class!T variableClass) {
-        return variableClass.cast(getVariableLocal(executionId, variableName));
-    }
+    //public <T> T getVariableLocal(string executionId, string variableName, Class!T variableClass) {
+    //    return variableClass.cast(getVariableLocal(executionId, variableName));
+    //}
 
 
     public bool hasVariableLocal(string executionId, string variableName) {
@@ -304,7 +307,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
-        Map!(string, Object) variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap!(string, Object)();
         variables.put(variableName, value);
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, false));
     }
@@ -314,31 +317,31 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
-        Map!(string, Object) variables = new HashMap<>();
+        Map!(string, Object) variables = new HashMap!(string, Object)();
         variables.put(variableName, value);
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, true));
     }
 
 
-    public void setVariables(string executionId, Map<string, ?> variables) {
+    public void setVariables(string executionId, Map!(string, Object) variables) {
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, false));
     }
 
 
-    public void setVariablesLocal(string executionId, Map<string, ?> variables) {
+    public void setVariablesLocal(string executionId, Map!(string, Object) variables) {
         commandExecutor.execute(new SetExecutionVariablesCmd(executionId, variables, true));
     }
 
 
     public void removeVariable(string executionId, string variableName) {
-        Collection!string variableNames = new ArrayList<>(1);
+        Collection!string variableNames = new ArrayList!string(1);
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, false));
     }
 
 
     public void removeVariableLocal(string executionId, string variableName) {
-        Collection!string variableNames = new ArrayList<>();
+        Collection!string variableNames = new ArrayList!string();
         variableNames.add(variableName);
         commandExecutor.execute(new RemoveExecutionVariablesCmd(executionId, variableNames, true));
     }
@@ -656,7 +659,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    public void addEventListener(FlowableEventListener listenerToAdd, FlowableEngineEventType... types) {
+    public void addEventListener(FlowableEventListener listenerToAdd, FlowableEngineEventType[] types) {
         commandExecutor.execute(new AddEventListenerCommand(listenerToAdd, types));
     }
 
@@ -717,7 +720,9 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public ChangeActivityStateBuilder createChangeActivityStateBuilder() {
-        return new ChangeActivityStateBuilderImpl(this);
+          implementationMissing(false);
+          return null;
+        //return new ChangeActivityStateBuilderImpl(this);
     }
 
 
@@ -731,9 +736,9 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
     public ProcessInstance startProcessInstance(ProcessInstanceBuilderImpl processInstanceBuilder) {
-        if (processInstanceBuilder.getProcessDefinitionId() !is null || processInstanceBuilder.getProcessDefinitionKey() !is null) {
+        if ((processInstanceBuilder.getProcessDefinitionId() !is null && processInstanceBuilder.getProcessDefinitionId().length != 0)|| (processInstanceBuilder.getProcessDefinitionKey() !is null && processInstanceBuilder.getProcessDefinitionKey().length !=0 )) {
             return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processInstanceBuilder));
-        } else if (processInstanceBuilder.getMessageName() !is null) {
+        } else if (processInstanceBuilder.getMessageName() !is null && processInstanceBuilder.getMessageName().length != 0) {
             return commandExecutor.execute(new StartProcessInstanceByMessageCmd(processInstanceBuilder));
         } else {
             throw new FlowableIllegalArgumentException("No processDefinitionId, processDefinitionKey nor messageName provided");
@@ -741,15 +746,15 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
     public ProcessInstance startProcessInstanceAsync(ProcessInstanceBuilderImpl processInstanceBuilder) {
-        if (processInstanceBuilder.getProcessDefinitionId() !is null || processInstanceBuilder.getProcessDefinitionKey() !is null) {
-            return (ProcessInstance) commandExecutor.execute(new StartProcessInstanceAsyncCmd(processInstanceBuilder));
+        if ((processInstanceBuilder.getProcessDefinitionId() !is null && processInstanceBuilder.getProcessDefinitionId().length != 0)|| (processInstanceBuilder.getProcessDefinitionKey() !is null && processInstanceBuilder.getProcessDefinitionKey().length != 0)) {
+            return cast(ProcessInstance) commandExecutor.execute(new StartProcessInstanceAsyncCmd(processInstanceBuilder));
         } else {
             throw new FlowableIllegalArgumentException("No processDefinitionId, processDefinitionKey provided");
         }
     }
 
-    public void changeActivityState(ChangeActivityStateBuilderImpl changeActivityStateBuilder) {
-        commandExecutor.execute(new ChangeActivityStateCmd(changeActivityStateBuilder));
-    }
+    //public void changeActivityState(ChangeActivityStateBuilderImpl changeActivityStateBuilder) {
+    //    commandExecutor.execute(new ChangeActivityStateCmd(changeActivityStateBuilder));
+    //}
 
 }

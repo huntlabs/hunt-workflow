@@ -10,7 +10,7 @@
 // * See the License for the specific language governing permissions and
 // * limitations under the License.
 // */
-//module flow.engine.impl.rules.RulesHelper;
+module flow.engine.impl.rules.RulesHelper;
 //
 //
 //import flow.common.api.FlowableException;

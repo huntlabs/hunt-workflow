@@ -20,7 +20,9 @@ module flow.common.runtime.ClockReader;
 
 
 
+import hunt.time.LocalDateTime;
 
+alias Date = LocalDateTime;
 
 
 //import java.util.Calendar;
@@ -34,10 +36,10 @@ interface ClockReader {
 
     Date getCurrentTime();
 
-    Calendar getCurrentCalendar();
-
-    Calendar getCurrentCalendar(TimeZone timeZone);
-
-    TimeZone getCurrentTimeZone();
+    //Calendar getCurrentCalendar();
+    //
+    //Calendar getCurrentCalendar(TimeZone timeZone);
+    //
+    //TimeZone getCurrentTimeZone();
 
 }

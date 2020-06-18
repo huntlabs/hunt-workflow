@@ -11,7 +11,7 @@
 // * limitations under the License.
 // */
 //
-//module flow.common.el.JuelExpression;
+module flow.common.el.JuelExpression;
 //
 //import flow.common.api.FlowableException;
 //import flow.common.api.deleg.Expression;

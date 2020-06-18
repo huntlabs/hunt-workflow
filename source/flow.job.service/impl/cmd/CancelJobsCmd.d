@@ -40,7 +40,7 @@ class CancelJobsCmd : Command!Void {
     }
 
     this(string jobId) {
-        this.jobIds = new ArrayList<>();
+        this.jobIds = new ArrayList!string();
         jobIds.add(jobId);
     }
 

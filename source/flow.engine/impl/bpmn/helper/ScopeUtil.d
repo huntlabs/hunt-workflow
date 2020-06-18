@@ -19,7 +19,7 @@ import hunt.collection.Collections;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import flow.common.util.CollectionUtil;
+//import flow.common.util.CollectionUtil;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;

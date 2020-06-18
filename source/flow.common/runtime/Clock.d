@@ -20,7 +20,9 @@ module flow.common.runtime.Clock;
 
 
 import flow.common.runtime.ClockReader;
+import hunt.time.LocalDateTime;
 
+alias Date =LocalDateTime;
 
 //import java.util.Calendar;
 //import hunt.time.LocalDateTime;
@@ -32,7 +34,7 @@ import flow.common.runtime.ClockReader;
 
     void setCurrentTime(Date currentTime);
 
-    void setCurrentCalendar(Calendar currentTime);
+   // void setCurrentCalendar(Calendar currentTime);
 
     void reset();
 

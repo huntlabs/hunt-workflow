@@ -1,4 +1,4 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
+/* Licensed under the Apache License, ver 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -28,13 +28,11 @@ import flow.form.api.FormModel;
 //@JsonInclude(Include.NON_NULL)
 class FormInfo  {
 
-    private static final long serialVersionUID = 1L;
-
     protected string id;
     protected string name;
     protected string description;
     protected string key;
-    protected int version;
+    protected int ver;
     protected FormModel formModel;
 
     public string getId() {
@@ -70,11 +68,11 @@ class FormInfo  {
     }
 
     public int getVersion() {
-        return version;
+        return ver;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    public void setVersion(int ver) {
+        this.ver = ver;
     }
 
     public FormModel getFormModel() {
