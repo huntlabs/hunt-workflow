@@ -25,6 +25,9 @@ import flow.event.registry.persistence.entity.EventDeploymentEntity;
 import flow.event.registry.persistence.entity.EventDeploymentEntityManager;
 import flow.event.registry.persistence.entity.EventResourceEntityManager;
 import flow.event.registry.persistence.entity.EventDefinitionEntityManager;
+import flow.event.registry.persistence.entity.ChannelDefinitionEntityManager;
+import flow.event.registry.persistence.entity.EventResourceEntity;
+
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -37,12 +40,12 @@ class EventDeploymentEntityManagerImpl
         super(eventRegistryConfiguration, deploymentDataManager);
     }
 
-
+    override
     public void insert(EventDeploymentEntity deployment) {
         insert(deployment, true);
     }
 
-
+    override
     public void insert(EventDeploymentEntity deployment, bool fireEvent) {
         super.insert(deployment, fireEvent);
 
@@ -57,7 +60,7 @@ class EventDeploymentEntityManagerImpl
         deleteEventDefinitionsForDeployment(deploymentId);
         deleteChannelDefinitionsForDeployment(deploymentId);
         getResourceEntityManager().deleteResourcesByDeploymentId(deploymentId);
-        delete(findById(deploymentId));
+        dele(findById(deploymentId));
     }
 
     protected void deleteEventDefinitionsForDeployment(string deploymentId) {

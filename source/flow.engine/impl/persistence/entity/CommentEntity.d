@@ -23,8 +23,8 @@ import flow.engine.task.Event;
  */
 interface CommentEntity : Comment, Event, Entity {
 
-    string TYPE_EVENT = "event";
-    string TYPE_COMMENT = "comment";
+    static string TYPE_EVENT = "event";
+    static string TYPE_COMMENT = "comment";
 
     byte[] getFullMessageBytes();
 

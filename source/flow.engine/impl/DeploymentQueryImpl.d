@@ -29,8 +29,8 @@ import flow.engine.impl.DeploymentQueryProperty;
  */
 class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , DeploymentQuery {
 
-    protected string deploymentId;
-    protected List!string deploymentIds;
+    protected string _deploymentId;
+    protected List!string _deploymentIds;
     protected string name;
     protected string nameLike;
     protected string category;
@@ -43,12 +43,12 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
     protected bool withoutTenantId;
     protected string engineVersion;
     protected string derivedFrom;
-    protected string parentDeploymentId;
-    protected string parentDeploymentIdLike;
-    protected List!string parentDeploymentIds;
-    protected string processDefinitionKey;
-    protected string processDefinitionKeyLike;
-    protected bool latest;
+    protected string _parentDeploymentId;
+    protected string _parentDeploymentIdLike;
+    protected List!string _parentDeploymentIds;
+    protected string _processDefinitionKey;
+    protected string _processDefinitionKeyLike;
+    protected bool _latest;
 
     this() {
     }
@@ -66,7 +66,7 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("Deployment id is null");
         }
-        this.deploymentId = deploymentId;
+        this._deploymentId = deploymentId;
         return this;
     }
 
@@ -75,7 +75,7 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("Deployment ids is null");
         }
-        this.deploymentIds = deploymentIds;
+        this._deploymentIds = deploymentIds;
         return this;
     }
 
@@ -180,13 +180,13 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
 
 
     public DeploymentQuery parentDeploymentId(string parentDeploymentId) {
-        this.parentDeploymentId = parentDeploymentId;
+        this._parentDeploymentId = parentDeploymentId;
         return this;
     }
 
 
     public DeploymentQuery parentDeploymentIdLike(string parentDeploymentIdLike) {
-        this.parentDeploymentIdLike = parentDeploymentIdLike;
+        this._parentDeploymentIdLike = parentDeploymentIdLike;
         return this;
     }
 
@@ -195,7 +195,7 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
         if (parentDeploymentIds is null) {
             throw new FlowableIllegalArgumentException("parentDeploymentIds is null");
         }
-        this.parentDeploymentIds = parentDeploymentIds;
+        this._parentDeploymentIds = parentDeploymentIds;
         return this;
     }
 
@@ -204,7 +204,7 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
         if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
-        this.processDefinitionKey = key;
+        this._processDefinitionKey = key;
         return this;
     }
 
@@ -213,7 +213,7 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
         if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
         }
-        this.processDefinitionKeyLike = keyLike;
+        this._processDefinitionKeyLike = keyLike;
         return this;
     }
 
@@ -223,7 +223,7 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
             throw new FlowableIllegalArgumentException("latest can only be used together with a deployment key");
         }
 
-        this.latest = true;
+        this._latest = true;
         return this;
     }
 
@@ -251,12 +251,12 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
 
     // results ////////////////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Deployment executeList(CommandContext commandContext) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentsByQueryCriteria(this);
     }
@@ -264,11 +264,11 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
     // getters ////////////////////////////////////////////////////////
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public List!string getDeploymentIds() {
-        return deploymentIds;
+        return _deploymentIds;
     }
 
     public string getName() {
@@ -308,14 +308,14 @@ class DeploymentQueryImpl : AbstractQuery!(DeploymentQuery, Deployment) , Deploy
     }
 
     public string getParentDeploymentId() {
-        return parentDeploymentId;
+        return _parentDeploymentId;
     }
 
     public string getProcessDefinitionKey() {
-        return processDefinitionKey;
+        return _processDefinitionKey;
     }
 
     public string getProcessDefinitionKeyLike() {
-        return processDefinitionKeyLike;
+        return _processDefinitionKeyLike;
     }
 }

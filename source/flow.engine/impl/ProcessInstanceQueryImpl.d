@@ -49,26 +49,26 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     protected string businessKey;
     protected string businessKeyLike;
     protected bool includeChildExecutionsWithBusinessKeyQuery;
-    protected string processDefinitionId;
-    protected Set!string processDefinitionIds;
-    protected string processDefinitionCategory;
-    protected string processDefinitionName;
-    protected int processDefinitionVersion;
-    protected Set!string processInstanceIds;
-    protected string processDefinitionKey;
-    protected Set!string processDefinitionKeys;
-    protected string processDefinitionEngineVersion;
-    protected string deploymentId;
+    protected string _processDefinitionId;
+    protected Set!string _processDefinitionIds;
+    protected string _processDefinitionCategory;
+    protected string _processDefinitionName;
+    protected int _processDefinitionVersion;
+    protected Set!string _processInstanceIds;
+    protected string _processDefinitionKey;
+    protected Set!string _processDefinitionKeys;
+    protected string _processDefinitionEngineVersion;
+    protected string _deploymentId;
     protected List!string deploymentIds;
-    protected string superProcessInstanceId;
-    protected string subProcessInstanceId;
-    protected bool excludeSubprocesses;
-    protected string involvedUser;
-    protected Set!string involvedGroups;
+    protected string _superProcessInstanceId;
+    protected string _subProcessInstanceId;
+    protected bool _excludeSubprocesses;
+    protected string _involvedUser;
+    protected Set!string _involvedGroups;
     protected SuspensionState suspensionState;
-    protected bool includeProcessVariables;
+    protected bool _includeProcessVariables;
     protected int processInstanceVariablesLimit;
-    protected bool withJobException;
+    protected bool _withJobException;
     protected string name;
     protected string nameLike;
     protected string nameLikeIgnoreCase;
@@ -76,8 +76,8 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     protected string callbackType;
     protected string referenceId;
     protected string referenceType;
-    protected string locale;
-    protected bool withLocalizationFallback;
+    protected string _locale;
+    protected bool _withLocalizationFallback;
 
     protected string tenantId;
     protected string tenantIdLike;
@@ -87,9 +87,9 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     protected ProcessInstanceQueryImpl currentOrQueryObject;
     protected bool inOrStatement;
 
-    protected Date startedBefore;
-    protected Date startedAfter;
-    protected string startedBy;
+    protected Date _startedBefore;
+    protected Date _startedAfter;
+    protected string _startedBy;
 
     // Unused, see dynamic query
     protected string activityId;
@@ -138,7 +138,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceIds = processInstanceIds;
         } else {
-            this.processInstanceIds = processInstanceIds;
+            this._processInstanceIds = processInstanceIds;
         }
         return this;
     }
@@ -166,7 +166,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
 
         this.businessKey = businessKey;
-        this.processDefinitionKey = processDefinitionKey;
+        this._processDefinitionKey = processDefinitionKey;
         return this;
     }
 
@@ -225,7 +225,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionCategory = processDefinitionCategory;
         } else {
-            this.processDefinitionCategory = processDefinitionCategory;
+            this._processDefinitionCategory = processDefinitionCategory;
         }
         return this;
     }
@@ -239,7 +239,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionName = processDefinitionName;
         } else {
-            this.processDefinitionName = processDefinitionName;
+            this._processDefinitionName = processDefinitionName;
         }
         return this;
     }
@@ -253,7 +253,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionVersion = processDefinitionVersion;
         } else {
-            this.processDefinitionVersion = processDefinitionVersion;
+            this._processDefinitionVersion = processDefinitionVersion;
         }
         return this;
     }
@@ -267,7 +267,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionId = processDefinitionId;
         } else {
-            this.processDefinitionId = processDefinitionId;
+            this._processDefinitionId = processDefinitionId;
         }
         return this;
     }
@@ -284,7 +284,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionIds = processDefinitionIds;
         } else {
-            this.processDefinitionIds = processDefinitionIds;
+            this._processDefinitionIds = processDefinitionIds;
         }
         return this;
     }
@@ -298,7 +298,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKey = processDefinitionKey;
         } else {
-            this.processDefinitionKey = processDefinitionKey;
+            this._processDefinitionKey = processDefinitionKey;
         }
         return this;
     }
@@ -315,7 +315,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeys = processDefinitionKeys;
         } else {
-            this.processDefinitionKeys = processDefinitionKeys;
+            this._processDefinitionKeys = processDefinitionKeys;
         }
         return this;
     }
@@ -325,7 +325,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionEngineVersion = processDefinitionEngineVersion;
         } else {
-            this.processDefinitionEngineVersion = processDefinitionEngineVersion;
+            this._processDefinitionEngineVersion = processDefinitionEngineVersion;
         }
         return this;
     }
@@ -335,7 +335,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.deploymentId = deploymentId;
         } else {
-            this.deploymentId = deploymentId;
+            this._deploymentId = deploymentId;
         }
         return this;
     }
@@ -355,7 +355,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.superProcessInstanceId = superProcessInstanceId;
         } else {
-            this.superProcessInstanceId = superProcessInstanceId;
+            this._superProcessInstanceId = superProcessInstanceId;
         }
         return this;
     }
@@ -365,7 +365,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.subProcessInstanceId = subProcessInstanceId;
         } else {
-            this.subProcessInstanceId = subProcessInstanceId;
+            this._subProcessInstanceId = subProcessInstanceId;
         }
         return this;
     }
@@ -375,7 +375,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.excludeSubprocesses = excludeSubprocesses;
         } else {
-            this.excludeSubprocesses = excludeSubprocesses;
+            this._excludeSubprocesses = excludeSubprocesses;
         }
         return this;
     }
@@ -389,7 +389,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.involvedUser = involvedUser;
         } else {
-            this.involvedUser = involvedUser;
+            this._involvedUser = involvedUser;
         }
         return this;
     }
@@ -406,7 +406,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.involvedGroups = involvedGroups;
         } else {
-            this.involvedGroups = involvedGroups;
+            this._involvedGroups = involvedGroups;
         }
         return this;
     }
@@ -433,7 +433,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
 
     public ProcessInstanceQuery includeProcessVariables() {
-        this.includeProcessVariables = true;
+        this._includeProcessVariables = true;
         return this;
     }
 
@@ -449,7 +449,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
 
     public ProcessInstanceQuery withJobException() {
-        this.withJobException = true;
+        this._withJobException = true;
         return this;
     }
 
@@ -546,7 +546,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         return this;
     }
 
-
+    override
     public ProcessInstanceQuery variableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableName, variableValue, false);
@@ -556,7 +556,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, false);
@@ -566,7 +566,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, false);
@@ -576,7 +576,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, false);
@@ -586,7 +586,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, false);
@@ -596,7 +596,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value, false);
@@ -606,7 +606,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, false);
@@ -616,7 +616,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value, false);
@@ -626,7 +626,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, false);
@@ -636,7 +636,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueLike(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLike(name, value, false);
@@ -646,7 +646,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -656,7 +656,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableExists(name, false);
@@ -666,7 +666,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         }
     }
 
-
+    override
     public ProcessInstanceQuery variableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -678,13 +678,13 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
 
     public ProcessInstanceQuery locale(string locale) {
-        this.locale = locale;
+        this._locale = locale;
         return this;
     }
 
 
     public ProcessInstanceQuery withLocalizationFallback() {
-        withLocalizationFallback = true;
+        _withLocalizationFallback = true;
         return this;
     }
 
@@ -693,7 +693,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.startedBefore = beforeTime;
         } else {
-            this.startedBefore = beforeTime;
+            this._startedBefore = beforeTime;
         }
         return this;
     }
@@ -703,7 +703,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.startedAfter = afterTime;
         } else {
-            this.startedAfter = afterTime;
+            this._startedAfter = afterTime;
         }
         return this;
     }
@@ -713,7 +713,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         if (inOrStatement) {
             this.currentOrQueryObject.startedBy = userId;
         } else {
-            this.startedBy = userId;
+            this._startedBy = userId;
         }
         return this;
     }
@@ -761,7 +761,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
     // results /////////////////////////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
 
@@ -773,7 +773,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         return CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceCountByQueryCriteria(this);
     }
 
-
+    override
     public List!ProcessInstance executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
         List!ProcessInstance processInstances = null;
@@ -783,7 +783,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
             processEngineConfiguration.getProcessInstanceQueryInterceptor().beforeProcessInstanceQueryExecute(this);
         }
 
-        if (includeProcessVariables) {
+        if (_includeProcessVariables) {
             processInstances = CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceAndVariablesByQueryCriteria(this);
         } else {
             processInstances = CommandContextUtil.getExecutionEntityManager(commandContext).findProcessInstanceByQueryCriteria(this);
@@ -791,7 +791,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
         if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessLocalizationManager() !is null) {
             foreach (ProcessInstance processInstance ; processInstances) {
-                processEngineConfiguration.getInternalProcessLocalizationManager().localize(processInstance, locale, withLocalizationFallback);
+                processEngineConfiguration.getInternalProcessLocalizationManager().localize(processInstance, _locale, _withLocalizationFallback);
             }
         }
 
@@ -802,7 +802,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         return processInstances;
     }
 
-
+    override
     protected void ensureVariablesInitialized() {
         super.ensureVariablesInitialized();
 
@@ -831,7 +831,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     public Set!string getProcessInstanceIds() {
-        return processInstanceIds;
+        return _processInstanceIds;
     }
 
     public string getBusinessKey() {
@@ -847,35 +847,35 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public Set!string getProcessDefinitionIds() {
-        return processDefinitionIds;
+        return _processDefinitionIds;
     }
 
     public string getProcessDefinitionCategory() {
-        return processDefinitionCategory;
+        return _processDefinitionCategory;
     }
 
     public string getProcessDefinitionName() {
-        return processDefinitionName;
+        return _processDefinitionName;
     }
 
     public int getProcessDefinitionVersion() {
-        return processDefinitionVersion;
+        return _processDefinitionVersion;
     }
 
     public string getProcessDefinitionKey() {
-        return processDefinitionKey;
+        return _processDefinitionKey;
     }
 
     public Set!string getProcessDefinitionKeys() {
-        return processDefinitionKeys;
+        return _processDefinitionKeys;
     }
 
     public string getProcessDefinitionEngineVersion() {
-        return processDefinitionEngineVersion;
+        return _processDefinitionEngineVersion;
     }
 
     public string getActivityId() {
@@ -883,23 +883,23 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     public string getSuperProcessInstanceId() {
-        return superProcessInstanceId;
+        return _superProcessInstanceId;
     }
 
     public string getSubProcessInstanceId() {
-        return subProcessInstanceId;
+        return _subProcessInstanceId;
     }
 
     public bool isExcludeSubprocesses() {
-        return excludeSubprocesses;
+        return _excludeSubprocesses;
     }
 
     public string getInvolvedUser() {
-        return involvedUser;
+        return _involvedUser;
     }
 
     public Set!string getInvolvedGroups() {
-        return involvedGroups;
+        return _involvedGroups;
     }
 
     public SuspensionState getSuspensionState() {
@@ -951,7 +951,7 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public List!string getDeploymentIds() {
@@ -959,11 +959,11 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     public bool isIncludeProcessVariables() {
-        return includeProcessVariables;
+        return _includeProcessVariables;
     }
 
     public bool iswithException() {
-        return withJobException;
+        return _withJobException;
     }
 
     public string getNameLikeIgnoreCase() {
@@ -1011,26 +1011,26 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     public Date getStartedBefore() {
-        return startedBefore;
+        return _startedBefore;
     }
 
     public void setStartedBefore(Date startedBefore) {
-        this.startedBefore = startedBefore;
+        this._startedBefore = startedBefore;
     }
 
     public Date getStartedAfter() {
-        return startedAfter;
+        return _startedAfter;
     }
 
     public void setStartedAfter(Date startedAfter) {
-        this.startedAfter = startedAfter;
+        this._startedAfter = startedAfter;
     }
 
     public string getStartedBy() {
-        return startedBy;
+        return _startedBy;
     }
 
     public void setStartedBy(string startedBy) {
-        this.startedBy = startedBy;
+        this._startedBy = startedBy;
     }
 }

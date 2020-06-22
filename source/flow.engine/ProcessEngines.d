@@ -66,7 +66,7 @@ abstract class ProcessEngines {
 
     public static string NAME_DEFAULT = "default";
 
-    protected static bool isInitialized = false;
+    protected static bool _isInitialized = false;
    // protected static Map!(string, ProcessEngine) processEngines = new HashMap<>();
   //  protected static Map!(string, EngineInfo) processEngineInfosByName = new HashMap<>();
     //protected static Map!(string, EngineInfo) processEngineInfosByResourceUrl = new HashMap<>();
@@ -238,7 +238,7 @@ abstract class ProcessEngines {
      *            is the name of the process engine or null for the default process engine.
      */
     public static ProcessEngine getProcessEngine(string processEngineName) {
-        if (!isInitialized()) {
+        if (!_isInitialized()) {
             init();
         }
         return processEngines.get(processEngineName);
@@ -293,10 +293,10 @@ abstract class ProcessEngines {
     }
 
     public static bool isInitialized() {
-        return isInitialized;
+        return _isInitialized;
     }
 
     public static void setInitialized(bool isInitialized) {
-        ProcessEngines.isInitialized = isInitialized;
+        ProcessEngines._isInitialized = isInitialized;
     }
 }

@@ -33,26 +33,26 @@ import flow.engine.impl.HistoricActivityInstanceQueryProperty;
  */
 class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanceQuery, HistoricActivityInstance) , HistoricActivityInstanceQuery {
 
-    protected string activityInstanceId;
-    protected string processInstanceId;
-    protected string executionId;
-    protected string processDefinitionId;
-    protected string activityId;
-    protected string activityName;
-    protected string activityType;
-    protected Set!string activityTypes;
+    protected string _activityInstanceId;
+    protected string _processInstanceId;
+    protected string _executionId;
+    protected string _processDefinitionId;
+    protected string _activityId;
+    protected string _activityName;
+    protected string _activityType;
+    protected Set!string _activityTypes;
     protected string assignee;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
-    protected bool finished;
-    protected bool unfinished;
-    protected string deleteReason;
-    protected string deleteReasonLike;
-    protected Date startedBefore;
-    protected Date startedAfter;
-    protected Date finishedBefore;
-    protected Date finishedAfter;
+    protected bool _finished;
+    protected bool _unfinished;
+    protected string _deleteReason;
+    protected string _deleteReasonLike;
+    protected Date _startedBefore;
+    protected Date _startedAfter;
+    protected Date _finishedBefore;
+    protected Date _finishedAfter;
     protected List!string tenantIds;
 
     this() {
@@ -77,53 +77,53 @@ class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanc
     }
 
     public HistoricActivityInstanceQueryImpl processInstanceId(string processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
     public HistoricActivityInstanceQueryImpl executionId(string executionId) {
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
     public HistoricActivityInstanceQueryImpl processDefinitionId(string processDefinitionId) {
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
     public HistoricActivityInstanceQueryImpl activityId(string activityId) {
-        this.activityId = activityId;
+        this._activityId = activityId;
         return this;
     }
 
     public HistoricActivityInstanceQueryImpl activityName(string activityName) {
-        this.activityName = activityName;
+        this._activityName = activityName;
         return this;
     }
 
     public HistoricActivityInstanceQueryImpl activityType(string activityType) {
-        this.activityType = activityType;
+        this._activityType = activityType;
         return this;
     }
     public HistoricActivityInstanceQueryImpl startedAfter(Date date) {
-        this.startedAfter = date;
+        this._startedAfter = date;
         return this;
     }
     public HistoricActivityInstanceQueryImpl startedBefore(Date date) {
-        this.startedBefore = date;
+        this._startedBefore = date;
         return this;
     }
     public HistoricActivityInstanceQueryImpl finishedAfter(Date date) {
-        this.finishedAfter = date;
+        this._finishedAfter = date;
         return this;
     }
     public HistoricActivityInstanceQueryImpl finishedBefore(Date date) {
-        this.finishedBefore = date;
+        this._finishedBefore = date;
         return this;
     }
 
     public HistoricActivityInstanceQuery activityTypes(Set!string activityTypes) {
-        this.activityTypes=activityTypes;
+        this._activityTypes=activityTypes;
         return this;
     }
 
@@ -133,24 +133,24 @@ class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanc
     }
 
     public HistoricActivityInstanceQueryImpl finished() {
-        this.finished = true;
-        this.unfinished = false;
+        this._finished = true;
+        this._unfinished = false;
         return this;
     }
 
     public HistoricActivityInstanceQueryImpl unfinished() {
-        this.unfinished = true;
-        this.finished = false;
+        this._unfinished = true;
+        this._finished = false;
         return this;
     }
 
     public HistoricActivityInstanceQuery deleteReason(string deleteReason) {
-        this.deleteReason = deleteReason;
+        this._deleteReason = deleteReason;
         return this;
     }
 
     public HistoricActivityInstanceQuery deleteReasonLike(string deleteReasonLike) {
-        this.deleteReasonLike = deleteReasonLike;
+        this._deleteReasonLike = deleteReasonLike;
         return this;
     }
 
@@ -251,7 +251,7 @@ class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanc
     }
 
     public HistoricActivityInstanceQueryImpl activityInstanceId(string activityInstanceId) {
-        this.activityInstanceId = activityInstanceId;
+        this._activityInstanceId = activityInstanceId;
         return this;
     }
 
@@ -271,31 +271,31 @@ class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanc
     // //////////////////////////////////////////////////////
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getActivityId() {
-        return activityId;
+        return _activityId;
     }
 
     public string getActivityName() {
-        return activityName;
+        return _activityName;
     }
 
     public string getActivityType() {
-        return activityType;
+        return _activityType;
     }
 
     public Set!string getActivityTypes() {
-        return activityTypes;
+        return _activityTypes;
     }
 
     public string getAssignee() {
@@ -303,39 +303,39 @@ class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanc
     }
 
     public bool isFinished() {
-        return finished;
+        return _finished;
     }
 
     public bool isUnfinished() {
-        return unfinished;
+        return _unfinished;
     }
 
     public string getActivityInstanceId() {
-        return activityInstanceId;
+        return _activityInstanceId;
     }
 
     public string getDeleteReason() {
-        return deleteReason;
+        return _deleteReason;
     }
 
     public string getDeleteReasonLike() {
-        return deleteReasonLike;
+        return _deleteReasonLike;
     }
 
     public Date getStartedAfter() {
-        return startedAfter;
+        return _startedAfter;
     }
 
     public Date getStartedBefore() {
-        return startedBefore;
+        return _startedBefore;
     }
 
     public Date getFinishedAfter() {
-        return finishedAfter;
+        return _finishedAfter;
     }
 
     public Date getFinishedBefore() {
-        return finishedBefore;
+        return _finishedBefore;
     }
 
     public List!string getTenantIds() {

@@ -17,7 +17,7 @@ import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import flow.common.Page;
+
 import flow.common.db.AbstractDataManager;
 import flow.common.db.DbSqlSession;
 //import flow.common.persistence.cache.CachedEntityMatcher;
@@ -37,7 +37,7 @@ import hunt.Exceptions;
  * @author Tijs Rademakers
  */
 class MybatisJobDataManager : EntityRepository!( JobEntityImpl , string) , JobDataManager {
-
+    import flow.common.Page;
     protected JobServiceConfiguration jobServiceConfiguration;
 
    // protected CachedEntityMatcher!JobEntity jobsByExecutionIdMatcher = new JobsByExecutionIdMatcher();

@@ -38,6 +38,7 @@ class IdentityLinkEntityManagerImpl
         super(identityLinkServiceConfiguration, identityLinkDataManager);
     }
 
+    override
     public void insert(IdentityLinkEntity entity, bool fireCreateEvent) {
         super.insert(entity, fireCreateEvent);
 
@@ -47,6 +48,7 @@ class IdentityLinkEntityManagerImpl
         }
     }
 
+    override
     public void dele(IdentityLinkEntity entity, bool fireDeleteEvent) {
         super.dele(entity, fireDeleteEvent);
 
@@ -191,7 +193,7 @@ class IdentityLinkEntityManagerImpl
     }
 
 
-    public List!IdentityLinkEntity addCandidateUsers(string taskId, Collectionstring candidateUsers) {
+    public List!IdentityLinkEntity addCandidateUsers(string taskId, Collection!string candidateUsers) {
         List!IdentityLinkEntity identityLinks = new ArrayList!IdentityLinkEntity();
         foreach (string candidateUser ; candidateUsers) {
             identityLinks.add(addCandidateUser(taskId, candidateUser));

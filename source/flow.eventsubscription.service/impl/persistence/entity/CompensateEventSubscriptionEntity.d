@@ -20,6 +20,6 @@ import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionE
  */
 interface CompensateEventSubscriptionEntity : EventSubscriptionEntity {
 
-    string EVENT_TYPE = "compensate";
+   static string EVENT_TYPE = "compensate";
 
 }

@@ -13,6 +13,8 @@
 
 module flow.event.registry.EventRegistryEngineConfiguration;
 
+
+
 import flow.event.registry.DefaultOutboundEventProcessor;
 import flow.event.registry.DefaultInboundEventProcessor;
 import flow.event.registry.EventRepositoryServiceImpl;
@@ -591,10 +593,10 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
     //    return eventDeployer;
     //}
 
-    public EventRegistryEngineConfiguration setEventDeployer(EventDefinitionDeployer eventDeployer) {
-        this.eventDeployer = eventDeployer;
-        return this;
-    }
+    //public EventRegistryEngineConfiguration setEventDeployer(EventDefinitionDeployer eventDeployer) {
+    //    this.eventDeployer = eventDeployer;
+    //    return this;
+    //}
 
     //public EventDefinitionParseFactory getEventParseFactory() {
     //    return eventParseFactory;

@@ -13,13 +13,14 @@
 module flow.event.registry.api.EventRegistry;
 
 import hunt.collection.Map;
-
+import flow.event.registry.api.OutboundEventProcessor;
 import flow.event.registry.api.runtime.EventInstance;
 import flow.event.registry.model.EventModel;
 import flow.event.registry.model.InboundChannelModel;
 import flow.event.registry.api.InboundEventProcessor;
 import flow.event.registry.api.EventRegistryEvent;
 import hunt.String;
+import flow.event.registry.api.EventRegistryEventConsumer;
 /**
  * Central registry for events that are received through external channels through a {@link InboundEventChannelAdapter}
  * and then passed through as a event registry event.

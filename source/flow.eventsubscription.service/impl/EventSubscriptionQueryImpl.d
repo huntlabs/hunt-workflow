@@ -35,25 +35,25 @@ import flow.eventsubscription.service.impl.EventSubscriptionQueryProperty;
 class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventSubscription) , EventSubscriptionQuery, QueryCacheValues {
 
 
-    protected string id;
-    protected string eventType;
-    protected string eventName;
-    protected string executionId;
-    protected string processInstanceId;
-    protected string processDefinitionId;
-    protected string activityId;
-    protected string subScopeId;
-    protected string scopeId;
-    protected string scopeDefinitionId;
-    protected string scopeType;
-    protected Date createdBefore;
-    protected Date createdAfter;
-    protected string tenantId;
-    protected Collection!string tenantIds;
-    protected bool withoutTenantId;
-    protected string configuration;
-    protected Collection!string configurations;
-    protected bool withoutConfiguration;
+    protected string _id;
+    protected string _eventType;
+    protected string _eventName;
+    protected string _executionId;
+    protected string _processInstanceId;
+    protected string _processDefinitionId;
+    protected string _activityId;
+    protected string _subScopeId;
+    protected string _scopeId;
+    protected string _scopeDefinitionId;
+    protected string _scopeType;
+    protected Date _createdBefore;
+    protected Date _createdAfter;
+    protected string _tenantId;
+    protected Collection!string _tenantIds;
+    protected bool _withoutTenantId;
+    protected string _configuration;
+    protected Collection!string _configurations;
+    protected bool _withoutConfiguration;
 
     protected List!EventSubscriptionQueryImpl orQueryObjects ;// = new ArrayList<>();
     protected EventSubscriptionQueryImpl currentOrQueryObject;
@@ -82,7 +82,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.id = id;
         } else {
-            this.id = id;
+            this._id = id;
         }
 
         return this;
@@ -97,7 +97,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.eventType = eventType;
         } else {
-            this.eventType = eventType;
+            this._eventType = eventType;
         }
 
         return this;
@@ -112,7 +112,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.eventName = eventName;
         } else {
-            this.eventName = eventName;
+            this._eventName = eventName;
         }
 
         return this;
@@ -127,7 +127,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.executionId = executionId;
         } else {
-            this.executionId = executionId;
+            this._executionId = executionId;
         }
 
         return this;
@@ -142,7 +142,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceId = processInstanceId;
         } else {
-            this.processInstanceId = processInstanceId;
+            this._processInstanceId = processInstanceId;
         }
 
         return this;
@@ -157,7 +157,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionId = processDefinitionId;
         } else {
-            this.processDefinitionId = processDefinitionId;
+            this._processDefinitionId = processDefinitionId;
         }
 
         return this;
@@ -172,7 +172,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.activityId = activityId;
         } else {
-            this.activityId = activityId;
+            this._activityId = activityId;
         }
 
         return this;
@@ -187,7 +187,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.subScopeId = subScopeId;
         } else {
-            this.subScopeId = subScopeId;
+            this._subScopeId = subScopeId;
         }
 
         return this;
@@ -202,7 +202,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.scopeId = scopeId;
         } else {
-            this.scopeId = scopeId;
+            this._scopeId = scopeId;
         }
 
         return this;
@@ -217,7 +217,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.scopeDefinitionId = scopeDefinitionId;
         } else {
-            this.scopeDefinitionId = scopeDefinitionId;
+            this._scopeDefinitionId = scopeDefinitionId;
         }
 
         return this;
@@ -232,7 +232,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.scopeType = scopeType;
         } else {
-            this.scopeType = scopeType;
+            this._scopeType = scopeType;
         }
 
         return this;
@@ -247,7 +247,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.createdBefore = createdBefore;
         } else {
-            this.createdBefore = createdBefore;
+            this._createdBefore = createdBefore;
         }
 
         return this;
@@ -262,7 +262,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.createdAfter = createdAfter;
         } else {
-            this.createdAfter = createdAfter;
+            this._createdAfter = createdAfter;
         }
 
         return this;
@@ -277,7 +277,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.tenantId = tenantId;
         } else {
-            this.tenantId = tenantId;
+            this._tenantId = tenantId;
         }
 
         return this;
@@ -292,7 +292,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.tenantIds = tenantIds;
         } else {
-            this.tenantIds = tenantIds;
+            this._tenantIds = tenantIds;
         }
 
         return this;
@@ -303,7 +303,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.withoutTenantId = true;
         } else {
-            this.withoutTenantId = true;
+            this._withoutTenantId = true;
         }
         return this;
     }
@@ -317,7 +317,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.configuration = configuration;
         } else {
-            this.configuration = configuration;
+            this._configuration = configuration;
         }
 
         return this;
@@ -332,7 +332,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.configurations = configurations;
         } else {
-            this.configurations = configurations;
+            this._configurations = configurations;
         }
 
         return this;
@@ -343,7 +343,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         if (inOrStatement) {
             this.currentOrQueryObject.withoutConfiguration = true;
         } else {
-            this.withoutConfiguration = true;
+            this._withoutConfiguration = true;
         }
         return this;
     }
@@ -403,12 +403,12 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
 
     // results //////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getEventSubscriptionEntityManager(commandContext).findEventSubscriptionCountByQueryCriteria(this);
     }
 
-
+    override
     public List!EventSubscription executeList(CommandContext commandContext) {
         return CommandContextUtil.getEventSubscriptionEntityManager(commandContext).findEventSubscriptionsByQueryCriteria(this);
     }
@@ -417,79 +417,79 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
 
 
     public string getId() {
-        return id;
+        return _id;
     }
 
     public string getEventType() {
-        return eventType;
+        return _eventType;
     }
 
     public string getEventName() {
-        return eventName;
+        return _eventName;
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getActivityId() {
-        return activityId;
+        return _activityId;
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public Date getCreatedBefore() {
-        return createdBefore;
+        return _createdBefore;
     }
 
     public Date getCreatedAfter() {
-        return createdAfter;
+        return _createdAfter;
     }
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
     public Collection!string getTenantIds() {
-        return tenantIds;
+        return _tenantIds;
     }
 
     public bool isWithoutTenantId() {
-        return withoutTenantId;
+        return _withoutTenantId;
     }
 
     public string getConfiguration() {
-        return configuration;
+        return _configuration;
     }
 
     public Collection!string getConfigurations() {
-        return configurations;
+        return _configurations;
     }
 
     public bool isWithoutConfiguration() {
-        return withoutConfiguration;
+        return _withoutConfiguration;
     }
 
     public List!EventSubscriptionQueryImpl getOrQueryObjects() {

@@ -50,7 +50,7 @@ interface ActivityInstanceEntity : ActivityInstance, Entity, HasRevision {
 
     void setEndTime(Date endTime);
 
-    void setDurationInMillis(Long durationInMillis);
+    void setDurationInMillis(long durationInMillis);
 
 
     string getDeleteReason();

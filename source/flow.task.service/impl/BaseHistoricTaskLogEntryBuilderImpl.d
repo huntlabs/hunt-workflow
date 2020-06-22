@@ -24,30 +24,30 @@ import hunt.Exceptions;
  */
 class BaseHistoricTaskLogEntryBuilderImpl : HistoricTaskLogEntryBuilder {
 
-    protected string type;
-    protected Date timeStamp;
-    protected string userId;
-    protected string data;
-    protected string processInstanceId;
-    protected string processDefinitionId;
-    protected string executionId;
-    protected string scopeId;
-    protected string scopeDefinitionId;
+    protected string _type;
+    protected Date _timeStamp;
+    protected string _userId;
+    protected string _data;
+    protected string _processInstanceId;
+    protected string _processDefinitionId;
+    protected string _executionId;
+    protected string _scopeId;
+    protected string _scopeDefinitionId;
     protected string subScopeId;
     protected string scopeType;
     protected string tenantId;
-    protected string taskId;
+    protected string _taskId;
 
     this(TaskInfo task) {
-        this.processInstanceId = task.getProcessInstanceId();
-        this.processDefinitionId = task.getProcessDefinitionId();
-        this.executionId = task.getExecutionId();
+        this._processInstanceId = task.getProcessInstanceId();
+        this._processDefinitionId = task.getProcessDefinitionId();
+        this._executionId = task.getExecutionId();
         this.tenantId = task.getTenantId();
-        this.scopeId = task.getScopeId();
-        this.scopeDefinitionId = task.getScopeDefinitionId();
+        this._scopeId = task.getScopeId();
+        this._scopeDefinitionId = task.getScopeDefinitionId();
         this.subScopeId = task.getSubScopeId();
         this.scopeType = task.getScopeType();
-        this.taskId = task.getId();
+        this._taskId = task.getId();
     }
 
     this() {
@@ -55,61 +55,61 @@ class BaseHistoricTaskLogEntryBuilderImpl : HistoricTaskLogEntryBuilder {
 
 
     public HistoricTaskLogEntryBuilder taskId(string taskId) {
-        this.taskId = taskId;
+        this._taskId = taskId;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder type(string type) {
-        this.type = type;
+        this._type = type;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder timeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+        this._timeStamp = timeStamp;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder userId(string userId) {
-        this.userId = userId;
+        this._userId = userId;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder data(string data) {
-        this.data = data;
+        this._data = data;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder processInstanceId(string processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder processDefinitionId(string processDefinitionId) {
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder executionId(string executionId) {
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder scopeId(string scopeId) {
-        this.scopeId = scopeId;
+        this._scopeId = scopeId;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder scopeDefinitionId(string scopeDefinitionId) {
-        this.scopeDefinitionId = scopeDefinitionId;
+        this._scopeDefinitionId = scopeDefinitionId;
         return this;
     }
 
@@ -133,51 +133,51 @@ class BaseHistoricTaskLogEntryBuilderImpl : HistoricTaskLogEntryBuilder {
 
 
     public string getType() {
-        return type;
+        return _type;
     }
 
 
     public string getTaskId() {
-        return taskId;
+        return _taskId;
     }
 
     public Date getTimeStamp() {
-        return timeStamp;
+        return _timeStamp;
     }
 
 
     public string getUserId() {
-        return userId;
+        return _userId;
     }
 
 
     public string getData() {
-        return data;
+        return _data;
     }
 
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
 

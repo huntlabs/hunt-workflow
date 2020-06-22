@@ -123,7 +123,7 @@ class VariableInstanceEntityManagerImpl
         return dataManager.findVariableInstancesBySubScopeIdAndScopeTypeAndNames(subScopeId, scopeType, variableNames);
     }
 
-
+    override
     public void dele(VariableInstanceEntity entity, bool fireDeleteEvent) {
         super.dele(entity, false);
         VariableByteArrayRef byteArrayRef = entity.getByteArrayRef();

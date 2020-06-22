@@ -100,7 +100,7 @@ class MybatisEventSubscriptionDataManager : AbstractEventSubscriptionDataManager
     //    return ENTITY_SUBCLASSES;
     //}
 
-
+    override
     public EventSubscriptionEntity create() {
         // only allowed to create subclasses
         throw new UnsupportedOperationException();

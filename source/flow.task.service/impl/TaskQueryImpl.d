@@ -49,7 +49,7 @@ import hunt.Exceptions;
  */
 class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, QueryCacheValues {
 
-    protected string taskId;
+    protected string _taskId;
     protected string name;
     protected string nameLike;
     protected string nameLikeIgnoreCase;
@@ -76,61 +76,61 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     protected string candidateUser;
     protected string candidateGroup;
     protected Collection!string candidateGroups;
-    protected bool ignoreAssigneeValue;
+    protected bool _ignoreAssigneeValue;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
     protected bool withoutDeleteReason;
-    protected string processInstanceId;
+    protected string _processInstanceId;
     protected Collection!string processInstanceIds;
-    protected string executionId;
-    protected string scopeId;
-    protected string subScopeId;
-    protected string scopeType;
-    protected string scopeDefinitionId;
-    protected string propagatedStageInstanceId;
-    protected string processInstanceIdWithChildren;
-    protected string caseInstanceIdWithChildren;
+    protected string _executionId;
+    protected string _scopeId;
+    protected string _subScopeId;
+    protected string _scopeType;
+    protected string _scopeDefinitionId;
+    protected string _propagatedStageInstanceId;
+    protected string _processInstanceIdWithChildren;
+    protected string _caseInstanceIdWithChildren;
     protected Date createTime;
     protected Date createTimeBefore;
     protected Date createTimeAfter;
     protected string category;
     protected bool withFormKey;
     protected string formKey;
-    protected string taskDefinitionId;
+    protected string _taskDefinitionId;
     protected string key;
     protected string keyLike;
     protected Collection!string keys;
-    protected string processDefinitionKey;
-    protected string processDefinitionKeyLike;
-    protected string processDefinitionKeyLikeIgnoreCase;
+    protected string _processDefinitionKey;
+    protected string _processDefinitionKeyLike;
+    protected string _processDefinitionKeyLikeIgnoreCase;
     protected Collection!string processDefinitionKeys;
-    protected string processDefinitionId;
-    protected string processDefinitionName;
-    protected string processDefinitionNameLike;
+    protected string _processDefinitionId;
+    protected string _processDefinitionName;
+    protected string _processDefinitionNameLike;
     protected Collection!string processCategoryInList;
     protected Collection!string processCategoryNotInList;
-    protected string deploymentId;
+    protected string _deploymentId;
     protected Collection!string deploymentIds;
-    protected string cmmnDeploymentId;
+    protected string _cmmnDeploymentId;
     protected Collection!string cmmnDeploymentIds;
-    protected string processInstanceBusinessKey;
-    protected string processInstanceBusinessKeyLike;
-    protected string processInstanceBusinessKeyLikeIgnoreCase;
-    protected Date dueDate;
-    protected Date dueBefore;
-    protected Date dueAfter;
-    protected bool withoutDueDate;
+    protected string _processInstanceBusinessKey;
+    protected string _processInstanceBusinessKeyLike;
+    protected string _processInstanceBusinessKeyLikeIgnoreCase;
+    protected Date _dueDate;
+    protected Date _dueBefore;
+    protected Date _dueAfter;
+    protected bool _withoutDueDate;
     protected SuspensionState suspensionState;
-    protected bool excludeSubtasks;
-    protected bool includeTaskLocalVariables;
-    protected bool includeProcessVariables;
+    protected bool _excludeSubtasks;
+    protected bool _includeTaskLocalVariables;
+    protected bool _includeProcessVariables;
     protected int taskVariablesLimit;
-    protected bool includeIdentityLinks;
+    protected bool _includeIdentityLinks;
     protected string userIdForCandidateAndAssignee;
     protected bool bothCandidateAndAssigned;
-    protected string locale;
-    protected bool withLocalizationFallback;
+    protected string _locale;
+    protected bool _withLocalizationFallback;
     protected bool orActive;
     protected List!TaskQueryImpl orQueryObjects  ;//= new ArrayList<>();
     protected TaskQueryImpl currentOrQueryObject;
@@ -162,7 +162,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.taskId = taskId;
         } else {
-            this.taskId = taskId;
+            this._taskId = taskId;
         }
         return this;
     }
@@ -605,7 +605,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.ignoreAssigneeValue = true;
         } else {
-            this.ignoreAssigneeValue = true;
+            this._ignoreAssigneeValue = true;
         }
         return this;
     }
@@ -661,7 +661,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processInstanceId = processInstanceId;
         } else {
-            this.processInstanceId = processInstanceId;
+            this._processInstanceId = processInstanceId;
         }
         return this;
     }
@@ -693,7 +693,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processInstanceBusinessKey = processInstanceBusinessKey;
         } else {
-            this.processInstanceBusinessKey = processInstanceBusinessKey;
+            this._processInstanceBusinessKey = processInstanceBusinessKey;
         }
         return this;
     }
@@ -703,7 +703,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
         } else {
-            this.processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
+            this._processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
         }
         return this;
     }
@@ -713,7 +713,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processInstanceBusinessKeyLikeIgnoreCase = toLower!string(processInstanceBusinessKeyLikeIgnoreCase);
         } else {
-            this.processInstanceBusinessKeyLikeIgnoreCase = toLower!string(processInstanceBusinessKeyLikeIgnoreCase);
+            this._processInstanceBusinessKeyLikeIgnoreCase = toLower!string(processInstanceBusinessKeyLikeIgnoreCase);
         }
         return this;
     }
@@ -723,7 +723,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.executionId = executionId;
         } else {
-            this.executionId = executionId;
+            this._executionId = executionId;
         }
         return this;
     }
@@ -757,7 +757,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processInstanceIdWithChildren(processInstanceId);
         } else {
-            this.processInstanceIdWithChildren = processInstanceId;
+            this._processInstanceIdWithChildren = processInstanceId;
         }
         return this;
     }
@@ -767,7 +767,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.caseInstanceIdWithChildren(caseInstanceId);
         } else {
-            this.caseInstanceIdWithChildren = caseInstanceId;
+            this._caseInstanceIdWithChildren = caseInstanceId;
         }
         return this;
     }
@@ -789,7 +789,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.scopeId = scopeId;
         } else {
-            this.scopeId = scopeId;
+            this._scopeId = scopeId;
         }
         return this;
     }
@@ -799,7 +799,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.subScopeId = subScopeId;
         } else {
-            this.subScopeId = subScopeId;
+            this._subScopeId = subScopeId;
         }
         return this;
     }
@@ -809,7 +809,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.scopeType = scopeType;
         } else {
-            this.scopeType = scopeType;
+            this._scopeType = scopeType;
         }
         return this;
     }
@@ -819,7 +819,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.scopeDefinitionId = scopeDefinitionId;
         } else {
-            this.scopeDefinitionId = scopeDefinitionId;
+            this._scopeDefinitionId = scopeDefinitionId;
         }
         return this;
     }
@@ -829,7 +829,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.propagatedStageInstanceId = propagatedStageInstanceId;
         } else {
-            this.propagatedStageInstanceId = propagatedStageInstanceId;
+            this._propagatedStageInstanceId = propagatedStageInstanceId;
         }
         return this;
     }
@@ -902,7 +902,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.taskDefinitionId = taskDefinitionId;
         } else {
-            this.taskDefinitionId = taskDefinitionId;
+            this._taskDefinitionId = taskDefinitionId;
         }
         return this;
     }
@@ -1203,7 +1203,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processDefinitionKey = processDefinitionKey;
         } else {
-            this.processDefinitionKey = processDefinitionKey;
+            this._processDefinitionKey = processDefinitionKey;
         }
         return this;
     }
@@ -1213,7 +1213,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processDefinitionKeyLike = processDefinitionKeyLike;
         } else {
-            this.processDefinitionKeyLike = processDefinitionKeyLike;
+            this._processDefinitionKeyLike = processDefinitionKeyLike;
         }
         return this;
     }
@@ -1223,7 +1223,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processDefinitionKeyLikeIgnoreCase = toLower!string(processDefinitionKeyLikeIgnoreCase);
         } else {
-            this.processDefinitionKeyLikeIgnoreCase = toLower!string(processDefinitionKeyLikeIgnoreCase);
+            this._processDefinitionKeyLikeIgnoreCase = toLower!string(processDefinitionKeyLikeIgnoreCase);
         }
         return this;
     }
@@ -1243,7 +1243,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processDefinitionId = processDefinitionId;
         } else {
-            this.processDefinitionId = processDefinitionId;
+            this._processDefinitionId = processDefinitionId;
         }
         return this;
     }
@@ -1253,7 +1253,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processDefinitionName = processDefinitionName;
         } else {
-            this.processDefinitionName = processDefinitionName;
+            this._processDefinitionName = processDefinitionName;
         }
         return this;
     }
@@ -1263,7 +1263,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.processDefinitionNameLike = processDefinitionNameLike;
         } else {
-            this.processDefinitionNameLike = processDefinitionNameLike;
+            this._processDefinitionNameLike = processDefinitionNameLike;
         }
         return this;
     }
@@ -1317,7 +1317,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.deploymentId = deploymentId;
         } else {
-            this.deploymentId = deploymentId;
+            this._deploymentId = deploymentId;
         }
         return this;
     }
@@ -1337,7 +1337,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.cmmnDeploymentId = cmmnDeploymentId;
         } else {
-            this.cmmnDeploymentId = cmmnDeploymentId;
+            this._cmmnDeploymentId = cmmnDeploymentId;
         }
         return this;
     }
@@ -1357,8 +1357,8 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
             currentOrQueryObject.dueDate = dueDate;
             currentOrQueryObject.withoutDueDate = false;
         } else {
-            this.dueDate = dueDate;
-            this.withoutDueDate = false;
+            this._dueDate = dueDate;
+            this._withoutDueDate = false;
         }
         return this;
     }
@@ -1373,8 +1373,8 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
             currentOrQueryObject.dueBefore = dueBefore;
             currentOrQueryObject.withoutDueDate = false;
         } else {
-            this.dueBefore = dueBefore;
-            this.withoutDueDate = false;
+            this._dueBefore = dueBefore;
+            this._withoutDueDate = false;
         }
         return this;
     }
@@ -1389,8 +1389,8 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
             currentOrQueryObject.dueAfter = dueAfter;
             currentOrQueryObject.withoutDueDate = false;
         } else {
-            this.dueAfter = dueAfter;
-            this.withoutDueDate = false;
+            this._dueAfter = dueAfter;
+            this._withoutDueDate = false;
         }
         return this;
     }
@@ -1404,7 +1404,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.withoutDueDate = true;
         } else {
-            this.withoutDueDate = true;
+            this._withoutDueDate = true;
         }
         return this;
     }
@@ -1419,7 +1419,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (orActive) {
             currentOrQueryObject.excludeSubtasks = true;
         } else {
-            this.excludeSubtasks = true;
+            this._excludeSubtasks = true;
         }
         return this;
     }
@@ -1446,25 +1446,25 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
 
     public TaskQuery locale(string locale) {
-        this.locale = locale;
+        this._locale = locale;
         return this;
     }
 
 
     public TaskQuery withLocalizationFallback() {
-        withLocalizationFallback = true;
+        _withLocalizationFallback = true;
         return this;
     }
 
 
     public TaskQuery includeTaskLocalVariables() {
-        this.includeTaskLocalVariables = true;
+        this._includeTaskLocalVariables = true;
         return this;
     }
 
 
     public TaskQuery includeProcessVariables() {
-        this.includeProcessVariables = true;
+        this._includeProcessVariables = true;
         return this;
     }
 
@@ -1476,7 +1476,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
 
     public TaskQuery includeIdentityLinks() {
-        this.includeIdentityLinks = true;
+        this._includeIdentityLinks = true;
         return this;
     }
     public int getTaskVariablesLimit() {
@@ -1522,7 +1522,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         return groupIds;
     }
 
-
+    override
     protected void ensureVariablesInitialized() {
         VariableTypes types = CommandContextUtil.getVariableServiceConfiguration().getVariableTypes();
         foreach (QueryVariableValue var ; queryVariableValues) {
@@ -1651,7 +1651,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     // results ////////////////////////////////////////////////////////////////
 
-
+    override
     public List!Task executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
         List!Task tasks = null;
@@ -1677,7 +1677,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
         if (tasks !is null && taskServiceConfiguration.getInternalTaskLocalizationManager() !is null && taskServiceConfiguration.isEnableLocalization()) {
             foreach (Task task ; tasks) {
-                taskServiceConfiguration.getInternalTaskLocalizationManager().localize(task, locale, withLocalizationFallback);
+                taskServiceConfiguration.getInternalTaskLocalizationManager().localize(task, _locale, _withLocalizationFallback);
             }
         }
 
@@ -1712,7 +1712,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         //}
     }
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
 
@@ -1771,11 +1771,11 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public bool isIgnoreAssigneeValue() {
-        return ignoreAssigneeValue;
+        return _ignoreAssigneeValue;
     }
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public Collection!string getProcessInstanceIds() {
@@ -1783,36 +1783,36 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
     public string getPropagatedStageInstanceId() {
-        return propagatedStageInstanceId;
+        return _propagatedStageInstanceId;
     }
 
     public string getTaskId() {
-        return taskId;
+        return _taskId;
     }
 
 
     public string getId() {
-        return taskId;
+        return _taskId;
     }
 
     public string getDescription() {
@@ -1840,7 +1840,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getTaskDefinitionId() {
-        return taskDefinitionId;
+        return _taskDefinitionId;
     }
 
     public string getKey() {
@@ -1856,31 +1856,31 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getProcessDefinitionKey() {
-        return processDefinitionKey;
+        return _processDefinitionKey;
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getProcessDefinitionName() {
-        return processDefinitionName;
+        return _processDefinitionName;
     }
 
     public string getProcessInstanceBusinessKey() {
-        return processInstanceBusinessKey;
+        return _processInstanceBusinessKey;
     }
 
     public string getProcessInstanceIdWithChildren() {
-        return processInstanceIdWithChildren;
+        return _processInstanceIdWithChildren;
     }
 
     public string getCaseInstanceIdWithChildren() {
-        return caseInstanceIdWithChildren;
+        return _caseInstanceIdWithChildren;
     }
 
     public bool getExcludeSubtasks() {
-        return excludeSubtasks;
+        return _excludeSubtasks;
     }
 
     public string getTenantId() {
@@ -1952,7 +1952,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getProcessDefinitionKeyLike() {
-        return processDefinitionKeyLike;
+        return _processDefinitionKeyLike;
     }
 
     public Collection!string getProcessDefinitionKeys() {
@@ -1960,7 +1960,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getProcessDefinitionNameLike() {
-        return processDefinitionNameLike;
+        return _processDefinitionNameLike;
     }
 
     public Collection!string getProcessCategoryInList() {
@@ -1972,7 +1972,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public Collection!string getDeploymentIds() {
@@ -1980,7 +1980,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getCmmnDeploymentId() {
-        return cmmnDeploymentId;
+        return _cmmnDeploymentId;
     }
 
     public Collection!string getCmmnDeploymentIds() {
@@ -1988,23 +1988,23 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getProcessInstanceBusinessKeyLike() {
-        return processInstanceBusinessKeyLike;
+        return _processInstanceBusinessKeyLike;
     }
 
     public Date getDueDate() {
-        return dueDate;
+        return _dueDate;
     }
 
     public Date getDueBefore() {
-        return dueBefore;
+        return _dueBefore;
     }
 
     public Date getDueAfter() {
-        return dueAfter;
+        return _dueAfter;
     }
 
     public bool isWithoutDueDate() {
-        return withoutDueDate;
+        return _withoutDueDate;
     }
 
     public SuspensionState getSuspensionState() {
@@ -2012,15 +2012,15 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public bool isIncludeTaskLocalVariables() {
-        return includeTaskLocalVariables;
+        return _includeTaskLocalVariables;
     }
 
     public bool isIncludeProcessVariables() {
-        return includeProcessVariables;
+        return _includeProcessVariables;
     }
 
     public bool isIncludeIdentityLinks() {
-        return includeIdentityLinks;
+        return _includeIdentityLinks;
     }
 
     public bool isBothCandidateAndAssigned() {
@@ -2044,11 +2044,11 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getProcessInstanceBusinessKeyLikeIgnoreCase() {
-        return processInstanceBusinessKeyLikeIgnoreCase;
+        return _processInstanceBusinessKeyLikeIgnoreCase;
     }
 
     public string getProcessDefinitionKeyLikeIgnoreCase() {
-        return processDefinitionKeyLikeIgnoreCase;
+        return _processDefinitionKeyLikeIgnoreCase;
     }
 
     public bool isWithoutDeleteReason() {
@@ -2056,26 +2056,26 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
     public string getLocale() {
-        return locale;
+        return _locale;
     }
 
     public bool isOrActive() {
         return orActive;
     }
 
-
+    override
     public List!Task list() {
         cachedCandidateGroups = null;
         return super.list();
     }
 
-
+    override
     public List!Task listPage(int firstResult, int maxResults) {
         cachedCandidateGroups = null;
         return super.listPage(firstResult, maxResults);
     }
 
-
+    override
     public long count() {
         cachedCandidateGroups = null;
         return super.count();

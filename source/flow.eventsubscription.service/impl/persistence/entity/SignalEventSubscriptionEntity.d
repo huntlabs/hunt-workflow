@@ -20,7 +20,7 @@ import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionE
  */
 interface SignalEventSubscriptionEntity : EventSubscriptionEntity {
 
-    string EVENT_TYPE = "signal";
+    static string EVENT_TYPE = "signal";
 
     bool isProcessInstanceScoped();
 

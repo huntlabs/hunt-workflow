@@ -31,33 +31,33 @@ interface Event {
     /**
      * A user identity link was added with following message parts: [0] userId [1] identity link type (aka role)
      */
-    string ACTION_ADD_USER_LINK = "AddUserLink";
+    static string ACTION_ADD_USER_LINK = "AddUserLink";
 
     /**
      * A user identity link was added with following message parts: [0] userId [1] identity link type (aka role)
      */
-    string ACTION_DELETE_USER_LINK = "DeleteUserLink";
+  static string ACTION_DELETE_USER_LINK = "DeleteUserLink";
 
     /**
      * A group identity link was added with following message parts: [0] groupId [1] identity link type (aka role)
      */
-    string ACTION_ADD_GROUP_LINK = "AddGroupLink";
+  static string ACTION_ADD_GROUP_LINK = "AddGroupLink";
 
     /**
      * A group identity link was added with following message parts: [0] groupId [1] identity link type (aka role)
      */
-    string ACTION_DELETE_GROUP_LINK = "DeleteGroupLink";
+  static string ACTION_DELETE_GROUP_LINK = "DeleteGroupLink";
 
     /**
      * An user comment was added with the short version of the comment as message.
      */
-    string ACTION_ADD_COMMENT = "AddComment";
+  static string ACTION_ADD_COMMENT = "AddComment";
 
     /** An attachment was added with the attachment name as message. */
-    string ACTION_ADD_ATTACHMENT = "AddAttachment";
+  static string ACTION_ADD_ATTACHMENT = "AddAttachment";
 
     /** An attachment was deleted with the attachment name as message. */
-    string ACTION_DELETE_ATTACHMENT = "DeleteAttachment";
+  static string ACTION_DELETE_ATTACHMENT = "DeleteAttachment";
 
     /** Unique identifier for this event */
     string getId();

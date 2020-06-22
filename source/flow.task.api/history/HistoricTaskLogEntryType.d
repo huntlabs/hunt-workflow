@@ -29,7 +29,7 @@ import hunt.Enum;
 /**
  * @author martin.grofcik
  */
-class HistoricTaskLogEntryType : AbstractEnum!HistoricTaskLogEntryType , FlowableEventType {
+class HistoricTaskLogEntryType : AbstractEnum!string , FlowableEventType {
 
     this (string name , int val)
     {

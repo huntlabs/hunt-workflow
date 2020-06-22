@@ -446,8 +446,10 @@ import hunt.Exceptions;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
+
+//ScriptingEngineAwareEngineConfiguration
 abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
-        ScriptingEngineAwareEngineConfiguration, HasExpressionManagerEngineConfiguration, HasVariableTypes {
+         HasExpressionManagerEngineConfiguration, HasVariableTypes {
 
     public static  string DEFAULT_WS_SYNC_FACTORY = "flow.engine.webservice.CxfWebServiceClientFactory";
 
@@ -516,9 +518,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     protected HistoryManager historyManager;
 
-    protected bool isAsyncHistoryEnabled;
-    protected bool isAsyncHistoryJsonGzipCompressionEnabled;
-    protected bool isAsyncHistoryJsonGroupingEnabled;
+    protected bool _isAsyncHistoryEnabled;
+    protected bool _isAsyncHistoryJsonGzipCompressionEnabled;
+    protected bool _isAsyncHistoryJsonGroupingEnabled;
     protected int asyncHistoryJsonGroupingThreshold = 10;
     //protected AsyncHistoryListener asyncHistoryListener;
 
@@ -560,16 +562,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected DeploymentManager deploymentManager;
 
     protected int processDefinitionCacheLimit = -1; // By default, no limit
-    protected DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache;
+    //protected DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache;
 
     protected int processDefinitionInfoCacheLimit = -1; // By default, no limit
-    protected DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache;
+    //protected DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache;
 
     protected int knowledgeBaseCacheLimit = -1;
-    protected DeploymentCache!Object knowledgeBaseCache;
+    //protected DeploymentCache!Object knowledgeBaseCache;
 
     protected int appResourceCacheLimit = -1;
-    protected DeploymentCache!Object appResourceCache;
+    //protected DeploymentCache!Object appResourceCache;
 
     protected AppResourceConverter appResourceConverter;
 
@@ -631,7 +633,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * <p>
      * (This property is only applicable when using the {@link DefaultAsyncJobExecutor}).
      */
-    protected BlockingQueue!Runnable asyncExecutorThreadPoolQueue;
+  //  protected BlockingQueue!Runnable asyncExecutorThreadPoolQueue;
 
     /**
      * The time (in seconds) that is waited to gracefully shut down the threadpool used for job execution when the a shutdown on the executor (or process engine) is requested. Default value = 60.
@@ -748,9 +750,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
      * This can be used to boot up engine instances that still execute jobs originating from this instance itself,
      * but don't fetch new jobs themselves.
      */
-    protected bool isAsyncExecutorAsyncJobAcquisitionEnabled = true;
-    protected bool isAsyncExecutorTimerJobAcquisitionEnabled = true;
-    protected bool isAsyncExecutorResetExpiredJobsEnabled = true;
+    protected bool _isAsyncExecutorAsyncJobAcquisitionEnabled = true;
+    protected bool _isAsyncExecutorTimerJobAcquisitionEnabled = true;
+    protected bool _isAsyncExecutorResetExpiredJobsEnabled = true;
 
     /**
      * Experimental!
@@ -766,7 +768,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected int asyncHistoryExecutorMaxPoolSize = 8;
     protected long asyncHistoryExecutorThreadKeepAliveTime = 5000L;
     protected int asyncHistoryExecutorThreadPoolQueueSize = 100;
-    protected BlockingQueue!Runnable asyncHistoryExecutorThreadPoolQueue;
+   // protected BlockingQueue!Runnable asyncHistoryExecutorThreadPoolQueue;
     protected long asyncHistoryExecutorSecondsToWaitOnShutdown = 60L;
     protected int asyncHistoryExecutorDefaultAsyncJobAcquireWaitTime = 10 * 1000;
     protected int asyncHistoryExecutorDefaultQueueSizeFullWaitTime;
@@ -774,9 +776,9 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected int asyncHistoryExecutorAsyncJobLockTimeInMillis = 5 * 60 * 1000;
     protected int asyncHistoryExecutorResetExpiredJobsInterval = 60 * 1000;
     protected int asyncHistoryExecutorResetExpiredJobsPageSize = 3;
-    protected bool isAsyncHistoryExecutorAsyncJobAcquisitionEnabled = true;
-    protected bool isAsyncHistoryExecutorTimerJobAcquisitionEnabled = true;
-    protected bool isAsyncHistoryExecutorResetExpiredJobsEnabled = true;
+    protected bool _isAsyncHistoryExecutorAsyncJobAcquisitionEnabled = true;
+    protected bool _isAsyncHistoryExecutorTimerJobAcquisitionEnabled = true;
+    protected bool _isAsyncHistoryExecutorResetExpiredJobsEnabled = true;
 
     protected string jobExecutionScope;
     protected string historyJobExecutionScope;
@@ -854,7 +856,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     //protected ScriptingEngines scriptingEngines;
     //protected List!ResolverFactory resolverFactories;
 
-    protected bool isExpressionCacheEnabled = true;
+    protected bool _isExpressionCacheEnabled = true;
     protected int expressionCacheSize = 4096;
     protected int expressionTextLengthCacheLimit = -1; // negative value to have no max length
 
@@ -885,7 +887,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected FailedJobCommandFactory failedJobCommandFactory;
 
     protected FormFieldHandler formFieldHandler;
-    protected bool isFormFieldValidationEnabled;
+    protected bool _isFormFieldValidationEnabled;
 
     protected EventRegistryEventConsumer eventRegistryEventConsumer;
 
@@ -1359,7 +1361,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     public void initHistoryManager() {
         if (historyManager is null) {
-            if (isAsyncHistoryEnabled) {
+            if (_isAsyncHistoryEnabled) {
 
               //  historyManager = new AsyncHistoryManager(this, historyLevel, usePrefixId);
             } else {
@@ -1400,7 +1402,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
                 initDbSqlSessionFactory();
             }
 
-            if (isAsyncHistoryEnabled) {
+            if (_isAsyncHistoryEnabled) {
                 initAsyncHistorySessionFactory();
             }
 
@@ -1413,7 +1415,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             commandContextFactory.setSessionFactories(sessionFactories);
 
         } else {
-            if (isAsyncHistoryEnabled) {
+            if (_isAsyncHistoryEnabled) {
                 implementationMissing(false);
                 //if (!sessionFactories.containsKey(AsyncHistorySession.class)) {
                 //    initAsyncHistorySessionFactory();
@@ -1658,8 +1660,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             // Async history job config
             //jobServiceConfiguration.setJobTypeAsyncHistory(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY);
             //jobServiceConfiguration.setJobTypeAsyncHistoryZipped(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY_ZIPPED);
-            jobServiceConfiguration.setAsyncHistoryJsonGzipCompressionEnabled(isAsyncHistoryJsonGzipCompressionEnabled);
-            jobServiceConfiguration.setAsyncHistoryJsonGroupingEnabled(isAsyncHistoryJsonGroupingEnabled);
+            jobServiceConfiguration.setAsyncHistoryJsonGzipCompressionEnabled(_isAsyncHistoryJsonGzipCompressionEnabled);
+            jobServiceConfiguration.setAsyncHistoryJsonGroupingEnabled(_isAsyncHistoryJsonGroupingEnabled);
             jobServiceConfiguration.setAsyncHistoryJsonGroupingThreshold(asyncHistoryJsonGroupingThreshold);
 
             // set the job processors
@@ -2079,7 +2081,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     protected void initHistoryJobHandlers() {
-        if (isAsyncHistoryEnabled) {
+        if (_isAsyncHistoryEnabled) {
             historyJobHandlers = new HashMap!(string, HistoryJobHandler)();
 
             //List!HistoryJsonTransformer allHistoryJsonTransformers = new ArrayList<>(initDefaultHistoryJsonTransformers());
@@ -2861,7 +2863,6 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    override
     public ProcessEngineConfigurationImpl setSessionFactories(Map!(TypeInfo, SessionFactory) sessionFactories) {
         this.sessionFactories = sessionFactories;
         return this;
@@ -3143,11 +3144,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public bool isExpressionCacheEnabled() {
-        return isExpressionCacheEnabled;
+        return _isExpressionCacheEnabled;
     }
 
     public ProcessEngineConfigurationImpl setExpressionCacheEnabled(bool isExpressionCacheEnabled) {
-        this.isExpressionCacheEnabled = isExpressionCacheEnabled;
+        this._isExpressionCacheEnabled = isExpressionCacheEnabled;
         return this;
     }
 
@@ -3698,11 +3699,11 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public bool isFormFieldValidationEnabled() {
-        return this.isFormFieldValidationEnabled;
+        return this._isFormFieldValidationEnabled;
     }
 
     public ProcessEngineConfigurationImpl setFormFieldValidationEnabled(bool flag) {
-        this.isFormFieldValidationEnabled = flag;
+        this._isFormFieldValidationEnabled = flag;
         return this;
     }
 
@@ -4132,29 +4133,29 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public bool isAsyncHistoryEnabled() {
-        return isAsyncHistoryEnabled;
+        return _isAsyncHistoryEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncHistoryEnabled(bool isAsyncHistoryEnabled) {
-        this.isAsyncHistoryEnabled = isAsyncHistoryEnabled;
+        this._isAsyncHistoryEnabled = isAsyncHistoryEnabled;
         return this;
     }
 
     public bool isAsyncHistoryJsonGzipCompressionEnabled() {
-        return isAsyncHistoryJsonGzipCompressionEnabled;
+        return _isAsyncHistoryJsonGzipCompressionEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncHistoryJsonGzipCompressionEnabled(bool isAsyncHistoryJsonGzipCompressionEnabled) {
-        this.isAsyncHistoryJsonGzipCompressionEnabled = isAsyncHistoryJsonGzipCompressionEnabled;
+        this._isAsyncHistoryJsonGzipCompressionEnabled = isAsyncHistoryJsonGzipCompressionEnabled;
         return this;
     }
 
     public bool isAsyncHistoryJsonGroupingEnabled() {
-        return isAsyncHistoryJsonGroupingEnabled;
+        return _isAsyncHistoryJsonGroupingEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncHistoryJsonGroupingEnabled(bool isAsyncHistoryJsonGroupingEnabled) {
-        this.isAsyncHistoryJsonGroupingEnabled = isAsyncHistoryJsonGroupingEnabled;
+        this._isAsyncHistoryJsonGroupingEnabled = isAsyncHistoryJsonGroupingEnabled;
         return this;
     }
 
@@ -4835,56 +4836,56 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public bool isAsyncExecutorAsyncJobAcquisitionEnabled() {
-        return isAsyncExecutorAsyncJobAcquisitionEnabled;
+        return _isAsyncExecutorAsyncJobAcquisitionEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncExecutorAsyncJobAcquisitionEnabled(bool isAsyncExecutorAsyncJobAcquisitionEnabled) {
-        this.isAsyncExecutorAsyncJobAcquisitionEnabled = isAsyncExecutorAsyncJobAcquisitionEnabled;
+        this._isAsyncExecutorAsyncJobAcquisitionEnabled = isAsyncExecutorAsyncJobAcquisitionEnabled;
         return this;
     }
 
     public bool isAsyncExecutorTimerJobAcquisitionEnabled() {
-        return isAsyncExecutorTimerJobAcquisitionEnabled;
+        return _isAsyncExecutorTimerJobAcquisitionEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncExecutorTimerJobAcquisitionEnabled(bool isAsyncExecutorTimerJobAcquisitionEnabled) {
-        this.isAsyncExecutorTimerJobAcquisitionEnabled = isAsyncExecutorTimerJobAcquisitionEnabled;
+        this._isAsyncExecutorTimerJobAcquisitionEnabled = isAsyncExecutorTimerJobAcquisitionEnabled;
         return this;
     }
 
     public bool isAsyncExecutorResetExpiredJobsEnabled() {
-        return isAsyncExecutorResetExpiredJobsEnabled;
+        return _isAsyncExecutorResetExpiredJobsEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncExecutorResetExpiredJobsEnabled(bool isAsyncExecutorResetExpiredJobsEnabled) {
-        this.isAsyncExecutorResetExpiredJobsEnabled = isAsyncExecutorResetExpiredJobsEnabled;
+        this._isAsyncExecutorResetExpiredJobsEnabled = isAsyncExecutorResetExpiredJobsEnabled;
         return this;
     }
 
     public bool isAsyncHistoryExecutorAsyncJobAcquisitionEnabled() {
-        return isAsyncHistoryExecutorAsyncJobAcquisitionEnabled;
+        return _isAsyncHistoryExecutorAsyncJobAcquisitionEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncHistoryExecutorAsyncJobAcquisitionEnabled(bool isAsyncHistoryExecutorAsyncJobAcquisitionEnabled) {
-        this.isAsyncHistoryExecutorAsyncJobAcquisitionEnabled = isAsyncHistoryExecutorAsyncJobAcquisitionEnabled;
+        this._isAsyncHistoryExecutorAsyncJobAcquisitionEnabled = isAsyncHistoryExecutorAsyncJobAcquisitionEnabled;
         return this;
     }
 
     public bool isAsyncHistoryExecutorTimerJobAcquisitionEnabled() {
-        return isAsyncHistoryExecutorTimerJobAcquisitionEnabled;
+        return _isAsyncHistoryExecutorTimerJobAcquisitionEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncHistoryExecutorTimerJobAcquisitionEnabled(bool isAsyncHistoryExecutorTimerJobAcquisitionEnabled) {
-        this.isAsyncHistoryExecutorTimerJobAcquisitionEnabled = isAsyncHistoryExecutorTimerJobAcquisitionEnabled;
+        this._isAsyncHistoryExecutorTimerJobAcquisitionEnabled = isAsyncHistoryExecutorTimerJobAcquisitionEnabled;
         return this;
     }
 
     public bool isAsyncHistoryExecutorResetExpiredJobsEnabled() {
-        return isAsyncHistoryExecutorResetExpiredJobsEnabled;
+        return _isAsyncHistoryExecutorResetExpiredJobsEnabled;
     }
 
     public ProcessEngineConfigurationImpl setAsyncHistoryExecutorResetExpiredJobsEnabled(bool isAsyncHistoryExecutorResetExpiredJobsEnabled) {
-        this.isAsyncHistoryExecutorResetExpiredJobsEnabled = isAsyncHistoryExecutorResetExpiredJobsEnabled;
+        this._isAsyncHistoryExecutorResetExpiredJobsEnabled = isAsyncHistoryExecutorResetExpiredJobsEnabled;
         return this;
     }
 

@@ -39,20 +39,20 @@ import std.string;
  */
 class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanceQuery, HistoricVariableInstance), HistoricVariableInstanceQuery {
 
-    protected string id;
-    protected string taskId;
-    protected Set!string taskIds;
-    protected string executionId;
-    protected Set!string executionIds;
-    protected string processInstanceId;
-    protected string activityInstanceId;
-    protected string variableName;
-    protected string variableNameLike;
+    protected string _id;
+    protected string _taskId;
+    protected Set!string _taskIds;
+    protected string _executionId;
+    protected Set!string _executionIds;
+    protected string _processInstanceId;
+    protected string _activityInstanceId;
+    protected string _variableName;
+    protected string _variableNameLike;
     protected bool excludeTaskRelated;
-    protected bool excludeVariableInitialization;
-    protected string scopeId;
-    protected string subScopeId;
-    protected string scopeType;
+    protected bool _excludeVariableInitialization;
+    protected string _scopeId;
+    protected string _subScopeId;
+    protected string _scopeType;
     protected QueryVariableValue queryVariableValue;
 
     this() {
@@ -68,7 +68,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
 
 
     public HistoricVariableInstanceQuery id(string id) {
-        this.id = id;
+        this._id = id;
         return this;
     }
 
@@ -77,7 +77,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("processInstanceId is null");
         }
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
@@ -86,7 +86,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Execution id is null");
         }
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
@@ -98,12 +98,12 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (executionIds.isEmpty()) {
             throw new FlowableIllegalArgumentException("Set of executionIds is empty");
         }
-        this.executionIds = executionIds;
+        this._executionIds = executionIds;
         return this;
     }
 
     public HistoricVariableInstanceQuery activityInstanceId(string activityInstanceId) {
-        this.activityInstanceId = activityInstanceId;
+        this._activityInstanceId = activityInstanceId;
         return this;
     }
 
@@ -115,7 +115,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (excludeTaskRelated) {
             throw new FlowableIllegalArgumentException("Cannot use taskId together with excludeTaskVariables");
         }
-        this.taskId = taskId;
+        this._taskId = taskId;
         return this;
     }
 
@@ -130,16 +130,16 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (excludeTaskRelated) {
             throw new FlowableIllegalArgumentException("Cannot use taskIds together with excludeTaskVariables");
         }
-        this.taskIds = taskIds;
+        this._taskIds = taskIds;
         return this;
     }
 
 
     public HistoricVariableInstanceQuery excludeTaskVariables() {
-        if (taskId !is null) {
+        if (_taskId !is null) {
             throw new FlowableIllegalArgumentException("Cannot use taskId together with excludeTaskVariables");
         }
-        if (taskIds !is null) {
+        if (_taskIds !is null) {
             throw new FlowableIllegalArgumentException("Cannot use taskIds together with excludeTaskVariables");
         }
         excludeTaskRelated = true;
@@ -148,7 +148,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
 
 
     public HistoricVariableInstanceQuery excludeVariableInitialization() {
-        excludeVariableInitialization = true;
+        _excludeVariableInitialization = true;
         return this;
     }
 
@@ -157,7 +157,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (variableName is null) {
             throw new FlowableIllegalArgumentException("variableName is null");
         }
-        this.variableName = variableName;
+        this._variableName = variableName;
         return this;
     }
 
@@ -169,7 +169,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (variableValue is null) {
             throw new FlowableIllegalArgumentException("variableValue is null");
         }
-        this.variableName = variableName;
+        this._variableName = variableName;
         queryVariableValue = new QueryVariableValue(variableName, variableValue, QueryOperator.EQUALS, true);
         return this;
     }
@@ -182,7 +182,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (variableValue is null) {
             throw new FlowableIllegalArgumentException("variableValue is null");
         }
-        this.variableName = variableName;
+        this._variableName = variableName;
         queryVariableValue = new QueryVariableValue(variableName, variableValue, QueryOperator.NOT_EQUALS, true);
         return this;
     }
@@ -195,7 +195,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (variableValue is null) {
             throw new FlowableIllegalArgumentException("variableValue is null");
         }
-        this.variableName = variableName;
+        this._variableName = variableName;
         queryVariableValue = new QueryVariableValue(variableName, new String(variableValue), QueryOperator.LIKE, true);
         return this;
     }
@@ -208,7 +208,7 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (variableValue is null) {
             throw new FlowableIllegalArgumentException("variableValue is null");
         }
-        this.variableName = variableName;
+        this._variableName = variableName;
         queryVariableValue = new QueryVariableValue(variableName, new String(toLower!string(variableValue)), QueryOperator.LIKE_IGNORE_CASE, true);
         return this;
     }
@@ -218,25 +218,25 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         if (variableNameLike is null) {
             throw new FlowableIllegalArgumentException("variableNameLike is null");
         }
-        this.variableNameLike = variableNameLike;
+        this._variableNameLike = variableNameLike;
         return this;
     }
 
 
     public HistoricVariableInstanceQuery scopeId(string scopeId) {
-        this.scopeId = scopeId;
+        this._scopeId = scopeId;
         return this;
     }
 
 
     public HistoricVariableInstanceQuery subScopeId(string subScopeId) {
-        this.subScopeId = subScopeId;
+        this._subScopeId = subScopeId;
         return this;
     }
 
 
     public HistoricVariableInstanceQuery scopeType(string scopeType) {
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
@@ -247,19 +247,19 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
         }
     }
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
         return CommandContextUtil.getHistoricVariableInstanceEntityManager(commandContext).findHistoricVariableInstanceCountByQueryCriteria(this);
     }
 
-
+    override
     public List!HistoricVariableInstance executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
 
         List!HistoricVariableInstance historicVariableInstances = CommandContextUtil.getHistoricVariableInstanceEntityManager(commandContext).findHistoricVariableInstancesByQueryCriteria(this);
 
-        if (!excludeVariableInitialization) {
+        if (!_excludeVariableInitialization) {
             foreach (HistoricVariableInstance historicVariableInstance ; historicVariableInstances) {
                 HistoricVariableInstanceEntity variableEntity = cast(HistoricVariableInstanceEntity) historicVariableInstance;
                 if (variableEntity !is null) {
@@ -297,15 +297,15 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
     // //////////////////////////////////////////////////////
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getTaskId() {
-        return taskId;
+        return _taskId;
     }
 
     public string getActivityInstanceId() {
-        return activityInstanceId;
+        return _activityInstanceId;
     }
 
     public bool getExcludeTaskRelated() {
@@ -313,23 +313,23 @@ class HistoricVariableInstanceQueryImpl : AbstractQuery!(HistoricVariableInstanc
     }
 
     public string getVariableName() {
-        return variableName;
+        return _variableName;
     }
 
     public string getVariableNameLike() {
-        return variableNameLike;
+        return _variableNameLike;
     }
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public QueryVariableValue getQueryVariableValue() {

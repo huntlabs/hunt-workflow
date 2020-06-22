@@ -30,7 +30,7 @@ import hunt.Exceptions;
  */
 @Table("FLW_EVENT_DEPLOYMENT")
 class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,EventDeploymentEntity {
- mixin MakeModel;
+    mixin MakeModel;
 
     @PrimaryKey
     @Column("ID_")
@@ -47,9 +47,11 @@ class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,
 
      @Column("PARENT_DEPLOYMENT_ID_")
      string parentDeploymentId;
+
+
      private Map!(string, EventResourceEntity) resources;
      private Date deploymentTime;
-     private bool isNew;
+     private bool _isNew;
 
     /**
      * Will only be used during actual deployment to pass deployed artifacts (eg form definitions). Will be null otherwise.
@@ -59,11 +61,14 @@ class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,
     this() {
 
     }
+
+  override
     public string getId() {
     return id;
   }
 
 
+    override
     public void setId(string id) {
     this.id = id;
   }
@@ -178,12 +183,12 @@ class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,
 
 
     public bool isNew() {
-        return isNew;
+        return _isNew;
     }
 
 
     public void setNew(bool isNew) {
-        this.isNew = isNew;
+        this._isNew = isNew;
     }
 
     // common methods //////////////////////////////////////////////////////////

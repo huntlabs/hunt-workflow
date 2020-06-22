@@ -77,7 +77,7 @@ class HistoricVariableInstanceEntityManagerImpl
         historicVariableInstance.setLastUpdatedTime(updateTime);
     }
 
-
+    override
     public void dele(HistoricVariableInstanceEntity entity, bool fireDeleteEvent) {
         super.dele(entity, fireDeleteEvent);
 

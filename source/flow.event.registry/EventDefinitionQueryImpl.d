@@ -37,8 +37,8 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
     protected string categoryNotEquals;
     protected string name;
     protected string nameLike;
-    protected string deploymentId;
-    protected Set!string deploymentIds;
+    protected string _deploymentId;
+    protected Set!string _deploymentIds;
     protected string key;
     protected string keyLike;
     protected int _version;
@@ -49,9 +49,9 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
     protected bool latest;
     protected string resourceName;
     protected string resourceNameLike;
-    protected string tenantId;
-    protected string tenantIdLike;
-    protected bool withoutTenantId;
+    protected string _tenantId;
+    protected string _tenantIdLike;
+    protected bool _withoutTenantId;
 
     this() {
     }
@@ -126,7 +126,7 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("id is null");
         }
-        this.deploymentId = deploymentId;
+        this._deploymentId = deploymentId;
         return this;
     }
 
@@ -135,7 +135,7 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("ids are null");
         }
-        this.deploymentIds = deploymentIds;
+        this._deploymentIds = deploymentIds;
         return this;
     }
 
@@ -229,7 +229,7 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("form tenantId is null");
         }
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
@@ -238,13 +238,13 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("form tenantId is null");
         }
-        this.tenantIdLike = tenantIdLike;
+        this._tenantIdLike = tenantIdLike;
         return this;
     }
 
 
     public EventDefinitionQueryImpl withoutTenantId() {
-        this.withoutTenantId = true;
+        this._withoutTenantId = true;
         return this;
     }
 
@@ -282,12 +282,12 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
 
     // results ////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getEventDefinitionEntityManager(commandContext).findEventDefinitionCountByQueryCriteria(this);
     }
 
-
+    override
     public List!EventDefinition executeList(CommandContext commandContext) {
         return CommandContextUtil.getEventDefinitionEntityManager(commandContext).findEventDefinitionsByQueryCriteria(this);
     }
@@ -295,11 +295,11 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
     // getters ////////////////////////////////////////////
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public Set!string getDeploymentIds() {
-        return deploymentIds;
+        return _deploymentIds;
     }
 
     public string getId() {
@@ -347,14 +347,14 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
     }
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
     public string getTenantIdLike() {
-        return tenantIdLike;
+        return _tenantIdLike;
     }
 
     public bool isWithoutTenantId() {
-        return withoutTenantId;
+        return _withoutTenantId;
     }
 }

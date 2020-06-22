@@ -19,6 +19,6 @@ import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionE
  */
 interface MessageEventSubscriptionEntity : EventSubscriptionEntity {
 
-    string EVENT_TYPE = "message";
+    static string EVENT_TYPE = "message";
 
 }

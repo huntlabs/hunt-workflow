@@ -14,39 +14,39 @@ module flow.engine.DynamicBpmnConstants;
 
 interface DynamicBpmnConstants {
 
-    string BPMN_NODE = "bpmn";
-    string LOCALIZATION_NODE = "localization";
+  static string BPMN_NODE = "bpmn";
+  static string LOCALIZATION_NODE = "localization";
 
-    string GLOBAL_PROCESS_DEFINITION_PROPERTIES = "_flowableGlobalProcessDefinitionProperties";
-    string ENABLE_SKIP_EXPRESSION = "enableSkipExpression";
-    string TASK_SKIP_EXPRESSION = "taskSkipExpression";
+  static string GLOBAL_PROCESS_DEFINITION_PROPERTIES = "_flowableGlobalProcessDefinitionProperties";
+  static string ENABLE_SKIP_EXPRESSION = "enableSkipExpression";
+  static string TASK_SKIP_EXPRESSION = "taskSkipExpression";
 
-    string SERVICE_TASK_CLASS_NAME = "serviceTaskClassName";
-    string SERVICE_TASK_EXPRESSION = "serviceTaskExpression";
-    string SERVICE_TASK_DELEGATE_EXPRESSION = "serviceTaskDelegateExpression";
+  static string SERVICE_TASK_CLASS_NAME = "serviceTaskClassName";
+  static string SERVICE_TASK_EXPRESSION = "serviceTaskExpression";
+  static string SERVICE_TASK_DELEGATE_EXPRESSION = "serviceTaskDelegateExpression";
 
-    string SCRIPT_TASK_SCRIPT = "scriptTaskScript";
+  static string SCRIPT_TASK_SCRIPT = "scriptTaskScript";
 
-    string USER_TASK_NAME = "userTaskName";
-    string USER_TASK_DESCRIPTION = "userTaskDescription";
-    string USER_TASK_DUEDATE = "userTaskDueDate";
-    string USER_TASK_PRIORITY = "userTaskPriority";
-    string USER_TASK_CATEGORY = "userTaskCategory";
-    string USER_TASK_FORM_KEY = "userTaskFormKey";
-    string USER_TASK_ASSIGNEE = "userTaskAssignee";
-    string USER_TASK_OWNER = "userTaskOwner";
-    string USER_TASK_CANDIDATE_USERS = "userTaskCandidateUsers";
-    string USER_TASK_CANDIDATE_GROUPS = "userTaskCandidateGroups";
+  static string USER_TASK_NAME = "userTaskName";
+  static string USER_TASK_DESCRIPTION = "userTaskDescription";
+  static string USER_TASK_DUEDATE = "userTaskDueDate";
+  static string USER_TASK_PRIORITY = "userTaskPriority";
+  static string USER_TASK_CATEGORY = "userTaskCategory";
+  static string USER_TASK_FORM_KEY = "userTaskFormKey";
+  static string USER_TASK_ASSIGNEE = "userTaskAssignee";
+  static string USER_TASK_OWNER = "userTaskOwner";
+  static string USER_TASK_CANDIDATE_USERS = "userTaskCandidateUsers";
+  static string USER_TASK_CANDIDATE_GROUPS = "userTaskCandidateGroups";
 
-    string MULTI_INSTANCE_COMPLETION_CONDITION = "multiInstanceCompletionCondition";
+  static string MULTI_INSTANCE_COMPLETION_CONDITION = "multiInstanceCompletionCondition";
 
-    string DMN_TASK_DECISION_TABLE_KEY = "dmnTaskDecisionTableKey";
+  static string DMN_TASK_DECISION_TABLE_KEY = "dmnTaskDecisionTableKey";
 
-    string SEQUENCE_FLOW_CONDITION = "sequenceFlowCondition";
+  static string SEQUENCE_FLOW_CONDITION = "sequenceFlowCondition";
 
-    string CALL_ACTIVITY_CALLED_ELEMENT =  "callActivityCalledElement";
+  static string CALL_ACTIVITY_CALLED_ELEMENT =  "callActivityCalledElement";
 
-    string LOCALIZATION_LANGUAGE = "language";
-    string LOCALIZATION_NAME = "name";
-    string LOCALIZATION_DESCRIPTION = "description";
+  static string LOCALIZATION_LANGUAGE = "language";
+  static string LOCALIZATION_NAME = "name";
+  static string LOCALIZATION_DESCRIPTION = "description";
 }

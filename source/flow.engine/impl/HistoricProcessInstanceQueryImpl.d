@@ -49,35 +49,35 @@ import hunt.Exceptions;
 class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProcessInstanceQuery, HistoricProcessInstance)
         , HistoricProcessInstanceQuery, QueryCacheValues {
 
-    protected string processInstanceId;
-    protected string processDefinitionId;
+    protected string _processInstanceId;
+    protected string _processDefinitionId;
     protected string businessKey;
     protected string businessKeyLike;
-    protected string deploymentId;
+    protected string _deploymentId;
     protected List!string deploymentIds;
-    protected bool finished;
-    protected bool unfinished;
-    protected bool deleted;
-    protected bool notDeleted;
-    protected string startedBy;
-    protected string superProcessInstanceId;
-    protected bool excludeSubprocesses;
-    protected List!string processDefinitionKeyIn;
+    protected bool _finished;
+    protected bool _unfinished;
+    protected bool _deleted;
+    protected bool _notDeleted;
+    protected string _startedBy;
+    protected string _superProcessInstanceId;
+    protected bool _excludeSubprocesses;
+    protected List!string _processDefinitionKeyIn;
     protected List!string processKeyNotIn;
-    protected Date startedBefore;
-    protected Date startedAfter;
-    protected Date finishedBefore;
-    protected Date finishedAfter;
-    protected string processDefinitionKey;
-    protected string processDefinitionCategory;
-    protected string processDefinitionName;
-    protected int processDefinitionVersion;
-    protected Set!string processInstanceIds;
-    protected string involvedUser;
-    protected Set!string involvedGroups;
-    protected bool includeProcessVariables;
+    protected Date _startedBefore;
+    protected Date _startedAfter;
+    protected Date _finishedBefore;
+    protected Date _finishedAfter;
+    protected string _processDefinitionKey;
+    protected string _processDefinitionCategory;
+    protected string _processDefinitionName;
+    protected int _processDefinitionVersion;
+    protected Set!string _processInstanceIds;
+    protected string _involvedUser;
+    protected Set!string _involvedGroups;
+    protected bool _includeProcessVariables;
     protected int processInstanceVariablesLimit;
-    protected bool withJobException;
+    protected bool _withJobException;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
@@ -88,8 +88,8 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     protected string callbackType;
     protected string referenceId;
     protected string referenceType;
-    protected string locale;
-    protected bool withLocalizationFallback;
+    protected string _locale;
+    protected bool _withLocalizationFallback;
     protected List!HistoricProcessInstanceQueryImpl orQueryObjects ;//= new ArrayList<>();
     protected HistoricProcessInstanceQueryImpl currentOrQueryObject;
     protected bool inOrStatement;
@@ -113,7 +113,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceId = processInstanceId;
         } else {
-            this.processInstanceId = processInstanceId;
+            this._processInstanceId = processInstanceId;
         }
         return this;
     }
@@ -130,7 +130,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceIds = processInstanceIds;
         } else {
-            this.processInstanceIds = processInstanceIds;
+            this._processInstanceIds = processInstanceIds;
         }
         return this;
     }
@@ -140,7 +140,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionId = processDefinitionId;
         } else {
-            this.processDefinitionId = processDefinitionId;
+            this._processDefinitionId = processDefinitionId;
         }
         return this;
     }
@@ -150,7 +150,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKey = processDefinitionKey;
         } else {
-            this.processDefinitionKey = processDefinitionKey;
+            this._processDefinitionKey = processDefinitionKey;
         }
         return this;
     }
@@ -160,7 +160,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             currentOrQueryObject.processDefinitionKeyIn = processDefinitionKeys;
         } else {
-            this.processDefinitionKeyIn = processDefinitionKeys;
+            this._processDefinitionKeyIn = processDefinitionKeys;
         }
         return this;
     }
@@ -170,7 +170,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionCategory = processDefinitionCategory;
         } else {
-            this.processDefinitionCategory = processDefinitionCategory;
+            this._processDefinitionCategory = processDefinitionCategory;
         }
         return this;
     }
@@ -180,7 +180,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionName = processDefinitionName;
         } else {
-            this.processDefinitionName = processDefinitionName;
+            this._processDefinitionName = processDefinitionName;
         }
         return this;
     }
@@ -190,7 +190,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionVersion = processDefinitionVersion;
         } else {
-            this.processDefinitionVersion = processDefinitionVersion;
+            this._processDefinitionVersion = processDefinitionVersion;
         }
         return this;
     }
@@ -220,7 +220,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.deploymentId = deploymentId;
         } else {
-            this.deploymentId = deploymentId;
+            this._deploymentId = deploymentId;
         }
         return this;
     }
@@ -240,7 +240,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.finished = true;
         } else {
-            this.finished = true;
+            this._finished = true;
         }
         return this;
     }
@@ -250,7 +250,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.unfinished = true;
         } else {
-            this.unfinished = true;
+            this._unfinished = true;
         }
         return this;
     }
@@ -260,7 +260,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.deleted = true;
         } else {
-            this.deleted = true;
+            this._deleted = true;
         }
         return this;
     }
@@ -270,7 +270,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.notDeleted = true;
         } else {
-            this.notDeleted = true;
+            this._notDeleted = true;
         }
         return this;
     }
@@ -280,7 +280,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.startedBy = startedBy;
         } else {
-            this.startedBy = startedBy;
+            this._startedBy = startedBy;
         }
         return this;
     }
@@ -300,7 +300,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.startedAfter = startedAfter;
         } else {
-            this.startedAfter = startedAfter;
+            this._startedAfter = startedAfter;
         }
         return this;
     }
@@ -310,7 +310,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.startedBefore = startedBefore;
         } else {
-            this.startedBefore = startedBefore;
+            this._startedBefore = startedBefore;
         }
         return this;
     }
@@ -320,7 +320,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.finishedAfter = finishedAfter;
         } else {
-            this.finishedAfter = finishedAfter;
+            this._finishedAfter = finishedAfter;
             this.finished = true;
         }
         return this;
@@ -331,7 +331,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.finishedBefore = finishedBefore;
         } else {
-            this.finishedBefore = finishedBefore;
+            this._finishedBefore = finishedBefore;
             this.finished = true;
         }
         return this;
@@ -342,7 +342,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.superProcessInstanceId = superProcessInstanceId;
         } else {
-            this.superProcessInstanceId = superProcessInstanceId;
+            this._superProcessInstanceId = superProcessInstanceId;
         }
         return this;
     }
@@ -352,7 +352,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.excludeSubprocesses = excludeSubprocesses;
         } else {
-            this.excludeSubprocesses = excludeSubprocesses;
+            this._excludeSubprocesses = excludeSubprocesses;
         }
         return this;
     }
@@ -362,7 +362,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.involvedUser = involvedUser;
         } else {
-            this.involvedUser = involvedUser;
+            this._involvedUser = involvedUser;
         }
         return this;
     }
@@ -378,14 +378,14 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (inOrStatement) {
             this.currentOrQueryObject.involvedGroups = involvedGroups;
         } else {
-            this.involvedGroups = involvedGroups;
+            this._involvedGroups = involvedGroups;
         }
         return this;
     }
 
 
     public HistoricProcessInstanceQuery includeProcessVariables() {
-        this.includeProcessVariables = true;
+        this._includeProcessVariables = true;
         return this;
     }
 
@@ -401,7 +401,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
 
     public HistoricProcessInstanceQuery withJobException() {
-        this.withJobException = true;
+        this._withJobException = true;
         return this;
     }
 
@@ -511,7 +511,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         return this;
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableName, variableValue, false);
@@ -521,7 +521,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, false);
@@ -531,7 +531,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, false);
@@ -541,7 +541,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+  override
     public HistoricProcessInstanceQuery variableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, false);
@@ -551,7 +551,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, false);
@@ -561,7 +561,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -571,7 +571,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value, false);
@@ -581,7 +581,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, false);
@@ -591,7 +591,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value, false);
@@ -601,7 +601,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, false);
@@ -611,7 +611,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+   override
     public HistoricProcessInstanceQuery variableValueLike(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLike(name, value, false);
@@ -621,7 +621,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+   override
     public HistoricProcessInstanceQuery variableExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableExists(name, false);
@@ -631,7 +631,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     public HistoricProcessInstanceQuery variableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -643,13 +643,13 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
 
     public HistoricProcessInstanceQuery locale(string locale) {
-        this.locale = locale;
+        this._locale = locale;
         return this;
     }
 
 
     public HistoricProcessInstanceQuery withLocalizationFallback() {
-        withLocalizationFallback = true;
+        _withLocalizationFallback = true;
         return this;
     }
 
@@ -722,7 +722,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         //return specialOrderBy;
     }
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
 
@@ -734,7 +734,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         return CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findHistoricProcessInstanceCountByQueryCriteria(this);
     }
 
-
+    override
     public List!HistoricProcessInstance executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
         List!HistoricProcessInstance results = null;
@@ -757,7 +757,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
         if (processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessLocalizationManager() !is null) {
             foreach (HistoricProcessInstance processInstance ; results) {
-                processEngineConfiguration.getInternalProcessLocalizationManager().localize(processInstance, locale, withLocalizationFallback);
+                processEngineConfiguration.getInternalProcessLocalizationManager().localize(processInstance, _locale, _withLocalizationFallback);
             }
         }
 
@@ -796,7 +796,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         implementationMissing(false);
     }
 
-
+    override
     protected void ensureVariablesInitialized() {
         super.ensureVariablesInitialized();
 
@@ -805,7 +805,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-
+    override
     protected void checkQueryOk() {
         super.checkQueryOk();
 
@@ -848,56 +848,56 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getProcessDefinitionKey() {
-        return processDefinitionKey;
+        return _processDefinitionKey;
     }
 
     public List!string getProcessDefinitionKeyIn() {
-        return processDefinitionKeyIn;
+        return _processDefinitionKeyIn;
     }
 
     public string getProcessDefinitionIdLike() {
-        return processDefinitionKey ~ ":%:%";
+        return _processDefinitionKey ~ ":%:%";
     }
 
     public string getProcessDefinitionName() {
-        return processDefinitionName;
+        return _processDefinitionName;
     }
 
     public string getProcessDefinitionCategory() {
-        return processDefinitionCategory;
+        return _processDefinitionCategory;
     }
 
     public int getProcessDefinitionVersion() {
-        return processDefinitionVersion;
+        return _processDefinitionVersion;
     }
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
 
     public string getId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public Set!string getProcessInstanceIds() {
-        return processInstanceIds;
+        return _processInstanceIds;
     }
 
     public string getStartedBy() {
-        return startedBy;
+        return _startedBy;
     }
 
     public string getSuperProcessInstanceId() {
-        return superProcessInstanceId;
+        return _superProcessInstanceId;
     }
 
     public bool isExcludeSubprocesses() {
-        return excludeSubprocesses;
+        return _excludeSubprocesses;
     }
 
     public List!string getProcessKeyNotIn() {
@@ -905,27 +905,27 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     public Date getStartedAfter() {
-        return startedAfter;
+        return _startedAfter;
     }
 
     public Date getStartedBefore() {
-        return startedBefore;
+        return _startedBefore;
     }
 
     public Date getFinishedAfter() {
-        return finishedAfter;
+        return _finishedAfter;
     }
 
     public Date getFinishedBefore() {
-        return finishedBefore;
+        return _finishedBefore;
     }
 
     public string getInvolvedUser() {
-        return involvedUser;
+        return _involvedUser;
     }
 
     public Set!string getInvolvedGroups() {
-        return involvedGroups;
+        return _involvedGroups;
     }
 
     public string getName() {
@@ -941,7 +941,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public List!string getDeploymentIds() {
@@ -949,27 +949,27 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     public bool isFinished() {
-        return finished;
+        return _finished;
     }
 
     public bool isUnfinished() {
-        return unfinished;
+        return _unfinished;
     }
 
     public bool isDeleted() {
-        return deleted;
+        return _deleted;
     }
 
     public bool isNotDeleted() {
-        return notDeleted;
+        return _notDeleted;
     }
 
     public bool isIncludeProcessVariables() {
-        return includeProcessVariables;
+        return _includeProcessVariables;
     }
 
     public bool isWithException() {
-        return withJobException;
+        return _withJobException;
     }
 
     public string getTenantId() {

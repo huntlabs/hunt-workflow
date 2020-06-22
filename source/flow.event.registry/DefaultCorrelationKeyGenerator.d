@@ -22,7 +22,7 @@ import hunt.collection.List;
 import hunt.collection.Map;
 import hunt.Exceptions;
 import flow.event.registry.api.CorrelationKeyGenerator;
-
+import hunt.Object;
 /**
  * Default implementation of the {@link CorrelationKeyGenerator} interface.
  * This implementation provides a single hash value based on the data passed in.
@@ -32,7 +32,7 @@ import flow.event.registry.api.CorrelationKeyGenerator;
  *
  * @author Filip Hrisafov
  */
-class DefaultCorrelationKeyGenerator : CorrelationKeyGenerator!(Map(!string, Object)) {
+class DefaultCorrelationKeyGenerator : CorrelationKeyGenerator!(Map!(string, Object)) {
 
     public string generateKey(Map!(string, Object) source) {
         implementationMissing(false);

@@ -48,7 +48,7 @@ class AbstractJobEntityImpl : AbstractJobServiceEntity , AbstractRuntimeJobEntit
     protected string scopeType;
     protected string scopeDefinitionId;
 
-    protected bool isExclusive = DEFAULT_EXCLUSIVE;
+    protected bool _isExclusive  = true;
 
     protected int retries;
 
@@ -143,12 +143,12 @@ class AbstractJobEntityImpl : AbstractJobServiceEntity , AbstractRuntimeJobEntit
 
 
     public bool isExclusive() {
-        return isExclusive;
+        return _isExclusive;
     }
 
 
     public void setExclusive(bool isExclusive) {
-        this.isExclusive = isExclusive;
+        this._isExclusive = isExclusive;
     }
 
 

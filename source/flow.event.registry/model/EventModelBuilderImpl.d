@@ -36,15 +36,15 @@ class EventModelBuilderImpl : EventModelBuilder {
 
     protected EventRepositoryServiceImpl eventRepository;
 
-    protected string deploymentName;
-    protected string resourceName;
-    protected string category;
-    protected string parentDeploymentId;
-    protected string deploymentTenantId;
+    protected string _deploymentName;
+    protected string _resourceName;
+    protected string _category;
+    protected string _parentDeploymentId;
+    protected string _deploymentTenantId;
 
-    protected string key;
-    protected Collection!string inboundChannelKeys;
-    protected Collection!string outboundChannelKeys;
+    protected string _key;
+    protected Collection!string _inboundChannelKeys;
+    protected Collection!string _outboundChannelKeys;
     protected Map!(string, EventCorrelationParameter) correlationParameterDefinitions ;//= new LinkedHashMap<>();
     protected Map!(string, EventPayload) eventPayloadDefinitions ;// = new LinkedHashMap<>();
 
@@ -56,46 +56,46 @@ class EventModelBuilderImpl : EventModelBuilder {
 
 
     public EventModelBuilder key(string key) {
-        this.key = key;
+        this._key = key;
         return this;
     }
 
 
     public EventModelBuilder deploymentName(string deploymentName) {
-        this.deploymentName = deploymentName;
+        this._deploymentName = deploymentName;
         return this;
     }
 
 
     public EventModelBuilder resourceName(string resourceName) {
-        this.resourceName = resourceName;
+        this._resourceName = resourceName;
         return this;
     }
 
 
     public EventModelBuilder category(string category) {
-        this.category = category;
+        this._category = category;
         return this;
     }
 
 
     public EventModelBuilder parentDeploymentId(string parentDeploymentId) {
-        this.parentDeploymentId = parentDeploymentId;
+        this._parentDeploymentId = parentDeploymentId;
         return this;
     }
 
 
     public EventModelBuilder deploymentTenantId(string deploymentTenantId) {
-        this.deploymentTenantId = deploymentTenantId;
+        this._deploymentTenantId = deploymentTenantId;
         return this;
     }
 
 
     public EventModelBuilder inboundChannelKey(string channelKey) {
-        if (inboundChannelKeys is null) {
-            inboundChannelKeys = new HashSet!string();
+        if (_inboundChannelKeys is null) {
+            _inboundChannelKeys = new HashSet!string();
         }
-        inboundChannelKeys.add(channelKey);
+        _inboundChannelKeys.add(channelKey);
         return this;
     }
 
@@ -111,10 +111,10 @@ class EventModelBuilderImpl : EventModelBuilder {
 
 
     public EventModelBuilder outboundChannelKey(string channelKey) {
-        if (outboundChannelKeys is null) {
-            outboundChannelKeys = new HashSet!string();
+        if (_outboundChannelKeys is null) {
+            _outboundChannelKeys = new HashSet!string();
         }
-        outboundChannelKeys.add(channelKey);
+        _outboundChannelKeys.add(channelKey);
         return this;
     }
 
@@ -170,18 +170,18 @@ class EventModelBuilderImpl : EventModelBuilder {
     protected EventModel buildEventModel() {
         EventModel eventModel = new EventModel();
 
-        if (key !is null && key.value.length != 0) {
+        if (_key !is null && _key.length != 0) {
             eventModel.setKey(key);
         } else {
             throw new FlowableIllegalArgumentException("An event definition key is mandatory");
         }
 
-        if (inboundChannelKeys !is null) {
-            eventModel.setInboundChannelKeys(inboundChannelKeys);
+        if (_inboundChannelKeys !is null) {
+            eventModel.setInboundChannelKeys(_inboundChannelKeys);
         }
 
-        if (outboundChannelKeys !is null) {
-            eventModel.setOutboundChannelKeys(outboundChannelKeys);
+        if (_outboundChannelKeys !is null) {
+            eventModel.setOutboundChannelKeys(_outboundChannelKeys);
         }
 
         eventModel.getCorrelationParameters().addAll(correlationParameterDefinitions.values());

@@ -17,7 +17,7 @@ import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import flow.common.Page;
+
 import flow.common.db.AbstractDataManager;
 import flow.common.db.DbSqlSession;
 //import flow.common.persistence.cache.CachedEntityMatcher;
@@ -39,6 +39,7 @@ import hunt.Exceptions;
  * @author Joram Barrez
  */
 class MybatisTimerJobDataManager : EntityRepository!( TimerJobEntityImpl , string) , TimerJobDataManager {
+    import flow.common.Page;
 
     protected JobServiceConfiguration jobServiceConfiguration;
 

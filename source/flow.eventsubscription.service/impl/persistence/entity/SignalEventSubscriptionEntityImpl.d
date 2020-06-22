@@ -34,6 +34,7 @@ class SignalEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , SignalEv
     }
 
 
+    override
     public void setConfiguration(string configuration) {
         if (configuration !is null && configuration.contains("{\"scope\":")) {
             this.configuration = configuration;

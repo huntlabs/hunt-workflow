@@ -46,8 +46,8 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
     protected string categoryNotEquals;
     protected string name;
     protected string nameLike;
-    protected string deploymentId;
-    protected Set!string deploymentIds;
+    protected string _deploymentId;
+    protected Set!string _deploymentIds;
     protected string key;
     protected string keyLike;
     protected string resourceName;
@@ -67,8 +67,8 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
     protected string tenantIdLike;
     protected bool withoutTenantId;
     protected string engineVersion;
-    protected string locale;
-    protected bool withLocalizationFallback;
+    protected string _locale;
+    protected bool _withLocalizationFallback;
 
     protected string eventSubscriptionName;
     protected string eventSubscriptionType;
@@ -146,7 +146,7 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("id is null");
         }
-        this.deploymentId = deploymentId;
+        this._deploymentId = deploymentId;
         return this;
     }
 
@@ -155,7 +155,7 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
         if (deploymentIds is null) {
             throw new FlowableIllegalArgumentException("ids are null");
         }
-        this.deploymentIds = deploymentIds;
+        this._deploymentIds = deploymentIds;
         return this;
     }
 
@@ -297,13 +297,13 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
 
 
     public ProcessDefinitionQuery locale(string locale) {
-        this.locale = locale;
+        this._locale = locale;
         return this;
     }
 
 
     public ProcessDefinitionQuery withLocalizationFallback() {
-        this.withLocalizationFallback = true;
+        this._withLocalizationFallback = true;
         return this;
     }
 
@@ -394,12 +394,12 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
 
     // results ////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getProcessDefinitionEntityManager(commandContext).findProcessDefinitionCountByQueryCriteria(this);
     }
 
-
+    override
     public List!ProcessDefinition executeList(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
 
@@ -407,7 +407,7 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
 
         if (processDefinitions !is null && processEngineConfiguration.getPerformanceSettings().isEnableLocalization() && processEngineConfiguration.getInternalProcessDefinitionLocalizationManager() !is null) {
             foreach (ProcessDefinition processDefinition ; processDefinitions) {
-                processEngineConfiguration.getInternalProcessDefinitionLocalizationManager().localize(processDefinition, locale, withLocalizationFallback);
+                processEngineConfiguration.getInternalProcessDefinitionLocalizationManager().localize(processDefinition, _locale, _withLocalizationFallback);
             }
         }
 
@@ -417,11 +417,11 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
     // getters ////////////////////////////////////////////
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public Set!string getDeploymentIds() {
-        return deploymentIds;
+        return _deploymentIds;
     }
 
     public string getId() {

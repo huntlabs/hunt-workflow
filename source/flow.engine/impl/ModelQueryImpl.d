@@ -38,9 +38,9 @@ class ModelQueryImpl : AbstractQuery!(ModelQuery, Model) , ModelQuery {
     protected string key;
     protected int ver;
     protected bool latest;
-    protected string deploymentId;
-    protected bool notDeployed;
-    protected bool deployed;
+    protected string _deploymentId;
+    protected bool _notDeployed;
+    protected bool _deployed;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
@@ -138,25 +138,25 @@ class ModelQueryImpl : AbstractQuery!(ModelQuery, Model) , ModelQuery {
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("DeploymentId is null");
         }
-        this.deploymentId = deploymentId;
+        this._deploymentId = deploymentId;
         return this;
     }
 
 
     public ModelQuery notDeployed() {
-        if (deployed) {
+        if (_deployed) {
             throw new FlowableIllegalArgumentException("Invalid usage: cannot use deployed() and notDeployed() in the same query");
         }
-        this.notDeployed = true;
+        this._notDeployed = true;
         return this;
     }
 
 
     public ModelQuery deployed() {
-        if (notDeployed) {
+        if (_notDeployed) {
             throw new FlowableIllegalArgumentException("Invalid usage: cannot use deployed() and notDeployed() in the same query");
         }
-        this.deployed = true;
+        this._deployed = true;
         return this;
     }
 
@@ -228,12 +228,12 @@ class ModelQueryImpl : AbstractQuery!(ModelQuery, Model) , ModelQuery {
 
     // results ////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Model executeList(CommandContext commandContext) {
         return CommandContextUtil.getModelEntityManager(commandContext).findModelsByQueryCriteria(this);
     }
@@ -281,15 +281,15 @@ class ModelQueryImpl : AbstractQuery!(ModelQuery, Model) , ModelQuery {
     }
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public bool isNotDeployed() {
-        return notDeployed;
+        return _notDeployed;
     }
 
     public bool isDeployed() {
-        return deployed;
+        return _deployed;
     }
 
     public string getTenantId() {

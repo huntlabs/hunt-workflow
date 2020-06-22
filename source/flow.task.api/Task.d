@@ -39,7 +39,7 @@ alias Date = LocalDateTime;
     /**
      * Default value used for priority when a new {@link Task} is created.
      */
-    int DEFAULT_PRIORITY = 50;
+    static int DEFAULT_PRIORITY = 50;
 
     /** Name or title of the task. */
     void setName(string name);

@@ -15,6 +15,7 @@ module flow.event.registry.api.ChannelDefinition;
 //import hunt.time.LocalDateTime;
 import hunt.time.LocalDateTime;
 
+alias Date =LocalDateTime;
 /**
  * An object structure representing a channel definition
  *

@@ -19,6 +19,7 @@ import hunt.collection.Set;
 
 import flow.common.api.query.DeleteQuery;
 import flow.common.api.query.Query;
+import flow.engine.history.HistoricActivityInstance;
 
 alias Date = LocalDateTime;
 

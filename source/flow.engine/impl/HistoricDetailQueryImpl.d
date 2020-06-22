@@ -35,12 +35,12 @@ import flow.engine.impl.HistoricDetailQueryProperty;
  */
 class HistoricDetailQueryImpl : AbstractQuery!(HistoricDetailQuery, HistoricDetail) , HistoricDetailQuery {
 
-    protected string id;
-    protected string taskId;
-    protected string processInstanceId;
-    protected string executionId;
-    protected string activityId;
-    protected string activityInstanceId;
+    protected string _id;
+    protected string _taskId;
+    protected string _processInstanceId;
+    protected string _executionId;
+    protected string _activityId;
+    protected string _activityInstanceId;
     protected string type;
     protected bool excludeTaskRelated;
 
@@ -57,36 +57,36 @@ class HistoricDetailQueryImpl : AbstractQuery!(HistoricDetailQuery, HistoricDeta
 
 
     public HistoricDetailQueryImpl id(string id) {
-        this.id = id;
+        this._id = id;
         return this;
     }
 
 
     public HistoricDetailQueryImpl processInstanceId(string processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
 
     public HistoricDetailQueryImpl executionId(string executionId) {
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
     public HistoricDetailQueryImpl activityId(string activityId) {
-        this.activityId = activityId;
+        this._activityId = activityId;
         return this;
     }
 
 
     public HistoricDetailQueryImpl activityInstanceId(string activityInstanceId) {
-        this.activityInstanceId = activityInstanceId;
+        this._activityInstanceId = activityInstanceId;
         return this;
     }
 
 
     public HistoricDetailQueryImpl taskId(string taskId) {
-        this.taskId = taskId;
+        this._taskId = taskId;
         return this;
     }
 
@@ -108,12 +108,12 @@ class HistoricDetailQueryImpl : AbstractQuery!(HistoricDetailQuery, HistoricDeta
         return this;
     }
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailCountByQueryCriteria(this);
     }
 
-
+    override
     public List!HistoricDetail executeList(CommandContext commandContext) {
         List!HistoricDetail historicDetails = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(this);
 
@@ -191,19 +191,19 @@ class HistoricDetailQueryImpl : AbstractQuery!(HistoricDetailQuery, HistoricDeta
     // //////////////////////////////////////////////////////
 
     public string getId() {
-        return id;
+        return _id;
     }
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getTaskId() {
-        return taskId;
+        return _taskId;
     }
 
     public string getActivityId() {
-        return activityId;
+        return _activityId;
     }
 
     public string getType() {
@@ -215,11 +215,11 @@ class HistoricDetailQueryImpl : AbstractQuery!(HistoricDetailQuery, HistoricDeta
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getActivityInstanceId() {
-        return activityInstanceId;
+        return _activityInstanceId;
     }
 
 }

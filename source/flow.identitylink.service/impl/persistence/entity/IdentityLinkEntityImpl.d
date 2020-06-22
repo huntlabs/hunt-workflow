@@ -69,11 +69,12 @@ class IdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEntity , Mod
       rev = "1";
     }
 
+  override
   public string getId() {
     return id;
   }
 
-
+  override
   public void setId(string id) {
     this.id = id;
   }
@@ -245,7 +246,7 @@ class IdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEntity , Mod
 
 
     override
-    public string tostring() {
+    public string toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("IdentityLinkEntity[id=").append(id);
         sb.append(", type=").append(type);

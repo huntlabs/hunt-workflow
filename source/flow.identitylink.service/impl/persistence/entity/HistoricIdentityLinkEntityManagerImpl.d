@@ -33,7 +33,7 @@ class HistoricIdentityLinkEntityManagerImpl
         super(identityLinkServiceConfiguration, historicIdentityLinkDataManager);
     }
 
-
+    override
     public HistoricIdentityLinkEntity create() {
         HistoricIdentityLinkEntity identityLinkEntity = super.create();
         identityLinkEntity.setCreateTime(getClock().getCurrentTime());

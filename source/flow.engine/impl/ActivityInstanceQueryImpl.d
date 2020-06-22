@@ -28,21 +28,21 @@ import flow.engine.runtime.ActivityInstanceQuery;
  */
 class ActivityInstanceQueryImpl : AbstractQuery!(ActivityInstanceQuery, ActivityInstance) , ActivityInstanceQuery {
 
-    protected string activityInstanceId;
-    protected string processInstanceId;
-    protected string executionId;
-    protected string processDefinitionId;
-    protected string activityId;
-    protected string activityName;
-    protected string activityType;
+    protected string _activityInstanceId;
+    protected string _processInstanceId;
+    protected string _executionId;
+    protected string _processDefinitionId;
+    protected string _activityId;
+    protected string _activityName;
+    protected string _activityType;
     protected string assignee;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
-    protected bool finished;
-    protected bool unfinished;
-    protected string deleteReason;
-    protected string deleteReasonLike;
+    protected bool _finished;
+    protected bool _unfinished;
+    protected string _deleteReason;
+    protected string _deleteReasonLike;
 
     this() {
     }
@@ -66,32 +66,32 @@ class ActivityInstanceQueryImpl : AbstractQuery!(ActivityInstanceQuery, Activity
     }
 
     public ActivityInstanceQueryImpl processInstanceId(string processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
     public ActivityInstanceQueryImpl executionId(string executionId) {
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
     public ActivityInstanceQueryImpl processDefinitionId(string processDefinitionId) {
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
     public ActivityInstanceQueryImpl activityId(string activityId) {
-        this.activityId = activityId;
+        this._activityId = activityId;
         return this;
     }
 
     public ActivityInstanceQueryImpl activityName(string activityName) {
-        this.activityName = activityName;
+        this._activityName = activityName;
         return this;
     }
 
     public ActivityInstanceQueryImpl activityType(string activityType) {
-        this.activityType = activityType;
+        this._activityType = activityType;
         return this;
     }
 
@@ -101,24 +101,24 @@ class ActivityInstanceQueryImpl : AbstractQuery!(ActivityInstanceQuery, Activity
     }
 
     public ActivityInstanceQueryImpl finished() {
-        this.finished = true;
-        this.unfinished = false;
+        this._finished = true;
+        this._unfinished = false;
         return this;
     }
 
     public ActivityInstanceQueryImpl unfinished() {
-        this.unfinished = true;
-        this.finished = false;
+        this._unfinished = true;
+        this._finished = false;
         return this;
     }
 
     public ActivityInstanceQuery deleteReason(string deleteReason) {
-        this.deleteReason = deleteReason;
+        this._deleteReason = deleteReason;
         return this;
     }
 
     public ActivityInstanceQuery deleteReasonLike(string deleteReasonLike) {
-        this.deleteReasonLike = deleteReasonLike;
+        this._deleteReasonLike = deleteReasonLike;
         return this;
     }
 
@@ -214,7 +214,7 @@ class ActivityInstanceQueryImpl : AbstractQuery!(ActivityInstanceQuery, Activity
     }
 
     public ActivityInstanceQueryImpl activityInstanceId(string activityInstanceId) {
-        this.activityInstanceId = activityInstanceId;
+        this._activityInstanceId = activityInstanceId;
         return this;
     }
 
@@ -222,27 +222,27 @@ class ActivityInstanceQueryImpl : AbstractQuery!(ActivityInstanceQuery, Activity
     // //////////////////////////////////////////////////////
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getActivityId() {
-        return activityId;
+        return _activityId;
     }
 
     public string getActivityName() {
-        return activityName;
+        return _activityName;
     }
 
     public string getActivityType() {
-        return activityType;
+        return _activityType;
     }
 
     public string getAssignee() {
@@ -250,22 +250,22 @@ class ActivityInstanceQueryImpl : AbstractQuery!(ActivityInstanceQuery, Activity
     }
 
     public bool isFinished() {
-        return finished;
+        return _finished;
     }
 
     public bool isUnfinished() {
-        return unfinished;
+        return _unfinished;
     }
 
     public string getActivityInstanceId() {
-        return activityInstanceId;
+        return _activityInstanceId;
     }
 
     public string getDeleteReason() {
-        return deleteReason;
+        return _deleteReason;
     }
 
     public string getDeleteReasonLike() {
-        return deleteReasonLike;
+        return _deleteReasonLike;
     }
 }

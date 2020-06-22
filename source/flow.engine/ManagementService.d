@@ -366,7 +366,7 @@ interface ManagementService {
     /**
      * programmatic schema update on a given connection returning feedback about what happened
      */
-    string databaseSchemaUpgrade(Connection connection, string catalog, string schema);
+    //string databaseSchemaUpgrade(Connection connection, string catalog, string schema);
 
     /**
      * Executes a given command with the default {@link CommandConfig}.

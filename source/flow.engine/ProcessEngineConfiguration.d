@@ -142,7 +142,7 @@ import flow.engine.ProcessEngineLifecycleListener;
      */
    // protected ProcessDiagramGenerator processDiagramGenerator;
 
-    protected bool isCreateDiagramOnDeploy = true;
+    protected bool _isCreateDiagramOnDeploy = true;
 
     /**
      *  include the sequence flow name in case there's no Label DI,
@@ -580,11 +580,11 @@ import flow.engine.ProcessEngineLifecycleListener;
     }
 
     public bool isCreateDiagramOnDeploy() {
-        return isCreateDiagramOnDeploy;
+        return _isCreateDiagramOnDeploy;
     }
 
     public ProcessEngineConfiguration setCreateDiagramOnDeploy(bool createDiagramOnDeploy) {
-        this.isCreateDiagramOnDeploy = createDiagramOnDeploy;
+        this._isCreateDiagramOnDeploy = createDiagramOnDeploy;
         return this;
     }
 

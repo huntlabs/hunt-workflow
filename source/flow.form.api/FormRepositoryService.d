@@ -73,7 +73,7 @@ interface FormRepositoryService {
 
     FormDeploymentQuery createDeploymentQuery();
 
-    NativeFormDeploymentQuery createNativeDeploymentQuery();
+   // NativeFormDeploymentQuery createNativeDeploymentQuery();
 
     FormDefinition getFormDefinition(string formDefinitionId);
 

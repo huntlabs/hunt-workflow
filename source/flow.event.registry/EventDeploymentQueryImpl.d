@@ -29,7 +29,7 @@ import flow.event.registry.util.CommandContextUtil;
  */
 class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeployment) , EventDeploymentQuery {
 
-    protected string deploymentId;
+    protected string _deploymentId;
     protected string name;
     protected string nameLike;
     protected string category;
@@ -37,12 +37,12 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
-    protected string parentDeploymentId;
-    protected string parentDeploymentIdLike;
-    protected string eventDefinitionKey;
-    protected string eventDefinitionKeyLike;
-    protected string channelDefinitionKey;
-    protected string channelDefinitionKeyLike;
+    protected string _parentDeploymentId;
+    protected string _parentDeploymentIdLike;
+    protected string _eventDefinitionKey;
+    protected string _eventDefinitionKeyLike;
+    protected string _channelDefinitionKey;
+    protected string _channelDefinitionKeyLike;
 
     this() {
     }
@@ -60,7 +60,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
         if (deploymentId is null) {
             throw new FlowableIllegalArgumentException("Deployment id is null");
         }
-        this.deploymentId = deploymentId;
+        this._deploymentId = deploymentId;
         return this;
     }
 
@@ -105,7 +105,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
         if (parentDeploymentId is null) {
             throw new FlowableIllegalArgumentException("parentDeploymentId is null");
         }
-        this.parentDeploymentId = parentDeploymentId;
+        this._parentDeploymentId = parentDeploymentId;
         return this;
     }
 
@@ -114,7 +114,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
         if (parentDeploymentIdLike is null) {
             throw new FlowableIllegalArgumentException("parentDeploymentIdLike is null");
         }
-        this.parentDeploymentIdLike = parentDeploymentIdLike;
+        this._parentDeploymentIdLike = parentDeploymentIdLike;
         return this;
     }
 
@@ -147,7 +147,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
         if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
-        this.eventDefinitionKey = key;
+        this._eventDefinitionKey = key;
         return this;
     }
 
@@ -156,7 +156,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
         if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
         }
-        this.eventDefinitionKeyLike = keyLike;
+        this._eventDefinitionKeyLike = keyLike;
         return this;
     }
 
@@ -165,7 +165,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
         if (key is null) {
             throw new FlowableIllegalArgumentException("key is null");
         }
-        this.channelDefinitionKey = key;
+        this._channelDefinitionKey = key;
         return this;
     }
 
@@ -174,7 +174,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
         if (keyLike is null) {
             throw new FlowableIllegalArgumentException("keyLike is null");
         }
-        this.channelDefinitionKeyLike = keyLike;
+        this._channelDefinitionKeyLike = keyLike;
         return this;
     }
 
@@ -202,12 +202,12 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
 
     // results ////////////////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentCountByQueryCriteria(this);
     }
 
-
+    override
     public List!EventDeployment executeList(CommandContext commandContext) {
         return CommandContextUtil.getDeploymentEntityManager(commandContext).findDeploymentsByQueryCriteria(this);
     }
@@ -215,7 +215,7 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
     // getters ////////////////////////////////////////////////////////
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public string getName() {
@@ -247,26 +247,26 @@ class EventDeploymentQueryImpl : AbstractQuery!(EventDeploymentQuery, EventDeplo
     }
 
     public string getEventDefinitionKey() {
-        return eventDefinitionKey;
+        return _eventDefinitionKey;
     }
 
     public string getEventDefinitionKeyLike() {
-        return eventDefinitionKeyLike;
+        return _eventDefinitionKeyLike;
     }
 
     public string getParentDeploymentId() {
-        return parentDeploymentId;
+        return _parentDeploymentId;
     }
 
     public string getParentDeploymentIdLike() {
-        return parentDeploymentIdLike;
+        return _parentDeploymentIdLike;
     }
 
     public string getChannelDefinitionKey() {
-        return channelDefinitionKey;
+        return _channelDefinitionKey;
     }
 
     public string getChannelDefinitionKeyLike() {
-        return channelDefinitionKeyLike;
+        return _channelDefinitionKeyLike;
     }
 }

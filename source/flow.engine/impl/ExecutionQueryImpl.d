@@ -44,31 +44,31 @@ import hunt.Exceptions;
  */
 class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution) , ExecutionQuery, QueryCacheValues {
 
-    protected string processDefinitionId;
-    protected string processDefinitionKey;
-    protected string processDefinitionCategory;
-    protected string processDefinitionName;
-    protected int processDefinitionVersion;
-    protected string processDefinitionEngineVersion;
-    protected string activityId;
-    protected string executionId;
-    protected string parentId;
-    protected bool onlyChildExecutions;
-    protected bool onlySubProcessExecutions;
-    protected bool onlyProcessInstanceExecutions;
-    protected string processInstanceId;
-    protected string rootProcessInstanceId;
+    protected string _processDefinitionId;
+    protected string _processDefinitionKey;
+    protected string _processDefinitionCategory;
+    protected string _processDefinitionName;
+    protected int _processDefinitionVersion;
+    protected string _processDefinitionEngineVersion;
+    protected string _activityId;
+    protected string _executionId;
+    protected string _parentId;
+    protected bool _onlyChildExecutions;
+    protected bool _onlySubProcessExecutions;
+    protected bool _onlyProcessInstanceExecutions;
+    protected string _processInstanceId;
+    protected string _rootProcessInstanceId;
     protected List!EventSubscriptionQueryValue eventSubscriptions;
 
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
-    protected string locale;
-    protected bool withLocalizationFallback;
+    protected string _locale;
+    protected bool _withLocalizationFallback;
 
-    protected Date startedBefore;
-    protected Date startedAfter;
-    protected string startedBy;
+    protected Date _startedBefore;
+    protected Date _startedAfter;
+    protected string _startedBy;
 
     // Not used by end-users, but needed for dynamic ibatis query
     protected string superProcessInstanceId;
@@ -78,10 +78,10 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     protected string businessKey;
     protected string businessKeyLike;
     protected bool includeChildExecutionsWithBusinessKeyQuery;
-    protected bool isActive;
+    protected bool _isActive;
     protected string involvedUser;
     protected Set!string involvedGroups;
-    protected Set!string processDefinitionKeys;
+    protected Set!string _processDefinitionKeys;
     protected Set!string processDefinitionIds;
 
     // Not exposed in API, but here for the ProcessInstanceQuery support, since
@@ -127,7 +127,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionId = processDefinitionId;
         } else {
-            this.processDefinitionId = processDefinitionId;
+            this._processDefinitionId = processDefinitionId;
         }
         return this;
     }
@@ -140,7 +140,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKey = processDefinitionKey;
         } else {
-            this.processDefinitionKey = processDefinitionKey;
+            this._processDefinitionKey = processDefinitionKey;
         }
         return this;
     }
@@ -153,7 +153,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionCategory = processDefinitionCategory;
         } else {
-            this.processDefinitionCategory = processDefinitionCategory;
+            this._processDefinitionCategory = processDefinitionCategory;
         }
         return this;
     }
@@ -166,12 +166,11 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionName = processDefinitionName;
         } else {
-            this.processDefinitionName = processDefinitionName;
+            this._processDefinitionName = processDefinitionName;
         }
         return this;
     }
 
-    override
     public ExecutionQuery processDefinitionVersion(int processDefinitionVersion) {
         if (processDefinitionVersion is null) {
             throw new FlowableIllegalArgumentException("Process definition version is null");
@@ -179,7 +178,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionVersion = processDefinitionVersion;
         } else {
-            this.processDefinitionVersion = processDefinitionVersion;
+            this._processDefinitionVersion = processDefinitionVersion;
         }
         return this;
     }
@@ -192,7 +191,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionEngineVersion = processDefinitionEngineVersion;
         } else {
-            this.processDefinitionEngineVersion = processDefinitionEngineVersion;
+            this._processDefinitionEngineVersion = processDefinitionEngineVersion;
         }
         return this;
     }
@@ -205,7 +204,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceId = processInstanceId;
         } else {
-            this.processInstanceId = processInstanceId;
+            this._processInstanceId = processInstanceId;
         }
         return this;
     }
@@ -218,7 +217,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.rootProcessInstanceId = rootProcessInstanceId;
         } else {
-            this.rootProcessInstanceId = rootProcessInstanceId;
+            this._rootProcessInstanceId = rootProcessInstanceId;
         }
         return this;
     }
@@ -265,7 +264,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeys = processDefinitionKeys;
         } else {
-            this.processDefinitionKeys = processDefinitionKeys;
+            this._processDefinitionKeys = processDefinitionKeys;
         }
         return this;
     }
@@ -278,7 +277,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.executionId = executionId;
         } else {
-            this.executionId = executionId;
+            this._executionId = executionId;
         }
         return this;
     }
@@ -292,10 +291,10 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
             }
 
         } else {
-            this.activityId = activityId;
+            this._activityId = activityId;
 
-            if (activityId !is null) {
-                this.isActive = true;
+            if (activityId !is null && activityId.length != 0) {
+                this._isActive = true;
             }
         }
 
@@ -310,7 +309,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.parentId = parentId;
         } else {
-            this.parentId = parentId;
+            this._parentId = parentId;
         }
         return this;
     }
@@ -320,7 +319,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.onlyChildExecutions = true;
         } else {
-            this.onlyChildExecutions = true;
+            this._onlyChildExecutions = true;
         }
         return this;
     }
@@ -330,7 +329,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.onlySubProcessExecutions = true;
         } else {
-            this.onlySubProcessExecutions = true;
+            this._onlySubProcessExecutions = true;
         }
         return this;
     }
@@ -340,7 +339,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.onlyProcessInstanceExecutions = true;
         } else {
-            this.onlyProcessInstanceExecutions = true;
+            this._onlyProcessInstanceExecutions = true;
         }
         return this;
     }
@@ -705,7 +704,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             currentOrQueryObject.locale = locale;
         } else {
-            this.locale = locale;
+            this._locale = locale;
         }
 
         return this;
@@ -716,7 +715,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             currentOrQueryObject.withLocalizationFallback = true;
         } else {
-            this.withLocalizationFallback = true;
+            this._withLocalizationFallback = true;
         }
 
         return this;
@@ -731,7 +730,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             currentOrQueryObject.startedBefore = beforeTime;
         } else {
-            this.startedBefore = beforeTime;
+            this._startedBefore = beforeTime;
         }
 
         return this;
@@ -746,7 +745,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             currentOrQueryObject.startedAfter = afterTime;
         } else {
-            this.startedAfter = afterTime;
+            this._startedAfter = afterTime;
         }
 
         return this;
@@ -761,7 +760,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             currentOrQueryObject.startedBy = userId;
         } else {
-            this.startedBy = userId;
+            this._startedBy = userId;
         }
 
         return this;
@@ -875,7 +874,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         executionEntity.setLocalizedDescription(null);
 
         string processDefinitionId = executionEntity.getProcessDefinitionId();
-        if (locale !is null && processDefinitionId !is null) {
+        if (_locale !is null && processDefinitionId !is null) {
             implementationMissing(false);
             //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, activityId, processDefinitionId, withLocalizationFallback);
             //if (languageNode !is null) {
@@ -908,39 +907,39 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     public string getProcessDefinitionKey() {
-        return processDefinitionKey;
+        return _processDefinitionKey;
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getProcessDefinitionCategory() {
-        return processDefinitionCategory;
+        return _processDefinitionCategory;
     }
 
     public string getProcessDefinitionName() {
-        return processDefinitionName;
+        return _processDefinitionName;
     }
 
     public int getProcessDefinitionVersion() {
-        return processDefinitionVersion;
+        return _processDefinitionVersion;
     }
 
     public string getProcessDefinitionEngineVersion() {
-        return processDefinitionEngineVersion;
+        return _processDefinitionEngineVersion;
     }
 
     public string getActivityId() {
-        return activityId;
+        return _activityId;
     }
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getRootProcessInstanceId() {
-        return rootProcessInstanceId;
+        return _rootProcessInstanceId;
     }
 
     public string getProcessInstanceIds() {
@@ -956,12 +955,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     override
     public string getId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getSuperProcessInstanceId() {
@@ -997,7 +996,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     public bool isActive() {
-        return isActive;
+        return _isActive;
     }
 
     public string getInvolvedUser() {
@@ -1021,23 +1020,23 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     public Set!string getProcessDefinitionKeys() {
-        return processDefinitionKeys;
+        return _processDefinitionKeys;
     }
 
     public string getParentId() {
-        return parentId;
+        return _parentId;
     }
 
     public bool isOnlyChildExecutions() {
-        return onlyChildExecutions;
+        return _onlyChildExecutions;
     }
 
     public bool isOnlySubProcessExecutions() {
-        return onlySubProcessExecutions;
+        return _onlySubProcessExecutions;
     }
 
     public bool isOnlyProcessInstanceExecutions() {
-        return onlyProcessInstanceExecutions;
+        return _onlyProcessInstanceExecutions;
     }
 
     public string getTenantId() {
@@ -1101,7 +1100,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     public Date getStartedBefore() {
-        return startedBefore;
+        return _startedBefore;
     }
 
     public void setStartedBefore(Date startedBefore) {
@@ -1109,19 +1108,19 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     public Date getStartedAfter() {
-        return startedAfter;
+        return _startedAfter;
     }
 
     public void setStartedAfter(Date startedAfter) {
-        this.startedAfter = startedAfter;
+        this._startedAfter = startedAfter;
     }
 
     public string getStartedBy() {
-        return startedBy;
+        return _startedBy;
     }
 
     public void setStartedBy(string startedBy) {
-        this.startedBy = startedBy;
+        this._startedBy = startedBy;
     }
 
 }

@@ -29,20 +29,20 @@ import flow.task.service.impl.HistoricTaskLogEntryQueryProperty;
  */
 class HistoricTaskLogEntryQueryImpl : AbstractQuery!(HistoricTaskLogEntryQuery, HistoricTaskLogEntry) , HistoricTaskLogEntryQuery {
 
-    protected string taskId;
-    protected string type;
-    protected string userId;
-    protected string processInstanceId;
-    protected string processDefinitionId;
-    protected string scopeId;
-    protected string scopeDefinitionId;
-    protected string subScopeId;
-    protected string scopeType;
+    protected string _taskId;
+    protected string _type;
+    protected string _userId;
+    protected string _processInstanceId;
+    protected string _processDefinitionId;
+    protected string _scopeId;
+    protected string _scopeDefinitionId;
+    protected string _subScopeId;
+    protected string _scopeType;
     protected Date fromDate;
     protected Date toDate;
-    protected string tenantId;
-    protected long fromLogNumber = -1;
-    protected long toLogNumber = -1;
+    protected string _tenantId;
+    protected long _fromLogNumber = -1;
+    protected long _toLogNumber = -1;
 
     this(CommandExecutor commandExecutor) {
         super(commandExecutor);
@@ -50,69 +50,69 @@ class HistoricTaskLogEntryQueryImpl : AbstractQuery!(HistoricTaskLogEntryQuery, 
 
 
     public HistoricTaskLogEntryQuery taskId(string taskId) {
-        this.taskId = taskId;
+        this._taskId = taskId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery type(string type) {
-        this.type = type;
+        this._type = type;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery userId(string userId) {
-        this.userId = userId;
+        this._userId = userId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery processInstanceId(string processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery processDefinitionId(string processDefinitionId) {
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery scopeId(string scopeId) {
-        this.scopeId = scopeId;
+        this._scopeId = scopeId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery scopeDefinitionId(string scopeDefinitionId) {
-        this.scopeDefinitionId = scopeDefinitionId;
+        this._scopeDefinitionId = scopeDefinitionId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery caseInstanceId(string caseInstanceId) {
-        this.scopeId = caseInstanceId;
-        this.scopeType = ScopeTypes.CMMN;
+        this._scopeId = caseInstanceId;
+        this._scopeType = ScopeTypes.CMMN;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery caseDefinitionId(string caseDefinitionId) {
-        this.scopeDefinitionId = caseDefinitionId;
-        this.scopeType = ScopeTypes.CMMN;
+        this._scopeDefinitionId = caseDefinitionId;
+        this._scopeType = ScopeTypes.CMMN;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery subScopeId(string subScopeId) {
-        this.subScopeId = subScopeId;
+        this._subScopeId = subScopeId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery scopeType(string scopeType) {
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
@@ -130,56 +130,56 @@ class HistoricTaskLogEntryQueryImpl : AbstractQuery!(HistoricTaskLogEntryQuery, 
 
 
     public HistoricTaskLogEntryQuery tenantId(string tenantId) {
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery fromLogNumber(long fromLogNumber) {
-        this.fromLogNumber = fromLogNumber;
+        this._fromLogNumber = fromLogNumber;
         return this;
     }
 
 
     public HistoricTaskLogEntryQuery toLogNumber(long toLogNumber) {
-        this.toLogNumber = toLogNumber;
+        this._toLogNumber = toLogNumber;
         return this;
     }
 
     public string getTaskId() {
-        return taskId;
+        return _taskId;
     }
 
     public string getType() {
-        return type;
+        return _type;
     }
 
     public string getUserId() {
-        return userId;
+        return _userId;
     }
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public Date getFromDate() {
@@ -191,23 +191,23 @@ class HistoricTaskLogEntryQueryImpl : AbstractQuery!(HistoricTaskLogEntryQuery, 
     }
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
     public long getFromLogNumber() {
-        return fromLogNumber;
+        return _fromLogNumber;
     }
 
     public long getToLogNumber() {
-        return toLogNumber;
+        return _toLogNumber;
     }
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getHistoricTaskLogEntryEntityManager(commandContext).findHistoricTaskLogEntriesCountByQueryCriteria(this);
     }
 
-
+    override
     public List!HistoricTaskLogEntry executeList(CommandContext commandContext) {
         return CommandContextUtil.getHistoricTaskLogEntryEntityManager(commandContext).findHistoricTaskLogEntriesByQueryCriteria(this);
     }
