@@ -16,7 +16,6 @@ module flow.bpmn.converter.converter.parser.InterfaceParser;
 import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.util.BpmnXMLUtil;
 import flow.bpmn.model.BpmnModel;
-import flow.bpmn.model.Interface;
 import flow.bpmn.model.Operation;
 import hunt.xml;
 import std.string;
@@ -26,7 +25,7 @@ import hunt.logging;
  * @author Tijs Rademakers
  */
 class InterfaceParser : BpmnXMLConstants {
-
+  import flow.bpmn.model.Interface;
   void loopNexSibling(Element n , Interface interfaceObject  , Operation operation ,bool readyWithFormProperty ,BpmnModel model)
   {
     Element node = n;

@@ -17,7 +17,7 @@ import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 
-import flow.common.Page;
+
 import flow.common.db.AbstractDataManager;
 import flow.common.db.ListQueryParameterObject;
 import flow.job.service.api.HistoryJob;
@@ -34,7 +34,7 @@ import hunt.Exceptions;
  * @author Tijs Rademakers
  */
 class MybatisHistoryJobDataManager : EntityRepository!( HistoryJobEntityImpl , string)  , HistoryJobDataManager {
-
+    import flow.common.Page;
     protected JobServiceConfiguration jobServiceConfiguration;
 
     this() {

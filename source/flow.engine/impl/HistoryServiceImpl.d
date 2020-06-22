@@ -53,10 +53,10 @@ import flow.variable.service.api.history.HistoricVariableInstanceQuery;
 import flow.variable.service.api.history.NativeHistoricVariableInstanceQuery;
 import flow.variable.service.impl.HistoricVariableInstanceQueryImpl;
 //import flow.variable.service.impl.NativeHistoricVariableInstanceQueryImpl;
-import flow.engine.impl.NativeHistoricDetailQueryImpl;
-import flow.engine.impl.NativeHistoricProcessInstanceQueryImpl;
-import flow.engine.impl.NativeHistoricActivityInstanceQueryImpl;
-
+//import flow.engine.impl.NativeHistoricDetailQueryImpl;
+//import flow.engine.impl.NativeHistoricProcessInstanceQueryImpl;
+//import flow.engine.impl.NativeHistoricActivityInstanceQueryImpl;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Bernd Ruecker (camunda)
@@ -70,12 +70,16 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public HistoricProcessInstanceQuery createHistoricProcessInstanceQuery() {
-        return new HistoricProcessInstanceQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+       // return new HistoricProcessInstanceQueryImpl(commandExecutor);
     }
 
 
     public HistoricActivityInstanceQuery createHistoricActivityInstanceQuery() {
-        return new HistoricActivityInstanceQueryImpl(commandExecutor);
+        //return new HistoricActivityInstanceQueryImpl(commandExecutor);
+      implementationMissing(false);
+        return null;
     }
 
 
@@ -85,12 +89,16 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public HistoricDetailQuery createHistoricDetailQuery() {
-        return new HistoricDetailQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+       // return new HistoricDetailQueryImpl(commandExecutor);
     }
 
 
     public NativeHistoricDetailQuery createNativeHistoricDetailQuery() {
-        return new NativeHistoricDetailQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+        //return new NativeHistoricDetailQueryImpl(commandExecutor);
     }
 
 
@@ -125,7 +133,9 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public NativeHistoricProcessInstanceQuery createNativeHistoricProcessInstanceQuery() {
-        return new NativeHistoricProcessInstanceQueryImpl(commandExecutor);
+      implementationMissing(false);
+       return null;
+        //return new NativeHistoricProcessInstanceQueryImpl(commandExecutor);
     }
 
 
@@ -135,7 +145,9 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public NativeHistoricActivityInstanceQuery createNativeHistoricActivityInstanceQuery() {
-        return new NativeHistoricActivityInstanceQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+       // return new NativeHistoricActivityInstanceQueryImpl(commandExecutor);
     }
 
 
@@ -170,7 +182,9 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public ProcessInstanceHistoryLogQuery createProcessInstanceHistoryLogQuery(string processInstanceId) {
-        return new ProcessInstanceHistoryLogQueryImpl(commandExecutor, processInstanceId);
+      implementationMissing(false);
+      return null;
+       // return new ProcessInstanceHistoryLogQueryImpl(commandExecutor, processInstanceId);
     }
 
 

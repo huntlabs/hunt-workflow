@@ -46,7 +46,7 @@ import flow.engine.impl.history.HistoryManager;
 import flow.engine.impl.persistence.CountingExecutionEntity;
 import flow.engine.impl.persistence.entity.data.ExecutionDataManager;
 import flow.engine.impl.runtime.callback.ProcessInstanceState;
-import flow.engine.impl.util.BpmnLoggingSessionUtil;
+//import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.engine.impl.util.EventUtil;

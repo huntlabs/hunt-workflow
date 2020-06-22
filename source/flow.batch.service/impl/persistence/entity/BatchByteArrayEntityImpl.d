@@ -16,6 +16,34 @@ module flow.batch.service.impl.persistence.entity.BatchByteArrayEntityImpl;
 import flow.batch.service.impl.persistence.entity.AbstractBatchServiceEntity;
 import flow.batch.service.impl.persistence.entity.BatchByteArrayEntity;
 import hunt.entity;
+
+class PersistentState {
+
+  private  string name;
+  private  byte[] bytes;
+
+  this(string name, byte[] bytes) {
+    this.name = name;
+    this.bytes = bytes;
+  }
+
+
+  override
+  public bool opEquals(Object obj) {
+    PersistentState other = cast(PersistentState) obj;
+    if (other !is null) {
+      return (this.name == other.name) && (this.bytes.length ==  other.bytes.length);
+    }
+    return false;
+  }
+
+  override
+  public size_t toHash() {
+    return 0;
+    // throw new UnsupportedOperationException();
+  }
+
+}
 /**
  * @author Tom Baeyens
  * @author Marcus Klimstra (CGI)
@@ -85,32 +113,6 @@ class BatchByteArrayEntityImpl : AbstractBatchServiceEntity , Model, BatchByteAr
 
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
-   class PersistentState {
 
-        private  string name;
-        private  byte[] bytes;
-
-        this(string name, byte[] bytes) {
-            this.name = name;
-            this.bytes = bytes;
-        }
-
-
-        override
-        public bool opEquals(Object obj) {
-          PersistentState other = cast(PersistentState) obj;
-            if (other !is null) {
-                return (this.name == other.name) && (this.bytes.length ==  other.bytes.length);
-            }
-            return false;
-        }
-
-        override
-        public size_t toHash() {
-            return 0;
-           // throw new UnsupportedOperationException();
-        }
-
-    }
 
 }

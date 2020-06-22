@@ -13,7 +13,7 @@
 
 module flow.engine.impl.cmd.ClaimTaskCmd;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.engine.FlowableTaskAlreadyClaimedException;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.util.CommandContextUtil;
@@ -46,7 +46,7 @@ class ClaimTaskCmd : NeedsActiveTaskCmd!Void {
         //}
         //
         //if (userId !is null) {
-        //    Clock clock = CommandContextUtil.getProcessEngineConfiguration(commandContext).getClock();
+        //    Clockm clock = CommandContextUtil.getProcessEngineConfiguration(commandContext).getClock();
         //    task.setClaimTime(clock.getCurrentTime());
         //
         //    if (task.getAssignee() !is null) {

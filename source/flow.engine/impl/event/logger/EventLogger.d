@@ -24,7 +24,7 @@
 //import flow.common.context.Context;
 //import flow.common.interceptor.CommandContext;
 //import flow.common.interceptor.CommandContextCloseListener;
-//import flow.common.runtime.Clock;
+//import flow.common.runtime.Clockm;
 //import flow.engine.impl.event.logger.handler.ActivityCompensatedEventHandler;
 //import flow.engine.impl.event.logger.handler.ActivityCompletedEventHandler;
 //import flow.engine.impl.event.logger.handler.ActivityErrorReceivedEventHandler;
@@ -56,7 +56,7 @@
 //
 //    private static final string EVENT_FLUSHER_KEY = "eventFlusher";
 //
-//    protected Clock clock;
+//    protected Clockm clock;
 //    protected ObjectMapper objectMapper;
 //
 //    // Mapping of type -> handler
@@ -69,7 +69,7 @@
 //        initializeDefaultHandlers();
 //    }
 //
-//    public EventLogger(Clock clock, ObjectMapper objectMapper) {
+//    public EventLogger(Clockm clock, ObjectMapper objectMapper) {
 //        this();
 //        this.clock = clock;
 //        this.objectMapper = objectMapper;
@@ -215,11 +215,11 @@
 //        return null;
 //    }
 //
-//    public Clock getClock() {
+//    public Clockm getClock() {
 //        return clock;
 //    }
 //
-//    public void setClock(Clock clock) {
+//    public void setClock(Clockm clock) {
 //        this.clock = clock;
 //    }
 //

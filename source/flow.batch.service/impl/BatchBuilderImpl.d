@@ -27,12 +27,12 @@ class BatchBuilderImpl : BatchBuilder {
     protected BatchServiceImpl batchService;
     protected CommandExecutor commandExecutor;
 
-    protected string batchType;
-    protected string searchKey;
-    protected string searchKey2;
-    protected string status;
-    protected string batchDocumentJson;
-    protected string tenantId;
+    protected string _batchType;
+    protected string _searchKey;
+    protected string _searchKey2;
+    protected string _status;
+    protected string _batchDocumentJson;
+    protected string _tenantId;
 
     this() {}
 
@@ -46,37 +46,37 @@ class BatchBuilderImpl : BatchBuilder {
 
 
     public BatchBuilder batchType(string batchType) {
-        this.batchType = batchType;
+        this._batchType = batchType;
         return this;
     }
 
 
     public BatchBuilder searchKey(string searchKey) {
-        this.searchKey = searchKey;
+        this._searchKey = searchKey;
         return this;
     }
 
 
     public BatchBuilder searchKey2(string searchKey2) {
-        this.searchKey2 = searchKey2;
+        this._searchKey2 = searchKey2;
         return this;
     }
 
 
     public BatchBuilder status(string status) {
-        this.status = status;
+        this._status = status;
         return this;
     }
 
 
     public BatchBuilder batchDocumentJson(string batchDocumentJson) {
-        this.batchDocumentJson = batchDocumentJson;
+        this._batchDocumentJson = batchDocumentJson;
         return this;
     }
 
 
     public BatchBuilder tenantId(string tenantId) {
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
@@ -97,31 +97,31 @@ class BatchBuilderImpl : BatchBuilder {
 
 
     public string getBatchType() {
-        return batchType;
+        return _batchType;
     }
 
 
     public string getSearchKey() {
-        return searchKey;
+        return _searchKey;
     }
 
 
     public string getSearchKey2() {
-        return searchKey2;
+        return _searchKey2;
     }
 
 
     public string getStatus() {
-        return status;
+        return _status;
     }
 
 
     public string getBatchDocumentJson() {
-        return batchDocumentJson;
+        return _batchDocumentJson;
     }
 
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 }

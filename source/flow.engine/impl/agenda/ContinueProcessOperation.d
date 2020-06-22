@@ -35,7 +35,7 @@ import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.jobexecutor.AsyncContinuationJobHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
-import flow.engine.impl.util.BpmnLoggingSessionUtil;
+//import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import flow.job.service.api.Job;

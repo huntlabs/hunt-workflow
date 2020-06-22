@@ -21,7 +21,7 @@ import flow.engine.impl.persistence.entity.data.AbstractProcessDataManager;
 import flow.engine.impl.persistence.entity.data.ByteArrayDataManager;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import hunt.logging;
 import hunt.collection.ArrayList;
 import hunt.entity;
@@ -38,7 +38,7 @@ class MybatisByteArrayDataManager : EntityRepository!(ByteArrayEntityImpl , stri
       return processEngineConfiguration;
     }
 
-    public Clock getClock() {
+    public Clockm getClock() {
       return processEngineConfiguration.getClock();
     }
 

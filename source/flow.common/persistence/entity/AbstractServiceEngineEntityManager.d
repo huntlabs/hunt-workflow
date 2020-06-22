@@ -16,7 +16,7 @@ module flow.common.persistence.entity.AbstractServiceEngineEntityManager;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.AbstractServiceConfiguration;
 import flow.common.persistence.entity.data.DataManager;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.common.persistence.entity.AbstractEntityManager;
 
 /**
@@ -41,7 +41,7 @@ abstract class AbstractServiceEngineEntityManager(T, EntityImpl, DM): AbstractEn
         return serviceConfiguration.getEventDispatcher();
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return serviceConfiguration.getClock();
     }
 }

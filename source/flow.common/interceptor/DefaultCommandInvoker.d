@@ -26,6 +26,7 @@ import flow.common.context.Context;
 import flow.common.interceptor.CommandConfig;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.Command;
+import flow.common.interceptor.CommandInterceptor;
 
 class DefaultCommandInvoker : AbstractCommandInterceptor {
 
@@ -36,7 +37,7 @@ class DefaultCommandInvoker : AbstractCommandInterceptor {
 
 
 
-        T result = command.execute(commandContext);
+        Object result = command.execute(commandContext);
         return result;
     }
 
@@ -47,7 +48,7 @@ class DefaultCommandInvoker : AbstractCommandInterceptor {
 
     override
     public void setNext(CommandInterceptor next) {
-        throw new UnsupportedOperationException("CommandInvoker must be the last interceptor in the chain");
+       // throw new UnsupportedOperationException("CommandInvoker must be the last interceptor in the chain");
     }
 
 }

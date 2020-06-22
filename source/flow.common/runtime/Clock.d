@@ -16,7 +16,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)}
 
-module flow.common.runtime.Clock;
+module flow.common.runtime.Clockm;
 
 
 import flow.common.runtime.ClockReader;
@@ -30,7 +30,7 @@ alias Date =LocalDateTime;
 /**
  * This interface provides full access to the clock
  */
- interface Clock : ClockReader {
+ interface Clockm : ClockReader {
 
     void setCurrentTime(Date currentTime);
 

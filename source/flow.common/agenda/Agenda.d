@@ -14,7 +14,7 @@ module flow.common.agenda.Agenda;
 
 import flow.common.interceptor.Session;
 import hunt.util.Common;
-
+import hunt.util.Runnable;
 interface Agenda : Session {
 
     /**

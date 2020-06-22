@@ -27,7 +27,7 @@ import flow.engine.ProcessEngineConfiguration;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 import flow.engine.impl.ProcessDefinitionQueryImpl;
 import flow.engine.impl.ProcessInstanceQueryImpl;
-import flow.engine.impl.jobexecutor.TimerChangeProcessDefinitionSuspensionStateJobHandler;
+//import flow.engine.impl.jobexecutor.TimerChangeProcessDefinitionSuspensionStateJobHandler;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntityManager;
 import flow.engine.impl.persistence.entity.SuspensionStateUtil;

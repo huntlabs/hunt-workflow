@@ -12,7 +12,6 @@
  */
 module flow.job.service.impl.cmd.DeleteTimerJobCmd;
 
-import java.io.Serializable;
 
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -25,8 +24,6 @@ import flow.job.service.api.Job;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Tijs Rademakers

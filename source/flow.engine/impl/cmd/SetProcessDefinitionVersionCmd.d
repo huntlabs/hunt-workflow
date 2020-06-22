@@ -21,7 +21,7 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.impl.persistence.deploy.DeploymentManager;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
@@ -125,7 +125,7 @@ class SetProcessDefinitionVersionCmd : Command!Void {
 
         // and change possible existing tasks (as the process definition id is stored there too)
         List!TaskEntity tasks = CommandContextUtil.getTaskService(commandContext).findTasksByExecutionId(execution.getId());
-        Clock clock = commandContext.getCurrentEngineConfiguration().getClock();
+        Clockm clock = commandContext.getCurrentEngineConfiguration().getClock();
         foreach (TaskEntity taskEntity ; tasks) {
             taskEntity.setProcessDefinitionId(newProcessDefinition.getId());
             CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordTaskInfoChange(taskEntity, clock.getCurrentTime());

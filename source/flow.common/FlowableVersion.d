@@ -64,8 +64,8 @@ class FlowableVersion {
     }
 
     override
-    public int toHash() {
-        int result = 0;
+     size_t toHash() @trusted nothrow{
+        size_t result = 0;
         result = 31 * result + (mainVersion !is null ? mainVersion.hashCode() : 0);
         result = 31 * result + (alternativeVersionStrings !is null ? alternativeVersionStrings.toHash() : 0);
         return result;

@@ -49,7 +49,7 @@ import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.io.ResourceStreamSource;
+//import flow.engine.impl.util.io.ResourceStreamSource;
 import flow.engine.impl.bpmn.parser.BpmnParseHandlers;
 //import org.flowable.validation.ProcessValidator;
 //import org.flowable.validation.ValidationError;

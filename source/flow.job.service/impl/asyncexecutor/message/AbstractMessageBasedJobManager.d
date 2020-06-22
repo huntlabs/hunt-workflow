@@ -23,11 +23,12 @@ import flow.job.service.api.HistoryJob;
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.asyncexecutor.DefaultJobManager;
-import flow.job.service.impl.history.async.AsyncHistorySession;
+//import flow.job.service.impl.history.async.AsyncHistorySession;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.JobInfoEntity;
 import hunt.logging;
+import hunt.Exceptions;
 /**
  * Abstract class that contains the main logic to send information about an async history data job to a message queue.
  * Subclasses are responsible for implementing the actual sending logic.
@@ -60,9 +61,10 @@ abstract class AbstractMessageBasedJobManager : DefaultJobManager {
 
         JobInfoEntity jobInfoEntity = cast(JobInfoEntity) job;
         if (jobInfoEntity !is null) {
+            implementationMissing(false);
             // When unacquiring, we up the lock time again., so that it isn't cleared by the reset expired thread.
-            jobInfoEntity.setLockExpirationTime(new Date(jobServiceConfiguration.getClock().getCurrentTime().getTime()
-                    + jobServiceConfiguration.getAsyncExecutor().getAsyncJobLockTimeInMillis()));
+            //jobInfoEntity.setLockExpirationTime(new Date(jobServiceConfiguration.getClock().getCurrentTime().getTime()
+            //        + jobServiceConfiguration.getAsyncExecutor().getAsyncJobLockTimeInMillis()));
         }
 
         prepareAndSendMessage(job);
@@ -92,9 +94,10 @@ abstract class AbstractMessageBasedJobManager : DefaultJobManager {
         TransactionContext transactionContext = Context.getTransactionContext();
         if (transactionContext is null) {
             if ( cast(HistoryJobEntity)job !is null) {
-                CommandContext commandContext = Context.getCommandContext();
-                AsyncHistorySession asyncHistorySession = commandContext.getSession(typeid(AsyncHistorySession));
-                transactionContext = asyncHistorySession.getTransactionContext();
+                implementationMissing(false);
+                //CommandContext commandContext = Context.getCommandContext();
+                //AsyncHistorySession asyncHistorySession = commandContext.getSession(typeid(AsyncHistorySession));
+                //transactionContext = asyncHistorySession.getTransactionContext();
             }
         }
 

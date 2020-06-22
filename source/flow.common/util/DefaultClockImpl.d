@@ -19,11 +19,11 @@ alias Date = LocalDateTime;
 //import java.util.Date;
 //import java.util.GregorianCalendar;
 //import java.util.TimeZone;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 /**
  * @author Joram Barrez
  */
-public class DefaultClockImpl : flow.common.runtime.Clock {
+class DefaultClockImpl : Clockm {
     private Date timeZone;
     protected static  Date CURRENT_TIME;
 

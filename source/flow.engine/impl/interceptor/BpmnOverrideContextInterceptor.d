@@ -24,7 +24,7 @@ module flow.engine.impl.interceptor.BpmnOverrideContextInterceptor;
 import flow.common.interceptor.AbstractCommandInterceptor;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;
-import flow.engine.impl.context.BpmnOverrideContext;
+//import flow.engine.impl.context.BpmnOverrideContext;
 import hunt.Exceptions;
 class BpmnOverrideContextInterceptor : AbstractCommandInterceptor {
 
@@ -32,8 +32,8 @@ class BpmnOverrideContextInterceptor : AbstractCommandInterceptor {
         try {
             return next.execute(config, command);
         } finally {
-           // implementationMissing(false);
-            BpmnOverrideContext.removeBpmnOverrideContext();
+            implementationMissing(false);
+            //BpmnOverrideContext.removeBpmnOverrideContext();
         }
     }
 

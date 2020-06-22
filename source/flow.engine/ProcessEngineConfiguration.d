@@ -25,7 +25,7 @@ import flow.common.api.engine.EngineLifecycleListener;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.cfg.BeansConfigurationHelper;
 import flow.common.history.HistoryLevel;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.engine.cfg.HttpClientConfig;
 import flow.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import flow.engine.impl.cfg.StandaloneProcessEngineConfiguration;
@@ -706,7 +706,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     }
 
     override
-    public ProcessEngineConfiguration setClock(Clock clock) {
+    public ProcessEngineConfiguration setClock(Clockm clock) {
         this.clock = clock;
         return this;
     }

@@ -14,7 +14,7 @@ module flow.idm.engine.impl.IdmIdentityServiceImpl;
 
 import hunt.collection.List;
 
-import flow.common.identity.Authentication;
+//import flow.common.identity.Authentication;
 import flow.common.service.CommonEngineServiceImpl;
 import flow.idm.api.Group;
 import flow.idm.api.GroupQuery;

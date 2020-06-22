@@ -15,10 +15,13 @@ module flow.engine.impl.cmd.ActivateProcessDefinitionCmd;
 import hunt.time.LocalDateTime;
 
 import flow.common.db.SuspensionState;
-import flow.engine.impl.jobexecutor.TimerActivateProcessDefinitionHandler;
+//import flow.engine.impl.jobexecutor.TimerActivateProcessDefinitionHandler;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.runtime.ProcessInstance;
 import flow.engine.impl.cmd.AbstractSetProcessDefinitionStateCmd;
+import flow.engine.impl.cmd.AbstractSetProcessInstanceStateCmd;
+import flow.engine.impl.cmd.ActivateProcessInstanceCmd;
+import hunt.Exceptions;
 /**
  * @author Daniel Meyer
  * @author Joram Barrez
@@ -40,7 +43,9 @@ class ActivateProcessDefinitionCmd : AbstractSetProcessDefinitionStateCmd {
 
     override
     protected string getDelayedExecutionJobHandlerType() {
-        return TimerActivateProcessDefinitionHandler.TYPE;
+        implementationMissing(false);
+        return "";
+       // return TimerActivateProcessDefinitionHandler.TYPE;
     }
 
     override

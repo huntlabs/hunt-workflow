@@ -24,7 +24,7 @@ import flow.idm.api.User;
 import flow.idm.api.UserQuery;
 import flow.idm.engine.impl.UserQueryImpl;
 import flow.idm.engine.impl.persistence.entity.UserEntity;
-import flow.idm.engine.impl.persistence.entity.PasswordEncoder;
+//import flow.idm.engine.impl.persistence.entity.PasswordEncoder;
 
 /**
  * @author Joram Barrez

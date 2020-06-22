@@ -19,7 +19,7 @@ import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.data.DataManager;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
-
+import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 /**
  * @author Joram Barrez
  */

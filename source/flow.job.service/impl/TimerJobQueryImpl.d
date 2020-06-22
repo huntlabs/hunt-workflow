@@ -32,25 +32,25 @@ import flow.job.service.impl.JobQueryProperty;
 class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
 
     protected string id;
-    protected string processInstanceId;
-    protected string executionId;
-    protected string handlerType;
-    protected string processDefinitionId;
-    protected string elementId;
-    protected string elementName;
-    protected string scopeId;
-    protected string subScopeId;
-    protected string scopeType;
-    protected string scopeDefinitionId;
-    protected bool executable;
+    protected string _processInstanceId;
+    protected string _executionId;
+    protected string _handlerType;
+    protected string _processDefinitionId;
+    protected string _elementId;
+    protected string _elementName;
+    protected string _scopeId;
+    protected string _subScopeId;
+    protected string _scopeType;
+    protected string _scopeDefinitionId;
+    protected bool _executable;
     protected bool onlyTimers;
     protected bool onlyMessages;
-    protected Date duedateHigherThan;
-    protected Date duedateLowerThan;
+    protected Date _duedateHigherThan;
+    protected Date _duedateLowerThan;
     protected Date duedateHigherThanOrEqual;
     protected Date duedateLowerThanOrEqual;
-    protected bool withException;
-    protected string exceptionMessage;
+    protected bool _withException;
+    protected string _exceptionMessage;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
@@ -80,7 +80,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
         }
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
@@ -89,7 +89,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
         }
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
@@ -98,7 +98,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
         }
-        this.elementId = elementId;
+        this._elementId = elementId;
         return this;
     }
 
@@ -107,7 +107,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
         }
-        this.elementName = elementName;
+        this._elementName = elementName;
         return this;
     }
 
@@ -116,7 +116,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
         }
-        this.scopeId = scopeId;
+        this._scopeId = scopeId;
         return this;
     }
 
@@ -125,7 +125,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
         }
-        this.subScopeId = subScopeId;
+        this._subScopeId = subScopeId;
         return this;
     }
 
@@ -134,7 +134,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
         }
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
@@ -143,7 +143,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
         }
-        this.scopeDefinitionId = scopeDefinitionId;
+        this._scopeDefinitionId = scopeDefinitionId;
         return this;
     }
 
@@ -182,7 +182,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
         }
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
@@ -191,13 +191,13 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
         }
-        this.handlerType = handlerType;
+        this._handlerType = handlerType;
         return this;
     }
 
 
     public TimerJobQueryImpl executable() {
-        executable = true;
+        _executable = true;
         return this;
     }
 
@@ -224,7 +224,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.duedateHigherThan = date;
+        this._duedateHigherThan = date;
         return this;
     }
 
@@ -233,13 +233,13 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.duedateLowerThan = date;
+        this._duedateLowerThan = date;
         return this;
     }
 
 
     public TimerJobQueryImpl withException() {
-        this.withException = true;
+        this._withException = true;
         return this;
     }
 
@@ -248,7 +248,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
         if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
         }
-        this.exceptionMessage = exceptionMessage;
+        this._exceptionMessage = exceptionMessage;
         return this;
     }
 
@@ -310,12 +310,12 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
 
     // results //////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getTimerJobEntityManager(commandContext).findJobCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Job executeList(CommandContext commandContext) {
         return CommandContextUtil.getTimerJobEntityManager(commandContext).findJobsByQueryCriteria(this);
     }
@@ -323,19 +323,19 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
     // getters //////////////////////////////////////////
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getHandlerType() {
-        return handlerType;
+        return _handlerType;
     }
 
     public bool getExecutable() {
-        return executable;
+        return _executable;
     }
 
     public Date getNow() {
@@ -343,11 +343,11 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
     }
 
     public bool isWithException() {
-        return withException;
+        return _withException;
     }
 
     public string getExceptionMessage() {
-        return exceptionMessage;
+        return _exceptionMessage;
     }
 
     public string getTenantId() {
@@ -371,23 +371,23 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
     public bool isOnlyTimers() {
@@ -399,11 +399,11 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
     }
 
     public Date getDuedateHigherThan() {
-        return duedateHigherThan;
+        return _duedateHigherThan;
     }
 
     public Date getDuedateLowerThan() {
-        return duedateLowerThan;
+        return _duedateLowerThan;
     }
 
     public Date getDuedateHigherThanOrEqual() {

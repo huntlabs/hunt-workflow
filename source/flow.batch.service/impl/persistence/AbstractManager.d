@@ -19,7 +19,7 @@ import flow.batch.service.impl.persistence.entity.BatchPartEntityManager;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 
 /**
  * @author Tijs Rademakers
@@ -48,7 +48,7 @@ abstract class AbstractManager {
         return batchServiceConfiguration;
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return getBatchServiceConfiguration().getClock();
     }
 

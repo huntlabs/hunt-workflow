@@ -103,7 +103,7 @@ import flow.common.persistence.GenericManagerFactory;
 //import flow.common.persistence.deploy.DeploymentCache;
 import flow.common.persistence.entity.PropertyEntityManager;
 import flow.common.persistence.entity.data.PropertyDataManager;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 //import flow.common.scripting.BeansResolverFactory;
 //import flow.common.scripting.ResolverFactory;
 //import flow.common.scripting.ScriptBindingsFactory;
@@ -4221,7 +4221,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     override
-    public ProcessEngineConfigurationImpl setClock(Clock clock) {
+    public ProcessEngineConfigurationImpl setClock(Clockm clock) {
         if (this.clock is null) {
             this.clock = clock;
         } else {

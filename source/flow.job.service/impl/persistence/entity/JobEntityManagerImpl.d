@@ -24,6 +24,8 @@ import flow.job.service.impl.JobQueryImpl;
 import flow.job.service.impl.persistence.entity.data.JobDataManager;
 import flow.job.service.impl.persistence.entity.JobInfoEntityManagerImpl;
 import flow.job.service.impl.persistence.entity.JobEntity;
+import flow.job.service.impl.persistence.entity.JobEntityManager;
+
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
@@ -38,11 +40,12 @@ class JobEntityManagerImpl
     }
 
 
+
     public bool insertJobEntity(JobEntity timerJobEntity) {
         return doInsert(timerJobEntity, true);
     }
 
-
+    override
     public void insert(JobEntity jobEntity, bool fireCreateEvent) {
         doInsert(jobEntity, fireCreateEvent);
     }
@@ -70,7 +73,7 @@ class JobEntityManagerImpl
         return dataManager.findJobCountByQueryCriteria(jobQuery);
     }
 
-
+    override
     public void dele(JobEntity jobEntity) {
         super.dele(jobEntity, false);
 
@@ -84,7 +87,7 @@ class JobEntityManagerImpl
         }
     }
 
-
+    override
     public void dele(JobEntity entity, bool fireDeleteEvent) {
         if (serviceConfiguration.getInternalJobManager() !is null) {
             serviceConfiguration.getInternalJobManager().handleJobDelete(entity);

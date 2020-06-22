@@ -23,7 +23,7 @@ module flow.common.HasExpressionManagerEngineConfiguration;
 
 
 import flow.common.el.ExpressionManager;
-
+import flow.common.AbstractEngineConfiguration;
 /**
  * author martin.grofcik
  */

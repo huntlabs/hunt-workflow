@@ -48,7 +48,7 @@ class HistoryJobEntityManagerImpl
         return dataManager.findHistoryJobCountByQueryCriteria(jobQuery);
     }
 
-
+    override
     public void dele(HistoryJobEntity jobEntity) {
         super.dele(jobEntity, false);
 

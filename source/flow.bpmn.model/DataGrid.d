@@ -33,7 +33,6 @@ class DataGrid : ComplexDataType {
         this.rows = rows;
     }
 
-    override
     public DataGrid clone() {
         DataGrid clone = new DataGrid();
         clone.setValues(this);

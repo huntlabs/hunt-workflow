@@ -15,6 +15,7 @@ module flow.batch.service.impl.persistence.entity.BatchPartEntityManagerImpl;
 
 import hunt.collection.List;
 
+import flow.batch.service.impl.persistence.entity.BatchEntity;
 import flow.batch.service.api.BatchPart;
 import flow.batch.service.BatchServiceConfiguration;
 import flow.batch.service.impl.persistence.entity.data.BatchPartDataManager;

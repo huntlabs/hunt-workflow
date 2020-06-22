@@ -24,7 +24,7 @@ import flow.job.service.impl.persistence.entity.data.SuspendedJobDataManager;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntity;
 import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
 import flow.job.service.impl.persistence.entity.SuspendedJobEntityManager;
-
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 /**
  * @author Tijs Rademakers
  */
@@ -61,7 +61,7 @@ class SuspendedJobEntityManagerImpl
         dataManager.updateJobTenantIdForDeployment(deploymentId, newTenantId);
     }
 
-
+    override
     public void insert(SuspendedJobEntity jobEntity, bool fireCreateEvent) {
         if (serviceConfiguration.getInternalJobManager() !is null) {
             serviceConfiguration.getInternalJobManager().handleJobInsert(jobEntity);
@@ -71,12 +71,12 @@ class SuspendedJobEntityManagerImpl
         super.insert(jobEntity, fireCreateEvent);
     }
 
-
+    override
     public void insert(SuspendedJobEntity jobEntity) {
         insert(jobEntity, true);
     }
 
-
+    override
     public void dele(SuspendedJobEntity jobEntity) {
         super.dele(jobEntity, false);
 

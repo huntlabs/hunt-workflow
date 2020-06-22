@@ -28,7 +28,7 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.api.deleg.event.FlowableEventListener;
 import flow.common.event.EventDispatchAction;
 import flow.common.history.HistoryLevel;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 
 //import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,7 +51,7 @@ abstract class AbstractServiceConfiguration {
 
    // protected ObjectMapper objectMapper;
 
-    protected Clock clock;
+    protected Clockm clock;
 
     this(string engineName) {
         this.engineName = engineName;
@@ -147,11 +147,11 @@ abstract class AbstractServiceConfiguration {
     //    return this;
     //}
 
-    public Clock getClock() {
+    public Clockm getClock() {
         return clock;
     }
 
-    public AbstractServiceConfiguration setClock(Clock clock) {
+    public AbstractServiceConfiguration setClock(Clockm clock) {
         this.clock = clock;
         return this;
     }

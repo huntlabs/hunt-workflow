@@ -23,7 +23,7 @@ class IOParameter : BaseElement {
     protected string sourceExpression;
     protected string target;
     protected string targetExpression;
-    protected bool isTransient;
+    protected bool _isTransient;
 
     public string getSource() {
         return source;
@@ -58,11 +58,11 @@ class IOParameter : BaseElement {
     }
 
     public bool isTransient() {
-        return isTransient;
+        return _isTransient;
     }
 
     public void setTransient(bool isTransient) {
-        this.isTransient = isTransient;
+        this._isTransient = isTransient;
     }
 
     override

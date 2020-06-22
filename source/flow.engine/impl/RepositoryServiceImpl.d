@@ -47,7 +47,7 @@ import flow.engine.impl.cmd.DeployCmd;
 import flow.engine.impl.cmd.GetAppResourceModelCmd;
 import flow.engine.impl.cmd.GetAppResourceObjectCmd;
 import flow.engine.impl.cmd.GetBpmnModelCmd;
-import flow.engine.impl.cmd.GetDecisionTablesForProcessDefinitionCmd;
+//import flow.engine.impl.cmd.GetDecisionTablesForProcessDefinitionCmd;
 import flow.engine.impl.cmd.GetDeploymentProcessDefinitionCmd;
 //import flow.engine.impl.cmd.GetDeploymentProcessDiagramCmd;
 //import flow.engine.impl.cmd.GetDeploymentProcessDiagramLayoutCmd;

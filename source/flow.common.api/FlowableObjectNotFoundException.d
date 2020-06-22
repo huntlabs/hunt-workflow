@@ -29,7 +29,6 @@ import flow.common.api.FlowableException;
  */
 class FlowableObjectNotFoundException : FlowableException {
 
-    private static  long serialVersionUID = 1L;
 
     private TypeInfo objectClass;
 

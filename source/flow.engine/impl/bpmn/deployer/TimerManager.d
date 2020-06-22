@@ -22,15 +22,15 @@ import flow.bpmn.model.StartEvent;
 import flow.bpmn.model.TimerEventDefinition;
 import flow.common.context.Context;
 import flow.engine.ProcessEngineConfiguration;
-import flow.engine.impl.jobexecutor.TimerEventHandler;
-import flow.engine.impl.jobexecutor.TimerStartEventJobHandler;
+//import flow.engine.impl.jobexecutor.TimerEventHandler;
+//import flow.engine.impl.jobexecutor.TimerStartEventJobHandler;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.TimerUtil;
+//import flow.engine.impl.util.TimerUtil;
 import flow.job.service.TimerJobService;
 import flow.job.service.impl.cmd.CancelJobsCmd;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
-
+import hunt.Exceptions;
 /**
  * Manages timers for newly-deployed process definitions and their previous versions.
  */
@@ -40,11 +40,13 @@ class TimerManager {
         List!TimerJobEntity jobsToDelete = null;
 
         if (processDefinition.getTenantId() !is null && processDefinition.getTenantId().length != 0 && ProcessEngineConfiguration.NO_TENANT_ID != (processDefinition.getTenantId())) {
-            jobsToDelete = CommandContextUtil.getTimerJobService().findJobsByTypeAndProcessDefinitionKeyAndTenantId(
-                    TimerStartEventJobHandler.TYPE, processDefinition.getKey(), processDefinition.getTenantId());
+            implementationMissing(false);
+            //jobsToDelete = CommandContextUtil.getTimerJobService().findJobsByTypeAndProcessDefinitionKeyAndTenantId(
+            //        TimerStartEventJobHandler.TYPE, processDefinition.getKey(), processDefinition.getTenantId());
         } else {
-            jobsToDelete = CommandContextUtil.getTimerJobService()
-                    .findJobsByTypeAndProcessDefinitionKeyNoTenantId(TimerStartEventJobHandler.TYPE, processDefinition.getKey());
+            implementationMissing(false);
+            //jobsToDelete = CommandContextUtil.getTimerJobService()
+            //        .findJobsByTypeAndProcessDefinitionKeyNoTenantId(TimerStartEventJobHandler.TYPE, processDefinition.getKey());
         }
 
         if (jobsToDelete !is null) {
@@ -63,33 +65,35 @@ class TimerManager {
     }
 
     protected List!TimerJobEntity getTimerDeclarations(ProcessDefinitionEntity processDefinition, Process process) {
-        List!TimerJobEntity timers = new ArrayList!TimerJobEntity;
-        if (process.getFlowElements() !is null &&  !process.getFlowElements().isEmpty()) {
-            foreach (FlowElement element ; process.getFlowElements()) {
-                if (cast(StartEvent)element !is null) {
-                    StartEvent startEvent = cast(StartEvent) element;
-                    if (startEvent.getEventDefinitions() !is null && !startEvent.getEventDefinitions().isEmpty()) {
-                        EventDefinition eventDefinition = startEvent.getEventDefinitions().get(0);
-                        if (cast(TimerEventDefinition)eventDefinition !is null) {
-                            TimerEventDefinition timerEventDefinition = cast(TimerEventDefinition) eventDefinition;
-                            TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE,
-                                    TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
-
-                            if (timerJob !is null) {
-                                timerJob.setProcessDefinitionId(processDefinition.getId());
-
-                                if (processDefinition.getTenantId() !is null && processDefinition.getTenantId().length != 0) {
-                                    timerJob.setTenantId(processDefinition.getTenantId());
-                                }
-                                timers.add(timerJob);
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-
-        return timers;
+        implementationMissing(false);
+        return null;
+        //List!TimerJobEntity timers = new ArrayList!TimerJobEntity;
+        //if (process.getFlowElements() !is null &&  !process.getFlowElements().isEmpty()) {
+        //    foreach (FlowElement element ; process.getFlowElements()) {
+        //        if (cast(StartEvent)element !is null) {
+        //            StartEvent startEvent = cast(StartEvent) element;
+        //            if (startEvent.getEventDefinitions() !is null && !startEvent.getEventDefinitions().isEmpty()) {
+        //                EventDefinition eventDefinition = startEvent.getEventDefinitions().get(0);
+        //                if (cast(TimerEventDefinition)eventDefinition !is null) {
+        //                    TimerEventDefinition timerEventDefinition = cast(TimerEventDefinition) eventDefinition;
+        //                    TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE,
+        //                            TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
+        //
+        //                    if (timerJob !is null) {
+        //                        timerJob.setProcessDefinitionId(processDefinition.getId());
+        //
+        //                        if (processDefinition.getTenantId() !is null && processDefinition.getTenantId().length != 0) {
+        //                            timerJob.setTenantId(processDefinition.getTenantId());
+        //                        }
+        //                        timers.add(timerJob);
+        //                    }
+        //
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        //
+        //return timers;
     }
 }

@@ -29,7 +29,6 @@ import flow.common.api.FlowableException;
  */
 class FlowableClassLoadingException : FlowableException {
 
-    private static final long serialVersionUID = 1L;
     protected string className;
 
     this(string className, Throwable cause) {

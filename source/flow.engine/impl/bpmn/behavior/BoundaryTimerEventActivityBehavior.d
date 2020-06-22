@@ -16,13 +16,14 @@ import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableException;
 import flow.engine.deleg.DelegateExecution;
-import flow.engine.impl.jobexecutor.TimerEventHandler;
+//import flow.engine.impl.jobexecutor.TimerEventHandler;
 import flow.engine.impl.jobexecutor.TriggerTimerEventJobHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.TimerUtil;
+//import flow.engine.impl.util.TimerUtil;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
+import hunt.Exceptions;
 
 /**
  * @author Joram Barrez
@@ -40,15 +41,16 @@ class BoundaryTimerEventActivityBehavior : BoundaryEventActivityBehavior {
     public void execute(DelegateExecution execution) {
 
         ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
+        implementationMissing(false);
         //if (!(execution.getCurrentFlowElement() instanceof BoundaryEvent)) {
         //    throw new FlowableException("Programmatic error: " + this.getClass() + " should not be used for anything else than a boundary event");
         //}
 
-        TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, interrupting, executionEntity, TriggerTimerEventJobHandler.TYPE,
-                TimerEventHandler.createConfiguration(execution.getCurrentActivityId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
-        if (timerJob !is null) {
-            CommandContextUtil.getTimerJobService().scheduleTimerJob(timerJob);
-        }
+        //TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, interrupting, executionEntity, TriggerTimerEventJobHandler.TYPE,
+        //        TimerEventHandler.createConfiguration(execution.getCurrentActivityId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
+        //if (timerJob !is null) {
+        //    CommandContextUtil.getTimerJobService().scheduleTimerJob(timerJob);
+        //}
     }
 
 }

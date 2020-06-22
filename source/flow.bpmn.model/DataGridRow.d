@@ -46,7 +46,6 @@ class DataGridRow {
         this.fields = fields;
     }
 
-    override
     public DataGridRow clone() {
         DataGridRow clone = new DataGridRow();
         clone.setValues(this);

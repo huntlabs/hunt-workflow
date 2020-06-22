@@ -29,17 +29,17 @@ import flow.batch.service.impl.BatchQueryProperty;
 class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCacheValues {
 
     protected string id;
-    protected string batchType;
-    protected string searchKey;
-    protected string searchKey2;
-    protected Date createTimeHigherThan;
-    protected Date createTimeLowerThan;
-    protected Date completeTimeHigherThan;
-    protected Date completeTimeLowerThan;
-    protected string status;
-    protected string tenantId;
-    protected string tenantIdLike;
-    protected bool withoutTenantId;
+    protected string _batchType;
+    protected string _searchKey;
+    protected string _searchKey2;
+    protected Date _createTimeHigherThan;
+    protected Date _createTimeLowerThan;
+    protected Date _completeTimeHigherThan;
+    protected Date _completeTimeLowerThan;
+    protected string _status;
+    protected string _tenantId;
+    protected string _tenantIdLike;
+    protected bool _withoutTenantId;
 
     this() {
     }
@@ -63,19 +63,19 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
 
 
     public BatchQuery batchType(string batchType) {
-        if (batchType is null) {
+        if (_batchType is null) {
             throw new FlowableIllegalArgumentException("Provided batch type is null");
         }
-        this.batchType = batchType;
+        this._batchType = batchType;
         return this;
     }
 
 
     public BatchQuery searchKey(string searchKey) {
-        if (searchKey is null) {
+        if (_searchKey is null) {
             throw new FlowableIllegalArgumentException("Provided search key is null");
         }
-        this.searchKey = searchKey;
+        this._searchKey = searchKey;
         return this;
     }
 
@@ -84,7 +84,7 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (searchKey is null) {
             throw new FlowableIllegalArgumentException("Provided search key is null");
         }
-        this.searchKey2 = searchKey;
+        this._searchKey2 = searchKey;
         return this;
     }
 
@@ -93,7 +93,7 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.createTimeHigherThan = date;
+        this._createTimeHigherThan = date;
         return this;
     }
 
@@ -102,7 +102,7 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.createTimeLowerThan = date;
+        this._createTimeLowerThan = date;
         return this;
     }
 
@@ -111,7 +111,7 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.completeTimeHigherThan = date;
+        this._completeTimeHigherThan = date;
         return this;
     }
 
@@ -120,7 +120,7 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.completeTimeLowerThan = date;
+        this._completeTimeLowerThan = date;
         return this;
     }
 
@@ -129,7 +129,7 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (status is null) {
             throw new FlowableIllegalArgumentException("Provided status is null");
         }
-        this.status = status;
+        this._status = status;
         return this;
     }
 
@@ -138,7 +138,7 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
@@ -147,13 +147,13 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
         if (tenantIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided tenant id is null");
         }
-        this.tenantIdLike = tenantIdLike;
+        this._tenantIdLike = tenantIdLike;
         return this;
     }
 
 
     public BatchQuery withoutTenantId() {
-        this.withoutTenantId = true;
+        this._withoutTenantId = true;
         return this;
     }
 
@@ -176,12 +176,12 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
 
     // results //////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getBatchEntityManager(commandContext).findBatchCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Batch executeList(CommandContext commandContext) {
         return CommandContextUtil.getBatchEntityManager(commandContext).findBatchesByQueryCriteria(this);
     }
@@ -194,35 +194,35 @@ class BatchQueryImpl : AbstractQuery!(BatchQuery, Batch) , BatchQuery, QueryCach
     }
 
     public string getBatchType() {
-        return batchType;
+        return _batchType;
     }
 
     public string getSearchKey() {
-        return searchKey;
+        return _searchKey;
     }
 
     public string getSearchKey2() {
-        return searchKey2;
+        return _searchKey2;
     }
 
     public Date getCreateTimeHigherThan() {
-        return createTimeHigherThan;
+        return _createTimeHigherThan;
     }
 
     public Date getCreateTimeLowerThan() {
-        return createTimeLowerThan;
+        return _createTimeLowerThan;
     }
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
     public string getTenantIdLike() {
-        return tenantIdLike;
+        return _tenantIdLike;
     }
 
     public bool isWithoutTenantId() {
-        return withoutTenantId;
+        return _withoutTenantId;
     }
 
 }

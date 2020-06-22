@@ -14,13 +14,13 @@
 module flow.engine.dynamic.DynamicStateManager;
 
 import flow.common.interceptor.CommandContext;
-import flow.engine.impl.runtime.ChangeActivityStateBuilderImpl;
+//import flow.engine.impl.runtime.ChangeActivityStateBuilderImpl;
 
 /**
  * @author Tijs Rademakers
  */
 interface DynamicStateManager {
 
-    void moveExecutionState(ChangeActivityStateBuilderImpl changeActivityStateBuilder, CommandContext commandContext);
+   // void moveExecutionState(ChangeActivityStateBuilderImpl changeActivityStateBuilder, CommandContext commandContext);
 
 }

@@ -14,7 +14,7 @@ module flow.engine.impl.persistence.entity.data.AbstractProcessDataManager;
 
 import flow.common.db.AbstractDataManager;
 import flow.common.persistence.entity.Entity;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 
 /**
@@ -32,7 +32,7 @@ abstract class AbstractProcessDataManager(EntityImpl) : AbstractDataManager!Enti
         return processEngineConfiguration;
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return processEngineConfiguration.getClock();
     }
 

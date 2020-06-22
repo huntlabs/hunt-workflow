@@ -24,7 +24,7 @@ class StartEvent : Event {
 
     protected string initiator;
     protected string formKey;
-    protected bool isInterrupting = true;
+    protected bool _isInterrupting = true;
     protected string validateFormFields;
     protected List!FormProperty formProperties ;//= new ArrayList<>();
 
@@ -45,11 +45,11 @@ class StartEvent : Event {
     }
 
     public bool isInterrupting() {
-        return isInterrupting;
+        return _isInterrupting;
     }
 
     public void setInterrupting(bool isInterrupting) {
-        this.isInterrupting = isInterrupting;
+        this._isInterrupting = isInterrupting;
     }
 
     public List!FormProperty getFormProperties() {

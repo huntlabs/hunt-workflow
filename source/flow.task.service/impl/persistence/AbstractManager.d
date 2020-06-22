@@ -16,7 +16,7 @@ module flow.task.service.impl.persistence.AbstractManager;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.task.service.TaskServiceConfiguration;
 import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManager;
 import flow.task.service.impl.persistence.entity.TaskEntityManager;
@@ -48,7 +48,7 @@ abstract class AbstractManager {
         return taskServiceConfiguration;
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return getTaskServiceConfiguration().getClock();
     }
 

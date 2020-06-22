@@ -19,7 +19,7 @@ import flow.bpmn.model.TimerEventDefinition;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
-import flow.engine.impl.util.TimerUtil;
+//import flow.engine.impl.util.TimerUtil;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import hunt.Exceptions;
 class RescheduleTimerJobCmd : Command!TimerJobEntity {

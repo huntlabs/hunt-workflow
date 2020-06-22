@@ -25,7 +25,7 @@ import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.management.TableMetaData;
 import flow.common.api.management.TablePageQuery;
-import flow.common.cmd.CustomSqlExecution;
+//import flow.common.cmd.CustomSqlExecution;
 import flow.common.cmd.GetPropertiesCmd;
 import flow.common.db.DbSqlSession;
 import flow.common.db.DbSqlSessionFactory;
@@ -40,7 +40,7 @@ import flow.engine.event.EventLogEntry;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.cmd.DeleteBatchCmd;
 import flow.engine.impl.cmd.DeleteEventLogEntry;
-import flow.engine.impl.cmd.ExecuteCustomSqlCmd;
+//import flow.engine.impl.cmd.ExecuteCustomSqlCmd;
 import flow.engine.impl.cmd.FindBatchPartsByBatchIdCmd;
 import flow.engine.impl.cmd.FindBatchesBySearchKeyCmd;
 import flow.engine.impl.cmd.GetAllBatchesCmd;
@@ -51,7 +51,7 @@ import flow.engine.impl.cmd.GetEventLogEntriesCmd;
 import flow.engine.impl.cmd.GetTableCountCmd;
 import flow.engine.impl.cmd.GetTableMetaDataCmd;
 import flow.engine.impl.cmd.GetTableNameCmd;
-import flow.engine.impl.cmd.HandleHistoryCleanupTimerJobCmd;
+//import flow.engine.impl.cmd.HandleHistoryCleanupTimerJobCmd;
 import flow.engine.impl.cmd.RescheduleTimerJobCmd;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.job.service.api.DeadLetterJobQuery;
@@ -218,7 +218,7 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public TablePageQuery createTablePageQuery() {
-        return new TablePageQueryImpl(commandExecutor);
+       // return new TablePageQueryImpl(commandExecutor);
     }
 
 
@@ -268,7 +268,7 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public void handleHistoryCleanupTimerJob() {
-        commandExecutor.execute(new HandleHistoryCleanupTimerJobCmd());
+      //  commandExecutor.execute(new HandleHistoryCleanupTimerJobCmd());
     }
 
 

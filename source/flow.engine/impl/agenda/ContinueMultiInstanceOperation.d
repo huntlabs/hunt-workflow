@@ -22,7 +22,7 @@ import flow.engine.deleg.BpmnError;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;
-import flow.engine.impl.bpmn.helper.ErrorPropagation;
+//import flow.engine.impl.bpmn.helper.ErrorPropagation;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.deleg.ActivityBehavior;
 import flow.engine.impl.jobexecutor.AsyncContinuationJobHandler;

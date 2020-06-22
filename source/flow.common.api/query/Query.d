@@ -31,12 +31,13 @@ import flow.common.api.query.QueryProperty;
  */
 
 //interface Query<T extends Query<?, ?>, U extends Object>
+enum NullHandlingOnOrder {
+  NULLS_FIRST, NULLS_LAST
+}
 
 interface Query(T,U) {
 
-    enum NullHandlingOnOrder {
-        NULLS_FIRST, NULLS_LAST
-    }
+
 
     /**
      * Order the results ascending on the given property as defined in this class (needs to come after a call to one of the orderByXxxx methods).

@@ -116,12 +116,12 @@ class TimerJobEntityManagerImpl
         return doInsert(timerJobEntity, true);
     }
 
-
+    override
     public void insert(TimerJobEntity jobEntity) {
         insert(jobEntity, true);
     }
 
-
+    override
     public void insert(TimerJobEntity jobEntity, bool fireCreateEvent) {
         doInsert(jobEntity, fireCreateEvent);
     }
@@ -139,7 +139,7 @@ class TimerJobEntityManagerImpl
         return true;
     }
 
-
+    override
     public void dele(TimerJobEntity jobEntity) {
         super.dele(jobEntity, false);
 

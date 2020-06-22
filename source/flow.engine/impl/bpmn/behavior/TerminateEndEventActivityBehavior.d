@@ -25,7 +25,7 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.history.HistoryLevel;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
@@ -162,7 +162,7 @@ class TerminateEndEventActivityBehavior : FlowNodeActivityBehavior {
         List!HistoricActivityInstanceEntity historicActivityInstances = CommandContextUtil.getHistoricActivityInstanceEntityManager()
                 .findUnfinishedHistoricActivityInstancesByProcessInstanceId(processInstanceId);
 
-        Clock clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
+        Clockm clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
         foreach (HistoricActivityInstanceEntity historicActivityInstance ; historicActivityInstances) {
             historicActivityInstance.markEnded(deleteReason, clock.getCurrentTime());
 

@@ -13,7 +13,7 @@
 module flow.engine.impl.bpmn.data.IOSpecification;
 
 import hunt.collection.ArrayList;
-import hunt.collections;
+import hunt.collection.Collections;
 import hunt.collection.List;
 import hunt.collection.Collections;
 import flow.engine.deleg.DelegateExecution;

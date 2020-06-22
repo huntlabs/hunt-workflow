@@ -32,7 +32,7 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //import flow.bpmn.model.BpmnModel;
 //import flow.bpmn.model.MapExceptionEntry;
 //import flow.common.api.deleg.event.FlowableEvent;
-//import flow.common.runtime.Clock;
+//import flow.common.runtime.Clockm;
 //import flow.engine.ProcessEngineConfiguration;
 //import flow.engine.deleg.BpmnError;
 //import flow.engine.deleg.DelegateExecution;
@@ -199,7 +199,7 @@ module flow.engine.compatibility.Flowable5CompatibilityHandler;
 //
 //    void throwErrorEvent(FlowableEvent event);
 //
-//    void setClock(Clock clock);
+//    void setClock(Clockm clock);
 //
 //    void resetClock();
 //

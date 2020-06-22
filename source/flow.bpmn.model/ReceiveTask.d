@@ -14,6 +14,7 @@
 module flow.bpmn.model.ReceiveTask;
 
 import flow.bpmn.model.Task;
+import flow.bpmn.model.ManualTask;
 /**
  * @author Tijs Rademakers
  */

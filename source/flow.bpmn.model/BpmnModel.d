@@ -28,7 +28,7 @@ import flow.bpmn.model.ItemDefinition;
 import flow.bpmn.model.DataStore;
 import flow.bpmn.model.Pool;
 import flow.bpmn.model.Import;
-import flow.bpmn.model.Interface;
+//import flow.bpmn.model.Interface;
 import flow.bpmn.model.Artifact;
 import flow.bpmn.model.Resource;
 import flow.bpmn.model.Lane;
@@ -47,7 +47,7 @@ import std.string;
  * @author Joram Barrez
  */
 class BpmnModel {
-
+    import flow.bpmn.model.Interface;
     protected Map!(string, List!ExtensionAttribute) definitionsAttributes ;// = new LinkedHashMap<>();
     protected List!Process processes ;//= new ArrayList<>();
     //protected Map<string, GraphicInfo> locationMap = new LinkedHashMap<>();

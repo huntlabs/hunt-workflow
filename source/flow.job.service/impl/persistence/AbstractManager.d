@@ -16,7 +16,7 @@ module flow.job.service.impl.persistence.AbstractManager;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.job.service.JobServiceConfiguration;
 
 /**
@@ -46,7 +46,7 @@ import flow.job.service.JobServiceConfiguration;
         return jobServiceConfiguration;
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return getJobServiceConfiguration().getClock();
     }
 

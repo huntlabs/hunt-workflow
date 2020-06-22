@@ -31,7 +31,7 @@ import flow.bpmn.model.Transaction;
 import flow.common.api.FlowableException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.interceptor.CommandContext;
-import flow.common.util.CollectionUtil;
+//import flow.common.util.CollectionUtil;
 import flow.engine.deleg.ExecutionListener;
 import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;

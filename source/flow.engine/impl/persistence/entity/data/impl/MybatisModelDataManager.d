@@ -25,7 +25,7 @@ import flow.engine.repository.Model;
 import hunt.entity;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 /**
  * @author Joram Barrez
  */
@@ -40,7 +40,7 @@ class MybatisModelDataManager : EntityRepository!( ModelEntityImpl , string) , M
       return processEngineConfiguration;
     }
 
-    public Clock getClock() {
+    public Clockm getClock() {
       return processEngineConfiguration.getClock();
     }
 

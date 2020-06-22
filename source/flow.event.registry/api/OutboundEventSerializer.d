@@ -13,7 +13,6 @@
 module flow.event.registry.api.OutboundEventSerializer;
 
 import flow.event.registry.api.runtime.EventInstance;
-import hunt.string;
 /**
  * @author Joram Barrez
  * @author Filip Hrisafov

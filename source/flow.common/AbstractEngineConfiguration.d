@@ -96,7 +96,7 @@ import flow.common.persistence.entity.PropertyEntityManager;
 import flow.common.persistence.entity.PropertyEntityManagerImpl;
 import flow.common.persistence.entity.data.PropertyDataManager;
 import flow.common.persistence.entity.data.impl.MybatisPropertyDataManager;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.common.service.CommonEngineServiceImpl;
 import flow.common.util.DefaultClockImpl;
 //import flow.common.util.IoUtil;
@@ -195,7 +195,7 @@ abstract class AbstractEngineConfiguration {
 
     // MYBATIS SQL SESSION FACTORY /////////////////////////////////////
 
-    protected bool isDbHistoryUsed = true;
+    protected bool _isDbHistoryUsed = true;
     //protected DbSqlSessionFactory dbSqlSessionFactory;
     //protected SqlSessionFactory sqlSessionFactory;
     //protected TransactionFactory transactionFactory;
@@ -205,7 +205,7 @@ abstract class AbstractEngineConfiguration {
      * If set to true, enables bulk insert (grouping sql inserts together). Default true.
      * For some databases (eg DB2+z/OS) needs to be set to false.
      */
-    protected bool isBulkInsertEnabled = true;
+    protected bool _isBulkInsertEnabled = true;
 
     /**
      * Some databases have a limit of how many parameters one sql insert can have (eg SQL Server, 2000 params (!= insert statements) ). Tweak this parameter in case of exceptions indicating too much
@@ -394,7 +394,7 @@ abstract class AbstractEngineConfiguration {
     protected IdGenerator idGenerator;
     protected bool usePrefixId;
 
-    protected Clock clock;
+    protected Clockm clock;
     //protected ObjectMapper objectMapper = new ObjectMapper();
 
     // Variables
@@ -1429,11 +1429,11 @@ abstract class AbstractEngineConfiguration {
     //}
 
     public bool isDbHistoryUsed() {
-        return isDbHistoryUsed;
+        return _isDbHistoryUsed;
     }
 
     public AbstractEngineConfiguration setDbHistoryUsed(bool isDbHistoryUsed) {
-        this.isDbHistoryUsed = isDbHistoryUsed;
+        this._isDbHistoryUsed = isDbHistoryUsed;
         return this;
     }
 
@@ -1474,11 +1474,11 @@ abstract class AbstractEngineConfiguration {
     }
 
     public bool isBulkInsertEnabled() {
-        return isBulkInsertEnabled;
+        return _isBulkInsertEnabled;
     }
 
     public AbstractEngineConfiguration setBulkInsertEnabled(bool isBulkInsertEnabled) {
-        this.isBulkInsertEnabled = isBulkInsertEnabled;
+        this._isBulkInsertEnabled = isBulkInsertEnabled;
         return this;
     }
 
@@ -1788,11 +1788,11 @@ abstract class AbstractEngineConfiguration {
     //    this.loggingListener = loggingListener;
     //}
 
-    public Clock getClock() {
+    public Clockm getClock() {
         return clock;
     }
 
-    public AbstractEngineConfiguration setClock(Clock clock) {
+    public AbstractEngineConfiguration setClock(Clockm clock) {
         this.clock = clock;
         return this;
     }

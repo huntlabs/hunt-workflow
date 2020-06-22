@@ -13,8 +13,9 @@
 module flow.engine.impl.bpmn.behavior.ErrorEndEventActivityBehavior;
 
 import flow.engine.deleg.DelegateExecution;
-import flow.engine.impl.bpmn.helper.ErrorPropagation;
+//import flow.engine.impl.bpmn.helper.ErrorPropagation;
 import flow.engine.impl.bpmn.behavior.FlowNodeActivityBehavior;
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -30,7 +31,8 @@ class ErrorEndEventActivityBehavior : FlowNodeActivityBehavior {
 
     override
     public void execute(DelegateExecution execution) {
-        ErrorPropagation.propagateError(errorCode, execution);
+        implementationMissing(false);
+      //  ErrorPropagation.propagateError(errorCode, execution);
     }
 
     public string getErrorCode() {

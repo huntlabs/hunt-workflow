@@ -31,7 +31,7 @@ import flow.common.interceptor.CommandConfig;
 import flow.common.interceptor.CommandInterceptor;
 import flow.common.interceptor.EngineConfigurationConstants;
 import flow.common.interceptor.SessionFactory;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.idm.api.IdmEngineConfigurationApi;
 import flow.idm.api.IdmIdentityService;
 import flow.idm.api.IdmManagementService;
@@ -841,7 +841,7 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     }
 
 
-    public IdmEngineConfiguration setClock(Clock clock) {
+    public IdmEngineConfiguration setClock(Clockm clock) {
         this.clock = clock;
         return this;
     }

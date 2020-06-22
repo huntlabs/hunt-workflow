@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.job.service.api.JobInfo;
- 
- 
- 
+
+
+
 
 
 
@@ -27,7 +27,7 @@ module flow.job.service.api.JobInfo;
  */
 interface JobInfo {
 
-    int MAX_EXCEPTION_MESSAGE_LENGTH = 255;
+    static int MAX_EXCEPTION_MESSAGE_LENGTH = 255;
 
     /**
      * Returns the unique identifier for this job.

@@ -15,7 +15,7 @@ module flow.job.service.impl.persistence.entity.JobByteArrayEntityManager;
 import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
-
+import flow.job.service.impl.persistence.entity.JobByteArrayEntity;
 /**
  * @author Joram Barrez
  */

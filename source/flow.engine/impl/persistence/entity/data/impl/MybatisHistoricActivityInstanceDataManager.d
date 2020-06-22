@@ -30,7 +30,7 @@ import hunt.entity;
 import hunt.collection.ArrayList;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import hunt.logging;
 /**
  * @author Joram Barrez
@@ -47,7 +47,7 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
       return processEngineConfiguration;
     }
 
-    public Clock getClock() {
+    public Clockm getClock() {
       return processEngineConfiguration.getClock();
     }
 

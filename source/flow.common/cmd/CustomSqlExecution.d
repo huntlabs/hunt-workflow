@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.common.cmd.CustomSqlExecution;
 
-module flow.engine.Agenda;
-import flow.common.agenda.Agenda;
 /**
- * This interface exposes independent agenda methods.
- *
- * @deprecated in 6.2.0, use the {@link flow.common.agenda.Agenda} in the common module instead.
+ * @author jbarrez
  */
-interface Agenda : flow.common.agenda.Agenda.Agenda {
-
-}
+// interface CustomSqlExecution<Mapper, ResultType> {
+//
+//    Class<Mapper> getMapperClass();
+//
+//    ResultType execute(Mapper mapper);
+//
+//}

@@ -24,7 +24,7 @@ import flow.engine.impl.persistence.entity.data.DeploymentDataManager;
 import flow.engine.repository.Deployment;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import hunt.logging;
 import hunt.collection.ArrayList;
 import hunt.entity;
@@ -40,7 +40,7 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
       return processEngineConfiguration;
     }
 
-    public Clock getClock() {
+    public Clockm getClock() {
       return processEngineConfiguration.getClock();
     }
 

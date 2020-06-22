@@ -32,29 +32,29 @@ import flow.job.service.impl.JobQueryProperty;
  */
 class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     protected string id;
-    protected string processInstanceId;
-    protected string executionId;
-    protected string handlerType;
-    protected string processDefinitionId;
-    protected string elementId;
-    protected string elementName;
-    protected string scopeId;
-    protected string subScopeId;
-    protected string scopeType;
-    protected string scopeDefinitionId;
+    protected string _processInstanceId;
+    protected string _executionId;
+    protected string _handlerType;
+    protected string _processDefinitionId;
+    protected string _elementId;
+    protected string _elementName;
+    protected string _scopeId;
+    protected string _subScopeId;
+    protected string _scopeType;
+    protected string _scopeDefinitionId;
     protected bool onlyTimers;
     protected bool onlyMessages;
-    protected Date duedateHigherThan;
-    protected Date duedateLowerThan;
+    protected Date _duedateHigherThan;
+    protected Date _duedateLowerThan;
     protected Date duedateHigherThanOrEqual;
     protected Date duedateLowerThanOrEqual;
-    protected bool withException;
-    protected string exceptionMessage;
+    protected bool _withException;
+    protected string _exceptionMessage;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
 
-    protected string lockOwner;
+    protected string _lockOwner;
     protected bool onlyLocked;
     protected bool onlyUnlocked;
 
@@ -83,7 +83,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (processInstanceId is null) {
             throw new FlowableIllegalArgumentException("Provided process instance id is null");
         }
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
@@ -92,7 +92,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (processDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided process definition id is null");
         }
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
@@ -101,7 +101,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (elementId is null) {
             throw new FlowableIllegalArgumentException("Provided element id is null");
         }
-        this.elementId = elementId;
+        this._elementId = elementId;
         return this;
     }
 
@@ -110,7 +110,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (elementName is null) {
             throw new FlowableIllegalArgumentException("Provided element name is null");
         }
-        this.elementName = elementName;
+        this._elementName = elementName;
         return this;
     }
 
@@ -119,7 +119,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
         }
-        this.scopeId = scopeId;
+        this._scopeId = scopeId;
         return this;
     }
 
@@ -128,7 +128,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (subScopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
         }
-        this.subScopeId = subScopeId;
+        this._subScopeId = subScopeId;
         return this;
     }
 
@@ -137,7 +137,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
         }
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
@@ -146,7 +146,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (scopeDefinitionId is null) {
             throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
         }
-        this.scopeDefinitionId = scopeDefinitionId;
+        this._scopeDefinitionId = scopeDefinitionId;
         return this;
     }
 
@@ -185,7 +185,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (executionId is null) {
             throw new FlowableIllegalArgumentException("Provided execution id is null");
         }
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
@@ -194,7 +194,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
         }
-        this.handlerType = handlerType;
+        this._handlerType = handlerType;
         return this;
     }
 
@@ -221,7 +221,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.duedateHigherThan = date;
+        this._duedateHigherThan = date;
         return this;
     }
 
@@ -230,13 +230,13 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (date is null) {
             throw new FlowableIllegalArgumentException("Provided date is null");
         }
-        this.duedateLowerThan = date;
+        this._duedateLowerThan = date;
         return this;
     }
 
 
     public JobQuery withException() {
-        this.withException = true;
+        this._withException = true;
         return this;
     }
 
@@ -245,7 +245,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
         if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
         }
-        this.exceptionMessage = exceptionMessage;
+        this._exceptionMessage = exceptionMessage;
         return this;
     }
 
@@ -275,7 +275,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
 
 
     public JobQuery lockOwner(string lockOwner) {
-        this.lockOwner = lockOwner;
+        this._lockOwner = lockOwner;
         return this;
     }
 
@@ -325,12 +325,12 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
 
     // results //////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getJobEntityManager(commandContext).findJobCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Job executeList(CommandContext commandContext) {
         return CommandContextUtil.getJobEntityManager(commandContext).findJobsByQueryCriteria(this);
     }
@@ -338,15 +338,15 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     // getters //////////////////////////////////////////
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getHandlerType() {
-        return this.handlerType;
+        return this._handlerType;
     }
 
     public Date getNow() {
@@ -354,11 +354,11 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     }
 
     public bool isWithException() {
-        return withException;
+        return _withException;
     }
 
     public string getExceptionMessage() {
-        return exceptionMessage;
+        return _exceptionMessage;
     }
 
     public string getTenantId() {
@@ -382,23 +382,23 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
     public bool isOnlyTimers() {
@@ -410,11 +410,11 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     }
 
     public Date getDuedateHigherThan() {
-        return duedateHigherThan;
+        return _duedateHigherThan;
     }
 
     public Date getDuedateLowerThan() {
-        return duedateLowerThan;
+        return _duedateLowerThan;
     }
 
     public Date getDuedateHigherThanOrEqual() {
@@ -426,7 +426,7 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     }
 
     public string getLockOwner() {
-        return lockOwner;
+        return _lockOwner;
     }
 
     public bool isOnlyLocked() {

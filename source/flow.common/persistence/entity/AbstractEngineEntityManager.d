@@ -17,7 +17,7 @@ import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.interceptor.CommandExecutor;
 import flow.common.persistence.entity.data.DataManager;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.common.persistence.entity.AbstractEntityManager;
 
 /**
@@ -43,7 +43,7 @@ abstract class AbstractEngineEntityManager(T, EntityImpl, DM)
         return engineConfiguration.getEventDispatcher();
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return engineConfiguration.getClock();
     }
 

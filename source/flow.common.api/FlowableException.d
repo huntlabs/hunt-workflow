@@ -28,7 +28,7 @@ import hunt.Exceptions;
 class FlowableException : RuntimeException {
 
 
-    protected bool isLogged;
+    protected bool _isLogged;
     protected bool reduceLogLevel;
 
     this(string message, Throwable cause) {
@@ -40,7 +40,7 @@ class FlowableException : RuntimeException {
     }
 
     public bool isLogged() {
-        return isLogged;
+        return _isLogged;
     }
 
     public void setLogged(bool isLogged) {

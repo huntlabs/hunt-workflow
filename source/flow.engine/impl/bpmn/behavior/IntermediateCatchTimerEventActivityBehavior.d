@@ -17,16 +17,16 @@ import hunt.collection.List;
 import flow.bpmn.model.TimerEventDefinition;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.history.DeleteReason;
-import flow.engine.impl.jobexecutor.TimerEventHandler;
+//import flow.engine.impl.jobexecutor.TimerEventHandler;
 import flow.engine.impl.jobexecutor.TriggerTimerEventJobHandler;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.TimerUtil;
+//import flow.engine.impl.util.TimerUtil;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.engine.impl.bpmn.behavior.IntermediateCatchEventActivityBehavior;
-
+import hunt.Exceptions;
 
 class IntermediateCatchTimerEventActivityBehavior : IntermediateCatchEventActivityBehavior {
 
@@ -38,13 +38,14 @@ class IntermediateCatchTimerEventActivityBehavior : IntermediateCatchEventActivi
 
     override
     public void execute(DelegateExecution execution) {
+         implementationMissing(false);
         // end date should be ignored for intermediate timer events.
-        TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, cast(ExecutionEntity) execution, TriggerTimerEventJobHandler.TYPE,
-                TimerEventHandler.createConfiguration(execution.getCurrentActivityId(), null, timerEventDefinition.getCalendarName()));
-
-        if (timerJob !is null) {
-            CommandContextUtil.getTimerJobService().scheduleTimerJob(timerJob);
-        }
+        //TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, cast(ExecutionEntity) execution, TriggerTimerEventJobHandler.TYPE,
+        //        TimerEventHandler.createConfiguration(execution.getCurrentActivityId(), null, timerEventDefinition.getCalendarName()));
+        //
+        //if (timerJob !is null) {
+        //    CommandContextUtil.getTimerJobService().scheduleTimerJob(timerJob);
+        //}
     }
 
     override

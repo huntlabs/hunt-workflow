@@ -20,6 +20,35 @@ import hunt.entity;
  * @author Marcus Klimstra (CGI)
  * @author Joram Barrez
  */
+class PersistentState {
+
+  private  string name;
+  private  byte[] bytes;
+
+  this(string name, byte[] bytes) {
+    this.name = name;
+    this.bytes = bytes;
+  }
+
+
+  override
+  public bool opEquals(Object obj) {
+    PersistentState other = cast(PersistentState) obj;
+    if (other !is null) {
+      return (this.name == other.name) && (this.bytes.length == other.bytes.length);
+    }
+    return false;
+  }
+
+  override
+  public size_t toHash() {
+    return 0 ;
+    //throw new UnsupportedOperationException();
+  }
+
+}
+
+
 @Table("ACT_GE_BYTEARRAY")
 class JobByteArrayEntityImpl : AbstractJobServiceEntity , Model, JobByteArrayEntity {
 
@@ -90,39 +119,12 @@ class JobByteArrayEntityImpl : AbstractJobServiceEntity , Model, JobByteArrayEnt
         this.bytes = bytes;
     }
 
-
+    override
     public string toString() {
         return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ (bytes !is null ? bytes.length : 0) ~ "]";
     }
 
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
-    class PersistentState {
-
-        private  string name;
-        private  byte[] bytes;
-
-        this(string name, byte[] bytes) {
-            this.name = name;
-            this.bytes = bytes;
-        }
-
-
-        override
-        public bool opEquals(Object obj) {
-            PersistentState other = cast(PersistentState) obj;
-            if (other !is null) {
-                return (this.name == other.name) && (this.bytes.length == other.bytes.length);
-            }
-            return false;
-        }
-
-        override
-        public size_t toHash() {
-            return 0 ;
-            //throw new UnsupportedOperationException();
-        }
-
-    }
 
 }

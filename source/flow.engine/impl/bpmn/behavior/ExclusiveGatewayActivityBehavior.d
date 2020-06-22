@@ -25,7 +25,7 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.bpmn.helper.SkipExpressionUtil;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
-import flow.engine.impl.util.condition.ConditionUtil;
+//import flow.engine.impl.util.condition.ConditionUtil;
 import flow.engine.impl.bpmn.behavior.GatewayActivityBehavior;
 import hunt.collection.Iterator;
 

@@ -17,7 +17,7 @@ import hunt.collection.Map;
 
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.form.AbstractFormType;
-import flow.engine.impl.form.AbstractFormType;
+import flow.engine.form.AbstractFormType;
 import hunt.String;
 
 /**

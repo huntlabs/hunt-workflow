@@ -27,9 +27,9 @@ abstract class AbstractEntity : Entity, HasRevision {
     //protected string id;
     protected int revision = 1;
 
-    protected bool isInserted;
-    protected bool isUpdated;
-    protected bool isDeleted;
+    protected bool _isInserted;
+    protected bool _isUpdated;
+    protected bool _isDeleted;
 
     protected Object originalPersistentState;
 
@@ -60,32 +60,32 @@ abstract class AbstractEntity : Entity, HasRevision {
 
 
     public bool isInserted() {
-        return isInserted;
+        return _isInserted;
     }
 
 
     public void setInserted(bool isInserted) {
-        this.isInserted = isInserted;
+        this._isInserted = isInserted;
     }
 
 
     public bool isUpdated() {
-        return isUpdated;
+        return _isUpdated;
     }
 
 
     public void setUpdated(bool isUpdated) {
-        this.isUpdated = isUpdated;
+        this._isUpdated = isUpdated;
     }
 
 
     public bool isDeleted() {
-        return isDeleted;
+        return _isDeleted;
     }
 
 
     public void setDeleted(bool isDeleted) {
-        this.isDeleted = isDeleted;
+        this._isDeleted = isDeleted;
     }
 
 

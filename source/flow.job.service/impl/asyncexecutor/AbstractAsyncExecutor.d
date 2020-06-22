@@ -22,12 +22,14 @@ import flow.job.service.impl.persistence.entity.JobInfoEntity;
 import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
 import flow.job.service.impl.util.CommandContextUtil;
 import flow.job.service.impl.asyncexecutor.AsyncExecutor;
-import flow.job.service.impl.asyncexecutor.AcquireTimerJobsRunnable;
-import flow.job.service.impl.asyncexecutor.AcquireAsyncJobsDueRunnable;
-import flow.job.service.impl.asyncexecutor.ResetExpiredJobsRunnable;
+//import flow.job.service.impl.asyncexecutor.AcquireTimerJobsRunnable;
+//import flow.job.service.impl.asyncexecutor.AcquireAsyncJobsDueRunnable;
+//import flow.job.service.impl.asyncexecutor.ResetExpiredJobsRunnable;
 import flow.job.service.impl.asyncexecutor.ExecuteAsyncRunnableFactory;
 import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandler;
 import hunt.util.Common;
+import hunt.util.Runnable;
+import hunt.Exceptions;
 
 /**
  * @author Joram Barrez
@@ -38,12 +40,12 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
     private string tenantId;
 
     protected bool timerRunnableNeeded = true; // default true for backwards compatibility (History Async executor came later)
-    protected AcquireTimerJobsRunnable timerJobRunnable;
+   // protected AcquireTimerJobsRunnable timerJobRunnable;
     protected string acquireRunnableThreadName;
     protected JobInfoEntityManager!JobInfoEntity jobEntityManager;
-    protected AcquireAsyncJobsDueRunnable asyncJobsDueRunnable;
+    //protected AcquireAsyncJobsDueRunnable asyncJobsDueRunnable;
     protected string resetExpiredRunnableName;
-    protected ResetExpiredJobsRunnable resetExpiredJobsRunnable;
+   // protected ResetExpiredJobsRunnable resetExpiredJobsRunnable;
 
     protected ExecuteAsyncRunnableFactory executeAsyncRunnableFactory;
 
@@ -106,7 +108,9 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
 
     protected Runnable createRunnableForJob(final JobInfo job) {
         if (executeAsyncRunnableFactory is null) {
-            return new ExecuteAsyncRunnable(job, jobServiceConfiguration, jobEntityManager, asyncRunnableExecutionExceptionHandler);
+            implementationMissing(false);
+            return null;
+           // return new ExecuteAsyncRunnable(job, jobServiceConfiguration, jobEntityManager, asyncRunnableExecutionExceptionHandler);
         } else {
             return executeAsyncRunnableFactory.createExecuteAsyncRunnable(job, jobServiceConfiguration);
         }
@@ -136,24 +140,25 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
     }
 
     protected void initializeRunnables() {
-        if (timerRunnableNeeded && timerJobRunnable is null) {
-            timerJobRunnable = new AcquireTimerJobsRunnable(this, jobServiceConfiguration.getJobManager());
-        }
-
-        JobInfoEntityManager!JobInfoEntity jobEntityManagerToUse = jobEntityManager !is null
-                ? jobEntityManager : CommandContextUtil.getJobServiceConfiguration().getJobEntityManager();
-
-        if (resetExpiredJobsRunnable is null) {
-            string resetRunnableName = resetExpiredRunnableName !is null ?
-                    resetExpiredRunnableName : "flowable-" ~ getJobServiceConfiguration().getEngineName() ~ "-reset-expired-jobs";
-            resetExpiredJobsRunnable = new ResetExpiredJobsRunnable(resetRunnableName, this, jobEntityManagerToUse);
-        }
-
-        if (!isMessageQueueMode && asyncJobsDueRunnable is null) {
-            string acquireJobsRunnableName = acquireRunnableThreadName !is null ?
-                    acquireRunnableThreadName : "flowable-" ~ getJobServiceConfiguration().getEngineName() ~ "-acquire-async-jobs";
-            asyncJobsDueRunnable = new AcquireAsyncJobsDueRunnable(acquireJobsRunnableName, this, jobEntityManagerToUse);
-        }
+        implementationMissing(false);
+        //if (timerRunnableNeeded && timerJobRunnable is null) {
+        //    timerJobRunnable = new AcquireTimerJobsRunnable(this, jobServiceConfiguration.getJobManager());
+        //}
+        //
+        //JobInfoEntityManager!JobInfoEntity jobEntityManagerToUse = jobEntityManager !is null
+        //        ? jobEntityManager : CommandContextUtil.getJobServiceConfiguration().getJobEntityManager();
+        //
+        //if (resetExpiredJobsRunnable is null) {
+        //    string resetRunnableName = resetExpiredRunnableName !is null ?
+        //            resetExpiredRunnableName : "flowable-" ~ getJobServiceConfiguration().getEngineName() ~ "-reset-expired-jobs";
+        //    resetExpiredJobsRunnable = new ResetExpiredJobsRunnable(resetRunnableName, this, jobEntityManagerToUse);
+        //}
+        //
+        //if (!isMessageQueueMode && asyncJobsDueRunnable is null) {
+        //    string acquireJobsRunnableName = acquireRunnableThreadName !is null ?
+        //            acquireRunnableThreadName : "flowable-" ~ getJobServiceConfiguration().getEngineName() ~ "-acquire-async-jobs";
+        //    asyncJobsDueRunnable = new AcquireAsyncJobsDueRunnable(acquireJobsRunnableName, this, jobEntityManagerToUse);
+        //}
     }
 
     protected abstract void startAdditionalComponents();
@@ -180,19 +185,19 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
     }
 
     protected void stopRunnables() {
-        if (timerJobRunnable !is null) {
-            timerJobRunnable.stop();
-        }
-        if (asyncJobsDueRunnable !is null) {
-            asyncJobsDueRunnable.stop();
-        }
-        if (resetExpiredJobsRunnable !is null) {
-            resetExpiredJobsRunnable.stop();
-        }
-
-        timerJobRunnable = null;
-        asyncJobsDueRunnable = null;
-        resetExpiredJobsRunnable = null;
+        //if (timerJobRunnable !is null) {
+        //    timerJobRunnable.stop();
+        //}
+        //if (asyncJobsDueRunnable !is null) {
+        //    asyncJobsDueRunnable.stop();
+        //}
+        //if (resetExpiredJobsRunnable !is null) {
+        //    resetExpiredJobsRunnable.stop();
+        //}
+        //
+        //timerJobRunnable = null;
+        //asyncJobsDueRunnable = null;
+        //resetExpiredJobsRunnable = null;
     }
 
     protected abstract void shutdownAdditionalComponents();
@@ -301,9 +306,9 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
         this.defaultAsyncJobAcquireWaitTimeInMillis = defaultAsyncJobAcquireWaitTimeInMillis;
     }
 
-    public void setTimerJobRunnable(AcquireTimerJobsRunnable timerJobRunnable) {
-        this.timerJobRunnable = timerJobRunnable;
-    }
+    //public void setTimerJobRunnable(AcquireTimerJobsRunnable timerJobRunnable) {
+    //    this.timerJobRunnable = timerJobRunnable;
+    //}
 
 
     public int getDefaultQueueSizeFullWaitTimeInMillis() {
@@ -315,9 +320,9 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
         this.defaultQueueSizeFullWaitTime = defaultQueueSizeFullWaitTime;
     }
 
-    public void setAsyncJobsDueRunnable(AcquireAsyncJobsDueRunnable asyncJobsDueRunnable) {
-        this.asyncJobsDueRunnable = asyncJobsDueRunnable;
-    }
+    //public void setAsyncJobsDueRunnable(AcquireAsyncJobsDueRunnable asyncJobsDueRunnable) {
+    //    this.asyncJobsDueRunnable = asyncJobsDueRunnable;
+    //}
 
     public void setTimerRunnableNeeded(bool timerRunnableNeeded) {
         this.timerRunnableNeeded = timerRunnableNeeded;
@@ -335,9 +340,9 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
         this.resetExpiredRunnableName = resetExpiredRunnableName;
     }
 
-    public void setResetExpiredJobsRunnable(ResetExpiredJobsRunnable resetExpiredJobsRunnable) {
-        this.resetExpiredJobsRunnable = resetExpiredJobsRunnable;
-    }
+    //public void setResetExpiredJobsRunnable(ResetExpiredJobsRunnable resetExpiredJobsRunnable) {
+    //    this.resetExpiredJobsRunnable = resetExpiredJobsRunnable;
+    //}
 
 
     public int getRetryWaitTimeInMillis() {
@@ -381,21 +386,21 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
         return asyncRunnableExecutionExceptionHandler;
     }
 
-    public void setAsyncRunnableExecutionExceptionHandler(AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler) {
-        this.asyncRunnableExecutionExceptionHandler = asyncRunnableExecutionExceptionHandler;
-    }
-
-    public AcquireTimerJobsRunnable getTimerJobRunnable() {
-        return timerJobRunnable;
-    }
-
-    public AcquireAsyncJobsDueRunnable getAsyncJobsDueRunnable() {
-        return asyncJobsDueRunnable;
-    }
-
-    public ResetExpiredJobsRunnable getResetExpiredJobsRunnable() {
-        return resetExpiredJobsRunnable;
-    }
+    //public void setAsyncRunnableExecutionExceptionHandler(AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler) {
+    //    this.asyncRunnableExecutionExceptionHandler = asyncRunnableExecutionExceptionHandler;
+    //}
+    //
+    //public AcquireTimerJobsRunnable getTimerJobRunnable() {
+    //    return timerJobRunnable;
+    //}
+    //
+    //public AcquireAsyncJobsDueRunnable getAsyncJobsDueRunnable() {
+    //    return asyncJobsDueRunnable;
+    //}
+    //
+    //public ResetExpiredJobsRunnable getResetExpiredJobsRunnable() {
+    //    return resetExpiredJobsRunnable;
+    //}
 
     public void setTenantId(string tenantId) {
         this.tenantId = tenantId;

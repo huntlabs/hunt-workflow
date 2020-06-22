@@ -24,7 +24,7 @@ import flow.job.service.impl.persistence.entity.data.DeadLetterJobDataManager;
 import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityManager;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntity;
 import flow.job.service.impl.persistence.entity.DeadLetterJobEntityManager;
-
+import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 /**
  * @author Tijs Rademakers
  */
@@ -61,7 +61,7 @@ class DeadLetterJobEntityManagerImpl
         dataManager.updateJobTenantIdForDeployment(deploymentId, newTenantId);
     }
 
-
+    override
     public void insert(DeadLetterJobEntity jobEntity, bool fireCreateEvent) {
         if (getServiceConfiguration().getInternalJobManager() !is null) {
             getServiceConfiguration().getInternalJobManager().handleJobInsert(jobEntity);
@@ -71,12 +71,12 @@ class DeadLetterJobEntityManagerImpl
         super.insert(jobEntity, fireCreateEvent);
     }
 
-
+    override
     public void insert(DeadLetterJobEntity jobEntity) {
         insert(jobEntity, true);
     }
 
-
+    override
     public void dele(DeadLetterJobEntity jobEntity) {
         super.dele(jobEntity);
 

@@ -27,10 +27,10 @@ import flow.common.context.Context;
 import flow.common.db.SuspensionState;
 import flow.common.history.HistoryLevel;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.persistence.CountingExecutionEntity;
-import flow.engine.impl.util.BpmnLoggingSessionUtil;
+//import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.CountingEntityUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
@@ -831,7 +831,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
         CountingEntityUtil.handleInsertVariableInstanceEntityCount(variableInstance);
 
-        Clock clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
+        Clockm clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
         // Record historic variable
         CommandContextUtil.getHistoryManager().recordVariableCreate(variableInstance, clock.getCurrentTime());
 
@@ -860,7 +860,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     protected void updateVariableInstance(VariableInstanceEntity variableInstance, Object value, ExecutionEntity sourceExecution) {
         super.updateVariableInstance(variableInstance, value);
 
-        Clock clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
+        Clockm clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
         CommandContextUtil.getHistoryManager().recordHistoricDetailVariableCreate(variableInstance, sourceExecution, true,
             getRelatedActivityInstanceId(sourceExecution), clock.getCurrentTime());
 
@@ -873,7 +873,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
         CountingEntityUtil.handleDeleteVariableInstanceEntityCount(variableInstance, true);
 
-        Clock clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
+        Clockm clock = CommandContextUtil.getProcessEngineConfiguration().getClock();
         // Record historic variable deletion
         CommandContextUtil.getHistoryManager().recordVariableRemoved(variableInstance);
 

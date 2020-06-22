@@ -21,7 +21,7 @@ module flow.common.HasVariableTypes;
 
 
 
-
+import flow.common.AbstractEngineConfiguration;
 import flow.variable.service.api.types.VariableTypes;
 
 /**

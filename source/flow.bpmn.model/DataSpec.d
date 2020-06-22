@@ -18,7 +18,7 @@ class DataSpec : BaseElement {
 
     protected string name;
     protected string itemSubjectRef;
-    protected bool isCollection;
+    protected bool _isCollection;
 
     public string getName() {
         return name;
@@ -37,7 +37,7 @@ class DataSpec : BaseElement {
     }
 
     public bool isCollection() {
-        return isCollection;
+        return _isCollection;
     }
 
     public void setCollection(bool isCollection) {

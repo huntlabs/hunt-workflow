@@ -32,14 +32,14 @@ import flow.job.service.impl.JobQueryProperty;
 class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , HistoryJobQuery {
 
     protected string id;
-    protected string handlerType;
-    protected bool withException;
-    protected string exceptionMessage;
-    protected string scopeType;
+    protected string _handlerType;
+    protected bool _withException;
+    protected string _exceptionMessage;
+    protected string _scopeType;
     protected string tenantId;
     protected string tenantIdLike;
     protected bool withoutTenantId;
-    protected string lockOwner;
+    protected string _lockOwner;
     protected bool onlyLocked;
     protected bool onlyUnlocked;
 
@@ -68,13 +68,13 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
         if (handlerType is null) {
             throw new FlowableIllegalArgumentException("Provided handlerType is null");
         }
-        this.handlerType = handlerType;
+        this._handlerType = handlerType;
         return this;
     }
 
 
     public HistoryJobQuery withException() {
-        this.withException = true;
+        this._withException = true;
         return this;
     }
 
@@ -83,7 +83,7 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
         if (exceptionMessage is null) {
             throw new FlowableIllegalArgumentException("Provided exception message is null");
         }
-        this.exceptionMessage = exceptionMessage;
+        this._exceptionMessage = exceptionMessage;
         return this;
     }
 
@@ -92,7 +92,7 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
         if (scopeType is null) {
             throw new FlowableIllegalArgumentException("Provided scope type is null");
         }
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
@@ -122,7 +122,7 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
 
 
     public HistoryJobQuery lockOwner(string lockOwner) {
-        this.lockOwner = lockOwner;
+        this._lockOwner = lockOwner;
         return this;
     }
 
@@ -173,11 +173,12 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
     // results //////////////////////////////////////////
 
 
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getHistoryJobEntityManager(commandContext).findHistoryJobCountByQueryCriteria(this);
     }
 
-
+    override
     public List!HistoryJob executeList(CommandContext commandContext) {
         return CommandContextUtil.getHistoryJobEntityManager(commandContext).findHistoryJobsByQueryCriteria(this);
     }
@@ -185,7 +186,7 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
     // getters //////////////////////////////////////////
 
     public string getHandlerType() {
-        return this.handlerType;
+        return this._handlerType;
     }
 
     public Date getNow() {
@@ -193,15 +194,15 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
     }
 
     public bool isWithException() {
-        return withException;
+        return _withException;
     }
 
     public string getExceptionMessage() {
-        return exceptionMessage;
+        return _exceptionMessage;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public string getTenantId() {
@@ -225,7 +226,7 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
     }
 
     public string getLockOwner() {
-        return lockOwner;
+        return _lockOwner;
     }
 
     public bool isOnlyLocked() {

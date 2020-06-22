@@ -49,7 +49,7 @@ class CommandContext {
     protected CommandAbstract command;
     protected Map!(TypeInfo, SessionFactory) sessionFactories;
     protected Map!(TypeInfo, Session) sessions ;// = new HashMap<>();
-    protected Throwable exception;
+    protected Throwable _exception;
     protected List!CommandContextCloseListener closeListeners;
     protected Map!(string, Object) attributes; // General-purpose storing of anything during the lifetime of a command context
     protected bool reused;
@@ -69,23 +69,23 @@ class CommandContext {
             try {
                 try {
                     executeCloseListenersClosing();
-                    if (exception is null) {
+                    if (_exception is null) {
                         flushSessions();
                     }
                 } catch (Throwable exception) {
-                    exception(exception);
+                   // _exception(exception);
 
                 } finally {
 
                     try {
-                        if (exception is null) {
+                        if (_exception is null) {
                             executeCloseListenersAfterSessionFlushed();
                         }
                     } catch (Throwable exception) {
-                        exception(exception);
+                      //  exception(exception);
                     }
 
-                    if (exception !is null) {
+                    if (_exception !is null) {
                         logException();
                         executeCloseListenersCloseFailure();
                     } else {
@@ -95,7 +95,7 @@ class CommandContext {
                 }
             } catch (Throwable exception) {
                 // Catch exceptions during rollback
-                exception(exception);
+                //exception(exception);
             } finally {
                 // Sessions need to be closed, regardless of exceptions/commit/rollback
                 closeSessions();
@@ -103,10 +103,10 @@ class CommandContext {
 
         } catch (Throwable exception) {
             // Catch exceptions during session closing
-            exception(exception);
+           // exception(exception);
         }
 
-        if (exception !is null) {
+        if (_exception !is null) {
            // rethrowExceptionIfNeeded();
         }
     }
@@ -159,7 +159,7 @@ class CommandContext {
                     listener.closing(this);
                 }
             } catch (Throwable exception) {
-                exception(exception);
+                //exception(exception);
             }
         }
     }
@@ -171,7 +171,7 @@ class CommandContext {
                     listener.afterSessionsFlush(this);
                 }
             } catch (Throwable exception) {
-                exception(exception);
+               // exception(exception);
             }
         }
     }
@@ -183,7 +183,7 @@ class CommandContext {
                     listener.closed(this);
                 }
             } catch (Throwable exception) {
-                exception(exception);
+                //exception(exception);
             }
         }
     }
@@ -195,7 +195,7 @@ class CommandContext {
                     listener.closeFailure(this);
                 }
             } catch (Throwable exception) {
-                exception(exception);
+                //exception(exception);
             }
         }
     }
@@ -211,7 +211,7 @@ class CommandContext {
             try {
                 session.close();
             } catch (Throwable exception) {
-                exception(exception);
+                //exception(exception);
             }
         }
     }
@@ -222,8 +222,8 @@ class CommandContext {
      * If there is already an exception being stored, a 'masked exception' message will be logged.
      */
     public void exception(Throwable exception) {
-        if (this.exception is null) {
-            this.exception = exception;
+        if (this._exception is null) {
+            this._exception = exception;
 
         } else {
             logError("masked exception in command context. for root cause, see below as it will be rethrown later.");
@@ -231,7 +231,7 @@ class CommandContext {
     }
 
     public void resetException() {
-        this.exception = null;
+        this._exception = null;
     }
 
     public void addAttribute(string key, Object value) {
@@ -306,7 +306,7 @@ class CommandContext {
     }
 
     public Throwable getException() {
-        return exception;
+        return _exception;
     }
 
     public bool isReused() {

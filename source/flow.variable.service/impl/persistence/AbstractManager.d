@@ -16,7 +16,7 @@ module flow.variable.service.impl.persistence.AbstractManager;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.variable.service.VariableServiceConfiguration;
 import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntityManager;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntityManager;
@@ -48,7 +48,7 @@ abstract class AbstractManager {
         return variableServiceConfiguration;
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return getVariableServiceConfiguration().getClock();
     }
 

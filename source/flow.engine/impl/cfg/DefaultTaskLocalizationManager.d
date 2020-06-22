@@ -14,7 +14,7 @@
 module flow.engine.impl.cfg.DefaultTaskLocalizationManager;
 
 import flow.engine.DynamicBpmnConstants;
-import flow.engine.impl.context.BpmnOverrideContext;
+//import flow.engine.impl.context.BpmnOverrideContext;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 import flow.task.api.Task;
 import flow.task.api.history.HistoricTaskInstance;
@@ -40,7 +40,7 @@ class DefaultTaskLocalizationManager : InternalTaskLocalizationManager {
         task.setLocalizedName(null);
         task.setLocalizedDescription(null);
 
-        if (locale !is null) {
+        if (locale !is null && locale.length != 0) {
             implementationMissing(false);
             //string processDefinitionId = task.getProcessDefinitionId();
             //if (processDefinitionId !is null && processDefinitionId.length != 0) {
@@ -68,7 +68,7 @@ class DefaultTaskLocalizationManager : InternalTaskLocalizationManager {
 
         if (locale !is null) {
             string processDefinitionId = task.getProcessDefinitionId();
-            if (processDefinitionId !is null) {
+            if (processDefinitionId !is null && processDefinitionId.length != 0) {
                 implementationMissing(false);
                 //ObjectNode languageNode = BpmnOverrideContext.getLocalizationElementProperties(locale, task.getTaskDefinitionKey(), processDefinitionId, withLocalizationFallback);
                 //if (languageNode !is null) {

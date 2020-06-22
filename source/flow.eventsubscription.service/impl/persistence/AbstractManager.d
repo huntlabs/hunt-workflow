@@ -16,7 +16,7 @@ module flow.eventsubscription.service.impl.persistence.AbstractManager;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
-import flow.common.runtime.Clock;
+import flow.common.runtime.Clockm;
 import flow.eventsubscription.service.EventSubscriptionServiceConfiguration;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityManager;
 
@@ -47,7 +47,7 @@ abstract class AbstractManager {
         return eventSubscriptionServiceConfiguration;
     }
 
-    protected Clock getClock() {
+    protected Clockm getClock() {
         return getEventSubscriptionServiceConfiguration().getClock();
     }
 

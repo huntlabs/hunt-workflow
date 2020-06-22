@@ -34,11 +34,11 @@ alias Date = LocalDateTime;
  */
 interface Job : JobInfo {
 
-    string JOB_TYPE_TIMER = "timer";
-    string JOB_TYPE_MESSAGE = "message";
+    static string JOB_TYPE_TIMER = "timer";
+    static string JOB_TYPE_MESSAGE = "message";
 
-    bool DEFAULT_EXCLUSIVE = true;
-    int MAX_EXCEPTION_MESSAGE_LENGTH = 255;
+    static bool DEFAULT_EXCLUSIVE = true;
+    static int MAX_EXCEPTION_MESSAGE_LENGTH = 255;
 
     /**
      * Returns the date on which this job is supposed to be processed.

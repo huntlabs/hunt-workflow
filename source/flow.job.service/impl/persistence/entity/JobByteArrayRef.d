@@ -14,7 +14,7 @@ module flow.job.service.impl.persistence.entity.JobByteArrayRef;
 
 
 import flow.job.service.impl.util.CommandContextUtil;
-
+import flow.job.service.impl.persistence.entity.JobByteArrayEntity;
 /**
  * <p>
  * Encapsulates the logic for transparently working with {@link JobByteArrayEntity} .

@@ -13,6 +13,7 @@
 
 module flow.bpmn.model.ConditionalEventDefinition;
 
+import flow.bpmn.model.EventDefinition;
 /**
  * @author Tijs Rademakers
  */
