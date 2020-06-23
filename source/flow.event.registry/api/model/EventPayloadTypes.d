@@ -17,9 +17,9 @@ module flow.event.registry.api.model.EventPayloadTypes;
  */
 interface EventPayloadTypes {
 
-    string STRING = "string";
-    string INTEGER = "integer";
-    string DOUBLE = "double";
-    string BOOLEAN = "boolean";
+    static string STRING = "static string";
+    static string INTEGER = "integer";
+    static string DOUBLE = "double";
+    static string BOOLEAN = "boolean";
 
 }

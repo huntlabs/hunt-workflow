@@ -36,10 +36,12 @@ class IdmEngineConfigurator : AbstractEngineConfigurator {
         return EngineConfigurationConstants.PRIORITY_ENGINE_IDM;
     }
 
+    override
     protected List!EngineDeployer getCustomDeployers() {
         return null;
     }
 
+    override
     protected string getMybatisCfgPath() {
         return IdmEngineConfiguration.DEFAULT_MYBATIS_MAPPING_FILE;
     }

@@ -37,7 +37,7 @@ class MybatisJobByteArrayDataManager : EntityRepository!( JobByteArrayEntityImpl
 
     this()
     {
-       super(entityManagerFactory.createEntityManager());
+       super(entityManagerFactory.currentEntityManager());
     }
 
     //class<? extends JobByteArrayEntity> getManagedEntityClass() {

@@ -33,6 +33,10 @@ class UserEntityImpl :  AbstractIdmEngineEntity , Model,UserEntity, HasRevision 
 
    mixin MakeModel;
 
+    @PrimaryKey
+    @Column("ID_")
+    string  id;
+
    @Column("FIRST_")
    string firstName;
 

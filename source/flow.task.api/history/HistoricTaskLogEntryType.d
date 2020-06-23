@@ -29,7 +29,7 @@ import hunt.Enum;
 /**
  * @author martin.grofcik
  */
-class HistoricTaskLogEntryType : AbstractEnum!string , FlowableEventType {
+class HistoricTaskLogEntryType : AbstractEnum!HistoricTaskLogEntryType , FlowableEventType {
 
     this (string name , int val)
     {
@@ -77,10 +77,10 @@ class HistoricTaskLogEntryType : AbstractEnum!string , FlowableEventType {
      return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_IDENTITY_LINK_REMOVED", 9));
    }
 
-  string name()
-  {
-    return super.name;
-  }
+  //string name()
+  //{
+  //  return super.name;
+  //}
     //USER_TASK_COMPLETED,
     //USER_TASK_ASSIGNEE_CHANGED,
     //USER_TASK_CREATED,

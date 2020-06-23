@@ -43,12 +43,12 @@ class MybatisJobDataManager : EntityRepository!( JobEntityImpl , string) , JobDa
    // protected CachedEntityMatcher!JobEntity jobsByExecutionIdMatcher = new JobsByExecutionIdMatcher();
 
     this() {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
     this(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
-        super(entityManagerFactory.createEntityManager());
+        super(entityManagerFactory.currentEntityManager());
     }
 
     //

@@ -23,7 +23,7 @@ import flow.common.persistence.entity.Entity;
  */
 interface IdentityInfoEntity : Entity, HasRevision {
 
-    string TYPE_USERINFO = "userinfo";
+    static string TYPE_USERINFO = "userinfo";
 
     string getType();
 

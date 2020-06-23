@@ -33,7 +33,7 @@ class MybatisByteArrayDataManager : EntityRepository!( IdmByteArrayEntityImpl , 
     this(IdmEngineConfiguration idmEngineConfiguration) {
        // super(idmEngineConfiguration);
         this.idmEngineConfiguration = idmEngineConfiguration;
-        super(entityManagerFactory.createEntityManager());
+        super(entityManagerFactory.currentEntityManager());
     }
 
 
@@ -55,7 +55,7 @@ class MybatisByteArrayDataManager : EntityRepository!( IdmByteArrayEntityImpl , 
     }
 
 
-    public void deleteByteArrayNoRevisionCheck(String byteArrayEntityId) {
+    public void deleteByteArrayNoRevisionCheck(string byteArrayEntityId) {
         implementationMissing(false);
       //  getDbSqlSession().delete("deleteIdmByteArrayNoRevisionCheck", byteArrayEntityId, getManagedEntityClass());
     }

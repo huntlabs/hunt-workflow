@@ -27,12 +27,12 @@ class ItemDefinition {
 
     protected StructureDefinition structure;
 
-    protected bool isCollection;
+    protected bool _isCollection;
 
     protected ItemKind itemKind;
 
     this() {
-        this.isCollection = false;
+        this._isCollection = false;
         this.itemKind = ItemKind.Information;
     }
 
@@ -51,11 +51,11 @@ class ItemDefinition {
     }
 
     public bool isCollection() {
-        return isCollection;
+        return _isCollection;
     }
 
     public void setCollection(bool isCollection) {
-        this.isCollection = isCollection;
+        this._isCollection = isCollection;
     }
 
     public ItemKind getItemKind() {

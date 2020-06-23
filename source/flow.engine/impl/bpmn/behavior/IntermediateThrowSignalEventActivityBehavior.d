@@ -42,7 +42,7 @@ import hunt.String;
  */
 class IntermediateThrowSignalEventActivityBehavior : AbstractBpmnActivityBehavior {
 
-    protected final SignalEventDefinition signalEventDefinition;
+    protected  SignalEventDefinition signalEventDefinition;
     protected string signalEventName;
     protected string signalExpression;
     protected bool processInstanceScope;

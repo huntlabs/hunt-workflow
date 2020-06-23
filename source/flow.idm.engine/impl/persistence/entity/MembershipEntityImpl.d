@@ -43,13 +43,13 @@ class MembershipEntityImpl : AbstractIdmEngineNoRevisionEntity ,Model, Membershi
           this;
     }
 
-
+    override
     public string getId() {
         // membership doesn't have an id, returning a fake one to make the internals work
         return userId + groupId;
     }
 
-
+    override
     public void setId(string id) {
         // membership doesn't have an id
     }

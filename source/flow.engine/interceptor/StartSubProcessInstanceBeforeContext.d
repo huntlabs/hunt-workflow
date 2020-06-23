@@ -20,6 +20,7 @@ import flow.bpmn.model.IOParameter;
 import flow.bpmn.model.Process;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.repository.ProcessDefinition;
+import flow.engine.interceptor.AbstractStartProcessInstanceBeforeContext;
 
 class StartSubProcessInstanceBeforeContext : AbstractStartProcessInstanceBeforeContext {
 

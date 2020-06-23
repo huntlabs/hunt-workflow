@@ -24,7 +24,7 @@ interface IdmEngine : Engine {
     /**
      * the version of the flowable idm library
      */
-    public static string VERSION = FlowableVersions.CURRENT_VERSION;
+    public static string VERSION = "6.5.0.6";
 
     IdmIdentityService getIdmIdentityService();
 

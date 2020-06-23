@@ -16,11 +16,11 @@ module flow.engine.impl.deleg.FlowableCollectionHandler;
 import hunt.collection;
 
 import flow.engine.deleg.DelegateExecution;
-
+import hunt.Object;
 /**
  * @author Lori Small
  */
-interface FlowableCollectionHandler  {
 
-	Collection resolveCollection(Object collectionValue, DelegateExecution execution);
+interface FlowableCollectionHandler  {
+  IObject resolveCollection(Object collectionValue, DelegateExecution execution);
 }

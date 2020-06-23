@@ -18,7 +18,7 @@ import flow.common.el.FixedValue;
  *
  * @author Frederik Heremans
  */
-class FixedValue : flow.common.el.FixedValue {
+class FixedValue : flow.common.el.FixedValue.FixedValue {
 
     this(Object value) {
         super(value);

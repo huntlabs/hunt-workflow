@@ -22,6 +22,7 @@ import flow.common.api.FlowableIllegalArgumentException;
 //import flow.common.util.ReflectUtil;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import hunt.Exceptions;
+
 /**
  * @author Joram Barrez
  */
@@ -74,13 +75,13 @@ class ClassDelegateUtil {
         //}
     }
 
-    public static bool fieldTypeCompatible(FieldDeclaration declaration, Field field) {
-        if (declaration.getValue() !is null) {
-            return field.getType().isAssignableFrom(declaration.getValue().getClass());
-        } else {
-            // Null can be set any field type
-            return true;
-        }
-    }
+    //public static bool fieldTypeCompatible(FieldDeclaration declaration, Field field) {
+    //    if (declaration.getValue() !is null) {
+    //        return field.getType().isAssignableFrom(declaration.getValue().getClass());
+    //    } else {
+    //        // Null can be set any field type
+    //        return true;
+    //    }
+    //}
 
 }

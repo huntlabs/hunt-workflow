@@ -35,7 +35,7 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
     this()
     {
       //TODO
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
     //@Override

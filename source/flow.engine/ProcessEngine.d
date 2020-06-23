@@ -56,7 +56,7 @@ import flow.engine.ProcessEngineConfiguration;
 interface ProcessEngine : Engine {
 
     /** the version of the flowable library */
-    public static string VERSION = FlowableVersions.CURRENT_VERSION;
+    public static string VERSION = "6.5.0.6";
 
     /**
      * Starts the execuctors (async and async history), if they are configured to be auto-actived.

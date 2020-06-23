@@ -39,10 +39,11 @@ class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskI
     //}
    this()
    {
-     super(entityManagerFactory.createEntityManager());
+     super(entityManagerFactory.currentEntityManager());
    }
 
 
+    override
     public HistoricTaskInstanceEntity findById(string entityId) {
       if (entityId is null) {
         return null;
@@ -60,15 +61,20 @@ class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskI
       //return getDbSqlSession().selectById(getManagedEntityClass(), entityId, false);
     }
       //
+      override
       public void insert(HistoricTaskInstanceEntity entity) {
         insert(cast(HistoricTaskInstanceEntityImpl)entity);
         //getDbSqlSession().insert(entity);
       }
+
+      override
       public HistoricTaskInstanceEntity update(HistoricTaskInstanceEntity entity) {
         return  update(cast(HistoricTaskInstanceEntityImpl)entity);
         //getDbSqlSession().update(entity);
         //return entity;
       }
+
+      override
       public void dele(string id) {
         HistoricTaskInstanceEntity entity = findById(id);
         if (entity !is null)
@@ -78,6 +84,7 @@ class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskI
         //delete(entity);
       }
 
+      override
       public void dele(HistoricTaskInstanceEntity entity) {
         if (entity !is null)
         {
@@ -86,7 +93,7 @@ class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskI
         //getDbSqlSession().delete(entity);
       }
 
-
+    override
     public HistoricTaskInstanceEntity create() {
         return new HistoricTaskInstanceEntityImpl();
     }

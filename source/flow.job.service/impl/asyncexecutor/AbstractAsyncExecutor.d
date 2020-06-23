@@ -51,9 +51,9 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
 
     protected AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler;
 
-    protected bool isAutoActivate;
-    protected bool isActive;
-    protected bool isMessageQueueMode;
+    protected bool _isAutoActivate;
+    protected bool _isActive;
+    protected bool _isMessageQueueMode;
 
     protected int maxTimerJobsPerAcquisition = 1;
     protected int maxAsyncJobsDuePerAcquisition = 1;
@@ -83,14 +83,14 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
 
 
     public bool executeAsyncJob(final JobInfo job) {
-        if (isMessageQueueMode) {
+        if (_isMessageQueueMode) {
             // When running with a message queue based job executor,
             // the job is not executed here.
             return true;
         }
 
         Runnable runnable = null;
-        if (isActive) {
+        if (_isActive) {
             runnable = createRunnableForJob(job);
             return executeAsyncJob(job, runnable);
         } else {
@@ -119,11 +119,11 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
     /** Starts the async executor */
 
     public void start() {
-        if (isActive) {
+        if (_isActive) {
             return;
         }
 
-        isActive = true;
+        _isActive = true;
 
        // LOGGER.info("Starting up the async job executor [{}].", getClass().getName());
 
@@ -173,7 +173,7 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
     /** Shuts down the whole job executor */
 
     public synchronized void shutdown() {
-        if (!isActive) {
+        if (!_isActive) {
             return;
         }
        // LOGGER.info("Shutting down the async job executor [{}].", getClass().getName());
@@ -181,7 +181,7 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
         stopRunnables();
         shutdownAdditionalComponents();
 
-        isActive = false;
+        _isActive = false;
     }
 
     protected void stopRunnables() {
@@ -216,25 +216,25 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
 
 
     public bool isAutoActivate() {
-        return isAutoActivate;
+        return _isAutoActivate;
     }
 
 
     public void setAutoActivate(bool isAutoActivate) {
-        this.isAutoActivate = isAutoActivate;
+        this._isAutoActivate = isAutoActivate;
     }
 
 
     public bool isActive() {
-        return isActive;
+        return _isActive;
     }
 
     public bool isMessageQueueMode() {
-        return isMessageQueueMode;
+        return _isMessageQueueMode;
     }
 
     public void setMessageQueueMode(bool isMessageQueueMode) {
-        this.isMessageQueueMode = isMessageQueueMode;
+        this._isMessageQueueMode = isMessageQueueMode;
     }
 
 

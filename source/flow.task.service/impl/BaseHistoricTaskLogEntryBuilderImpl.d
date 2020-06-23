@@ -33,20 +33,20 @@ class BaseHistoricTaskLogEntryBuilderImpl : HistoricTaskLogEntryBuilder {
     protected string _executionId;
     protected string _scopeId;
     protected string _scopeDefinitionId;
-    protected string subScopeId;
-    protected string scopeType;
-    protected string tenantId;
+    protected string _subScopeId;
+    protected string _scopeType;
+    protected string _tenantId;
     protected string _taskId;
 
     this(TaskInfo task) {
         this._processInstanceId = task.getProcessInstanceId();
         this._processDefinitionId = task.getProcessDefinitionId();
         this._executionId = task.getExecutionId();
-        this.tenantId = task.getTenantId();
+        this._tenantId = task.getTenantId();
         this._scopeId = task.getScopeId();
         this._scopeDefinitionId = task.getScopeDefinitionId();
-        this.subScopeId = task.getSubScopeId();
-        this.scopeType = task.getScopeType();
+        this._subScopeId = task.getSubScopeId();
+        this._scopeType = task.getScopeType();
         this._taskId = task.getId();
     }
 
@@ -115,19 +115,19 @@ class BaseHistoricTaskLogEntryBuilderImpl : HistoricTaskLogEntryBuilder {
 
 
     public HistoricTaskLogEntryBuilder subScopeId(string subScopeId) {
-        this.subScopeId = subScopeId;
+        this._subScopeId = subScopeId;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder scopeType(string scopeType) {
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
 
     public HistoricTaskLogEntryBuilder tenantId(string tenantId) {
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
@@ -182,17 +182,17 @@ class BaseHistoricTaskLogEntryBuilderImpl : HistoricTaskLogEntryBuilder {
 
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
 

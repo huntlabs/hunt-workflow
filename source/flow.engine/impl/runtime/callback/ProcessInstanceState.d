@@ -20,10 +20,10 @@ module flow.engine.impl.runtime.callback.ProcessInstanceState;
  */
 interface ProcessInstanceState {
 
-    string RUNNING = "running";
+    static string RUNNING = "running";
 
-    string COMPLETED = "completed";
+  static string COMPLETED = "completed";
 
-    string CANCELLED = "cancelled";
+  static string CANCELLED = "cancelled";
 
 }

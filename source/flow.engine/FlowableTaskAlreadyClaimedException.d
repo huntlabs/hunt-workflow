@@ -19,7 +19,7 @@ module flow.engine.FlowableTaskAlreadyClaimedException;
  * @author Falko Menge
  * @deprecated use {@link flow.common.api.FlowableTaskAlreadyClaimedException}
  */
-class FlowableTaskAlreadyClaimedException : flow.common.api.FlowableTaskAlreadyClaimedException {
+class FlowableTaskAlreadyClaimedException : flow.common.api.FlowableTaskAlreadyClaimedException.FlowableTaskAlreadyClaimedException {
 
 
     this(string taskId, string taskAssignee) {

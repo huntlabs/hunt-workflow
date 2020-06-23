@@ -71,10 +71,10 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
     string diagramResourceName;
 
     @Column("HAS_GRAPHICAL_NOTATION_")
-    bool isGraphicalNotationDefined;
+    bool _isGraphicalNotationDefined;
 
     @Column("HAS_START_FORM_KEY_")
-    bool hasStartFormKey;
+    bool _hasStartFormKey;
 
     @Column("SUSPENSION_STATE_")
     int suspensionState ;
@@ -273,37 +273,37 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
 
 
     public bool hasStartFormKey() {
-        return hasStartFormKey;
+        return _hasStartFormKey;
     }
 
 
     public bool getHasStartFormKey() {
-        return hasStartFormKey;
+        return _hasStartFormKey;
     }
 
 
     public void setStartFormKey(bool hasStartFormKey) {
-        this.hasStartFormKey = hasStartFormKey;
+        this._hasStartFormKey = hasStartFormKey;
     }
 
 
     public void setHasStartFormKey(bool hasStartFormKey) {
-        this.hasStartFormKey = hasStartFormKey;
+        this._hasStartFormKey = hasStartFormKey;
     }
 
 
     public bool isGraphicalNotationDefined() {
-        return isGraphicalNotationDefined;
+        return _isGraphicalNotationDefined;
     }
 
 
     public bool hasGraphicalNotation() {
-        return isGraphicalNotationDefined;
+        return _isGraphicalNotationDefined;
     }
 
 
     public void setGraphicalNotationDefined(bool isGraphicalNotationDefined) {
-        this.isGraphicalNotationDefined = isGraphicalNotationDefined;
+        this._isGraphicalNotationDefined = isGraphicalNotationDefined;
     }
 
 

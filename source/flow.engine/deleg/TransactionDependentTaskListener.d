@@ -34,9 +34,9 @@ import flow.task.service.deleg.BaseTaskListener;
  */
 interface TransactionDependentTaskListener : BaseTaskListener {
 
-    string ON_TRANSACTION_COMMITTING = "before-commit";
-    string ON_TRANSACTION_COMMITTED = "committed";
-    string ON_TRANSACTION_ROLLED_BACK = "rolled-back";
+    static string ON_TRANSACTION_COMMITTING = "before-commit";
+    static string ON_TRANSACTION_COMMITTED = "committed";
+    static string ON_TRANSACTION_ROLLED_BACK = "rolled-back";
 
     void notify(string processInstanceId, string executionId, Task task,
             Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap);

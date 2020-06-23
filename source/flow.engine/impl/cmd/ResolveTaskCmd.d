@@ -41,6 +41,7 @@ class ResolveTaskCmd : NeedsActiveTaskCmd!Void {
         this.transientVariables = transientVariables;
     }
 
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         implementationMissing(false);
         return null;
@@ -57,6 +58,7 @@ class ResolveTaskCmd : NeedsActiveTaskCmd!Void {
         //return null;
     }
 
+    override
     protected string getSuspendedTaskException() {
         return "Cannot resolve a suspended task";
     }

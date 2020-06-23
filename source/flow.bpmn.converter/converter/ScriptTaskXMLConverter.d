@@ -52,7 +52,7 @@ class ScriptTaskXMLConverter : BaseBpmnXMLConverter {
     protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         ScriptTask scriptTask = new ScriptTask();
         BpmnXMLUtil.addXMLLocation(scriptTask, xtr);
-        scriptTask.setScriptFormat(xtr.getAttributeValue(null, ATTRIBUTE_TASK_SCRIPT_FORMAT));
+        scriptTask.setScriptFormat(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TASK_SCRIPT_FORMAT,xtr));
         scriptTask.setResultVariable(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TASK_SCRIPT_RESULTVARIABLE, xtr));
         if (scriptTask.getResultVariable() !is null && scriptTask.getResultVariable().length != 0) {
             scriptTask.setResultVariable(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TASK_SERVICE_RESULTVARIABLE, xtr));

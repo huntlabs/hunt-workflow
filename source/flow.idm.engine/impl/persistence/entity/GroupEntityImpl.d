@@ -24,41 +24,41 @@ import hunt.entity;
 /**
  * @author Tom Baeyens
  */
-@Table("ACT_ID_GROUP")
-class GroupEntityImpl : AbstractIdmEngineEntity , Model,GroupEntity {
-    mixin MakeModel;
-
-  @Column("NAME_")
-    string name;
-
-  @Column("TYPE_")
-    string type;
-
-    public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        persistentState.put("name", name);
-        persistentState.put("type", type);
-        return persistentState;
-    }
-
-
-    public string getName() {
-        return name;
-    }
-
-
-    public void setName(string name) {
-        this.name = name;
-    }
-
-
-    public string getType() {
-        return type;
-    }
-
-
-    public void setType(string type) {
-        this.type = type;
-    }
-
-}
+//@Table("ACT_ID_GROUP")
+//class GroupEntityImpl : AbstractIdmEngineEntity , Model,GroupEntity {
+//  mixin MakeModel;
+//
+//    @Column("NAME_")
+//    string name;
+//
+//    @Column("TYPE_")
+//    string type;
+//
+//    public Object getPersistentState() {
+//        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+//        persistentState.put("name", name);
+//        persistentState.put("type", type);
+//        return persistentState;
+//    }
+//
+//
+//    public string getName() {
+//        return name;
+//    }
+//
+//
+//    public void setName(string name) {
+//        this.name = name;
+//    }
+//
+//
+//    public string getType() {
+//        return type;
+//    }
+//
+//
+//    public void setType(string type) {
+//        this.type = type;
+//    }
+//
+//}

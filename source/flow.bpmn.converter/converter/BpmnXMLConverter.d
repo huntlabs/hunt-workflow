@@ -406,7 +406,7 @@ class BpmnXMLConverter : BpmnXMLConstants {
                       ELEMENT_TRANSACTION == (element.getName()) ||
                       ELEMENT_ADHOC_SUBPROCESS == (element.getName()))) {
 
-                  activeSubProcessList.remove(activeSubProcessList.size() - 1);
+                  activeSubProcessList.removeAt(activeSubProcessList.size() - 1);
               }
 
               //if (!xtr.isStartElement()) {
@@ -602,6 +602,7 @@ class BpmnXMLConverter : BpmnXMLConstants {
 
     public byte[] convertToXML(BpmnModel model, string encoding) {
          implementationMissing(false);
+          return null;
         //try {
         //
         //    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

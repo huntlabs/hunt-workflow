@@ -30,7 +30,7 @@ class TablePageQueryImpl : TablePageQuery, Command!TablePage {
 
     public CommandExecutor commandExecutor;
 
-    protected string tableName;
+    protected string _tableName;
     protected string order;
     protected int firstResult;
     protected int maxResults;
@@ -44,7 +44,7 @@ class TablePageQueryImpl : TablePageQuery, Command!TablePage {
 
 
     public TablePageQueryImpl tableName(string tableName) {
-        this.tableName = tableName;
+        this._tableName = tableName;
         return this;
     }
 
@@ -61,7 +61,7 @@ class TablePageQueryImpl : TablePageQuery, Command!TablePage {
     }
 
     public string getTableName() {
-        return tableName;
+        return _tableName;
     }
 
     protected void addOrder(string column, string sortOrder) {

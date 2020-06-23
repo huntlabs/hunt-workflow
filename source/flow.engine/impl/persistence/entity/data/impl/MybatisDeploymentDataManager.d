@@ -46,7 +46,7 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
 
     this(ProcessEngineConfigurationImpl processEngineConfiguration) {
       this.processEngineConfiguration = processEngineConfiguration;
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
     //

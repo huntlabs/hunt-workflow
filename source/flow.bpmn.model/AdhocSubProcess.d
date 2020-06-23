@@ -23,7 +23,7 @@ class AdhocSubProcess : SubProcess {
     public static  string ORDERING_SEQUENTIALL = "Sequential";
 
     protected string completionCondition;
-    protected string ordering = ORDERING_PARALLEL;
+    protected string ordering = "Parallel";
     protected bool cancelRemainingInstances = true;
 
     public string getCompletionCondition() {

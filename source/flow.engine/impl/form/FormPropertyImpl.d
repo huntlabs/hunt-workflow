@@ -24,9 +24,9 @@ class FormPropertyImpl : FormProperty {
     protected string id;
     protected string name;
     protected FormType type;
-    protected bool isRequired;
-    protected bool isReadable;
-    protected bool isWritable;
+    protected bool _isRequired;
+    protected bool _isReadable;
+    protected bool _isWritable;
 
     protected string value;
 
@@ -34,9 +34,9 @@ class FormPropertyImpl : FormProperty {
         this.id = formPropertyHandler.getId();
         this.name = formPropertyHandler.getName();
         this.type = formPropertyHandler.getType();
-        this.isRequired = formPropertyHandler.isRequired();
-        this.isReadable = formPropertyHandler.isReadable();
-        this.isWritable = formPropertyHandler.isWritable();
+        this._isRequired = formPropertyHandler.isRequired();
+        this._isReadable = formPropertyHandler.isReadable();
+        this._isWritable = formPropertyHandler.isWritable();
     }
 
 
@@ -61,12 +61,12 @@ class FormPropertyImpl : FormProperty {
 
 
     public bool isRequired() {
-        return isRequired;
+        return _isRequired;
     }
 
 
     public bool isReadable() {
-        return isReadable;
+        return _isReadable;
     }
 
     public void setValue(string value) {
@@ -75,6 +75,6 @@ class FormPropertyImpl : FormProperty {
 
 
     public bool isWritable() {
-        return isWritable;
+        return _isWritable;
     }
 }

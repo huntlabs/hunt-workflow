@@ -25,13 +25,13 @@ import flow.common.persistence.entity.Entity;
 abstract class AbstractEntity : Entity, HasRevision {
 
     //protected string id;
-    protected int revision = 1;
+    private int revision = 1;
 
-    protected bool _isInserted;
-    protected bool _isUpdated;
-    protected bool _isDeleted;
+  private bool _isInserted;
+  private bool _isUpdated;
+  private bool _isDeleted;
 
-    protected Object originalPersistentState;
+  private Object originalPersistentState;
 
 
     //public string getId() {

@@ -37,7 +37,7 @@ class MybatisEventDefinitionDataManager : EntityRepository!( EventDefinitionEnti
 
     this(EventRegistryEngineConfiguration eventRegistryConfiguration) {
         this.eventRegistryConfiguration = eventRegistryConfiguration;
-        super(entityManagerFactory.createEntityManager());
+        super(entityManagerFactory.currentEntityManager());
     }
 
     //@Override

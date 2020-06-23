@@ -14,7 +14,7 @@ module flow.idm.engine.impl.persistence.entity.ByteArrayRef;
 
 
 import flow.idm.engine.impl.util.CommandContextUtil;
-
+import flow.idm.engine.impl.persistence.entity.IdmByteArrayEntity;
 /**
  * <p>
  * Encapsulates the logic for transparently working with {@link IdmByteArrayEntity} .

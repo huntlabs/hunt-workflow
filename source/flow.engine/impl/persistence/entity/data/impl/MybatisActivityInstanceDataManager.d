@@ -55,7 +55,7 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
 
     this(ProcessEngineConfigurationImpl processEngineConfiguration) {
       this.processEngineConfiguration = processEngineConfiguration;
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
 

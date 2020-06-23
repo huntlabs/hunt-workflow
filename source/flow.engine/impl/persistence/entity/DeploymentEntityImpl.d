@@ -76,18 +76,19 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
      */
     protected Map!(Object, List!Object) deployedArtifacts;
     protected Map!(string, EngineResource) resources;
-    protected bool isNew;
+    protected bool _isNew;
 
     this() {
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
     }
 
 
+    override
     public string getId() {
       return id;
     }
 
-
+    override
     public void setId(string id) {
       this.id = id;
     }
@@ -207,12 +208,12 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
 
 
     public bool isNew() {
-        return isNew;
+        return _isNew;
     }
 
 
     public void setNew(bool isNew) {
-        this.isNew = isNew;
+        this._isNew = isNew;
     }
 
 

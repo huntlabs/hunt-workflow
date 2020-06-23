@@ -34,6 +34,8 @@ import hunt.xml;
 import hunt.text.Pattern;
 import hunt.logging;
 import hunt.Exceptions;
+import std.string;
+import hunt.String;
 /**
  * @author Lori Small
  * @author Tijs Rademakers
@@ -46,7 +48,7 @@ class ValuedDataObjectXMLConverter : BaseBpmnXMLConverter {
 
     override
     public TypeInfo getBpmnElementType() {
-        return ValuedDataObject;
+        return typeid(ValuedDataObject);
     }
 
     override
@@ -60,7 +62,7 @@ class ValuedDataObjectXMLConverter : BaseBpmnXMLConverter {
         ItemDefinition itemSubjectRef = new ItemDefinition();
 
         string structureRef = xtr.firstAttribute(ATTRIBUTE_DATA_ITEM_REF) is null ? "" :  xtr.firstAttribute(ATTRIBUTE_DATA_ITEM_REF).getValue;
-        if ((structureRef.length != 0) && structureRef.contains(":")) {
+        if ((structureRef.length != 0) && structureRef.indexOf(':') != -1) {
             string dataType = structureRef[structureRef.indexOf(':') + 1 .. $];
 
             if (dataType == ("string")) {
@@ -105,10 +107,10 @@ class ValuedDataObjectXMLConverter : BaseBpmnXMLConverter {
                             implementationMissing(false);
                           //  dataObject.setValue(sdf.parse(valueElement.getElementText()));
                         } catch (Exception e) {
-                            logError("Error converting {%s}; message={%s}", dataObject.getName(), e.getMessage());
+                           // logError("Error converting {%s}; message={%s}", dataObject.getName(), e.getMessage());
                         }
                     } else {
-                        dataObject.setValue(valueElement.getElementText());
+                        dataObject.setValue(new String(valueElement.getElementText()));
                     }
                 }
 

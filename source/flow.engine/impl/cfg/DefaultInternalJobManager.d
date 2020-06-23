@@ -225,7 +225,7 @@ class DefaultInternalJobManager : InternalJobManager {
         // Nothing to do
     }
 
-    protected int getMaxIterations(flow.bpmn.model.Process process, string activityId) {
+    protected int getMaxIterations(flow.bpmn.model.Process.Process process, string activityId) {
         FlowElement flowElement = process.getFlowElement(activityId, true);
         if (flowElement !is null) {
             if (cast(Event)flowElement !is null) {

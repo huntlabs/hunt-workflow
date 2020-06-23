@@ -93,7 +93,7 @@ import flow.engine.ProcessEngineLifecycleListener;
  */
  class ProcessEngineConfiguration : AbstractEngineConfiguration {
 
-    protected string processEngineName = ProcessEngines.NAME_DEFAULT;
+    protected string processEngineName ;// = ProcessEngines.NAME_DEFAULT;
     protected int idBlockSize = 2500;
     protected string history ;
     protected bool asyncExecutorActivate;
@@ -171,6 +171,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     this() {
         this.history =  HistoryLevel.AUDIT.getKey();
         this.httpClientConfig =  new HttpClientConfig();
+        processEngineName = ProcessEngines.NAME_DEFAULT;
     }
 
     abstract ProcessEngine buildProcessEngine();

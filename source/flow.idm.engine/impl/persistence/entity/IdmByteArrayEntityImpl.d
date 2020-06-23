@@ -20,6 +20,33 @@ import flow.idm.engine.impl.persistence.entity.IdmByteArrayEntity;
  * @author Marcus Klimstra (CGI)
  * @author Joram Barrez
  */
+class PersistentState {
+
+  private  string name;
+  private  byte[] bytes;
+
+  this(string name, byte[] bytes) {
+    this.name = name;
+    this.bytes = bytes;
+  }
+
+  override
+  public bool opEquals(Object obj) {
+    if (cast(PersistentState)obj !is null) {
+      PersistentState other = cast(PersistentState) obj;
+      return this.name == other.name && this.bytes ==  other.bytes;
+    }
+    return false;
+  }
+
+  override
+  public size_t toHash() {
+    throw new UnsupportedOperationException();
+  }
+
+}
+
+
 @Table("ACT_ID_BYTEARRAY")
 class IdmByteArrayEntityImpl : AbstractIdmEngineEntity , Model, IdmByteArrayEntity {
     mixin MakeModel;
@@ -67,30 +94,6 @@ class IdmByteArrayEntityImpl : AbstractIdmEngineEntity , Model, IdmByteArrayEnti
 
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
-    class PersistentState {
 
-        private  string name;
-        private  byte[] bytes;
-
-        this(string name, byte[] bytes) {
-            this.name = name;
-            this.bytes = bytes;
-        }
-
-        override
-        public bool opEquals(Object obj) {
-            if (cast(PersistentState)obj !is null) {
-                PersistentState other = cast(PersistentState) obj;
-                return this.name == other.name && this.bytes ==  other.bytes;
-            }
-            return false;
-        }
-
-        override
-        public size_t toHash() {
-            throw new UnsupportedOperationException();
-        }
-
-    }
 
 }

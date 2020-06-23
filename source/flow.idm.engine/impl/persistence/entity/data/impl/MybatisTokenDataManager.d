@@ -36,7 +36,7 @@ class MybatisTokenDataManager : EntityRepository!( TokenEntityImpl , string) , T
     this(IdmEngineConfiguration idmEngineConfiguration) {
        // super(idmEngineConfiguration);
       this.idmEngineConfiguration =  idmEngineConfiguration;
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
 
     }
 

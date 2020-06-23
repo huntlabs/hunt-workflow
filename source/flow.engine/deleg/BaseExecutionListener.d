@@ -29,7 +29,7 @@ module flow.engine.deleg.BaseExecutionListener;
  */
 interface BaseExecutionListener  {
 
-    string EVENTNAME_START = "start";
-    string EVENTNAME_END = "end";
-    string EVENTNAME_TAKE = "take";
+    static string EVENTNAME_START = "start";
+    static string EVENTNAME_END = "end";
+    static string EVENTNAME_TAKE = "take";
 }

@@ -83,7 +83,7 @@
 //    @Override
 //    public EntityManager getEntityManager() {
 //        if (entityManager is null) {
-//            entityManager = getEntityManagerFactory().createEntityManager();
+//            entityManager = getEntityManagerFactory().currentEntityManager();
 //
 //            if (handleTransactions) {
 //                // Add transaction listeners, if transactions should be handled

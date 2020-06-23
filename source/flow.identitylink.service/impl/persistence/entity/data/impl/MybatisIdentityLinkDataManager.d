@@ -93,7 +93,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
 
     this()
     {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
 

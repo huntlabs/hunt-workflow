@@ -45,6 +45,7 @@ class CompleteTaskCmd : NeedsActiveTaskCmd!Void {
         this.transientVariables = transientVariables;
     }
 
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         implementationMissing(false);
         // Backwards compatibility
@@ -65,6 +66,7 @@ class CompleteTaskCmd : NeedsActiveTaskCmd!Void {
         return null;
     }
 
+    override
     protected string getSuspendedTaskException() {
         return "Cannot complete a suspended task";
     }

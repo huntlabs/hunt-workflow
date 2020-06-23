@@ -236,11 +236,11 @@ abstract class BaseBpmnXMLConverter : BpmnXMLConstants {
     //    xtw.writeEndElement();
     //}
 
-    protected abstract TypeInfo getBpmnElementType();
+   abstract TypeInfo getBpmnElementType();
 
-    protected abstract BaseElement convertXMLToElement(Element xtr, BpmnModel model) ;
+   abstract BaseElement convertXMLToElement(Element xtr, BpmnModel model) ;
 
-    protected abstract string getXMLElementName();
+   abstract string getXMLElementName();
 
     //protected abstract void writeAdditionalAttributes(BaseElement element, BpmnModel model, XMLStreamWriter xtw) ;
     //
@@ -287,8 +287,8 @@ abstract class BaseBpmnXMLConverter : BpmnXMLConstants {
       if(child !is null && child.getType == NodeType.Element)
       {
         //DOSOMETHING
-        ExtensionElement childExtensionElement = parseExtensionElement(child);
-        extensionElement.addChildElement(childExtensionElement);
+        ExtensionElement childExtensionElement2 = parseExtensionElement(child);
+        extensionElement.addChildElement(childExtensionElement2);
         if (child.firstNode !is null  && child.firstNode.getType == NodeType.CDATA)
         {
           if (strip(child.firstNode.getText()).length != 0) {
@@ -333,7 +333,7 @@ abstract class BaseBpmnXMLConverter : BpmnXMLConstants {
         //        readyWithExtensionElement = true;
         //    }
         //}
-        //return extensionElement;
+        return extensionElement;
     }
 
     protected bool parseAsync(Element xtr) {

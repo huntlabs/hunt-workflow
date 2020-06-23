@@ -22,115 +22,115 @@ import flow.idm.engine.impl.persistence.entity.IdentityInfoEntity;
 /**
  * @author Tom Baeyens
  */
-@Table("ACT_ID_INFO")
-class IdentityInfoEntityImpl : AbstractIdmEngineEntity , Model, IdentityInfoEntity {
-
-    mixin MakeModel;
-
-//@Column("FIRST_")
-     string type;
-     string userId;
-     string key;
-     string value;
-     string password;
-     byte[] passwordBytes;
-     string parentId;
-     Map!(string, string) details;
-
-
-    public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        persistentState.put("value", value);
-        persistentState.put("password", passwordBytes);
-        return persistentState;
-    }
-
-    public string getType() {
-        return type;
-    }
-
-
-    public void setType(string type) {
-        this.type = type;
-    }
-
-
-    public string getUserId() {
-        return userId;
-    }
-
-
-    public void setUserId(string userId) {
-        this.userId = userId;
-    }
-
-
-    public string getKey() {
-        return key;
-    }
-
-
-    public void setKey(string key) {
-        this.key = key;
-    }
-
-
-    public string getValue() {
-        return value;
-    }
-
-
-    public void setValue(string value) {
-        this.value = value;
-    }
-
-
-    public byte[] getPasswordBytes() {
-        return passwordBytes;
-    }
-
-
-    public void setPasswordBytes(byte[] passwordBytes) {
-        this.passwordBytes = passwordBytes;
-    }
-
-
-    public string getPassword() {
-        return password;
-    }
-
-
-    public void setPassword(string password) {
-        this.password = password;
-    }
-
-
-    public string getName() {
-        return key;
-    }
-
-
-    public string getUsername() {
-        return value;
-    }
-
-
-    public string getParentId() {
-        return parentId;
-    }
-
-
-    public void setParentId(string parentId) {
-        this.parentId = parentId;
-    }
-
-
-    public Map!(string, string) getDetails() {
-        return details;
-    }
-
-
-    public void setDetails(Map!(string, string) details) {
-        this.details = details;
-    }
-}
+//@Table("ACT_ID_INFO")
+//class IdentityInfoEntityImpl : AbstractIdmEngineEntity , Model, IdentityInfoEntity {
+//
+//    mixin MakeModel;
+//
+////@Column("FIRST_")
+//     string type;
+//     string userId;
+//     string key;
+//     string value;
+//     string password;
+//     byte[] passwordBytes;
+//     string parentId;
+//     Map!(string, string) details;
+//
+//
+//    public Object getPersistentState() {
+//        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+//        persistentState.put("value", value);
+//        persistentState.put("password", passwordBytes);
+//        return persistentState;
+//    }
+//
+//    public string getType() {
+//        return type;
+//    }
+//
+//
+//    public void setType(string type) {
+//        this.type = type;
+//    }
+//
+//
+//    public string getUserId() {
+//        return userId;
+//    }
+//
+//
+//    public void setUserId(string userId) {
+//        this.userId = userId;
+//    }
+//
+//
+//    public string getKey() {
+//        return key;
+//    }
+//
+//
+//    public void setKey(string key) {
+//        this.key = key;
+//    }
+//
+//
+//    public string getValue() {
+//        return value;
+//    }
+//
+//
+//    public void setValue(string value) {
+//        this.value = value;
+//    }
+//
+//
+//    public byte[] getPasswordBytes() {
+//        return passwordBytes;
+//    }
+//
+//
+//    public void setPasswordBytes(byte[] passwordBytes) {
+//        this.passwordBytes = passwordBytes;
+//    }
+//
+//
+//    public string getPassword() {
+//        return password;
+//    }
+//
+//
+//    public void setPassword(string password) {
+//        this.password = password;
+//    }
+//
+//
+//    public string getName() {
+//        return key;
+//    }
+//
+//
+//    public string getUsername() {
+//        return value;
+//    }
+//
+//
+//    public string getParentId() {
+//        return parentId;
+//    }
+//
+//
+//    public void setParentId(string parentId) {
+//        this.parentId = parentId;
+//    }
+//
+//
+//    public Map!(string, string) getDetails() {
+//        return details;
+//    }
+//
+//
+//    public void setDetails(Map!(string, string) details) {
+//        this.details = details;
+//    }
+//}

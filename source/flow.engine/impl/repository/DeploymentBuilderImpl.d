@@ -57,9 +57,9 @@ class DeploymentBuilderImpl : DeploymentBuilder {
     protected  ResourceEntityManager resourceEntityManager;
 
     protected DeploymentEntity deployment;
-    protected bool isBpmn20XsdValidationEnabled = true;
-    protected bool isProcessValidationEnabled = true;
-    protected bool isDuplicateFilterEnabled;
+    protected bool _isBpmn20XsdValidationEnabled = true;
+    protected bool _isProcessValidationEnabled = true;
+    protected bool _isDuplicateFilterEnabled;
     protected Date processDefinitionsActivationDate;
     protected Map!(string, Object) deploymentProperties ;//= new HashMap<>();
 
@@ -180,13 +180,13 @@ class DeploymentBuilderImpl : DeploymentBuilder {
 
 
     public DeploymentBuilder disableBpmnValidation() {
-        this.isProcessValidationEnabled = false;
+        this._isProcessValidationEnabled = false;
         return this;
     }
 
 
     public DeploymentBuilder disableSchemaValidation() {
-        this.isBpmn20XsdValidationEnabled = false;
+        this._isBpmn20XsdValidationEnabled = false;
         return this;
     }
 
@@ -198,7 +198,7 @@ class DeploymentBuilderImpl : DeploymentBuilder {
 
 
     public DeploymentBuilder enableDuplicateFiltering() {
-        this.isDuplicateFilterEnabled = true;
+        this._isDuplicateFilterEnabled = true;
         return this;
     }
 
@@ -227,15 +227,15 @@ class DeploymentBuilderImpl : DeploymentBuilder {
     }
 
     public bool isProcessValidationEnabled() {
-        return isProcessValidationEnabled;
+        return _isProcessValidationEnabled;
     }
 
     public bool isBpmn20XsdValidationEnabled() {
-        return isBpmn20XsdValidationEnabled;
+        return _isBpmn20XsdValidationEnabled;
     }
 
     public bool isDuplicateFilterEnabled() {
-        return isDuplicateFilterEnabled;
+        return _isDuplicateFilterEnabled;
     }
 
     public Date getProcessDefinitionsActivationDate() {

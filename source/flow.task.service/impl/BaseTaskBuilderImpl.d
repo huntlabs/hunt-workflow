@@ -28,26 +28,27 @@ import hunt.collection.Set;
  */
 abstract class BaseTaskBuilderImpl : TaskBuilder {
     protected CommandExecutor commandExecutor;
-    protected string id;
-    protected string name;
-    protected string description;
-    protected int priority = Task.DEFAULT_PRIORITY;
+    protected string _id;
+    protected string _name;
+    protected string _description;
+    protected int _priority  ;//= Task.DEFAULT_PRIORITY;
     protected string ownerId;
     protected string assigneeId;
-    protected Date dueDate;
-    protected string category;
-    protected string parentTaskId;
-    protected string tenantId;
-    protected string formKey;
-    protected string taskDefinitionId;
-    protected string taskDefinitionKey;
-    protected string scopeId;
-    protected string scopeType;
-    protected Set!IdentityLinkInfo identityLinks  ;//= Collections.EMPTY_SET;
+    protected Date _dueDate;
+    protected string _category;
+    protected string _parentTaskId;
+    protected string _tenantId;
+    protected string _formKey;
+    protected string _taskDefinitionId;
+    protected string _taskDefinitionKey;
+    protected string _scopeId;
+    protected string _scopeType;
+    protected Set!IdentityLinkInfo _identityLinks  ;//= Collections.EMPTY_SET;
 
     this(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
-        identityLinks  = Collections.emptySet!IdentityLinkInfo;
+        _identityLinks  = Collections.emptySet!IdentityLinkInfo;
+        _priority = Task.DEFAULT_PRIORITY;
     }
 
 
@@ -55,25 +56,25 @@ abstract class BaseTaskBuilderImpl : TaskBuilder {
 
 
     public TaskBuilder id(string id) {
-        this.id = id;
+        this._id = id;
         return this;
     }
 
 
     public TaskBuilder name(string name) {
-        this.name = name;
+        this._name = name;
         return this;
     }
 
 
     public TaskBuilder description(string description) {
-        this.description = description;
+        this._description = description;
         return this;
     }
 
 
     public TaskBuilder priority(int priority) {
-        this.priority = priority;
+        this._priority = priority;
         return this;
     }
 
@@ -91,82 +92,82 @@ abstract class BaseTaskBuilderImpl : TaskBuilder {
 
 
     public TaskBuilder dueDate(Date dueDate) {
-        this.dueDate = dueDate;
+        this._dueDate = dueDate;
         return this;
     }
 
 
     public TaskBuilder category(string category) {
-        this.category = category;
+        this._category = category;
         return this;
     }
 
 
     public TaskBuilder parentTaskId(string parentTaskId) {
-        this.parentTaskId = parentTaskId;
+        this._parentTaskId = parentTaskId;
         return this;
     }
 
 
     public TaskBuilder tenantId(string tenantId) {
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
 
     public TaskBuilder formKey(string formKey) {
-        this.formKey = formKey;
+        this._formKey = formKey;
         return this;
     }
 
 
     public TaskBuilder taskDefinitionId(string taskDefinitionId) {
-        this.taskDefinitionId = taskDefinitionId;
+        this._taskDefinitionId = taskDefinitionId;
         return this;
     }
 
 
     public TaskBuilder taskDefinitionKey(string taskDefinitionKey) {
-        this.taskDefinitionKey = taskDefinitionKey;
+        this._taskDefinitionKey = taskDefinitionKey;
         return this;
     }
 
 
     public TaskBuilder identityLinks(Set!IdentityLinkInfo identityLinks) {
-        this.identityLinks = identityLinks;
+        this._identityLinks = identityLinks;
         return this;
     }
 
 
     public TaskBuilder scopeId(string scopeId) {
-        this.scopeId = scopeId;
+        this._scopeId = scopeId;
         return this;
     }
 
 
     public TaskBuilder scopeType(string scopeType) {
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
 
     public string getId() {
-        return id;
+        return _id;
     }
 
 
     public string getName() {
-        return name;
+        return _name;
     }
 
 
     public string getDescription() {
-        return description;
+        return _description;
     }
 
 
     public int getPriority() {
-        return priority;
+        return _priority;
     }
 
 
@@ -181,53 +182,53 @@ abstract class BaseTaskBuilderImpl : TaskBuilder {
 
 
     public string getTaskDefinitionId() {
-        return taskDefinitionId;
+        return _taskDefinitionId;
     }
 
 
     public string getTaskDefinitionKey() {
-        return taskDefinitionKey;
+        return _taskDefinitionKey;
     }
 
 
     public Date getDueDate() {
-        return dueDate;
+        return _dueDate;
     }
 
 
     public string getCategory() {
-        return category;
+        return _category;
     }
 
 
     public string getParentTaskId() {
-        return parentTaskId;
+        return _parentTaskId;
     }
 
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
 
     public string getFormKey() {
-        return formKey;
+        return _formKey;
     }
 
 
 
     public Set!IdentityLinkInfo getIdentityLinks() {
-        return identityLinks;
+        return _identityLinks;
     }
 
 
     public string getScopeId() {
-        return this.scopeId;
+        return this._scopeId;
     }
 
 
     public string getScopeType() {
-        return this.scopeType;
+        return this._scopeType;
     }
 
 }

@@ -18,16 +18,16 @@ module flow.engine.history.DeleteReason;
  */
 interface DeleteReason {
 
-    string PROCESS_INSTANCE_DELETED = "process instance deleted";
+  static string PROCESS_INSTANCE_DELETED = "process instance deleted";
 
-    string TERMINATE_END_EVENT = "terminate end event";
+  static string TERMINATE_END_EVENT = "terminate end event";
 
-    string BOUNDARY_EVENT_INTERRUPTING = "boundary event";
+  static string BOUNDARY_EVENT_INTERRUPTING = "boundary event";
 
-    string EVENT_SUBPROCESS_INTERRUPTING = "event subprocess";
+  static string EVENT_SUBPROCESS_INTERRUPTING = "event subprocess";
 
-    string EVENT_BASED_GATEWAY_CANCEL = "event based gateway cancel";
+  static string EVENT_BASED_GATEWAY_CANCEL = "event based gateway cancel";
 
-    string TRANSACTION_CANCELED = "transaction canceled";
+  static string TRANSACTION_CANCELED = "transaction canceled";
 
 }

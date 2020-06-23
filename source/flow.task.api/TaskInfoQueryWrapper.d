@@ -21,7 +21,6 @@ module flow.task.api.TaskInfoQueryWrapper;
 
  import flow.task.api.TaskInfoQuery;
 
-
 /**
  * This is a helper class to help you work with the {@link TaskInfoQuery}, without having to care about the awful generics.
  *
@@ -59,7 +58,7 @@ class TaskInfoQueryWrapper {
     //    this.taskInfoQuery = taskInfoQuery;
     //}
 
-      public void setTaskInfoQuery(ObjecttaskInfoQuery) {
+      public void setTaskInfoQuery(Object taskInfoQuery) {
         this.taskInfoQuery = taskInfoQuery;
     }
 

@@ -84,11 +84,11 @@ class BatchBuilderImpl : BatchBuilder {
     public Batch create() {
         if (commandExecutor !is null) {
             BatchBuilder selfBatchBuilder = this;
-            return commandExecutor.execute(new class Command!Batch {
+            return cast(Batch)commandExecutor.execute(cast(CommandAbstract)(new class Command!Batch {
                 public Batch execute(CommandContext commandContext) {
                     return CommandContextUtil.getBatchEntityManager(commandContext).createBatch(selfBatchBuilder);
                 }
-            });
+            }));
 
         } else {
             return batchService.createBatch(this);

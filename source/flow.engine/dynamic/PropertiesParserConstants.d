@@ -16,9 +16,9 @@ module flow.engine.dynamic.PropertiesParserConstants;
  * Created by Pardo David on 5/12/2016.
  */
 interface PropertiesParserConstants {
-    string ELEMENT_ID = "elementId";
-    string ELEMENT_TYPE = "elementType";
-    string ELEMENT_PROPERTIES = "elementProperties";
-    string BPMN_MODEL_VALUE = "bpmnmodel";
-    string DYNAMIC_VALUE = "dynamic";
+    static string ELEMENT_ID = "elementId";
+    static string ELEMENT_TYPE = "elementType";
+    static string ELEMENT_PROPERTIES = "elementProperties";
+    static string BPMN_MODEL_VALUE = "bpmnmodel";
+    static string DYNAMIC_VALUE = "dynamic";
 }

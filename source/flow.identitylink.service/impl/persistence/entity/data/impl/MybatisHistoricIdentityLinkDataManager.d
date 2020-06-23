@@ -87,7 +87,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
 
     this()
     {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
     public HistoricIdentityLinkEntity create() {

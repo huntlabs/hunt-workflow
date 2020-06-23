@@ -21,7 +21,7 @@ import flow.engine.impl.persistence.entity.ModelEntity;
 import flow.engine.impl.persistence.entity.ModelEntityImpl;
 import flow.engine.impl.persistence.entity.data.AbstractProcessDataManager;
 import flow.engine.impl.persistence.entity.data.ModelDataManager;
-import flow.engine.repository.Model;
+
 import hunt.entity;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
@@ -32,7 +32,7 @@ import flow.common.runtime.Clockm;
 //EntityRepository!( HistoricIdentityLinkEntityImpl , string
 //class MybatisModelDataManager : AbstractProcessDataManager!ModelEntity implements ModelDataManager {
 class MybatisModelDataManager : EntityRepository!( ModelEntityImpl , string) , ModelDataManager {
-
+  import flow.engine.repository.Model;
    private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 

@@ -32,9 +32,9 @@ import flow.engine.deleg.BaseExecutionListener;
  */
 interface TransactionDependentExecutionListener : BaseExecutionListener {
 
-    string ON_TRANSACTION_BEFORE_COMMIT = "before-commit";
-    string ON_TRANSACTION_COMMITTED = "committed";
-    string ON_TRANSACTION_ROLLED_BACK = "rolled-back";
+    static string ON_TRANSACTION_BEFORE_COMMIT = "before-commit";
+    static string ON_TRANSACTION_COMMITTED = "committed";
+    static string ON_TRANSACTION_ROLLED_BACK = "rolled-back";
 
     void notify(string processInstanceId, string executionId, FlowElement flowElement,
             Map!(string, Object) executionVariables, Map!(string, Object) customPropertiesMap);

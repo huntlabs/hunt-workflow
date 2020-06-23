@@ -50,6 +50,7 @@ class TriggerCmd : NeedsActiveExecutionCmd!Object {
         this.transientVariables = transientVariables;
     }
 
+    override
     protected Object execute(CommandContext commandContext, ExecutionEntity execution) {
         //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, execution.getProcessDefinitionId())) {
         //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
@@ -79,6 +80,7 @@ class TriggerCmd : NeedsActiveExecutionCmd!Object {
         return null;
     }
 
+    override
     protected string getSuspendedExceptionMessage() {
         return "Cannot trigger an execution that is suspended";
     }

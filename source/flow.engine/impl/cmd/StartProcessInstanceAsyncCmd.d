@@ -36,6 +36,7 @@ class StartProcessInstanceAsyncCmd : StartProcessInstanceCmd {
         super(processInstanceBuilder);
     }
 
+
     override
     public ProcessInstance execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);

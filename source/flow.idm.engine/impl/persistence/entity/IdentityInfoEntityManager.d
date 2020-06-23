@@ -29,7 +29,7 @@ interface IdentityInfoEntityManager : EntityManager!IdentityInfoEntity {
 
     List!IdentityInfoEntity findIdentityInfoByUserId(string userId);
 
-    void updateUserInfo(string userId, string userPassword, string type, string key, string value, string accountPassword, Map!string, string accountDetails);
+    void updateUserInfo(string userId, string userPassword, string type, string key, string value, string accountPassword, Map!(string, string) accountDetails);
 
     void deleteUserInfoByUserIdAndKey(string userId, string key);
 

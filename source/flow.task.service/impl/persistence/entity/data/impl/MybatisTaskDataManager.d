@@ -53,7 +53,7 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
     //}
     this()
     {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
 

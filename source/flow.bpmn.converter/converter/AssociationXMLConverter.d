@@ -38,7 +38,7 @@ class AssociationXMLConverter : BaseBpmnXMLConverter {
     }
 
     override
-    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
+    BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         Association association = new Association();
         BpmnXMLUtil.addXMLLocation(association, xtr);
         association.setSourceRef(xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FLOW_SOURCE_REF).getValue());

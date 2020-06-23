@@ -145,7 +145,7 @@ class BatchPartEntityImpl : AbstractBatchServiceEntity , Model, BatchPartEntity 
 
 
     public bool isCompleted() {
-        return completeTime !is null;
+        return completeTime != 0;
     }
 
 

@@ -19,6 +19,7 @@ import flow.common.api.deleg.Expression;
 import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.deleg.FlowableCollectionHandler;
 import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
+import hunt.Object;
 /**
  * @author Lori Small
  */
@@ -32,7 +33,7 @@ class DelegateExpressionCollectionHandler : FlowableCollectionHandler {
         this.expression = expression;
     }
 
-	public Collection resolveCollection(Object collectionValue, DelegateExecution execution) {
+	public IObject resolveCollection(Object collectionValue, DelegateExecution execution) {
 		return getCollectionHandlerInstance(execution).resolveCollection(collectionValue, execution);
 	}
 

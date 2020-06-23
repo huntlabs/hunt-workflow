@@ -71,7 +71,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
     this(ProcessEngineConfigurationImpl processEngineConfiguration) {
       this.processEngineConfiguration = processEngineConfiguration;
       this.performanceSettings = processEngineConfiguration.getPerformanceSettings();
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
     //protected CachedEntityMatcher!ExecutionEntity executionsByParentIdMatcher = new ExecutionsByParentExecutionIdEntityMatcher();

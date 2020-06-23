@@ -16,7 +16,7 @@ module flow.job.service.impl.asyncexecutor.ExecuteAsyncRunnableFactory;
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
 import hunt.util.Common;
-
+import hunt.util.Runnable;
 /**
  * @author Joram Barrez
  */

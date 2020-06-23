@@ -26,7 +26,7 @@ import std.string;
 
 class DataAssociationParser : BpmnXMLConstants {
 
-  void loopNexSibling(Element n , DataAssociation dataAssociation ,Assignment assignment, bool readyWithFormProperty)
+  static void loopNexSibling(Element n , DataAssociation dataAssociation ,Assignment assignment, bool readyWithFormProperty)
   {
     Element node = n;
     while(!readyWithFormProperty && node !is null && node.getType == NodeType.Element)

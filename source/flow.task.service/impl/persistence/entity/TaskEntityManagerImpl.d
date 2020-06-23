@@ -50,7 +50,7 @@ class TaskEntityManagerImpl
         super(taskServiceConfiguration, taskDataManager);
     }
 
-
+    override
     public TaskEntity create() {
         TaskEntity taskEntity = super.create();
         taskEntity.setCreateTime(getClock().getCurrentTime());
@@ -112,7 +112,7 @@ class TaskEntityManagerImpl
         return enrichedTaskEntity;
     }
 
-
+    override
     public void insert(TaskEntity taskEntity, bool fireCreatedEvent) {
         super.insert(taskEntity, fireCreatedEvent);
         if (fireCreatedEvent) {
@@ -120,7 +120,7 @@ class TaskEntityManagerImpl
         }
     }
 
-
+    override
     public TaskEntity update(TaskEntity taskEntity, bool fireUpdateEvents) {
         if (fireUpdateEvents) {
             logTaskUpdateEvents(taskEntity);

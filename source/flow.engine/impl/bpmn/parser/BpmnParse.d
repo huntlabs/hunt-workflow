@@ -78,7 +78,7 @@ class BpmnParse : BpmnXMLConstants {
     public static  string PROPERTYNAME_ERROR_EVENT_DEFINITIONS = "errorEventDefinitions";
     public static  string PROPERTYNAME_EVENT_SUBSCRIPTION_DECLARATION = "eventDefinitions";
 
-    protected string name;
+    protected string _name;
 
     protected bool validateSchema = true;
     protected bool validateProcess = true;
@@ -91,7 +91,7 @@ class BpmnParse : BpmnXMLConstants {
     protected string targetNamespace;
 
     /** The deployment to which the parsed process definitions will be added. */
-    protected EngineDeployment deployment;
+    protected EngineDeployment _deployment;
 
     /** The end result of the parsing: a list of process definition. */
     protected List!ProcessDefinitionEntity processDefinitions  ;//= new ArrayList<>();
@@ -133,7 +133,7 @@ class BpmnParse : BpmnXMLConstants {
     }
 
     public BpmnParse deployment(EngineDeployment deployment) {
-        this.deployment = deployment;
+        this._deployment = deployment;
         return this;
     }
 
@@ -218,12 +218,12 @@ class BpmnParse : BpmnXMLConstants {
     }
 
     public BpmnParse name(string name) {
-        this.name = name;
+        this._name = name;
         return this;
     }
 
     public BpmnParse sourceInputStream(InputStream inputStream) {
-        if (name is null) {
+        if (_name is null) {
             name("inputStream");
         }
         streamSource = cast(string)((cast(ByteArrayInputStream) inputStream).getRawBuffer);
@@ -459,11 +459,11 @@ class BpmnParse : BpmnXMLConstants {
     }
 
     public EngineDeployment getDeployment() {
-        return deployment;
+        return _deployment;
     }
 
     public void setDeployment(EngineDeployment deployment) {
-        this.deployment = deployment;
+        this._deployment = deployment;
     }
 
     public BpmnModel getBpmnModel() {

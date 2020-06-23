@@ -73,10 +73,10 @@ class FlowableIdmEventType : AbstractEnum!FlowableIdmEventType,  FlowableEventTy
       return initOnce!inst(new FlowableIdmEventType("ENTITY_CREATED" , 0));
     }
 
-    string name()
-    {
-        return super.name();
-    }
+    //string name()
+    //{
+    //    return super.name();
+    //}
     /**
      * New entity has been created and all child-entities that are created as a result of the creation of this particular entity are also created and initialized.
      */

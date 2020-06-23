@@ -28,14 +28,14 @@ module flow.task.service.deleg.BaseTaskListener;
  */
 interface BaseTaskListener  {
 
-    string EVENTNAME_CREATE = "create";
-    string EVENTNAME_ASSIGNMENT = "assignment";
-    string EVENTNAME_COMPLETE = "complete";
-    string EVENTNAME_DELETE = "delete";
+    static string EVENTNAME_CREATE = "create";
+    static string EVENTNAME_ASSIGNMENT = "assignment";
+    static string EVENTNAME_COMPLETE = "complete";
+    static string EVENTNAME_DELETE = "delete";
 
     /**
      * Not an actual event, used as a marker-value for {@link BaseTaskListener}s that should be called for all events, including {@link #EVENTNAME_CREATE} , {@link #EVENTNAME_ASSIGNMENT} and
      * {@link #EVENTNAME_COMPLETE} and {@link #EVENTNAME_DELETE}.
      */
-    string EVENTNAME_ALL_EVENTS = "all";
+    static string EVENTNAME_ALL_EVENTS = "all";
 }

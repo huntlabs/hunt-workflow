@@ -37,7 +37,7 @@ class MyBatisHistoricTaskLogEntryDataManager : EntityRepository!( HistoricTaskLo
     //}
     this()
     {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
 

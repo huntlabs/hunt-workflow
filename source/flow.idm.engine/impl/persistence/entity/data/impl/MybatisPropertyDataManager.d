@@ -35,7 +35,7 @@ class MybatisPropertyDataManager : EntityRepository!( IdmPropertyEntityImpl , st
     this(IdmEngineConfiguration idmEngineConfiguration) {
        // super(idmEngineConfiguration);
        this.idmEngineConfiguration = idmEngineConfiguration;
-       super(entityManagerFactory.createEntityManager());
+       super(entityManagerFactory.currentEntityManager());
     }
     //
     //class<? extends IdmPropertyEntity> getManagedEntityClass() {

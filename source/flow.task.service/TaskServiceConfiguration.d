@@ -50,8 +50,8 @@ class TaskServiceConfiguration : AbstractServiceConfiguration {
     // SERVICES
     // /////////////////////////////////////////////////////////////////
 
-    protected TaskService taskService = new TaskServiceImpl(this);
-    protected HistoricTaskService historicTaskService = new HistoricTaskServiceImpl(this);
+    protected TaskService taskService  ;//= new TaskServiceImpl(this);
+    protected HistoricTaskService historicTaskService ;// = new HistoricTaskServiceImpl(this);
 
     protected IdmIdentityService idmIdentityService;
 
@@ -86,6 +86,8 @@ class TaskServiceConfiguration : AbstractServiceConfiguration {
 
     this(string engineName) {
         super(engineName);
+        taskService = new TaskServiceImpl(this);
+        historicTaskService = new HistoricTaskServiceImpl(this);
     }
 
     // init

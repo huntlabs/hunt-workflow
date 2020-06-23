@@ -21,6 +21,7 @@ import flow.engine.deleg.DelegateExecution;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.deleg.FlowableCollectionHandler;
 import flow.engine.impl.bpmn.helper.AbstractClassDelegate;
+import hunt.Object;
 /**
  * Helper class for Collection handlers to allow class delegation.
  *
@@ -38,7 +39,7 @@ class ClassDelegateCollectionHandler : AbstractClassDelegate , FlowableCollectio
         super(clazz, fieldDeclarations);
     }
 
-	public Collection resolveCollection(Object collectionValue, DelegateExecution execution) {
+	public IObject resolveCollection(Object collectionValue, DelegateExecution execution) {
 		return getCollectionHandlerInstance().resolveCollection(collectionValue, execution);
 	}
 

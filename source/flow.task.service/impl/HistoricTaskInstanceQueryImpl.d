@@ -47,68 +47,68 @@ import std.string;
 class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskInstanceQuery, HistoricTaskInstance)
         , HistoricTaskInstanceQuery, QueryCacheValues {
 
-    protected string taskDefinitionId;
-    protected string processDefinitionId;
-    protected string processDefinitionKey;
-    protected string processDefinitionKeyLike;
-    protected string processDefinitionKeyLikeIgnoreCase;
+    protected string _taskDefinitionId;
+    protected string _processDefinitionId;
+    protected string _processDefinitionKey;
+    protected string _processDefinitionKeyLike;
+    protected string _processDefinitionKeyLikeIgnoreCase;
     protected Collection!string processDefinitionKeys;
-    protected string processDefinitionName;
-    protected string processDefinitionNameLike;
+    protected string _processDefinitionName;
+    protected string _processDefinitionNameLike;
     protected Collection!string processCategoryInList;
     protected Collection!string processCategoryNotInList;
-    protected string deploymentId;
+    protected string _deploymentId;
     protected Collection!string deploymentIds;
-    protected string cmmnDeploymentId;
+    protected string _cmmnDeploymentId;
     protected Collection!string cmmnDeploymentIds;
-    protected string processInstanceId;
+    protected string _processInstanceId;
     protected Collection!string processInstanceIds;
-    protected string processInstanceBusinessKey;
-    protected string processInstanceBusinessKeyLike;
-    protected string processInstanceBusinessKeyLikeIgnoreCase;
-    protected string executionId;
-    protected string scopeId;
-    protected string subScopeId;
-    protected string scopeType;
-    protected string scopeDefinitionId;
-    protected string propagatedStageInstanceId;
-    protected string processInstanceIdWithChildren;
-    protected string caseInstanceIdWithChildren;
-    protected string taskId;
-    protected string taskName;
-    protected string taskNameLike;
-    protected string taskNameLikeIgnoreCase;
+    protected string _processInstanceBusinessKey;
+    protected string _processInstanceBusinessKeyLike;
+    protected string _processInstanceBusinessKeyLikeIgnoreCase;
+    protected string _executionId;
+    protected string _scopeId;
+    protected string _subScopeId;
+    protected string _scopeType;
+    protected string _scopeDefinitionId;
+    protected string _propagatedStageInstanceId;
+    protected string _processInstanceIdWithChildren;
+    protected string _caseInstanceIdWithChildren;
+    protected string _taskId;
+    protected string _taskName;
+    protected string _taskNameLike;
+    protected string _taskNameLikeIgnoreCase;
     protected Collection!string taskNameList;
     protected Collection!string taskNameListIgnoreCase;
-    protected string taskParentTaskId;
-    protected string taskDescription;
-    protected string taskDescriptionLike;
-    protected string taskDescriptionLikeIgnoreCase;
-    protected string taskDeleteReason;
-    protected string taskDeleteReasonLike;
-    protected string taskOwner;
-    protected string taskOwnerLike;
-    protected string taskOwnerLikeIgnoreCase;
-    protected string taskAssignee;
-    protected string taskAssigneeLike;
-    protected string taskAssigneeLikeIgnoreCase;
-    protected Collection!string taskAssigneeIds;
-    protected string taskDefinitionKey;
-    protected string taskDefinitionKeyLike;
-    protected Collection!string taskDefinitionKeys;
+    protected string _taskParentTaskId;
+    protected string _taskDescription;
+    protected string _taskDescriptionLike;
+    protected string _taskDescriptionLikeIgnoreCase;
+    protected string _taskDeleteReason;
+    protected string _taskDeleteReasonLike;
+    protected string _taskOwner;
+    protected string _taskOwnerLike;
+    protected string _taskOwnerLikeIgnoreCase;
+    protected string _taskAssignee;
+    protected string _taskAssigneeLike;
+    protected string _taskAssigneeLikeIgnoreCase;
+    protected Collection!string _taskAssigneeIds;
+    protected string _taskDefinitionKey;
+    protected string _taskDefinitionKeyLike;
+    protected Collection!string _taskDefinitionKeys;
     protected string candidateUser;
     protected string candidateGroup;
     private Collection!string candidateGroups;
     protected string involvedUser;
     protected Collection!string involvedGroups;
-    protected bool ignoreAssigneeValue;
-    protected int taskPriority;
-    protected int taskMinPriority;
-    protected int taskMaxPriority;
-    protected bool finished;
-    protected bool unfinished;
-    protected bool processFinished;
-    protected bool processUnfinished;
+    protected bool _ignoreAssigneeValue;
+    protected int _taskPriority;
+    protected int _taskMinPriority;
+    protected int _taskMaxPriority;
+    protected bool _finished;
+    protected bool _unfinished;
+    protected bool _processFinished;
+    protected bool _processUnfinished;
     protected Date dueDate;
     protected Date dueAfter;
     protected Date dueBefore;
@@ -126,12 +126,12 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     protected string tenantIdLike;
     protected bool withoutTenantId;
     protected bool withoutDeleteReason;
-    protected string locale;
-    protected bool withLocalizationFallback;
-    protected bool includeTaskLocalVariables;
-    protected bool includeProcessVariables;
+    protected string _locale;
+    protected bool _withLocalizationFallback;
+    protected bool _includeTaskLocalVariables;
+    protected bool _includeProcessVariables;
     protected int taskVariablesLimit;
-    protected bool includeIdentityLinks;
+    protected bool _includeIdentityLinks;
     protected List!HistoricTaskInstanceQueryImpl orQueryObjects  ;//= new ArrayList<>();
     protected HistoricTaskInstanceQueryImpl currentOrQueryObject;
 
@@ -152,7 +152,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         orQueryObjects = new ArrayList!HistoricTaskInstanceQueryImpl;
     }
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         ensureVariablesInitialized();
 
@@ -164,7 +164,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         return CommandContextUtil.getHistoricTaskInstanceEntityManager(commandContext).findHistoricTaskInstanceCountByQueryCriteria(this);
     }
 
-
+    override
     public List!HistoricTaskInstance executeList(CommandContext commandContext) {
         ensureVariablesInitialized();
         List!HistoricTaskInstance tasks = null;
@@ -174,13 +174,13 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
             taskServiceConfiguration.getHistoricTaskQueryInterceptor().beforeHistoricTaskQueryExecute(this);
         }
 
-        if (includeTaskLocalVariables || includeProcessVariables || includeIdentityLinks) {
+        if (_includeTaskLocalVariables || _includeProcessVariables || _includeIdentityLinks) {
             tasks = CommandContextUtil.getHistoricTaskInstanceEntityManager(commandContext).findHistoricTaskInstancesAndRelatedEntitiesByQueryCriteria(this);
 
-            if (taskId !is null) {
-                if (includeProcessVariables) {
+            if (_taskId !is null) {
+                if (_includeProcessVariables) {
                     addCachedVariableForQueryById(commandContext, tasks, false);
-                } else if (includeTaskLocalVariables) {
+                } else if (_includeTaskLocalVariables) {
                     addCachedVariableForQueryById(commandContext, tasks, true);
                 }
             }
@@ -191,7 +191,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
         if (tasks !is null && taskServiceConfiguration.getInternalTaskLocalizationManager() !is null && taskServiceConfiguration.isEnableLocalization()) {
             foreach (HistoricTaskInstance task ; tasks) {
-                taskServiceConfiguration.getInternalTaskLocalizationManager().localize(task, locale, withLocalizationFallback);
+                taskServiceConfiguration.getInternalTaskLocalizationManager().localize(task, _locale, _withLocalizationFallback);
             }
         }
 
@@ -231,7 +231,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceId = processInstanceId;
         } else {
-            this.processInstanceId = processInstanceId;
+            this._processInstanceId = processInstanceId;
         }
         return this;
     }
@@ -263,7 +263,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceBusinessKey = processInstanceBusinessKey;
         } else {
-            this.processInstanceBusinessKey = processInstanceBusinessKey;
+            this._processInstanceBusinessKey = processInstanceBusinessKey;
         }
         return this;
     }
@@ -273,7 +273,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
         } else {
-            this.processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
+            this._processInstanceBusinessKeyLike = processInstanceBusinessKeyLike;
         }
         return this;
     }
@@ -283,7 +283,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processInstanceBusinessKeyLikeIgnoreCase = processInstanceBusinessKeyLikeIgnoreCase.toLowerCase();
         } else {
-            this.processInstanceBusinessKeyLikeIgnoreCase = toLower!string(processInstanceBusinessKeyLikeIgnoreCase);
+            this._processInstanceBusinessKeyLikeIgnoreCase = toLower!string(processInstanceBusinessKeyLikeIgnoreCase);
         }
         return this;
     }
@@ -293,7 +293,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.executionId = executionId;
         } else {
-            this.executionId = executionId;
+            this._executionId = executionId;
         }
         return this;
     }
@@ -327,7 +327,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.processInstanceIdWithChildren(processInstanceId);
         } else {
-            this.processInstanceIdWithChildren = processInstanceId;
+            this._processInstanceIdWithChildren = processInstanceId;
         }
         return this;
     }
@@ -337,7 +337,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.caseInstanceIdWithChildren(caseInstanceId);
         } else {
-            this.caseInstanceIdWithChildren = caseInstanceId;
+            this._caseInstanceIdWithChildren = caseInstanceId;
         }
         return this;
     }
@@ -359,7 +359,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.scopeId = scopeId;
         } else {
-            this.scopeId = scopeId;
+            this._scopeId = scopeId;
         }
         return this;
     }
@@ -369,7 +369,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.subScopeId = subScopeId;
         } else {
-            this.subScopeId = subScopeId;
+            this._subScopeId = subScopeId;
         }
         return this;
     }
@@ -379,7 +379,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.scopeType = scopeType;
         } else {
-            this.scopeType = scopeType;
+            this._scopeType = scopeType;
         }
         return this;
     }
@@ -389,7 +389,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.scopeDefinitionId = scopeDefinitionId;
         } else {
-            this.scopeDefinitionId = scopeDefinitionId;
+            this._scopeDefinitionId = scopeDefinitionId;
         }
         return this;
     }
@@ -399,7 +399,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.propagatedStageInstanceId = propagatedStageInstanceId;
         } else {
-            this.propagatedStageInstanceId = propagatedStageInstanceId;
+            this._propagatedStageInstanceId = propagatedStageInstanceId;
         }
         return this;
     }
@@ -409,7 +409,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionId = taskDefinitionId;
         } else {
-            this.taskDefinitionId = taskDefinitionId;
+            this._taskDefinitionId = taskDefinitionId;
         }
         return this;
     }
@@ -419,7 +419,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionId = processDefinitionId;
         } else {
-            this.processDefinitionId = processDefinitionId;
+            this._processDefinitionId = processDefinitionId;
         }
         return this;
     }
@@ -429,7 +429,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKey = processDefinitionKey;
         } else {
-            this.processDefinitionKey = processDefinitionKey;
+            this._processDefinitionKey = processDefinitionKey;
         }
         return this;
     }
@@ -439,7 +439,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeyLike = processDefinitionKeyLike;
         } else {
-            this.processDefinitionKeyLike = processDefinitionKeyLike;
+            this._processDefinitionKeyLike = processDefinitionKeyLike;
         }
         return this;
     }
@@ -449,7 +449,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeyLikeIgnoreCase = toLower!string(processDefinitionKeyLikeIgnoreCase);
         } else {
-            this.processDefinitionKeyLikeIgnoreCase = processDefinitionKeyLikeIgnoreCase.toLowerCase();
+            this._processDefinitionKeyLikeIgnoreCase = processDefinitionKeyLikeIgnoreCase.toLowerCase();
         }
         return this;
     }
@@ -469,7 +469,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionName = processDefinitionName;
         } else {
-            this.processDefinitionName = processDefinitionName;
+            this._processDefinitionName = processDefinitionName;
         }
         return this;
     }
@@ -479,7 +479,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionNameLike = processDefinitionNameLike;
         } else {
-            this.processDefinitionNameLike = processDefinitionNameLike;
+            this._processDefinitionNameLike = processDefinitionNameLike;
         }
         return this;
     }
@@ -533,7 +533,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.deploymentId = deploymentId;
         } else {
-            this.deploymentId = deploymentId;
+            this._deploymentId = deploymentId;
         }
         return this;
     }
@@ -553,7 +553,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             currentOrQueryObject.cmmnDeploymentId = cmmnDeploymentId;
         } else {
-            this.cmmnDeploymentId = cmmnDeploymentId;
+            this._cmmnDeploymentId = cmmnDeploymentId;
         }
         return this;
     }
@@ -573,7 +573,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskId = taskId;
         } else {
-            this.taskId = taskId;
+            this._taskId = taskId;
         }
         return this;
     }
@@ -583,7 +583,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskName = taskName;
         } else {
-            this.taskName = taskName;
+            this._taskName = taskName;
         }
         return this;
     }
@@ -597,13 +597,13 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
             throw new FlowableIllegalArgumentException("Task name list is empty");
         }
 
-        if (taskName !is null) {
+        if (_taskName !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskName");
         }
-        if (taskNameLike !is null) {
+        if (_taskNameLike !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskNameLike");
         }
-        if (taskNameLikeIgnoreCase !is null) {
+        if (_taskNameLikeIgnoreCase !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameIn and taskNameLikeIgnoreCase");
         }
 
@@ -629,13 +629,13 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
             }
         }
 
-        if (taskName !is null) {
+        if (_taskName !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and name");
         }
-        if (taskNameLike !is null) {
+        if (_taskNameLike !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and nameLike");
         }
-        if (taskNameLikeIgnoreCase !is null) {
+        if (_taskNameLikeIgnoreCase !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskNameInIgnoreCase and nameLikeIgnoreCase");
         }
 
@@ -658,7 +658,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskNameLike = taskNameLike;
         } else {
-            this.taskNameLike = taskNameLike;
+            this._taskNameLike = taskNameLike;
         }
         return this;
     }
@@ -668,7 +668,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLowerCase();
         } else {
-            this.taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLowerCase();
+            this._taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLowerCase();
         }
         return this;
     }
@@ -678,7 +678,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskParentTaskId = parentTaskId;
         } else {
-            this.taskParentTaskId = parentTaskId;
+            this._taskParentTaskId = parentTaskId;
         }
         return this;
     }
@@ -688,7 +688,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDescription = taskDescription;
         } else {
-            this.taskDescription = taskDescription;
+            this._taskDescription = taskDescription;
         }
         return this;
     }
@@ -698,7 +698,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDescriptionLike = taskDescriptionLike;
         } else {
-            this.taskDescriptionLike = taskDescriptionLike;
+            this._taskDescriptionLike = taskDescriptionLike;
         }
         return this;
     }
@@ -708,7 +708,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDescriptionLikeIgnoreCase = toLower!string(taskDescriptionLikeIgnoreCase);
         } else {
-            this.taskDescriptionLikeIgnoreCase = toLower!string(taskDescriptionLikeIgnoreCase);
+            this._taskDescriptionLikeIgnoreCase = toLower!string(taskDescriptionLikeIgnoreCase);
         }
         return this;
     }
@@ -718,7 +718,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDeleteReason = taskDeleteReason;
         } else {
-            this.taskDeleteReason = taskDeleteReason;
+            this._taskDeleteReason = taskDeleteReason;
         }
         return this;
     }
@@ -728,7 +728,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDeleteReasonLike = taskDeleteReasonLike;
         } else {
-            this.taskDeleteReasonLike = taskDeleteReasonLike;
+            this._taskDeleteReasonLike = taskDeleteReasonLike;
         }
         return this;
     }
@@ -738,7 +738,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskAssignee = taskAssignee;
         } else {
-            this.taskAssignee = taskAssignee;
+            this._taskAssignee = taskAssignee;
         }
         return this;
     }
@@ -748,7 +748,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskAssigneeLike = taskAssigneeLike;
         } else {
-            this.taskAssigneeLike = taskAssigneeLike;
+            this._taskAssigneeLike = taskAssigneeLike;
         }
         return this;
     }
@@ -758,7 +758,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskAssigneeLikeIgnoreCase = toLower!string(taskAssigneeLikeIgnoreCase);
         } else {
-            this.taskAssigneeLikeIgnoreCase = toLower!string(taskAssigneeLikeIgnoreCase);
+            this._taskAssigneeLikeIgnoreCase = toLower!string(taskAssigneeLikeIgnoreCase);
         }
         return this;
     }
@@ -777,20 +777,20 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
             }
         }
 
-        if (taskAssignee !is null) {
+        if (_taskAssignee !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskAssigneeIds and taskAssignee");
         }
-        if (taskAssigneeLike !is null) {
+        if (_taskAssigneeLike !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskAssigneeIds and taskAssigneeLike");
         }
-        if (taskAssigneeLikeIgnoreCase !is null) {
+        if (_taskAssigneeLikeIgnoreCase !is null) {
             throw new FlowableIllegalArgumentException("Invalid query usage: cannot set both taskAssigneeIds and taskAssigneeLikeIgnoreCase");
         }
 
         if (inOrStatement) {
             currentOrQueryObject.taskAssigneeIds = assigneeIds;
         } else {
-            this.taskAssigneeIds = assigneeIds;
+            this._taskAssigneeIds = assigneeIds;
         }
         return this;
     }
@@ -800,7 +800,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskOwner = taskOwner;
         } else {
-            this.taskOwner = taskOwner;
+            this._taskOwner = taskOwner;
         }
         return this;
     }
@@ -810,7 +810,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskOwnerLike = taskOwnerLike;
         } else {
-            this.taskOwnerLike = taskOwnerLike;
+            this._taskOwnerLike = taskOwnerLike;
         }
         return this;
     }
@@ -820,7 +820,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskOwnerLikeIgnoreCase = toLower!string(taskOwnerLikeIgnoreCase);
         } else {
-            this.taskOwnerLikeIgnoreCase = toLower!string(taskOwnerLikeIgnoreCase);
+            this._taskOwnerLikeIgnoreCase = toLower!string(taskOwnerLikeIgnoreCase);
         }
         return this;
     }
@@ -830,7 +830,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.finished = true;
         } else {
-            this.finished = true;
+            this._finished = true;
         }
         return this;
     }
@@ -840,7 +840,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.unfinished = true;
         } else {
-            this.unfinished = true;
+            this._unfinished = true;
         }
         return this;
     }
@@ -1110,7 +1110,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionKey = taskDefinitionKey;
         } else {
-            this.taskDefinitionKey = taskDefinitionKey;
+            this._taskDefinitionKey = taskDefinitionKey;
         }
         return this;
     }
@@ -1120,7 +1120,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionKeyLike = taskDefinitionKeyLike;
         } else {
-            this.taskDefinitionKeyLike = taskDefinitionKeyLike;
+            this._taskDefinitionKeyLike = taskDefinitionKeyLike;
         }
         return this;
     }
@@ -1130,7 +1130,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskDefinitionKeys = taskDefinitionKeys;
         } else {
-            this.taskDefinitionKeys = taskDefinitionKeys;
+            this._taskDefinitionKeys = taskDefinitionKeys;
         }
         return this;
     }
@@ -1140,7 +1140,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskPriority = taskPriority;
         } else {
-            this.taskPriority = taskPriority;
+            this._taskPriority = taskPriority;
         }
         return this;
     }
@@ -1150,7 +1150,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskMinPriority = taskMinPriority;
         } else {
-            this.taskMinPriority = taskMinPriority;
+            this._taskMinPriority = taskMinPriority;
         }
         return this;
     }
@@ -1160,7 +1160,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.taskMaxPriority = taskMaxPriority;
         } else {
-            this.taskMaxPriority = taskMaxPriority;
+            this._taskMaxPriority = taskMaxPriority;
         }
         return this;
     }
@@ -1170,7 +1170,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processFinished = true;
         } else {
-            this.processFinished = true;
+            this._processFinished = true;
         }
         return this;
     }
@@ -1180,12 +1180,12 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processUnfinished = true;
         } else {
-            this.processUnfinished = true;
+            this._processUnfinished = true;
         }
         return this;
     }
 
-
+    override
     protected void ensureVariablesInitialized() {
         VariableTypes types = CommandContextUtil.getVariableServiceConfiguration().getVariableTypes();
         foreach (QueryVariableValue var ; queryVariableValues) {
@@ -1420,7 +1420,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.ignoreAssigneeValue = true;
         } else {
-            this.ignoreAssigneeValue = true;
+            this._ignoreAssigneeValue = true;
         }
         return this;
     }
@@ -1473,25 +1473,25 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
 
     public HistoricTaskInstanceQuery locale(string locale) {
-        this.locale = locale;
+        this._locale = locale;
         return this;
     }
 
 
     public HistoricTaskInstanceQuery withLocalizationFallback() {
-        withLocalizationFallback = true;
+        _withLocalizationFallback = true;
         return this;
     }
 
 
     public HistoricTaskInstanceQuery includeTaskLocalVariables() {
-        this.includeTaskLocalVariables = true;
+        this._includeTaskLocalVariables = true;
         return this;
     }
 
 
     public HistoricTaskInstanceQuery includeProcessVariables() {
-        this.includeProcessVariables = true;
+        this._includeProcessVariables = true;
         return this;
     }
 
@@ -1503,7 +1503,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
 
     public HistoricTaskInstanceQuery includeIdentityLinks() {
-        this.includeIdentityLinks = true;
+        this._includeIdentityLinks = true;
         return this;
     }
 
@@ -1659,13 +1659,13 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         return this;
     }
 
-
+    override
     protected void checkQueryOk() {
         super.checkQueryOk();
         // In case historic query variables are included, an additional order-by
         // clause should be added
         // to ensure the last value of a variable is used
-        if (includeProcessVariables || includeTaskLocalVariables) {
+        if (_includeProcessVariables || _includeTaskLocalVariables) {
             this.orderBy(HistoricTaskInstanceQueryProperty.INCLUDED_VARIABLE_TIME).asc();
         }
     }
@@ -1728,7 +1728,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     // //////////////////////////////////////////////////////
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
     public Collection!string getProcessInstanceIds() {
@@ -1736,47 +1736,47 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public string getProcessInstanceBusinessKey() {
-        return processInstanceBusinessKey;
+        return _processInstanceBusinessKey;
     }
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
     public string getPropagatedStageInstanceId() {
-        return propagatedStageInstanceId;
+        return _propagatedStageInstanceId;
     }
 
     public string getTaskDefinitionId() {
-        return taskDefinitionId;
+        return _taskDefinitionId;
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getProcessDefinitionKey() {
-        return processDefinitionKey;
+        return _processDefinitionKey;
     }
 
     public string getProcessDefinitionKeyLike() {
-        return processDefinitionKeyLike;
+        return _processDefinitionKeyLike;
     }
 
     public Collection!string getProcessDefinitionKeys() {
@@ -1784,11 +1784,11 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public string getProcessDefinitionName() {
-        return processDefinitionName;
+        return _processDefinitionName;
     }
 
     public string getProcessDefinitionNameLike() {
-        return processDefinitionNameLike;
+        return _processDefinitionNameLike;
     }
 
     public Collection!string getProcessCategoryInList() {
@@ -1800,7 +1800,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public string getDeploymentId() {
-        return deploymentId;
+        return _deploymentId;
     }
 
     public Collection!string getDeploymentIds() {
@@ -1808,7 +1808,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public string getCmmnDeploymentId() {
-        return cmmnDeploymentId;
+        return _cmmnDeploymentId;
     }
 
     public Collection!string getCmmnDeploymentIds() {
@@ -1816,39 +1816,39 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public string getProcessInstanceBusinessKeyLike() {
-        return processInstanceBusinessKeyLike;
+        return _processInstanceBusinessKeyLike;
     }
 
     public string getTaskDefinitionKeyLike() {
-        return taskDefinitionKeyLike;
+        return _taskDefinitionKeyLike;
     }
 
     public string getProcessInstanceIdWithChildren() {
-        return processInstanceIdWithChildren;
+        return _processInstanceIdWithChildren;
     }
 
     public string getCaseInstanceIdWithChildren() {
-        return caseInstanceIdWithChildren;
+        return _caseInstanceIdWithChildren;
     }
 
     public int getTaskPriority() {
-        return taskPriority;
+        return _taskPriority;
     }
 
     public int getTaskMinPriority() {
-        return taskMinPriority;
+        return _taskMinPriority;
     }
 
     public int getTaskMaxPriority() {
-        return taskMaxPriority;
+        return _taskMaxPriority;
     }
 
     public bool isProcessFinished() {
-        return processFinished;
+        return _processFinished;
     }
 
     public bool isProcessUnfinished() {
-        return processUnfinished;
+        return _processUnfinished;
     }
 
     public Date getDueDate() {
@@ -1912,15 +1912,15 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public bool isIncludeTaskLocalVariables() {
-        return includeTaskLocalVariables;
+        return _includeTaskLocalVariables;
     }
 
     public bool isIncludeProcessVariables() {
-        return includeProcessVariables;
+        return _includeProcessVariables;
     }
 
     public bool isIncludeIdentityLinks() {
-        return includeIdentityLinks;
+        return _includeIdentityLinks;
     }
 
     public bool isInOrStatement() {
@@ -1928,19 +1928,19 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public bool isFinished() {
-        return finished;
+        return _finished;
     }
 
     public bool isUnfinished() {
-        return unfinished;
+        return _unfinished;
     }
 
     public string getTaskName() {
-        return taskName;
+        return _taskName;
     }
 
     public string getTaskNameLike() {
-        return taskNameLike;
+        return _taskNameLike;
     }
 
     public Collection!string getTaskNameList() {
@@ -1952,60 +1952,60 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public string getTaskDescription() {
-        return taskDescription;
+        return _taskDescription;
     }
 
     public string getTaskDescriptionLike() {
-        return taskDescriptionLike;
+        return _taskDescriptionLike;
     }
 
     public string getTaskDeleteReason() {
-        return taskDeleteReason;
+        return _taskDeleteReason;
     }
 
     public string getTaskDeleteReasonLike() {
-        return taskDeleteReasonLike;
+        return _taskDeleteReasonLike;
     }
 
     public string getTaskAssignee() {
-        return taskAssignee;
+        return _taskAssignee;
     }
 
     public string getTaskAssigneeLike() {
-        return taskAssigneeLike;
+        return _taskAssigneeLike;
     }
 
     public Collection!string getTaskAssigneeIds() {
-        return taskAssigneeIds;
+        return _taskAssigneeIds;
     }
 
     public string getTaskId() {
-        return taskId;
+        return _taskId;
     }
 
 
     public string getId() {
-        return taskId;
+        return _taskId;
     }
 
     public string getTaskDefinitionKey() {
-        return taskDefinitionKey;
+        return _taskDefinitionKey;
     }
 
     public string getTaskOwnerLike() {
-        return taskOwnerLike;
+        return _taskOwnerLike;
     }
 
     public string getTaskOwner() {
-        return taskOwner;
+        return _taskOwner;
     }
 
     public Collection!string getTaskDefinitionKeys() {
-        return taskDefinitionKeys;
+        return _taskDefinitionKeys;
     }
 
     public string getTaskParentTaskId() {
-        return taskParentTaskId;
+        return _taskParentTaskId;
     }
 
     public Date getCreationDate() {
@@ -2029,31 +2029,31 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public bool isIgnoreAssigneeValue() {
-        return ignoreAssigneeValue;
+        return _ignoreAssigneeValue;
     }
 
     public string getProcessDefinitionKeyLikeIgnoreCase() {
-        return processDefinitionKeyLikeIgnoreCase;
+        return _processDefinitionKeyLikeIgnoreCase;
     }
 
     public string getProcessInstanceBusinessKeyLikeIgnoreCase() {
-        return processInstanceBusinessKeyLikeIgnoreCase;
+        return _processInstanceBusinessKeyLikeIgnoreCase;
     }
 
     public string getTaskNameLikeIgnoreCase() {
-        return taskNameLikeIgnoreCase;
+        return _taskNameLikeIgnoreCase;
     }
 
     public string getTaskDescriptionLikeIgnoreCase() {
-        return taskDescriptionLikeIgnoreCase;
+        return _taskDescriptionLikeIgnoreCase;
     }
 
     public string getTaskOwnerLikeIgnoreCase() {
-        return taskOwnerLikeIgnoreCase;
+        return _taskOwnerLikeIgnoreCase;
     }
 
     public string getTaskAssigneeLikeIgnoreCase() {
-        return taskAssigneeLikeIgnoreCase;
+        return _taskAssigneeLikeIgnoreCase;
     }
 
     public bool isWithoutDeleteReason() {
@@ -2061,7 +2061,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     public string getLocale() {
-        return locale;
+        return _locale;
     }
 
     public List!HistoricTaskInstanceQueryImpl getOrQueryObjects() {

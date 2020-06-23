@@ -34,7 +34,7 @@ class MybatisVariableByteArrayDataManager : EntityRepository!(VariableByteArrayE
 
     this()
     {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
 

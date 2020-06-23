@@ -44,12 +44,12 @@ class EventInParameterParser : BaseChildElementParser {
 
             IOParameter parameter = new IOParameter();
             if (sourceExpression !is null && sourceExpression.getValue().length != 0) {
-                parameter.setSourceExpression(sourceExpression);
+                parameter.setSourceExpression(sourceExpression.getValue);
             } else {
-                parameter.setSource(source);
+                parameter.setSource(source.getValue);
             }
 
-            parameter.setTarget(target);
+            parameter.setTarget(target.getValue);
 
             Attribute arr = xtr.firstAttribute();
             while (arr !is null) {
@@ -62,7 +62,7 @@ class EventInParameterParser : BaseChildElementParser {
 
                 ExtensionAttribute extensionAttribute = new ExtensionAttribute();
                 extensionAttribute.setName(attributeName);
-                extensionAttribute.setValue(getName.getValue());
+                extensionAttribute.setValue(arr.getValue());
                 if (startsWith(arr.getName(),"xmlns")) {
                     extensionAttribute.setNamespace(arr.getValue());
                 }

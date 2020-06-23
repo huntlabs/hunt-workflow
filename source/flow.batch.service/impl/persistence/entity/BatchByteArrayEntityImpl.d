@@ -16,6 +16,8 @@ module flow.batch.service.impl.persistence.entity.BatchByteArrayEntityImpl;
 import flow.batch.service.impl.persistence.entity.AbstractBatchServiceEntity;
 import flow.batch.service.impl.persistence.entity.BatchByteArrayEntity;
 import hunt.entity;
+import std.conv : to;
+
 
 class PersistentState {
 
@@ -108,7 +110,7 @@ class BatchByteArrayEntityImpl : AbstractBatchServiceEntity , Model, BatchByteAr
 
     override
     public string toString() {
-        return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ (bytes !is null ? bytes.length : 0) ~ "]";
+        return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ to!string(bytes !is null ? bytes.length : 0) ~ "]";
     }
 
     // Wrapper for a byte array, needed to do byte array comparisons

@@ -76,11 +76,12 @@ class HistoricTaskLogEntryEntityImpl : AbstractEntityNoRevision , Model,Historic
     this() {
     }
 
+    override
     public string getId() {
       return id;
     }
 
-
+    override
     public void setId(string id) {
         this.id = id;
     }

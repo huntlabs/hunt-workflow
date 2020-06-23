@@ -50,7 +50,7 @@ class UserQueryImpl : AbstractQuery!(UserQuery, User) , UserQuery, QueryCacheVal
     protected string emailLike;
     protected string groupId;
     protected List!string groupIds;
-    protected string tenantId;
+    protected string _tenantId;
 
     this() {
     }
@@ -230,7 +230,7 @@ class UserQueryImpl : AbstractQuery!(UserQuery, User) , UserQuery, QueryCacheVal
         if (tenantId is null) {
             throw new FlowableIllegalArgumentException("TenantId is null");
         }
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
@@ -258,12 +258,12 @@ class UserQueryImpl : AbstractQuery!(UserQuery, User) , UserQuery, QueryCacheVal
 
     // results //////////////////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getUserEntityManager(commandContext).findUserCountByQueryCriteria(this);
     }
 
-
+    override
     public List!User executeList(CommandContext commandContext) {
         return CommandContextUtil.getUserEntityManager(commandContext).findUserByQueryCriteria(this);
     }

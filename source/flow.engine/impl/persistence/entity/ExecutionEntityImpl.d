@@ -82,22 +82,22 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     // state/type of execution //////////////////////////////////////////////////
 
     @Column("IS_ACTIVE_")
-    bool isActive = true;
+    bool _isActive = true;
 
     @Column("IS_SCOPE_")
-    bool isScope = true;
+    bool _isScope = true;
 
     @Column("IS_CONCURRENT_")
-    bool isConcurrent;
+    bool _isConcurrent;
 
     @Column("IS_EVENT_SCOPE_")
-    bool isEventScope;
+    bool _isEventScope;
 
     @Column("IS_MI_ROOT_")
-    bool isMultiInstanceRoot;
+    bool _isMultiInstanceRoot;
 
     @Column("IS_COUNT_ENABLED_")
-    bool isCountEnabled;
+    bool _isCountEnabled;
 
     @Column("SUSPENSION_STATE_")
     int suspensionState ;// = SuspensionState.ACTIVE.getStateCode();
@@ -280,7 +280,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
     private string deleteReason;
 
-    private bool isEnded;
+    private bool _isEnded;
 
 
     private string description;
@@ -478,12 +478,12 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     }
 
 
-    public Integer getProcessDefinitionVersion() {
+    public int getProcessDefinitionVersion() {
         return processDefinitionVersion;
     }
 
 
-    public void setProcessDefinitionVersion(Integer processDefinitionVersion) {
+    public void setProcessDefinitionVersion(int processDefinitionVersion) {
         this.processDefinitionVersion = processDefinitionVersion;
     }
 
@@ -642,12 +642,12 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public bool isScope() {
-        return isScope;
+        return _isScope;
     }
 
 
     public void setScope(bool isScope) {
-        this.isScope = isScope;
+        this._isScope = isScope;
     }
 
 
@@ -658,7 +658,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     // VariableScopeImpl methods //////////////////////////////////////////////////////////////////
 
     // TODO: this should ideally move to another place
-
+    override
     protected void initializeVariableInstanceBackPointer(VariableInstanceEntity variableInstance) {
         if (processInstanceId !is null) {
             variableInstance.setProcessInstanceId(processInstanceId);
@@ -674,17 +674,17 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     //    BpmnLoggingSessionUtil.fillLoggingData(loggingNode, this);
     //}
 
-
+    override
     protected Collection!VariableInstanceEntity loadVariableInstances() {
         return CommandContextUtil.getVariableService().findVariableInstancesByExecutionId(id);
     }
 
-
+    override
     protected VariableScopeImpl getParentVariableScope() {
         return getParent();
     }
 
-
+    override
     public void setVariable(string variableName, Object value, bool fetchAllVariables) {
         setVariable(variableName, value, this, fetchAllVariables);
     }
@@ -769,7 +769,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
     }
 
-
+    override
     public Object setVariableLocal(string variableName, Object value, bool fetchAllVariables) {
         return setVariableLocal(variableName, value, this, fetchAllVariables);
     }
@@ -821,7 +821,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
         }
     }
 
-
+    override
     protected VariableInstanceEntity createVariableInstance(string variableName, Object value) {
         return createVariableInstance(variableName, value, this);
     }
@@ -852,7 +852,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
         createVariableInstance(variableName, value, sourceActivityExecution);
     }
 
-
+    override
     protected void updateVariableInstance(VariableInstanceEntity variableInstance, Object value) {
         updateVariableInstance(variableInstance, value, this);
     }
@@ -867,7 +867,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
         CommandContextUtil.getHistoryManager().recordVariableUpdate(variableInstance, clock.getCurrentTime());
     }
 
-
+    override
     protected void deleteVariableInstanceForExplicitUserCall(VariableInstanceEntity variableInstance) {
         super.deleteVariableInstanceForExplicitUserCall(variableInstance);
 
@@ -882,12 +882,12 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
             getRelatedActivityInstanceId(this), clock.getCurrentTime());
     }
 
-
+    override
     protected bool isPropagateToHistoricVariable() {
         return false;
     }
 
-
+    override
     protected VariableInstanceEntity getSpecificVariable(string variableName) {
 
         CommandContext commandContext = Context.getCommandContext();
@@ -899,7 +899,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
         return variableInstance;
     }
 
-
+    override
     protected List!VariableInstanceEntity getSpecificVariables(Collection!string variableNames) {
         CommandContext commandContext = Context.getCommandContext();
         if (commandContext is null) {
@@ -1009,37 +1009,37 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public bool isConcurrent() {
-        return isConcurrent;
+        return _isConcurrent;
     }
 
 
     public void setConcurrent(bool isConcurrent) {
-        this.isConcurrent = isConcurrent;
+        this._isConcurrent = isConcurrent;
     }
 
 
     public bool isActive() {
-        return isActive;
+        return _isActive;
     }
 
 
     public void setActive(bool isActive) {
-        this.isActive = isActive;
+        this._isActive = isActive;
     }
 
 
     public void inactivate() {
-        this.isActive = false;
+        this._isActive = false;
     }
 
 
     public bool isEnded() {
-        return isEnded;
+        return _isEnded;
     }
 
 
     public void setEnded(bool isEnded) {
-        this.isEnded = isEnded;
+        this._isEnded = isEnded;
     }
 
 
@@ -1079,32 +1079,32 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public bool isEventScope() {
-        return isEventScope;
+        return _isEventScope;
     }
 
 
     public void setEventScope(bool isEventScope) {
-        this.isEventScope = isEventScope;
+        this._isEventScope = isEventScope;
     }
 
 
     public bool isMultiInstanceRoot() {
-        return isMultiInstanceRoot;
+        return _isMultiInstanceRoot;
     }
 
 
     public void setMultiInstanceRoot(bool isMultiInstanceRoot) {
-        this.isMultiInstanceRoot = isMultiInstanceRoot;
+        this._isMultiInstanceRoot = isMultiInstanceRoot;
     }
 
 
     public bool isCountEnabled() {
-        return isCountEnabled;
+        return _isCountEnabled;
     }
 
 
     public void setCountEnabled(bool isCountEnabled) {
-        this.isCountEnabled = isCountEnabled;
+        this._isCountEnabled = isCountEnabled;
     }
 
 

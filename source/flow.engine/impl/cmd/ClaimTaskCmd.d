@@ -37,6 +37,8 @@ class ClaimTaskCmd : NeedsActiveTaskCmd!Void {
         this.userId = userId;
     }
 
+
+    override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
         implementationMissing(false);
         //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
@@ -79,7 +81,7 @@ class ClaimTaskCmd : NeedsActiveTaskCmd!Void {
 
         return null;
     }
-
+    override
     protected string getSuspendedTaskException() {
         return "Cannot claim a suspended task";
     }

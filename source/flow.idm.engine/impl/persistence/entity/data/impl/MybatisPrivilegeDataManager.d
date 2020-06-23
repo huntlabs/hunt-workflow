@@ -35,7 +35,7 @@ class MybatisPrivilegeDataManager : EntityRepository!( PrivilegeEntityImpl , str
 
     this(IdmEngineConfiguration idmEngineConfiguration) {
         this.idmEngineConfiguration = idmEngineConfiguration;
-        super(entityManagerFactory.createEntityManager());
+        super(entityManagerFactory.currentEntityManager());
        // super(idmEngineConfiguration);
     }
 

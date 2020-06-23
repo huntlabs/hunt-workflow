@@ -28,7 +28,7 @@ class MybatisBatchByteArrayDataManager : EntityRepository!( BatchByteArrayEntity
 
      this()
      {
-       super(entityManagerFactory.createEntityManager());
+       super(entityManagerFactory.currentEntityManager());
      }
 
     public BatchByteArrayEntity create() {
@@ -94,9 +94,16 @@ class MybatisBatchByteArrayDataManager : EntityRepository!( BatchByteArrayEntity
           _manager.close();
         }
 
-        BatchByteArrayEntity[] array =  _manager.createQuery!(BatchByteArrayEntity)("SELECT * FROM BatchByteArrayEntity")
+        BatchByteArrayEntityImpl[] array =  _manager.createQuery!(BatchByteArrayEntityImpl)("SELECT * FROM BatchByteArrayEntityImpl")
         .getResultList();
-        return new ArrayList!BatchByteArrayEntity(array);
+
+        List!BatchByteArrayEntity rt = new ArrayList!BatchByteArrayEntity;
+        foreach(BatchByteArrayEntityImpl b ; array)
+        {
+            rt.add(cast(BatchByteArrayEntity)b);
+        }
+        return rt;
+        //return new ArrayList!BatchByteArrayEntity(array);
         //return getDbSqlSession().selectList("selectBatchByteArrays");
     }
 

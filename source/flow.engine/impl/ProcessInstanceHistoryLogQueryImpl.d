@@ -43,12 +43,12 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
     protected CommandExecutor commandExecutor;
 
     protected string processInstanceId;
-    protected bool includeTasks;
-    protected bool includeActivities;
-    protected bool includeVariables;
-    protected bool includeComments;
-    protected bool includeVariableUpdates;
-    protected bool includeFormProperties;
+    protected bool _includeTasks;
+    protected bool _includeActivities;
+    protected bool _includeVariables;
+    protected bool _includeComments;
+    protected bool _includeVariableUpdates;
+    protected bool _includeFormProperties;
 
     this(CommandExecutor commandExecutor, string processInstanceId) {
         this.commandExecutor = commandExecutor;
@@ -57,37 +57,37 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
 
 
     public ProcessInstanceHistoryLogQuery includeTasks() {
-        this.includeTasks = true;
+        this._includeTasks = true;
         return this;
     }
 
 
     public ProcessInstanceHistoryLogQuery includeComments() {
-        this.includeComments = true;
+        this._includeComments = true;
         return this;
     }
 
 
     public ProcessInstanceHistoryLogQuery includeActivities() {
-        this.includeActivities = true;
+        this._includeActivities = true;
         return this;
     }
 
 
     public ProcessInstanceHistoryLogQuery includeVariables() {
-        this.includeVariables = true;
+        this._includeVariables = true;
         return this;
     }
 
 
     public ProcessInstanceHistoryLogQuery includeVariableUpdates() {
-        this.includeVariableUpdates = true;
+        this._includeVariableUpdates = true;
         return this;
     }
 
 
     public ProcessInstanceHistoryLogQuery includeFormProperties() {
-        this.includeFormProperties = true;
+        this._includeFormProperties = true;
         return this;
     }
 
@@ -112,21 +112,21 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
         // Add events, based on query settings
 
         // Tasks
-        if (includeTasks) {
+        if (_includeTasks) {
             auto tasks = CommandContextUtil.getHistoricTaskService().findHistoricTaskInstancesByQueryCriteria(
                             new HistoricTaskInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId));
             processInstanceHistoryLog.addHistoricData(tasks);
         }
 
         // Activities
-        if (includeActivities) {
+        if (_includeActivities) {
             List!HistoricActivityInstance activities = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findHistoricActivityInstancesByQueryCriteria(
                     new HistoricActivityInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId));
             processInstanceHistoryLog.addHistoricData(activities);
         }
 
         // Variables
-        if (includeVariables) {
+        if (_includeVariables) {
             List!HistoricVariableInstance variables = CommandContextUtil.getHistoricVariableService().findHistoricVariableInstancesByQueryCriteria(
                     new HistoricVariableInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId));
             implementationMissing(false);
@@ -145,13 +145,13 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
         }
 
         // Comment
-        if (includeComments) {
+        if (_includeComments) {
             auto comments = CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByProcessInstanceId(processInstanceId);
             processInstanceHistoryLog.addHistoricData(comments);
         }
 
         // Details: variables
-        if (includeVariableUpdates) {
+        if (_includeVariableUpdates) {
             auto variableUpdates = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(
                     new HistoricDetailQueryImpl(commandExecutor).variableUpdates());
 
@@ -165,7 +165,7 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
         }
 
         // Details: form properties
-        if (includeFormProperties) {
+        if (_includeFormProperties) {
             auto formProperties = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(
                     new HistoricDetailQueryImpl(commandExecutor).formProperties());
             processInstanceHistoryLog.addHistoricData(formProperties);

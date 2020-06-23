@@ -64,6 +64,7 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         this.userTask = userTask;
     }
 
+    override
     public void execute(DelegateExecution execution) {
         CommandContext commandContext = CommandContextUtil.getCommandContext();
         TaskService taskService = CommandContextUtil.getTaskService(commandContext);

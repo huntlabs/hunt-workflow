@@ -62,7 +62,7 @@ class FlowableEventListenerParser : BaseChildElementParser {
         }
 
         listener.setEvents(xtr.firstAttribute(ATTRIBUTE_LISTENER_EVENTS) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_EVENTS).getValue);
-        listener.setEntityType(xtr.firstAttribute(ATTRIBUTE_LISTENER_ENTITY_TYPE) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_ENTITY_TYPE));
+        listener.setEntityType(xtr.firstAttribute(ATTRIBUTE_LISTENER_ENTITY_TYPE) is null ? "" : xtr.firstAttribute(ATTRIBUTE_LISTENER_ENTITY_TYPE).getValue);
 
         if (xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION) !is null && xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION).getValue.length != 0){
             listener.setOnTransaction(xtr.firstAttribute(ATTRIBUTE_LISTENER_ON_TRANSACTION).getValue);

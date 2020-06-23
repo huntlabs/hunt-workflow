@@ -27,7 +27,7 @@ import flow.idm.engine.impl.persistence.entity.data.GroupDataManager;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntityManager;
 import flow.idm.engine.impl.persistence.entity.GroupEntity;
 import flow.idm.engine.impl.persistence.entity.GroupEntityManager;
-
+import flow.idm.engine.impl.persistence.entity.MembershipEntityManager;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -47,6 +47,7 @@ class GroupEntityManagerImpl
         return groupEntity;
     }
 
+    override
     public void dele(string groupId) {
         GroupEntity group = dataManager.findById(groupId);
 

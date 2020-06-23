@@ -25,7 +25,7 @@ interface EventRegistryEngine : Engine {
     /**
      * the version of the flowable event registry library
      */
-    static string VERSION = FlowableVersions.CURRENT_VERSION;
+    static string VERSION = "6.5.0.6";
 
     EventRepositoryService getEventRepositoryService();
 

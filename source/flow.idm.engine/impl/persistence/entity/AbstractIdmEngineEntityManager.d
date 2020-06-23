@@ -30,6 +30,7 @@ abstract class AbstractIdmEngineEntityManager(EntityImpl , DM)
         super(idmEngineConfiguration, dataManager);
     }
 
+
     override
     protected FlowableEntityEvent createEntityEvent(FlowableEngineEventType eventType, Entity entity) {
         FlowableIdmEventType idmEventType;

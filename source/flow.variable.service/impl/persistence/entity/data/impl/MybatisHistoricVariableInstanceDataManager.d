@@ -38,7 +38,7 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
 
      this()
      {
-       super(entityManagerFactory.createEntityManager());
+       super(entityManagerFactory.currentEntityManager());
      }
     //protected CachedEntityMatcher!HistoricVariableInstanceEntity historicVariableInstanceByTaskIdMatcher
     //    = new HistoricVariableInstanceByTaskIdMatcher();

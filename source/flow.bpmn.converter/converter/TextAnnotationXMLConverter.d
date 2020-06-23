@@ -48,7 +48,7 @@ class TextAnnotationXMLConverter : BaseBpmnXMLConverter {
     }
 
     override
-    protected BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
+    BaseElement convertXMLToElement(Element xtr, BpmnModel model)  {
         TextAnnotation textAnnotation = new TextAnnotation();
         BpmnXMLUtil.addXMLLocation(textAnnotation, xtr);
         textAnnotation.setTextFormat(xtr.firstAttribute(ATTRIBUTE_TEXTFORMAT) is null ? "" : xtr.firstAttribute(ATTRIBUTE_TEXTFORMAT).getValue);

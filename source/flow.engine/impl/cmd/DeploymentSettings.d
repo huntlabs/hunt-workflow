@@ -17,13 +17,13 @@ module flow.engine.impl.cmd.DeploymentSettings;
  */
 interface DeploymentSettings {
 
-    string IS_BPMN20_XSD_VALIDATION_ENABLED = "isBpmn20XsdValidationEnabled";
+    static string IS_BPMN20_XSD_VALIDATION_ENABLED = "isBpmn20XsdValidationEnabled";
 
-    string IS_PROCESS_VALIDATION_ENABLED = "isProcessValidationEnabled";
+    static string IS_PROCESS_VALIDATION_ENABLED = "isProcessValidationEnabled";
 
-    string IS_DERIVED_DEPLOYMENT = "isDerivedDeployment";
+    static string IS_DERIVED_DEPLOYMENT = "isDerivedDeployment";
 
-    string DERIVED_PROCESS_DEFINITION_ID = "derivedProcessDefinitionId";
+    static string DERIVED_PROCESS_DEFINITION_ID = "derivedProcessDefinitionId";
 
-    string DERIVED_PROCESS_DEFINITION_ROOT_ID = "derivedProcessDefinitionRootId";
+    static string DERIVED_PROCESS_DEFINITION_ROOT_ID = "derivedProcessDefinitionRootId";
 }

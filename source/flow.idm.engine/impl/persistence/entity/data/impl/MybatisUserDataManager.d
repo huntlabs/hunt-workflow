@@ -38,7 +38,7 @@ class MybatisUserDataManager  : EntityRepository!( UserEntityImpl , string),  Us
     this(IdmEngineConfiguration idmEngineConfiguration) {
         this.idmEngineConfiguration = idmEngineConfiguration;
        // super(idmEngineConfiguration);
-        super(entityManagerFactory.createEntityManager());
+        super(entityManagerFactory.currentEntityManager());
     }
 
     //
@@ -68,7 +68,7 @@ class MybatisUserDataManager  : EntityRepository!( UserEntityImpl , string),  Us
 
 
 
-    public List!User findUsersByPrivilegeId(String privilegeId) {
+    public List!User findUsersByPrivilegeId(string privilegeId) {
         implementationMissing(false);
         return null;
       //return getDbSqlSession().selectList("selectUsersWithPrivilegeId", privilegeId);

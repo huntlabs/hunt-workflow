@@ -68,7 +68,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
     //}
     this()
     {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
        public VariableInstanceEntity findById(string entityId) {

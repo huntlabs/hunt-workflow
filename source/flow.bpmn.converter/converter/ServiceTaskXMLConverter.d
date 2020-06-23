@@ -39,7 +39,8 @@ import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
 import hunt.xml;
 import hunt.Boolean;
-
+import hunt.Exceptions;
+import std.string;
 /**
  * @author Tijs Rademakers
  */
@@ -125,9 +126,11 @@ class ServiceTaskXMLConverter : BaseBpmnXMLConverter {
         }
 
         if (cast(CaseServiceTask)serviceTask !is null) {
-            convertCaseServiceTaskXMLProperties(cast(CaseServiceTask) serviceTask, model, xtr);
+            implementationMissing(false);
+            //convertCaseServiceTaskXMLProperties(cast(CaseServiceTask) serviceTask, model, xtr);
         } else if (cast(SendEventServiceTask)serviceTask !is null) {
-            convertSendEventServiceTaskXMLProperties(cast(SendEventServiceTask) serviceTask, model, xtr);
+            implementationMissing(false);
+           // convertSendEventServiceTaskXMLProperties(cast(SendEventServiceTask) serviceTask, model, xtr);
         } else {
             parseChildElements(getXMLElementName(), serviceTask, model, xtr);
         }
@@ -416,7 +419,7 @@ class ServiceTaskXMLConverter : BaseBpmnXMLConverter {
     protected string parseOperationRef(string operationRef, BpmnModel model) {
         string result = null;
         if (operationRef.length != 0) {
-            int indexOfP = operationRef.indexOf(':');
+            int indexOfP = cast(int)operationRef.indexOf(':');
             if (indexOfP != -1) {
                 string prefix = operationRef[0 .. indexOfP];
                 string resolvedNamespace = model.getNamespace(prefix);

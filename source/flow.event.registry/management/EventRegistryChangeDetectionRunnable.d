@@ -16,6 +16,7 @@ module flow.event.registry.management.EventRegistryChangeDetectionRunnable;
 import flow.event.registry.api.management.EventRegistryChangeDetectionManager;
 import hunt.util.Common;
 import hunt.logging;
+import hunt.util.Runnable;
 /**
  * @author Joram Barrez
  */

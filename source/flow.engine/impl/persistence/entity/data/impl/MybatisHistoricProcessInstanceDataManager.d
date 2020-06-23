@@ -47,7 +47,7 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
 
     this(ProcessEngineConfigurationImpl processEngineConfiguration) {
       this.processEngineConfiguration = processEngineConfiguration;
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
 

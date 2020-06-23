@@ -21,19 +21,19 @@ class EventSubscriptionBuilderImpl : EventSubscriptionBuilder {
 
     protected EventSubscriptionServiceImpl eventSubscriptionService;
 
-    protected string eventType;
-    protected string eventName;
-    protected Signal signal;
-    protected string executionId;
-    protected string processInstanceId;
-    protected string processDefinitionId;
-    protected string activityId;
-    protected string subScopeId;
-    protected string scopeId;
-    protected string scopeDefinitionId;
-    protected string scopeType;
-    protected string tenantId;
-    protected string configuration;
+    protected string _eventType;
+    protected string _eventName;
+    protected Signal _signal;
+    protected string _executionId;
+    protected string _processInstanceId;
+    protected string _processDefinitionId;
+    protected string _activityId;
+    protected string _subScopeId;
+    protected string _scopeId;
+    protected string _scopeDefinitionId;
+    protected string _scopeType;
+    protected string _tenantId;
+    protected string _configuration;
 
     this() {
 
@@ -45,79 +45,79 @@ class EventSubscriptionBuilderImpl : EventSubscriptionBuilder {
 
 
     public EventSubscriptionBuilder eventType(string eventType) {
-        this.eventType = eventType;
+        this._eventType = eventType;
         return this;
     }
 
 
     public EventSubscriptionBuilder eventName(string eventName) {
-        this.eventName = eventName;
+        this._eventName = eventName;
         return this;
     }
 
 
     public EventSubscriptionBuilder signal(Signal signal) {
-        this.signal = signal;
+        this._signal = signal;
         return this;
     }
 
 
     public EventSubscriptionBuilder executionId(string executionId) {
-        this.executionId = executionId;
+        this._executionId = executionId;
         return this;
     }
 
 
     public EventSubscriptionBuilder processInstanceId(string processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this._processInstanceId = processInstanceId;
         return this;
     }
 
 
     public EventSubscriptionBuilder processDefinitionId(string processDefinitionId) {
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
 
     public EventSubscriptionBuilder activityId(string activityId) {
-        this.activityId = activityId;
+        this._activityId = activityId;
         return this;
     }
 
 
     public EventSubscriptionBuilder subScopeId(string subScopeId) {
-        this.subScopeId = subScopeId;
+        this._subScopeId = subScopeId;
         return this;
     }
 
 
     public EventSubscriptionBuilder scopeId(string scopeId) {
-        this.scopeId = scopeId;
+        this._scopeId = scopeId;
         return this;
     }
 
 
     public EventSubscriptionBuilder scopeDefinitionId(string scopeDefinitionId) {
-        this.scopeDefinitionId = scopeDefinitionId;
+        this._scopeDefinitionId = scopeDefinitionId;
         return this;
     }
 
 
     public EventSubscriptionBuilder scopeType(string scopeType) {
-        this.scopeType = scopeType;
+        this._scopeType = scopeType;
         return this;
     }
 
 
     public EventSubscriptionBuilder tenantId(string tenantId) {
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
 
     public EventSubscriptionBuilder configuration(string configuration) {
-        this.configuration = configuration;
+        this._configuration = configuration;
         return this;
     }
 
@@ -128,66 +128,66 @@ class EventSubscriptionBuilderImpl : EventSubscriptionBuilder {
 
 
     public string getEventType() {
-        return eventType;
+        return _eventType;
     }
 
 
     public string getEventName() {
-        return eventName;
+        return _eventName;
     }
 
 
     public Signal getSignal() {
-        return signal;
+        return _signal;
     }
 
 
     public string getExecutionId() {
-        return executionId;
+        return _executionId;
     }
 
 
     public string getProcessInstanceId() {
-        return processInstanceId;
+        return _processInstanceId;
     }
 
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
 
     public string getActivityId() {
-        return activityId;
+        return _activityId;
     }
 
 
     public string getSubScopeId() {
-        return subScopeId;
+        return _subScopeId;
     }
 
 
     public string getScopeId() {
-        return scopeId;
+        return _scopeId;
     }
 
 
     public string getScopeDefinitionId() {
-        return scopeDefinitionId;
+        return _scopeDefinitionId;
     }
 
 
     public string getScopeType() {
-        return scopeType;
+        return _scopeType;
     }
 
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
 
     public string getConfiguration() {
-        return configuration;
+        return _configuration;
     }
 }

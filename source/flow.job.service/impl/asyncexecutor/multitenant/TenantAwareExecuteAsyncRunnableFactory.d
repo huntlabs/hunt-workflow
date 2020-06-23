@@ -20,7 +20,7 @@ import flow.job.service.impl.asyncexecutor.ExecuteAsyncRunnableFactory;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import hunt.util.Common;
 import flow.job.service.impl.asyncexecutor.multitenant.TenantAwareExecuteAsyncRunnable;
-
+import hunt.util.Runnable;
 /**
  * Factory that produces a {@link Runnable} that executes a {@link JobEntity}. Can be used to create special implementations for specific tenants.
  *

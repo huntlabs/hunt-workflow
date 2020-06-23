@@ -27,24 +27,24 @@ class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
 
     protected RuntimeServiceImpl runtimeService;
 
-    protected string processDefinitionId;
-    protected string processDefinitionKey;
-    protected string messageName;
+    protected string _processDefinitionId;
+    protected string _processDefinitionKey;
+    protected string _messageName;
     protected string processInstanceName;
-    protected string businessKey;
-    protected string callbackId;
-    protected string callbackType;
-    protected string referenceId;
-    protected string referenceType;
-    protected string stageInstanceId;
-    protected string tenantId;
+    protected string _businessKey;
+    protected string _callbackId;
+    protected string _callbackType;
+    protected string _referenceId;
+    protected string _referenceType;
+    protected string _stageInstanceId;
+    protected string _tenantId;
     protected string overrideDefinitionTenantId;
     protected string predefinedProcessInstanceId;
-    protected Map!(string, Object) variables;
-    protected Map!(string, Object) transientVariables;
-    protected Map!(string, Object) startFormVariables;
-    protected string outcome;
-    protected bool fallbackToDefaultTenant;
+    protected Map!(string, Object) _variables;
+    protected Map!(string, Object) _transientVariables;
+    protected Map!(string, Object) _startFormVariables;
+    protected string _outcome;
+    protected bool _fallbackToDefaultTenant;
 
     this(RuntimeServiceImpl runtimeService) {
         this.runtimeService = runtimeService;
@@ -52,19 +52,19 @@ class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
 
 
     public ProcessInstanceBuilder processDefinitionId(string processDefinitionId) {
-        this.processDefinitionId = processDefinitionId;
+        this._processDefinitionId = processDefinitionId;
         return this;
     }
 
 
     public ProcessInstanceBuilder processDefinitionKey(string processDefinitionKey) {
-        this.processDefinitionKey = processDefinitionKey;
+        this._processDefinitionKey = processDefinitionKey;
         return this;
     }
 
 
     public ProcessInstanceBuilder messageName(string messageName) {
-        this.messageName = messageName;
+        this._messageName = messageName;
         return this;
     }
 
@@ -76,43 +76,43 @@ class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
 
 
     public ProcessInstanceBuilder businessKey(string businessKey) {
-        this.businessKey = businessKey;
+        this._businessKey = businessKey;
         return this;
     }
 
 
     public ProcessInstanceBuilder callbackId(string callbackId) {
-        this.callbackId = callbackId;
+        this._callbackId = callbackId;
         return this;
     }
 
 
     public ProcessInstanceBuilder callbackType(string callbackType) {
-        this.callbackType = callbackType;
+        this._callbackType = callbackType;
         return this;
     }
 
 
     public ProcessInstanceBuilder referenceId(string referenceId) {
-        this.referenceId = referenceId;
+        this._referenceId = referenceId;
         return this;
     }
 
 
     public ProcessInstanceBuilder referenceType(string referenceType) {
-        this.referenceType = referenceType;
+        this._referenceType = referenceType;
         return this;
     }
 
 
     public ProcessInstanceBuilder stageInstanceId(string stageInstanceId) {
-        this.stageInstanceId = stageInstanceId;
+        this._stageInstanceId = stageInstanceId;
         return this;
     }
 
 
     public ProcessInstanceBuilder tenantId(string tenantId) {
-        this.tenantId = tenantId;
+        this._tenantId = tenantId;
         return this;
     }
 
@@ -130,73 +130,73 @@ class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
 
 
     public ProcessInstanceBuilder variables(Map!(string, Object) variables) {
-        if (this.variables is null) {
-            this.variables = new HashMap!(string, Object)();
+        if (this._variables is null) {
+            this._variables = new HashMap!(string, Object)();
         }
         if (variables !is null) {
-            this.variables.putAll(variables);
+            this._variables.putAll(variables);
         }
         return this;
     }
 
 
     public ProcessInstanceBuilder variable(string variableName, Object value) {
-        if (this.variables is null) {
-            this.variables = new HashMap!(string, Object)();
+        if (this._variables is null) {
+            this._variables = new HashMap!(string, Object)();
         }
-        this.variables.put(variableName, value);
+        this._variables.put(variableName, value);
         return this;
     }
 
 
     public ProcessInstanceBuilder transientVariables(Map!(string, Object) transientVariables) {
-        if (this.transientVariables is null) {
-            this.transientVariables = new HashMap!(string, Object)();
+        if (this._transientVariables is null) {
+            this._transientVariables = new HashMap!(string, Object)();
         }
         if (transientVariables !is null) {
-            this.transientVariables.putAll(transientVariables);
+            this._transientVariables.putAll(transientVariables);
         }
         return this;
     }
 
 
     public ProcessInstanceBuilder transientVariable(string variableName, Object value) {
-        if (this.transientVariables is null) {
-            this.transientVariables = new HashMap!(string, Object)();
+        if (this._transientVariables is null) {
+            this._transientVariables = new HashMap!(string, Object)();
         }
-        this.transientVariables.put(variableName, value);
+        this._transientVariables.put(variableName, value);
         return this;
     }
 
 
     public ProcessInstanceBuilder startFormVariables(Map!(string, Object) startFormVariables) {
-        if (this.startFormVariables is null) {
-            this.startFormVariables = new HashMap!(string, Object)();
+        if (this._startFormVariables is null) {
+            this._startFormVariables = new HashMap!(string, Object)();
         }
         if (startFormVariables !is null) {
-            this.startFormVariables.putAll(startFormVariables);
+            this._startFormVariables.putAll(startFormVariables);
         }
         return this;
     }
 
 
     public ProcessInstanceBuilder startFormVariable(string variableName, Object value) {
-        if (this.startFormVariables is null) {
-            this.startFormVariables = new HashMap!(string, Object)();
+        if (this._startFormVariables is null) {
+            this._startFormVariables = new HashMap!(string, Object)();
         }
-        this.startFormVariables.put(variableName, value);
+        this._startFormVariables.put(variableName, value);
         return this;
     }
 
 
     public ProcessInstanceBuilder outcome(string outcome) {
-        this.outcome = outcome;
+        this._outcome = outcome;
         return this;
     }
 
 
     public ProcessInstanceBuilder fallbackToDefaultTenant() {
-        this.fallbackToDefaultTenant = true;
+        this._fallbackToDefaultTenant = true;
         return this;
     }
 
@@ -211,15 +211,15 @@ class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
     }
 
     public string getProcessDefinitionId() {
-        return processDefinitionId;
+        return _processDefinitionId;
     }
 
     public string getProcessDefinitionKey() {
-        return processDefinitionKey;
+        return _processDefinitionKey;
     }
 
     public string getMessageName() {
-        return messageName;
+        return _messageName;
     }
 
     public string getProcessInstanceName() {
@@ -227,31 +227,31 @@ class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
     }
 
     public string getBusinessKey() {
-        return businessKey;
+        return _businessKey;
     }
 
     public string getCallbackId() {
-        return callbackId;
+        return _callbackId;
     }
 
     public string getCallbackType() {
-        return callbackType;
+        return _callbackType;
     }
 
     public string getReferenceId() {
-        return referenceId;
+        return _referenceId;
     }
 
     public string getReferenceType() {
-        return referenceType;
+        return _referenceType;
     }
 
     public string getStageInstanceId() {
-        return stageInstanceId;
+        return _stageInstanceId;
     }
 
     public string getTenantId() {
-        return tenantId;
+        return _tenantId;
     }
 
     public string getOverrideDefinitionTenantId() {
@@ -263,22 +263,22 @@ class ProcessInstanceBuilderImpl : ProcessInstanceBuilder {
     }
 
     public Map!(string, Object) getVariables() {
-        return variables;
+        return _variables;
     }
 
     public Map!(string, Object) getTransientVariables() {
-        return transientVariables;
+        return _transientVariables;
     }
 
     public Map!(string, Object) getStartFormVariables() {
-        return startFormVariables;
+        return _startFormVariables;
     }
     public string getOutcome() {
-        return outcome;
+        return _outcome;
     }
 
     public bool isFallbackToDefaultTenant() {
-        return fallbackToDefaultTenant;
+        return _fallbackToDefaultTenant;
     }
 
 }

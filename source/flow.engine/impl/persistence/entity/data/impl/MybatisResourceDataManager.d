@@ -47,7 +47,7 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
 
     this(ProcessEngineConfigurationImpl processEngineConfiguration) {
       this.processEngineConfiguration = processEngineConfiguration;
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
 

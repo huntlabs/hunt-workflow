@@ -32,18 +32,18 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
 
     protected string id;
     protected List!string ids;
-    protected string tokenValue;
-    protected Date tokenDate;
-    protected Date tokenDateBefore;
-    protected Date tokenDateAfter;
-    protected string ipAddress;
-    protected string ipAddressLike;
-    protected string userAgent;
-    protected string userAgentLike;
-    protected string userId;
-    protected string userIdLike;
-    protected string tokenData;
-    protected string tokenDataLike;
+    protected string _tokenValue;
+    protected Date _tokenDate;
+    protected Date _tokenDateBefore;
+    protected Date _tokenDateAfter;
+    protected string _ipAddress;
+    protected string _ipAddressLike;
+    protected string _userAgent;
+    protected string _userAgentLike;
+    protected string _userId;
+    protected string _userIdLike;
+    protected string _tokenData;
+    protected string _tokenDataLike;
 
     this() {
     }
@@ -79,7 +79,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (tokenValue is null) {
             throw new FlowableIllegalArgumentException("Provided token value is null");
         }
-        this.tokenValue = tokenValue;
+        this._tokenValue = tokenValue;
         return this;
     }
 
@@ -88,7 +88,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (tokenDate is null) {
             throw new FlowableIllegalArgumentException("Provided token date is null");
         }
-        this.tokenDate = tokenDate;
+        this._tokenDate = tokenDate;
         return this;
     }
 
@@ -97,7 +97,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (tokenDateBefore is null) {
             throw new FlowableIllegalArgumentException("Provided tokenDateBefore is null");
         }
-        this.tokenDateBefore = tokenDateBefore;
+        this._tokenDateBefore = tokenDateBefore;
         return this;
     }
 
@@ -106,7 +106,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (tokenDateAfter is null) {
             throw new FlowableIllegalArgumentException("Provided tokenDateAfter is null");
         }
-        this.tokenDateAfter = tokenDateAfter;
+        this._tokenDateAfter = tokenDateAfter;
         return this;
     }
 
@@ -115,7 +115,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (ipAddress is null) {
             throw new FlowableIllegalArgumentException("Provided ip address is null");
         }
-        this.ipAddress = ipAddress;
+        this._ipAddress = ipAddress;
         return this;
     }
 
@@ -124,7 +124,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (ipAddressLike is null) {
             throw new FlowableIllegalArgumentException("Provided ipAddressLike is null");
         }
-        this.ipAddressLike = ipAddressLike;
+        this._ipAddressLike = ipAddressLike;
         return this;
     }
 
@@ -133,7 +133,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (userAgent is null) {
             throw new FlowableIllegalArgumentException("Provided user agent is null");
         }
-        this.userAgent = userAgent;
+        this._userAgent = userAgent;
         return this;
     }
 
@@ -142,7 +142,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (userAgentLike is null) {
             throw new FlowableIllegalArgumentException("Provided userAgentLike is null");
         }
-        this.userAgentLike = userAgentLike;
+        this._userAgentLike = userAgentLike;
         return this;
     }
 
@@ -151,7 +151,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (userId is null) {
             throw new FlowableIllegalArgumentException("Provided user id is null");
         }
-        this.userId = userId;
+        this._userId = userId;
         return this;
     }
 
@@ -160,7 +160,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (userIdLike is null) {
             throw new FlowableIllegalArgumentException("Provided userIdLike is null");
         }
-        this.userIdLike = userIdLike;
+        this._userIdLike = userIdLike;
         return this;
     }
 
@@ -169,7 +169,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (tokenData is null) {
             throw new FlowableIllegalArgumentException("Provided token data is null");
         }
-        this.tokenData = tokenData;
+        this._tokenData = tokenData;
         return this;
     }
 
@@ -178,7 +178,7 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
         if (tokenDataLike is null) {
             throw new FlowableIllegalArgumentException("Provided tokenDataLike is null");
         }
-        this.tokenDataLike = tokenDataLike;
+        this._tokenDataLike = tokenDataLike;
         return this;
     }
 
@@ -196,12 +196,12 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
 
     // results //////////////////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getTokenEntityManager(commandContext).findTokenCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Token executeList(CommandContext commandContext) {
         return CommandContextUtil.getTokenEntityManager(commandContext).findTokenByQueryCriteria(this);
     }
@@ -218,50 +218,50 @@ class TokenQueryImpl : AbstractQuery!(TokenQuery, Token) , TokenQuery, QueryCach
     }
 
     public string getTokenValue() {
-        return tokenValue;
+        return _tokenValue;
     }
 
     public Date getTokenDate() {
-        return tokenDate;
+        return _tokenDate;
     }
 
     public Date getTokenDateBefore() {
-        return tokenDateBefore;
+        return _tokenDateBefore;
     }
 
     public Date getTokenDateAfter() {
-        return tokenDateAfter;
+        return _tokenDateAfter;
     }
 
     public string getIpAddress() {
-        return ipAddress;
+        return _ipAddress;
     }
 
     public string getIpAddressLike() {
-        return ipAddressLike;
+        return _ipAddressLike;
     }
 
     public string getUserAgent() {
-        return userAgent;
+        return _userAgent;
     }
 
     public string getUserAgentLike() {
-        return userAgentLike;
+        return _userAgentLike;
     }
 
     public string getUserId() {
-        return userId;
+        return _userId;
     }
 
     public string getUserIdLike() {
-        return userIdLike;
+        return _userIdLike;
     }
 
     public string getTokenData() {
-        return tokenData;
+        return _tokenData;
     }
 
     public string getTokenDataLike() {
-        return tokenDataLike;
+        return _tokenDataLike;
     }
 }

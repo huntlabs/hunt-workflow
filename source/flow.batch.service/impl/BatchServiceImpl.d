@@ -26,6 +26,8 @@ import flow.batch.service.impl.persistence.entity.BatchPartEntity;
 import flow.batch.service.impl.persistence.entity.BatchPartEntityManager;
 import flow.common.service.CommonServiceImpl;
 import flow.batch.service.impl.BatchBuilderImpl;
+import flow.batch.service.impl.BatchQueryImpl;
+
 /**
  * @author Tijs Rademakers
  */

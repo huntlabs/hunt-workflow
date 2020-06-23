@@ -31,6 +31,7 @@ class DelegateTaskCmd : NeedsActiveTaskCmd!Object {
         this.userId = userId;
     }
 
+    override
     protected Object execute(CommandContext commandContext, TaskEntity task) {
         task.setDelegationState(DelegationState.PENDING);
         if (task.getOwner() is null || task.getOwner().length == 0 ) {
@@ -40,6 +41,7 @@ class DelegateTaskCmd : NeedsActiveTaskCmd!Object {
         return null;
     }
 
+    override
     protected string getSuspendedTaskException() {
         return "Cannot delegate a suspended task";
     }

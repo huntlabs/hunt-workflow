@@ -46,7 +46,7 @@ class FlowableMapExceptionParser : BaseChildElementParser {
 
         if ((andChildren !is null && andChildren.getValue.length != 0) || icmp(andChildren is null ? "" : andChildren.getValue,"false") == 0) {
             hasChildrenBool = false;
-        } else if (icmp(andChildren,"true") == 0) {
+        } else if (sicmp(andChildren.getValue,"true") == 0) {
             hasChildrenBool = true;
         } else {
             logError("XMLException andChildren is not valid bool in mapException with errorCode");

@@ -19,7 +19,7 @@ import flow.idm.engine.impl.persistence.entity.PrivilegeMappingEntity;
 import hunt.entity;
 
 @Table("ACT_ID_PRIV_MAPPING")
-class PrivilegeMappingEntityImpl : AbstractIdmEngineEntity , PrivilegeMappingEntity {
+class PrivilegeMappingEntityImpl : AbstractIdmEngineEntity , Model, PrivilegeMappingEntity {
 
      mixin MakeModel;
 

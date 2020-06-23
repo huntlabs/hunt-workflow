@@ -28,6 +28,7 @@ import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntityManager;
 import flow.idm.engine.impl.persistence.entity.UserEntity;
 import flow.idm.engine.impl.persistence.entity.UserEntityManager;
 import flow.idm.engine.impl.persistence.entity.IdentityInfoEntityManager;
+import flow.idm.engine.impl.persistence.entity.MembershipEntityManager;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -40,6 +41,8 @@ class UserEntityManagerImpl
         super(idmEngineConfiguration, userDataManager);
     }
 
+
+    override
     public UserEntity findById(string entityId) {
         return dataManager.findById(entityId);
     }
@@ -55,7 +58,7 @@ class UserEntityManagerImpl
         super.update(cast(UserEntity) updatedUser);
     }
 
-
+    override
     public void dele(UserEntity userEntity) {
         super.dele(userEntity);
         deletePicture(userEntity);
@@ -69,7 +72,7 @@ class UserEntityManagerImpl
         }
     }
 
-
+    override
     public void dele(string userId) {
         UserEntity user = findById(userId);
         if (user !is null) {

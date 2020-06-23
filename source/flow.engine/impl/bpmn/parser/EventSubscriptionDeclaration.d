@@ -25,7 +25,7 @@ class EventSubscriptionDeclaration  {
 
     protected bool async;
     protected string activityId;
-    protected bool isStartEvent;
+    protected bool _isStartEvent;
     protected string configuration;
 
     this(string eventName, string eventType) {
@@ -54,11 +54,11 @@ class EventSubscriptionDeclaration  {
     }
 
     public bool isStartEvent() {
-        return isStartEvent;
+        return _isStartEvent;
     }
 
     public void setStartEvent(bool isStartEvent) {
-        this.isStartEvent = isStartEvent;
+        this._isStartEvent = isStartEvent;
     }
 
     public string getEventType() {

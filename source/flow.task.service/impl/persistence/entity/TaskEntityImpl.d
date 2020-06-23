@@ -77,7 +77,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
      string description;
 
      @Column("PRIORITY_")
-     int priority = DEFAULT_PRIORITY;
+     int priority  ;//= DEFAULT_PRIORITY;
 
      @Column("CREATE_TIME_")
      long createTime; // The time when the task has been created
@@ -126,7 +126,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
      @Column("IS_COUNT_ENABLED_")
-     bool isCountEnabled;
+     bool _isCountEnabled;
 
      @Column("VAR_COUNT_")
      int variableCount;
@@ -155,7 +155,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
      private string localizedName;
      private string localizedDescription;
      private bool isIdentityLinksInitialized;
-     private bool isCanceled;
+     private bool _isCanceled;
      private bool forcedUpdate;
 
 
@@ -163,6 +163,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
         suspensionState = SuspensionState.ACTIVE.getStateCode();
         tenantId = TaskServiceConfiguration.NO_TENANT_ID;
         taskIdentityLinkEntities = new ArrayList!IdentityLinkEntity;
+        priority = DEFAULT_PRIORITY;
     }
 
     public Object getPersistentState() {
@@ -255,12 +256,12 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
     // variables //////////////////////////////////////////////////////////////////
 
-
+    override
     protected VariableScopeImpl getParentVariableScope() {
         return CommandContextUtil.getTaskServiceConfiguration().getInternalTaskVariableScopeResolver().resolveParentVariableScope(this);
     }
 
-
+    override
     protected void initializeVariableInstanceBackPointer(VariableInstanceEntity variableInstance) {
         variableInstance.setTaskId(id);
         if (ScopeTypes.CMMN.equals(this.scopeType)) {
@@ -275,16 +276,16 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
     }
 
 
-    protected void addLoggingSessionInfo(ObjectNode loggingNode) {
-        // TODO
-    }
+    //protected void addLoggingSessionInfo(ObjectNode loggingNode) {
+    //    // TODO
+    //}
 
-
+    override
     protected List!VariableInstanceEntity loadVariableInstances() {
         return CommandContextUtil.getVariableInstanceEntityManager().findVariableInstancesByTaskId(id);
     }
 
-
+    override
     protected VariableInstanceEntity createVariableInstance(string variableName, Object value) {
         VariableInstanceEntity variableInstance = super.createVariableInstance(variableName, value);
 
@@ -294,7 +295,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
     }
 
-
+    override
     protected void deleteVariableInstanceForExplicitUserCall(VariableInstanceEntity variableInstance) {
         super.deleteVariableInstanceForExplicitUserCall(variableInstance);
 
@@ -446,13 +447,14 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
     // Override from VariableScopeImpl
 
-
+    override
     protected bool isPropagateToHistoricVariable() {
         return true;
     }
 
     // Overridden to avoid fetching *all* variables (as is the case in the super // call)
 
+    override
     protected VariableInstanceEntity getSpecificVariable(string variableName) {
         CommandContext commandContext = Context.getCommandContext();
         if (commandContext is null) {
@@ -463,7 +465,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
         return variableInstance;
     }
 
-
+    override
     protected List!VariableInstanceEntity getSpecificVariables(Collection!string variableNames) {
         CommandContext commandContext = Context.getCommandContext();
         if (commandContext is null) {
@@ -741,24 +743,24 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
         this.delegationState = (delegationStateString !is null ? valueOf!DelegationState(delegationStateString) : null);
     }
 
-
+    override
     public bool isDeleted() {
         return isDeleted;
     }
 
-
+    override
     public void setDeleted(bool isDeleted) {
         this.isDeleted = isDeleted;
     }
 
 
     public bool isCanceled() {
-        return isCanceled;
+        return _isCanceled;
     }
 
 
     public void setCanceled(bool isCanceled) {
-        this.isCanceled = isCanceled;
+        this._isCanceled = isCanceled;
     }
 
 
@@ -766,7 +768,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
         return parentTaskId;
     }
 
-
+    override
     public Map!(string, VariableInstanceEntity) getVariableInstanceEntities() {
         ensureVariableInstancesInitialized();
         return variableInstances;
@@ -869,12 +871,12 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public bool isCountEnabled() {
-        return isCountEnabled;
+        return _isCountEnabled;
     }
 
 
     public void setCountEnabled(bool isCountEnabled) {
-        this.isCountEnabled = isCountEnabled;
+        this._isCountEnabled = isCountEnabled;
     }
 
 

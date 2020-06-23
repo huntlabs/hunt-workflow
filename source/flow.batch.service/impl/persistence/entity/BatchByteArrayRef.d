@@ -119,6 +119,6 @@ class BatchByteArrayRef  {
 
     override
     public string toString() {
-        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity=" ~ entity ~ (deleted ? ", deleted]" : "]");
+        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity="  ~ (deleted ? ", deleted]" : "]");
     }
 }

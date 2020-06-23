@@ -31,9 +31,9 @@ class PrivilegeQueryImpl : AbstractQuery!(PrivilegeQuery, Privilege) , Privilege
 
     protected string id;
     protected string name;
-    protected string userId;
-    protected string groupId;
-    protected List!string groupIds;
+    protected string _userId;
+    protected string _groupId;
+    protected List!string _groupIds;
 
     this() {
     }
@@ -60,19 +60,19 @@ class PrivilegeQueryImpl : AbstractQuery!(PrivilegeQuery, Privilege) , Privilege
 
 
     public PrivilegeQuery userId(string userId) {
-        this.userId = userId;
+        this._userId = userId;
         return this;
     }
 
 
     public PrivilegeQuery groupId(string groupId) {
-        this.groupId = groupId;
+        this._groupId = groupId;
         return this;
     }
 
 
     public PrivilegeQuery groupIds(List!string groupIds) {
-        this.groupIds = groupIds;
+        this._groupIds = groupIds;
         return this;
     }
 
@@ -94,35 +94,35 @@ class PrivilegeQueryImpl : AbstractQuery!(PrivilegeQuery, Privilege) , Privilege
     }
 
     public string getUserId() {
-        return userId;
+        return _userId;
     }
 
     public void setUserId(string userId) {
-        this.userId = userId;
+        this._userId = userId;
     }
 
     public string getGroupId() {
-        return groupId;
+        return _groupId;
     }
 
     public void setGroupId(string groupId) {
-        this.groupId = groupId;
+        this._groupId = groupId;
     }
 
     public List!string getGroupIds() {
-        return groupIds;
+        return _groupIds;
     }
 
     public void setGroupIds(List!string groupIds) {
-        this.groupIds = groupIds;
+        this._groupIds = groupIds;
     }
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getPrivilegeEntityManager(commandContext).findPrivilegeCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Privilege executeList(CommandContext commandContext) {
         return CommandContextUtil.getPrivilegeEntityManager(commandContext).findPrivilegeByQueryCriteria(this);
     }

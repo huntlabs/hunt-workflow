@@ -141,12 +141,12 @@ class GroupQueryImpl : AbstractQuery!(GroupQuery, Group) , GroupQuery, QueryCach
 
     // results ////////////////////////////////////////////////////////
 
-
+    override
     public long executeCount(CommandContext commandContext) {
         return CommandContextUtil.getGroupEntityManager(commandContext).findGroupCountByQueryCriteria(this);
     }
 
-
+    override
     public List!Group executeList(CommandContext commandContext) {
         return CommandContextUtil.getGroupEntityManager(commandContext).findGroupByQueryCriteria(this);
     }

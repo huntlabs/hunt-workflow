@@ -34,7 +34,7 @@ class MybatisBatchPartDataManager : EntityRepository!( BatchPartEntityImpl , str
 
     this()
     {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
     public BatchPartEntity create() {

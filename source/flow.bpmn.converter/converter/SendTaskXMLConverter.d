@@ -82,7 +82,7 @@ class SendTaskXMLConverter : BaseBpmnXMLConverter {
     protected string parseOperationRef(string operationRef, BpmnModel model) {
         string result = null;
         if (operationRef !is null && operationRef.length != 0) {
-            int indexOfP = operationRef.indexOf(':');
+            int indexOfP = cast(int)operationRef.indexOf(':');
             if (indexOfP != -1) {
                 string prefix = operationRef[0 .. indexOfP];
                 string resolvedNamespace = model.getNamespace(prefix);

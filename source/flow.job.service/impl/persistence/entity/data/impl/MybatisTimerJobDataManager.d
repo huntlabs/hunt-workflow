@@ -49,7 +49,7 @@ class MybatisTimerJobDataManager : EntityRepository!( TimerJobEntityImpl , strin
 
     this(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
-        super(entityManagerFactory.createEntityManager());
+        super(entityManagerFactory.currentEntityManager());
     }
 
     //@Override

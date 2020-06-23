@@ -90,7 +90,7 @@ class BatchEntityManagerImpl
             batchDocRefId.dele();
         }
 
-        dele(batch);
+        super.dele(batch);
     }
 
     protected BatchPartEntityManager getBatchPartEntityManager() {

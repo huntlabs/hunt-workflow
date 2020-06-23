@@ -14,6 +14,7 @@
 module flow.event.registry.model.DelegateExpressionOutboundChannelModel;
 //import com.fasterxml.jackson.annotation.JsonInclude;
 //import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import flow.event.registry.model.OutboundChannelModel;
 /**
  * @author Filip Hrisafov
  */

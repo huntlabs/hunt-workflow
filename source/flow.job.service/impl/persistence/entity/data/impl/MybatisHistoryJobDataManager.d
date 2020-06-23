@@ -38,12 +38,12 @@ class MybatisHistoryJobDataManager : EntityRepository!( HistoryJobEntityImpl , s
     protected JobServiceConfiguration jobServiceConfiguration;
 
     this() {
-      super(entityManagerFactory.createEntityManager());
+      super(entityManagerFactory.currentEntityManager());
     }
 
     this(JobServiceConfiguration jobServiceConfiguration) {
         this.jobServiceConfiguration = jobServiceConfiguration;
-        super(entityManagerFactory.createEntityManager());
+        super(entityManagerFactory.currentEntityManager());
     }
 
     //

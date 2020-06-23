@@ -16,6 +16,7 @@ import hunt.collection.List;
 
 import flow.common.persistence.entity.EntityManager;
 import flow.idm.api.PrivilegeMapping;
+import flow.idm.engine.impl.persistence.entity.PrivilegeMappingEntity;
 
 interface PrivilegeMappingEntityManager : EntityManager!PrivilegeMappingEntity {
 

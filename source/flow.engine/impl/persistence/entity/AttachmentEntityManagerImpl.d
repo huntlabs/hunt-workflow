@@ -28,6 +28,7 @@ import flow.task.api.Task;
 import flow.engine.impl.persistence.entity.AbstractProcessEngineEntityManager;
 import flow.engine.impl.persistence.entity.AttachmentEntityManager;
 import flow.engine.impl.persistence.entity.AttachmentEntity;
+import flow.engine.impl.persistence.entity.ByteArrayEntityManager;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez

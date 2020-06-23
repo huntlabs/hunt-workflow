@@ -41,6 +41,20 @@ class AssociationDirection :AbstractEnum!AssociationDirection {
         super(value,v);
     }
 
+
+  static AssociationDirection[] values() {
+    __gshared AssociationDirection[] _e;
+    return initOnce!(_e)({
+      AssociationDirection[] _ENUMS;
+      if(_ENUMS.length == 0) {
+        _ENUMS ~= NONE;
+        _ENUMS ~= ONE;
+        _ENUMS ~= BOTH;
+      }
+      return _ENUMS;
+    }());
+  }
+
     public string getValue() {
         return value;
     }

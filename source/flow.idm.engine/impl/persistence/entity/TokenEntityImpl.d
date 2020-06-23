@@ -32,6 +32,7 @@ class TokenEntityImpl : AbstractIdmEngineEntity ,Model, TokenEntity, HasRevision
 
      mixin MakeModel;
 
+    @PrimaryKey
      @Column("ID_")
      string  id;
 

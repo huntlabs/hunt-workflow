@@ -113,12 +113,14 @@ import hunt.entity.EntityOption;
 import hunt.entity.Persistence;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 
+__gshared  EntityManagerFactory  entityManagerFactory;
+
 abstract class AbstractEngineConfiguration {
 
 
     /** The tenant id indicating 'no tenant' */
     public static  string NO_TENANT_ID = "";
-    __gshared EntityManagerFactory  entityManagerFactory;
+
     /**
      * Checks the version of the DB schema against the library when the form engine is being created and throws an exception if the versions don't match.
      */
@@ -157,7 +159,7 @@ abstract class AbstractEngineConfiguration {
     //protected SchemaManager schemaManager;
     protected Command!Void schemaManagementCmd;
 
-    protected string databaseSchemaUpdate = DB_SCHEMA_UPDATE_FALSE;
+    protected string databaseSchemaUpdate  ;//= DB_SCHEMA_UPDATE_FALSE;
 
     /**
      * Whether to use a lock when performing the database schema create or update operations.
@@ -411,6 +413,7 @@ abstract class AbstractEngineConfiguration {
     {
         engineConfigurations = new HashMap!(string, AbstractEngineConfiguration);
         serviceConfigurations = new HashMap!(string, AbstractServiceConfiguration);
+        databaseSchemaUpdate = DB_SCHEMA_UPDATE_FALSE;
     }
 
     protected void initEngineConfigurations() {

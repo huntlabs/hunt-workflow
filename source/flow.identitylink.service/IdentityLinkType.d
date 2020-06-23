@@ -22,6 +22,6 @@ import flow.identitylink.api.IdentityLinkType;
  * @author Joram Barrez
  * @deprecated use {@link flow.identitylink.api.IdentityLinkType} instead
  */
-class IdentityLinkType : flow.identitylink.api.IdentityLinkType {
+class IdentityLinkType : flow.identitylink.api.IdentityLinkType.IdentityLinkType {
 
 }

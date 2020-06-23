@@ -46,7 +46,7 @@ class DefaultFormHandler : FormHandler {
     }
 
     override
-    public void parseConfiguration(List!(flow.bpmn.model.FormProperty) formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition) {
+    public void parseConfiguration(List!(flow.bpmn.model.FormProperty.FormProperty) formProperties, string formKey, DeploymentEntity deployment, ProcessDefinition processDefinition) {
         this.deploymentId = deployment.getId();
 
         ExpressionManager expressionManager = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager();

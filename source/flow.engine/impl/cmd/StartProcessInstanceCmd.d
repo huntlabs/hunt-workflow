@@ -47,7 +47,7 @@ import flow.variable.service.impl.el.NoExecutionVariableScope;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-class StartProcessInstanceCmd(T) : Command!ProcessInstance {
+class StartProcessInstanceCmd : Command!ProcessInstance {
 
     protected string processDefinitionKey;
     protected string processDefinitionId;

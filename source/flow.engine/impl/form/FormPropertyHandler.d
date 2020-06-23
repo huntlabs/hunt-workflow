@@ -31,9 +31,9 @@ class FormPropertyHandler {
     protected string id;
     protected string name;
     protected AbstractFormType type;
-    protected bool isReadable;
-    protected bool isWritable;
-    protected bool isRequired;
+    protected bool _isReadable;
+    protected bool _isWritable;
+    protected bool _isRequired;
     protected string variableName;
     protected Expression variableExpression;
     protected Expression defaultExpression;
@@ -74,11 +74,11 @@ class FormPropertyHandler {
     }
 
     public void submitFormProperty(ExecutionEntity execution, Map!(string, string) properties) {
-        if (!isWritable && properties.containsKey(id)) {
+        if (!_isWritable && properties.containsKey(id)) {
             throw new FlowableException("form property '" ~ id ~ "' is not writable");
         }
 
-        if (isRequired && !properties.containsKey(id) && defaultExpression is null) {
+        if (_isRequired && !properties.containsKey(id) && defaultExpression is null) {
             throw new FlowableException("form property '" ~ id ~ "' is required");
         }
         bool propertyExists = false;
@@ -97,7 +97,7 @@ class FormPropertyHandler {
                 modelValue = type.convertFormValueToModelValue((cast(String)expressionValue).value);
             } else if (expressionValue !is null) {
                 modelValue = cast(String)expressionValue;
-            } else if (isRequired) {
+            } else if (_isRequired) {
                 throw new FlowableException("form property '" ~ id ~ "' is required");
             }
         }
@@ -140,19 +140,19 @@ class FormPropertyHandler {
     }
 
     public bool isReadable() {
-        return isReadable;
+        return _isReadable;
     }
 
     public void setReadable(bool isReadable) {
-        this.isReadable = isReadable;
+        this._isReadable = isReadable;
     }
 
     public bool isRequired() {
-        return isRequired;
+        return _isRequired;
     }
 
     public void setRequired(bool isRequired) {
-        this.isRequired = isRequired;
+        this._isRequired = isRequired;
     }
 
     public string getVariableName() {
@@ -180,10 +180,10 @@ class FormPropertyHandler {
     }
 
     public bool isWritable() {
-        return isWritable;
+        return _isWritable;
     }
 
     public void setWritable(bool isWritable) {
-        this.isWritable = isWritable;
+        this._isWritable = isWritable;
     }
 }

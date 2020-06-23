@@ -19,10 +19,10 @@ import flow.engine.impl.dynamic.DynamicUserTaskCallback;
 
 class DynamicUserTaskBuilder {
 
-    protected string id;
-    protected string name;
-    protected string assignee;
-    protected DynamicUserTaskCallback dynamicUserTaskCallback;
+    protected string _id;
+    protected string _name;
+    protected string _assignee;
+    protected DynamicUserTaskCallback _dynamicUserTaskCallback;
     protected string dynamicTaskId;
     protected int counter = 1;
 
@@ -31,58 +31,58 @@ class DynamicUserTaskBuilder {
     }
 
     this(string id) {
-        this.id = id;
+        this._id = id;
     }
 
     public string getId() {
-        return id;
+        return _id;
     }
 
     public void setId(string id) {
-        this.id = id;
+        this._id = id;
     }
 
     public DynamicUserTaskBuilder id(string id) {
-        this.id = id;
+        this._id = id;
         return this;
     }
 
     public string getName() {
-        return name;
+        return _name;
     }
 
     public void setName(string name) {
-        this.name = name;
+        this._name = name;
     }
 
     public DynamicUserTaskBuilder name(string name) {
-        this.name = name;
+        this._name = name;
         return this;
     }
 
     public string getAssignee() {
-        return assignee;
+        return _assignee;
     }
 
     public void setAssignee(string assignee) {
-        this.assignee = assignee;
+        this._assignee = assignee;
     }
 
     public DynamicUserTaskBuilder assignee(string assignee) {
-        this.assignee = assignee;
+        this._assignee = assignee;
         return this;
     }
 
     public DynamicUserTaskCallback getDynamicUserTaskCallback() {
-        return dynamicUserTaskCallback;
+        return _dynamicUserTaskCallback;
     }
 
     public void setDynamicUserTaskCallback(DynamicUserTaskCallback dynamicUserTaskCallback) {
-        this.dynamicUserTaskCallback = dynamicUserTaskCallback;
+        this._dynamicUserTaskCallback = dynamicUserTaskCallback;
     }
 
     public DynamicUserTaskBuilder dynamicUserTaskCallback(DynamicUserTaskCallback dynamicUserTaskCallback) {
-        this.dynamicUserTaskCallback = dynamicUserTaskCallback;
+        this._dynamicUserTaskCallback = dynamicUserTaskCallback;
         return this;
     }
 

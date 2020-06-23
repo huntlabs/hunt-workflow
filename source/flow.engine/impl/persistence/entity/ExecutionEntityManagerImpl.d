@@ -74,6 +74,8 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import flow.engine.impl.persistence.entity.AbstractProcessEngineEntityManager;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
+import flow.engine.impl.persistence.entity.ByteArrayEntityManager;
+import flow.engine.impl.persistence.entity.ActivityInstanceEntityManager;
 import hunt.Exceptions;
 import hunt.logging;
 /**

@@ -30,6 +30,7 @@ class LongFormType : AbstractFormType {
     }
 
 
+    override
     public Object convertFormValueToModelValue(string propertyValue) {
         if (propertyValue is null || "" == (propertyValue)) {
             return null;
@@ -37,7 +38,7 @@ class LongFormType : AbstractFormType {
         return Long.valueOf(propertyValue);
     }
 
-
+    override
     public string convertModelValueToFormValue(Object modelValue) {
         if (modelValue is null) {
             return null;

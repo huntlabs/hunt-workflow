@@ -28,6 +28,6 @@ import flow.task.service.deleg.TaskListener;
  * @author Tom Baeyens
  * @author Joram Barrez
  */
-interface TaskListener : flow.task.service.deleg.TaskListener {
+interface TaskListener : flow.task.service.deleg.TaskListener.TaskListener {
 
 }

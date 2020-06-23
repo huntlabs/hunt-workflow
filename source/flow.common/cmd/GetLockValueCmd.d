@@ -26,7 +26,8 @@ class GetLockValueCmd : Command!string {
     this(string lockName) {
         this.lockName = lockName;
     }
-    @Override
+
+    override
     public string execute(CommandContext commandContext) {
         PropertyEntity lockProperty = commandContext.getCurrentEngineConfiguration().getPropertyEntityManager().findById(lockName);
 

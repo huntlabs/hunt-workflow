@@ -64,7 +64,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
 
     // Process related history
 
-    override
     public void recordProcessInstanceEnd(ExecutionEntity processInstance, string deleteReason, string activityId, Date endTime) {
 
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processInstance.getProcessDefinitionId())) {
@@ -85,7 +84,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordProcessInstanceNameChange(ExecutionEntity processInstanceExecution, string newName) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processInstanceExecution.getProcessDefinitionId())) {
             HistoricProcessInstanceEntity historicProcessInstance = getHistoricProcessInstanceEntityManager().findById(processInstanceExecution.getId());
@@ -96,7 +94,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordProcessInstanceStart(ExecutionEntity processInstance) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processInstance.getProcessDefinitionId())) {
             HistoricProcessInstanceEntity historicProcessInstance = getHistoricProcessInstanceEntityManager().create(processInstance);
@@ -114,7 +111,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordProcessInstanceDeleted(string processInstanceId, string processDefinitionId, string processTenantId) {
         if (getHistoryManager().isHistoryEnabled(processDefinitionId)) {
             HistoricProcessInstanceEntity historicProcessInstance = getHistoricProcessInstanceEntityManager().findById(processInstanceId);
@@ -144,7 +140,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordDeleteHistoricProcessInstancesByProcessDefinitionId(string processDefinitionId) {
         if (getHistoryManager().isHistoryEnabled(processDefinitionId)) {
             List!string historicProcessInstanceIds = getHistoricProcessInstanceEntityManager().findHistoricProcessInstanceIdsByProcessDefinitionId(processDefinitionId);
@@ -157,7 +152,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
 
     // Activity related history
 
-    override
     public void recordActivityStart(ActivityInstance activityInstance) {
         if (activityInstance !is null && isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
             if (activityInstance.getActivityId() !is null && activityInstance.getActivityId().length != 0) {
@@ -175,7 +169,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordActivityEnd(ActivityInstance activityInstance) {
         if (activityInstance !is null && isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
             HistoricActivityInstanceEntity historicActivityInstance = getHistoricActivityInstanceEntityManager().findById(activityInstance.getId());
@@ -192,7 +185,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordActivityEnd(ExecutionEntity executionEntity, string deleteReason, Date endTime) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, executionEntity.getProcessDefinitionId())) {
             HistoricActivityInstanceEntity historicActivityInstance = findHistoricActivityInstance(executionEntity, true);
@@ -209,7 +201,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordProcessDefinitionChange(string processInstanceId, string processDefinitionId) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, processDefinitionId)) {
             HistoricProcessInstanceEntity historicProcessInstance = getHistoricProcessInstanceEntityManager().findById(processInstanceId);
@@ -221,7 +212,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
 
     // Task related history
 
-    override
     public void recordTaskCreated(TaskEntity task, ExecutionEntity execution) {
         string processDefinitionId = null;
         if (execution !is null) {
@@ -248,7 +238,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordTaskEnd(TaskEntity task, ExecutionEntity execution, string deleteReason, Date endTime) {
         string processDefinitionId = null;
         if (execution !is null) {
@@ -264,7 +253,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordTaskInfoChange(TaskEntity taskEntity, string activityInstanceId, Date changeTime) {
         bool assigneeChanged = false;
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, taskEntity.getProcessDefinitionId())) {
@@ -302,7 +290,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
 
     // Variables related history
 
-    override
     public void recordVariableCreate(VariableInstanceEntity variable, Date createTime) {
         string processDefinitionId = null;
         if (enableProcessDefinitionHistoryLevel && variable.getProcessInstanceId() !is null && variable.getProcessInstanceId().length != 0) {
@@ -315,7 +302,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordHistoricDetailVariableCreate(VariableInstanceEntity variable, ExecutionEntity sourceActivityExecution, bool useActivityId,
         string activityInstanceId, Date createTime) {
         string processDefinitionId = getProcessDefinitionId(variable, sourceActivityExecution);
@@ -337,7 +323,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordVariableUpdate(VariableInstanceEntity variableInstanceEntity, Date updateTime) {
         string processDefinitionId = null;
         if (enableProcessDefinitionHistoryLevel && variableInstanceEntity.getProcessInstanceId() !is null) {
@@ -350,7 +335,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordVariableRemoved(VariableInstanceEntity variableInstanceEntity) {
         string processDefinitionId = null;
         if (enableProcessDefinitionHistoryLevel && variableInstanceEntity.getProcessInstanceId() !is null && variableInstanceEntity.getProcessInstanceId().length != 0) {
@@ -363,7 +347,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordFormPropertiesSubmitted(ExecutionEntity processInstance, Map!(string, string) properties, string taskId, Date createTime) {
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processInstance.getProcessDefinitionId())) {
             foreach (MapEntry!(string, string) propertyId ; properties) {
@@ -374,7 +357,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
     }
 
     // Identity link related history
-    override
     public void recordIdentityLinkCreated(IdentityLinkEntity identityLink) {
         string processDefinitionId = getProcessDefinitionId(identityLink);
 
@@ -393,7 +375,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordIdentityLinkDeleted(IdentityLinkEntity identityLink) {
         string processDefinitionId = getProcessDefinitionId(identityLink);
 
@@ -403,7 +384,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
     }
 
     // Entity link related history
-    override
     public void recordEntityLinkCreated(EntityLinkEntity entityLink) {
         string processDefinitionId = getProcessDefinitionId(entityLink);
 
@@ -424,7 +404,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordEntityLinkDeleted(EntityLinkEntity entityLink) {
         string processDefinitionId = getProcessDefinitionId(entityLink);
 
@@ -433,7 +412,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void updateProcessBusinessKeyInHistory(ExecutionEntity processInstance) {
         if (processInstance !is null) {
             if (isHistoryEnabled(processInstance.getProcessDefinitionId())) {
@@ -450,7 +428,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void updateProcessDefinitionIdInHistory(ProcessDefinitionEntity processDefinitionEntity, ExecutionEntity processInstance) {
         if (isHistoryEnabled(processDefinitionEntity.getId())) {
             HistoricProcessInstanceEntity historicProcessInstance = getHistoricProcessInstanceEntityManager().findById(processInstance.getId());
@@ -483,7 +460,6 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void updateHistoricActivityInstance(ActivityInstance activityInstance) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
             if (activityInstance.getExecutionId() !is null && activityInstance.getExecutionId().length != 0) {
@@ -497,17 +473,14 @@ class DefaultHistoryManager : AbstractHistoryManager {
         }
     }
 
-    override
     public void recordHistoricUserTaskLogEntry(HistoricTaskLogEntryBuilder taskLogEntryBuilder) {
         CommandContextUtil.getHistoricTaskService().createHistoricTaskLogEntry(taskLogEntryBuilder);
     }
 
-    override
     public void deleteHistoryUserTaskLog(long logNumber) {
         CommandContextUtil.getHistoricTaskService().deleteHistoricTaskLogEntry(logNumber);
     }
 
-    override
     public void createHistoricActivityInstance(ActivityInstance activityInstance) {
         if (isHistoryLevelAtLeast(HistoryLevel.ACTIVITY, activityInstance.getProcessDefinitionId())) {
             createNewHistoricActivityInstance(activityInstance);

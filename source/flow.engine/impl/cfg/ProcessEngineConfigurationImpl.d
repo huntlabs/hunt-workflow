@@ -783,7 +783,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected string jobExecutionScope;
     protected string historyJobExecutionScope;
 
-    protected string asyncExecutorTenantId = AbstractEngineConfiguration.NO_TENANT_ID;
+    protected string asyncExecutorTenantId  ;//= AbstractEngineConfiguration.NO_TENANT_ID;
 
     protected string batchStatusTimeCycleConfig = "30 * * * * ?";
 
@@ -875,7 +875,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected int historicTaskQueryLimit = 20000;
     protected int historicProcessInstancesQueryLimit = 20000;
 
-    protected string wsSyncFactoryClassName = DEFAULT_WS_SYNC_FACTORY;
+    protected string wsSyncFactoryClassName ;//= DEFAULT_WS_SYNC_FACTORY;
     //protected XMLImporterFactory wsWsdlImporterFactory;
     //protected ConcurrentMap!(QName, URL) wsOverridenEndpointAddresses = new ConcurrentHashMap<>();
 
@@ -970,6 +970,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         historyJobProcessors = Collections.emptyList();
         performanceSettings =   new PerformanceSettings();
         delegateExpressionFieldInjectionMode = DelegateExpressionFieldInjectionMode.MIXED;
+        asyncExecutorTenantId = AbstractEngineConfiguration.NO_TENANT_ID;
+        wsSyncFactoryClassName = DEFAULT_WS_SYNC_FACTORY;
     }
 
     // buildProcessEngine

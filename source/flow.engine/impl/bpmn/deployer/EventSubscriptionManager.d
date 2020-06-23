@@ -92,7 +92,7 @@ class EventSubscriptionManager {
         }
     }
 
-    protected void addEventSubscriptions(CommandContext commandContext, ProcessDefinitionEntity processDefinition, flow.bpmn.model.Process process, BpmnModel bpmnModel) {
+    protected void addEventSubscriptions(CommandContext commandContext, ProcessDefinitionEntity processDefinition, flow.bpmn.model.Process.Process process, BpmnModel bpmnModel) {
         if (process.getFlowElements() !is null && process.getFlowElements().size() != 0) {
             foreach (FlowElement element ; process.getFlowElements()) {
                 if (cast(StartEvent)element !is null) {

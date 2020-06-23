@@ -29,7 +29,7 @@ class DoubleFormType : AbstractFormType {
         return "plain/text";
     }
 
-
+    override
     public Object convertFormValueToModelValue(string propertyValue) {
         if (propertyValue is null || "" == (propertyValue)) {
             return null;
@@ -37,7 +37,7 @@ class DoubleFormType : AbstractFormType {
         return Double.valueOf(propertyValue);
     }
 
-
+    override
     public string convertModelValueToFormValue(Object modelValue) {
         if (modelValue is null) {
             return null;

@@ -16,6 +16,7 @@ import flow.engine.impl.bpmn.parser.factory.ActivityBehaviorFactory;
 import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
 import flow.engine.impl.cfg.BpmnParseFactory;
 import flow.engine.impl.bpmn.parser.BpmnParseHandlers;
+import flow.engine.impl.bpmn.parser.BpmnParse;
 /**
  * Parser for BPMN 2.0 process models.
  *
