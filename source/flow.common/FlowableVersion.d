@@ -36,7 +36,7 @@ import hunt.collection.List;
  */
 class FlowableVersion {
 
-    protected string mainVersion;
+    public string mainVersion;
     protected List!string alternativeVersionStrings;
 
     this(string mainVersion) {
@@ -66,7 +66,7 @@ class FlowableVersion {
     override
      size_t toHash() @trusted nothrow{
         size_t result = 0;
-        result = 31 * result + (mainVersion !is null ? mainVersion.hashCode() : 0);
+        result = 31 * result + (mainVersion !is null ? hashOf(mainVersion) : 0);
         result = 31 * result + (alternativeVersionStrings !is null ? alternativeVersionStrings.toHash() : 0);
         return result;
     }

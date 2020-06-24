@@ -365,7 +365,7 @@ class Process : BaseElement , FlowElementsContainer, HasExecutionListeners {
             SubProcess s = cast(SubProcess) flowElement;
             if (s !is null) {
                 if (goIntoSubprocesses) {
-                    foundFlowElements.addAll(findFlowElementsInSubProcessOfType(s, type));
+                    foundFlowElements.addAll(findFlowElementsInSubProcessOfType!SubProcess(s, type));
                 }
             }
         }

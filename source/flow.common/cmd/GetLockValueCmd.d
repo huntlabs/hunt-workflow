@@ -31,7 +31,7 @@ class GetLockValueCmd : Command!string {
     public string execute(CommandContext commandContext) {
         PropertyEntity lockProperty = commandContext.getCurrentEngineConfiguration().getPropertyEntityManager().findById(lockName);
 
-        if (lockProperty != null) {
+        if (lockProperty !is  null) {
             return lockProperty.getValue();
         } else {
             return "UNKNOWN";

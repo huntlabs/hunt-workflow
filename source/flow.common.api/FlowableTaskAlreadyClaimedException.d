@@ -37,7 +37,7 @@ class FlowableTaskAlreadyClaimedException : FlowableException {
     private string taskAssignee;
 
     this(string taskId, string taskAssignee) {
-        super("Task '" ~= taskId ~= "' is already claimed by someone else.");
+        super("Task '" ~ taskId ~ "' is already claimed by someone else.");
         this.taskId = taskId;
         this.taskAssignee = taskAssignee;
         this.reduceLogLevel = true;

@@ -42,7 +42,7 @@ class SubProcessParser : BpmnXMLConstants {
                 adhocSubProcess.setOrdering(orderingAttributeValue);
             }
 
-            if (icmp(ATTRIBUTE_VALUE_FALSE ,xtr.firstAttribute(ATTRIBUTE_CANCEL_REMAINING_INSTANCES)) == 0) {
+            if (sicmp(ATTRIBUTE_VALUE_FALSE ,xtr.firstAttribute(ATTRIBUTE_CANCEL_REMAINING_INSTANCES).getValue) == 0) {
                 adhocSubProcess.setCancelRemainingInstances(false);
             }
 

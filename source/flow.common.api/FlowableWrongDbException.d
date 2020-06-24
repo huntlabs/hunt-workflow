@@ -38,10 +38,10 @@ class FlowableWrongDbException : FlowableException {
     this(string libraryVersion, string dbVersion) {
         super(
                 "version mismatch: library version is '"
-                        ~= libraryVersion
-                        ~= "', db version is "
-                        ~= dbVersion
-                        ~= " Hint: Set <property name=\"databaseSchemaUpdate\" to value=\"true\" or value=\"create-drop\" (use create-drop for testing only!) in bean processEngineConfiguration in flowable.cfg.xml for automatic schema creation");
+                        ~ libraryVersion
+                        ~ "', db version is "
+                        ~ dbVersion
+                        ~ " Hint: Set <property name=\"databaseSchemaUpdate\" to value=\"true\" or value=\"create-drop\" (use create-drop for testing only!) in bean processEngineConfiguration in flowable.cfg.xml for automatic schema creation");
         this.libraryVersion = libraryVersion;
         this.dbVersion = dbVersion;
     }

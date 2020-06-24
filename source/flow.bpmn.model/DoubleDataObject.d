@@ -18,6 +18,7 @@ import flow.bpmn.model.ValuedDataObject;
 import hunt.String;
 import hunt.Double;
 import std.string;
+import std.conv : to;
 //import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -32,7 +33,7 @@ class DoubleDataObject : ValuedDataObject {
     public void setValue(Object value) {
       String s = cast(String)value;
     	if (s !is null && strip(s.value).length != 0) {
-    		this.value = Double.valueOf(s.value);
+    		this.value = Double.valueOf(to!double(s.value));
     	} else if (cast(Double) value !is null) {
     		this.value = cast(Double) value;
     	}

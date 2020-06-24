@@ -18,63 +18,67 @@ import std.concurrency : initOnce;
  *
  * @author Daniel Meyer
  */
+
+
+
 interface SuspensionState {
 
     //SuspensionState ACTIVE = new SuspensionStateImpl(1, "active");
     //SuspensionState SUSPENDED = new SuspensionStateImpl(2, "suspended");
-    static SuspensionState  ACTIVE() {
-      __gshared SuspensionState  inst;
-      return initOnce!inst(new SuspensionStateImpl(1 , "active"));
-    }
 
-    static SuspensionState  SUSPENDED() {
-      __gshared SuspensionState  inst;
-      return initOnce!inst(new SuspensionStateImpl(2 , "suspended"));
-    }
 
     int getStateCode();
 
     // default implementation ///////////////////////////////////////////////////
+}
 
-    class SuspensionStateImpl : SuspensionState {
+class SuspensionStateImpl : SuspensionState {
 
-        public  int stateCode;
-        protected  string name;
+  public  int stateCode;
+  protected  string name;
 
-        this(int suspensionCode, string string) {
-            this.stateCode = suspensionCode;
-            this.name = string;
-        }
+  this(int suspensionCode, string string) {
+    this.stateCode = suspensionCode;
+    this.name = string;
+  }
 
 
-        public int getStateCode() {
-            return stateCode;
-        }
+  public int getStateCode() {
+    return stateCode;
+  }
 
-        override
-        public size_t toHash() {
-            size_t prime = 31;
-            size_t result = 1;
-            result = prime * result + stateCode;
-            return result;
-        }
+  override
+  public size_t toHash() {
+    size_t prime = 31;
+    size_t result = 1;
+    result = prime * result + stateCode;
+    return result;
+  }
 
-        override
-        public bool opEquals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj is null)
-                return false;
-            SuspensionStateImpl other = cast(SuspensionStateImpl) obj;
-            if (other is null)
-                return false;
-            return stateCode == other.stateCode;
-        }
+  override
+  public bool opEquals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj is null)
+      return false;
+    SuspensionStateImpl other = cast(SuspensionStateImpl) obj;
+    if (other is null)
+      return false;
+    return stateCode == other.stateCode;
+  }
 
-        override
-        public string toString() {
-            return name;
-        }
-    }
+  override
+  public string toString() {
+    return name;
+  }
+}
 
+static SuspensionState  ACTIVE() {
+  __gshared SuspensionState  inst;
+  return initOnce!inst(new SuspensionStateImpl(1 , "active"));
+}
+
+static SuspensionState  SUSPENDED() {
+  __gshared SuspensionState  inst;
+  return initOnce!inst(new SuspensionStateImpl(2 , "suspended"));
 }

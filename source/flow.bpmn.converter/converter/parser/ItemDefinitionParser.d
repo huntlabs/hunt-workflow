@@ -33,7 +33,7 @@ class ItemDefinitionParser : BpmnXMLConstants {
                 item.setId(itemDefinitionId);
                 BpmnXMLUtil.addXMLLocation(item, xtr);
 
-                int indexOfP = structureRef.indexOf(':');
+                int indexOfP = cast(int)structureRef.indexOf(':');
                 if (indexOfP != -1) {
                     string prefix = structureRef[0 .. indexOfP];
                     string resolvedNamespace = model.getNamespace(prefix);

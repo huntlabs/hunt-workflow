@@ -36,35 +36,17 @@ import  flow.common.persistence.entity.data.DataManager;
 
 abstract class AbstractDataManager(T) : DataManager!T{
 
-  T create()
-  {
+  abstract T create() ;
 
-  }
+  abstract T findById(string entityId) ;
 
-  T findById(string entityId)
-  {
+  abstract void insert(T entity);
 
-  }
+  abstract T update(T entity);
 
-  void insert(T entity)
-  {
+  abstract void dele(string id);
 
-  }
-
-  T update(T entity)
-  {
-
-  }
-
-  void dele(string id)
-  {
-
-  }
-
-  void dele(T entity)
-  {
-
-  }
+  abstract void dele(T entity);
 
 }
 

@@ -37,12 +37,12 @@ class InParameterParser : BaseChildElementParser {
         if ((source !is null && source.getValue.length != 0 || sourceExpression !is null && sourceExpression.getValue.length != 0) && target !is null && target.getValue.length != 0) {
             IOParameter parameter = new IOParameter();
             if (sourceExpression !is null && sourceExpression.getValue.length != 0) {
-                parameter.setSourceExpression(sourceExpression);
+                parameter.setSourceExpression(sourceExpression.getValue);
             } else {
-                parameter.setSource(source);
+                parameter.setSource(source.getValue);
             }
 
-            parameter.setTarget(target);
+            parameter.setTarget(target.getValue);
 
             auto transientValue = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_TRANSIENT);
             if (transientValue !is null && icmp("true",transientValue.getValue) == 0) {

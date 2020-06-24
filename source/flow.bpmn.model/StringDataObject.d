@@ -14,6 +14,7 @@
 module flow.bpmn.model.StringDataObject;
 
 import flow.bpmn.model.ValuedDataObject;
+
 /**
  * @author Lori Small
  */
@@ -21,7 +22,7 @@ class StringDataObject : ValuedDataObject {
 
     override
     public void setValue(Object value) {
-        this.value = value.toString();
+        this.value = value;
     }
 
     override

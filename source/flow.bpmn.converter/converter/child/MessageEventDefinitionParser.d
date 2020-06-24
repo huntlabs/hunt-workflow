@@ -46,7 +46,7 @@ class MessageEventDefinitionParser : BaseChildElementParser {
 
         if (eventDefinition.getMessageRef !is null && eventDefinition.getMessageRef.length != 0) {
 
-            int indexOfP = eventDefinition.getMessageRef().indexOf(':');
+            int indexOfP = cast(int)eventDefinition.getMessageRef().indexOf(':');
             if (indexOfP != -1) {
                 string prefix = eventDefinition.getMessageRef()[0 .. indexOfP];
                 string resolvedNamespace = model.getNamespace(prefix);

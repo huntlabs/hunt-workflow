@@ -67,7 +67,7 @@ class MessageFlow : BaseElement {
 
     override
     public string toString() {
-        return sourceRef ~= " --> " ~= targetRef;
+        return sourceRef ~ " --> " ~ targetRef;
     }
 
     override

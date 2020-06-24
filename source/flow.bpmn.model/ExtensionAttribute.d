@@ -65,12 +65,12 @@ class ExtensionAttribute {
         if (namespacePrefix !is null) {
             sb ~= (namespacePrefix);
             if (name !is null)
-                sb ~= (":") ~= (name);
+                sb  = sb ~ ":" ~ name;
         } else
             sb ~= name;
         if (value !is null)
-            sb ~= ("=") ~= (value);
-        return sb.toString();
+            sb = sb ~ "=" ~ value;
+        return sb;
     }
 
     public ExtensionAttribute clone() {

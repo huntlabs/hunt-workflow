@@ -15,6 +15,7 @@
 module flow.bpmn.model.ValuedDataObject;
 
 import flow.bpmn.model.DataObject;
+import std.string;
 /**
  * @author Lori Small
  */
@@ -34,7 +35,7 @@ abstract class ValuedDataObject : DataObject {
     override
      ValuedDataObject clone()
      {
-
+          return null;
      }
 
     public void setValues(ValuedDataObject otherElement) {
@@ -46,13 +47,14 @@ abstract class ValuedDataObject : DataObject {
 
     public string getType() {
         string structureRef = itemSubjectRef.getStructureRef();
-        return structureRef.substring(structureRef.indexOf(':') + 1);
+        return structureRef[structureRef.indexOf(':') + 1 .. $];
     }
 //override size_t toHash() @safe nothrow
     override
-     size_t toHash() {
+     size_t toHash()  {
         size_t result = 0;
-        result = 31 * result + (itemSubjectRef.getStructureRef() !is null ? hashOf(itemSubjectRef.getStructureRef()) : 0);
+        string st = itemSubjectRef.structureRef;
+        result = 31 * result + hashOf(st);
         result = 31 * result + (id !is null ? hashOf(id) : 0);
         result = 31 * result + (name !is null ? hashOf(name) : 0);
         result = 31 * result + (value !is null ? hashOf(value) : 0);
@@ -74,6 +76,6 @@ abstract class ValuedDataObject : DataObject {
             return false;
         if (otherObject.getName() != (this.name))
             return false;
-        return otherObject.getValue() == (this.value.toString());
+        return otherObject.getValue().toString == (this.value.toString());
     }
 }

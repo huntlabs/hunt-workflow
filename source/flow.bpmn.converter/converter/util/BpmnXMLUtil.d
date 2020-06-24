@@ -132,7 +132,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
     }
 
 
-    void loopNexSibling(Element n , BaseElement parentElement , Map!(string, BaseChildElementParser) localParserMap, BpmnModel model, bool inExtensionElements,  bool readyWithFormProperty)
+    static void loopNexSibling(Element n , BaseElement parentElement , Map!(string, BaseChildElementParser) localParserMap, BpmnModel model, bool inExtensionElements,  bool readyWithFormProperty)
     {
       Element node = n;
       while(!readyWithFormProperty && node !is null && node.getType == NodeType.Element)
@@ -216,7 +216,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
         bool readyWithChildElements = false;
         if (xtr !is null)
         {
-            loopNexSibling(xtr.firstNode ,parentElement, localParserMap , inExtensionElements, readyWithChildElements);
+            loopNexSibling(xtr.firstNode ,parentElement, localParserMap , model, inExtensionElements, readyWithChildElements);
         }
         //while (!readyWithChildElements && xtr.hasNext()) {
         //    xtr.next();
@@ -249,7 +249,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
         //}
     }
 
-    void loopNexSibling(Element n , ExtensionElement extensionElement , bool readyWithFormProperty)
+   static void loopNexSibling(Element n , ExtensionElement extensionElement , bool readyWithFormProperty)
     {
       Element node = n;
       while(!readyWithFormProperty && node !is null && node.getType == NodeType.Element)
@@ -269,8 +269,8 @@ class BpmnXMLUtil : BpmnXMLConstants {
         {
           //writefln(child.toString);
           //DOSOMETHING
-          ExtensionElement childExtensionElement = parseExtensionElement(child);
-          extensionElement.addChildElement(childExtensionElement);
+          ExtensionElement childExtensionElement2 = parseExtensionElement(child);
+          extensionElement.addChildElement(childExtensionElement2);
 
           if (child.firstNode !is null && child.firstNode.getType == NodeType.CDATA) {
             if (strip( child.firstNode.getText()).length != 0) {
@@ -504,7 +504,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
                 } else if (c == '}') {
                     insideExpression = false;
                 } else if (c == ',' && !insideExpression) {
-                    result.add(strip(strb.tostring()));
+                    result.add(strip(strb.toString()));
                     strb.reset();
                     //strb.delete(0, strb.length());
                 }
@@ -517,7 +517,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
             }
 
             if (strb.length() > 0) {
-                result.add(strip(strb.tostring()));
+                result.add(strip(strb.toString()));
             }
 
         }
@@ -535,7 +535,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
                 resultstring.append(result);
             }
         }
-        return resultstring.tostring();
+        return resultstring.toString();
     }
 
     /**

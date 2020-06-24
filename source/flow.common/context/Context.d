@@ -35,11 +35,11 @@ import flow.common.transaction.TransactionContextHolder;
 class Context {
 
     //protected static ThreadLocal<Stack<CommandContext>> commandContextThreadLocal = new ThreadLocal<>();
-    List!CommandContext commandContextThreadLocal;
-  shared static  this()
-    {
-        List!CommandContext commandContextThreadLocal = new ArrayList!CommandContext;
-    }
+    static List!CommandContext commandContextThreadLocal;
+    shared static  this()
+      {
+          commandContextThreadLocal = new ArrayList!CommandContext;
+      }
     public static CommandContext getCommandContext() {
        // Stack<CommandContext> stack = getStack(commandContextThreadLocal);
         if (commandContextThreadLocal.isEmpty()) {

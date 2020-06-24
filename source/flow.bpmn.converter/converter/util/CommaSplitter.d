@@ -43,7 +43,7 @@ class CommaSplitter {
             }
         }
 
-        if ((st.length() - offset) > 1) {
+        if ((st.length - offset) > 1) {
             result.add(st[offset .. $]);
         }
         return result;

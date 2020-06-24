@@ -86,7 +86,7 @@ abstract class FlowElement : BaseElement , HasExecutionListeners {
     override
      FlowElement clone()
     {
-
+        return null;
     }
 
     public void setValues(FlowElement otherElement) {

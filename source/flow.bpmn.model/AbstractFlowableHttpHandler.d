@@ -79,7 +79,7 @@ abstract class AbstractFlowableHttpHandler : BaseElement {
     override
      AbstractFlowableHttpHandler clone()
      {
-
+          return null;
      }
 
     public void setValues(AbstractFlowableHttpHandler otherHandler) {

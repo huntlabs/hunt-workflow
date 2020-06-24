@@ -66,7 +66,7 @@ class HistoryLevel : AbstractEnum!HistoryLevel {
      */
     public static HistoryLevel getHistoryLevelForKey(string key) {
         foreach (HistoryLevel level ; VALUES()) {
-            if (level.key.equals(key)) {
+            if (level.key == (key)) {
                 return level;
             }
         }

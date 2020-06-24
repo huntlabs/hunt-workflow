@@ -196,8 +196,8 @@ class BpmnModel {
 
         if (foundFlowElement is null) {
             foreach (Process process ; processes) {
-                foreach (FlowElement flowElement ; process.findFlowElementsOfType!SubProcess(typeid(SubProcess))) {
-                    foundFlowElement = getFlowElementInSubProcess(id, cast(SubProcess)flowElement);
+                foreach (SubProcess flowElement ; process.findFlowElementsOfType!SubProcess(typeid(SubProcess))) {
+                    foundFlowElement = getFlowElementInSubProcess(id,flowElement);
                     if (foundFlowElement !is null) {
                         break;
                     }
@@ -238,8 +238,8 @@ class BpmnModel {
 
         if (foundArtifact is null) {
             foreach (Process process ; processes) {
-                foreach (FlowElement flowElement ; process.findFlowElementsOfType!SubProcess(typeid(SubProcess))) {
-                    foundArtifact = getArtifactInSubProcess(id, cast(SubProcess) flowElement);
+                foreach (SubProcess flowElement ; process.findFlowElementsOfType!SubProcess(typeid(SubProcess))) {
+                    foundArtifact = getArtifactInSubProcess(id, flowElement);
                     if (foundArtifact !is null) {
                         break;
                     }
@@ -404,7 +404,7 @@ class BpmnModel {
     }
 
     public Collection!Message getMessages() {
-        return messageMap.values();
+        return new ArrayList!Message(messageMap.values());
     }
 
     public void setMessages(Collection!Message messageList) {
@@ -460,7 +460,7 @@ class BpmnModel {
     }
 
     public Collection!Escalation getEscalations() {
-        return escalationMap.values();
+        return new ArrayList!Escalation(escalationMap.values());
     }
 
     public void setEscalations(Map!(string, Escalation) escalationMap) {

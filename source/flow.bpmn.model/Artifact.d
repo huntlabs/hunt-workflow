@@ -23,6 +23,6 @@ abstract class Artifact : BaseElement {
     override
      Artifact clone()
      {
-
+        return null;
      }
 }

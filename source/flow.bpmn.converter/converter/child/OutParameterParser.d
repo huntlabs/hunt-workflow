@@ -47,7 +47,7 @@ class OutParameterParser : BaseChildElementParser {
             parameter.setTarget(target.getValue);
 
             auto transientValue = xtr.firstAttribute(ATTRIBUTE_IOPARAMETER_TRANSIENT);
-            if (transientValue !is null && icmp("true",transientValue) == 0) {
+            if (transientValue !is null && sicmp("true",transientValue.getValue) == 0) {
                 parameter.setTransient(true);
             }
 

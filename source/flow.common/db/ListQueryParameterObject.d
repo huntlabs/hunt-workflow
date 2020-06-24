@@ -13,7 +13,7 @@
 
 module flow.common.db.ListQueryParameterObject;
 
-
+import std.array;
 import hunt.collection.Map;
 import hunt.collection.HashMap;
 import flow.common.api.query.Query;
@@ -60,10 +60,10 @@ class ListQueryParameterObject {
         if (orderByColumns is null) {
             orderByColumns = "";
         } else {
-            orderByColumns = orderByColumns + ", ";
+            orderByColumns = orderByColumns ~ ", ";
         }
 
-        if (Direction.ASCENDING.getName().equals(sortOrder)) {
+        if (Direction.ASCENDING.getName() == (sortOrder)) {
             orderByColumnMap.put(column, true);
         } else {
             orderByColumnMap.put(column, false);
@@ -71,18 +71,18 @@ class ListQueryParameterObject {
 
         string defaultOrderByClause = column ~ " " ~ sortOrder;
 
-        if (nullHandlingOnOrder !is null) {
+      //  if (nullHandlingOnOrder !is null) {
 
             if (nullHandlingOnOrder == NullHandlingOnOrder.NULLS_FIRST) {
 
-                if (AbstractEngineConfiguration.DATABASE_TYPE_H2.equals(databaseType)
-                        || AbstractEngineConfiguration.DATABASE_TYPE_HSQL.equals(databaseType)
-                        || AbstractEngineConfiguration.DATABASE_TYPE_POSTGRES.equals(databaseType)
-                        || AbstractEngineConfiguration.DATABASE_TYPE_ORACLE.equals(databaseType)) {
+                if (AbstractEngineConfiguration.DATABASE_TYPE_H2 == (databaseType)
+                        || AbstractEngineConfiguration.DATABASE_TYPE_HSQL == (databaseType)
+                        || AbstractEngineConfiguration.DATABASE_TYPE_POSTGRES == (databaseType)
+                        || AbstractEngineConfiguration.DATABASE_TYPE_ORACLE == (databaseType)) {
                     orderByColumns = orderByColumns ~ defaultOrderByClause ~ " NULLS FIRST";
-                } else if (AbstractEngineConfiguration.DATABASE_TYPE_MYSQL.equals(databaseType)) {
+                } else if (AbstractEngineConfiguration.DATABASE_TYPE_MYSQL == (databaseType)) {
                     orderByColumns = orderByColumns ~ "isnull(" ~ column ~ ") desc," ~ defaultOrderByClause;
-                } else if (AbstractEngineConfiguration.DATABASE_TYPE_DB2.equals(databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL.equals(databaseType)) {
+                } else if (AbstractEngineConfiguration.DATABASE_TYPE_DB2 == (databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL == (databaseType)) {
                     if (nullHandlingColumn is null) {
                         nullHandlingColumn = "";
                     } else {
@@ -97,14 +97,14 @@ class ListQueryParameterObject {
 
             } else if (nullHandlingOnOrder == NullHandlingOnOrder.NULLS_LAST) {
 
-                if (AbstractEngineConfiguration.DATABASE_TYPE_H2.equals(databaseType)
-                        || AbstractEngineConfiguration.DATABASE_TYPE_HSQL.equals(databaseType)
-                        || AbstractEngineConfiguration.DATABASE_TYPE_POSTGRES.equals(databaseType)
-                        || AbstractEngineConfiguration.DATABASE_TYPE_ORACLE.equals(databaseType)) {
+                if (AbstractEngineConfiguration.DATABASE_TYPE_H2 == (databaseType)
+                        || AbstractEngineConfiguration.DATABASE_TYPE_HSQL == (databaseType)
+                        || AbstractEngineConfiguration.DATABASE_TYPE_POSTGRES == (databaseType)
+                        || AbstractEngineConfiguration.DATABASE_TYPE_ORACLE == (databaseType)) {
                     orderByColumns = orderByColumns ~ column ~ " " ~ sortOrder ~ " NULLS LAST";
-                } else if (AbstractEngineConfiguration.DATABASE_TYPE_MYSQL.equals(databaseType)) {
+                } else if (AbstractEngineConfiguration.DATABASE_TYPE_MYSQL == (databaseType)) {
                     orderByColumns = orderByColumns ~ "isnull(" ~ column ~ ") asc," ~ defaultOrderByClause;
-                } else if (AbstractEngineConfiguration.DATABASE_TYPE_DB2.equals(databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL.equals(databaseType)) {
+                } else if (AbstractEngineConfiguration.DATABASE_TYPE_DB2 == (databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL == (databaseType)) {
                     if (nullHandlingColumn is null) {
                         nullHandlingColumn = "";
                     } else {
@@ -119,9 +119,10 @@ class ListQueryParameterObject {
 
             }
 
-        } else {
-            orderByColumns = orderByColumns ~ defaultOrderByClause;
-        }
+        //}
+        //else {
+        //    orderByColumns = orderByColumns ~ defaultOrderByClause;
+        //}
 
     }
 
@@ -165,7 +166,7 @@ class ListQueryParameterObject {
         // For those databases, the regular orderBy needs to be empty,
         // the order will be added in the 'limitBetween' (see mssql/db2.properties).
         if (firstResult >= 0
-                && (AbstractEngineConfiguration.DATABASE_TYPE_DB2.equals(databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL.equals(databaseType)) ) {
+                && (AbstractEngineConfiguration.DATABASE_TYPE_DB2 == (databaseType) || AbstractEngineConfiguration.DATABASE_TYPE_MSSQL == (databaseType)) ) {
             return "";
         } else {
             return "order by " ~ getOrderByColumns();

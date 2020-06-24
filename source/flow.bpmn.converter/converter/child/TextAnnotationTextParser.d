@@ -36,6 +36,6 @@ class TextAnnotationTextParser : BaseChildElementParser {
         if (cast(TextAnnotation)parentElement is null)
             return;
 
-        (cast(TextAnnotation) parentElement).setText(xtr.getElementText());
+        (cast(TextAnnotation) parentElement).setText(xtr.getText());
     }
 }

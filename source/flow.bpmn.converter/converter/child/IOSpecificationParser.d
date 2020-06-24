@@ -170,7 +170,7 @@ class IOSpecificationParser : BaseChildElementParser {
     protected string parseItemSubjectRef(string itemSubjectRef, BpmnModel model) {
         string result = null;
         if (itemSubjectRef.length != 0) {
-            int indexOfP = itemSubjectRef.indexOf(':');
+            int indexOfP = cast(int)itemSubjectRef.indexOf(':');
             if (indexOfP != -1) {
                 string prefix = itemSubjectRef[0 .. indexOfP];
                 string resolvedNamespace = model.getNamespace(prefix);

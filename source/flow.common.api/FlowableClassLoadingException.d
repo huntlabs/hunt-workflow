@@ -44,7 +44,7 @@ class FlowableClassLoadingException : FlowableException {
     }
 
     private static string getExceptionMessageMessage(string className, Throwable cause) {
-      return "Could not load class: " ~= className;
+      return "Could not load class: " ~ className;
         //if (cause instanceof ClassNotFoundException) {
         //    return "Class not found: " + className;
         //} else {

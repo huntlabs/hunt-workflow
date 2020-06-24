@@ -44,7 +44,7 @@ class FlowableException : RuntimeException {
     }
 
     public void setLogged(bool isLogged) {
-        this.isLogged = isLogged;
+        this._isLogged = isLogged;
     }
 
     public bool isReduceLogLevel() {

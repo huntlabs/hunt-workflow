@@ -14,7 +14,7 @@
 module flow.bpmn.model.parse.Warning;
 
 import flow.bpmn.model.BaseElement;
-
+import std.conv : to;
 class Warning {
 
     protected string warningMessage;
@@ -38,6 +38,6 @@ class Warning {
 
     override
     public string toString() {
-        return warningMessage ~= (resource !is null ? " | " ~= resource : "") ~= " | line " ~= line ~= " | column " ~= column;
+        return warningMessage ~ (resource !is null ? " | " ~ resource : "") ~ " | line " ~ to!string(line) ~ " | column " ~ to!string(column);
     }
 }

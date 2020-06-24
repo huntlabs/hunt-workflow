@@ -14,9 +14,8 @@
 module flow.common.el.VariableContainerWrapper;
 
 import hunt.collection.Map;
-
+import hunt.Exceptions;
 import flow.common.api.variable.VariableContainer;
-
 /**
  * @author Joram Barrez
  */
@@ -48,7 +47,8 @@ class VariableContainerWrapper : VariableContainer {
 
 
     public void setTransientVariable(string variableName, Object variableValue) {
-        throw new UnsupportedOperationException();
+       // throw new UnsupportedOperationException();
+        implementationMissing(false);
     }
 
     public string getInstanceId() {

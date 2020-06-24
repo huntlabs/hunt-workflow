@@ -35,11 +35,11 @@ class InterfaceParser : BpmnXMLConstants {
       if (ELEMENT_OPERATION == node.getName()) {
         operation = new Operation();
         BpmnXMLUtil.addXMLLocation(operation, node);
-        operation.setId(model.getTargetNamespace() ~ ":" ~ node.firstAttribute(ATTRIBUTE_ID) is null ? "" :node.firstAttribute(ATTRIBUTE_ID).getValue);
+        operation.setId(model.getTargetNamespace() ~ ":" ~ (node.firstAttribute(ATTRIBUTE_ID) is null ? "" :node.firstAttribute(ATTRIBUTE_ID).getValue));
         operation.setName(node.firstAttribute(ATTRIBUTE_NAME) is null ? "" : node.firstAttribute(ATTRIBUTE_NAME).getValue);
-        operation.setImplementationRef(parseMessageRef(node.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF) is null ? "" : node.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF), model));
+        operation.setImplementationRef(parseMessageRef(node.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF) is null ? "" : node.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF).getValue, model));
 
-      } else if (ELEMENT_IN_MESSAGE == node.getName()()) {
+      } else if (ELEMENT_IN_MESSAGE == node.getName()) {
         string inMessageRef = node.getText();
         if (operation !is null && inMessageRef.length != 0) {
           operation.setInMessageRef(parseMessageRef(strip(inMessageRef), model));
@@ -59,11 +59,11 @@ class InterfaceParser : BpmnXMLConstants {
         if (ELEMENT_OPERATION == child.getName()) {
           operation = new Operation();
           BpmnXMLUtil.addXMLLocation(operation, child);
-          operation.setId(model.getTargetNamespace() ~ ":" ~ child.firstAttribute(ATTRIBUTE_ID) is null ? "" :child.firstAttribute(ATTRIBUTE_ID).getValue);
+          operation.setId(model.getTargetNamespace() ~ ":" ~ (child.firstAttribute(ATTRIBUTE_ID) is null ? "" :child.firstAttribute(ATTRIBUTE_ID).getValue));
           operation.setName(child.firstAttribute(ATTRIBUTE_NAME) is null ? "" : child.firstAttribute(ATTRIBUTE_NAME).getValue);
-          operation.setImplementationRef(parseMessageRef(child.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF) is null ? "" : child.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF), model));
+          operation.setImplementationRef(parseMessageRef(child.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF) is null ? "" : child.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF).getValue, model));
 
-        } else if (ELEMENT_IN_MESSAGE == child.getName()()) {
+        } else if (ELEMENT_IN_MESSAGE == child.getName()) {
           string inMessageRef = child.getText();
           if (operation !is null && inMessageRef.length != 0) {
             operation.setInMessageRef(parseMessageRef(strip(inMessageRef), model));
@@ -103,7 +103,7 @@ class InterfaceParser : BpmnXMLConstants {
 
         Interface interfaceObject = new Interface();
         BpmnXMLUtil.addXMLLocation(interfaceObject, xtr);
-        interfaceObject.setId(model.getTargetNamespace() ~ ":" ~ xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue);
+        interfaceObject.setId(model.getTargetNamespace() ~ ":" ~ (xtr.firstAttribute(ATTRIBUTE_ID) is null ? "" : xtr.firstAttribute(ATTRIBUTE_ID).getValue));
         interfaceObject.setName(xtr.firstAttribute(ATTRIBUTE_NAME) is null ? "" : xtr.firstAttribute(ATTRIBUTE_NAME).getValue);
         interfaceObject.setImplementationRef(parseMessageRef(xtr.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_IMPLEMENTATION_REF).getValue, model));
 
@@ -154,7 +154,7 @@ class InterfaceParser : BpmnXMLConstants {
     protected string parseMessageRef(string messageRef, BpmnModel model) {
         string result;
         if (messageRef.length != 0) {
-            int indexOfP = messageRef.indexOf(':');
+            int indexOfP = cast(int)messageRef.indexOf(':');
             if (indexOfP != -1) {
                 string prefix = messageRef[0 .. indexOfP];
                 string resolvedNamespace = model.getNamespace(prefix);

@@ -164,6 +164,6 @@ abstract class BaseElement : HasExtensionAttributes {
 
 
      BaseElement clone(){
-
+          return null;
      }
 }

@@ -15,6 +15,7 @@ module flow.bpmn.model.ReceiveTask;
 
 import flow.bpmn.model.Task;
 import flow.bpmn.model.ManualTask;
+import flow.bpmn.model.Activity;
 /**
  * @author Tijs Rademakers
  */
@@ -25,6 +26,12 @@ class ReceiveTask : Task {
         ReceiveTask clone = new ReceiveTask();
         clone.setValues(this);
         return clone;
+    }
+
+    override
+    public void setValues(Activity otherElement)
+    {
+        super.setValues(otherElement);
     }
 
     public void setValues(ManualTask otherElement) {

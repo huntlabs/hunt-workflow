@@ -15,7 +15,7 @@ module flow.bpmn.model.parse.Problem;
 
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.GraphicInfo;
-
+import std.conv:to;
 class Problem {
 
     protected string errorMessage;
@@ -45,6 +45,6 @@ class Problem {
 
     override
     public string toString() {
-        return errorMessage ~= (resource !is null ? " | " ~= resource : "") ~= " | line " ~= line ~= " | column " ~= column;
+        return errorMessage ~ (resource !is null ? " | " ~ resource : "") ~ " | line " ~ to!string(line) ~ " | column " ~ to!string(column);
     }
 }

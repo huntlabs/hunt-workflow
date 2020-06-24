@@ -39,7 +39,7 @@ class MessageParser : BpmnXMLConstants {
     protected string parseItemRef(string itemRef, BpmnModel model) {
         string result;
         if (itemRef.length != 0) {
-            int indexOfP = itemRef.indexOf(':');
+            int indexOfP = cast(int)itemRef.indexOf(':');
             if (indexOfP != -1) {
                 string prefix = itemRef[0 .. indexOfP];
                 string resolvedNamespace = model.getNamespace(prefix);

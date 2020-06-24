@@ -94,13 +94,13 @@ class FormPropertyParser : BaseChildElementParser {
         property.setDefaultExpression(xtr.firstAttribute(ATTRIBUTE_FORM_DEFAULT) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FORM_DEFAULT).getValue);
         property.setDatePattern(xtr.firstAttribute(ATTRIBUTE_FORM_DATEPATTERN) is null ? "" : xtr.firstAttribute(ATTRIBUTE_FORM_DATEPATTERN).getValue);
         if (xtr.firstAttribute(ATTRIBUTE_FORM_REQUIRED) !is null && xtr.firstAttribute(ATTRIBUTE_FORM_REQUIRED).getValue.length != 0) {
-            property.setRequired(Boolean.valueOf(xtr.firstAttribute(ATTRIBUTE_FORM_REQUIRED)).booleanValue);
+            property.setRequired(Boolean.valueOf(xtr.firstAttribute(ATTRIBUTE_FORM_REQUIRED).getValue).booleanValue);
         }
         if (xtr.firstAttribute(ATTRIBUTE_FORM_READABLE) !is null && xtr.firstAttribute(ATTRIBUTE_FORM_READABLE).getValue.length != 0) {
-            property.setReadable(Boolean.valueOf(xtr.firstAttribute(ATTRIBUTE_FORM_READABLE)).booleanValue);
+            property.setReadable(Boolean.valueOf(xtr.firstAttribute(ATTRIBUTE_FORM_READABLE).getValue).booleanValue);
         }
         if (xtr.firstAttribute(ATTRIBUTE_FORM_WRITABLE) !is null && xtr.firstAttribute(ATTRIBUTE_FORM_WRITABLE).getValue.length != 0) {
-            property.setWriteable(Boolean.valueOf(xtr.firstAttribute(ATTRIBUTE_FORM_WRITABLE)).booleanValue);
+            property.setWriteable(Boolean.valueOf(xtr.firstAttribute(ATTRIBUTE_FORM_WRITABLE).getValue).booleanValue);
         }
 
         bool readyWithFormProperty = false;

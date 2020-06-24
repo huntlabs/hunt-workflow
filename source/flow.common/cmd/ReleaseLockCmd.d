@@ -33,7 +33,7 @@ class ReleaseLockCmd : Command!Void {
 
         PropertyEntityManager propertyEntityManager = commandContext.getCurrentEngineConfiguration().getPropertyEntityManager();
         PropertyEntity property = propertyEntityManager.findById(lockName);
-        if (property != null) {
+        if (property !is null) {
             propertyEntityManager.dele(property);
             return null;
         } else {

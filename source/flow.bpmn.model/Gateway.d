@@ -31,7 +31,7 @@ abstract class Gateway : FlowNode {
 
     override
      Gateway clone(){
-
+        return null;
      }
 
     public void setValues(Gateway otherElement) {

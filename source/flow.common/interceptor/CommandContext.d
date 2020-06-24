@@ -77,13 +77,13 @@ class CommandContext {
 
                 } finally {
 
-                    try {
+                    //try {
                         if (_exception is null) {
                             executeCloseListenersAfterSessionFlushed();
                         }
-                    } catch (Throwable exception) {
-                      //  exception(exception);
-                    }
+                    //} catch (Throwable exception) {
+                    //  //  exception(exception);
+                    //}
 
                     if (_exception !is null) {
                         logException();

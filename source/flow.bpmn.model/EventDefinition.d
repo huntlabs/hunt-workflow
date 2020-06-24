@@ -21,6 +21,6 @@ abstract class EventDefinition : BaseElement {
     override
      EventDefinition clone()
      {
-
+          return null;
      }
 }

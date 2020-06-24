@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,15 +11,15 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.event.FlowableEventSupport;
- 
- 
- 
+
+
+
 
 
 import hunt.collection.HashMap;
@@ -37,7 +37,7 @@ import flow.common.cfg.TransactionState;
 import hunt.Exceptions;
 /**
  * Class that allows adding and removing event listeners and dispatching events to the appropriate listeners.
- * 
+ *
  * @author Frederik Heremans
  */
 class FlowableEventSupport {
@@ -50,7 +50,7 @@ class FlowableEventSupport {
         typedListeners = new HashMap!(FlowableEventType, List!FlowableEventListener);
     }
 
-    public synchronized void addEventListener(FlowableEventListener listenerToAdd) {
+    public void addEventListener(FlowableEventListener listenerToAdd) {
         if (listenerToAdd is null) {
             throw new FlowableIllegalArgumentException("Listener cannot be null.");
         }
@@ -155,7 +155,7 @@ class FlowableEventSupport {
         //}
     }
 
-    protected synchronized void addTypedEventListener(FlowableEventListener listener, FlowableEventType type) {
+    protected  void addTypedEventListener(FlowableEventListener listener, FlowableEventType type) {
         List!FlowableEventListener listeners = typedListeners.get(type);
         if (listeners is null) {
             // Add an empty list of listeners for this type

@@ -17,7 +17,7 @@ import flow.bpmn.model.BaseElement;
 
 class ItemDefinition : BaseElement {
 
-    protected string structureRef;
+    public string structureRef;
     protected string itemKind;
 
     public string getStructureRef() {

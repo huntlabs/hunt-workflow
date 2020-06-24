@@ -27,6 +27,8 @@ import hunt.collection.List;
 
 import flow.common.api.FlowableException;
 import flow.common.FlowableVersion;
+import std.algorithm;
+
 /**
  * @author Joram Barrez
  */
@@ -157,13 +159,13 @@ class FlowableVersions {
 
         // If no match has been found, but the version starts with '5.x',
         // we assume it's the last version (see comment in the VERSIONS list)
-        if (matchingVersionIndex < 0 && dbVersion !is null && dbVersion.startsWith("5.")) {
+        if (matchingVersionIndex < 0 && dbVersion !is null && startsWith(dbVersion,"5.")) {
             matchingVersionIndex = findMatchingVersionIndex(FlowableVersions.LAST_V5_VERSION);
         }
 
         // Exception when no match was found: unknown/unsupported version
         if (matchingVersionIndex < 0) {
-            throw new FlowableException("Could not update Flowable database schema: unknown version from database: '" + dbVersion + "'");
+            throw new FlowableException("Could not update Flowable database schema: unknown version from database: ");
         }
 
         return matchingVersionIndex;

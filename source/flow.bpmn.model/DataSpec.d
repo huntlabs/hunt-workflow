@@ -41,7 +41,7 @@ class DataSpec : BaseElement {
     }
 
     public void setCollection(bool isCollection) {
-        this.isCollection = isCollection;
+        this._isCollection = isCollection;
     }
 
     override

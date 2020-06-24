@@ -26,7 +26,7 @@ import hunt.collection.List;
 import hunt.Exceptions;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEventType;
-
+import std.string;
  import hunt.Enum;
 import std.concurrency : initOnce;
 
@@ -50,71 +50,70 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
     }
 
      static FlowableEngineEventType[]  values() {
-        if (vs is null)
-        {
-           vs = new  FlowableEngineEventType[];
-        }
 
-        if(FlowableEngineEventType.vs.length == 0)
-        {
-            vs ~= ENTITY_CREATED;
-            vs ~= ENTITY_INITIALIZED;
-            vs ~= ENTITY_UPDATED;
-            vs ~= ENTITY_DELETED;
-            vs ~= ENTITY_SUSPENDED;
-            vs ~= ENTITY_ACTIVATED;
-            vs ~= TIMER_SCHEDULED;
-            vs ~= TIMER_FIRED;
-            vs ~= JOB_CANCELED;
-            vs ~= JOB_EXECUTION_SUCCESS;
-            vs ~= JOB_EXECUTION_FAILURE;
-            vs ~= JOB_RETRIES_DECREMENTED;
-            vs ~= JOB_RESCHEDULED;
-            vs ~= CUSTOM;
-            vs ~= ENGINE_CREATED;
-            vs ~= ENGINE_CLOSED;
-            vs ~= ACTIVITY_STARTED;
-            vs ~= ACTIVITY_COMPLETED;
-            vs ~= ACTIVITY_CANCELLED;
-            vs ~= MULTI_INSTANCE_ACTIVITY_STARTED;
-            vs ~= MULTI_INSTANCE_ACTIVITY_COMPLETED;
-            vs ~= MULTI_INSTANCE_ACTIVITY_COMPLETED_WITH_CONDITION;
-            vs ~= MULTI_INSTANCE_ACTIVITY_CANCELLED;
-            vs ~= ACTIVITY_SIGNAL_WAITING;
-            vs ~= ACTIVITY_SIGNALED;
-            vs ~= ACTIVITY_COMPENSATE;
-            vs ~= ACTIVITY_CONDITIONAL_WAITING;
-            vs ~= ACTIVITY_CONDITIONAL_RECEIVED;
-            vs ~= ACTIVITY_ESCALATION_WAITING;
-            vs ~= ACTIVITY_ESCALATION_RECEIVED;
-            vs ~= ACTIVITY_MESSAGE_WAITING;
-            vs ~= ACTIVITY_MESSAGE_RECEIVED;
-            vs ~= ACTIVITY_MESSAGE_CANCELLED;
-            vs ~= ACTIVITY_ERROR_RECEIVED;
-            vs ~= HISTORIC_ACTIVITY_INSTANCE_CREATED;
-            vs ~= HISTORIC_ACTIVITY_INSTANCE_ENDED;
-            vs ~= SEQUENCEFLOW_TAKEN;
-            vs ~= VARIABLE_CREATED;
-            vs ~= VARIABLE_UPDATED;
-            vs ~= VARIABLE_DELETED;
-            vs ~= TASK_CREATED;
-            vs ~= TASK_ASSIGNED;
-            vs ~= TASK_COMPLETED;
-            vs ~= TASK_OWNER_CHANGED;
-            vs ~= TASK_PRIORITY_CHANGED;
-            vs ~= TASK_DUEDATE_CHANGED;
-            vs ~= TASK_NAME_CHANGED;
-            vs ~= PROCESS_CREATED;
-            vs ~= PROCESS_STARTED;
-            vs ~= PROCESS_COMPLETED;
-            vs ~= PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT;
-            vs ~= PROCESS_COMPLETED_WITH_ERROR_END_EVENT;
-            vs ~= PROCESS_COMPLETED_WITH_ESCALATION_END_EVENT;
-            vs ~= PROCESS_CANCELLED;
-            vs ~= HISTORIC_PROCESS_INSTANCE_CREATED;
-            vs ~= HISTORIC_PROCESS_INSTANCE_ENDED;
-        }
-        return vs;
+       __gshared FlowableEngineEventType[] _e;
+       return initOnce!(_e)({
+         FlowableEngineEventType[] _ENUMS;
+         if(_ENUMS.length == 0) {
+           _ENUMS ~= ENTITY_CREATED;
+           _ENUMS ~= ENTITY_INITIALIZED;
+           _ENUMS ~= ENTITY_UPDATED;
+           _ENUMS ~= ENTITY_DELETED;
+           _ENUMS ~= ENTITY_SUSPENDED;
+           _ENUMS ~= ENTITY_ACTIVATED;
+           _ENUMS ~= TIMER_SCHEDULED;
+           _ENUMS ~= TIMER_FIRED;
+           _ENUMS ~= JOB_CANCELED;
+           _ENUMS ~= JOB_EXECUTION_SUCCESS;
+           _ENUMS ~= JOB_EXECUTION_FAILURE;
+           _ENUMS ~= JOB_RETRIES_DECREMENTED;
+           _ENUMS ~= JOB_RESCHEDULED;
+           _ENUMS ~= CUSTOM;
+           _ENUMS ~= ENGINE_CREATED;
+           _ENUMS ~= ENGINE_CLOSED;
+           _ENUMS ~= ACTIVITY_STARTED;
+           _ENUMS ~= ACTIVITY_COMPLETED;
+           _ENUMS ~= ACTIVITY_CANCELLED;
+           _ENUMS ~= MULTI_INSTANCE_ACTIVITY_STARTED;
+           _ENUMS ~= MULTI_INSTANCE_ACTIVITY_COMPLETED;
+           _ENUMS ~= MULTI_INSTANCE_ACTIVITY_COMPLETED_WITH_CONDITION;
+           _ENUMS ~= MULTI_INSTANCE_ACTIVITY_CANCELLED;
+           _ENUMS ~= ACTIVITY_SIGNAL_WAITING;
+           _ENUMS ~= ACTIVITY_SIGNALED;
+           _ENUMS ~= ACTIVITY_COMPENSATE;
+           _ENUMS ~= ACTIVITY_CONDITIONAL_WAITING;
+           _ENUMS ~= ACTIVITY_CONDITIONAL_RECEIVED;
+           _ENUMS ~= ACTIVITY_ESCALATION_WAITING;
+           _ENUMS ~= ACTIVITY_ESCALATION_RECEIVED;
+           _ENUMS ~= ACTIVITY_MESSAGE_WAITING;
+           _ENUMS ~= ACTIVITY_MESSAGE_RECEIVED;
+           _ENUMS ~= ACTIVITY_MESSAGE_CANCELLED;
+           _ENUMS ~= ACTIVITY_ERROR_RECEIVED;
+           _ENUMS ~= HISTORIC_ACTIVITY_INSTANCE_CREATED;
+           _ENUMS ~= HISTORIC_ACTIVITY_INSTANCE_ENDED;
+           _ENUMS ~= SEQUENCEFLOW_TAKEN;
+           _ENUMS ~= VARIABLE_CREATED;
+           _ENUMS ~= VARIABLE_UPDATED;
+           _ENUMS ~= VARIABLE_DELETED;
+           _ENUMS ~= TASK_CREATED;
+           _ENUMS ~= TASK_ASSIGNED;
+           _ENUMS ~= TASK_COMPLETED;
+           _ENUMS ~= TASK_OWNER_CHANGED;
+           _ENUMS ~= TASK_PRIORITY_CHANGED;
+           _ENUMS ~= TASK_DUEDATE_CHANGED;
+           _ENUMS ~= TASK_NAME_CHANGED;
+           _ENUMS ~= PROCESS_CREATED;
+           _ENUMS ~= PROCESS_STARTED;
+           _ENUMS ~= PROCESS_COMPLETED;
+           _ENUMS ~= PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT;
+           _ENUMS ~= PROCESS_COMPLETED_WITH_ERROR_END_EVENT;
+           _ENUMS ~= PROCESS_COMPLETED_WITH_ESCALATION_END_EVENT;
+           _ENUMS ~= PROCESS_CANCELLED;
+           _ENUMS ~= HISTORIC_PROCESS_INSTANCE_CREATED;
+           _ENUMS ~= HISTORIC_PROCESS_INSTANCE_ENDED;
+         }
+         return _ENUMS;
+       }());
      }
 
     static FlowableEngineEventType  ENTITY_CREATED() {
@@ -537,7 +536,7 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
 
        static FlowableEngineEventType[]  EMPTY_ARRAY() {
            __gshared  FlowableEngineEventType[]  inst;
-           return initOnce!inst(new FlowableEngineEventType[]);
+           return initOnce!inst(inst);
        }
     /**
      * @param string
@@ -549,7 +548,7 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
     public static FlowableEngineEventType[] getTypesFromString(string str) {
         //implementationMissing(false);
         List!FlowableEngineEventType result = new ArrayList!FlowableEngineEventType;
-        if (str !is null && !str.isEmpty()) {
+        if (str !is null && str.length != 0) {
             string[] split = str.split( ",");
             foreach (string typeName ; split) {
                 bool found = false;

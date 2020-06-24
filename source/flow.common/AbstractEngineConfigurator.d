@@ -19,7 +19,7 @@
 module flow.common.AbstractEngineConfigurator;
 
 
-
+import flow.common.AbstractServiceConfiguration;
 import flow.common.HasVariableTypes;
 import flow.common.AbstractEngineConfiguration;
 //import java.io.IOException;
@@ -29,6 +29,7 @@ import hunt.collection.HashSet;
 import hunt.collection.List;
 import hunt.collection.Set;
 import hunt.Exceptions;
+import hunt.collection.Map;
 //import javax.xml.parsers.DocumentBuilder;
 //import javax.xml.parsers.DocumentBuilderFactory;
 //import javax.xml.parsers.ParserConfigurationException;
@@ -240,10 +241,10 @@ class AbstractEngineConfigurator : EngineConfigurator {
     }
 
     protected void initServiceConfigurations(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        foreach (string serviceConfigurationKey ; engineConfiguration.getServiceConfigurations().keySet()) {
+        foreach (MapEntry!(string, AbstractServiceConfiguration) serviceConfigurationKey ; engineConfiguration.getServiceConfigurations()) {
             if (targetEngineConfiguration.getServiceConfigurations() is null
-                    || !targetEngineConfiguration.getServiceConfigurations().containsKey(serviceConfigurationKey)) {
-                targetEngineConfiguration.addServiceConfiguration(serviceConfigurationKey, engineConfiguration.getServiceConfigurations().get(serviceConfigurationKey));
+                    || !targetEngineConfiguration.getServiceConfigurations().containsKey(serviceConfigurationKey.getKey())) {
+                targetEngineConfiguration.addServiceConfiguration(serviceConfigurationKey.getKey(), engineConfiguration.getServiceConfigurations().get(serviceConfigurationKey.getKey()));
             }
         }
     }
@@ -264,21 +265,21 @@ class AbstractEngineConfigurator : EngineConfigurator {
     }
 
     protected void initDataSource(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        if (engineConfiguration.getDataSource() !is null) {
-            targetEngineConfiguration.setDataSource(engineConfiguration.getDataSource());
-        } else {
-            throw new FlowableException("A datasource is required for initializing the IDM engine ");
-        }
+        //if (engineConfiguration.getDataSource() !is null) {
+        //    targetEngineConfiguration.setDataSource(engineConfiguration.getDataSource());
+        //} else {
+        //    throw new FlowableException("A datasource is required for initializing the IDM engine ");
+        //}
     }
 
     protected void initDbSqlSessionFactory(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        targetEngineConfiguration.setDbSqlSessionFactory(engineConfiguration.getDbSqlSessionFactory());
-        targetEngineConfiguration.setSqlSessionFactory(engineConfiguration.getSqlSessionFactory());
-        targetEngineConfiguration.defaultInitDbSqlSessionFactoryEntitySettings(getEntityInsertionOrder(), getEntityDeletionOrder());
+        //targetEngineConfiguration.setDbSqlSessionFactory(engineConfiguration.getDbSqlSessionFactory());
+        //targetEngineConfiguration.setSqlSessionFactory(engineConfiguration.getSqlSessionFactory());
+        //targetEngineConfiguration.defaultInitDbSqlSessionFactoryEntitySettings(getEntityInsertionOrder(), getEntityDeletionOrder());
     }
 
     protected void initSessionFactories(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        targetEngineConfiguration.setSessionFactories(engineConfiguration.getSessionFactories());
+        //targetEngineConfiguration.setSessionFactories(engineConfiguration.getSessionFactories());
     }
 
     protected void initDbProperties(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
@@ -290,7 +291,7 @@ class AbstractEngineConfigurator : EngineConfigurator {
         targetEngineConfiguration.setDatabaseWildcardEscapeCharacter(engineConfiguration.getDatabaseWildcardEscapeCharacter());
         targetEngineConfiguration.setDefaultCommandConfig(engineConfiguration.getDefaultCommandConfig());
         targetEngineConfiguration.setSchemaCommandConfig(engineConfiguration.getSchemaCommandConfig());
-        targetEngineConfiguration.setTransactionFactory(engineConfiguration.getTransactionFactory());
+       // targetEngineConfiguration.setTransactionFactory(engineConfiguration.getTransactionFactory());
         targetEngineConfiguration.setTransactionContextFactory(engineConfiguration.getTransactionContextFactory());
         targetEngineConfiguration.setTransactionsExternallyManaged(engineConfiguration.isTransactionsExternallyManaged());
     }

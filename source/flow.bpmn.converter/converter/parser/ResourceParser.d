@@ -34,7 +34,7 @@ class ResourceParser : BpmnXMLConstants {
         if (model.containsResourceId(resourceId)) {
             resource = model.getResource(resourceId);
             resource.setName(resourceName);
-            foreach (flow.bpmn.model.Process process ; model.getProcesses()) {
+            foreach (flow.bpmn.model.Process.Process process ; model.getProcesses()) {
                 foreach (FlowElement fe ; process.getFlowElements()) {
                     if (cast(UserTask)fe !is null
                             && (cast(UserTask) fe).getCandidateGroups().contains(resourceId)) {

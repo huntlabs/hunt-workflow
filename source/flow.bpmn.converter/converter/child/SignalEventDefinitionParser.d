@@ -45,7 +45,7 @@ class SignalEventDefinitionParser : BaseChildElementParser {
         eventDefinition.setSignalRef(xtr.firstAttribute(ATTRIBUTE_SIGNAL_REF) is null ? "" : xtr.firstAttribute(ATTRIBUTE_SIGNAL_REF).getValue);
         eventDefinition.setSignalExpression(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_SIGNAL_EXPRESSION, xtr));
         if (BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS, xtr) !is null && BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS, xtr).length != 0) {
-            eventDefinition.setAsync(Boolean.parseBoolean(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS, xtr)).booleanValue());
+            eventDefinition.setAsync(Boolean.parseBoolean(BpmnXMLUtil.getAttributeValue(ATTRIBUTE_ACTIVITY_ASYNCHRONOUS, xtr)));
         }
 
         BpmnXMLUtil.parseChildElements(ELEMENT_EVENT_SIGNALDEFINITION, eventDefinition, xtr, model);

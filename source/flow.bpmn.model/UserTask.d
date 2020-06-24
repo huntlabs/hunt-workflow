@@ -114,7 +114,7 @@ class UserTask : Task {
     }
 
     public bool isExtended() {
-        return extensionId !is null && !extensionId.isEmpty();
+        return extensionId !is null && extensionId.length != 0;
     }
 
     public List!string getCandidateUsers() {

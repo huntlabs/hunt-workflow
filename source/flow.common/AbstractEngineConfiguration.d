@@ -111,6 +111,8 @@ import hunt.entity.EntityManager;
 import hunt.entity.EntityManagerFactory;
 import hunt.entity.EntityOption;
 import hunt.entity.Persistence;
+import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
+import flow.common.api.deleg.event.FlowableEventType;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 
 __gshared  EntityManagerFactory  entityManagerFactory;
@@ -611,7 +613,7 @@ abstract class AbstractEngineConfiguration {
             List!CommandInterceptor interceptors = new ArrayList!CommandInterceptor();
             interceptors.add(new LogInterceptor());
 
-            if (DATABASE_TYPE_COCKROACHDB.equals(databaseType)) {
+            if (DATABASE_TYPE_COCKROACHDB == (databaseType)) {
                 implementationMissing(false);
               //  interceptors.add(new CrDbRetryInterceptor());
             }
@@ -712,7 +714,7 @@ abstract class AbstractEngineConfiguration {
     // /////////////////////////////////////////////////////////////////
 
     protected void initService(Object service) {
-       CommonEngineServiceImpl c = cast(CommonEngineServiceImpl)service;
+      CommonEngineServiceImpl!ProcessEngineConfigurationImpl c = cast(CommonEngineServiceImpl!ProcessEngineConfigurationImpl)service;
       if (c !is null) {
             c.setCommandExecutor(commandExecutor);
         }
@@ -848,7 +850,7 @@ abstract class AbstractEngineConfiguration {
     }
 
     public string pathToEngineDbProperties() {
-        return "org/flowable/common/db/properties/" + databaseType + ".properties";
+        return "org/flowable/common/db/properties/" ~ databaseType ~ ".properties";
     }
 
     //public Configuration initMybatisConfiguration(Environment environment, Reader reader, Properties properties) {
@@ -955,7 +957,10 @@ abstract class AbstractEngineConfiguration {
     public string getMybatisMappingFile() {
         return mybatisMappingFile;
     }
-    InputStream getMyBatisXmlConfigurationStream(){}
+    InputStream getMyBatisXmlConfigurationStream(){
+        implementationMissing(false);
+        return null;
+    }
 
     public void initConfigurators() {
 
@@ -1005,7 +1010,7 @@ abstract class AbstractEngineConfiguration {
                 //});
 
                 // Execute the configurators
-                logInfo.info("Found {} Engine Configurators in total:", allConfigurators.size());
+                logInfo("Found {%d} Engine Configurators in total:", allConfigurators.size());
                 foreach (EngineConfigurator configurator ; allConfigurators) {
                     logInfo("{} (priority:{%d})",  configurator.getPriority());
                 }
@@ -1030,7 +1035,7 @@ abstract class AbstractEngineConfiguration {
 
     protected List!EngineConfigurator getEngineSpecificEngineConfigurators() {
         // meant to be overridden if needed
-        return Collections.emptyList();
+        return Collections.emptyList!EngineConfigurator();
     }
 
     public void configuratorsBeforeInit() {
@@ -1642,7 +1647,9 @@ abstract class AbstractEngineConfiguration {
      * @deprecated use {@link AbstractEngineConfiguration#getDefaultTenantProvider()} instead
      */
     public string getDefaultTenantValue() {
-        return getDefaultTenantProvider().getDefaultTenant(null, null, null);
+        implementationMissing(false);
+        return "";
+        //return getDefaultTenantProvider().getDefaultTenant(null, null, null);
     }
 
     //public AbstractEngineConfiguration setDefaultTenantValue(string defaultTenantValue) {
@@ -1771,9 +1778,14 @@ abstract class AbstractEngineConfiguration {
             foreach (MapEntry!(string, List!FlowableEventListener) listenersToAdd ; typedEventListeners) {
                 // Extract types from the given string
                 FlowableEngineEventType[] types = FlowableEngineEventType.getTypesFromString(listenersToAdd.getKey());
+                FlowableEventType[] castTypes;
+                foreach(FlowableEngineEventType t ; types)
+                {
+                    castTypes ~= cast(FlowableEventType)t;
+                }
 
                 foreach (FlowableEventListener listenerToAdd ; listenersToAdd.getValue()) {
-                    this.eventDispatcher.addEventListener(listenerToAdd, types);
+                    this.eventDispatcher.addEventListener(listenerToAdd, castTypes);
                 }
             }
         }
