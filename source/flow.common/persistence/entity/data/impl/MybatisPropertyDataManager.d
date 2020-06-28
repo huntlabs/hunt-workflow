@@ -54,7 +54,12 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
       List!PropertyEntity  lst = new ArrayList!PropertyEntity;
       PropertyEntityImpl[] arry =  _manager.createQuery!(PropertyEntityImpl)("SELECT * FROM PropertyEntityImpl")
       .getResultList();
-      lst.addAll(arry);
+      foreach(PropertyEntityImpl p ; arry)
+      {
+          lst.add(cast(PropertyEntity)p);
+      }
+
+      //lst.addAll(arry);
       return lst;
        // return getDbSqlSession().selectList("selectProperties");
     }

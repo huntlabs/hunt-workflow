@@ -64,7 +64,7 @@ class DelegateHelper {
      */
     public static void leaveDelegate(DelegateExecution delegateExecution, string sequenceFlowId) {
         string processDefinitionId = delegateExecution.getProcessDefinitionId();
-        flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
+        flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
         FlowElement flowElement = process.getFlowElement(sequenceFlowId);
         if (cast(SequenceFlow)flowElement !is null) {
             delegateExecution.setCurrentFlowElement(flowElement);
@@ -91,7 +91,7 @@ class DelegateHelper {
         BpmnModel bpmnModel = getBpmnModel(execution);
         FlowElement flowElement = bpmnModel.getFlowElement(execution.getCurrentActivityId());
         if (flowElement is null) {
-            throw new FlowableException("Could not find a FlowElement for activityId " + execution.getCurrentActivityId());
+            throw new FlowableException("Could not find a FlowElement for activityId " ~ execution.getCurrentActivityId());
         }
         return flowElement;
     }
@@ -230,7 +230,7 @@ class DelegateHelper {
     public static Expression getFieldExpression(DelegateTask task, string fieldName) {
         string eventHandlerId = task.getEventHandlerId();
         if (eventHandlerId !is null && task.getProcessDefinitionId() !is null) {
-            flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(task.getProcessDefinitionId());
+            flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(task.getProcessDefinitionId());
             UserTask userTask = cast(UserTask) process.getFlowElementMap().get(task.getTaskDefinitionKey());
 
             FlowableListener flowableListener = null;

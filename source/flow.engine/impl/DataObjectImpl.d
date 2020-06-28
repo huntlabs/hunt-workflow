@@ -81,7 +81,7 @@ class DataObjectImpl : DataObject {
 
 
     public string getLocalizedName() {
-        if (localizedName !is null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length > 0) {
             return localizedName;
         } else {
             return name;
@@ -94,7 +94,7 @@ class DataObjectImpl : DataObject {
 
 
     public string getDescription() {
-        if (localizedDescription !is null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length > 0) {
             return localizedDescription;
         } else {
             return description;

@@ -236,7 +236,7 @@ class CommandContext {
 
     public void addAttribute(string key, Object value) {
         if (attributes is null) {
-            attributes = new HashMap(string, Object)(1);
+            attributes = new HashMap!(string, Object);
         }
         attributes.put(key, value);
     }

@@ -34,7 +34,7 @@ class FlowableJobRescheduledEventImpl : FlowableEntityEventImpl , FlowableJobRes
     protected string rescheduledJobId;
 
     this(Job entity, string rescheduledJobId, FlowableEngineEventType type) {
-        super(entity, type);
+        super(cast(Object)entity, type);
         this.rescheduledJobId = rescheduledJobId;
     }
 

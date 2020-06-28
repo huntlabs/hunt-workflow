@@ -47,7 +47,7 @@ import flow.event.registry.api.management.EventRegistryChangeDetectionManager;
 import flow.event.registry.cfg.StandaloneEventRegistryEngineConfiguration;
 import flow.event.registry.cfg.StandaloneInMemEventRegistryEngineConfiguration;
 import flow.event.registry.DefaultEventRegistry;
-//import flow.event.registry.cmd.SchemaOperationsEventRegistryEngineBuild;
+import flow.event.registry.cmd.SchemaOperationsEventRegistryEngineBuild;
 //import flow.event.registry.db.EntityDependencyOrder;
 //import flow.event.registry.db.EventDbSchemaManager;
 //import flow.event.registry.deployer.CachingAndArtifactsManager;

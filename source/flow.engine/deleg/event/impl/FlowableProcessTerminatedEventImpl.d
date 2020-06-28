@@ -37,9 +37,9 @@ class FlowableProcessTerminatedEventImpl : FlowableEntityEventImpl , FlowablePro
     protected Object cause;
 
     this(ExecutionEntity execution, Object cause) {
-        super(execution, FlowableEngineEventType.PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT);
+        super(cast(Object)execution, FlowableEngineEventType.PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT);
         if (!execution.isProcessInstanceType()) {
-            throw new FlowableException("Execution '"~ execution ~"' is not a processInstance");
+            throw new FlowableException("Execution  is not a processInstance");
         }
 
         this.executionId = execution.getId();

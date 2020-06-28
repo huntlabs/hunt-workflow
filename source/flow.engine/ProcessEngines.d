@@ -83,7 +83,7 @@ abstract class ProcessEngines {
     }
      static List!EngineInfo processEngineInfos() {
          __gshared List!EngineInfo inst;
-         return initOnce!inst(inst = new List!EngineInfo);
+         return initOnce!inst(inst = new ArrayList!EngineInfo);
      }
      static Map!(string, EngineInfo) processEngineInfosByResourceUrl() {
          __gshared Map!(string, EngineInfo) inst;
@@ -238,7 +238,7 @@ abstract class ProcessEngines {
      *            is the name of the process engine or null for the default process engine.
      */
     public static ProcessEngine getProcessEngine(string processEngineName) {
-        if (!_isInitialized()) {
+        if (!isInitialized()) {
             init();
         }
         return processEngines.get(processEngineName);
@@ -270,7 +270,6 @@ abstract class ProcessEngines {
      */
     public static synchronized void destroy() {
         implementationMissing(false);
-        return null;
         //if (isInitialized()) {
         //    Map!(string, ProcessEngine) engines = new HashMap<>(processEngines);
         //    processEngines = new HashMap<>();

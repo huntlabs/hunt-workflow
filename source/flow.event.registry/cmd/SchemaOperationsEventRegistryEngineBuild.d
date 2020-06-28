@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-
+module flow.event.registry.cmd.SchemaOperationsEventRegistryEngineBuild;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.event.registry.EventRegistryEngineConfiguration;

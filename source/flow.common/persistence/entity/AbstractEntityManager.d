@@ -20,6 +20,7 @@ import flow.common.event.FlowableEntityEventImpl;
 import flow.common.persistence.entity.data.DataManager;
 import flow.common.persistence.entity.EntityManager;
 import flow.common.persistence.entity.Entity;
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  * @author Filip Hrisafov
@@ -44,7 +45,9 @@ abstract class AbstractEntityManager(EntityImpl , DM )
 
 
     public EntityImpl create() {
-        return getDataManager().create();
+        implementationMissing(false);
+        return null;
+      //  return getDataManager().create();
     }
 
 
@@ -118,7 +121,7 @@ abstract class AbstractEntityManager(EntityImpl , DM )
     }
 
     protected FlowableEntityEvent createEntityEvent(FlowableEngineEventType eventType, Entity entity) {
-        return new FlowableEntityEventImpl(entity, eventType);
+        return new FlowableEntityEventImpl(cast(Object)entity, eventType);
     }
 
     protected DM getDataManager() {

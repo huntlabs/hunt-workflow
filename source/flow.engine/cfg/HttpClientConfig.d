@@ -113,15 +113,15 @@ class HttpClientConfig {
     }
 
     public void setConnectionRequestTimeout(Duration connectionRequestTimeout) {
-        setConnectionRequestTimeout(connectionRequestTimeout.total!("msecs")); //duration.total!("msecs");
+        setConnectionRequestTimeout(cast(int)(connectionRequestTimeout.total!("msecs"))); //duration.total!("msecs");
     }
 
     public void setConnectTimeout(Duration connectTimeout) {
-        setConnectTimeout(connectTimeout.total!("msecs"));
+        setConnectTimeout(cast(int)(connectTimeout.total!("msecs")));
     }
 
     public void setSocketTimeout(Duration socketTimeout) {
-        setSocketTimeout(socketTimeout.total!("msecs"));
+        setSocketTimeout(cast(int)(socketTimeout.total!("msecs")));
     }
 
 }

@@ -22,7 +22,7 @@ import flow.common.interceptor.CommandExecutor;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.runtime.ActivityInstance;
 import flow.engine.runtime.ActivityInstanceQuery;
-
+import flow.engine.impl.ActivityInstanceQueryProperty;
 /**
  * @author martin.grofcik
  */

@@ -66,149 +66,103 @@ abstract class AbstractFlowableEngineEventListener : AbstractFlowableEventListen
             FlowableEngineEventType engineEventType = cast(FlowableEngineEventType) flowableEvent.getType();
 
             if(types is null || types.contains(engineEventType)) {
-                switch (engineEventType) {
-                    case ENTITY_CREATED:
+               // switch (engineEventType) {
+                    if(engineEventType == FlowableEngineEventType.ENTITY_CREATED)
                         entityCreated(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case ENTITY_INITIALIZED:
+                    else if(engineEventType == FlowableEngineEventType.ENTITY_INITIALIZED)
                         entityInitialized(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case ENTITY_UPDATED:
+                    else if( engineEventType == FlowableEngineEventType.ENTITY_UPDATED)
                         entityUpdated(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case ENTITY_DELETED:
+                    else if(engineEventType == FlowableEngineEventType.ENTITY_DELETED)
                         entityDeleted(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case ENTITY_SUSPENDED:
+                    else if(engineEventType == FlowableEngineEventType.ENTITY_SUSPENDED)
                         entitySuspended(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case ENTITY_ACTIVATED:
+                    else if(engineEventType == FlowableEngineEventType.ENTITY_ACTIVATED)
                         entityActivated(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case TIMER_SCHEDULED:
+                    else if(engineEventType == FlowableEngineEventType.TIMER_SCHEDULED)
                         timerScheduled(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case TIMER_FIRED:
+                    else if(engineEventType == FlowableEngineEventType.TIMER_FIRED)
                         timerFired(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case JOB_CANCELED:
+                    else if(engineEventType == FlowableEngineEventType.JOB_CANCELED)
                         jobCancelled(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case JOB_EXECUTION_SUCCESS:
+                    else if(engineEventType == FlowableEngineEventType.JOB_EXECUTION_SUCCESS)
                         jobExecutionSuccess(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case JOB_EXECUTION_FAILURE:
+                    else if(engineEventType == FlowableEngineEventType.JOB_EXECUTION_FAILURE)
                         jobExecutionFailure(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case JOB_RETRIES_DECREMENTED:
+                    else if(engineEventType == FlowableEngineEventType.JOB_RETRIES_DECREMENTED)
                         jobRetriesDecremented(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case JOB_RESCHEDULED:
+                    else if(engineEventType == FlowableEngineEventType.JOB_RESCHEDULED)
                         jobRescheduled(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case CUSTOM:
+                    else if(engineEventType == FlowableEngineEventType.CUSTOM)
                         custom(flowableEngineEvent);
-                        break;
-                    case ENGINE_CREATED:
+                    else if(engineEventType == FlowableEngineEventType.ENGINE_CREATED)
                         engineCreated(cast(FlowableProcessEngineEvent) flowableEngineEvent);
-                        break;
-                    case ENGINE_CLOSED:
+                    else if(engineEventType == FlowableEngineEventType.ENGINE_CLOSED)
                         engineClosed(cast(FlowableProcessEngineEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_STARTED:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_STARTED)
                         activityStarted(cast(FlowableActivityEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_COMPLETED:
+                    else if(FlowableEngineEventType.ACTIVITY_COMPLETED == engineEventType)
                         activityCompleted(cast(FlowableActivityEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_CANCELLED:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_CANCELLED)
                         activityCancelled(cast(FlowableActivityCancelledEvent) flowableEngineEvent);
-                        break;
-                    case MULTI_INSTANCE_ACTIVITY_STARTED:
+                    else if(engineEventType == FlowableEngineEventType.MULTI_INSTANCE_ACTIVITY_STARTED)
                         multiInstanceActivityStarted(cast(FlowableMultiInstanceActivityEvent) flowableEngineEvent);
-                        break;
-                    case MULTI_INSTANCE_ACTIVITY_COMPLETED:
+                    else if(engineEventType == FlowableEngineEventType.MULTI_INSTANCE_ACTIVITY_COMPLETED)
                         multiInstanceActivityCompleted(cast(FlowableMultiInstanceActivityCompletedEvent) flowableEngineEvent);
-                        break;
-                    case MULTI_INSTANCE_ACTIVITY_COMPLETED_WITH_CONDITION:
+                    else if(engineEventType == FlowableEngineEventType.MULTI_INSTANCE_ACTIVITY_COMPLETED_WITH_CONDITION)
                         multiInstanceActivityCompletedWithCondition(cast(FlowableMultiInstanceActivityCompletedEvent) flowableEngineEvent);
-                        break;
-                    case MULTI_INSTANCE_ACTIVITY_CANCELLED:
+                    else if(engineEventType == FlowableEngineEventType.MULTI_INSTANCE_ACTIVITY_CANCELLED)
                         multiInstanceActivityCancelled(cast(FlowableMultiInstanceActivityCancelledEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_SIGNAL_WAITING:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_SIGNAL_WAITING)
                         activitySignalWaiting(cast(FlowableSignalEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_SIGNALED:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_SIGNALED)
                         activitySignaled(cast(FlowableSignalEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_COMPENSATE:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_COMPENSATE)
                         activityCompensate(cast(FlowableActivityEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_MESSAGE_WAITING:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_MESSAGE_WAITING)
                         activityMessageWaiting(cast(FlowableMessageEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_MESSAGE_RECEIVED:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_MESSAGE_RECEIVED)
                         activityMessageReceived(cast(FlowableMessageEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_MESSAGE_CANCELLED:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_MESSAGE_CANCELLED)
                         activityMessageCancelled(cast(FlowableMessageEvent) flowableEngineEvent);
-                        break;
-                    case ACTIVITY_ERROR_RECEIVED:
+                    else if(engineEventType == FlowableEngineEventType.ACTIVITY_ERROR_RECEIVED)
                         activityErrorReceived(cast(FlowableErrorEvent) flowableEngineEvent);
-                        break;
-                    case HISTORIC_ACTIVITY_INSTANCE_CREATED:
+                    else if(engineEventType == FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_CREATED)
                         historicActivityInstanceCreated(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case HISTORIC_ACTIVITY_INSTANCE_ENDED:
+                    else if(engineEventType == FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED)
                         historicActivityInstanceEnded(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case SEQUENCEFLOW_TAKEN:
+                    else if(engineEventType == FlowableEngineEventType.SEQUENCEFLOW_TAKEN)
                         sequenceFlowTaken(cast(FlowableSequenceFlowTakenEvent) flowableEngineEvent);
-                        break;
-                    case VARIABLE_CREATED:
+                    else if(engineEventType == FlowableEngineEventType.VARIABLE_CREATED)
                         variableCreated(cast(FlowableVariableEvent) flowableEngineEvent);
-                        break;
-                    case VARIABLE_UPDATED:
+                    else if(FlowableEngineEventType.VARIABLE_UPDATED == engineEventType)
                         variableUpdatedEvent(cast(FlowableVariableEvent) flowableEngineEvent);
-                        break;
-                    case VARIABLE_DELETED:
+                    else if(engineEventType == FlowableEngineEventType.VARIABLE_DELETED)
                         variableDeletedEvent(cast(FlowableVariableEvent) flowableEngineEvent);
-                        break;
-                    case TASK_CREATED:
+                    else if(FlowableEngineEventType.TASK_CREATED == engineEventType)
                         taskCreated(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case TASK_ASSIGNED:
+                    else if(engineEventType == FlowableEngineEventType.TASK_ASSIGNED)
                         taskAssigned(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case TASK_COMPLETED:
+                    else if(engineEventType == FlowableEngineEventType.TASK_COMPLETED)
                         taskCompleted(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case PROCESS_CREATED:
+                    else if(engineEventType == FlowableEngineEventType.PROCESS_CREATED)
                         processCreated(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case PROCESS_STARTED:
+                    else if(engineEventType == FlowableEngineEventType.PROCESS_STARTED)
                         processStarted(cast(FlowableProcessStartedEvent) flowableEngineEvent);
-                        break;
-                    case PROCESS_COMPLETED:
+                    else if(engineEventType == FlowableEngineEventType.PROCESS_COMPLETED)
                         processCompleted(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT:
+                    else if(engineEventType == FlowableEngineEventType.PROCESS_COMPLETED_WITH_TERMINATE_END_EVENT)
                         processCompletedWithTerminateEnd(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case PROCESS_COMPLETED_WITH_ERROR_END_EVENT:
+                    else if(engineEventType == FlowableEngineEventType.PROCESS_COMPLETED_WITH_ERROR_END_EVENT)
                         processCompletedWithErrorEnd(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case PROCESS_CANCELLED:
+                    else if(engineEventType == FlowableEngineEventType.PROCESS_CANCELLED)
                         processCancelled(cast(FlowableCancelledEvent) flowableEngineEvent);
-                        break;
-                    case HISTORIC_PROCESS_INSTANCE_CREATED:
+                    else if(engineEventType == FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_CREATED)
                         historicProcessInstanceCreated(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                    case HISTORIC_PROCESS_INSTANCE_ENDED:
+                    else if(engineEventType == FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_ENDED)
                         historicProcessInstanceEnded(cast(FlowableEngineEntityEvent) flowableEngineEvent);
-                        break;
-                }
+                    else {}
+                //}
             }
         }
     }

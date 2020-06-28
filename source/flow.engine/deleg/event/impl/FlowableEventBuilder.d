@@ -20,7 +20,7 @@ module flow.engine.deleg.event.impl.FlowableEventBuilder;
 
 
 
-
+import std.string;
 import hunt.collection.Map;
 
 import flow.bpmn.model.Activity;
@@ -190,11 +190,11 @@ class FlowableEventBuilder {
         newEvent.setSourceActivityId(sourceActivityId);
         newEvent.setSourceActivityName(sourceActivityName);
         newEvent.setSourceActivityType(sourceActivityType);
-        newEvent.setSourceActivityBehaviorClass(sourceActivityBehavior !is null ? sourceActivityBehavior.getClass().getCanonicalName() : null);
+        newEvent.setSourceActivityBehaviorClass(sourceActivityBehavior !is null ? sourceActivityBehavior.toString : null);
         newEvent.setTargetActivityId(targetActivityId);
         newEvent.setTargetActivityName(targetActivityName);
         newEvent.setTargetActivityType(targetActivityType);
-        newEvent.setTargetActivityBehaviorClass(targetActivityBehavior !is null ? targetActivityBehavior.getClass().getCanonicalName() : null);
+        newEvent.setTargetActivityBehaviorClass(targetActivityBehavior !is null ? targetActivityBehavior.toString : null);
 
         return newEvent;
     }
@@ -268,7 +268,7 @@ class FlowableEventBuilder {
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
             if (behaviour !is null) {
-                newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
+                newEvent.setBehaviorClass(behaviour.toString);
             }
         }
 
@@ -286,11 +286,11 @@ class FlowableEventBuilder {
         newEvent.setProcessInstanceId(processInstanceId);
 
         FlowNode flowNode = cast(FlowNode) flowElement;
-        if (FlowNode !is null) {
+        if (flowNode !is null) {
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
             if (behaviour !is null) {
-                newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
+                newEvent.setBehaviorClass(behaviour.toString);
             }
 
             newEvent.setSequential((cast(Activity) flowNode).getLoopCharacteristics().isSequential());
@@ -314,11 +314,11 @@ class FlowableEventBuilder {
         newEvent.setProcessInstanceId(processInstanceId);
 
          FlowNode flowNode = cast(FlowNode) flowElement;
-        if (FlowNode !is null) {
+        if (flowNode !is null) {
             newEvent.setActivityType(parseActivityType(flowNode));
             Object behaviour = flowNode.getBehavior();
             if (behaviour !is null) {
-                newEvent.setBehaviorClass(behaviour.getClass().getCanonicalName());
+                newEvent.setBehaviorClass(behaviour.toString);
             }
 
             newEvent.setSequential((cast(Activity) flowNode).getLoopCharacteristics().isSequential());
@@ -328,8 +328,8 @@ class FlowableEventBuilder {
     }
 
     protected static string parseActivityType(FlowNode flowNode) {
-        string elementType = flowNode.getClass().getSimpleName();
-        elementType = elementType.substring(0, 1).toLowerCase() + elementType.substring(1);
+        string elementType = typeid(flowNode).toString;
+        elementType = toLower(elementType[0 .. 1]) ~ elementType[1 .. $];
         return elementType;
     }
 

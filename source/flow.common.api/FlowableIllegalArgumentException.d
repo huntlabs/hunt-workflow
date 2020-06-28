@@ -30,8 +30,6 @@ import flow.common.api.FlowableException;
  */
 class FlowableIllegalArgumentException : FlowableException {
 
-    private static  long serialVersionUID = 1L;
-
     this(string message) {
         super(message);
     }

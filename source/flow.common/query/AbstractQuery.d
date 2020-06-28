@@ -13,7 +13,7 @@
 module flow.common.query.AbstractQuery;
 
 import hunt.collection.List;
-
+import hunt.Long;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.Query;
@@ -24,7 +24,7 @@ import flow.common.db.ListQueryParameterObject;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-
+import std.conv : to;
 /**
  * Abstract superclass for all query types.
  *
@@ -85,7 +85,7 @@ abstract class AbstractQuery(T , U) : ListQueryParameterObject , Command!Object,
         }
         addOrder(orderProperty.getName(), direction.getName(), nullHandlingOnOrder);
         orderProperty = null;
-        nullHandlingOnOrder = null;
+        nullHandlingOnOrder = NullHandlingOnOrder.NULLS_FIRST;
         return cast(T) this;
     }
 
@@ -137,7 +137,7 @@ abstract class AbstractQuery(T , U) : ListQueryParameterObject , Command!Object,
     public long count() {
         this.resultType = ResultType.COUNT;
         if (commandExecutor !is null) {
-            return cast(long) commandExecutor.execute(this);
+            return (cast(Long) commandExecutor.execute(this)).longValue;
         }
         // The execute has a checkQueryOk() call as well, so no need to do the call earlier
         checkQueryOk();
@@ -148,13 +148,13 @@ abstract class AbstractQuery(T , U) : ListQueryParameterObject , Command!Object,
     public Object execute(CommandContext commandContext) {
         checkQueryOk();
         if (resultType == ResultType.LIST) {
-            return executeList(commandContext);
+            return cast(Object)executeList(commandContext);
         } else if (resultType == ResultType.SINGLE_RESULT) {
-            return executeSingleResult(commandContext);
+            return cast(Object)executeSingleResult(commandContext);
         } else if (resultType == ResultType.LIST_PAGE) {
-            return executeList(commandContext);
+            return cast(Object)executeList(commandContext);
         } else {
-            return executeCount(commandContext);
+            return new Long(executeCount(commandContext));
         }
     }
 
@@ -170,7 +170,7 @@ abstract class AbstractQuery(T , U) : ListQueryParameterObject , Command!Object,
         if (results.size() == 1) {
             return results.get(0);
         } else if (results.size() > 1) {
-            throw new FlowableException("Query return " ~ results.size() ~ " results instead of max 1");
+            throw new FlowableException("Query return " ~ to!string(results.size()) ~ " results instead of max 1");
         }
         return null;
     }

@@ -19,8 +19,8 @@
 module flow.common.interceptor.DefaultCommandInvoker;
 
 
-
-
+import flow.event.registry.ChannelDefinitionQueryImpl;
+import flow.event.registry.cmd.SchemaOperationsEventRegistryEngineBuild;
 import flow.common.interceptor.AbstractCommandInterceptor;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandConfig;
@@ -34,11 +34,22 @@ class DefaultCommandInvoker : AbstractCommandInterceptor {
    // @Override
     public Object execute(CommandConfig config,  CommandAbstract command) {
         CommandContext commandContext = Context.getCommandContext();
+        //SchemaOperationsIdmEngineBuild
+
+        if (cast(SchemaOperationsEventRegistryEngineBuild)command !is null)
+        {
+          Object result = (cast(SchemaOperationsEventRegistryEngineBuild)command).execute(commandContext);
+          return result;
+        }else if(cast(ChannelDefinitionQueryImpl)command !is null)
+        {
+          Object result = (cast(ChannelDefinitionQueryImpl)command).execute(commandContext);
+          return result;
+        }else
+        {
+          return null;
+        }
 
 
-
-        Object result = command.execute(commandContext);
-        return result;
     }
 
     override

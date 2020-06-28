@@ -38,7 +38,7 @@ import flow.variable.service.impl.AbstractVariableQueryImpl;
 import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEntity;
 import flow.engine.impl.HistoricProcessInstanceQueryProperty;
 import hunt.Exceptions;
-
+import std.string;
 /**
  * @author Tom Baeyens
  * @author Tijs Rademakers
@@ -238,7 +238,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
     public HistoricProcessInstanceQuery finished() {
         if (inOrStatement) {
-            this.currentOrQueryObject.finished = true;
+            this.currentOrQueryObject._finished = true;
         } else {
             this._finished = true;
         }
@@ -248,7 +248,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
     public HistoricProcessInstanceQuery unfinished() {
         if (inOrStatement) {
-            this.currentOrQueryObject.unfinished = true;
+            this.currentOrQueryObject._unfinished = true;
         } else {
             this._unfinished = true;
         }
@@ -258,7 +258,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
     public HistoricProcessInstanceQuery deleted() {
         if (inOrStatement) {
-            this.currentOrQueryObject.deleted = true;
+            this.currentOrQueryObject._deleted = true;
         } else {
             this._deleted = true;
         }
@@ -268,7 +268,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
     public HistoricProcessInstanceQuery notDeleted() {
         if (inOrStatement) {
-            this.currentOrQueryObject.notDeleted = true;
+            this.currentOrQueryObject._notDeleted = true;
         } else {
             this._notDeleted = true;
         }
@@ -321,7 +321,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
             this.currentOrQueryObject.finishedAfter = finishedAfter;
         } else {
             this._finishedAfter = finishedAfter;
-            this.finished = true;
+            this._finished = true;
         }
         return this;
     }
@@ -332,7 +332,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
             this.currentOrQueryObject.finishedBefore = finishedBefore;
         } else {
             this._finishedBefore = finishedBefore;
-            this.finished = true;
+            this._finished = true;
         }
         return this;
     }
@@ -464,9 +464,9 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
 
     public HistoricProcessInstanceQuery processInstanceNameLikeIgnoreCase(string nameLikeIgnoreCase) {
         if (inOrStatement) {
-            this.currentOrQueryObject.nameLikeIgnoreCase = nameLikeIgnoreCase.toLowerCase();
+            this.currentOrQueryObject.nameLikeIgnoreCase = nameLikeIgnoreCase.toLower();
         } else {
-            this.nameLikeIgnoreCase = nameLikeIgnoreCase.toLowerCase();
+            this.nameLikeIgnoreCase = nameLikeIgnoreCase.toLower();
         }
         return this;
     }
@@ -522,6 +522,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     override
+    HistoricProcessInstanceQuery variableValueEquals(string name, Object value, bool localScope)
+    {
+        return super.variableValueEquals(name, value, localScope);
+    }
+
+    override
     public HistoricProcessInstanceQuery variableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, false);
@@ -530,6 +536,13 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
             return variableValueNotEquals(variableName, variableValue, false);
         }
     }
+
+    override
+    HistoricProcessInstanceQuery variableValueNotEquals(string name, Object value, bool localScope)
+    {
+        return super.variableValueNotEquals(name, value, localScope);
+    }
+
 
     override
     public HistoricProcessInstanceQuery variableValueEquals(Object variableValue) {
@@ -541,7 +554,13 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
-  override
+    override
+    HistoricProcessInstanceQuery variableValueEquals(Object value, bool localScope)
+    {
+        return super.variableValueEquals(value, localScope);
+    }
+
+    override
     public HistoricProcessInstanceQuery variableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, false);
@@ -549,6 +568,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         } else {
             return variableValueEqualsIgnoreCase(name, value, false);
         }
+    }
+
+    override
+    HistoricProcessInstanceQuery variableValueEqualsIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueEqualsIgnoreCase(name, value, localScope);
     }
 
     override
@@ -562,6 +587,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     override
+    HistoricProcessInstanceQuery variableValueNotEqualsIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueNotEqualsIgnoreCase(name, value, localScope);
+    }
+
+    override
     public HistoricProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -572,6 +603,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     override
+    HistoricProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueLikeIgnoreCase(name, value, localScope);
+    }
+
+    override
     public HistoricProcessInstanceQuery variableValueGreaterThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThan(name, value, false);
@@ -579,6 +616,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         } else {
             return variableValueGreaterThan(name, value, false);
         }
+    }
+
+    override
+    HistoricProcessInstanceQuery variableValueGreaterThan(string name, Object value, bool localScope)
+    {
+        return super.variableValueGreaterThan(name, value, localScope);
     }
 
     override

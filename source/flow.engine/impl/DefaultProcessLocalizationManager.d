@@ -38,7 +38,7 @@ class DefaultProcessLocalizationManager : InternalProcessLocalizationManager {
 
 
     public void localize(ProcessInstance processInstance, string locale, bool withLocalizationFallback) {
-        ExecutionEntity processInstanceExecution = cast(EcutionEntity) processInstance;
+        ExecutionEntity processInstanceExecution = cast(ExecutionEntity) processInstance;
         processInstanceExecution.setLocalizedName(null);
         processInstanceExecution.setLocalizedDescription(null);
 

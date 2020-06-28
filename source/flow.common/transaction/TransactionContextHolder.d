@@ -34,7 +34,7 @@ import flow.common.cfg.TransactionContext;
 class TransactionContextHolder {
 
     //protected static ThreadLocal<Stack<TransactionContext>> transactionContextThreadLocal = new ThreadLocal<>();
-    List!TransactionContext transactionContextThreadLocal;
+    static  List!TransactionContext transactionContextThreadLocal;
   shared static  this()
     {
         transactionContextThreadLocal = new ArrayList!TransactionContext;

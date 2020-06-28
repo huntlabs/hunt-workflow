@@ -37,8 +37,8 @@ class DefaultClockImpl : Clockm {
     public void setCurrentTime(Date currentTime) {
         Date time = null;
 
-        if (currentTime != null) {
-            time = (timeZone == null) ? Date.now : currentTime;
+        if (currentTime !is null) {
+            time = (timeZone is null) ? Date.now : currentTime;
            // time.setTime(currentTime);
         }
 
@@ -57,12 +57,12 @@ class DefaultClockImpl : Clockm {
 
 
     public Date getCurrentTime() {
-        return CURRENT_TIME == null ? new Date() : CURRENT_TIME;
+        return CURRENT_TIME is null ? Date.now() : CURRENT_TIME;
     }
 
 
     public Date getCurrentCalendar() {
-        if (CURRENT_TIME == null) {
+        if (CURRENT_TIME is null) {
             return  Date.now();
         }
 

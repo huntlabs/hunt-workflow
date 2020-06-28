@@ -28,7 +28,7 @@ import flow.engine.impl.cmd.GetTaskFormCmd;
 import flow.engine.impl.cmd.SubmitStartFormCmd;
 import flow.engine.impl.cmd.SubmitTaskFormCmd;
 import flow.engine.runtime.ProcessInstance;
-
+import hunt.String;
 /**
  * @author Tom Baeyens
  * @author Falko Menge (camunda)
@@ -57,22 +57,22 @@ class FormServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
     override
     public StartFormData getStartFormData(string processDefinitionId) {
-        return commandExecutor.execute(new GetStartFormCmd(processDefinitionId));
+        return cast(StartFormData) (commandExecutor.execute(new GetStartFormCmd(processDefinitionId)));
     }
 
     override
     public TaskFormData getTaskFormData(string taskId) {
-        return commandExecutor.execute(new GetTaskFormCmd(taskId));
+        return cast(TaskFormData)(commandExecutor.execute(new GetTaskFormCmd(taskId)));
     }
 
     override
     public ProcessInstance submitStartFormData(string processDefinitionId, Map!(string, string) properties) {
-        return commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, null, properties));
+        return cast(ProcessInstance)(commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, null, properties)));
     }
 
     override
     public ProcessInstance submitStartFormData(string processDefinitionId, string businessKey, Map!(string, string) properties) {
-        return commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, businessKey, properties));
+        return cast(ProcessInstance)(commandExecutor.execute(new SubmitStartFormCmd(processDefinitionId, businessKey, properties)));
     }
 
     override
@@ -82,12 +82,12 @@ class FormServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
     override
     public string getStartFormKey(string processDefinitionId) {
-        return commandExecutor.execute(new GetFormKeyCmd(processDefinitionId));
+        return (cast(String)(commandExecutor.execute(new GetFormKeyCmd(processDefinitionId)))).value;
     }
 
     override
     public string getTaskFormKey(string processDefinitionId, string taskDefinitionKey) {
-        return commandExecutor.execute(new GetFormKeyCmd(processDefinitionId, taskDefinitionKey));
+        return (cast(String)(commandExecutor.execute(new GetFormKeyCmd(processDefinitionId, taskDefinitionKey)))).value;
     }
 
     override

@@ -16,7 +16,7 @@ import hunt.collection.ArrayList;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Set;
-
+import flow.engine.impl.ExecutionQueryProperty;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.QueryCacheValues;
@@ -172,9 +172,6 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     public ExecutionQuery processDefinitionVersion(int processDefinitionVersion) {
-        if (processDefinitionVersion is null) {
-            throw new FlowableIllegalArgumentException("Process definition version is null");
-        }
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionVersion = processDefinitionVersion;
         } else {
@@ -238,7 +235,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     override
     public ExecutionQuery processInstanceBusinessKey(string processInstanceBusinessKey, bool includeChildExecutions) {
         if (!includeChildExecutions) {
-            return processInstanceBusinessKey(processInstanceBusinessKey);
+            return this.processInstanceBusinessKey(processInstanceBusinessKey);
         } else {
             if (processInstanceBusinessKey is null) {
                 throw new FlowableIllegalArgumentException("Business key is null");
@@ -287,7 +284,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         if (inOrStatement) {
             this.currentOrQueryObject.activityId = activityId;
             if (activityId !is null) {
-                this.currentOrQueryObject.isActive = true;
+                this.currentOrQueryObject._isActive = true;
             }
 
         } else {
@@ -317,7 +314,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     override
     public ExecutionQuery onlyChildExecutions() {
         if (inOrStatement) {
-            this.currentOrQueryObject.onlyChildExecutions = true;
+            this.currentOrQueryObject._onlyChildExecutions = true;
         } else {
             this._onlyChildExecutions = true;
         }
@@ -327,7 +324,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     override
     public ExecutionQuery onlySubProcessExecutions() {
         if (inOrStatement) {
-            this.currentOrQueryObject.onlySubProcessExecutions = true;
+            this.currentOrQueryObject._onlySubProcessExecutions = true;
         } else {
             this._onlySubProcessExecutions = true;
         }
@@ -337,7 +334,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     override
     public ExecutionQuery onlyProcessInstanceExecutions() {
         if (inOrStatement) {
-            this.currentOrQueryObject.onlyProcessInstanceExecutions = true;
+            this.currentOrQueryObject._onlyProcessInstanceExecutions = true;
         } else {
             this._onlyProcessInstanceExecutions = true;
         }
@@ -450,6 +447,20 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
+    ExecutionQuery variableValueEquals(string name, Object value, bool localScope)
+    {
+        return super.variableValueEquals(name,value,localScope);
+    }
+
+    override
+    ExecutionQuery variableValueEquals(Object value, bool localScope)
+    {
+        return super.variableValueEquals(value,localScope);
+    }
+
+
+
+    override
     public ExecutionQuery processVariableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, false);
@@ -470,6 +481,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
+    ExecutionQuery variableValueNotEquals(string name, Object value, bool localScope)
+    {
+        return super.variableValueNotEquals(name, value, localScope);
+    }
+
+    override
     public ExecutionQuery processVariableValueEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEqualsIgnoreCase(name, value, false);
@@ -480,6 +497,13 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
+    ExecutionQuery variableValueEqualsIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueEqualsIgnoreCase(name, value, localScope);
+    }
+
+
+    override
     public ExecutionQuery processVariableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, false);
@@ -487,6 +511,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         } else {
             return variableValueNotEqualsIgnoreCase(name, value, false);
         }
+    }
+
+    override
+    ExecutionQuery variableValueNotEqualsIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueNotEqualsIgnoreCase(name, value, localScope);
     }
 
     override
@@ -500,6 +530,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
+    ExecutionQuery variableValueLike(string name, string value, bool localScope)
+    {
+          return super.variableValueLike(name, value, localScope);
+    }
+
+    override
     public ExecutionQuery processVariableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -507,6 +543,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         } else {
             return variableValueLikeIgnoreCase(name, value, false);
         }
+    }
+
+    override
+    ExecutionQuery variableValueLikeIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueLikeIgnoreCase(name, value, localScope);
     }
 
     override
@@ -520,6 +562,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
+    ExecutionQuery variableValueGreaterThan(string name, Object value, bool localScope)
+    {
+        return super.variableValueGreaterThan(name, value, localScope);
+    }
+
+    override
     public ExecutionQuery processVariableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, false);
@@ -527,6 +575,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
             this.variableValueGreaterThanOrEqual(name, value, false);
         }
         return this;
+    }
+
+    override
+    ExecutionQuery variableValueGreaterThanOrEqual(string name, Object value, bool localScope)
+    {
+        return super.variableValueGreaterThanOrEqual(name, value, localScope);
     }
 
     override
@@ -540,6 +594,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
+     ExecutionQuery variableValueLessThan(string name, Object value, bool localScope)
+     {
+          return super.variableValueLessThan(name, value, localScope);
+     }
+
+    override
     public ExecutionQuery processVariableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, false);
@@ -548,6 +608,13 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         }
         return this;
     }
+
+    override
+    ExecutionQuery variableValueLessThanOrEqual(string name, Object value, bool localScope)
+    {
+        return super.variableValueLessThanOrEqual(name, value, localScope);
+    }
+
 
     override
     public ExecutionQuery processVariableExists(string name) {
@@ -560,6 +627,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     }
 
     override
+    ExecutionQuery variableExists(string name, bool localScope)
+    {
+        return super.variableExists(name, localScope);
+    }
+
+    override
     public ExecutionQuery processVariableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -567,6 +640,12 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         } else {
             return variableNotExists(name, false);
         }
+    }
+
+    override
+    ExecutionQuery variableNotExists(string name, bool localScope)
+    {
+        return super.variableNotExists(name, localScope);
     }
 
     override
@@ -713,7 +792,7 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     override
     public ExecutionQuery withLocalizationFallback() {
         if (inOrStatement) {
-            currentOrQueryObject.withLocalizationFallback = true;
+            currentOrQueryObject._withLocalizationFallback = true;
         } else {
             this._withLocalizationFallback = true;
         }

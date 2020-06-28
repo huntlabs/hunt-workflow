@@ -83,7 +83,7 @@ abstract class AbstractVariableQueryImpl(T , U) : AbstractQuery!(T, U) {
     }
 
 
-    protected T variableValueEqualsIgnoreCase(string name, string value, bool localScope) {
+    public T variableValueEqualsIgnoreCase(string name, string value, bool localScope) {
         if (value is null) {
             throw new FlowableIllegalArgumentException("value is null");
         }
@@ -109,7 +109,7 @@ abstract class AbstractVariableQueryImpl(T , U) : AbstractQuery!(T, U) {
     }
 
 
-    protected T variableValueNotEquals(string name, Object value, bool localScope) {
+    public T variableValueNotEquals(string name, Object value, bool localScope) {
         addVariable(name, value, QueryOperator.NOT_EQUALS, localScope);
         return cast(T) this;
     }

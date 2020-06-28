@@ -55,7 +55,7 @@ class BpmnError : FlowableException {
         if (errorCode is null) {
             throw new FlowableIllegalArgumentException("Error Code must not be null.");
         }
-        if (errorCode.length() < 1) {
+        if (errorCode.length < 1) {
             throw new FlowableIllegalArgumentException("Error Code must not be empty.");
         }
         this.errorCode = errorCode;

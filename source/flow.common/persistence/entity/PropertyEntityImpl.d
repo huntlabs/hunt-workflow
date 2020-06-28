@@ -17,6 +17,7 @@ import flow.common.api.FlowableException;
 import  flow.common.persistence.entity.AbstractEntity;
 import flow.common.persistence.entity.PropertyEntity;
 import hunt.entity;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -69,7 +70,9 @@ class PropertyEntityImpl : AbstractEntity ,Model, PropertyEntity {
 
 
     public Object getPersistentState() {
-        return value;
+        implementationMissing(false);
+        return null;
+     //   return value;
     }
 
 
