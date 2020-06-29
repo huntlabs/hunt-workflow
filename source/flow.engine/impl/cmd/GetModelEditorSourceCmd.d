@@ -21,7 +21,7 @@ import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Tijs Rademakers
  */
-class GetModelEditorSourceCmd : Command!(byte[]) {
+class GetModelEditorSourceCmd : Command!string {
 
     protected string modelId;
 
@@ -29,14 +29,14 @@ class GetModelEditorSourceCmd : Command!(byte[]) {
         this.modelId = modelId;
     }
 
-    public byte[] execute(CommandContext commandContext) {
+    public string execute(CommandContext commandContext) {
         if (modelId is null) {
             throw new FlowableIllegalArgumentException("modelId is null");
         }
 
         byte[] bytes = CommandContextUtil.getModelEntityManager(commandContext).findEditorSourceByModelId(modelId);
 
-        return bytes;
+        return cast(string)bytes;
     }
 
 }

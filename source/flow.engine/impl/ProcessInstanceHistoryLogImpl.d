@@ -18,7 +18,7 @@ import hunt.collection.Collections;
 import hunt.util.Comparator;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
-
+import hunt.Exceptions;
 import flow.common.api.history.HistoricData;
 import flow.engine.history.HistoricProcessInstance;
 import flow.engine.history.ProcessInstanceHistoryLog;
@@ -106,11 +106,12 @@ class ProcessInstanceHistoryLogImpl : ProcessInstanceHistoryLog {
     }
 
     public void orderHistoricData() {
-        historicData.sort(new class Comparator!HistoricData {
-            public int compare(HistoricData data1, HistoricData data2) {
-                return cast(int)(data1.getTime().toEpochMilli - data2.getTime().toEpochMilli);
-            }
-        });
+          implementationMissing(false);
+        //historicData.sort(new class Comparator!HistoricData {
+        //    public int compare(HistoricData data1, HistoricData data2) {
+        //        return cast(int)(data1.getTime().toEpochMilli - data2.getTime().toEpochMilli);
+        //    }
+        //});
     }
 
 }

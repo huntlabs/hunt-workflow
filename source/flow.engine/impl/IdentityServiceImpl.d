@@ -87,12 +87,12 @@ class IdentityServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationIm
 
 
     public List!Group getPotentialStarterGroups(string processDefinitionId) {
-        return commandExecutor.execute(new GetPotentialStarterGroupsCmd(processDefinitionId));
+        return cast(List!Group)(commandExecutor.execute(new GetPotentialStarterGroupsCmd(processDefinitionId)));
     }
 
 
     public List!User getPotentialStarterUsers(string processDefinitionId) {
-        return commandExecutor.execute(new GetPotentialStarterUsersCmd(processDefinitionId));
+        return cast(List!User)(commandExecutor.execute(new GetPotentialStarterUsersCmd(processDefinitionId)));
     }
 
 

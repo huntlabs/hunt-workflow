@@ -351,7 +351,7 @@ class EndExecutionOperation : AbstractOperation {
         ExecutionEntity executionToContinue = null;
 
         if (!parentExecution.isProcessInstanceType()
-                && cast(SubProcess)(parentExecution.getCurrentFlowElement() is null)) {
+                && cast(SubProcess)(parentExecution.getCurrentFlowElement()) is null) {
             parentExecution.setCurrentFlowElement(execution.getCurrentFlowElement());
         }
 

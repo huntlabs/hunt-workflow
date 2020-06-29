@@ -635,6 +635,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     override
+    HistoricProcessInstanceQuery variableValueGreaterThanOrEqual(string name, Object value, bool localScope)
+    {
+        return super.variableValueGreaterThanOrEqual(name, value, localScope);
+    }
+
+    override
     public HistoricProcessInstanceQuery variableValueLessThan(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThan(name, value, false);
@@ -642,6 +648,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         } else {
             return variableValueLessThan(name, value, false);
         }
+    }
+
+    override
+    HistoricProcessInstanceQuery variableValueLessThan(string name, Object value, bool localScope)
+    {
+        return super.variableValueLessThan(name, value, localScope);
     }
 
     override
@@ -654,6 +666,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
+    override
+    HistoricProcessInstanceQuery variableValueLessThanOrEqual(string name, Object value, bool localScope)
+    {
+        return super.variableValueLessThanOrEqual(name, value, localScope);
+    }
+
    override
     public HistoricProcessInstanceQuery variableValueLike(string name, string value) {
         if (inOrStatement) {
@@ -662,6 +680,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         } else {
             return variableValueLike(name, value, false);
         }
+    }
+
+    override
+    HistoricProcessInstanceQuery variableValueLike(string name, string value, bool localScope)
+    {
+        return super.variableValueLike(name, value, localScope);
     }
 
    override
@@ -675,6 +699,12 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     override
+    HistoricProcessInstanceQuery variableExists(string name, bool localScope)
+    {
+        return super.variableExists(name, localScope);
+    }
+
+    override
     public HistoricProcessInstanceQuery variableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -684,6 +714,11 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         }
     }
 
+    override
+    HistoricProcessInstanceQuery variableNotExists(string name, bool localScope)
+    {
+        return super.variableNotExists(name, localScope);
+    }
 
     public HistoricProcessInstanceQuery locale(string locale) {
         this._locale = locale;
@@ -790,7 +825,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         if (includeProcessVariables) {
             results = CommandContextUtil.getHistoricProcessInstanceEntityManager(commandContext).findHistoricProcessInstancesAndVariablesByQueryCriteria(this);
 
-            if (processInstanceId !is null) {
+            if (_processInstanceId !is null) {
                 addCachedVariableForQueryById(commandContext, results);
             }
 
@@ -887,7 +922,7 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     public bool isOpen() {
-        return unfinished;
+        return _unfinished;
     }
 
     public string getProcessDefinitionId() {
@@ -980,7 +1015,8 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+        return 0;
+      //  return serialVersionUID;
     }
 
     public string getDeploymentId() {

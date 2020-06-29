@@ -179,7 +179,7 @@ abstract class AbstractVariableQueryImpl(T , U) : AbstractQuery!(T, U) {
     }
 
 
-    protected T variableExists(string name, bool localScope) {
+    public T variableExists(string name, bool localScope) {
         addVariable(name, null, QueryOperator.EXISTS, localScope);
         return cast(T) this;
     }

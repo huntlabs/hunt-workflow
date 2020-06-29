@@ -81,6 +81,7 @@ import flow.job.service.impl.cmd.MoveTimerToExecutableJobCmd;
 import flow.job.service.impl.cmd.SetJobRetriesCmd;
 import flow.job.service.impl.cmd.SetTimerJobRetriesCmd;
 import hunt.Exceptions;
+import hunt.String;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -143,22 +144,22 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public Job moveTimerToExecutableJob(string jobId) {
-        return commandExecutor.execute(new MoveTimerToExecutableJobCmd(jobId));
+        return cast(Job)(commandExecutor.execute(new MoveTimerToExecutableJobCmd(jobId)));
     }
 
 
     public Job moveJobToDeadLetterJob(string jobId) {
-        return commandExecutor.execute(new MoveJobToDeadLetterJobCmd(jobId));
+        return cast(Job)(commandExecutor.execute(new MoveJobToDeadLetterJobCmd(jobId)));
     }
 
 
     public Job moveDeadLetterJobToExecutableJob(string jobId, int retries) {
-        return commandExecutor.execute(new MoveDeadLetterJobToExecutableJobCmd(jobId, retries));
+        return cast(Job)(commandExecutor.execute(new MoveDeadLetterJobToExecutableJobCmd(jobId, retries)));
     }
 
 
     public Job moveSuspendedJobToExecutableJob(string jobId) {
-        return commandExecutor.execute(new MoveSuspendedJobToExecutableJobCmd(jobId));
+        return cast(Job)(commandExecutor.execute(new MoveSuspendedJobToExecutableJobCmd(jobId)));
     }
 
 
@@ -198,27 +199,28 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public Job rescheduleTimeDateJob(string jobId, string timeDate) {
-        return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, timeDate, null, null, null, null));
+        return cast(Job)(commandExecutor.execute(new RescheduleTimerJobCmd(jobId, timeDate, null, null, null, null)));
     }
 
 
     public Job rescheduleTimeDurationJob(string jobId, string timeDuration) {
-        return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, null, timeDuration, null, null, null));
+        return cast(Job)(commandExecutor.execute(new RescheduleTimerJobCmd(jobId, null, timeDuration, null, null, null)));
     }
 
 
     public Job rescheduleTimeCycleJob(string jobId, string timeCycle) {
-        return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, null, null, timeCycle, null, null));
+        return cast(Job)(commandExecutor.execute(new RescheduleTimerJobCmd(jobId, null, null, timeCycle, null, null)));
     }
 
 
     public Job rescheduleTimerJob(string jobId, string timeDate, string timeDuration, string timeCycle, string endDate, string calendarName) {
-        return commandExecutor.execute(new RescheduleTimerJobCmd(jobId, timeDate, timeDuration, timeCycle, endDate, calendarName));
+        return cast(Job)(commandExecutor.execute(new RescheduleTimerJobCmd(jobId, timeDate, timeDuration, timeCycle, endDate, calendarName)));
     }
 
 
     public TablePageQuery createTablePageQuery() {
        // return new TablePageQueryImpl(commandExecutor);
+        return null;
     }
 
 
@@ -248,22 +250,22 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public string getJobExceptionStacktrace(string jobId) {
-        return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.ASYNC));
+        return (cast(String)(commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.ASYNC)))).value;
     }
 
 
     public string getTimerJobExceptionStacktrace(string jobId) {
-        return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.TIMER));
+        return (cast(String)(commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.TIMER)))).value;
     }
 
 
     public string getSuspendedJobExceptionStacktrace(string jobId) {
-        return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.SUSPENDED));
+        return (cast(String)(commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.SUSPENDED)))).value;
     }
 
 
     public string getDeadLetterJobExceptionStacktrace(string jobId) {
-        return commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.DEADLETTER));
+        return (cast(String)(commandExecutor.execute(new GetJobExceptionStacktraceCmd(jobId, JobType.DEADLETTER)))).value;
     }
 
 
@@ -273,37 +275,37 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public List!Batch getAllBatches() {
-        return commandExecutor.execute(new GetAllBatchesCmd());
+        return cast(List!Batch)(commandExecutor.execute(new GetAllBatchesCmd()));
     }
 
 
     public List!Batch findBatchesBySearchKey(string searchKey) {
-        return commandExecutor.execute(new FindBatchesBySearchKeyCmd(searchKey));
+        return cast(List!Batch)(commandExecutor.execute(new FindBatchesBySearchKeyCmd(searchKey)));
     }
 
 
     public string getBatchDocument(string batchId) {
-        return commandExecutor.execute(new GetBatchDocumentCmd(batchId));
+        return (cast(String)(commandExecutor.execute(new GetBatchDocumentCmd(batchId)))).value;
     }
 
 
     public BatchPart getBatchPart(string batchPartId) {
-        return commandExecutor.execute(new GetBatchPartCmd(batchPartId));
+        return cast(BatchPart)(commandExecutor.execute(new GetBatchPartCmd(batchPartId)));
     }
 
 
     public List!BatchPart findBatchPartsByBatchId(string batchId) {
-        return commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId));
+        return cast(List!BatchPart)(commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId)));
     }
 
 
     public List!BatchPart findBatchPartsByBatchIdAndStatus(string batchId, string status) {
-        return commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId, status));
+        return cast(List!BatchPart)(commandExecutor.execute(new FindBatchPartsByBatchIdCmd(batchId, status)));
     }
 
 
     public string getBatchPartDocument(string batchPartId) {
-        return commandExecutor.execute(new GetBatchPartDocumentCmd(batchPartId));
+        return (cast(String)(commandExecutor.execute(new GetBatchPartDocumentCmd(batchPartId)))).value;
     }
 
 
@@ -323,7 +325,7 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public Map!(string, string) getProperties() {
-        return commandExecutor.execute(new GetPropertiesCmd());
+        return cast(Map!(string, string))(commandExecutor.execute(new GetPropertiesCmd()));
     }
 
 
@@ -376,12 +378,12 @@ class ManagementServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public List!EventLogEntry getEventLogEntries(long startLogNr, long pageSize) {
-        return commandExecutor.execute(new GetEventLogEntriesCmd(startLogNr, pageSize));
+        return cast(List!EventLogEntry)(commandExecutor.execute(new GetEventLogEntriesCmd(startLogNr, pageSize)));
     }
 
 
     public List!EventLogEntry getEventLogEntriesByProcessInstanceId(string processInstanceId) {
-        return commandExecutor.execute(new GetEventLogEntriesCmd(processInstanceId));
+        return cast(List!EventLogEntry)(commandExecutor.execute(new GetEventLogEntriesCmd(processInstanceId)));
     }
 
 

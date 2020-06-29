@@ -56,7 +56,7 @@ abstract class AbstractOperation : Runnable {
             return execution.getCurrentFlowElement();
         } else if (execution.getCurrentActivityId() !is null && execution.getCurrentActivityId().length != 0) {
             string processDefinitionId = execution.getProcessDefinitionId();
-            flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
+            flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
             string activityId = execution.getCurrentActivityId();
             FlowElement currentFlowElement = process.getFlowElement(activityId, true);
             return currentFlowElement;

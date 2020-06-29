@@ -82,7 +82,9 @@ import flow.task.api.TaskQuery;
 //import flow.task.service.impl.NativeTaskQueryImpl;
 import flow.task.service.impl.TaskQueryImpl;
 import flow.variable.service.api.persistence.entity.VariableInstance;
-
+import hunt.Exceptions;
+import hunt.Boolean;
+import flow.engine.impl.TaskBuilderImpl;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -100,7 +102,7 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public Task newTask(string taskId) {
-        return commandExecutor.execute(new NewTaskCmd(taskId));
+        return cast(Task)(commandExecutor.execute(new NewTaskCmd(taskId)));
     }
 
 
@@ -190,7 +192,7 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public List!IdentityLink getIdentityLinksForTask(string taskId) {
-        return commandExecutor.execute(new GetIdentityLinksForTaskCmd(taskId));
+        return cast(List!IdentityLink)(commandExecutor.execute(new GetIdentityLinksForTaskCmd(taskId)));
     }
 
 
@@ -244,12 +246,12 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public FormInfo getTaskFormModel(string taskId) {
-        return commandExecutor.execute(new GetTaskFormModelCmd(taskId, false));
+        return cast(FormInfo)(commandExecutor.execute(new GetTaskFormModelCmd(taskId, false)));
     }
 
 
     public FormInfo getTaskFormModel(string taskId, bool ignoreVariables) {
-        return commandExecutor.execute(new GetTaskFormModelCmd(taskId, ignoreVariables));
+        return cast(FormInfo)(commandExecutor.execute(new GetTaskFormModelCmd(taskId, ignoreVariables)));
     }
 
 
@@ -289,27 +291,29 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public NativeTaskQuery createNativeTaskQuery() {
-        return new NativeTaskQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+      //  return new NativeTaskQueryImpl(commandExecutor);
     }
 
 
     public Map!(string, Object) getVariables(string taskId) {
-        return commandExecutor.execute(new GetTaskVariablesCmd(taskId, null, false));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetTaskVariablesCmd(taskId, null, false)));
     }
 
 
     public Map!(string, Object) getVariablesLocal(string taskId) {
-        return commandExecutor.execute(new GetTaskVariablesCmd(taskId, null, true));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetTaskVariablesCmd(taskId, null, true)));
     }
 
 
     public Map!(string, Object) getVariables(string taskId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetTaskVariablesCmd(taskId, variableNames, false));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetTaskVariablesCmd(taskId, variableNames, false)));
     }
 
 
     public Map!(string, Object) getVariablesLocal(string taskId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetTaskVariablesCmd(taskId, variableNames, true));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetTaskVariablesCmd(taskId, variableNames, true)));
     }
 
 
@@ -324,7 +328,7 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public bool hasVariable(string taskId, string variableName) {
-        return commandExecutor.execute(new HasTaskVariableCmd(taskId, variableName, false));
+        return (cast(Boolean)(commandExecutor.execute(new HasTaskVariableCmd(taskId, variableName, false)))).booleanValue();
     }
 
 
@@ -339,12 +343,12 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public List!VariableInstance getVariableInstancesLocalByTaskIds(Set!string taskIds) {
-        return commandExecutor.execute(new GetTasksLocalVariablesCmd(taskIds));
+        return cast(List!VariableInstance)(commandExecutor.execute(new GetTasksLocalVariablesCmd(taskIds)));
     }
 
 
     public bool hasVariableLocal(string taskId, string variableName) {
-        return commandExecutor.execute(new HasTaskVariableCmd(taskId, variableName, true));
+        return (cast(Boolean)(commandExecutor.execute(new HasTaskVariableCmd(taskId, variableName, true)))).booleanValue();
     }
 
 
@@ -403,12 +407,12 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public Comment addComment(string taskId, string processInstance, string message) {
-        return commandExecutor.execute(new AddCommentCmd(taskId, processInstance, message));
+        return cast(Comment)(commandExecutor.execute(new AddCommentCmd(taskId, processInstance, message)));
     }
 
 
     public Comment addComment(string taskId, string processInstance, string type, string message) {
-        return commandExecutor.execute(new AddCommentCmd(taskId, processInstance, type, message));
+        return cast(Comment)(commandExecutor.execute(new AddCommentCmd(taskId, processInstance, type, message)));
     }
 
 
@@ -418,57 +422,57 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public Comment getComment(string commentId) {
-        return commandExecutor.execute(new GetCommentCmd(commentId));
+        return cast(Comment)(commandExecutor.execute(new GetCommentCmd(commentId)));
     }
 
 
     public Event getEvent(string eventId) {
-        return commandExecutor.execute(new GetTaskEventCmd(eventId));
+        return cast(Event)(commandExecutor.execute(new GetTaskEventCmd(eventId)));
     }
 
 
     public List!Comment getTaskComments(string taskId) {
-        return commandExecutor.execute(new GetTaskCommentsCmd(taskId));
+        return cast(List!Comment)(commandExecutor.execute(new GetTaskCommentsCmd(taskId)));
     }
 
 
     public List!Comment getTaskComments(string taskId, string type) {
-        return commandExecutor.execute(new GetTaskCommentsByTypeCmd(taskId, type));
+        return cast(List!Comment)(commandExecutor.execute(new GetTaskCommentsByTypeCmd(taskId, type)));
     }
 
 
     public List!Comment getCommentsByType(string type) {
-        return commandExecutor.execute(new GetTypeCommentsCmd(type));
+        return cast(List!Comment)(commandExecutor.execute(new GetTypeCommentsCmd(type)));
     }
 
 
     public List!Event getTaskEvents(string taskId) {
-        return commandExecutor.execute(new GetTaskEventsCmd(taskId));
+        return cast(List!Event)(commandExecutor.execute(new GetTaskEventsCmd(taskId)));
     }
 
 
     public List!Comment getProcessInstanceComments(string processInstanceId) {
-        return commandExecutor.execute(new GetProcessInstanceCommentsCmd(processInstanceId));
+        return cast(List!Comment)(commandExecutor.execute(new GetProcessInstanceCommentsCmd(processInstanceId)));
     }
 
 
     public List!Comment getProcessInstanceComments(string processInstanceId, string type) {
-        return commandExecutor.execute(new GetProcessInstanceCommentsCmd(processInstanceId, type));
+        return cast(List!Comment)(commandExecutor.execute(new GetProcessInstanceCommentsCmd(processInstanceId, type)));
     }
 
 
     public Attachment createAttachment(string attachmentType, string taskId, string processInstanceId, string attachmentName, string attachmentDescription, InputStream content) {
-        return commandExecutor.execute(new CreateAttachmentCmd(attachmentType, taskId, processInstanceId, attachmentName, attachmentDescription, content, null));
+        return cast(Attachment)(commandExecutor.execute(new CreateAttachmentCmd(attachmentType, taskId, processInstanceId, attachmentName, attachmentDescription, content, null)));
     }
 
 
     public Attachment createAttachment(string attachmentType, string taskId, string processInstanceId, string attachmentName, string attachmentDescription, string url) {
-        return commandExecutor.execute(new CreateAttachmentCmd(attachmentType, taskId, processInstanceId, attachmentName, attachmentDescription, null, url));
+        return cast(Attachment)(commandExecutor.execute(new CreateAttachmentCmd(attachmentType, taskId, processInstanceId, attachmentName, attachmentDescription, null, url)));
     }
 
 
     public InputStream getAttachmentContent(string attachmentId) {
-        return commandExecutor.execute(new GetAttachmentContentCmd(attachmentId));
+        return cast(InputStream)(commandExecutor.execute(new GetAttachmentContentCmd(attachmentId)));
     }
 
 
@@ -488,7 +492,7 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public Attachment getAttachment(string attachmentId) {
-        return commandExecutor.execute(new GetAttachmentCmd(attachmentId));
+        return cast(Attachment)(commandExecutor.execute(new GetAttachmentCmd(attachmentId)));
     }
 
 
@@ -508,67 +512,67 @@ class TaskServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl ,
 
 
     public List!Task getSubTasks(string parentTaskId) {
-        return commandExecutor.execute(new GetSubTasksCmd(parentTaskId));
+        return cast(List!Task)(commandExecutor.execute(new GetSubTasksCmd(parentTaskId)));
     }
 
 
     public VariableInstance getVariableInstance(string taskId, string variableName) {
-        return commandExecutor.execute(new GetTaskVariableInstanceCmd(taskId, variableName, false));
+        return cast(VariableInstance)(commandExecutor.execute(new GetTaskVariableInstanceCmd(taskId, variableName, false)));
     }
 
 
     public VariableInstance getVariableInstanceLocal(string taskId, string variableName) {
-        return commandExecutor.execute(new GetTaskVariableInstanceCmd(taskId, variableName, true));
+        return cast(VariableInstance)(commandExecutor.execute(new GetTaskVariableInstanceCmd(taskId, variableName, true)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstances(string taskId) {
-        return commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, null, false));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, null, false)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstances(string taskId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, variableNames, false));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, variableNames, false)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstancesLocal(string taskId) {
-        return commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, null, true));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, null, true)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstancesLocal(string taskId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, variableNames, true));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetTaskVariableInstancesCmd(taskId, variableNames, true)));
     }
 
 
     public Map!(string, DataObject) getDataObjects(string taskId) {
-        return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, null));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, null)));
     }
 
 
     public Map!(string, DataObject) getDataObjects(string taskId, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, null, locale, withLocalizationFallback));
+        return cast( Map!(string, DataObject))(commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, null, locale, withLocalizationFallback)));
     }
 
 
     public Map!(string, DataObject) getDataObjects(string taskId, Collection!string dataObjectNames) {
-        return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, dataObjectNames));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, dataObjectNames)));
     }
 
 
     public Map!(string, DataObject) getDataObjects(string taskId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, dataObjectNames, locale, withLocalizationFallback));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetTaskDataObjectsCmd(taskId, dataObjectNames, locale, withLocalizationFallback)));
     }
 
 
     public DataObject getDataObject(string taskId, string dataObject) {
-        return commandExecutor.execute(new GetTaskDataObjectCmd(taskId, dataObject));
+        return cast(DataObject)(commandExecutor.execute(new GetTaskDataObjectCmd(taskId, dataObject)));
     }
 
 
     public DataObject getDataObject(string taskId, string dataObjectName, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetTaskDataObjectCmd(taskId, dataObjectName, locale, withLocalizationFallback));
+        return cast(DataObject)(commandExecutor.execute(new GetTaskDataObjectCmd(taskId, dataObjectName, locale, withLocalizationFallback)));
     }
 
 

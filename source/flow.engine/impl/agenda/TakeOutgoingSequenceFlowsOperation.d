@@ -147,11 +147,11 @@ class TakeOutgoingSequenceFlowsOperation : AbstractOperation {
         foreach (SequenceFlow sequenceFlow ; flowNode.getOutgoingFlows()) {
             string skipExpressionString = sequenceFlow.getSkipExpression();
             if (!SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {
-
-                if (!evaluateConditions
-                        || (evaluateConditions && ConditionUtil.hasTrueCondition(sequenceFlow, execution) && (defaultSequenceFlowId is null || !defaultSequenceFlowId.equals(sequenceFlow.getId())))) {
-                    outgoingSequenceFlows.add(sequenceFlow);
-                }
+                implementationMissing(false);
+                //if (!evaluateConditions
+                //        || (evaluateConditions && ConditionUtil.hasTrueCondition(sequenceFlow, execution) && (defaultSequenceFlowId is null || !defaultSequenceFlowId.equals(sequenceFlow.getId())))) {
+                //    outgoingSequenceFlows.add(sequenceFlow);
+                //}
 
             } else if (flowNode.getOutgoingFlows().size() == 1 || SkipExpressionUtil.shouldSkipFlowElement(
                             skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {
@@ -165,7 +165,7 @@ class TakeOutgoingSequenceFlowsOperation : AbstractOperation {
         if (outgoingSequenceFlows.size() == 0 && evaluateConditions) { // The elements that set this to false also have no support for default sequence flow
             if (defaultSequenceFlowId !is null) {
                 foreach (SequenceFlow sequenceFlow ; flowNode.getOutgoingFlows()) {
-                    if (defaultSequenceFlowId.equals(sequenceFlow.getId())) {
+                    if (defaultSequenceFlowId == (sequenceFlow.getId())) {
                         outgoingSequenceFlows.add(sequenceFlow);
                         break;
                     }
@@ -188,7 +188,7 @@ class TakeOutgoingSequenceFlowsOperation : AbstractOperation {
             // Leave, and reuse the incoming sequence flow, make executions for all the others (if applicable)
 
             ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager(commandContext);
-            List!ExecutionEntity>outgoingExecutions = new ArrayList!ExecutionEntity(flowNode.getOutgoingFlows().size());
+            List!ExecutionEntity outgoingExecutions = new ArrayList!ExecutionEntity(flowNode.getOutgoingFlows().size());
 
             SequenceFlow sequenceFlow = outgoingSequenceFlows.get(0);
 

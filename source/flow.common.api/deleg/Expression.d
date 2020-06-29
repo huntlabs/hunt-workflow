@@ -37,4 +37,5 @@ interface Expression  {
 
     string getExpressionText();
 
+    int opCmp(Expression o);
 }

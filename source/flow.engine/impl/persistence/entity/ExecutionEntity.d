@@ -84,7 +84,7 @@ interface ExecutionEntity : DelegateExecution, Execution, ProcessInstance, Entit
 
     List!TaskEntity getTasks();
 
-   // List!EventSubscriptionEntity getEventSubscriptions();
+    //List!EventSubscriptionEntity getEventSubscriptions();
 
     List!JobEntity getJobs();
 

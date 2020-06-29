@@ -64,9 +64,9 @@ import hunt.Exceptions;
  */
 class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBehavior {
 
-    private static  string EXPRESSION_REGEX = "\\$+\\{+.+\\}";
-    public static  string CALLED_ELEMENT_TYPE_KEY = "key";
-    public static  string CALLED_ELEMENT_TYPE_ID = "id";
+    enum  string EXPRESSION_REGEX = "\\$+\\{+.+\\}";
+    enum  string CALLED_ELEMENT_TYPE_KEY = "key";
+    enum  string CALLED_ELEMENT_TYPE_ID = "id";
 
     protected CallActivity callActivity;
     protected string calledElementType;
@@ -138,7 +138,7 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
         FlowableEventDispatcher eventDispatcher = processEngineConfiguration.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_CREATED, subProcessInstance));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_CREATED, cast(Object)subProcessInstance));
         }
 
         // process template-defined data objects
@@ -155,7 +155,7 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
         foreach (IOParameter inParameter ; instanceBeforeContext.getInParameters()) {
 
             Object value = null;
-            if (getSourceExpression().length != 0) {
+            if (inParameter.getSourceExpression().length != 0) {
                 Expression expression = expressionManager.createExpression(strip(inParameter.getSourceExpression()));
                 value = expression.getValue(execution);
 
@@ -194,7 +194,7 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
         }
 
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, subProcessInstance));
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, cast(Object)subProcessInstance));
         }
 
         if (processEngineConfiguration.isEnableEntityLinks()) {
@@ -206,7 +206,7 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
             Expression expression = expressionManager.createExpression(callActivity.getProcessInstanceIdVariableName());
             String idVariableName = cast(String) expression.getValue(execution);
             if (idVariableName !is null && idVariableName.value.length != 0) {
-                execution.setVariable(idVariableName, subProcessInstance.getId());
+                execution.setVariable(idVariableName.value, new String(subProcessInstance.getId()));
             }
         }
 
@@ -227,7 +227,7 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
         CommandContextUtil.getAgenda().planContinueProcessOperation(subProcessInitialExecution);
 
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(subProcessInitialExecution, instanceBeforeContext.getVariables(), false));
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(cast(Object)subProcessInitialExecution, instanceBeforeContext.getVariables(), false));
         }
 
     }
@@ -326,7 +326,7 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
         } else {
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
-            if (processDefinition is null && ((this.fallbackToDefaultTenant !is null && this.fallbackToDefaultTenant) || processEngineConfiguration.isFallbackToDefaultTenant())) {
+            if (processDefinition is null && (this.fallbackToDefaultTenant || processEngineConfiguration.isFallbackToDefaultTenant())) {
 
                 string defaultTenant = processEngineConfiguration.getDefaultTenantProvider().getDefaultTenant(tenantId, ScopeTypes.BPMN, processDefinitionKey);
                 if (defaultTenant.length == 0) {

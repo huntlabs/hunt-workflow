@@ -33,7 +33,8 @@ import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.engine.impl.agenda.AbstractOperation;
 import hunt.Exceptions;
 import hunt.logging;
-
+import flow.variable.service.api.deleg.VariableScope;
+import hunt.Integer;
 /**
  * Special operation when executing an instance of a multi-instance. It's similar to the {@link ContinueProcessOperation}, but simpler, as it doesn't need to cater for as many use cases.
  *
@@ -98,7 +99,7 @@ class ContinueMultiInstanceOperation : AbstractOperation {
             activityBehavior.execute(execution);
         } catch (BpmnError error) {
             // re-throw business fault so that it can be caught by an Error Intermediate Event or Error Event Sub-Process in the process
-            ErrorPropagation.propagateError(error, execution);
+           // ErrorPropagation.propagateError(error, execution);
         } catch (RuntimeException e) {
             implementationMissing(false);
             //if (LogMDC.isMDCEnabled()) {
@@ -138,9 +139,9 @@ class ContinueMultiInstanceOperation : AbstractOperation {
         MultiInstanceActivityBehavior multiInstanceActivityBehavior = cast(MultiInstanceActivityBehavior) activityBehavior;
         string elementIndexVariable = multiInstanceActivityBehavior.getCollectionElementIndexVariable();
         if (!flowNode.isAsynchronous()) {
-            execution.setVariableLocal(elementIndexVariable, loopCounter);
+          (cast(VariableScope)execution).setVariableLocal(elementIndexVariable, new Integer(loopCounter));
         } else {
-            multiInstanceRootExecution.setVariableLocal(elementIndexVariable, loopCounter);
+          (cast(VariableScope)multiInstanceRootExecution).setVariableLocal(elementIndexVariable,new Integer(loopCounter));
         }
         return activityBehavior;
     }

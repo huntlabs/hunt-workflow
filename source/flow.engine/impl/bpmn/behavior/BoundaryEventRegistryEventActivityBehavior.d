@@ -36,6 +36,7 @@ import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
 import hunt.String;
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -66,7 +67,8 @@ class BoundaryEventRegistryEventActivityBehavior : BoundaryEventActivityBehavior
                         .create();
 
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
-        executionEntity.getEventSubscriptions().add(eventSubscription);
+        //executionEntity.getEventSubscriptions().add(eventSubscription);
+        implementationMissing(false);
     }
 
     protected EventModel getEventModel(DelegateExecution execution) {
@@ -91,16 +93,16 @@ class BoundaryEventRegistryEventActivityBehavior : BoundaryEventActivityBehavior
 
         if (boundaryEvent.isCancelActivity()) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
-
-            CommandContext commandContext = Context.getCommandContext();
-            EventModel eventModel = getEventModel(commandContext, executionEntity);
-            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-                if (eventModel.getKey() == eventSubscription.getEventType()) {
-                    eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                    CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
-                }
-            }
+            //List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            implementationMissing(false);
+            //CommandContext commandContext = Context.getCommandContext();
+            //EventModel eventModel = getEventModel(commandContext, executionEntity);
+            //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+            //    if (eventModel.getKey() == eventSubscription.getEventType()) {
+            //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+            //        CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
+            //    }
+            //}
         }
 
         super.trigger(executionEntity, triggerName, triggerData);

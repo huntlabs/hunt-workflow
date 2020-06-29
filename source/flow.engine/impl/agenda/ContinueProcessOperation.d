@@ -45,7 +45,7 @@ import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.engine.impl.agenda.AbstractOperation;
 import hunt.logging;
 import hunt.Exceptions;
-
+import std.range;
 /**
  * Operation that takes the current {@link FlowElement} set on the {@link ExecutionEntity} and executes the associated {@link ActivityBehavior}. In the case of async, schedules a {@link Job}.
  *
@@ -86,7 +86,7 @@ class ContinueProcessOperation : AbstractOperation {
     }
 
     protected void executeProcessStartExecutionListeners() {
-        flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(execution.getProcessDefinitionId());
+        flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(execution.getProcessDefinitionId());
         executeExecutionListeners(process, execution.getParent(), ExecutionListener.EVENTNAME_START);
     }
 
@@ -384,15 +384,17 @@ class ContinueProcessOperation : AbstractOperation {
 
     protected void executeBoundaryEvents(List!BoundaryEvent boundaryEvents, List!ExecutionEntity boundaryEventExecutions) {
         if (!(boundaryEventExecutions.isEmpty())) {
-            Iterator!BoundaryEvent boundaryEventsIterator = boundaryEvents.iterator();
-            Iterator!ExecutionEntity boundaryEventExecutionsIterator = boundaryEventExecutions.iterator();
+            InputRange!BoundaryEvent boundaryEventsIterator = boundaryEvents.iterator();
+            InputRange!ExecutionEntity boundaryEventExecutionsIterator = boundaryEventExecutions.iterator();
 
-            while (boundaryEventsIterator.hasNext() && boundaryEventExecutionsIterator.hasNext()) {
-                BoundaryEvent boundaryEvent = boundaryEventsIterator.next();
-                ExecutionEntity boundaryEventExecution = boundaryEventExecutionsIterator.next();
+            while (!boundaryEventsIterator.empty() && !boundaryEventExecutionsIterator.empty()) {
+                BoundaryEvent boundaryEvent = boundaryEventsIterator.front();
+                ExecutionEntity boundaryEventExecution = boundaryEventExecutionsIterator.front();
                 ActivityBehavior boundaryEventBehavior = (cast(ActivityBehavior) boundaryEvent.getBehavior());
                 logInfo("Executing boundary event activityBehavior {} with execution {%s}", boundaryEventExecution.getId());
                 boundaryEventBehavior.execute(boundaryEventExecution);
+                boundaryEventsIterator.popFront();
+                boundaryEventExecutionsIterator.popFront();
             }
         }
     }

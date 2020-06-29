@@ -21,7 +21,7 @@ module flow.engine.impl.RepositoryServiceImpl;
 
 
 
-
+import hunt.Boolean;
 import hunt.stream.Common;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
@@ -93,6 +93,7 @@ import flow.engine.impl.DeploymentQueryImpl;
 import flow.engine.impl.ModelQueryImpl;
 //import flow.engine.impl.NativeModelQueryImpl;
 import hunt.Exceptions;
+import hunt.String;
 /**
  * @author Tom Baeyens
  * @author Falko Menge
@@ -101,16 +102,16 @@ import hunt.Exceptions;
 class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImpl , RepositoryService {
 
     public DeploymentBuilder createDeployment() {
-        return commandExecutor.execute(new class Command!DeploymentBuilder {
-
+        RepositoryServiceImpl self = this;
+        return cast(DeploymentBuilder)(commandExecutor.execute(new class Command!DeploymentBuilder {
             public DeploymentBuilder execute(CommandContext commandContext) {
-                return new DeploymentBuilderImpl(this);
+                return new DeploymentBuilderImpl(self);
             }
-        });
+        }));
     }
 
     public Deployment deploy(DeploymentBuilderImpl deploymentBuilder) {
-        return commandExecutor.execute(new DeployCmd!Deployment(deploymentBuilder));
+        return cast(Deployment)(commandExecutor.execute(new DeployCmd!Deployment(deploymentBuilder)));
     }
 
     public void deleteDeployment(string deploymentId) {
@@ -148,18 +149,20 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
     public NativeProcessDefinitionQuery createNativeProcessDefinitionQuery() {
         implementationMissing(false);
+        return null;
         //return new NativeProcessDefinitionQueryImpl(commandExecutor);
     }
 
 
     public List!string getDeploymentResourceNames(string deploymentId) {
         implementationMissing(false);
+        return null;
         //return commandExecutor.execute(new GetDeploymentResourceNamesCmd(deploymentId));
     }
 
 
     public InputStream getResourceAsStream(string deploymentId, string resourceName) {
-        return commandExecutor.execute(new GetDeploymentResourceCmd(deploymentId, resourceName));
+        return cast(InputStream)(commandExecutor.execute(new GetDeploymentResourceCmd(deploymentId, resourceName)));
     }
 
 
@@ -184,13 +187,13 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public NativeDeploymentQuery createNativeDeploymentQuery() {
-        implementationMissing(false);
+        implementationMissing(false); return null;
        // return new NativeDeploymentQueryImpl(commandExecutor);
     }
 
 
     public ProcessDefinition getProcessDefinition(string processDefinitionId) {
-        return commandExecutor.execute(new GetDeploymentProcessDefinitionCmd(processDefinitionId));
+        return cast(ProcessDefinition)(commandExecutor.execute(new GetDeploymentProcessDefinitionCmd(processDefinitionId)));
     }
 
 
@@ -202,16 +205,16 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public BpmnModel getBpmnModel(string processDefinitionId) {
-        return commandExecutor.execute(new GetBpmnModelCmd(processDefinitionId));
+        return cast(BpmnModel)(commandExecutor.execute(new GetBpmnModelCmd(processDefinitionId)));
     }
 
     public ProcessDefinition getDeployedProcessDefinition(string processDefinitionId) {
-        return commandExecutor.execute(new GetDeploymentProcessDefinitionCmd(processDefinitionId));
+        return cast(ProcessDefinition)(commandExecutor.execute(new GetDeploymentProcessDefinitionCmd(processDefinitionId)));
     }
 
 
     public bool isProcessDefinitionSuspended(string processDefinitionId) {
-        return commandExecutor.execute(new IsProcessDefinitionSuspendedCmd(processDefinitionId));
+        return (cast(Boolean)(commandExecutor.execute(new IsProcessDefinitionSuspendedCmd(processDefinitionId)))).booleanValue();
     }
 
 
@@ -281,7 +284,7 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public InputStream getProcessModel(string processDefinitionId) {
-        return commandExecutor.execute(new GetDeploymentProcessModelCmd(processDefinitionId));
+        return cast(InputStream)(commandExecutor.execute(new GetDeploymentProcessModelCmd(processDefinitionId)));
     }
 
 
@@ -303,12 +306,12 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public AppModel getAppResourceModel(string deploymentId) {
-        return commandExecutor.execute(new GetAppResourceModelCmd(deploymentId));
+        return cast(AppModel)(commandExecutor.execute(new GetAppResourceModelCmd(deploymentId)));
     }
 
 
     public Model newModel() {
-        return commandExecutor.execute(new CreateModelCmd());
+        return cast(Model)(commandExecutor.execute(new CreateModelCmd()));
     }
 
 
@@ -345,17 +348,17 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public Model getModel(string modelId) {
-        return commandExecutor.execute(new GetModelCmd(modelId));
+        return cast(Model)(commandExecutor.execute(new GetModelCmd(modelId)));
     }
 
 
     public byte[] getModelEditorSource(string modelId) {
-        return commandExecutor.execute(new GetModelEditorSourceCmd(modelId));
+        return cast(byte[])((cast(String)(commandExecutor.execute(new GetModelEditorSourceCmd(modelId)))).value);
     }
 
 
     public byte[] getModelEditorSourceExtra(string modelId) {
-        return commandExecutor.execute(new GetModelEditorSourceExtraCmd(modelId));
+        return cast(byte[])((cast(String)(commandExecutor.execute(new GetModelEditorSourceExtraCmd(modelId)))).value);
     }
 
 
@@ -380,7 +383,7 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public List!IdentityLink getIdentityLinksForProcessDefinition(string processDefinitionId) {
-        return commandExecutor.execute(new GetIdentityLinksForProcessDefinitionCmd(processDefinitionId));
+        return cast(List!IdentityLink)(commandExecutor.execute(new GetIdentityLinksForProcessDefinitionCmd(processDefinitionId)));
     }
 
 
@@ -395,6 +398,6 @@ class RepositoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfiguration
 
 
     public List!FormDefinition getFormDefinitionsForProcessDefinition(string processDefinitionId) {
-        return commandExecutor.execute(new GetFormDefinitionsForProcessDefinitionCmd(processDefinitionId));
+        return cast(List!FormDefinition)(commandExecutor.execute(new GetFormDefinitionsForProcessDefinitionCmd(processDefinitionId)));
     }
 }

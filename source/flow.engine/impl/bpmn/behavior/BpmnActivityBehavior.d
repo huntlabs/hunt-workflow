@@ -53,12 +53,12 @@ class BpmnActivityBehavior {
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 foreach (JobEntity job ; jobs) {
-                    eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
+                    eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)job));
                 }
 
                 List!TimerJobEntity timerJobs = activityExecution.getTimerJobs();
                 foreach (TimerJobEntity job ; timerJobs) {
-                    eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
+                    eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)job));
                 }
             }
         }

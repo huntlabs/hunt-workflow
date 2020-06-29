@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.bpmn.behavior.BoundaryCompensateEventActivityBehavior;
 
+import hunt.Exceptions;
 import hunt.collection.List;
 
 import flow.bpmn.model.Activity;
@@ -111,14 +112,15 @@ class BoundaryCompensateEventActivityBehavior : BoundaryEventActivityBehavior {
         BoundaryEvent boundaryEvent = cast(BoundaryEvent) execution.getCurrentFlowElement();
 
         if (boundaryEvent.isCancelActivity()) {
-            EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
-            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-                if (cast(CompensateEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getActivityId() == (compensateEventDefinition.getActivityRef())) {
-                    eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                    CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
-                }
-            }
+            implementationMissing(false);
+            //EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
+            //List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+            //    if (cast(CompensateEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getActivityId() == (compensateEventDefinition.getActivityRef())) {
+            //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+            //        CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
+            //    }
+            //}
         }
 
         super.trigger(executionEntity, triggerName, triggerData);

@@ -231,11 +231,11 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
     }
 
     protected void checkVersion(int ver) {
-        if (ver is null) {
-            throw new FlowableIllegalArgumentException("version is null");
-        } else if (ver <= 0) {
-            throw new FlowableIllegalArgumentException("version must be positive");
-        }
+        //if (ver is null) {
+        //    throw new FlowableIllegalArgumentException("version is null");
+        //} else if (ver <= 0) {
+        //    throw new FlowableIllegalArgumentException("version must be positive");
+        //}
     }
 
 
@@ -246,13 +246,13 @@ class ProcessDefinitionQueryImpl : AbstractQuery!(ProcessDefinitionQuery, Proces
 
 
     public ProcessDefinitionQuery active() {
-        this.suspensionState = SuspensionState.ACTIVE;
+        this.suspensionState = ACTIVE;
         return this;
     }
 
 
     public ProcessDefinitionQuery suspended() {
-        this.suspensionState = SuspensionState.SUSPENDED;
+        this.suspensionState = SUSPENDED;
         return this;
     }
 

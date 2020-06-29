@@ -35,6 +35,10 @@ import flow.engine.impl.ProcessInstanceHistoryLogImpl;
 import flow.engine.impl.HistoricActivityInstanceQueryImpl;
 import  flow.engine.impl.HistoricDetailQueryImpl;
 import hunt.Exceptions;
+import flow.task.api.history.HistoricTaskInstance;
+import hunt.collection.ArrayList;
+import flow.engine.task.Comment;
+import flow.engine.history.HistoricDetail;
 /**
  * @author Joram Barrez
  */
@@ -93,7 +97,7 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
 
 
     public ProcessInstanceHistoryLog singleResult() {
-        return commandExecutor.execute(this);
+        return cast(ProcessInstanceHistoryLog)(commandExecutor.execute(this));
     }
 
 
@@ -115,14 +119,30 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
         if (_includeTasks) {
             auto tasks = CommandContextUtil.getHistoricTaskService().findHistoricTaskInstancesByQueryCriteria(
                             new HistoricTaskInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId));
-            processInstanceHistoryLog.addHistoricData(tasks);
+
+            List!HistoricData cst = new ArrayList!HistoricData;
+
+            foreach (HistoricTaskInstance h ; tasks)
+            {
+                  cst.add(cast(HistoricData)h);
+            }
+
+            processInstanceHistoryLog.addHistoricData(cst); //HistoricData
         }
 
         // Activities
         if (_includeActivities) {
             List!HistoricActivityInstance activities = CommandContextUtil.getHistoricActivityInstanceEntityManager(commandContext).findHistoricActivityInstancesByQueryCriteria(
                     new HistoricActivityInstanceQueryImpl(commandExecutor).processInstanceId(processInstanceId));
-            processInstanceHistoryLog.addHistoricData(activities);
+
+            List!HistoricData cst = new ArrayList!HistoricData;
+
+            foreach (HistoricActivityInstance h; activities)
+            {
+                cst.add(cast(HistoricData)h);
+            }
+
+            processInstanceHistoryLog.addHistoricData(cst);
         }
 
         // Variables
@@ -140,14 +160,28 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
             //        ((CacheableVariable) variableEntity.getVariableType()).setForceCacheable(true);
             //    }
             //}
+            List!HistoricData cst = new ArrayList!HistoricData;
 
-            processInstanceHistoryLog.addHistoricData(variables);
+            foreach(HistoricVariableInstance h ; variables)
+            {
+                cst.add(cast(HistoricData)h);
+            }
+
+            processInstanceHistoryLog.addHistoricData(cst);
         }
 
         // Comment
         if (_includeComments) {
             auto comments = CommandContextUtil.getCommentEntityManager(commandContext).findCommentsByProcessInstanceId(processInstanceId);
-            processInstanceHistoryLog.addHistoricData(comments);
+
+            List!HistoricData cst = new ArrayList!HistoricData;
+
+            foreach(Comment c ; comments)
+            {
+                cst.add(cast(HistoricData)c);
+            }
+
+            processInstanceHistoryLog.addHistoricData(cst);
         }
 
         // Details: variables
@@ -155,20 +189,31 @@ class ProcessInstanceHistoryLogQueryImpl : ProcessInstanceHistoryLogQuery, Comma
             auto variableUpdates = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(
                     new HistoricDetailQueryImpl(commandExecutor).variableUpdates());
 
+
+            List!HistoricData cst = new ArrayList!HistoricData;
             // Make sure all variables values are fetched (similar to the HistoricVariableInstance query)
-            foreach (HistoricData historicData ; variableUpdates) {
+            foreach (HistoricDetail historicData ; variableUpdates) {
                 HistoricVariableUpdate variableUpdate = cast(HistoricVariableUpdate) historicData;
                 variableUpdate.getValue();
+                cst.add(cast(HistoricData)historicData);
             }
 
-            processInstanceHistoryLog.addHistoricData(variableUpdates);
+            processInstanceHistoryLog.addHistoricData(cst);
         }
 
         // Details: form properties
         if (_includeFormProperties) {
             auto formProperties = CommandContextUtil.getHistoricDetailEntityManager(commandContext).findHistoricDetailsByQueryCriteria(
                     new HistoricDetailQueryImpl(commandExecutor).formProperties());
-            processInstanceHistoryLog.addHistoricData(formProperties);
+
+            List!HistoricData cst = new ArrayList!HistoricData;
+
+            foreach(HistoricDetail h; formProperties)
+            {
+                cst.add(cast(HistoricData)h);
+            }
+
+            processInstanceHistoryLog.addHistoricData(cst);
         }
 
         // All events collected. Sort them by date.

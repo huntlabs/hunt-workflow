@@ -269,7 +269,7 @@ class ModelQueryImpl : AbstractQuery!(ModelQuery, Model) , ModelQuery {
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+      return 0;
     }
 
     public string getKey() {

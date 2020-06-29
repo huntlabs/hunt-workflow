@@ -246,9 +246,6 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
 
     public ProcessInstanceQuery processDefinitionVersion(int processDefinitionVersion) {
-        if (processDefinitionVersion is null) {
-            throw new FlowableIllegalArgumentException("Process definition version is null");
-        }
 
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionVersion = processDefinitionVersion;
@@ -414,9 +411,9 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
     public ProcessInstanceQuery active() {
         if (inOrStatement) {
-            this.currentOrQueryObject.suspensionState = SuspensionState.ACTIVE;
+            this.currentOrQueryObject.suspensionState = ACTIVE;
         } else {
-            this.suspensionState = SuspensionState.ACTIVE;
+            this.suspensionState = ACTIVE;
         }
         return this;
     }
@@ -424,9 +421,9 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
 
     public ProcessInstanceQuery suspended() {
         if (inOrStatement) {
-            this.currentOrQueryObject.suspensionState = SuspensionState.SUSPENDED;
+            this.currentOrQueryObject.suspensionState = SUSPENDED;
         } else {
-            this.suspensionState = SuspensionState.SUSPENDED;
+            this.suspensionState = SUSPENDED;
         }
         return this;
     }
@@ -557,6 +554,13 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     override
+    ProcessInstanceQuery variableValueEquals(string name, Object value, bool localScope)
+    {
+          return super.variableValueEquals(name, value, localScope);
+    }
+
+
+    override
     public ProcessInstanceQuery variableValueNotEquals(string variableName, Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEquals(variableName, variableValue, false);
@@ -567,6 +571,13 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     override
+    ProcessInstanceQuery variableValueNotEquals(string name, Object value, bool localScope)
+    {
+        return super.variableValueNotEquals(name, value, localScope);
+    }
+
+
+    override
     public ProcessInstanceQuery variableValueEquals(Object variableValue) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueEquals(variableValue, false);
@@ -574,6 +585,12 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         } else {
             return variableValueEquals(variableValue, false);
         }
+    }
+
+    override
+    ProcessInstanceQuery variableValueEquals(Object value, bool localScope)
+    {
+        return super.variableValueEquals(value, localScope);
     }
 
     override
@@ -587,6 +604,12 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     override
+    ProcessInstanceQuery variableValueEqualsIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueEqualsIgnoreCase(name, value, localScope);
+    }
+
+    override
     public ProcessInstanceQuery variableValueNotEqualsIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueNotEqualsIgnoreCase(name, value, false);
@@ -594,6 +617,12 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         } else {
             return variableValueNotEqualsIgnoreCase(name, value, false);
         }
+    }
+
+    override
+    ProcessInstanceQuery variableValueNotEqualsIgnoreCase(string name, string value, bool localScope)
+    {
+          return super.variableValueNotEqualsIgnoreCase(name, value, localScope);
     }
 
     override
@@ -607,6 +636,13 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     override
+    ProcessInstanceQuery variableValueGreaterThan(string name, Object value, bool localScope)
+    {
+        return super.variableValueGreaterThan(name, value, localScope);
+    }
+
+
+    override
     public ProcessInstanceQuery variableValueGreaterThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueGreaterThanOrEqual(name, value, false);
@@ -614,6 +650,12 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         } else {
             return variableValueGreaterThanOrEqual(name, value, false);
         }
+    }
+
+    override
+    ProcessInstanceQuery variableValueGreaterThanOrEqual(string name, Object value, bool localScope)
+    {
+          return super.variableValueGreaterThanOrEqual(name, value, localScope);
     }
 
     override
@@ -627,6 +669,14 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     override
+    ProcessInstanceQuery variableValueLessThan(string name, Object value, bool localScope)
+    {
+        return super.variableValueLessThan(name, value, localScope);
+    }
+
+
+
+    override
     public ProcessInstanceQuery variableValueLessThanOrEqual(string name, Object value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLessThanOrEqual(name, value, false);
@@ -635,6 +685,13 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
             return variableValueLessThanOrEqual(name, value, false);
         }
     }
+
+    override
+    ProcessInstanceQuery variableValueLessThanOrEqual(string name, Object value, bool localScope)
+    {
+        return super.variableValueLessThanOrEqual(name, value, localScope);
+    }
+
 
     override
     public ProcessInstanceQuery variableValueLike(string name, string value) {
@@ -647,6 +704,15 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     override
+    ProcessInstanceQuery variableValueLike(string name, string value, bool localScope)
+    {
+        return super.variableValueLike(name, value, localScope);
+    }
+
+
+
+
+    override
     public ProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value) {
         if (inOrStatement) {
             currentOrQueryObject.variableValueLikeIgnoreCase(name, value, false);
@@ -654,6 +720,12 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         } else {
             return variableValueLikeIgnoreCase(name, value, false);
         }
+    }
+
+    override
+    ProcessInstanceQuery variableValueLikeIgnoreCase(string name, string value, bool localScope)
+    {
+        return super.variableValueLikeIgnoreCase(name, value ,localScope);
     }
 
     override
@@ -667,6 +739,12 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
     }
 
     override
+    ProcessInstanceQuery variableExists(string name, bool localScope)
+    {
+          return super.variableExists(name, localScope);
+    }
+
+    override
     public ProcessInstanceQuery variableNotExists(string name) {
         if (inOrStatement) {
             currentOrQueryObject.variableNotExists(name, false);
@@ -674,6 +752,12 @@ class ProcessInstanceQueryImpl : AbstractVariableQueryImpl!(ProcessInstanceQuery
         } else {
             return variableNotExists(name, false);
         }
+    }
+
+   override
+    ProcessInstanceQuery variableNotExists(string name, bool localScope)
+    {
+        return super.variableNotExists(name,localScope);
     }
 
 

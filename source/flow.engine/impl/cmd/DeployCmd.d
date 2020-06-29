@@ -36,7 +36,7 @@ import flow.engine.repository.Deployment;
 import flow.engine.repository.DeploymentProperties;
 import flow.engine.impl.cmd.DeploymentSettings;
 import hunt.Exceptions;
-
+import hunt.Boolean;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -115,13 +115,13 @@ class DeployCmd(T) : Command!Deployment {
         FlowableEventDispatcher eventDispatcher = processEngineConfiguration.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
-                .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, deployment));
+                .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)deployment));
         }
 
         // Deployment settings
-        Map!(string, bool) deploymentSettings = new HashMap!(string, bool)();
-        deploymentSettings.put(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED, deploymentBuilder.isBpmn20XsdValidationEnabled());
-        deploymentSettings.put(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED, deploymentBuilder.isProcessValidationEnabled());
+        Map!(string, Object) deploymentSettings = new HashMap!(string, Object);
+        deploymentSettings.put(DeploymentSettings.IS_BPMN20_XSD_VALIDATION_ENABLED, new Boolean(deploymentBuilder.isBpmn20XsdValidationEnabled()));
+        deploymentSettings.put(DeploymentSettings.IS_PROCESS_VALIDATION_ENABLED,new Boolean(deploymentBuilder.isProcessValidationEnabled()));
 
         // Actually deploy
         processEngineConfiguration.getDeploymentManager().deploy(deployment, deploymentSettings);
@@ -132,7 +132,7 @@ class DeployCmd(T) : Command!Deployment {
 
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
-                .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, deployment));
+                .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, cast(Object)deployment));
         }
 
         return deployment;

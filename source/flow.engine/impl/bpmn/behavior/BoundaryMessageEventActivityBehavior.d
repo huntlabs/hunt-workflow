@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.bpmn.behavior.BoundaryMessageEventActivityBehavior;
 
+import hunt.Exceptions;
 import hunt.collection.List;
 
 import flow.bpmn.model.BoundaryEvent;
@@ -68,8 +69,9 @@ class BoundaryMessageEventActivityBehavior : BoundaryEventActivityBehavior {
                         .tenantId(executionEntity.getTenantId())
                         .create();
 
+        implementationMissing(false);
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
-        executionEntity.getEventSubscriptions().add(eventSubscription);
+        //executionEntity.getEventSubscriptions().add(eventSubscription);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -86,14 +88,15 @@ class BoundaryMessageEventActivityBehavior : BoundaryEventActivityBehavior {
 
         if (boundaryEvent.isCancelActivity()) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
-            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-                if (cast(MessageEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (messageEventDefinition.getMessageRef())) {
-
-                    eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                    CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
-                }
-            }
+            implementationMissing(false);
+            //List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+            //    if (cast(MessageEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (messageEventDefinition.getMessageRef())) {
+            //
+            //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+            //        CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
+            //    }
+            //}
         }
 
         super.trigger(executionEntity, triggerName, triggerData);

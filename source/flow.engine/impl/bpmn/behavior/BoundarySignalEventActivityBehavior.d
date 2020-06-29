@@ -12,8 +12,8 @@
  */
 
 module flow.engine.impl.bpmn.behavior.BoundarySignalEventActivityBehavior;
-import hunt.collection.List;
 
+import hunt.collection.List;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.Signal;
 import flow.bpmn.model.SignalEventDefinition;
@@ -32,6 +32,8 @@ import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionE
 import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 import flow.engine.impl.bpmn.behavior.BoundaryEventActivityBehavior;
 import hunt.String;
+import hunt.Exceptions;
+
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -59,7 +61,7 @@ class BoundarySignalEventActivityBehavior : BoundaryEventActivityBehavior {
         } else {
             Expression signalExpression = CommandContextUtil.getProcessEngineConfiguration(commandContext).getExpressionManager()
                     .createExpression(signalEventDefinition.getSignalExpression());
-            signalName = cast(String)(signalExpression.getValue(execution)).value;
+            signalName = (cast(String)(signalExpression.getValue(execution))).value;
         }
 
         EventSubscriptionEntity eventSubscription = cast(EventSubscriptionEntity) CommandContextUtil.getEventSubscriptionService(commandContext).createEventSubscriptionBuilder()
@@ -72,9 +74,9 @@ class BoundarySignalEventActivityBehavior : BoundaryEventActivityBehavior {
                         .processDefinitionId(executionEntity.getProcessDefinitionId())
                         .tenantId(executionEntity.getTenantId())
                         .create();
-
+        implementationMissing(false);
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
-        executionEntity.getEventSubscriptions().add(eventSubscription);
+       // executionEntity.getEventSubscriptions().add(eventSubscription);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -98,13 +100,14 @@ class BoundarySignalEventActivityBehavior : BoundaryEventActivityBehavior {
             }
 
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
-            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-                if (cast(SignalEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (eventName)) {
-                    eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                    CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
-                }
-            }
+            implementationMissing(false);
+            //List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+            //    if (cast(SignalEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (eventName)) {
+            //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+            //        CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
+            //    }
+            //}
         }
 
         super.trigger(executionEntity, triggerName, triggerData);

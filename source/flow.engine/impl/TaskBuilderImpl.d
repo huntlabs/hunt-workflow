@@ -28,7 +28,7 @@ class TaskBuilderImpl : BaseTaskBuilderImpl {
 
     override
     public Task create() {
-        return commandExecutor.execute(new CreateTaskCmd(this));
+        return cast(Task)(commandExecutor.execute(new CreateTaskCmd(this)));
     }
 
 }

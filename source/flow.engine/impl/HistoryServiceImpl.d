@@ -152,32 +152,32 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public List!HistoricIdentityLink getHistoricIdentityLinksForProcessInstance(string processInstanceId) {
-        return commandExecutor.execute(new GetHistoricIdentityLinksForTaskCmd(null, processInstanceId));
+        return cast(List!HistoricIdentityLink)(commandExecutor.execute(new GetHistoricIdentityLinksForTaskCmd(null, processInstanceId)));
     }
 
 
     public List!HistoricIdentityLink getHistoricIdentityLinksForTask(string taskId) {
-        return commandExecutor.execute(new GetHistoricIdentityLinksForTaskCmd(taskId, null));
+        return cast(List!HistoricIdentityLink)(commandExecutor.execute(new GetHistoricIdentityLinksForTaskCmd(taskId, null)));
     }
 
 
     public List!HistoricEntityLink getHistoricEntityLinkChildrenForProcessInstance(string processInstanceId) {
-        return commandExecutor.execute(new GetHistoricEntityLinkChildrenForProcessInstanceCmd(processInstanceId));
+        return cast(List!HistoricEntityLink)(commandExecutor.execute(new GetHistoricEntityLinkChildrenForProcessInstanceCmd(processInstanceId)));
     }
 
 
     public List!HistoricEntityLink getHistoricEntityLinkChildrenForTask(string taskId) {
-        return commandExecutor.execute(new GetHistoricEntityLinkChildrenForTaskCmd(taskId));
+        return cast(List!HistoricEntityLink)(commandExecutor.execute(new GetHistoricEntityLinkChildrenForTaskCmd(taskId)));
     }
 
 
     public List!HistoricEntityLink getHistoricEntityLinkParentsForProcessInstance(string processInstanceId) {
-        return commandExecutor.execute(new GetHistoricEntityLinkParentsForProcessInstanceCmd(processInstanceId));
+        return cast(List!HistoricEntityLink)(commandExecutor.execute(new GetHistoricEntityLinkParentsForProcessInstanceCmd(processInstanceId)));
     }
 
 
     public List!HistoricEntityLink getHistoricEntityLinkParentsForTask(string taskId) {
-        return commandExecutor.execute(new GetHistoricEntityLinkParentsForTaskCmd(taskId));
+        return cast(List!HistoricEntityLink)(commandExecutor.execute(new GetHistoricEntityLinkParentsForTaskCmd(taskId)));
     }
 
 

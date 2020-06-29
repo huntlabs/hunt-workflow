@@ -47,7 +47,7 @@ class AbstractBpmnActivityBehavior : FlowNodeActivityBehavior {
     public void leave(DelegateExecution execution) {
         FlowElement currentFlowElement = execution.getCurrentFlowElement();
         Collection!BoundaryEvent boundaryEvents = findBoundaryEventsForFlowNode(execution.getProcessDefinitionId(), currentFlowElement);
-        if (boundaryEvents !is null && boundaryEvents.length != 0) {
+        if (boundaryEvents !is null && boundaryEvents.size() != 0) {
             executeCompensateBoundaryEvents(boundaryEvents, execution);
         }
         if (!hasLoopCharacteristics()) {
@@ -66,7 +66,7 @@ class AbstractBpmnActivityBehavior : FlowNodeActivityBehavior {
                 continue;
             }
 
-            if (cast(CompensateEventDefinition)(boundaryEvent.getEventDefinitions().get(0) is null)) {
+            if (cast(CompensateEventDefinition)(boundaryEvent.getEventDefinitions().get(0)) is null) {
                 continue;
             }
 

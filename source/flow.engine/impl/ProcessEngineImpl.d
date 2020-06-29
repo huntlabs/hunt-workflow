@@ -76,17 +76,17 @@ class ProcessEngineImpl : ProcessEngine {
         this.taskService = processEngineConfiguration.getTaskService();
         this.formService = processEngineConfiguration.getFormService();
         this.managementService = processEngineConfiguration.getManagementService();
-        this.dynamicBpmnService = processEngineConfiguration.getDynamicBpmnService();
-        this.processInstanceMigrationService = processEngineConfiguration.getProcessMigrationService();
+        //this.dynamicBpmnService = processEngineConfiguration.getDynamicBpmnService();
+        //this.processInstanceMigrationService = processEngineConfiguration.getProcessMigrationService();
         this.asyncExecutor = processEngineConfiguration.getAsyncExecutor();
         this.asyncHistoryExecutor = processEngineConfiguration.getAsyncHistoryExecutor();
         this.commandExecutor = processEngineConfiguration.getCommandExecutor();
         //this.sessionFactories = processEngineConfiguration.getSessionFactories();
         this.transactionContextFactory = processEngineConfiguration.getTransactionContextFactory();
 
-        if (processEngineConfiguration.getSchemaManagementCmd() !is null) {
-            commandExecutor.execute(processEngineConfiguration.getSchemaCommandConfig(), processEngineConfiguration.getSchemaManagementCmd());
-        }
+        //if (processEngineConfiguration.getSchemaManagementCmd() !is null) {
+        //    commandExecutor.execute(processEngineConfiguration.getSchemaCommandConfig(), processEngineConfiguration.getSchemaManagementCmd());
+        //}
 
         if (name is null) {
             logInfo("default ProcessEngine created");

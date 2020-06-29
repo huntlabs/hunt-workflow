@@ -120,7 +120,7 @@ class DefaultFlowableEngineAgenda : AbstractAgenda , FlowableEngineAgenda {
 
 
     public void planExecuteInactiveBehaviorsOperation() {
-        planOperation(new ExecuteInactiveBehaviorsOperation(commandContext));
+        super.planOperation(new ExecuteInactiveBehaviorsOperation(commandContext));
     }
 
 }

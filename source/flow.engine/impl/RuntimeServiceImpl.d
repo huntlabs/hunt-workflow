@@ -98,6 +98,7 @@ import flow.variable.service.api.persistence.entity.VariableInstance;
 import flow.engine.impl.ExecutionQueryImpl;
 import flow.engine.impl.ProcessInstanceQueryImpl;
 import flow.engine.impl.ActivityInstanceQueryImpl;
+import hunt.Boolean;
 //import flow.engine.impl.NativeExecutionQueryImpl;
 //import flow.engine.impl.NativeProcessInstanceQueryImpl;
 //import flow.engine.impl.NativeProcessInstanceQueryImpl;
@@ -109,62 +110,62 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, null, null)));
     }
 
 
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, string businessKey) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, businessKey, null)));
     }
 
 
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, variables));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, null, variables)));
     }
 
 
     public ProcessInstance startProcessInstanceByKey(string processDefinitionKey, string businessKey, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, variables));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, businessKey, variables)));
     }
 
 
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, null, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, null, null, tenantId)));
     }
 
 
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string businessKey, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, null, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, businessKey, null, tenantId)));
     }
 
 
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, Map!(string, Object) variables, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, null, variables, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, null, variables, tenantId)));
     }
 
 
     public ProcessInstance startProcessInstanceByKeyAndTenantId(string processDefinitionKey, string businessKey, Map!(string, Object) variables, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processDefinitionKey, null, businessKey, variables, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processDefinitionKey, null, businessKey, variables, tenantId)));
     }
 
 
     public ProcessInstance startProcessInstanceById(string processDefinitionId) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, null, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(null, processDefinitionId, null, null)));
     }
 
 
     public ProcessInstance startProcessInstanceById(string processDefinitionId, string businessKey) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, businessKey, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(null, processDefinitionId, businessKey, null)));
     }
 
 
     public ProcessInstance startProcessInstanceById(string processDefinitionId, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, null, variables));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(null, processDefinitionId, null, variables)));
     }
 
 
     public ProcessInstance startProcessInstanceById(string processDefinitionId, string businessKey, Map!(string, Object) variables) {
-        return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(null, processDefinitionId, businessKey, variables));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(null, processDefinitionId, businessKey, variables)));
     }
 
 
@@ -179,7 +180,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public FormInfo getStartFormModel(string processDefinitionId, string processInstanceId) {
-        return commandExecutor.execute(new GetStartFormModelCmd(processDefinitionId, processInstanceId));
+        return cast(FormInfo)(commandExecutor.execute(new GetStartFormModelCmd(processDefinitionId, processInstanceId)));
     }
 
 
@@ -219,47 +220,47 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public Map!(string, Object) getVariables(string executionId) {
-        return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, false));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, false)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstances(string executionId) {
-        return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, null, false));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, null, false)));
     }
 
 
     public List!VariableInstance getVariableInstancesByExecutionIds(Set!string executionIds) {
-        return commandExecutor.execute(new GetExecutionsVariablesCmd(executionIds));
+        return cast(List!VariableInstance)(commandExecutor.execute(new GetExecutionsVariablesCmd(executionIds)));
     }
 
 
     public Map!(string, Object) getVariablesLocal(string executionId) {
-        return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, true));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetExecutionVariablesCmd(executionId, null, true)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstancesLocal(string executionId) {
-        return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, null, true));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, null, true)));
     }
 
 
     public Map!(string, Object) getVariables(string executionId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, false));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, false)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstances(string executionId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, false));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, false)));
     }
 
 
     public Map!(string, Object) getVariablesLocal(string executionId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, true));
+        return cast(Map!(string, Object))(commandExecutor.execute(new GetExecutionVariablesCmd(executionId, variableNames, true)));
     }
 
 
     public Map!(string, VariableInstance) getVariableInstancesLocal(string executionId, Collection!string variableNames) {
-        return commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, true));
+        return cast(Map!(string, VariableInstance))(commandExecutor.execute(new GetExecutionVariableInstancesCmd(executionId, variableNames, true)));
     }
 
 
@@ -269,7 +270,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public VariableInstance getVariableInstance(string executionId, string variableName) {
-        return commandExecutor.execute(new GetExecutionVariableInstanceCmd(executionId, variableName, false));
+        return cast(VariableInstance)(commandExecutor.execute(new GetExecutionVariableInstanceCmd(executionId, variableName, false)));
     }
 
 
@@ -279,7 +280,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public bool hasVariable(string executionId, string variableName) {
-        return commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, false));
+        return (cast(Boolean)(commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, false)))).booleanValue();
     }
 
 
@@ -289,7 +290,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public VariableInstance getVariableInstanceLocal(string executionId, string variableName) {
-        return commandExecutor.execute(new GetExecutionVariableInstanceCmd(executionId, variableName, true));
+        return cast(VariableInstance)(commandExecutor.execute(new GetExecutionVariableInstanceCmd(executionId, variableName, true)));
     }
 
 
@@ -299,7 +300,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public bool hasVariableLocal(string executionId, string variableName) {
-        return commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, true));
+        return (cast(Boolean)(commandExecutor.execute(new HasExecutionVariableCmd(executionId, variableName, true)))).booleanValue();
     }
 
 
@@ -358,62 +359,62 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public Map!(string, DataObject) getDataObjects(string executionId) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, false));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, null, false)));
     }
 
 
     public Map!(string, DataObject) getDataObjects(string executionId, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, false, locale, withLocalizationFallback));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, null, false, locale, withLocalizationFallback)));
     }
 
 
     public Map!(string, DataObject) getDataObjectsLocal(string executionId) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, true));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, null, true)));
     }
 
 
     public Map!(string, DataObject) getDataObjectsLocal(string executionId, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, null, true, locale, withLocalizationFallback));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, null, true, locale, withLocalizationFallback)));
     }
 
 
     public Map!(string, DataObject) getDataObjects(string executionId, Collection!string dataObjectNames) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false)));
     }
 
 
     public Map!(string, DataObject) getDataObjects(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false, locale, withLocalizationFallback));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, false, locale, withLocalizationFallback)));
     }
 
 
     public Map!(string, DataObject) getDataObjectsLocal(string executionId, Collection!string dataObjects) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjects, true));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjects, true)));
     }
 
 
     public Map!(string, DataObject) getDataObjectsLocal(string executionId, Collection!string dataObjectNames, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, true, locale, withLocalizationFallback));
+        return cast(Map!(string, DataObject))(commandExecutor.execute(new GetDataObjectsCmd(executionId, dataObjectNames, true, locale, withLocalizationFallback)));
     }
 
 
     public DataObject getDataObject(string executionId, string dataObject) {
-        return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObject, false));
+        return cast(DataObject)(commandExecutor.execute(new GetDataObjectCmd(executionId, dataObject, false)));
     }
 
 
     public DataObject getDataObject(string executionId, string dataObjectName, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, false, locale, withLocalizationFallback));
+        return cast(DataObject)(commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, false, locale, withLocalizationFallback)));
     }
 
 
     public DataObject getDataObjectLocal(string executionId, string dataObjectName) {
-        return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, true));
+        return cast(DataObject)(commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, true)));
     }
 
 
     public DataObject getDataObjectLocal(string executionId, string dataObjectName, string locale, bool withLocalizationFallback) {
-        return commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, true, locale, withLocalizationFallback));
+        return cast(DataObject)(commandExecutor.execute(new GetDataObjectCmd(executionId, dataObjectName, true, locale, withLocalizationFallback)));
     }
 
     public void signal(string executionId) {
@@ -501,27 +502,27 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public List!IdentityLink getIdentityLinksForProcessInstance(string processInstanceId) {
-        return commandExecutor.execute(new GetIdentityLinksForProcessInstanceCmd(processInstanceId));
+        return cast(List!IdentityLink)(commandExecutor.execute(new GetIdentityLinksForProcessInstanceCmd(processInstanceId)));
     }
 
 
     public List!EntityLink getEntityLinkChildrenForProcessInstance(string processInstanceId) {
-        return commandExecutor.execute(new GetEntityLinkChildrenForProcessInstanceCmd(processInstanceId));
+        return cast(List!EntityLink)(commandExecutor.execute(new GetEntityLinkChildrenForProcessInstanceCmd(processInstanceId)));
     }
 
 
     public List!EntityLink getEntityLinkChildrenForTask(string taskId) {
-        return commandExecutor.execute(new GetEntityLinkChildrenForTaskCmd(taskId));
+        return cast(List!EntityLink)(commandExecutor.execute(new GetEntityLinkChildrenForTaskCmd(taskId)));
     }
 
 
     public List!EntityLink getEntityLinkParentsForProcessInstance(string processInstanceId) {
-        return commandExecutor.execute(new GetEntityLinkParentsForProcessInstanceCmd(processInstanceId));
+        return cast(List!EntityLink)(commandExecutor.execute(new GetEntityLinkParentsForProcessInstanceCmd(processInstanceId)));
     }
 
 
     public List!EntityLink getEntityLinkParentsForTask(string taskId) {
-        return commandExecutor.execute(new GetEntityLinkParentsForTaskCmd(taskId));
+        return cast(List!EntityLink)(commandExecutor.execute(new GetEntityLinkParentsForTaskCmd(taskId)));
     }
 
 
@@ -536,11 +537,11 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public List!string getActiveActivityIds(string executionId) {
-        return commandExecutor.execute(new FindActiveActivityIdsCmd(executionId));
+        return cast(List!string)(commandExecutor.execute(new FindActiveActivityIdsCmd(executionId)));
     }
 
     public FormData getFormInstanceById(string processDefinitionId) {
-        return commandExecutor.execute(new GetStartFormCmd(processDefinitionId));
+        return cast(FormData)(commandExecutor.execute(new GetStartFormCmd(processDefinitionId)));
     }
 
 
@@ -555,42 +556,42 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public ProcessInstance startProcessInstanceByMessage(string messageName) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, null, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, null, null)));
     }
 
 
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, null, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, null, tenantId)));
     }
 
 
     public ProcessInstance startProcessInstanceByMessage(string messageName, string businessKey) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, null, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, null, null)));
     }
 
 
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string businessKey, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, null, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, null, tenantId)));
     }
 
 
     public ProcessInstance startProcessInstanceByMessage(string messageName, Map!(string, Object) processVariables) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, null)));
     }
 
 
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, Map!(string, Object) processVariables, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, null, processVariables, tenantId)));
     }
 
 
     public ProcessInstance startProcessInstanceByMessage(string messageName, string businessKey, Map!(string, Object) processVariables) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, null));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, null)));
     }
 
 
     public ProcessInstance startProcessInstanceByMessageAndTenantId(string messageName, string businessKey, Map!(string, Object) processVariables, string tenantId) {
-        return commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, tenantId));
+        return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(messageName, businessKey, processVariables, tenantId)));
     }
 
 
@@ -690,22 +691,22 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public List!Event getProcessInstanceEvents(string processInstanceId) {
-        return commandExecutor.execute(new GetProcessInstanceEventsCmd(processInstanceId));
+        return cast(List!Event)(commandExecutor.execute(new GetProcessInstanceEventsCmd(processInstanceId)));
     }
 
 
     public List!Execution getAdhocSubProcessExecutions(string processInstanceId) {
-        return commandExecutor.execute(new GetActiveAdhocSubProcessesCmd(processInstanceId));
+        return cast(List!Execution)(commandExecutor.execute(new GetActiveAdhocSubProcessesCmd(processInstanceId)));
     }
 
 
     public List!FlowNode getEnabledActivitiesFromAdhocSubProcess(string executionId) {
-        return commandExecutor.execute(new GetEnabledActivitiesForAdhocSubProcessCmd(executionId));
+        return cast(List!FlowNode)(commandExecutor.execute(new GetEnabledActivitiesForAdhocSubProcessCmd(executionId)));
     }
 
 
     public Execution executeActivityInAdhocSubProcess(string executionId, string activityId) {
-        return commandExecutor.execute(new ExecuteActivityForAdhocSubProcessCmd(executionId, activityId));
+        return cast(Execution)(commandExecutor.execute(new ExecuteActivityForAdhocSubProcessCmd(executionId, activityId)));
     }
 
 
@@ -727,7 +728,7 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
 
     public Execution addMultiInstanceExecution(string activityId, string parentExecutionId, Map!(string, Object) executionVariables) {
-        return commandExecutor.execute(new AddMultiInstanceExecutionCmd(activityId, parentExecutionId, executionVariables));
+        return cast(Execution)(commandExecutor.execute(new AddMultiInstanceExecutionCmd(activityId, parentExecutionId, executionVariables)));
     }
 
 
@@ -737,9 +738,9 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
 
     public ProcessInstance startProcessInstance(ProcessInstanceBuilderImpl processInstanceBuilder) {
         if ((processInstanceBuilder.getProcessDefinitionId() !is null && processInstanceBuilder.getProcessDefinitionId().length != 0)|| (processInstanceBuilder.getProcessDefinitionKey() !is null && processInstanceBuilder.getProcessDefinitionKey().length !=0 )) {
-            return commandExecutor.execute(new StartProcessInstanceCmd!ProcessInstance(processInstanceBuilder));
+            return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceCmd(processInstanceBuilder)));
         } else if (processInstanceBuilder.getMessageName() !is null && processInstanceBuilder.getMessageName().length != 0) {
-            return commandExecutor.execute(new StartProcessInstanceByMessageCmd(processInstanceBuilder));
+            return cast(ProcessInstance)(commandExecutor.execute(new StartProcessInstanceByMessageCmd(processInstanceBuilder)));
         } else {
             throw new FlowableIllegalArgumentException("No processDefinitionId, processDefinitionKey nor messageName provided");
         }
