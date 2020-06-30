@@ -62,7 +62,7 @@ class DeleteIdentityLinkCmd : NeedsActiveTaskCmd!Void {
         // Special treatment for assignee and owner: group cannot be used and userId may be null
         if (IdentityLinkType.ASSIGNEE == (type) || IdentityLinkType.OWNER == (type)) {
             if (groupId !is null) {
-                throw new FlowableIllegalArgumentException("Incompatible usage: cannot use type '" + type + "' together with a groupId");
+                throw new FlowableIllegalArgumentException("Incompatible usage: cannot use type '" ~ type ~ "' together with a groupId");
             }
         } else {
             if (userId is null && groupId is null) {

@@ -17,7 +17,7 @@ import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import std.regex;
 import flow.bpmn.model.CallActivity;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.IOParameter;
@@ -327,14 +327,14 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
         } else {
             processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(processDefinitionKey, tenantId);
             if (processDefinition is null && (this.fallbackToDefaultTenant || processEngineConfiguration.isFallbackToDefaultTenant())) {
-
-                string defaultTenant = processEngineConfiguration.getDefaultTenantProvider().getDefaultTenant(tenantId, ScopeTypes.BPMN, processDefinitionKey);
-                if (defaultTenant.length == 0) {
-                    processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(
-                                    processDefinitionKey, defaultTenant);
-                } else {
-                    processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
-                }
+                implementationMissing(false);
+                //string defaultTenant = processEngineConfiguration.getDefaultTenantProvider().getDefaultTenant(tenantId, ScopeTypes.BPMN, processDefinitionKey);
+                //if (defaultTenant.length == 0) {
+                //    processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKeyAndTenantId(
+                //                    processDefinitionKey, defaultTenant);
+                //} else {
+                //    processDefinition = processDefinitionEntityManager.findLatestProcessDefinitionByKey(processDefinitionKey);
+                //}
             }
         }
 
@@ -346,17 +346,19 @@ class CallActivityBehavior : AbstractBpmnActivityBehavior , SubProcessActivityBe
     }
 
     protected string getCalledElementValue(DelegateExecution execution, ProcessEngineConfigurationImpl processEngineConfiguration) {
-         implementationMissing(false);
-        //string calledElementValue = callActivity.getCalledElement();
-        //if (Context.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()){
-        //    ObjectNode taskElementProperties = BpmnOverrideContext
-        //            .getBpmnOverrideElementProperties(callActivity.getId(), execution.getProcessDefinitionId());
-        //    calledElementValue = getActiveValue(callActivity.getCalledElement(), DynamicBpmnConstants.CALL_ACTIVITY_CALLED_ELEMENT, taskElementProperties);
-        //}
-        //if (StringUtils.isNotEmpty(calledElementValue) && calledElementValue.matches(EXPRESSION_REGEX)) {
-        //    calledElementValue = (string) processEngineConfiguration.getExpressionManager().createExpression(calledElementValue).getValue(execution);
-        //}
-        //return calledElementValue;
+
+
+        string calledElementValue = callActivity.getCalledElement();
+        if (Context.getProcessEngineConfiguration().isEnableProcessDefinitionInfoCache()){
+          implementationMissing(false);
+            //ObjectNode taskElementProperties = BpmnOverrideContext
+            //        .getBpmnOverrideElementProperties(callActivity.getId(), execution.getProcessDefinitionId());
+            //calledElementValue = getActiveValue(callActivity.getCalledElement(), DynamicBpmnConstants.CALL_ACTIVITY_CALLED_ELEMENT, taskElementProperties);
+        }
+        if (calledElementValue.length != 0 && !matchFirst(calledElementValue,regex(EXPRESSION_REGEX)).empty) {
+            calledElementValue = (cast(String)(processEngineConfiguration.getExpressionManager().createExpression(calledElementValue).getValue(execution))).value;
+        }
+        return calledElementValue;
     }
 
     protected Map!(string, Object) processDataObjects(Collection!ValuedDataObject dataObjects) {

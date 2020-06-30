@@ -115,7 +115,7 @@ class EscalationPropagation {
                     foreach (MapEntry!(string, List!Event) refId ; eventMap) {
                         List!Event events = eventMap.get(refId.getKey());
                         if ((events !is null && events.size != 0) && cast(StartEvent)events.get(0) !is null) {
-                            string refActivityId = refId.getKey()[0 ..  refId.indexOf('#')];
+                            string refActivityId = refId.getKey()[0 ..  refId.getKey().indexOf('#')];
                             string refProcessDefinitionId = refId.getKey[indexOf(refId.getKey(), '#') + 1 .. $];
                             if (parentExecution.getProcessDefinitionId() == (refProcessDefinitionId) &&
                                             currentContainer.getFlowElement(refActivityId) !is null) {
@@ -169,7 +169,7 @@ class EscalationPropagation {
                 }
                 if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     processEngineConfiguration.getEventDispatcher()
-                            .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_COMPLETED_WITH_ESCALATION_END_EVENT, processInstanceEntity));
+                            .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_COMPLETED_WITH_ESCALATION_END_EVENT, cast(Object)processInstanceEntity));
                 }
             }
 

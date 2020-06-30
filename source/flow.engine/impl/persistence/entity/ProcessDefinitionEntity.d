@@ -77,4 +77,5 @@ interface ProcessDefinitionEntity : ProcessDefinition, Entity, HasRevision {
 
     List!IdentityLinkEntity getIdentityLinks();
 
+    int opCmp(ProcessDefinitionEntity o);
 }

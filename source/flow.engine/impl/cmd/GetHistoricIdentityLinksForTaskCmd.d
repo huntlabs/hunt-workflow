@@ -72,7 +72,7 @@ class GetHistoricIdentityLinksForTaskCmd : Command!(List!HistoricIdentityLink) {
         }
 
         // Similar to GetIdentityLinksForTask, return assignee and owner as identity link
-        if (task.getAssignee() !is null && getAssignee.length != 0 && assigneeIdentityLink is null) {
+        if (task.getAssignee() !is null && task.getAssignee.length != 0 && assigneeIdentityLink is null) {
             HistoricIdentityLinkEntity identityLink = historicIdentityLinkService.createHistoricIdentityLink();
             identityLink.setUserId(task.getAssignee());
             identityLink.setTaskId(task.getId());

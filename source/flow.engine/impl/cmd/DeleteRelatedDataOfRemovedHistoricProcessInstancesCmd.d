@@ -18,20 +18,21 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.entitylink.service.api.history.HistoricEntityLinkService;
-
+import hunt.Exceptions;
 class DeleteRelatedDataOfRemovedHistoricProcessInstancesCmd : Command!Object {
 
     public Object execute(CommandContext commandContext) {
-        CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricProcessIdentityLinksForNonExistingInstances();
-        CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricTaskIdentityLinksForNonExistingInstances();
-        HistoricEntityLinkService historicEntityLinkService = CommandContextUtil.getHistoricEntityLinkService();
-        if (historicEntityLinkService !is null) {
-            historicEntityLinkService.deleteHistoricEntityLinksForNonExistingProcessInstances();
-        }
-        CommandContextUtil.getHistoricTaskService(commandContext).deleteHistoricTaskLogEntriesForNonExistingProcessInstances();
-        CommandContextUtil.getHistoricVariableService().deleteHistoricVariableInstancesForNonExistingProcessInstances();
-        CommandContextUtil.getHistoricDetailEntityManager(commandContext).deleteHistoricDetailForNonExistingProcessInstances();
-
+        //CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricProcessIdentityLinksForNonExistingInstances();
+        //CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricTaskIdentityLinksForNonExistingInstances();
+        //HistoricEntityLinkService historicEntityLinkService = CommandContextUtil.getHistoricEntityLinkService();
+        //if (historicEntityLinkService !is null) {
+        //    historicEntityLinkService.deleteHistoricEntityLinksForNonExistingProcessInstances();
+        //}
+        //CommandContextUtil.getHistoricTaskService(commandContext).deleteHistoricTaskLogEntriesForNonExistingProcessInstances();
+        //CommandContextUtil.getHistoricVariableService().deleteHistoricVariableInstancesForNonExistingProcessInstances();
+        //CommandContextUtil.getHistoricDetailEntityManager(commandContext).deleteHistoricDetailForNonExistingProcessInstances();
+        //
+        implementationMissing(false);
         return null;
     }
 

@@ -99,8 +99,8 @@ import flow.common.interceptor.SessionFactory;
 import flow.common.persistence.GenericManagerFactory;
 //import flow.common.persistence.cache.EntityCache;
 //import flow.common.persistence.cache.EntityCacheImpl;
-//import flow.common.persistence.deploy.DefaultDeploymentCache;
-//import flow.common.persistence.deploy.DeploymentCache;
+import flow.common.persistence.deploy.DefaultDeploymentCache;
+import flow.common.persistence.deploy.DeploymentCache;
 import flow.common.persistence.entity.PropertyEntityManager;
 import flow.common.persistence.entity.data.PropertyDataManager;
 import flow.common.runtime.Clockm;
@@ -562,16 +562,16 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     protected DeploymentManager deploymentManager;
 
     protected int processDefinitionCacheLimit = -1; // By default, no limit
-    //protected DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache;
+    protected DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache;
 
     protected int processDefinitionInfoCacheLimit = -1; // By default, no limit
-    //protected DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache;
+    protected DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache;
 
     protected int knowledgeBaseCacheLimit = -1;
-    //protected DeploymentCache!Object knowledgeBaseCache;
+    protected DeploymentCache!Object knowledgeBaseCache;
 
     protected int appResourceCacheLimit = -1;
-    //protected DeploymentCache!Object appResourceCache;
+    protected DeploymentCache!Object appResourceCache;
 
     protected AppResourceConverter appResourceConverter;
 
@@ -966,8 +966,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
     this() {
         mybatisMappingFile = DEFAULT_MYBATIS_MAPPING_FILE;
-        jobProcessors = Collections.emptyList();
-        historyJobProcessors = Collections.emptyList();
+        jobProcessors = Collections.emptyList!JobProcessor();
+        historyJobProcessors = Collections.emptyList!HistoryJobProcessor();
         performanceSettings =   new PerformanceSettings();
         delegateExpressionFieldInjectionMode = DelegateExpressionFieldInjectionMode.MIXED;
         asyncExecutorTenantId = AbstractEngineConfiguration.NO_TENANT_ID;
@@ -1140,13 +1140,13 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     // /////////////////////////////////////////////////////////////////
 
     public void initServices() {
-        initService(repositoryService);
-        initService(runtimeService);
-        initService(historyService);
-        initService(identityService);
-        initService(taskService);
-        initService(formService);
-        initService(managementService);
+        initService(cast(Object)repositoryService);
+        initService(cast(Object)runtimeService);
+        initService(cast(Object)historyService);
+        initService(cast(Object)identityService);
+        initService(cast(Object)taskService);
+        initService(cast(Object)formService);
+        initService(cast(Object)managementService);
         //initService(dynamicBpmnService);
         //initService(processInstanceMigrationService);
     }
@@ -1431,14 +1431,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             }
         }
 
-        if (isLoggingSessionEnabled()) {
+        //if (isLoggingSessionEnabled()) {
             //if (!sessionFactories.containsKey(LoggingSession.class)) {
             //    LoggingSessionFactory loggingSessionFactory = new LoggingSessionFactory();
             //    loggingSessionFactory.setLoggingListener(loggingListener);
             //    loggingSessionFactory.setObjectMapper(objectMapper);
             //    sessionFactories.put(LoggingSession.class, loggingSessionFactory);
             //}
-        }
+        //}
 
         if (customSessionFactories !is null) {
             foreach (SessionFactory sessionFactory ; customSessionFactories) {
@@ -1492,7 +1492,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
         this.variableServiceConfiguration.setMaxLengthString(this.getMaxLengthString());
         this.variableServiceConfiguration.setSerializableVariableTypeTrackDeserializedObjects(this.isSerializableVariableTypeTrackDeserializedObjects());
-        this.variableServiceConfiguration.setLoggingSessionEnabled(isLoggingSessionEnabled());
+        this.variableServiceConfiguration.setLoggingSessionEnabled(false);
 
         this.variableServiceConfiguration.init();
 
@@ -1677,8 +1677,8 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         }
 
         if (this.jobHandlers !is null) {
-            foreach (string type ; this.jobHandlers.keySet()) {
-                this.jobServiceConfiguration.addJobHandler(type, this.jobHandlers.get(type));
+            foreach (MapEntry!(string, JobHandler) type ; this.jobHandlers) {
+                this.jobServiceConfiguration.addJobHandler(type.getKey, this.jobHandlers.get(type.getKey));
             }
         }
 
@@ -1769,13 +1769,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     // ////////////////////////////////////////////////////////////////
 
     public void initProcessDefinitionCache() {
-        //if (processDefinitionCache is null) {
-        //    if (processDefinitionCacheLimit <= 0) {
-        //        processDefinitionCache = new DefaultDeploymentCache<>();
-        //    } else {
-        //        processDefinitionCache = new DefaultDeploymentCache<>(processDefinitionCacheLimit);
-        //    }
-        //}
+        if (processDefinitionCache is null) {
+            if (processDefinitionCacheLimit <= 0) {
+                processDefinitionCache = new DefaultDeploymentCache!ProcessDefinitionCacheEntry();
+            } else {
+                implementationMissing(false);
+               // processDefinitionCache = new DefaultDeploymentCache!ProcessDefinitionCacheEntry(processDefinitionCacheLimit);
+            }
+        }
     }
 
     public void initProcessDefinitionInfoCache() {
@@ -1783,29 +1784,30 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             if (processDefinitionInfoCacheLimit <= 0) {
                 processDefinitionInfoCache = new ProcessDefinitionInfoCache(commandExecutor);
             } else {
-                processDefinitionInfoCache = new ProcessDefinitionInfoCache(commandExecutor, processDefinitionInfoCacheLimit);
+                implementationMissing(false);
+                //processDefinitionInfoCache = new ProcessDefinitionInfoCache(commandExecutor, processDefinitionInfoCacheLimit);
             }
         }
     }
 
     public void initAppResourceCache() {
-        //if (appResourceCache is null) {
-        //    if (appResourceCacheLimit <= 0) {
-        //        appResourceCache = new DefaultDeploymentCache<>();
-        //    } else {
-        //        appResourceCache = new DefaultDeploymentCache<>(appResourceCacheLimit);
-        //    }
-        //}
+        if (appResourceCache is null) {
+            if (appResourceCacheLimit <= 0) {
+                appResourceCache = new DefaultDeploymentCache!Object();
+            } else {  implementationMissing(false);
+               // appResourceCache = new DefaultDeploymentCache<>(appResourceCacheLimit);
+            }
+        }
     }
 
     public void initKnowledgeBaseCache() {
-        //if (knowledgeBaseCache is null) {
-        //    if (knowledgeBaseCacheLimit <= 0) {
-        //        knowledgeBaseCache = new DefaultDeploymentCache<>();
-        //    } else {
-        //        knowledgeBaseCache = new DefaultDeploymentCache<>(knowledgeBaseCacheLimit);
-        //    }
-        //}
+        if (knowledgeBaseCache is null) {
+            if (knowledgeBaseCacheLimit <= 0) {
+                knowledgeBaseCache = new DefaultDeploymentCache!Object();
+            } else { implementationMissing(false);
+              //  knowledgeBaseCache = new DefaultDeploymentCache<>(knowledgeBaseCacheLimit);
+            }
+        }
     }
 
     public void initDeployers() {
@@ -2639,6 +2641,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     }
 
     public Runnable getProcessEngineCloseRunnable() {
+        return null;
         //return new class Runnable {
         //     void run() {
         //        commandExecutor.execute(getSchemaCommandConfig(), new SchemaOperationProcessEngineClose());
@@ -2653,7 +2656,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
             List!EngineConfigurator specificConfigurators = new ArrayList!EngineConfigurator();
 
            if (!disableEventRegistry) {
-                if (eventRegistryConfiurator !is null) {
+                if (eventRegistryConfigurator !is null) {
                     specificConfigurators.add(eventRegistryConfigurator);
                     } else {
                    // specificConfigurators.add(new EventRegistryEngineConfigurator());
@@ -2669,7 +2672,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
 
             return specificConfigurators;
         }
-        return Collections.emptyList();
+        return Collections.emptyList!EngineConfigurator();
     }
 
     override
@@ -3586,23 +3589,23 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         return this;
     }
 
-    //public DeploymentCache!ProcessDefinitionCacheEntry getProcessDefinitionCache() {
-    //    return processDefinitionCache;
-    //}
+    public DeploymentCache!ProcessDefinitionCacheEntry getProcessDefinitionCache() {
+        return processDefinitionCache;
+    }
 
-    //public ProcessEngineConfigurationImpl setProcessDefinitionCache(DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache) {
-    //    this.processDefinitionCache = processDefinitionCache;
-    //    return this;
-    //}
+    public ProcessEngineConfigurationImpl setProcessDefinitionCache(DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache) {
+        this.processDefinitionCache = processDefinitionCache;
+        return this;
+    }
     //
-    //public ProcessEngineConfigurationImpl setProcessDefinitionInfoCache(DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache){
-    //    this.processDefinitionInfoCache = processDefinitionInfoCache;
-    //    return this;
-    //}
-    //
-    //public DeploymentCache!ProcessDefinitionInfoCacheObject getProcessDefinitionInfoCache() {
-    //    return processDefinitionInfoCache;
-    //}
+    public ProcessEngineConfigurationImpl setProcessDefinitionInfoCache(DeploymentCache!ProcessDefinitionInfoCacheObject processDefinitionInfoCache){
+        this.processDefinitionInfoCache = processDefinitionInfoCache;
+        return this;
+    }
+
+    public DeploymentCache!ProcessDefinitionInfoCacheObject getProcessDefinitionInfoCache() {
+        return processDefinitionInfoCache;
+    }
 
     public int getKnowledgeBaseCacheLimit() {
         return knowledgeBaseCacheLimit;
@@ -3622,14 +3625,14 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
     //    return this;
     //}
     //
-    //public DeploymentCache!Object getAppResourceCache() {
-    //    return appResourceCache;
-    //}
-    //
-    //public ProcessEngineConfigurationImpl setAppResourceCache(DeploymentCache!Object appResourceCache) {
-    //    this.appResourceCache = appResourceCache;
-    //    return this;
-    //}
+    public DeploymentCache!Object getAppResourceCache() {
+        return appResourceCache;
+    }
+
+    public ProcessEngineConfigurationImpl setAppResourceCache(DeploymentCache!Object appResourceCache) {
+        this.appResourceCache = appResourceCache;
+        return this;
+    }
 
     public int getAppResourceCacheLimit() {
         return appResourceCacheLimit;
@@ -4228,7 +4231,7 @@ abstract class ProcessEngineConfigurationImpl : ProcessEngineConfiguration ,
         if (this.clock is null) {
             this.clock = clock;
         } else {
-            this.clock.setCurrentCalendar(clock.getCurrentCalendar());
+            this.clock.setCurrentTime(clock.getCurrentTime());
         }
 
         //if (flowable5CompatibilityEnabled && flowable5CompatibilityHandler !is null) {

@@ -124,11 +124,11 @@ class DefaultInternalJobManager : InternalJobManager {
             if (CountingEntityUtil.isExecutionRelatedEntityCountEnabled(executionEntity)) {
                 CountingExecutionEntity countingExecutionEntity = cast(CountingExecutionEntity) executionEntity;
                 if (cast(JobEntity)job !is null) {
-                    executionEntity.getJobs().remove(job);
+                    executionEntity.getJobs().remove(cast(JobEntity)job);
                     countingExecutionEntity.setJobCount(countingExecutionEntity.getJobCount() - 1);
 
                 } else if (cast(TimerJobEntity)job !is null) {
-                    executionEntity.getTimerJobs().remove(job);
+                    executionEntity.getTimerJobs().remove(cast(TimerJobEntity)job);
                     countingExecutionEntity.setTimerJobCount(countingExecutionEntity.getTimerJobCount() - 1);
 
                 } else if (cast(SuspendedJobEntity)job !is null) {
@@ -149,11 +149,11 @@ class DefaultInternalJobManager : InternalJobManager {
             executionEntityManager.updateProcessInstanceLockTime(execution.getProcessInstanceId());
         }
 
-        if (processEngineConfiguration.isLoggingSessionEnabled()) {
+        //if (processEngineConfiguration.isLoggingSessionEnabled()) {
             //FlowElement flowElement = execution.getCurrentFlowElement();
             //BpmnLoggingSessionUtil.addAsyncActivityLoggingData("Locking job for " + flowElement.getId() + ", with job id " + job.getId(),
             //                LoggingSessionConstants.TYPE_SERVICE_TASK_LOCK_JOB, (JobEntity) job, flowElement, execution);
-        }
+        //}
     }
 
 
@@ -164,12 +164,12 @@ class DefaultInternalJobManager : InternalJobManager {
             executionEntityManager.clearProcessInstanceLockTime(execution.getId());
         }
 
-        if (processEngineConfiguration.isLoggingSessionEnabled()) {
+       // if (processEngineConfiguration.isLoggingSessionEnabled()) {
             //ExecutionEntity localExecution = executionEntityManager.findById(job.getExecutionId());
             //FlowElement flowElement = localExecution.getCurrentFlowElement();
             //BpmnLoggingSessionUtil.addAsyncActivityLoggingData("Unlocking job for " + flowElement.getId() + ", with job id " + job.getId(),
             //                LoggingSessionConstants.TYPE_SERVICE_TASK_UNLOCK_JOB, (JobEntity) job, flowElement, localExecution);
-        }
+        //}
     }
 
 

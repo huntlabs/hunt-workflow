@@ -34,6 +34,8 @@ import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import  flow.engine.impl.bpmn.deployer.TimerManager;
 import  flow.engine.impl.bpmn.deployer.EventSubscriptionManager;
 import flow.engine.impl.bpmn.deployer.ParsedDeployment;
+import hunt.logging;
+import std.range;
 /**
  * Methods for working with deployments. Much of the actual work of {@link BpmnDeployer} is done by orchestrating the different pieces of work this class does; by having them here, we allow other
  * deployers to make use of them.
@@ -195,9 +197,9 @@ class BpmnDeploymentHelper {
 
         if (expressions !is null) {
             IdentityLinkService identityLinkService = CommandContextUtil.getIdentityLinkService();
-            Iterator!string iterator = expressions.iterator();
-            while (iterator.hasNext()) {
-                string expression = iterator.next();
+            InputRange!string iterator = expressions.iterator();
+            while (!iterator.empty) {
+                string expression = iterator.front();
                 IdentityLinkEntity identityLink = identityLinkService.createIdentityLink();
                 identityLink.setProcessDefId(processDefinition.getId());
                 if (expressionType == ExpressionType.USER) {
@@ -207,6 +209,7 @@ class BpmnDeploymentHelper {
                 }
                 identityLink.setType(IdentityLinkType.CANDIDATE);
                 identityLinkService.insertIdentityLink(identityLink);
+                iterator.popFront();
             }
         }
 

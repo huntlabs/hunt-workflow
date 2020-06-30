@@ -28,6 +28,7 @@ import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.util.ProcessDefinitionUtil;
 import hunt.Object;
 import hunt.Integer;
+import flow.variable.service.api.deleg.VariableScope;
 /**
  * @author Tijs Rademakers
  */
@@ -77,12 +78,12 @@ class DeleteMultiInstanceExecutionCmd : Command!Void {
 
         if (executionIsCompleted) {
             Integer numberOfCompletedInstances = cast(Integer) miExecution.getVariable(NUMBER_OF_COMPLETED_INSTANCES);
-            miExecution.setVariableLocal(NUMBER_OF_COMPLETED_INSTANCES, new Integer(numberOfCompletedInstances.intValue + 1));
+            (cast(VariableScope)miExecution).setVariableLocal(NUMBER_OF_COMPLETED_INSTANCES, new Integer(numberOfCompletedInstances.intValue + 1));
             loopCounter++;
 
         } else {
             Integer currentNumberOfInstances = cast(Integer) miExecution.getVariable(NUMBER_OF_INSTANCES);
-            miExecution.setVariableLocal(NUMBER_OF_INSTANCES, new Integer(currentNumberOfInstances.intValue - 1));
+            (cast(VariableScope)miExecution).setVariableLocal(NUMBER_OF_INSTANCES, new Integer(currentNumberOfInstances.intValue - 1));
         }
 
         ExecutionEntity childExecution = executionEntityManager.createChildExecution(miExecution);

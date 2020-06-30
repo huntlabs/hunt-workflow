@@ -314,7 +314,7 @@ class DefaultActivityBehaviorFactory : AbstractBehaviorFactory , ActivityBehavio
 	}
 
     private void addExceptionMapAsFieldDeclaration(List!FieldDeclaration fieldDeclarations, List!MapExceptionEntry mapExceptions) {
-        FieldDeclaration exceptionMapsFieldDeclaration = new FieldDeclaration(EXCEPTION_MAP_FIELD, typeid(mapExceptions).toString(), mapExceptions);
+        FieldDeclaration exceptionMapsFieldDeclaration = new FieldDeclaration(EXCEPTION_MAP_FIELD, typeid(mapExceptions).toString(), cast(Object)mapExceptions);
         fieldDeclarations.add(exceptionMapsFieldDeclaration);
 
     }
@@ -384,7 +384,7 @@ class DefaultActivityBehaviorFactory : AbstractBehaviorFactory , ActivityBehavio
 
         ruleActivity.setExclude(businessRuleTask.isExclude());
 
-        if (businessRuleTask.getResultVariableName() !is null && businessRuleTask.getResultVariableName().length() > 0) {
+        if (businessRuleTask.getResultVariableName() !is null && businessRuleTask.getResultVariableName().length > 0) {
             ruleActivity.setResultVariable(businessRuleTask.getResultVariableName());
         } else {
             ruleActivity.setResultVariable("flow.engine.rules.OUTPUT");

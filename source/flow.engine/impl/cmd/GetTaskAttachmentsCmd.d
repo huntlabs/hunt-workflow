@@ -19,6 +19,8 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.task.Attachment;
+import flow.engine.impl.persistence.entity.AttachmentEntity;
+import hunt.collection.ArrayList;
 
 /**
  * @author Tom Baeyens
@@ -32,6 +34,12 @@ class GetTaskAttachmentsCmd : Command!(List!Attachment) {
     }
 
     public List!Attachment execute(CommandContext commandContext) {
-        return CommandContextUtil.getAttachmentEntityManager().findAttachmentsByTaskId(taskId);
+        List!AttachmentEntity list = CommandContextUtil.getAttachmentEntityManager().findAttachmentsByTaskId(taskId);
+        List!Attachment lst = new ArrayList!Attachment;
+        foreach(AttachmentEntity a; list)
+        {
+            lst.add(cast(Attachment)a);
+        }
+        return lst;
     }
 }

@@ -48,7 +48,7 @@ class GetPotentialStarterUsersCmd : Command!(List!User) {
         List!string userIds = new ArrayList!string();
         List!IdentityLink identityLinks = cast(List!IdentityLink) processDefinition.getIdentityLinks();
         foreach (IdentityLink identityLink ; identityLinks) {
-            if (identityLink.getUserId() !is null && identityLink.getUserId().length() > 0) {
+            if (identityLink.getUserId() !is null && identityLink.getUserId().length > 0) {
 
                 if (!userIds.contains(identityLink.getUserId())) {
                     userIds.add(identityLink.getUserId());

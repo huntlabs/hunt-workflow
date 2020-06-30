@@ -94,7 +94,7 @@ class GetTaskDataObjectsCmd : Command!(Map!(string, DataObject)) {
                 ValuedDataObject foundDataObject = null;
                 if (executionEntity.getParentId() is null || executionEntity.getParentId().length == 0) {
                     foreach (ValuedDataObject dataObject ; bpmnModel.getMainProcess().getDataObjects()) {
-                        if (getName() == (variableEntity.getName())) {
+                        if (dataObject.getName() == (variableEntity.getName())) {
                             foundDataObject = dataObject;
                             break;
                         }
@@ -102,7 +102,7 @@ class GetTaskDataObjectsCmd : Command!(Map!(string, DataObject)) {
                 } else {
                     SubProcess subProcess = cast(SubProcess) bpmnModel.getFlowElement(executionEntity.getActivityId());
                     foreach (ValuedDataObject dataObject ; subProcess.getDataObjects()) {
-                        if (getName() == (variableEntity.getName())) {
+                        if (dataObject.getName() == (variableEntity.getName())) {
                             foundDataObject = dataObject;
                             break;
                         }

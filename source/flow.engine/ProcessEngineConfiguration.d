@@ -165,7 +165,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     protected ProcessEngineLifecycleListener processEngineLifecycleListener;
 
     /** postprocessor for a task builder */
-    //protected TaskPostProcessor taskPostProcessor = null;
+    protected TaskPostProcessor taskPostProcessor ;
 
     /** use one of the static createXxxx methods instead */
     this() {
@@ -775,13 +775,13 @@ import flow.engine.ProcessEngineLifecycleListener;
         return this;
     }
 
-    //public TaskPostProcessor getTaskPostProcessor() {
-    //    return taskPostProcessor;
-    //}
-    //
-    //public void setTaskPostProcessor(TaskPostProcessor processor) {
-    //    this.taskPostProcessor = processor;
-    //}
+    public TaskPostProcessor getTaskPostProcessor() {
+        return taskPostProcessor;
+    }
+
+    public void setTaskPostProcessor(TaskPostProcessor processor) {
+        this.taskPostProcessor = processor;
+    }
 
 
     public bool isEnableHistoryCleaning() {

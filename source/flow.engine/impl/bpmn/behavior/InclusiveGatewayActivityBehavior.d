@@ -14,7 +14,7 @@ module flow.engine.impl.bpmn.behavior.InclusiveGatewayActivityBehavior;
 
 import hunt.collection;
 import hunt.collection.Iterator;
-
+import std.range;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.engine.deleg.DelegateExecution;
@@ -60,10 +60,10 @@ class InclusiveGatewayActivityBehavior : GatewayActivityBehavior , InactiveActiv
         lockFirstParentScope(execution);
 
         Collection!ExecutionEntity allExecutions = executionEntityManager.findChildExecutionsByProcessInstanceId(execution.getProcessInstanceId());
-        Iterator!ExecutionEntity executionIterator = allExecutions.iterator();
+        InputRange!ExecutionEntity executionIterator = allExecutions.iterator();
         bool oneExecutionCanReachGatewayInstance = false;
-        while (!oneExecutionCanReachGatewayInstance && executionIterator.hasNext()) {
-            ExecutionEntity executionEntity = executionIterator.next();
+        while (!oneExecutionCanReachGatewayInstance && !executionIterator.empty) {
+            ExecutionEntity executionEntity = executionIterator.front();
             if (executionEntity.getActivityId() != (execution.getCurrentActivityId())) {
                 if (ExecutionGraphUtil.isReachable(execution.getProcessDefinitionId(), executionEntity.getActivityId(), execution.getCurrentActivityId())) {
                     //Now check if they are in the same "execution path"
@@ -77,6 +77,7 @@ class InclusiveGatewayActivityBehavior : GatewayActivityBehavior , InactiveActiv
                 oneExecutionCanReachGatewayInstance = true;
                 break;
             }
+            executionIterator.popFront();
         }
 
         // Is needed to set the endTime for all historic activity joins

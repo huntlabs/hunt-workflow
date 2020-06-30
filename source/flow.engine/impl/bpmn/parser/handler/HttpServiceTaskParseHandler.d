@@ -29,6 +29,6 @@ class HttpServiceTaskParseHandler : AbstractActivityBpmnParseHandler!ServiceTask
 
     override
     protected void executeParse(BpmnParse bpmnParse, ServiceTask serviceTask) {
-        serviceTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createHttpActivityBehavior(serviceTask));
+        serviceTask.setBehavior(cast(Object)(bpmnParse.getActivityBehaviorFactory().createHttpActivityBehavior(serviceTask)));
     }
 }

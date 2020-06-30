@@ -38,7 +38,7 @@ class ActivateProcessDefinitionCmd : AbstractSetProcessDefinitionStateCmd {
 
     override
     protected SuspensionState getProcessDefinitionSuspensionState() {
-        return SuspensionState.ACTIVE;
+        return ACTIVE;
     }
 
     override

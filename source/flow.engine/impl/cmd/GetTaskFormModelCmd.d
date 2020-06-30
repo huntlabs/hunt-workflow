@@ -65,7 +65,7 @@ class GetTaskFormModelCmd : Command!FormInfo {
         }
 
         if (task is null) {
-            throw new FlowableObjectNotFoundException("Task not found with id " + taskId);
+            throw new FlowableObjectNotFoundException("Task not found with id " ~ taskId);
         }
 
         Map!(string, Object) variables = new HashMap!(string, Object)();

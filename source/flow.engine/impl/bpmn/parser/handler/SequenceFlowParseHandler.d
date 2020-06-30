@@ -32,7 +32,7 @@ class SequenceFlowParseHandler : AbstractBpmnParseHandler!SequenceFlow {
 
     override
     protected void executeParse(BpmnParse bpmnParse, SequenceFlow sequenceFlow) {
-        flow.bpmn.model.Process process = bpmnParse.getCurrentProcess();
+        flow.bpmn.model.Process.Process process = bpmnParse.getCurrentProcess();
         sequenceFlow.setSourceFlowElement(process.getFlowElement(sequenceFlow.getSourceRef(), true));
         sequenceFlow.setTargetFlowElement(process.getFlowElement(sequenceFlow.getTargetRef(), true));
     }

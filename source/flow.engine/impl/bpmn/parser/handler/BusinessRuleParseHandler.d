@@ -28,7 +28,7 @@ class BusinessRuleParseHandler : AbstractActivityBpmnParseHandler!BusinessRuleTa
 
     override
     protected void executeParse(BpmnParse bpmnParse, BusinessRuleTask businessRuleTask) {
-        businessRuleTask.setBehavior(bpmnParse.getActivityBehaviorFactory().createBusinessRuleTaskActivityBehavior(businessRuleTask));
+        businessRuleTask.setBehavior(cast(Object)(bpmnParse.getActivityBehaviorFactory().createBusinessRuleTaskActivityBehavior(businessRuleTask)));
     }
 
 }

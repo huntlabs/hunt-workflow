@@ -29,19 +29,19 @@ class ResourceNameUtil {
 
    static  string[] BPMN_RESOURCE_SUFFIXES() {
      __gshared  string[] inst = null;
-     return initOnce!inst(new string[]("bpmn20.xml","bpmn"));
+     return initOnce!inst(["bpmn20.xml","bpmn"]);
    }
 
   static  string[] DIAGRAM_SUFFIXES() {
     __gshared  string[] inst = null;
-    return initOnce!inst(new string[]("png", "jpg", "gif", "svg"));
+    return initOnce!inst(["png", "jpg", "gif", "svg"]);
   }
 
 
     public static string stripBpmnFileSuffix(string bpmnFileResource) {
         foreach (string suffix ; BPMN_RESOURCE_SUFFIXES) {
             if (endsWith(bpmnFileResource,suffix) == 0) {
-                return bpmnFileResource[0, bpmnFileResource.length() - suffix.length()];
+                return bpmnFileResource[ 0 .. bpmnFileResource.length - suffix.length];
             }
         }
         return bpmnFileResource;

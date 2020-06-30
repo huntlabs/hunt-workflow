@@ -166,7 +166,8 @@ abstract class AbstractSetProcessDefinitionStateCmd : Command!Void {
 
             timer.setDuedate(executionDate);
             timer.setJobHandlerType(getDelayedExecutionJobHandlerType());
-            timer.setJobHandlerConfiguration(TimerChangeProcessDefinitionSuspensionStateJobHandler.createJobHandlerConfiguration(includeProcessInstances));
+            implementationMissing(false);
+           // timer.setJobHandlerConfiguration(TimerChangeProcessDefinitionSuspensionStateJobHandler.createJobHandlerConfiguration(includeProcessInstances));
             timerJobService.scheduleTimerJob(timer);
         }
     }
@@ -204,7 +205,7 @@ abstract class AbstractSetProcessDefinitionStateCmd : Command!Void {
 
     protected List!ProcessInstance fetchProcessInstancesPage(CommandContext commandContext, ProcessDefinition processDefinition, int currentPageStartIndex) {
 
-        if (SuspensionState.ACTIVE == (getProcessDefinitionSuspensionState())) {
+        if (ACTIVE == (getProcessDefinitionSuspensionState())) {
             return new ProcessInstanceQueryImpl(commandContext).processDefinitionId(processDefinition.getId()).suspended()
                     .listPage(currentPageStartIndex, CommandContextUtil.getProcessEngineConfiguration(commandContext).getBatchSizeProcessInstances());
         } else {

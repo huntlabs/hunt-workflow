@@ -36,7 +36,7 @@ import hunt.Exceptions;
  */
 class TimerManager {
 
-    protected void removeObsoleteTimers(ProcessDefinitionEntity processDefinition) {
+    public void removeObsoleteTimers(ProcessDefinitionEntity processDefinition) {
         List!TimerJobEntity jobsToDelete = null;
 
         if (processDefinition.getTenantId() !is null && processDefinition.getTenantId().length != 0 && ProcessEngineConfiguration.NO_TENANT_ID != (processDefinition.getTenantId())) {
@@ -56,7 +56,7 @@ class TimerManager {
         }
     }
 
-    protected void scheduleTimers(ProcessDefinitionEntity processDefinition, Process process) {
+    public void scheduleTimers(ProcessDefinitionEntity processDefinition, Process process) {
         TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
         List!TimerJobEntity timers = getTimerDeclarations(processDefinition, process);
         foreach (TimerJobEntity timer ; timers) {
@@ -64,7 +64,7 @@ class TimerManager {
         }
     }
 
-    protected List!TimerJobEntity getTimerDeclarations(ProcessDefinitionEntity processDefinition, Process process) {
+    public List!TimerJobEntity getTimerDeclarations(ProcessDefinitionEntity processDefinition, Process process) {
         implementationMissing(false);
         return null;
         //List!TimerJobEntity timers = new ArrayList!TimerJobEntity;

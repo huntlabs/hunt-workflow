@@ -49,7 +49,7 @@ class GetPotentialStarterGroupsCmd : Command!(List!Group) {
        // List!IdentityLink identityLinks = cast(List!IdentityLink) processDefinition.getIdentityLinks();
         foreach (IdentityLinkEntity link ; processDefinition.getIdentityLinks()) {
             IdentityLink identityLink = cast(IdentityLink)link;
-            if (identityLink.getGroupId() !is null && identityLink.getGroupId().length() > 0) {
+            if (identityLink.getGroupId() !is null && identityLink.getGroupId().length > 0) {
 
                 if (!groupIds.contains(identityLink.getGroupId())) {
                     groupIds.add(identityLink.getGroupId());

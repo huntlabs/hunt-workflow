@@ -22,7 +22,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.entitylink.service.api.EntityLink;
 import flow.entitylink.service.api.EntityLinkType;
-
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -35,14 +35,16 @@ class GetEntityLinkChildrenForProcessInstanceCmd : Command!(List!EntityLink) {
     }
 
     public List!EntityLink execute(CommandContext commandContext) {
-        ExecutionEntity processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
-
-        if (processInstance is null) {
-            throw new FlowableObjectNotFoundException("Cannot find process instance with id " ~ processInstanceId);
-        }
-
-        return CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByScopeIdAndType(
-                        processInstanceId, ScopeTypes.BPMN, EntityLinkType.CHILD);
+        implementationMissing(false);
+        return null;
+        //ExecutionEntity processInstance = CommandContextUtil.getExecutionEntityManager(commandContext).findById(processInstanceId);
+        //
+        //if (processInstance is null) {
+        //    throw new FlowableObjectNotFoundException("Cannot find process instance with id " ~ processInstanceId);
+        //}
+        //
+        //return CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByScopeIdAndType(
+        //                processInstanceId, ScopeTypes.BPMN, EntityLinkType.CHILD);
     }
 
 }

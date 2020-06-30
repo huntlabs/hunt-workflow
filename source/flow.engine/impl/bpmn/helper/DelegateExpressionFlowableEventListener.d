@@ -17,7 +17,7 @@ import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.api.deleg.event.FlowableEventListener;
-//import flow.variable.service.impl.el.NoExecutionVariableScope;
+import flow.variable.service.impl.el.NoExecutionVariableScope;
 import flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
 import flow.engine.impl.bpmn.helper.DelegateExpressionUtil;
 /**
@@ -53,7 +53,7 @@ class DelegateExpressionFlowableEventListener : BaseDelegateEventListener {
                 // Force failing, since the exception we're about to throw
                 // cannot be ignored, because it did not originate from the listener itself
                 failOnException = true;
-                throw new FlowableIllegalArgumentException("Delegate expression " ~ expression ~ " did not resolve to an implementation of " ~ typeid(FlowableEventListener).toString);
+                throw new FlowableIllegalArgumentException("Delegate expression  did not resolve to an implementation of " ~ typeid(FlowableEventListener).toString);
             }
         }
     }

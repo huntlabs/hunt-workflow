@@ -46,15 +46,15 @@ class GetFormKeyCmd : Command!string {
      */
     this(string processDefinitionId, string taskDefinitionKey) {
         setProcessDefinitionId(processDefinitionId);
-        if (taskDefinitionKey is null || taskDefinitionKey.length() < 1) {
-            throw new FlowableIllegalArgumentException("The task definition key is mandatory, but '" + taskDefinitionKey + "' has been provided.");
+        if (taskDefinitionKey is null || taskDefinitionKey.length < 1) {
+            throw new FlowableIllegalArgumentException("The task definition key is mandatory, but '" ~ taskDefinitionKey ~ "' has been provided.");
         }
         this.taskDefinitionKey = taskDefinitionKey;
     }
 
     protected void setProcessDefinitionId(string processDefinitionId) {
-        if (processDefinitionId is null || processDefinitionId.length() < 1) {
-            throw new FlowableIllegalArgumentException("The process definition id is mandatory, but '" + processDefinitionId + "' has been provided.");
+        if (processDefinitionId is null || processDefinitionId.length < 1) {
+            throw new FlowableIllegalArgumentException("The process definition id is mandatory, but '" ~ processDefinitionId ~ "' has been provided.");
         }
         this.processDefinitionId = processDefinitionId;
     }

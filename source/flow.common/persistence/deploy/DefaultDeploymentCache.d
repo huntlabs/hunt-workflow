@@ -17,7 +17,7 @@ import hunt.collection.HashMap;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.Map;
 import flow.common.persistence.deploy.DeploymentCache;
-
+import hunt.collection.ArrayList;
 /**
  * Default cache: keep everything in memory, unless a limit is set.
  *
@@ -81,7 +81,7 @@ class DefaultDeploymentCache(T) : DeploymentCache!T {
 
 
     public Collection!T getAll() {
-        return cache.values();
+        return new ArrayList!T(cache.values());
     }
 
 

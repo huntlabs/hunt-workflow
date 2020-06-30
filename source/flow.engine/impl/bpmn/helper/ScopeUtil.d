@@ -30,6 +30,7 @@ import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntity;
 import hunt.util.Comparator;
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -44,28 +45,29 @@ class ScopeUtil {
         ExecutionEntityManager executionEntityManager = CommandContextUtil.getExecutionEntityManager();
 
         // first spawn the compensating executions
-        foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+        foreach (CompensateEventSubscriptionEntity eventSubscription ; eventSubscriptions) {
             ExecutionEntity compensatingExecution = null;
 
             // check whether compensating execution is already created (which is the case when compensating an embedded subprocess,
             // where the compensating execution is created when leaving the subprocess and holds snapshot data).
-            if (eventSubscription.getConfiguration() !is null) {
-                compensatingExecution = executionEntityManager.findById(eventSubscription.getConfiguration());
+            if ((cast(EventSubscriptionEntity)eventSubscription).getConfiguration() !is null) {
+                compensatingExecution = executionEntityManager.findById((cast(EventSubscriptionEntity)eventSubscription).getConfiguration());
                 compensatingExecution.setParent(compensatingExecution.getProcessInstance());
                 compensatingExecution.setEventScope(false);
             } else {
                 compensatingExecution = executionEntityManager.createChildExecution(cast(ExecutionEntity) execution);
-                eventSubscription.setConfiguration(compensatingExecution.getId());
+                (cast(EventSubscriptionEntity)eventSubscription).setConfiguration(compensatingExecution.getId());
             }
 
         }
 
+        implementationMissing(false);
         // signal compensation events in reverse order of their 'created' timestamp
-        eventSubscriptions.sort(new class Comparator!EventSubscriptionEntity {
-              public int compare(EventSubscriptionEntity o1, EventSubscriptionEntity o2) {
-                  return cast(int)(o2.getCreated().toEpochMilli - o1.getCreated().toEpochMilli);
-              }
-        });
+        //eventSubscriptions.sort(new class Comparator!EventSubscriptionEntity {
+        //      public int compare(EventSubscriptionEntity o1, EventSubscriptionEntity o2) {
+        //          return cast(int)(o2.getCreated().toEpochMilli - o1.getCreated().toEpochMilli);
+        //      }
+        //});
         //Collections.sort(eventSubscriptions, new Comparator!EventSubscriptionEntity() {
         //    override
         //    public int compare(EventSubscriptionEntity o1, EventSubscriptionEntity o2) {

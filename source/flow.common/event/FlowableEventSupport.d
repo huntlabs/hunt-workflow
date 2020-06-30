@@ -59,20 +59,20 @@ class FlowableEventSupport {
         }
     }
 
-    //public synchronized void addEventListener(FlowableEventListener listenerToAdd, FlowableEventType... types) {
-    //    if (listenerToAdd is null) {
-    //        throw new FlowableIllegalArgumentException("Listener cannot be null.");
-    //    }
-    //
-    //    if (types is null || types.length == 0) {
-    //        addEventListener(listenerToAdd);
-    //
-    //    } else {
-    //        for (FlowableEventType type : types) {
-    //            addTypedEventListener(listenerToAdd, type);
-    //        }
-    //    }
-    //}
+    public  void addEventListener(FlowableEventListener listenerToAdd, FlowableEventType [] types) {
+        if (listenerToAdd is null) {
+            throw new FlowableIllegalArgumentException("Listener cannot be null.");
+        }
+
+        if (types.length == 0) {
+            addEventListener(listenerToAdd);
+
+        } else {
+            foreach (FlowableEventType type ; types) {
+                addTypedEventListener(listenerToAdd, type);
+            }
+        }
+    }
 
     public void removeEventListener(FlowableEventListener listenerToRemove) {
         eventListeners.remove(listenerToRemove);

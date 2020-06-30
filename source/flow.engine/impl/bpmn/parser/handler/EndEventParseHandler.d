@@ -22,7 +22,7 @@ import flow.bpmn.model.EventDefinition;
 import flow.bpmn.model.TerminateEventDefinition;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
-
+import hunt.logging;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers

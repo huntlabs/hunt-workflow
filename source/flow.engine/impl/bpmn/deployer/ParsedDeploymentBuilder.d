@@ -12,6 +12,8 @@
  */
 module flow.engine.impl.bpmn.deployer.ParsedDeploymentBuilder;
 
+
+import flow.engine.impl.bpmn.deployer.ResourceNameUtil;
 import hunt.stream.ByteArrayInputStream;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.List;

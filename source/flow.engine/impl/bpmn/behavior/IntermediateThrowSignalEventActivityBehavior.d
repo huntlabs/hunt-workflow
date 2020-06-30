@@ -36,7 +36,7 @@ import flow.eventsubscription.service.EventSubscriptionService;
 import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import hunt.String;
-
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -78,25 +78,26 @@ class IntermediateThrowSignalEventActivityBehavior : AbstractBpmnActivityBehavio
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
         List!SignalEventSubscriptionEntity subscriptionEntities = null;
         if (processInstanceScope) {
-            subscriptionEntities = eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(
-                            execution.getProcessInstanceId(), eventSubscriptionName);
-
-            if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableEntityLinks()) {
-                List!EntityLink entityLinks = CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByReferenceScopeIdAndType(
-                                execution.getProcessInstanceId(), ScopeTypes.BPMN, EntityLinkType.CHILD);
-                if (entityLinks !is null) {
-                    foreach (EntityLink entityLink ; entityLinks) {
-                        if (ScopeTypes.BPMN == (entityLink.getScopeType())) {
-                            subscriptionEntities.addAll(eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(
-                                            entityLink.getScopeId(), eventSubscriptionName));
-
-                        } else if (ScopeTypes.CMMN == (entityLink.getScopeType())) {
-                            subscriptionEntities.addAll(eventSubscriptionService.findSignalEventSubscriptionsByScopeAndEventName(
-                                            entityLink.getScopeId(), ScopeTypes.CMMN, eventSubscriptionName));
-                        }
-                    }
-                }
-            }
+            implementationMissing(false);
+            //subscriptionEntities = eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(
+            //                execution.getProcessInstanceId(), eventSubscriptionName);
+            //
+            //if (CommandContextUtil.getProcessEngineConfiguration(commandContext).isEnableEntityLinks()) {
+            //    List!EntityLink entityLinks = CommandContextUtil.getEntityLinkService(commandContext).findEntityLinksByReferenceScopeIdAndType(
+            //                    execution.getProcessInstanceId(), ScopeTypes.BPMN, EntityLinkType.CHILD);
+            //    if (entityLinks !is null) {
+            //        foreach (EntityLink entityLink ; entityLinks) {
+            //            if (ScopeTypes.BPMN == (entityLink.getScopeType())) {
+            //                subscriptionEntities.addAll(eventSubscriptionService.findSignalEventSubscriptionsByProcessInstanceAndEventName(
+            //                                entityLink.getScopeId(), eventSubscriptionName));
+            //
+            //            } else if (ScopeTypes.CMMN == (entityLink.getScopeType())) {
+            //                subscriptionEntities.addAll(eventSubscriptionService.findSignalEventSubscriptionsByScopeAndEventName(
+            //                                entityLink.getScopeId(), ScopeTypes.CMMN, eventSubscriptionName));
+            //            }
+            //        }
+            //    }
+            //}
 
         } else {
             subscriptionEntities = eventSubscriptionService

@@ -12,7 +12,7 @@
  */
 
 module flow.engine.impl.bpmn.behavior.EventSubProcessEventRegistryStartEventActivityBehavior;
-
+import hunt.Exceptions;
 import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -78,14 +78,15 @@ class EventSubProcessEventRegistryStartEventActivityBehavior : AbstractBpmnActiv
             }
 
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
-            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
-
-            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-                if (eventDefinitionKey == eventSubscription.getEventType()) {
-                    eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                    CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
-                }
-            }
+            implementationMissing(false);
+            //List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+            //
+            //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+            //    if (eventDefinitionKey == eventSubscription.getEventType()) {
+            //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+            //        CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
+            //    }
+            //}
         }
 
         ExecutionEntity newSubProcessExecution = executionEntityManager.createChildExecution(executionEntity.getParent());

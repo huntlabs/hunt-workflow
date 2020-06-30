@@ -45,7 +45,7 @@ class DelegateExpressionExecutionListener : ExecutionListener {
         } else if (cast(JavaDelegate)deleg !is null) {
             CommandContextUtil.getProcessEngineConfiguration().getDelegateInterceptor().handleInvocation(new JavaDelegateInvocation(cast(JavaDelegate) deleg, execution));
         } else {
-            throw new FlowableIllegalArgumentException("Delegate expression " ~ " did not resolve to an implementation of " + typeid(ExecutionListener).toString ~ " nor " ~ typeid(JavaDelegate).toString);
+            throw new FlowableIllegalArgumentException("Delegate expression " ~ " did not resolve to an implementation of " ~ typeid(ExecutionListener).toString ~ " nor " ~ typeid(JavaDelegate).toString);
         }
     }
 

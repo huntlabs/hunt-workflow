@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.bpmn.behavior.IntermediateCatchSignalEventActivityBehavior;
 
+import hunt.Exceptions;
 import hunt.collection.List;
 
 import flow.bpmn.model.Signal;
@@ -69,7 +70,8 @@ class IntermediateCatchSignalEventActivityBehavior : IntermediateCatchEventActiv
                         .create();
 
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
-        executionEntity.getEventSubscriptions().add(eventSubscription);
+        implementationMissing(false);
+        //executionEntity.getEventSubscriptions().add(eventSubscription);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -103,14 +105,17 @@ class IntermediateCatchSignalEventActivityBehavior : IntermediateCatchEventActiv
         }
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-        List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
-        foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-            if (cast(SignalEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (eventName)) {
 
-                eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
-            }
-        }
+        implementationMissing(false);
+
+        //List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+        //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+        //    if (cast(SignalEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (eventName)) {
+        //
+        //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+        //        CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
+        //    }
+        //}
         return executionEntity;
     }
 }

@@ -60,6 +60,7 @@ abstract class FlowNodeActivityBehavior : TriggerableActivityBehavior {
 
     protected string parseActivityType(FlowNode flowNode) {
         implementationMissing(false);
+        return "";
         //string elementType = flowNode.getClass().getSimpleName();
         //elementType = elementType.substring(0, 1).toLowerCase() + elementType.substring(1);
         //return elementType;

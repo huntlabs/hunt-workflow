@@ -13,7 +13,7 @@
 module flow.engine.impl.bpmn.behavior.IntermediateCatchMessageEventActivityBehavior;
 
 import hunt.collection.List;
-
+import hunt.Exceptions;
 import flow.bpmn.model.MessageEventDefinition;
 import flow.common.api.deleg.Expression;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -65,7 +65,8 @@ class IntermediateCatchMessageEventActivityBehavior : IntermediateCatchEventActi
                         .create();
 
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
-        executionEntity.getEventSubscriptions().add(eventSubscription);
+        implementationMissing(false);
+       // executionEntity.getEventSubscriptions().add(eventSubscription);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
@@ -91,14 +92,15 @@ class IntermediateCatchMessageEventActivityBehavior : IntermediateCatchEventActi
     protected ExecutionEntity deleteMessageEventSubScription(DelegateExecution execution) {
         ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
-        List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
-        foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-            if (cast(MessageEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (messageEventDefinition.getMessageRef())) {
-
-                eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
-            }
-        }
+        implementationMissing(false);
+        //List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+        //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+        //    if (cast(MessageEventSubscriptionEntity)eventSubscription !is null && eventSubscription.getEventName() == (messageEventDefinition.getMessageRef())) {
+        //
+        //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+        //        CountingEntityUtil.handleDeleteEventSubscriptionEntityCount(eventSubscription);
+        //    }
+        //}
         return executionEntity;
     }
 }

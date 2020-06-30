@@ -17,7 +17,7 @@ import hunt.collection.List;
 import flow.engine.impl.bpmn.data.FieldBaseStructureDefinition;
 import flow.engine.impl.bpmn.data.StructureInstance;
 import flow.engine.impl.bpmn.data.FieldBaseStructureInstance;
-
+import hunt.Object;
 /**
  * Represents a simple in memory structure
  *
@@ -55,10 +55,24 @@ class SimpleStructureDefinition : FieldBaseStructureDefinition {
         this.fieldTypes.set(index, type);
     }
 
-    private void growListToContain(int index, List!Object list) {
-        if (!(list.size() - 1 >= index)) {
+    private void growListToContain(int index, IObject lst) {
+        List!string list =  cast(List!string)lst;
+        if (list !is null )
+        {
+          if (!(list.size() - 1 >= index)) {
             for (int i = list.size(); i <= index; i++) {
-                list.add(null);
+              list.add(null);
+            }
+          }
+        }
+
+        List!TypeInfo ls = cast(List!TypeInfo)lst;
+        if (ls !is null)
+        {
+            if (!(ls.size() - 1 >= index)) {
+              for (int i = ls.size(); i <= index; i++) {
+                ls.add(null);
+              }
             }
         }
     }

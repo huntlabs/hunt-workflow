@@ -31,7 +31,7 @@ class GetDeploymentProcessModelCmd : Command!InputStream {
     protected string processDefinitionId;
 
     this(string processDefinitionId) {
-        if (processDefinitionId is null || processDefinitionId.length() < 1) {
+        if (processDefinitionId is null || processDefinitionId.length < 1) {
             throw new FlowableIllegalArgumentException("The process definition id is mandatory, but '" ~ processDefinitionId ~ "' has been provided.");
         }
         this.processDefinitionId = processDefinitionId;

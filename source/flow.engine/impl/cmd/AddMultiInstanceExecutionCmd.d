@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.cmd.AddMultiInstanceExecutionCmd;
 
+import flow.variable.service.api.deleg.VariableScope;
 import hunt.collection.List;
 import hunt.collection.Map;
 
@@ -68,7 +69,7 @@ class AddMultiInstanceExecutionCmd : Command!Execution {
         MultiInstanceLoopCharacteristics multiInstanceLoopCharacteristics = miActivityElement.getLoopCharacteristics();
 
         Integer currentNumberOfInstances = cast(Integer) miExecution.getVariable(NUMBER_OF_INSTANCES);
-        miExecution.setVariableLocal(NUMBER_OF_INSTANCES, currentNumberOfInstances + 1);
+        (cast(VariableScope)miExecution).setVariableLocal(NUMBER_OF_INSTANCES, new Integer(currentNumberOfInstances.intValue + 1));
 
         if (executionVariables !is null) {
             childExecution.setVariablesLocal(executionVariables);
@@ -79,7 +80,7 @@ class AddMultiInstanceExecutionCmd : Command!Execution {
             miExecution.setScope(false);
 
             childExecution.setCurrentFlowElement(miActivityElement);
-            CommandContextUtil.getAgenda().planContinueMultiInstanceOperation(childExecution, miExecution, currentNumberOfInstances);
+            CommandContextUtil.getAgenda().planContinueMultiInstanceOperation(childExecution, miExecution, currentNumberOfInstances.intValue);
         }
 
         return childExecution;

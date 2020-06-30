@@ -21,7 +21,7 @@ import flow.common.interceptor.CommandContext;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.entitylink.service.api.EntityLinkType;
 import flow.entitylink.service.api.history.HistoricEntityLink;
-
+import hunt.Exceptions;
 /**
  * @author Tijs Rademakers
  */
@@ -37,8 +37,10 @@ class GetHistoricEntityLinkChildrenForProcessInstanceCmd : Command!(List!Histori
     }
 
     public List!HistoricEntityLink execute(CommandContext commandContext) {
-        return CommandContextUtil.getHistoricEntityLinkService().findHistoricEntityLinksByScopeIdAndScopeType(
-                        processInstanceId, ScopeTypes.BPMN, EntityLinkType.CHILD);
+        implementationMissing(false);
+        return null;
+        //return CommandContextUtil.getHistoricEntityLinkService().findHistoricEntityLinksByScopeIdAndScopeType(
+        //                processInstanceId, ScopeTypes.BPMN, EntityLinkType.CHILD);
     }
 
 }

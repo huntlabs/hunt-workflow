@@ -18,6 +18,7 @@
 
 module flow.common.AbstractEngineConfiguration;
 
+import flow.common.DefaultTenantProvider;
 import core.time;
 import flow.common.AbstractServiceConfiguration;
 import hunt.stream.Common;
@@ -307,7 +308,7 @@ abstract class AbstractEngineConfiguration {
     /**
      * Default tenant provider that is executed when looking up definitions, in case the global or local fallback to default tenant value is true
      */
-   // protected DefaultTenantProvider defaultTenantProvider = (tenantId, scope, scopeKey) -> NO_TENANT_ID;
+    protected DefaultTenantProvider defaultTenantProvider ;//= (tenantId, scope, scopeKey) -> NO_TENANT_ID;
 
     /**
      * Enables the MyBatis plugin that logs the execution time of sql statements.
@@ -1657,14 +1658,14 @@ abstract class AbstractEngineConfiguration {
     //    return this;
     //}
     //
-    //public DefaultTenantProvider getDefaultTenantProvider() {
-    //    return defaultTenantProvider;
-    //}
+    public DefaultTenantProvider getDefaultTenantProvider() {
+        return defaultTenantProvider;
+    }
     //
-    //public AbstractEngineConfiguration setDefaultTenantProvider(DefaultTenantProvider defaultTenantProvider) {
-    //    this.defaultTenantProvider = defaultTenantProvider;
-    //    return this;
-    //}
+    public AbstractEngineConfiguration setDefaultTenantProvider(DefaultTenantProvider defaultTenantProvider) {
+        this.defaultTenantProvider = defaultTenantProvider;
+        return this;
+    }
 
     public bool isEnableLogSqlExecutionTime() {
         return enableLogSqlExecutionTime;

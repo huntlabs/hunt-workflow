@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 module flow.engine.impl.cmd.AddEventListenerCommand;
-
+import flow.common.api.deleg.event.FlowableEventType;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEventListener;
@@ -35,7 +35,7 @@ class AddEventListenerCommand : Command!Void {
     }
 
     this(FlowableEventListener listener) {
-        super();
+       // super();
         this.listener = listener;
     }
 
@@ -45,7 +45,12 @@ class AddEventListenerCommand : Command!Void {
         }
 
         if (types !is null) {
-            CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher().addEventListener(listener, types);
+            FlowableEventType[] castTypes;
+            foreach(FlowableEngineEventType t; types)
+            {
+                castTypes ~= cast(FlowableEventType)t;
+            }
+            CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher().addEventListener(listener, castTypes);
         } else {
             CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher().addEventListener(listener);
         }

@@ -37,8 +37,8 @@ class GetActiveAdhocSubProcessesCmd : Command!(List!Execution) {
     public List!Execution execute(CommandContext commandContext) {
         List!Execution adhocExecutions = new ArrayList!Execution();
         List!ExecutionEntity executions = CommandContextUtil.getExecutionEntityManager(commandContext).findChildExecutionsByProcessInstanceId(processInstanceId);
-        foreach (Execution execution ; executions) {
-            if (cast(AdhocSubProcess)((cast(ExecutionEntity) execution).getCurrentFlowElement()) !is null) {
+        foreach (ExecutionEntity execution ; executions) {
+            if (cast(AdhocSubProcess)(execution.getCurrentFlowElement()) !is null) {
                 adhocExecutions.add(execution);
             }
         }

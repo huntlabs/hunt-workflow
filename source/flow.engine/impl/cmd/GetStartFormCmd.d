@@ -39,7 +39,7 @@ class GetStartFormCmd : Command!StartFormData {
     public StartFormData execute(CommandContext commandContext) {
         ProcessDefinition processDefinition = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDeploymentManager().findDeployedProcessDefinitionById(processDefinitionId);
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("No process definition found for id '" ~ processDefinitionId ~ "'", typeid(ProcessDefinition).toString);
+            throw new FlowableObjectNotFoundException("No process definition found for id '" ~ processDefinitionId ~ "'");
         }
 
         //if (Flowable5Util.isFlowable5ProcessDefinition(processDefinition, commandContext)) {
@@ -49,7 +49,7 @@ class GetStartFormCmd : Command!StartFormData {
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();
         StartFormHandler startFormHandler = formHandlerHelper.getStartFormHandler(commandContext, processDefinition);
         if (startFormHandler is null) {
-            throw new FlowableException("No startFormHandler defined in process '" + processDefinitionId + "'");
+            throw new FlowableException("No startFormHandler defined in process '" ~ processDefinitionId ~ "'");
         }
 
         return startFormHandler.createStartFormData(processDefinition);

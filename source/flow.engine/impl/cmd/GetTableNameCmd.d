@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.cmd.GetTableNameCmd;
 
-
+import hunt.Exceptions;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -33,10 +33,12 @@ class GetTableNameCmd : Command!string {
     }
 
     public string execute(CommandContext commandContext) {
-        if (entityClass is null) {
-            throw new FlowableIllegalArgumentException("entityClass is null");
-        }
-        return CommandContextUtil.getTableDataManager(commandContext).getTableName(entityClass, withPrefix);
+        implementationMissing(false);
+        return "";
+        //if (entityClass is null) {
+        //    throw new FlowableIllegalArgumentException("entityClass is null");
+        //}
+        //return CommandContextUtil.getTableDataManager(commandContext).getTableName(entityClass, withPrefix);
     }
 
 }

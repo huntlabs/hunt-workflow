@@ -18,7 +18,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.engine.event.EventLogEntry;
 import flow.engine.impl.util.CommandContextUtil;
-
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  */
@@ -46,7 +46,9 @@ class GetEventLogEntriesCmd : Command!(List!EventLogEntry) {
             return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntriesByProcessInstanceId(processInstanceId);
 
         } else if (startLogNr != 0) {
-            return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntries(startLogNr, pageSize !is null ? pageSize : -1);
+            implementationMissing(false);
+            return null;
+           // return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findEventLogEntries(startLogNr, pageSize !is null ? pageSize : -1);
 
         } else {
             return CommandContextUtil.getEventLogEntryEntityManager(commandContext).findAllEventLogEntries();

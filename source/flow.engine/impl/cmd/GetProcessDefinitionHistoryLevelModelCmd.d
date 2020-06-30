@@ -47,7 +47,7 @@ class GetProcessDefinitionHistoryLevelModelCmd : Command!HistoryLevel {
 
         Process process = bpmnModel.getProcessById(processDefinition.getKey());
         if (process.getExtensionElements().containsKey("historyLevel")) {
-            ExtensionElement historyLevelElement = process.getExtensionElements().get("historyLevel").iterator().next();
+            ExtensionElement historyLevelElement = process.getExtensionElements().get("historyLevel").iterator().front();
             string historyLevelValue = historyLevelElement.getElementText();
             if (historyLevelValue !is null && historyLevelValue.length != 0) {
                 try {

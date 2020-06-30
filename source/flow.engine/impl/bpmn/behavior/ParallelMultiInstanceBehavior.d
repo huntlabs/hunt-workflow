@@ -118,8 +118,8 @@ class ParallelMultiInstanceBehavior : MultiInstanceActivityBehavior {
 
         DelegateExecution miRootExecution = getMultiInstanceRootExecution(execution);
         if (miRootExecution !is null) { // will be null in case of empty collection
-            setLoopVariable(miRootExecution, NUMBER_OF_COMPLETED_INSTANCES, nrOfCompletedInstances);
-            setLoopVariable(miRootExecution, NUMBER_OF_ACTIVE_INSTANCES, nrOfActiveInstances);
+            setLoopVariable(miRootExecution, NUMBER_OF_COMPLETED_INSTANCES, new Integer(nrOfCompletedInstances));
+            setLoopVariable(miRootExecution, NUMBER_OF_ACTIVE_INSTANCES, new Integer(nrOfActiveInstances));
         }
 
         CommandContextUtil.getActivityInstanceEntityManager().recordActivityEnd(cast(ExecutionEntity) execution, null);

@@ -47,8 +47,8 @@ class MessageThrowingEventListener : BaseDelegateEventListener {
             List!MessageEventSubscriptionEntity subscriptionEntities = CommandContextUtil.getEventSubscriptionService().findMessageEventSubscriptionsByProcessInstanceAndEventName(
                     engineEvent.getProcessInstanceId(), messageName);
 
-            foreach (EventSubscriptionEntity messageEventSubscriptionEntity ; subscriptionEntities) {
-                EventSubscriptionUtil.eventReceived(messageEventSubscriptionEntity, null, false);
+            foreach (MessageEventSubscriptionEntity messageEventSubscriptionEntity ; subscriptionEntities) {
+                EventSubscriptionUtil.eventReceived(cast(EventSubscriptionEntity)messageEventSubscriptionEntity, null, false);
             }
         }
     }

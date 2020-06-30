@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.bpmn.behavior.SendEventTaskActivityBehavior;
 
-
+import flow.event.registry.api.runtime.EventCorrelationParameterInstance;
 import hunt.collection;
 import hunt.collection.Collections;
 import hunt.collection.List;
@@ -43,6 +43,7 @@ import flow.eventsubscription.service.EventSubscriptionService;
 import flow.job.service.JobService;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
+import hunt.Exceptions;
 /**
  * Sends an event to the event registry
  *
@@ -99,7 +100,7 @@ class SendEventTaskActivityBehavior : AbstractBpmnActivityBehavior {
                 CommandContextUtil.getProcessEngineConfiguration(CommandContextUtil.getCommandContext()).getExpressionManager(),
                 execution.getCurrentFlowElement(),
                 eventDefinition);
-            EventInstanceImpl eventInstance = new EventInstanceImpl(eventDefinition, Collections.emptyList(), eventPayloadInstances);
+            EventInstanceImpl eventInstance = new EventInstanceImpl(eventDefinition, Collections.emptyList!EventCorrelationParameterInstance(), eventPayloadInstances);
             eventRegistry.sendEventOutbound(eventInstance);
         }
 
@@ -131,7 +132,8 @@ class SendEventTaskActivityBehavior : AbstractBpmnActivityBehavior {
                     .create();
 
             CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
-            executionEntity.getEventSubscriptions().add(eventSubscription);
+            implementationMissing(false);
+            //executionEntity.getEventSubscriptions().add(eventSubscription);
         } else if (sendSynchronously) {
             // If ths send task is specifically marked to send synchronously and is not triggerable then leave
             leave(execution);
@@ -148,7 +150,7 @@ class SendEventTaskActivityBehavior : AbstractBpmnActivityBehavior {
 
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
             ExecutionEntity executionEntity = cast(ExecutionEntity) execution;
-            List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
+          //  List!EventSubscriptionEntity eventSubscriptions = executionEntity.getEventSubscriptions();
 
             string eventType = null;
             if (sendEventServiceTask.getTriggerEventType() !is null && sendEventServiceTask.getTriggerEventType().length != 0) {
@@ -164,12 +166,12 @@ class SendEventTaskActivityBehavior : AbstractBpmnActivityBehavior {
                 eventModel = CommandContextUtil.getEventRepositoryService().getEventModelByKey(eventType, execution.getTenantId());
             }
 
-            foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
-                if (eventModel.getKey() == eventSubscription.getEventType()) {
-                    eventSubscriptionService.deleteEventSubscription(eventSubscription);
-                }
-            }
-
+            //foreach (EventSubscriptionEntity eventSubscription ; eventSubscriptions) {
+            //    if (eventModel.getKey() == eventSubscription.getEventType()) {
+            //        eventSubscriptionService.deleteEventSubscription(eventSubscription);
+            //    }
+            //}
+            implementationMissing(false);
             leave(execution);
         }
     }

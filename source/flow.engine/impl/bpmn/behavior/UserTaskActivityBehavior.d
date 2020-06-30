@@ -51,7 +51,9 @@ import hunt.logging;
 import hunt.String;
 import hunt.Number;
 import hunt.time.LocalDateTime;
-
+import std.conv : to;
+import std.range;
+import std.range;
 alias Date = LocalDateTime;
 /**
  * @author Joram Barrez
@@ -135,7 +137,7 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
                 }
             } catch (FlowableException e) {
                 name = beforeContext.getName();
-                logWarning("property not found in task name expression {%s}", e.getMessage());
+                logWarning("property not found in task name expression {}");
             }
             task.setName(name);
         }
@@ -149,7 +151,7 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
                 }
             } catch (FlowableException e) {
                 description = beforeContext.getDescription();
-                logWarning("property not found in task description expression {%s}", e.getMessage());
+                logWarning("property not found in task description expression {}");
             }
             task.setDescription(description);
         }
@@ -204,7 +206,7 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
                 }
             }  catch (FlowableException e) {
                 category = beforeContext.getCategory();
-                logWarning("property not found in task category expression {%s}", e.getMessage());
+                logWarning("property not found in task category expression {}");
             }
             task.setCategory(category);
         }
@@ -218,7 +220,7 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
                 }
             } catch (FlowableException e) {
                 formKey = beforeContext.getFormKey();
-                logWarning("property not found in task formKey expression {%s}", e.getMessage());
+                logWarning("property not found in task formKey expression {}");
             }
             task.setFormKey(formKey);
         }
@@ -249,7 +251,7 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getTaskServiceConfiguration(commandContext).getEventDispatcher();
             if (eventDispatcher !is null  && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
-                        FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_CREATED, task));
+                        FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_CREATED, cast(Object)task));
             }
 
         } else {
@@ -296,7 +298,7 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
             Object ownerExpressionValue = expressionManager.createExpression(owner).getValue(execution);
             string ownerValue = null;
             if (ownerExpressionValue !is null) {
-                ownerValue = (cast(String)ownerValue).value;
+                ownerValue = (cast(String)ownerExpressionValue).value;
             }
 
             if (ownerValue !is null && ownerValue.length != 0) {
@@ -316,8 +318,8 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
                 Object value = groupIdExpr.getValue(execution);
                 if (value !is null) {
                     List!IdentityLinkEntity identityLinkEntities = null;
-                    if (cast(Collection)value !is null) {
-                        identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), cast(Collection) value);
+                    if (cast(Collection!string)value !is null) {
+                        identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), cast(Collection!string) value);
 
                     } else {
                         string strValue = (cast(String)value).value;
@@ -380,24 +382,25 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         if (userTask.getCustomUserIdentityLinks() !is null && !userTask.getCustomUserIdentityLinks().isEmpty()) {
 
             List!IdentityLinkEntity customIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
-            foreach (string customUserIdentityLinkType ; userTask.getCustomUserIdentityLinks().keySet()) {
-                foreach (string userIdentityLink ; userTask.getCustomUserIdentityLinks().get(customUserIdentityLinkType)) {
+            foreach (MapEntry!(string, Set!string) customUserIdentityLinkType ; userTask.getCustomUserIdentityLinks()) {
+                foreach (string userIdentityLink ; userTask.getCustomUserIdentityLinks().get(customUserIdentityLinkType.getKey)) {
                     Expression idExpression = expressionManager.createExpression(userIdentityLink);
                     Object value = idExpression.getValue(execution);
 
                     if (cast(Collection!string)value !is null) {
-                        Iterator userIdSet = (cast(Collection!string) value).iterator();
-                        while (userIdSet.hasNext()) {
+                        InputRange!string userIdSet = (cast(Collection!string) value).iterator();
+                        while (!userIdSet.empty) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
-                                            task.getId(), userIdSet.next(), null, customUserIdentityLinkType);
+                                            task.getId(), userIdSet.front(), null, customUserIdentityLinkType.getKey);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                             customIdentityLinkEntities.add(identityLinkEntity);
+                            userIdSet.popFront();
                         }
 
                     } else {
-                        List!string userIds = extractCandidates((cast(string)value).value);
+                        List!string userIds = extractCandidates((cast(String)value).value);
                         foreach (string userId ; userIds) {
-                            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), userId, null, customUserIdentityLinkType);
+                            IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(task.getId(), userId, null, customUserIdentityLinkType.getKey);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                             customIdentityLinkEntities.add(identityLinkEntity);
                         }
@@ -417,26 +420,27 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         if (userTask.getCustomGroupIdentityLinks() !is null && !userTask.getCustomGroupIdentityLinks().isEmpty()) {
 
             List!IdentityLinkEntity customIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
-            foreach (string customGroupIdentityLinkType ; userTask.getCustomGroupIdentityLinks().keySet()) {
-                foreach (string groupIdentityLink ; userTask.getCustomGroupIdentityLinks().get(customGroupIdentityLinkType)) {
+            foreach (MapEntry!(string, Set!string) customGroupIdentityLinkType ; userTask.getCustomGroupIdentityLinks()) {
+                foreach (string groupIdentityLink ; userTask.getCustomGroupIdentityLinks().get(customGroupIdentityLinkType.getKey)) {
 
                     Expression idExpression = expressionManager.createExpression(groupIdentityLink);
                     Object value = idExpression.getValue(execution);
 
                     if (cast(Collection!string)value !is null) {
-                        Iterator groupIdSet = (cast(Collection!string) value).iterator();
-                        while (groupIdSet.hasNext()) {
+                        InputRange!string groupIdSet = (cast(Collection!string) value).iterator();
+                        while (!groupIdSet.empty) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
-                                            task.getId(), null, groupIdSet.next(), customGroupIdentityLinkType);
+                                            task.getId(), null, groupIdSet.front(), customGroupIdentityLinkType.getKey);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                             customIdentityLinkEntities.add(identityLinkEntity);
+                            groupIdSet.popFront();
                         }
 
                     } else {
                         List!string groupIds = extractCandidates((cast(String)value).value);
                         foreach (string groupId ; groupIds) {
                             IdentityLinkEntity identityLinkEntity = CommandContextUtil.getIdentityLinkService().createTaskIdentityLink(
-                                            task.getId(), null, groupId, customGroupIdentityLinkType);
+                                            task.getId(), null, groupId, customGroupIdentityLinkType.getKey);
                             IdentityLinkUtil.handleTaskIdentityLinkAddition(task, identityLinkEntity);
                             customIdentityLinkEntities.add(identityLinkEntity);
                         }

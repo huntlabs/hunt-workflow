@@ -43,7 +43,7 @@ class CachingAndArtifactsManager {
      */
     public void updateCachingAndArtifacts(ParsedDeployment parsedDeployment) {
         CommandContext commandContext = Context.getCommandContext();
-        final ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
+        ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
         DeploymentEntity deployment = parsedDeployment.getDeployment();
 
@@ -55,7 +55,7 @@ class CachingAndArtifactsManager {
             addDefinitionInfoToCache(processDefinition, processEngineConfiguration, commandContext);
 
             // Add to deployment for further usage
-            deployment.addDeployedArtifact(processDefinition);
+            deployment.addDeployedArtifact(cast(Object)processDefinition);
         }
     }
 
@@ -63,7 +63,7 @@ class CachingAndArtifactsManager {
      * Ensures that the process definition is cached in the appropriate places.
      */
     public void updateProcessDefinitionCache(ParsedDeployment parsedDeployment) {
-        final ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
+      ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
         DeploymentCache!ProcessDefinitionCacheEntry processDefinitionCache = processEngineConfiguration.getDeploymentManager().getProcessDefinitionCache();
 
         foreach (ProcessDefinitionEntity processDefinition ; parsedDeployment.getAllProcessDefinitions()) {

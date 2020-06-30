@@ -232,7 +232,8 @@ class BpmnParse : BpmnXMLConstants {
     }
 
     public BpmnParse sourceResource(string resource) {
-        return sourceResource(resource, null);
+       // return sourceResource(resource, null);
+        return this;
     }
 
     //public BpmnParse sourceUrl(URL url) {

@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.bpmn.behavior.MultiInstanceActivityBehavior;
 
-
+import hunt.String;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.collection.Collections;
@@ -295,7 +295,7 @@ abstract class MultiInstanceActivityBehavior : FlowNodeActivityBehavior , SubPro
             return resolveLoopCardinality(execution);
 
         } else if (usesCollection()) {
-            Collection collection = resolveAndValidateCollection(execution);
+            Collection!Object collection = resolveAndValidateCollection(execution);
             return collection.size();
 
         } else {
@@ -323,7 +323,8 @@ abstract class MultiInstanceActivityBehavior : FlowNodeActivityBehavior , SubPro
     }
 
     protected Collection!Object resolveAndValidateCollection(DelegateExecution execution) {
-        implementationMissing(null);
+        implementationMissing(false);
+        return null;
         //Object obj = resolveCollection(execution);
         //if (collectionHandler !is null ) {
         //    return createFlowableCollectionHandler(collectionHandler, execution).resolveCollection(obj, execution);
@@ -364,11 +365,11 @@ abstract class MultiInstanceActivityBehavior : FlowNodeActivityBehavior , SubPro
         if (collectionExpression !is null) {
             collection = collectionExpression.getValue(execution);
 
-        } else if (collectionVariable !is null) {
+        } else if (collectionVariable.length != 0) {
             collection = execution.getVariable(collectionVariable);
 
-        } else if (collectionString !is null) {
-            collection = collectionString;
+        } else if (collectionString.length != 0) {
+            collection = new String(collectionString);
         }
         return collection;
     }
@@ -388,7 +389,7 @@ abstract class MultiInstanceActivityBehavior : FlowNodeActivityBehavior , SubPro
             return (cast(Number) value).intValue();
 
         } else if (cast(String)value !is null) {
-            return Integer.valueOf(cast(String) value);
+            return (Integer.valueOf((cast(String)value).value())).intValue();
 
         } else {
             throw new FlowableIllegalArgumentException("Could not resolve loopCardinality expression '" ~ loopCardinalityExpression.getExpressionText() ~ "': not a number nor number string");

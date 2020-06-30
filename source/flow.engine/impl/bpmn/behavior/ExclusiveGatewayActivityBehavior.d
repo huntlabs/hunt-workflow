@@ -28,7 +28,8 @@ import flow.engine.impl.util.CommandContextUtil;
 //import flow.engine.impl.util.condition.ConditionUtil;
 import flow.engine.impl.bpmn.behavior.GatewayActivityBehavior;
 import hunt.collection.Iterator;
-
+import std.range;
+import hunt.Exceptions;
 /**
  * Implementation of the Exclusive Gateway/XOR gateway/exclusive data-based gateway as defined in the BPMN specification.
  *
@@ -70,19 +71,20 @@ class ExclusiveGatewayActivityBehavior : GatewayActivityBehavior {
         string defaultSequenceFlowId = exclusiveGateway.getDefaultFlow();
 
         // Determine sequence flow to take
-        Iterator!SequenceFlow sequenceFlowIterator = exclusiveGateway.getOutgoingFlows().iterator();
-        while (outgoingSequenceFlow is null && sequenceFlowIterator.hasNext()) {
-            SequenceFlow sequenceFlow = sequenceFlowIterator.next();
+        InputRange!SequenceFlow sequenceFlowIterator = exclusiveGateway.getOutgoingFlows().iterator();
+        while (outgoingSequenceFlow is null && !sequenceFlowIterator.empty) {
+            SequenceFlow sequenceFlow = sequenceFlowIterator.front();
 
             string skipExpressionString = sequenceFlow.getSkipExpression();
             if (!SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {
-                bool conditionEvaluatesToTrue = ConditionUtil.hasTrueCondition(sequenceFlow, execution);
-                if (conditionEvaluatesToTrue && (defaultSequenceFlowId is null || defaultSequenceFlowId != (sequenceFlow.getId()))) {
-                    //if (LOGGER.isDebugEnabled()) {
-                    //    LOGGER.debug("Sequence flow '{}' selected as outgoing sequence flow.", sequenceFlow.getId());
-                    //}
-                    outgoingSequenceFlow = sequenceFlow;
-                }
+                implementationMissing(false);
+                //bool conditionEvaluatesToTrue = ConditionUtil.hasTrueCondition(sequenceFlow, execution);
+                //if (conditionEvaluatesToTrue && (defaultSequenceFlowId is null || defaultSequenceFlowId != (sequenceFlow.getId()))) {
+                //    //if (LOGGER.isDebugEnabled()) {
+                //    //    LOGGER.debug("Sequence flow '{}' selected as outgoing sequence flow.", sequenceFlow.getId());
+                //    //}
+                //    outgoingSequenceFlow = sequenceFlow;
+                //}
 
             } else if (SkipExpressionUtil.shouldSkipFlowElement(skipExpressionString, sequenceFlow.getId(), execution, Context.getCommandContext())) {
                 outgoingSequenceFlow = sequenceFlow;
@@ -92,7 +94,7 @@ class ExclusiveGatewayActivityBehavior : GatewayActivityBehavior {
             if (defaultSequenceFlowId !is null && (defaultSequenceFlowId == (sequenceFlow.getId()))) {
                 defaultSequenceFlow = sequenceFlow;
             }
-
+            sequenceFlowIterator.popFront();
         }
 
         // Leave the gateway

@@ -26,6 +26,7 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 import hunt.logging;
+import flow.common.api.deleg.event.FlowableEventType;
 /**
  * @author Joram Barrez
  */
@@ -82,19 +83,25 @@ class ProcessParseHandler : AbstractBpmnParseHandler!Process {
             foreach (EventListener eventListener ; eventListeners) {
                 // Extract specific event-types (if any)
                 FlowableEngineEventType[] types = FlowableEngineEventType.getTypesFromString(eventListener.getEvents());
+                FlowableEventType [] castTypes;
+                foreach(FlowableEngineEventType t ; types)
+                {
+                  castTypes ~= cast(FlowableEventType)t;
+                }
 
                 if (ImplementationType.IMPLEMENTATION_TYPE_CLASS == (eventListener.getImplementationType())) {
-                    getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createClassDelegateEventListener(eventListener), types);
+
+                    getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createClassDelegateEventListener(eventListener), castTypes);
 
                 } else if (ImplementationType.IMPLEMENTATION_TYPE_DELEGATEEXPRESSION == (eventListener.getImplementationType())) {
-                    getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createDelegateExpressionEventListener(eventListener), types);
+                    getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createDelegateExpressionEventListener(eventListener), castTypes);
 
                 } else if (ImplementationType.IMPLEMENTATION_TYPE_THROW_SIGNAL_EVENT == (eventListener.getImplementationType())
                         || ImplementationType.IMPLEMENTATION_TYPE_THROW_GLOBAL_SIGNAL_EVENT == (eventListener.getImplementationType())
                         || ImplementationType.IMPLEMENTATION_TYPE_THROW_MESSAGE_EVENT == (eventListener.getImplementationType())
                         || ImplementationType.IMPLEMENTATION_TYPE_THROW_ERROR_EVENT == (eventListener.getImplementationType())) {
 
-                    getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createEventThrowingEventListener(eventListener), types);
+                    getEventSupport(bpmnParse.getBpmnModel()).addEventListener(bpmnParse.getListenerFactory().createEventThrowingEventListener(eventListener), castTypes);
 
                 } else {
                     logWarning("Unsupported implementation type for EventListener: {%s} for element {%s}", eventListener.getImplementationType(), bpmnParse.getCurrentFlowElement().getId());

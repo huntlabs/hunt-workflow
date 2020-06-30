@@ -126,9 +126,9 @@ class CreateAttachmentCmd : Command!Attachment {
             }
 
             eventDispatcher
-                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, attachment, processInstanceId, processInstanceId, processDefinitionId));
+                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)attachment, processInstanceId, processInstanceId, processDefinitionId));
             eventDispatcher
-                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, attachment, processInstanceId, processInstanceId, processDefinitionId));
+                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, cast(Object)attachment, processInstanceId, processInstanceId, processDefinitionId));
         }
 
         return attachment;

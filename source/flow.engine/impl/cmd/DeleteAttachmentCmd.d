@@ -73,7 +73,7 @@ class DeleteAttachmentCmd : Command!Object {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
-                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, attachment, processInstanceId, processInstanceId, processDefinitionId));
+                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)attachment, processInstanceId, processInstanceId, processDefinitionId));
         }
         return null;
     }

@@ -174,7 +174,7 @@ class TerminateEndEventActivityBehavior : FlowNodeActivityBehavior {
             }
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
-                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, historicActivityInstance));
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, cast(Object)historicActivityInstance));
             }
         }
 
@@ -224,7 +224,7 @@ class TerminateEndEventActivityBehavior : FlowNodeActivityBehavior {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             if ((execution.isProcessInstanceType() && (execution.getSuperExecutionId() is null || execution.getSuperExecutionId().length == 0)) ||
-                    ((execution.getParentId() is null || execution.getParentId().length ==0) && (execution.getSuperExecutionId() !is null && execution.getSuperExecutionId() != 0))) {
+                    ((execution.getParentId() is null || execution.getParentId().length ==0) && (execution.getSuperExecutionId() !is null && execution.getSuperExecutionId().length != 0))) {
 
                 // This event should only be fired if terminate end event is part of the process definition for the process instance execution,
                 // otherwise a regular cancel event of the process instance will be fired (see above).
@@ -232,7 +232,7 @@ class TerminateEndEventActivityBehavior : FlowNodeActivityBehavior {
                 if (!terminateAll) {
                     Process processForExecution = ProcessDefinitionUtil.getProcess(execution.getProcessDefinitionId());
                     Process processForTerminateEndEvent = getProcessForTerminateEndEvent(terminateEndEvent);
-                    fireEvent = processForExecution.getId().equals(processForTerminateEndEvent.getId());
+                    fireEvent = processForExecution.getId() == (processForTerminateEndEvent.getId());
                 }
 
                 if (fireEvent) {

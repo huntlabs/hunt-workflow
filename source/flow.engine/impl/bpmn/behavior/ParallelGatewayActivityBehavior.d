@@ -143,19 +143,19 @@ class ParallelGatewayActivityBehavior : GatewayActivityBehavior {
     }
 
     protected bool hasMultiInstanceParent(FlowNode flowNode) {
-        bool hasMultiInstanceParent = false;
+        bool _hasMultiInstanceParent = false;
         if (flowNode.getSubProcess() !is null) {
             if (flowNode.getSubProcess().getLoopCharacteristics() !is null) {
-                hasMultiInstanceParent = true;
+                _hasMultiInstanceParent = true;
             } else {
                 bool hasNestedMultiInstanceParent = hasMultiInstanceParent(flowNode.getSubProcess());
                 if (hasNestedMultiInstanceParent) {
-                    hasMultiInstanceParent = true;
+                    _hasMultiInstanceParent = true;
                 }
             }
         }
 
-        return hasMultiInstanceParent;
+        return _hasMultiInstanceParent;
     }
 
     protected DelegateExecution findMultiInstanceParentExecution(DelegateExecution execution) {

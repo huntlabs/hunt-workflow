@@ -92,7 +92,7 @@ abstract class AbstractSetProcessInstanceStateCmd : Command!Void {
 
         // All jobs are suspended
         JobService jobService = CommandContextUtil.getJobService(commandContext);
-        if (getNewState() == SuspensionState.ACTIVE) {
+        if (getNewState() == ACTIVE) {
             List!SuspendedJobEntity suspendedJobs = jobService.findSuspendedJobsByProcessInstanceId(processInstanceId);
             foreach (SuspendedJobEntity suspendedJob ; suspendedJobs) {
                 jobService.activateSuspendedJob(suspendedJob);

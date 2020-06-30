@@ -28,7 +28,7 @@ import hunt.collection.Map;
 
 import flow.common.AbstractServiceConfiguration;
 //import flow.common.calendar.BusinessCalendarManager;
-//import flow.common.el.ExpressionManager;
+import flow.common.el.ExpressionManager;
 import flow.common.history.HistoryLevel;
 import flow.common.interceptor.CommandExecutor;
 import flow.job.service.impl.HistoryJobServiceImpl;
@@ -118,7 +118,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
 
     protected CommandExecutor commandExecutor;
 
-   // protected ExpressionManager expressionManager;
+    protected ExpressionManager expressionManager;
    // protected BusinessCalendarManager businessCalendarManager;
 
     protected InternalJobManager internalJobManager;
@@ -458,14 +458,14 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
         return this;
     }
 
-    //public ExpressionManager getExpressionManager() {
-    //    return expressionManager;
-    //}
+    public ExpressionManager getExpressionManager() {
+        return expressionManager;
+    }
     //
-    //public JobServiceConfiguration setExpressionManager(ExpressionManager expressionManager) {
-    //    this.expressionManager = expressionManager;
-    //    return this;
-    //}
+    public JobServiceConfiguration setExpressionManager(ExpressionManager expressionManager) {
+        this.expressionManager = expressionManager;
+        return this;
+    }
     //
     //public BusinessCalendarManager getBusinessCalendarManager() {
     //    return businessCalendarManager;

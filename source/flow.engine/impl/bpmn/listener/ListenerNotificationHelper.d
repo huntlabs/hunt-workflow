@@ -45,6 +45,7 @@ import flow.engine.impl.bpmn.listener.TransactionDependentExecutionListenerExecu
 import flow.engine.impl.bpmn.listener.ExecuteTaskListenerTransactionListener;
 import flow.engine.impl.bpmn.listener.ExecuteExecutionListenerTransactionListener;
 import flow.bpmn.model.Process;
+import flow.engine.impl.bpmn.listener.TransactionDependentTaskListenerExecutionScope;
 /**
  * @author Joram Barrez
  */
@@ -106,7 +107,7 @@ class ListenerNotificationHelper {
 
     public void executeTaskListeners(TaskEntity taskEntity, string eventType) {
         if (taskEntity.getProcessDefinitionId() !is null) {
-            flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(taskEntity.getProcessDefinitionId());
+            flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(taskEntity.getProcessDefinitionId());
             FlowElement flowElement = process.getFlowElement(taskEntity.getTaskDefinitionKey(), true);
             if (cast(UserTask)flowElement !is null) {
                 UserTask userTask = cast(UserTask) flowElement;

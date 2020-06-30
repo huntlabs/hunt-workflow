@@ -26,7 +26,7 @@ class ActivateProcessInstanceCmd : AbstractSetProcessInstanceStateCmd {
 
     override
     protected SuspensionState getNewState() {
-        return SuspensionState.ACTIVE;
+        return ACTIVE;
     }
 
 }

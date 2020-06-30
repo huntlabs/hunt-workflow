@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.cmd.ChangeActivityStateCmd;
 
-
+import hunt.Exceptions;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
@@ -32,15 +32,16 @@ class ChangeActivityStateCmd : Command!Void {
     }
 
     public Void execute(CommandContext commandContext) {
-        if (changeActivityStateBuilder.getMoveExecutionIdList().size() == 0 && changeActivityStateBuilder.getMoveActivityIdList().size() == 0) {
-            throw new FlowableIllegalArgumentException("No move execution or activity ids provided");
-
-        } else if (changeActivityStateBuilder.getMoveActivityIdList().size() > 0 && (changeActivityStateBuilder.getProcessInstanceId() is null || changeActivityStateBuilder.getProcessInstanceId().length == 0)) {
-            throw new FlowableIllegalArgumentException("Process instance id is required");
-        }
-
-        DynamicStateManager dynamicStateManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicStateManager();
-        dynamicStateManager.moveExecutionState(changeActivityStateBuilder, commandContext);
+          implementationMissing(false);
+        //if (changeActivityStateBuilder.getMoveExecutionIdList().size() == 0 && changeActivityStateBuilder.getMoveActivityIdList().size() == 0) {
+        //    throw new FlowableIllegalArgumentException("No move execution or activity ids provided");
+        //
+        //} else if (changeActivityStateBuilder.getMoveActivityIdList().size() > 0 && (changeActivityStateBuilder.getProcessInstanceId() is null || changeActivityStateBuilder.getProcessInstanceId().length == 0)) {
+        //    throw new FlowableIllegalArgumentException("Process instance id is required");
+        //}
+        //
+        //DynamicStateManager dynamicStateManager = CommandContextUtil.getProcessEngineConfiguration(commandContext).getDynamicStateManager();
+        //dynamicStateManager.moveExecutionState(changeActivityStateBuilder, commandContext);
 
         return null;
     }

@@ -31,7 +31,7 @@ class PrimitiveStructureInstance : StructureInstance {
         type = null;
     }
 
-    this(PrimitiveStructureDefinition definition, Object primitive , string typeStr = null)  {
+    this(PrimitiveStructureDefinition definition, Object primitive , TypeInfo typeStr = null)  {
         this.definition = definition;
         this.primitive = primitive;
         type  = typeStr;
@@ -43,7 +43,10 @@ class PrimitiveStructureInstance : StructureInstance {
 
     override
     public Object[] toArray() {
-        return new Object[this.primitive ];
+        Object[] rt;
+        rt ~= this.primitive;
+        return rt;
+       // return new Object[this.primitive ];
     }
 
     override

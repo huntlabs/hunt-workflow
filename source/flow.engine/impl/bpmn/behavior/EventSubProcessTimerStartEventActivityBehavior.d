@@ -69,7 +69,7 @@ class EventSubProcessTimerStartEventActivityBehavior : AbstractBpmnActivityBehav
             List!ExecutionEntity childExecutions = executionEntityManager.collectChildren(executionEntity.getParent());
             for (int i = childExecutions.size() - 1; i >= 0; i--) {
                 ExecutionEntity childExecutionEntity = childExecutions.get(i);
-                if (!childExecutionEntity.isEnded() && !childExecutionEntity.getId().equals(executionEntity.getId())) {
+                if (!childExecutionEntity.isEnded() && childExecutionEntity.getId() != (executionEntity.getId())) {
                     executionEntityManager.deleteExecutionAndRelatedData(childExecutionEntity,
                             DeleteReason.EVENT_SUBPROCESS_INTERRUPTING ~ "(" ~ startEvent.getId() ~ ")", false);
                 }

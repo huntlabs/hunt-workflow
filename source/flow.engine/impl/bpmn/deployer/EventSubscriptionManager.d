@@ -47,21 +47,21 @@ import flow.bpmn.model.Process;
  */
 class EventSubscriptionManager {
 
-    protected void removeObsoleteMessageEventSubscriptions(ProcessDefinitionEntity previousProcessDefinition) {
+    public void removeObsoleteMessageEventSubscriptions(ProcessDefinitionEntity previousProcessDefinition) {
         // remove all subscriptions for the previous version
         if (previousProcessDefinition !is null) {
             removeObsoleteEventSubscriptionsImpl(previousProcessDefinition, MessageEventHandler.EVENT_HANDLER_TYPE);
         }
     }
 
-    protected void removeObsoleteSignalEventSubScription(ProcessDefinitionEntity previousProcessDefinition) {
+    public void removeObsoleteSignalEventSubScription(ProcessDefinitionEntity previousProcessDefinition) {
         // remove all subscriptions for the previous version
         if (previousProcessDefinition !is null) {
             removeObsoleteEventSubscriptionsImpl(previousProcessDefinition, SignalEventHandler.EVENT_HANDLER_TYPE);
         }
     }
 
-    protected void removeObsoleteEventRegistryEventSubScription(ProcessDefinitionEntity previousProcessDefinition) {
+    public void removeObsoleteEventRegistryEventSubScription(ProcessDefinitionEntity previousProcessDefinition) {
         // remove all subscriptions for the previous version
         if (previousProcessDefinition !is null) {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
@@ -80,7 +80,7 @@ class EventSubscriptionManager {
         }
     }
 
-    protected void removeObsoleteEventSubscriptionsImpl(ProcessDefinitionEntity processDefinition, string eventHandlerType) {
+    public void removeObsoleteEventSubscriptionsImpl(ProcessDefinitionEntity processDefinition, string eventHandlerType) {
         // remove all subscriptions for the previous version
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
         List!EventSubscriptionEntity subscriptionsToDelete = eventSubscriptionService
@@ -92,7 +92,7 @@ class EventSubscriptionManager {
         }
     }
 
-    protected void addEventSubscriptions(CommandContext commandContext, ProcessDefinitionEntity processDefinition, flow.bpmn.model.Process.Process process, BpmnModel bpmnModel) {
+    public void addEventSubscriptions(CommandContext commandContext, ProcessDefinitionEntity processDefinition, flow.bpmn.model.Process.Process process, BpmnModel bpmnModel) {
         if (process.getFlowElements() !is null && process.getFlowElements().size() != 0) {
             foreach (FlowElement element ; process.getFlowElements()) {
                 if (cast(StartEvent)element !is null) {
@@ -122,7 +122,7 @@ class EventSubscriptionManager {
         }
     }
 
-    protected void insertSignalEvent(SignalEventDefinition signalEventDefinition, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
+    public void insertSignalEvent(SignalEventDefinition signalEventDefinition, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
         CommandContext commandContext = Context.getCommandContext();
         SignalEventSubscriptionEntity subscriptionEntity = CommandContextUtil.getEventSubscriptionService(commandContext).createSignalEventSubscription();
         Signal signal = bpmnModel.getSignal(signalEventDefinition.getSignalRef());
@@ -141,7 +141,7 @@ class EventSubscriptionManager {
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(subscriptionEntity);
     }
 
-    protected void insertMessageEvent(MessageEventDefinition messageEventDefinition, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
+    public void insertMessageEvent(MessageEventDefinition messageEventDefinition, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
         CommandContext commandContext = Context.getCommandContext();
 
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
@@ -173,7 +173,7 @@ class EventSubscriptionManager {
         CountingEntityUtil.handleInsertEventSubscriptionEntityCount(newSubscription);
     }
 
-    protected void insertEventRegistryEvent(string eventDefinitionKey, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
+    public void insertEventRegistryEvent(string eventDefinitionKey, StartEvent startEvent, ProcessDefinitionEntity processDefinition, BpmnModel bpmnModel) {
         CommandContext commandContext = Context.getCommandContext();
         EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService(commandContext);
         EventSubscriptionBuilder eventSubscriptionBuilder = eventSubscriptionService.createEventSubscriptionBuilder()

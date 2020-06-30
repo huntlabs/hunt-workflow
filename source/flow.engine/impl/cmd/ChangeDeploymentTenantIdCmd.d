@@ -48,22 +48,18 @@ class ChangeDeploymentTenantIdCmd : Command!Void {
     this(string deploymentId, string newTenantId, MergeMode mergeMode) {
         this.deploymentId = deploymentId;
         this.newTenantId = newTenantId;
-        switch (mergeMode) {
-            case VERIFY:
+       // switch (mergeMode) {
+            if(mergeMode ==  MergeMode.VERIFY)
                 deploymentMergeStrategy = new VerifyDeploymentMergeStrategy();
-                break;
-            case AS_NEW:
+            else if(mergeMode == MergeMode.AS_NEW)
                 deploymentMergeStrategy = new AddAsNewDeploymentMergeStrategy();
-                break;
-            case AS_OLD:
+            else if(mergeMode == MergeMode.AS_OLD)
                 deploymentMergeStrategy = new AddAsOldDeploymentMergeStrategy();
-                break;
-            case BY_DATE:
+            else if(mergeMode == MergeMode.BY_DATE)
                 deploymentMergeStrategy = new MergeByDateDeploymentMergeStrategy();
-                break;
-            default:
+            else
                 throw new FlowableException("Merge mode  not found.");
-        }
+        //}
     }
 
     this(string deploymentId, string newTenantId, DeploymentMergeStrategy deploymentMergeStrategy) {

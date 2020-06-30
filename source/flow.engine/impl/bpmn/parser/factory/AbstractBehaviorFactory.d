@@ -20,7 +20,7 @@ import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import flow.engine.impl.el.FixedValue;
-
+import hunt.String;
 /**
  * @author Joram Barrez
  */
@@ -34,9 +34,9 @@ abstract class AbstractBehaviorFactory {
         foreach (FieldExtension fieldExtension ; fieldList) {
             FieldDeclaration fieldDeclaration = null;
             if (fieldExtension.getExpression() !is null && fieldExtension.getExpression().length != 0) {
-                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), typeid(Expression).toString, expressionManager.createExpression(fieldExtension.getExpression()));
+                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), typeid(Expression).toString, cast(Object)(expressionManager.createExpression(fieldExtension.getExpression())));
             } else {
-                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), typeid(Expression).toString, new FixedValue(fieldExtension.getStringValue()));
+                fieldDeclaration = new FieldDeclaration(fieldExtension.getFieldName(), typeid(Expression).toString, new FixedValue(new String(fieldExtension.getStringValue())));
             }
 
             fieldDeclarations.add(fieldDeclaration);

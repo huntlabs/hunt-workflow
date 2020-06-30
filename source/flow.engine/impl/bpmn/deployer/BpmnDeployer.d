@@ -12,6 +12,8 @@
  */
 module flow.engine.impl.bpmn.deployer.BpmnDeployer;
 
+
+import flow.engine.impl.bpmn.deployer.ResourceNameUtil;
 import hunt.collection;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.List;
@@ -227,7 +229,7 @@ class BpmnDeployer : EngineDeployer {
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher
-                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, processDefinition));
+                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)processDefinition));
             }
         }
     }
@@ -270,7 +272,7 @@ class BpmnDeployer : EngineDeployer {
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher
-                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, processDefinition));
+                    .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)processDefinition));
             }
         }
     }
@@ -304,7 +306,7 @@ class BpmnDeployer : EngineDeployer {
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
-                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, processDefinitionEntity));
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, cast(Object)processDefinitionEntity));
             }
         }
     }
@@ -324,7 +326,7 @@ class BpmnDeployer : EngineDeployer {
 
         string result = prefixId ~ processDefinition.getKey() ~ ":" ~ to!string(processDefinition.getVersion()) ~ ":" ~ nextId; // ACT-505
         // ACT-115: maximum id length is 64 characters
-        if (result.length() > 64) {
+        if (result.length > 64) {
             // The length is exceeded due to the long process definition key
             result = prefixId ~ nextId;
         }
