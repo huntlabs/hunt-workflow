@@ -37,7 +37,7 @@ class JavaDelegateInvocation : DelegateInvocation {
 
     override
     public Object getTarget() {
-        return delegateInstance;
+        return cast(Object)delegateInstance;
     }
 
 }

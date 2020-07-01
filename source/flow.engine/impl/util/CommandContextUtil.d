@@ -20,7 +20,7 @@ module flow.engine.impl.util.CommandContextUtil;
 
 
 
-
+import hunt.Exceptions;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
@@ -183,7 +183,9 @@ class CommandContextUtil {
     //}
 
     public static EntityLinkService getEntityLinkService() {
-        return getEntityLinkService(getCommandContext());
+        implementationMissing(false);
+        return null;
+        //return getEntityLinkService(getCommandContext());
     }
 
     //public static EntityLinkService getEntityLinkService(CommandContext commandContext) {
@@ -378,7 +380,7 @@ class CommandContextUtil {
     }
 
     public static EventRegistry getEventRegistry(CommandContext commandContext) {
-        EventRegistry eventSubscriptionServiceRegistry = null;
+        EventRegistry eventRegistry = null;
         EventRegistryEngineConfiguration eventRegistryEngineConfiguration = getEventRegistryEngineConfiguration(commandContext);
         if (eventRegistryEngineConfiguration !is null) {
             eventRegistry = eventRegistryEngineConfiguration.getEventRegistry();
@@ -522,7 +524,7 @@ class CommandContextUtil {
     }
 
     public static FlowableEngineAgenda getAgenda(CommandContext commandContext) {
-        return commandContext.getSession(typeid(FlowableEngineAgenda));
+        return cast(FlowableEngineAgenda)(commandContext.getSession(typeid(FlowableEngineAgenda)));
     }
 
     //public static DbSqlSession getDbSqlSession() {
@@ -549,7 +551,7 @@ class CommandContextUtil {
                 involvedExecutions = cast(Map!(string, ExecutionEntity)) obj;
             } else {
                 involvedExecutions = new HashMap!(string, ExecutionEntity)();
-                commandContext.addAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS, involvedExecutions);
+                commandContext.addAttribute(ATTRIBUTE_INVOLVED_EXECUTIONS, cast(Object)involvedExecutions);
             }
             involvedExecutions.put(executionEntity.getId(), executionEntity);
         }

@@ -60,7 +60,7 @@ abstract class NeedsActiveExecutionCmd(T) : Command!T {
      * Subclasses can override this to provide a more detailed exception message that will be thrown when the execution is suspended.
      */
     protected string getSuspendedExceptionMessage() {
-        return "Cannot execution operation because execution '" + executionId + "' is suspended";
+        return "Cannot execution operation because execution '" ~ executionId ~ "' is suspended";
     }
 
 }

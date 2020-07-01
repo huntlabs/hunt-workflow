@@ -16,7 +16,7 @@ import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.LinkedHashMap;
 import hunt.collection.Map;
-
+import hunt.collection.ArrayList;
 import flow.common.api.FlowableException;
 import flow.common.context.Context;
 import flow.common.interceptor.Command;
@@ -42,7 +42,7 @@ class ProcessDefinitionInfoCache : DeploymentCache!ProcessDefinitionInfoCacheObj
     this(CommandExecutor commandExecutor) {
         this.commandExecutor = commandExecutor;
        // this.cache = Collections.synchronizedMap(new HashMap<>());
-        this.cache = HashMap!(string, ProcessDefinitionInfoCacheObject);
+        this.cache = new HashMap!(string, ProcessDefinitionInfoCacheObject);
     }
 
     /** Cache which has a hard limit: no more elements will be cached than the limit. */
@@ -67,7 +67,7 @@ class ProcessDefinitionInfoCache : DeploymentCache!ProcessDefinitionInfoCacheObj
     //}
 
 
-    public ProcessDefinitionInfoCacheObject get(final string processDefinitionId) {
+    public ProcessDefinitionInfoCacheObject get(string processDefinitionId) {
         ProcessDefinitionInfoCacheObject infoCacheObject = null;
         Command!ProcessDefinitionInfoCacheObject cacheCommand = new class Command!ProcessDefinitionInfoCacheObject {
 
@@ -79,7 +79,7 @@ class ProcessDefinitionInfoCache : DeploymentCache!ProcessDefinitionInfoCacheObj
         if (Context.getCommandContext() !is null) {
             infoCacheObject = retrieveProcessDefinitionInfoCacheObject(processDefinitionId, Context.getCommandContext());
         } else {
-            infoCacheObject = commandExecutor.execute(cacheCommand);
+            infoCacheObject = cast(ProcessDefinitionInfoCacheObject)commandExecutor.execute(cacheCommand);
         }
 
         return infoCacheObject;
@@ -107,7 +107,7 @@ class ProcessDefinitionInfoCache : DeploymentCache!ProcessDefinitionInfoCacheObj
 
 
     public Collection!ProcessDefinitionInfoCacheObject getAll() {
-        return cache.values();
+        return   new ArrayList!ProcessDefinitionInfoCacheObject(cache.values());
     }
 
 

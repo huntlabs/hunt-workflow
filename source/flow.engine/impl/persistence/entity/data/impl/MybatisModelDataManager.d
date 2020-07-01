@@ -108,7 +108,7 @@ class MybatisModelDataManager : EntityRepository!( ModelEntityImpl , string) , M
 
     public List!Model findModelsByNativeQuery(Map!(string, Object) parameterMap) {
         implementationMissing(false);
-        return 0;
+        return null;
        // return getDbSqlSession().selectListWithRawParameter("selectModelByNativeQuery", parameterMap);
     }
 

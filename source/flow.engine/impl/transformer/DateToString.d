@@ -30,6 +30,7 @@ class DateToString : AbstractTransformer {
     override
     protected Object primTransform(Object anObject)  {
         implementationMissing(false);
+        return null;
     //       return format.format(cast(Date) anObject);
     }
 }

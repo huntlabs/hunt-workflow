@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.cmd.GetTaskFormModelCmd;
 
+import flow.variable.service.api.history.HistoricVariableInstance;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -93,7 +94,7 @@ class GetTaskFormModelCmd : Command!FormInfo {
 
             } else {
 
-                foreach(VariableInstance variableInstance ;  processEngineConfiguration.getHistoryService().createHistoricVariableInstanceQuery().taskId(taskId).list())
+                foreach(HistoricVariableInstance variableInstance ;  processEngineConfiguration.getHistoryService().createHistoricVariableInstanceQuery().taskId(taskId).list())
                 {
                     variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue());
                 }
@@ -102,7 +103,7 @@ class GetTaskFormModelCmd : Command!FormInfo {
                 //        .stream()
                 //        .forEach(variableInstance -> variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue()));
 
-                foreach (VariableInstance variableInstance ; processEngineConfiguration.getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(task.getProcessInstanceId()).list())
+                foreach (HistoricVariableInstance variableInstance ; processEngineConfiguration.getHistoryService().createHistoricVariableInstanceQuery().processInstanceId(task.getProcessInstanceId()).list())
                 {
                     variables.putIfAbsent(variableInstance.getVariableName(), variableInstance.getValue());
                 }

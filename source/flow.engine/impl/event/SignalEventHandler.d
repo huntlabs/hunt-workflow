@@ -48,7 +48,7 @@ class SignalEventHandler : AbstractEventHandler {
 
             // Find initial flow element matching the signal start event
             string processDefinitionId = eventSubscription.getProcessDefinitionId();
-            flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
+            flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
             ProcessDefinition processDefinition = ProcessDefinitionUtil.getProcessDefinition(processDefinitionId);
 
             if (processDefinition.isSuspended()) {

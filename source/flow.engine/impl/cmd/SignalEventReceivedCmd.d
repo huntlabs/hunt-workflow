@@ -109,10 +109,10 @@ class SignalEventReceivedCmd : Command!Void {
                 //} else {
                     CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher().dispatchEvent(
                             FlowableEventBuilder.createSignalEvent(FlowableEngineEventType.ACTIVITY_SIGNALED, signalEventSubscriptionEntity.getActivityId(), eventName,
-                                    payload, signalEventSubscriptionEntity.getExecutionId(), signalEventSubscriptionEntity.getProcessInstanceId(),
+                                    cast(Object)payload, signalEventSubscriptionEntity.getExecutionId(), signalEventSubscriptionEntity.getProcessInstanceId(),
                                     signalEventSubscriptionEntity.getProcessDefinitionId()));
 
-                    EventSubscriptionUtil.eventReceived(signalEventSubscriptionEntity, payload, async);
+                    EventSubscriptionUtil.eventReceived(signalEventSubscriptionEntity, cast(Object)payload, async);
                 //}
             }
         }

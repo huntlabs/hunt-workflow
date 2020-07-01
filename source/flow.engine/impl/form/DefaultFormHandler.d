@@ -12,16 +12,15 @@
  */
 
 module flow.engine.impl.form.DefaultFormHandler;
-
+import hunt.String;
 import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import flow.variable.service.api.deleg.VariableScope;
 import flow.common.api.deleg.Expression;
 import flow.common.el.ExpressionManager;
 import flow.engine.form.AbstractFormType;
-import flow.engine.form.FormProperty;
 import flow.engine.impl.persistence.entity.DeploymentEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
@@ -35,6 +34,7 @@ import flow.engine.impl.form.FormDataImpl;
  * @author Tom Baeyens
  */
 class DefaultFormHandler : FormHandler {
+    import flow.engine.form.FormProperty;
 
     protected Expression formKey;
     protected string deploymentId;
@@ -57,7 +57,7 @@ class DefaultFormHandler : FormHandler {
 
         FormTypes formTypes = CommandContextUtil.getProcessEngineConfiguration().getFormTypes();
 
-        foreach (flow.bpmn.model.FormProperty formProperty ; formProperties) {
+        foreach (flow.bpmn.model.FormProperty.FormProperty formProperty ; formProperties) {
             FormPropertyHandler formPropertyHandler = new FormPropertyHandler();
             formPropertyHandler.setId(formProperty.getId());
             formPropertyHandler.setName(formProperty.getName());
@@ -103,7 +103,7 @@ class DefaultFormHandler : FormHandler {
             formPropertyHandler.submitFormProperty(execution, propertiesCopy);
         }
         foreach (MapEntry!(string,string) propertyId ; propertiesCopy) {
-            execution.setVariable(propertyId.getKey(), propertiesCopy.get(propertyId.getKey()));
+          (cast(VariableScope)execution).setVariable(propertyId.getKey(), new String(propertiesCopy.get(propertyId.getKey())));
         }
     }
 

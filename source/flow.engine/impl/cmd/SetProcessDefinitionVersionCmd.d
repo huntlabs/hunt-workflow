@@ -59,14 +59,11 @@ class SetProcessDefinitionVersionCmd : Command!Void {
     private  int processDefinitionVersion;
 
     this(string processInstanceId, int processDefinitionVersion) {
-        if (processInstanceId is null || processInstanceId.length() < 1) {
+        if (processInstanceId is null || processInstanceId.length < 1) {
             throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" ~ processInstanceId ~ "' has been provided.");
         }
-        if (processDefinitionVersion is null) {
-            throw new FlowableIllegalArgumentException("The process definition version is mandatory, but 'null' has been provided.");
-        }
         if (processDefinitionVersion < 1) {
-            throw new FlowableIllegalArgumentException("The process definition version must be positive, but '" ~ processDefinitionVersion ~ "' has been provided.");
+            throw new FlowableIllegalArgumentException("The process definition version must be positive, but  ~  has been provided.");
         }
         this.processInstanceId = processInstanceId;
         this.processDefinitionVersion = processDefinitionVersion;
@@ -112,7 +109,7 @@ class SetProcessDefinitionVersionCmd : Command!Void {
 
     protected void validateAndSwitchVersionOfExecution(CommandContext commandContext, ExecutionEntity execution, ProcessDefinition newProcessDefinition) {
         // check that the new process definition version contains the current activity
-        flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(newProcessDefinition.getId());
+        flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(newProcessDefinition.getId());
         if (execution.getActivityId() !is null && execution.getActivityId().length != 0 && process.getFlowElement(execution.getActivityId(), true) is null) {
             //throw new FlowableException("The new process definition " + "(key = '" + newProcessDefinition.getKey() + "') " + "does not contain the current activity " + "(id = '"
             //        + execution.getActivityId() + "') " + "of the process instance " + "(id = '" + processInstanceId + "').");

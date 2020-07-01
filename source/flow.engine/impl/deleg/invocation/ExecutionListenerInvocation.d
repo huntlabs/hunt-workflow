@@ -37,7 +37,7 @@ class ExecutionListenerInvocation : DelegateInvocation {
 
     override
     public Object getTarget() {
-        return executionListenerInstance;
+        return cast(Object)executionListenerInstance;
     }
 
 }

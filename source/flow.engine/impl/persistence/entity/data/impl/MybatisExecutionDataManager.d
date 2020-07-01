@@ -194,7 +194,14 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public List!ExecutionEntity findChildExecutionsByParentExecutionId( string parentExecutionId) {
-          return new ArrayList!ExecutionEntity(findAll(new Condition("%s = %s" , Field.parentId , parentExecutionId)));
+        ExecutionEntityImpl[] array = (findAll(new Condition("%s = %s" , Field.parentId , parentExecutionId)));
+
+        List!ExecutionEntity list = new ArrayList!ExecutionEntity;
+        foreach(ExecutionEntityImpl e ; array)
+        {
+            list.add(cast(ExecutionEntity)e);
+        }
+        return list;
         //if (isExecutionTreeFetched(parentExecutionId)) {
         //    return getListFromCache(executionsByParentIdMatcher, parentExecutionId);
         //} else {
@@ -212,7 +219,15 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
         ExecutionEntityImpl[] array =  _manager.createQuery!(ExecutionEntityImpl)("SELECT * FROM ExecutionEntityImpl u WHERE u.processInstanceId = :processInstanceId and parentId is not null")
         .setParameter("processInstanceId",processInstanceId)
         .getResultList();
-        return new ArrayList!ExecutionEntityImpl(array);
+
+        List!ExecutionEntity list = new ArrayList!ExecutionEntity;
+
+        foreach(ExecutionEntityImpl e ; array)
+        {
+            list.add(cast(ExecutionEntity) e);
+        }
+        return list;
+        //return new ArrayList!ExecutionEntityImpl(array);
         //if (isExecutionTreeFetched(processInstanceId)) {
         //    return getListFromCache(executionsByProcessInstanceIdMatcher, processInstanceId);
         //} else {
@@ -237,7 +252,15 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public List!ExecutionEntity findExecutionsByRootProcessInstanceId( string rootProcessInstanceId) {
-        return new ArrayList!ExecutionEntity(findAll(new Condition("%s = %s" , Field.rootProcessInstanceId , rootProcessInstanceId)));
+        ExecutionEntityImpl[] array =  findAll(new Condition("%s = %s" , Field.rootProcessInstanceId , rootProcessInstanceId));
+        List!ExecutionEntity list = new ArrayList!ExecutionEntity;
+
+        foreach(ExecutionEntityImpl e ; array)
+        {
+            list.add(cast(ExecutionEntity)e);
+        }
+
+        return list;
         //if (isExecutionTreeFetched(rootProcessInstanceId)) {
         //    return getListFromCache(executionsByRootProcessInstanceMatcher, rootProcessInstanceId);
         //} else {
@@ -247,7 +270,15 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public List!ExecutionEntity findExecutionsByProcessInstanceId( string processInstanceId) {
-        return new ArrayList!ExecutionEntity(findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId)));
+        ExecutionEntityImpl[] array =  findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId));
+        List!ExecutionEntity list = new ArrayList!ExecutionEntity;
+        foreach(ExecutionEntityImpl e ; array)
+        {
+          list.add(cast(ExecutionEntity)e);
+        }
+
+        return list;
+
         //if (isExecutionTreeFetched(processInstanceId)) {
         //    return getListFromCache(executionByProcessInstanceMatcher, processInstanceId);
         //} else {
@@ -257,7 +288,14 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public Collection!ExecutionEntity findInactiveExecutionsByProcessInstanceId( string processInstanceId) {
-      return new ArrayList!ExecutionEntity(findAll(new Condition("%s = %s and %s = %s " , Field.processInstanceId , processInstanceId ,Field.isActive, false)));
+        ExecutionEntityImpl[] array = findAll(new Condition("%s = %s and %s = %s " , Field.processInstanceId , processInstanceId ,Field._isActive, false));
+        List!ExecutionEntity list = new ArrayList!ExecutionEntity;
+        foreach(ExecutionEntityImpl e ; array)
+        {
+          list.add(cast(ExecutionEntity)e);
+        }
+
+        return list;
         //HashMap!(string, Object) params = new HashMap<>(2);
         //params.put("processInstanceId", processInstanceId);
         //params.put("isActive", false);
@@ -272,8 +310,15 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
     public Collection!ExecutionEntity findInactiveExecutionsByActivityIdAndProcessInstanceId( string activityId,  string processInstanceId) {
 
-      return new ArrayList!ExecutionEntity(findAll(new Condition("%s = %s and %s = %s and %s = %s" , Field.activityId , activityId ,Field.processInstanceId, processInstanceId ,Field.isActive, false)));
-        //HashMap!(string, Object) params = new HashMap<>(3);
+        ExecutionEntityImpl[] array = findAll(new Condition("%s = %s and %s = %s and %s = %s" , Field.activityId , activityId ,Field.processInstanceId, processInstanceId ,Field._isActive, false));
+        List!ExecutionEntity list = new ArrayList!ExecutionEntity;
+        foreach(ExecutionEntityImpl e ; array)
+        {
+          list.add(cast(ExecutionEntity)e);
+        }
+
+        return list;
+       //HashMap!(string, Object) params = new HashMap<>(3);
         //params.put("activityId", activityId);
         //params.put("processInstanceId", processInstanceId);
         //params.put("isActive", false);
@@ -291,10 +336,17 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
         _manager.close();
       }
 
-      string[] array =  _manager.createQuery!(string)("SELECT id FROM ExecutionEntityImpl u WHERE u.processInstanceId = :processInstanceId and parentId is null")
-      .setParameter("processInstanceId",processInstanceId)
+      ExecutionEntityImpl[] array =  _manager.createQuery!(ExecutionEntityImpl)("SELECT id FROM ExecutionEntityImpl u WHERE u.processInstanceId = :processInstanceId and parentId is null")
+      .setParameter("processInstanceId",processDefinitionId)
       .getResultList();
-      return new ArrayList!string(array);
+      List!string list = new ArrayList!string;
+      foreach(ExecutionEntityImpl e ; array)
+      {
+          list.add(e.id);
+      }
+      return list;
+
+     // return new ArrayList!string(array);
         //return getDbSqlSession().selectListNoCacheLoadAndStore("selectProcessInstanceIdsByProcessDefinitionId", processDefinitionId);
     }
 
@@ -423,7 +475,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
       }
       auto update = _manager.createQuery!(ExecutionEntityImpl)(" update ExecutionEntityImpl u set u.lockTime = :lockTime where  " ~
       "u.id = :id AND (lockTime is null OR u.lockTime < :expirationTime)");
-      update.setParameter("lockTime",lockTime.toEpochMilli);
+      update.setParameter("lockTime",lockDate.toEpochMilli);
       update.setParameter("expirationTime",expirationTime.toEpochMilli);
       try{
         update.exec();

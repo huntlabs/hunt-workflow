@@ -38,7 +38,7 @@ class TriggerTimerEventJobHandler : JobHandler {
         CommandContextUtil.getAgenda(commandContext).planTriggerExecutionOperation(executionEntity);
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_FIRED, job));
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_FIRED, cast(Object)job));
         }
     }
 

@@ -44,7 +44,7 @@ class CommentEntityManagerImpl
     public void insert(CommentEntity commentEntity) {
         checkHistoryEnabled();
 
-        insert(commentEntity, false);
+        super.insert(commentEntity, false);
 
         Comment comment = cast(Comment) commentEntity;
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
@@ -59,9 +59,9 @@ class CommentEntityManagerImpl
                 }
             }
             getEventDispatcher().dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, commentEntity, processInstanceId, processInstanceId, processDefinitionId));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)commentEntity, processInstanceId, processInstanceId, processDefinitionId));
             getEventDispatcher().dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, commentEntity, processInstanceId, processInstanceId, processDefinitionId));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, cast(Object)commentEntity, processInstanceId, processInstanceId, processDefinitionId));
         }
     }
 
@@ -69,7 +69,7 @@ class CommentEntityManagerImpl
     public CommentEntity update(CommentEntity commentEntity) {
         checkHistoryEnabled();
 
-        CommentEntity updatedCommentEntity = update(commentEntity, false);
+        CommentEntity updatedCommentEntity = super.update(commentEntity, false);
 
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
             // Forced to fetch the process-instance to associate the right
@@ -83,7 +83,7 @@ class CommentEntityManagerImpl
                 }
             }
             getEventDispatcher().dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, commentEntity, processInstanceId, processInstanceId, processDefinitionId));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, cast(Object)commentEntity, processInstanceId, processInstanceId, processDefinitionId));
         }
 
         return updatedCommentEntity;
@@ -146,7 +146,7 @@ class CommentEntityManagerImpl
     public void dele(CommentEntity commentEntity) {
         checkHistoryEnabled();
 
-        dele(commentEntity, false);
+        super.dele(commentEntity, false);
 
         Comment comment = cast(Comment) commentEntity;
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
@@ -161,7 +161,7 @@ class CommentEntityManagerImpl
                 }
             }
             getEventDispatcher().dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, commentEntity, processInstanceId, processInstanceId, processDefinitionId));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)commentEntity, processInstanceId, processInstanceId, processDefinitionId));
         }
     }
 

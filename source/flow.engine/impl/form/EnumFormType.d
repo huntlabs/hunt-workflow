@@ -39,7 +39,7 @@ class EnumFormType : AbstractFormType {
     override
     public Object getInformation(string key) {
         if (key == ("values")) {
-            return values;
+            return cast(Object)values;
         }
         return null;
     }
@@ -47,7 +47,7 @@ class EnumFormType : AbstractFormType {
     override
     public Object convertFormValueToModelValue(string propertyValue) {
         validateValue(propertyValue);
-        return propertyValue;
+        return new String(propertyValue);
     }
 
     override
@@ -59,7 +59,7 @@ class EnumFormType : AbstractFormType {
            // validateValue((string) modelValue);
              return (cast(String) modelValue).value;
         }
-
+        return "";
     }
 
     protected void validateValue(string value) {

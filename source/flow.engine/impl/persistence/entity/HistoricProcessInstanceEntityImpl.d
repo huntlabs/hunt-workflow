@@ -119,7 +119,7 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
         this.processDefinitionVersion = processInstance.getProcessDefinitionVersion();
         this.deploymentId = processInstance.getDeploymentId();
         this.startActivityId = processInstance.getStartActivityId();
-        this.startTime = processInstance.getStartTime();
+        this.startTime = processInstance.getStartTime().toEpochMilli;
         this.startUserId = processInstance.getStartUserId();
         this.superProcessInstanceId = processInstance.getSuperExecution() !is null ? processInstance.getSuperExecution().getProcessInstanceId() : "";
         this.callbackId = processInstance.getCallbackId();
@@ -221,7 +221,7 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
 
 
     public string getName() {
-        if (localizedName !is null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length > 0) {
             return localizedName;
         } else {
             return name;
@@ -244,7 +244,7 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
 
 
     public string getDescription() {
-        if (localizedDescription !is null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length > 0) {
             return localizedDescription;
         } else {
             return description;

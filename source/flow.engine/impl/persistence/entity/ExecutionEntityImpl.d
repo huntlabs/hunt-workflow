@@ -19,7 +19,7 @@ import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import flow.engine.impl.persistence.entity.ActivityInstanceEntity;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.FlowableListener;
 import flow.common.api.FlowableException;
@@ -300,8 +300,8 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
     this() {
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
-      suspensionState = SuspensionState.ACTIVE.getStateCode();
-      rev = 1;
+      suspensionState = ACTIVE.getStateCode();
+      rev = "1";
     }
 
 
@@ -370,7 +370,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
         if (currentFlowElement is null) {
             string processDefinitionId = getProcessDefinitionId();
             if (processDefinitionId !is null) {
-                flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
+                flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
                 currentFlowElement = process.getFlowElement(getCurrentActivityId(), true);
             }
         }
@@ -418,7 +418,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
     public void addChildExecution(ExecutionEntity executionEntity) {
         ensureExecutionsInitialized();
-        executions.remove(executionEntity);
+        executions.remove(cast(ExecutionEntityImpl)executionEntity);
         executions.add(cast(ExecutionEntityImpl) executionEntity);
     }
 
@@ -725,7 +725,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
             if (sourceExecution !is null) {
                 createVariableLocal(variableName, value, sourceExecution);
             } else {
-                createVariableLocal(variableName, value);
+                super.createVariableLocal(variableName, value);
             }
 
         } else {
@@ -1074,7 +1074,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public bool isSuspended() {
-        return suspensionState == SuspensionState.SUSPENDED.getStateCode();
+        return suspensionState == SUSPENDED.getStateCode();
     }
 
 
@@ -1114,7 +1114,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public string getName() {
-        if (localizedName !is null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length > 0) {
             return localizedName;
         } else {
             return name;
@@ -1128,7 +1128,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public string getDescription() {
-        if (localizedDescription !is null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length > 0) {
             return localizedDescription;
         } else {
             return description;
@@ -1172,12 +1172,12 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public Date getLockTime() {
-        return lockTime;
+        return Date.ofEpochMilli(lockTime);
     }
 
 
     public void setLockTime(Date lockTime) {
-        this.lockTime = lockTime;
+        this.lockTime = lockTime.toEpochMilli;
     }
 
 
@@ -1194,8 +1194,8 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
         // The variables from the cache have precedence
         if (variableInstances !is null) {
-            foreach (string variableName ; variableInstances.getKey()) {
-                variables.put(variableName, variableInstances.get(variableName).getValue());
+            foreach (MapEntry!(string, VariableInstanceEntity) variableName ; variableInstances) {
+                variables.put(variableName.getKey(), variableInstances.get(variableName.getKey()).getValue());
             }
         }
 
@@ -1244,12 +1244,12 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public Date getStartTime() {
-        return startTime;
+        return Date.ofEpochMilli(startTime);
     }
 
 
     public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+        this.startTime = startTime.toEpochMilli;
     }
 
 

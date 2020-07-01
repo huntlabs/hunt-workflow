@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.cmd.SetExecutionVariablesCmd;
 
+import flow.variable.service.api.deleg.VariableScope;
 import hunt.collection.Map;
 
 import flow.common.interceptor.CommandContext;
@@ -46,13 +47,13 @@ class SetExecutionVariablesCmd : NeedsActiveExecutionCmd!Object {
         if (isLocal) {
             if (variables !is null) {
                 foreach (MapEntry!(string, Object) variableName ; variables) {
-                    execution.setVariableLocal(variableName.getKey(), variables.get(variableName.getKey()), false);
+                  (cast(VariableScope)execution).setVariableLocal(variableName.getKey(), variables.get(variableName.getKey()), false);
                 }
             }
         } else {
             if (variables !is null) {
                 foreach (MapEntry!(string, Object) variableName ; variables) {
-                    execution.setVariable(variableName.getKey(), variables.get(variableName.getKey()), false);
+                  (cast(VariableScope)execution).setVariable(variableName.getKey(), variables.get(variableName.getKey()), false);
                 }
             }
         }

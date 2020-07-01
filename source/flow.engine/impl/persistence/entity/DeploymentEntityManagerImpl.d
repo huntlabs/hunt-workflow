@@ -74,7 +74,7 @@ class DeploymentEntityManagerImpl
 
     override
     public void insert(DeploymentEntity deployment) {
-        insert(deployment, false);
+        super.insert(deployment, false);
 
         foreach (EngineResource resource ; deployment.getResources().values()) {
             resource.setDeploymentId(deployment.getId());
@@ -151,29 +151,31 @@ class DeploymentEntityManagerImpl
     }
 
     protected void removeTimerStartJobs(ProcessDefinition processDefinition) {
-        TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
-        List!TimerJobEntity timerStartJobs = timerJobService.findJobsByTypeAndProcessDefinitionId(TimerStartEventJobHandler.TYPE, processDefinition.getId());
-        if (timerStartJobs !is null && timerStartJobs.size() > 0) {
-            foreach (TimerJobEntity timerStartJob ; timerStartJobs) {
-                if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-                    getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, timerStartJob, null, null, processDefinition.getId()));
-                }
+        implementationMissing(false);
 
-                timerJobService.deleteTimerJob(timerStartJob);
-            }
-        }
+        //TimerJobService timerJobService = CommandContextUtil.getTimerJobService();
+        //List!TimerJobEntity timerStartJobs = timerJobService.findJobsByTypeAndProcessDefinitionId(TimerStartEventJobHandler.TYPE, processDefinition.getId());
+        //if (timerStartJobs !is null && timerStartJobs.size() > 0) {
+        //    foreach (TimerJobEntity timerStartJob ; timerStartJobs) {
+        //        if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
+        //            getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, timerStartJob, null, null, processDefinition.getId()));
+        //        }
+        //
+        //        timerJobService.deleteTimerJob(timerStartJob);
+        //    }
+        //}
     }
 
     protected void restorePreviousStartEventsIfNeeded(ProcessDefinition processDefinition) {
         ProcessDefinitionEntity latestProcessDefinition = findLatestProcessDefinition(processDefinition);
-        if (latestProcessDefinition !is null && processDefinition.getId().equals(latestProcessDefinition.getId())) {
+        if (latestProcessDefinition !is null && processDefinition.getId() == (latestProcessDefinition.getId())) {
 
             // Try to find a previous version (it could be some versions are missing due to deletions)
             ProcessDefinition previousProcessDefinition = findNewLatestProcessDefinitionAfterRemovalOf(processDefinition);
             if (previousProcessDefinition !is null) {
 
                 BpmnModel bpmnModel = ProcessDefinitionUtil.getBpmnModel(previousProcessDefinition.getId());
-                flow.bpmn.model.Process previousProcess = ProcessDefinitionUtil.getProcess(previousProcessDefinition.getId());
+                flow.bpmn.model.Process.Process previousProcess = ProcessDefinitionUtil.getProcess(previousProcessDefinition.getId());
                 if (!previousProcess.getFlowElements().isEmpty()) {
 
                     List!StartEvent startEvents = previousProcess.findFlowElementsOfType!StartEvent(typeid(StartEvent));
@@ -203,41 +205,43 @@ class DeploymentEntityManagerImpl
     }
 
     protected void restoreTimerStartEvent(ProcessDefinition previousProcessDefinition, StartEvent startEvent, EventDefinition eventDefinition) {
-        TimerEventDefinition timerEventDefinition = cast(TimerEventDefinition) eventDefinition;
-        TimerJobEntity timer = TimerUtil.createTimerEntityForTimerEventDefinition(cast(TimerEventDefinition) eventDefinition, false, null, TimerStartEventJobHandler.TYPE,
-                TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
-
-        if (timer !is null) {
-            TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE,
-                            TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
-
-            timerJob.setProcessDefinitionId(previousProcessDefinition.getId());
-
-            if (previousProcessDefinition.getTenantId() !is null) {
-                timerJob.setTenantId(previousProcessDefinition.getTenantId());
-            }
-
-            CommandContextUtil.getTimerJobService().scheduleTimerJob(timerJob);
-        }
+        implementationMissing(false);
+        //TimerEventDefinition timerEventDefinition = cast(TimerEventDefinition) eventDefinition;
+        //TimerJobEntity timer = TimerUtil.createTimerEntityForTimerEventDefinition(cast(TimerEventDefinition) eventDefinition, false, null, TimerStartEventJobHandler.TYPE,
+        //        TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
+        //
+        //if (timer !is null) {
+        //    TimerJobEntity timerJob = TimerUtil.createTimerEntityForTimerEventDefinition(timerEventDefinition, false, null, TimerStartEventJobHandler.TYPE,
+        //                    TimerEventHandler.createConfiguration(startEvent.getId(), timerEventDefinition.getEndDate(), timerEventDefinition.getCalendarName()));
+        //
+        //    timerJob.setProcessDefinitionId(previousProcessDefinition.getId());
+        //
+        //    if (previousProcessDefinition.getTenantId() !is null) {
+        //        timerJob.setTenantId(previousProcessDefinition.getTenantId());
+        //    }
+        //
+        //    CommandContextUtil.getTimerJobService().scheduleTimerJob(timerJob);
+        //}
     }
 
     protected void restoreSignalStartEvent(ProcessDefinition previousProcessDefinition, BpmnModel bpmnModel, StartEvent startEvent, EventDefinition eventDefinition) {
-        SignalEventDefinition signalEventDefinition = cast(SignalEventDefinition) eventDefinition;
-        SignalEventSubscriptionEntity subscriptionEntity = CommandContextUtil.getEventSubscriptionService().createSignalEventSubscription();
-        Signal signal = bpmnModel.getSignal(signalEventDefinition.getSignalRef());
-        if (signal !is null) {
-            subscriptionEntity.setEventName(signal.getName());
-        } else {
-            subscriptionEntity.setEventName(signalEventDefinition.getSignalRef());
-        }
-        subscriptionEntity.setActivityId(startEvent.getId());
-        subscriptionEntity.setProcessDefinitionId(previousProcessDefinition.getId());
-        if (previousProcessDefinition.getTenantId().length != 0) {
-            subscriptionEntity.setTenantId(previousProcessDefinition.getTenantId());
-        }
-
-        CommandContextUtil.getEventSubscriptionService().insertEventSubscription(subscriptionEntity);
-        CountingEntityUtil.handleInsertEventSubscriptionEntityCount(subscriptionEntity);
+         implementationMissing(false);
+        //SignalEventDefinition signalEventDefinition = cast(SignalEventDefinition) eventDefinition;
+        //SignalEventSubscriptionEntity subscriptionEntity = CommandContextUtil.getEventSubscriptionService().createSignalEventSubscription();
+        //Signal signal = bpmnModel.getSignal(signalEventDefinition.getSignalRef());
+        //if (signal !is null) {
+        //    subscriptionEntity.setEventName(signal.getName());
+        //} else {
+        //    subscriptionEntity.setEventName(signalEventDefinition.getSignalRef());
+        //}
+        //subscriptionEntity.setActivityId(startEvent.getId());
+        //subscriptionEntity.setProcessDefinitionId(previousProcessDefinition.getId());
+        //if (previousProcessDefinition.getTenantId().length != 0) {
+        //    subscriptionEntity.setTenantId(previousProcessDefinition.getTenantId());
+        //}
+        //
+        //CommandContextUtil.getEventSubscriptionService().insertEventSubscription(subscriptionEntity);
+        //CountingEntityUtil.handleInsertEventSubscriptionEntityCount(subscriptionEntity);
     }
 
     protected void restoreMessageStartEvent(ProcessDefinition previousProcessDefinition, BpmnModel bpmnModel, StartEvent startEvent, EventDefinition eventDefinition) {

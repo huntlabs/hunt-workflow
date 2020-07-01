@@ -21,6 +21,7 @@ module flow.engine.impl.form.DateFormType;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.engine.form.AbstractFormType;
 import hunt.Exceptions;
+import hunt.String;
 /**
  * @author Tom Baeyens
  */
@@ -41,7 +42,7 @@ class DateFormType : AbstractFormType {
     override
     public Object getInformation(string key) {
         if ("datePattern" == (key)) {
-            return datePattern;
+            return new String(datePattern);
         }
         return null;
     }

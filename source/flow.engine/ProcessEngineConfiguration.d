@@ -20,6 +20,7 @@ module flow.engine.ProcessEngineConfiguration;
 //import hunt.collection.Map;
 //
 //import javax.sql.DataSource;
+import flow.engine.HistoryCleaningManager;
 import hunt.collection.Map;
 import flow.common.api.engine.EngineLifecycleListener;
 import flow.common.AbstractEngineConfiguration;
@@ -161,7 +162,7 @@ import flow.engine.ProcessEngineLifecycleListener;
     protected bool enableHistoryCleaning = false;
     protected string historyCleaningTimeCycleConfig = "0 0 1 * * ?";
     protected int cleanInstancesEndedAfterNumberOfDays = 365;
-   // protected HistoryCleaningManager historyCleaningManager;
+    protected HistoryCleaningManager historyCleaningManager;
     protected ProcessEngineLifecycleListener processEngineLifecycleListener;
 
     /** postprocessor for a task builder */
@@ -811,12 +812,12 @@ import flow.engine.ProcessEngineLifecycleListener;
         return this;
     }
 
-    //public HistoryCleaningManager getHistoryCleaningManager() {
-    //    return historyCleaningManager;
-    //}
-    //
-    //public ProcessEngineConfiguration setHistoryCleaningManager(HistoryCleaningManager historyCleaningManager) {
-    //    this.historyCleaningManager = historyCleaningManager;
-    //    return this;
-    //}
+    public HistoryCleaningManager getHistoryCleaningManager() {
+        return historyCleaningManager;
+    }
+
+    public ProcessEngineConfiguration setHistoryCleaningManager(HistoryCleaningManager historyCleaningManager) {
+        this.historyCleaningManager = historyCleaningManager;
+        return this;
+    }
 }

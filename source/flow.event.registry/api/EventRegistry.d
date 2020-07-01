@@ -58,7 +58,7 @@ interface EventRegistry {
      * @param data data information used to generate the key (must not be {@code null})
      * @return a unique string correlating the event based on the information supplied
      */
-    String generateKey(Map!(String, Object) data);
+    string generateKey(Map!(string, Object) data);
 
     /**
      * Events received in adapters should call this method to process events.

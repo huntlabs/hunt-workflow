@@ -172,7 +172,8 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
         .setParameter("deploymentId",deploymentId)
         .setParameter("processDefinitionKey",processDefinitionKey)
         .getResultList();
-        return new ArrayList!ProcessDefinitionEntityImpl(array);
+        return array.length == 0? null : cast(ProcessDefinitionEntity)array[0];
+        //return new ArrayList!ProcessDefinitionEntityImpl(array);
         //Map!(string, Object) parameters = new HashMap<>();
         //parameters.put("deploymentId", deploymentId);
         //parameters.put("processDefinitionKey", processDefinitionKey);

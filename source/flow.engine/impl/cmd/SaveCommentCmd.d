@@ -44,7 +44,7 @@ class SaveCommentCmd : Command!Void {
         CommentEntityManager commentEntityManager = CommandContextUtil.getCommentEntityManager(commandContext);
 
         string eventMessage = comment.getFullMessage().replace("\\s+", " ");
-        if (eventMessage.length() > 163) {
+        if (eventMessage.length > 163) {
             eventMessage = eventMessage[0 .. 160] ~  "...";
         }
         comment.setMessage(eventMessage);

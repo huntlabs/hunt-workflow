@@ -138,7 +138,7 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
 
 
     public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdateTime = lastUpdateTime.toEpochMilli;
     }
 
 

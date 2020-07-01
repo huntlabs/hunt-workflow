@@ -106,14 +106,14 @@ abstract class AbstractHistoryManager : AbstractManager , HistoryManager {
                 //if (LOGGER.isDebugEnabled()) {
                 //    LOGGER.debug("Current history level: {}", historyLevel);
                 //}
-                return !historyLevel ==(HistoryLevel.NONE);
+                return historyLevel !=(HistoryLevel.NONE);
             }
 
         } else {
             //if (LOGGER.isDebugEnabled()) {
             //    LOGGER.debug("Current history level: {}", historyLevel);
             //}
-            return !historyLevel==(HistoryLevel.NONE);
+            return historyLevel != (HistoryLevel.NONE);
         }
     }
 

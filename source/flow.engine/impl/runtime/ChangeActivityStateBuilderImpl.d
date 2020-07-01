@@ -146,7 +146,7 @@ class ChangeActivityStateBuilderImpl : ChangeActivityStateBuilder {
 
 
     public ChangeActivityStateBuilder moveActivityIdToSubProcessInstanceActivityId(string currentActivityId, string newActivityId, string callActivityId) {
-        return moveActivityIdToSubProcessInstanceActivityId(currentActivityId, newActivityId, callActivityId, null, null);
+        return moveActivityIdToSubProcessInstanceActivityId(currentActivityId, newActivityId, callActivityId, 0, null);
     }
 
 
@@ -220,7 +220,7 @@ class ChangeActivityStateBuilderImpl : ChangeActivityStateBuilder {
 
     public ChangeActivityStateBuilder localVariables(string startActivityId, Map!(string, Object) localVariables) {
         if (this._localVariables is null) {
-            this._localVariables = new HashMap!(string, Object);
+            this._localVariables = new HashMap!(string, Map!(string, Object));
         }
 
         this._localVariables.put(startActivityId, localVariables);
@@ -229,11 +229,13 @@ class ChangeActivityStateBuilderImpl : ChangeActivityStateBuilder {
     }
 
 
-    public void changeState() {
-        if (runtimeService is null) {
-            throw new FlowableException("RuntimeService cannot be null, Obtain your builder instance from the RuntimService to access this feature");
-        }
-        runtimeService.changeActivityState(this);
+    public void changeState()
+    {
+        implementationMissing(false);
+        //if (runtimeService is null) {
+        //    throw new FlowableException("RuntimeService cannot be null, Obtain your builder instance from the RuntimService to access this feature");
+        //}
+        //runtimeService.changeActivityState(this);
     }
 
     public string getProcessInstanceId() {

@@ -37,7 +37,7 @@ class FormHandlerHelper {
 
     public StartFormHandler getStartFormHandler(CommandContext commandContext, ProcessDefinition processDefinition) {
         StartFormHandler startFormHandler = new DefaultStartFormHandler();
-        flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinition.getId());
+        flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(processDefinition.getId());
 
         FlowElement initialFlowElement = process.getInitialFlowElement();
         if (cast(StartEvent)initialFlowElement !is null) {
@@ -57,7 +57,7 @@ class FormHandlerHelper {
     }
 
     public TaskFormHandler getTaskFormHandlder(string processDefinitionId, string taskId) {
-        flow.bpmn.model.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
+        flow.bpmn.model.Process.Process process = ProcessDefinitionUtil.getProcess(processDefinitionId);
         FlowElement flowElement = process.getFlowElement(taskId, true);
         if (cast(UserTask)flowElement !is null) {
             UserTask userTask = cast(UserTask) flowElement;

@@ -15,7 +15,7 @@ module flow.engine.impl.form.DoubleFormType;
 
 import flow.engine.form.AbstractFormType;
 import hunt.Double;
-
+import std.conv : to;
 /**
  * @author Tom Baeyens
  */
@@ -34,7 +34,7 @@ class DoubleFormType : AbstractFormType {
         if (propertyValue is null || "" == (propertyValue)) {
             return null;
         }
-        return Double.valueOf(propertyValue);
+        return Double.valueOf(to!double(propertyValue));
     }
 
     override

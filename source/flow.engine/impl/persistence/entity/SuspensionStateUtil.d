@@ -42,7 +42,7 @@ class SuspensionStateUtil {
            // throw new FlowableException("Cannot set suspension state '" ~ state ~ "' for " ~ processDefinitionEntity ~ "': already in state '" ~ state ~ "'.");
         }
         processDefinitionEntity.setSuspensionState(state.getStateCode());
-        dispatchStateChangeEvent(processDefinitionEntity, state);
+        dispatchStateChangeEvent(cast(Object)processDefinitionEntity, state);
     }
 
     public static void setSuspensionState(ExecutionEntity executionEntity, SuspensionState state) {
@@ -51,7 +51,7 @@ class SuspensionStateUtil {
            // throw new FlowableException("Cannot set suspension state '" + state + "' for " + executionEntity + "': already in state '" + state + "'.");
         }
         executionEntity.setSuspensionState(state.getStateCode());
-        dispatchStateChangeEvent(executionEntity, state);
+        dispatchStateChangeEvent(cast(Object)executionEntity, state);
     }
 
     public static void setSuspensionState(TaskEntity taskEntity, SuspensionState state) {
@@ -63,7 +63,7 @@ class SuspensionStateUtil {
 
         addTaskSuspensionStateEntryLog(taskEntity, state);
 
-        dispatchStateChangeEvent(taskEntity, state);
+        dispatchStateChangeEvent(cast(Object)taskEntity, state);
     }
 
     protected static void addTaskSuspensionStateEntryLog(TaskEntity taskEntity, SuspensionState state) {
@@ -90,7 +90,7 @@ class SuspensionStateUtil {
         }
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             FlowableEngineEventType eventType = null;
-            if (state == SuspensionState.ACTIVE) {
+            if (state == ACTIVE) {
                 eventType = FlowableEngineEventType.ENTITY_ACTIVATED;
             } else {
                 eventType = FlowableEngineEventType.ENTITY_SUSPENDED;

@@ -17,7 +17,7 @@ import hunt.collection.HashMap;
 import hunt.collection.LinkedList;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import flow.variable.service.api.deleg.VariableScope;
 import flow.bpmn.converter.constants.BpmnXMLConstants;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.EventDefinition;
@@ -165,7 +165,7 @@ class ProcessInstanceHelper {
             FlowElement initialFlowElement, Process process,
             Map!(string, Object) variables, Map!(string, Object) transientVariables,
             string callbackId, string callbackType, string referenceId, string referenceType,
-            string stageInstanceId, bool startProcessInstance) {
+            string stageInstanceId, bool startProcessIns) {
 
         CommandContext commandContext = Context.getCommandContext();
 
@@ -211,7 +211,7 @@ class ProcessInstanceHelper {
         bool eventDispatcherEnabled = eventDispatcher !is null && eventDispatcher.isEnabled();
         if (eventDispatcherEnabled) {
             eventDispatcher.dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_CREATED, processInstance));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_CREATED, cast(Object)processInstance));
         }
 
         processInstance.setVariables(processDataObjects(process.getDataObjects()));
@@ -219,7 +219,7 @@ class ProcessInstanceHelper {
         // Set the variables passed into the start command
         if (startInstanceBeforeContext.getVariables() !is null) {
             foreach (MapEntry!(string,Object) varName ; startInstanceBeforeContext.getVariables()) {
-                processInstance.setVariable(varName.getKey(), startInstanceBeforeContext.getVariables().get(varName.getKey()));
+              (cast(VariableScope)processInstance).setVariable(varName.getKey(), startInstanceBeforeContext.getVariables().get(varName.getKey()));
             }
         }
 
@@ -239,7 +239,7 @@ class ProcessInstanceHelper {
         // Fire events
         if (eventDispatcherEnabled) {
             eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityWithVariablesEvent(FlowableEngineEventType.ENTITY_INITIALIZED,
-                            processInstance, startInstanceBeforeContext.getVariables(), false));
+                            cast(Object)processInstance, startInstanceBeforeContext.getVariables(), false));
         }
 
         // Create the first execution that will visit all the process definition elements
@@ -248,7 +248,7 @@ class ProcessInstanceHelper {
 
         CommandContextUtil.getActivityInstanceEntityManager(commandContext).recordActivityStart(execution);
 
-        if (startProcessInstance) {
+        if (startProcessIns) {
             startProcessInstance(processInstance, commandContext, startInstanceBeforeContext.getVariables());
         }
 
@@ -279,7 +279,7 @@ class ProcessInstanceHelper {
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(execution, variables, false));
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(cast(Object)execution, variables, false));
         }
     }
 
@@ -303,7 +303,7 @@ class ProcessInstanceHelper {
             }
 
             StartEvent startEvent = cast(StartEvent) subElement;
-            if (startEvent.getEventDefinitions() is null || startEvent.getEventDefinitions().length == 0) {
+            if (startEvent.getEventDefinitions() is null || startEvent.getEventDefinitions().size() == 0) {
                 List!ExtensionElement eventTypeElements = startEvent.getExtensionElements().get("eventType");
                 if (eventTypeElements !is null && !eventTypeElements.isEmpty()) {
                     string eventType = eventTypeElements.get(0).getElementText();
@@ -356,7 +356,8 @@ class ProcessInstanceHelper {
 
                 CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
                 messageEventSubscriptions.add(eventSubscription);
-                messageExecution.getEventSubscriptions().add(eventSubscription);
+                implementationMissing(false);
+               // messageExecution.getEventSubscriptions().add(eventSubscription);
 
             } else if (cast(SignalEventDefinition)eventDefinition !is null) {
                 SignalEventDefinition signalEventDefinition = cast(SignalEventDefinition) eventDefinition;
@@ -385,7 +386,8 @@ class ProcessInstanceHelper {
 
                 CountingEntityUtil.handleInsertEventSubscriptionEntityCount(eventSubscription);
                 signalEventSubscriptions.add(eventSubscription);
-                signalExecution.getEventSubscriptions().add(eventSubscription);
+                implementationMissing(false);
+                //signalExecution.getEventSubscriptions().add(eventSubscription);
 
             } else if (cast(TimerEventDefinition)eventDefinition !is null) {
                 implementationMissing(false);

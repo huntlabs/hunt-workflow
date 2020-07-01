@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.history.DefaultHistoryManager;
 
-
+import hunt.Exceptions;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -77,7 +77,7 @@ class DefaultHistoryManager : AbstractHistoryManager {
                 FlowableEventDispatcher eventDispatcher = getEventDispatcher();
                 if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(
-                            FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_ENDED, historicProcessInstance));
+                            FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_ENDED, cast(Object)historicProcessInstance));
                 }
 
             }
@@ -105,7 +105,7 @@ class DefaultHistoryManager : AbstractHistoryManager {
             FlowableEventDispatcher eventDispatcher = getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(
-                        FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_CREATED, historicProcessInstance));
+                        FlowableEngineEventType.HISTORIC_PROCESS_INSTANCE_CREATED, cast(Object)historicProcessInstance));
             }
 
         }
@@ -122,7 +122,8 @@ class DefaultHistoryManager : AbstractHistoryManager {
             CommandContextUtil.getHistoricIdentityLinkService().deleteHistoricIdentityLinksByProcessInstanceId(processInstanceId);
 
             if (processEngineConfiguration.isEnableEntityLinks()) {
-                CommandContextUtil.getHistoricEntityLinkService().deleteHistoricEntityLinksByScopeIdAndScopeType(processInstanceId, ScopeTypes.BPMN);
+                implementationMissing(false);
+               // CommandContextUtil.getHistoricEntityLinkService().deleteHistoricEntityLinksByScopeIdAndScopeType(processInstanceId, ScopeTypes.BPMN);
             }
 
             getCommentEntityManager().deleteCommentsByProcessInstanceId(processInstanceId);
@@ -163,7 +164,7 @@ class DefaultHistoryManager : AbstractHistoryManager {
                 if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     eventDispatcher.dispatchEvent(
                         FlowableEventBuilder
-                            .createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_CREATED, historicActivityInstanceEntity));
+                            .createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_CREATED, cast(Object)historicActivityInstanceEntity));
                 }
             }
         }
@@ -180,7 +181,7 @@ class DefaultHistoryManager : AbstractHistoryManager {
             FlowableEventDispatcher eventDispatcher = getEventDispatcher();
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                 eventDispatcher.dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, historicActivityInstance));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, cast(Object)historicActivityInstance));
             }
         }
     }
@@ -195,7 +196,7 @@ class DefaultHistoryManager : AbstractHistoryManager {
                 FlowableEventDispatcher eventDispatcher = getEventDispatcher();
                 if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     eventDispatcher.dispatchEvent(
-                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, historicActivityInstance));
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.HISTORIC_ACTIVITY_INSTANCE_ENDED, cast(Object)historicActivityInstance));
                 }
             }
         }
@@ -388,19 +389,20 @@ class DefaultHistoryManager : AbstractHistoryManager {
         string processDefinitionId = getProcessDefinitionId(entityLink);
 
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId)) {
-            HistoricEntityLinkService historicEntityLinkService = CommandContextUtil.getHistoricEntityLinkService();
-            HistoricEntityLinkEntity historicEntityLinkEntity = cast(HistoricEntityLinkEntity) historicEntityLinkService.createHistoricEntityLink();
-            historicEntityLinkEntity.setId(entityLink.getId());
-            historicEntityLinkEntity.setLinkType(entityLink.getLinkType());
-            historicEntityLinkEntity.setCreateTime(entityLink.getCreateTime());
-            historicEntityLinkEntity.setScopeId(entityLink.getScopeId());
-            historicEntityLinkEntity.setScopeType(entityLink.getScopeType());
-            historicEntityLinkEntity.setScopeDefinitionId(entityLink.getScopeDefinitionId());
-            historicEntityLinkEntity.setReferenceScopeId(entityLink.getReferenceScopeId());
-            historicEntityLinkEntity.setReferenceScopeType(entityLink.getReferenceScopeType());
-            historicEntityLinkEntity.setReferenceScopeDefinitionId(entityLink.getReferenceScopeDefinitionId());
-            historicEntityLinkEntity.setHierarchyType(entityLink.getHierarchyType());
-            historicEntityLinkService.insertHistoricEntityLink(historicEntityLinkEntity, false);
+            implementationMissing(false);
+            //HistoricEntityLinkService historicEntityLinkService = CommandContextUtil.getHistoricEntityLinkService();
+            //HistoricEntityLinkEntity historicEntityLinkEntity = cast(HistoricEntityLinkEntity) historicEntityLinkService.createHistoricEntityLink();
+            //historicEntityLinkEntity.setId(entityLink.getId());
+            //historicEntityLinkEntity.setLinkType(entityLink.getLinkType());
+            //historicEntityLinkEntity.setCreateTime(entityLink.getCreateTime());
+            //historicEntityLinkEntity.setScopeId(entityLink.getScopeId());
+            //historicEntityLinkEntity.setScopeType(entityLink.getScopeType());
+            //historicEntityLinkEntity.setScopeDefinitionId(entityLink.getScopeDefinitionId());
+            //historicEntityLinkEntity.setReferenceScopeId(entityLink.getReferenceScopeId());
+            //historicEntityLinkEntity.setReferenceScopeType(entityLink.getReferenceScopeType());
+            //historicEntityLinkEntity.setReferenceScopeDefinitionId(entityLink.getReferenceScopeDefinitionId());
+            //historicEntityLinkEntity.setHierarchyType(entityLink.getHierarchyType());
+            //historicEntityLinkService.insertHistoricEntityLink(historicEntityLinkEntity, false);
         }
     }
 
@@ -408,7 +410,8 @@ class DefaultHistoryManager : AbstractHistoryManager {
         string processDefinitionId = getProcessDefinitionId(entityLink);
 
         if (isHistoryLevelAtLeast(HistoryLevel.AUDIT, processDefinitionId)) {
-            CommandContextUtil.getHistoricEntityLinkService().deleteHistoricEntityLink(entityLink.getId());
+            implementationMissing(false);
+           // CommandContextUtil.getHistoricEntityLinkService().deleteHistoricEntityLink(entityLink.getId());
         }
     }
 

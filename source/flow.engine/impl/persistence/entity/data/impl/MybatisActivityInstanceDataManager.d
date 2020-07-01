@@ -113,7 +113,15 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
       .setParameter("executionId",executionId)
       .setParameter("activityId",activityId)
       .getResultList();
-      return new ArrayList!ActivityInstanceEntityImpl(array);
+
+      List!ActivityInstanceEntity rt = new ArrayList!ActivityInstanceEntity;
+
+      foreach(ActivityInstanceEntityImpl a; array)
+      {
+          rt.add(cast(ActivityInstanceEntity)a);
+      }
+      return rt;
+      //return new ArrayList!ActivityInstanceEntityImpl(array);
         //Map!(string, Object) params = new HashMap<>();
         //params.put("executionId", executionId);
         //params.put("activityId", activityId);
@@ -131,7 +139,17 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
         .setParameter("executionId",executionId)
         .setParameter("activityId",activityId)
         .getResultList();
-        return new ArrayList!ActivityInstanceEntityImpl(array);
+
+        List!ActivityInstanceEntity list = new ArrayList!ActivityInstanceEntity;
+
+        foreach(ActivityInstanceEntityImpl a; array)
+        {
+            list.add(cast(ActivityInstanceEntity)a);
+        }
+
+        return list;
+
+        //return new ArrayList!ActivityInstanceEntityImpl(array);
         //Map!(string, Object) params = new HashMap<>();
         //params.put("executionId", executionId);
         //params.put("activityId", activityId);

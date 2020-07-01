@@ -32,6 +32,6 @@ abstract class AbstractProcessEngineEntityManager(EntityImpl, DM)
 
     override
     protected FlowableEntityEvent createEntityEvent(FlowableEngineEventType eventType, Entity entity) {
-        return FlowableEventBuilder.createEntityEvent(eventType, entity);
+        return FlowableEventBuilder.createEntityEvent(eventType, cast(Object)entity);
     }
 }

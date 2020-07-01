@@ -24,6 +24,7 @@ import flow.task.service.impl.BaseHistoricTaskLogEntryBuilderImpl;
 import flow.task.service.impl.persistence.CountingTaskEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.engine.impl.util.CommandContextUtil;
+import flow.engine.impl.util.CountingEntityUtil;
 import hunt.Exceptions;
 
 //import com.fasterxml.jackson.databind.node.ObjectNode;

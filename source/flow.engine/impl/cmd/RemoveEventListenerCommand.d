@@ -28,7 +28,6 @@ class RemoveEventListenerCommand : Command!Void {
     protected FlowableEventListener listener;
 
     this(FlowableEventListener listener) {
-        super();
         this.listener = listener;
     }
 

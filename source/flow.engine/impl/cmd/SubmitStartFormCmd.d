@@ -13,6 +13,7 @@
 
 module flow.engine.impl.cmd.SubmitStartFormCmd;
 
+import hunt.String;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
@@ -74,8 +75,8 @@ class SubmitStartFormCmd : NeedsActiveProcessDefinitionCmd!ProcessInstance {
 
     protected Map!(string, Object) convertPropertiesToVariablesMap() {
         Map!(string, Object) vars = new HashMap!(string, Object)(properties.size());
-        foreach (MapEntry!(string, Object) key ; properties) {
-            vars.put(key.getKey(), properties.get(key.getKey()));
+        foreach (MapEntry!(string, string) key ; properties) {
+            vars.put(key.getKey(), new String(properties.get(key.getKey())));
         }
         return vars;
     }

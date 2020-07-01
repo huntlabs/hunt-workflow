@@ -30,7 +30,7 @@ import flow.bpmn.model.SubProcess;
 import flow.common.api.FlowableException;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.ProcessDefinitionUtil;
-
+import hunt.Exceptions;
 class ExecutionGraphUtil {
 
     /**
@@ -63,7 +63,8 @@ class ExecutionGraphUtil {
 
     public static List!ExecutionEntity orderFromLeafToRoot(Collection!ExecutionEntity executions) {
         List!ExecutionEntity orderedList = orderFromRootToLeaf(executions);
-        Collections.reverse(orderedList);
+        implementationMissing(false);
+        //Collections.reverse(orderedList);
         return orderedList;
     }
 

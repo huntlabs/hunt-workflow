@@ -52,7 +52,7 @@ class StartProcessInstanceAsyncCmd : StartProcessInstanceCmd {
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration().getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(execution, variables, false));
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createProcessStartedEvent(cast(Object)execution, variables, false));
         }
 
         executeAsynchronous(execution, process);

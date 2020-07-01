@@ -70,7 +70,7 @@ class SetProcessDefinitionCategoryCmd : Command!Void {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher
-                .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, processDefinition));
+                .dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, cast(Object)processDefinition));
         }
 
         return null;

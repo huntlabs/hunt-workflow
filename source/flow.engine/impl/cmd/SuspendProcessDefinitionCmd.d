@@ -38,7 +38,7 @@ class SuspendProcessDefinitionCmd : AbstractSetProcessDefinitionStateCmd {
 
     override
     protected SuspensionState getProcessDefinitionSuspensionState() {
-        return SuspensionState.SUSPENDED;
+        return SUSPENDED;
     }
 
     override

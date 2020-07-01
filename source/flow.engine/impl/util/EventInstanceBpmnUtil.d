@@ -96,8 +96,12 @@ class EventInstanceBpmnUtil {
             }
 
         } else {
-            List!ExtensionElement inParameters = baseElement.getExtensionElements()
-                .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_IN_PARAMETER, Collections.emptyList());
+            List!ExtensionElement inParameters = baseElement.getExtensionElements().get(BpmnXMLConstants.ELEMENT_EVENT_IN_PARAMETER);
+            if (inParameters is null )
+            {
+              inParameters = Collections.emptyList!ExtensionElement();
+            }
+               // .getOrDefault(BpmnXMLConstants.ELEMENT_EVENT_IN_PARAMETER, Collections.emptyList!ExtensionElement());
 
             if (!inParameters.isEmpty()) {
 

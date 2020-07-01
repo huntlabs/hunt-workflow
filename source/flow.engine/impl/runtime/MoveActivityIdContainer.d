@@ -66,7 +66,7 @@ class MoveActivityIdContainer {
 
     public List!string getMoveToActivityIds() {
          implementationMissing(false);
-          return;
+          return null;
         //return Optional.ofNullable(moveToActivityIds).orElse(Collections.emptyList());
     }
 

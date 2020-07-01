@@ -135,7 +135,13 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
       ResourceEntityImpl[] array =  _manager.createQuery!(ResourceEntityImpl)("SELECT * FROM ResourceEntityImpl u WHERE u.deploymentId = :deploymentId order by name asc")
       .setParameter("deploymentId",deploymentId)
       .getResultList();
-      return new ArrayList!ResourceEntityImpl(array);
+      List!ResourceEntity list = new ArrayList!ResourceEntity;
+      foreach(ResourceEntityImpl r; array)
+      {
+          list.add(cast(ResourceEntity)r);
+      }
+      return list;
+      //return new ArrayList!ResourceEntityImpl(array);
     }
 
 }

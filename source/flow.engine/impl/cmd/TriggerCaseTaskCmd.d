@@ -53,7 +53,7 @@ class TriggerCaseTaskCmd : Command!Void {
 
         FlowElement flowElement = execution.getCurrentFlowElement();
         if (cast(CaseServiceTask)flowElement  is null) {
-            throw new FlowableException("No execution could be found with a case service task for id " + executionId);
+            throw new FlowableException("No execution could be found with a case service task for id " ~ executionId);
         }
 
         CaseServiceTask caseServiceTask = cast(CaseServiceTask) flowElement;

@@ -35,7 +35,7 @@ class SetProcessInstanceBusinessKeyCmd : Command!Void {
     private  string businessKey;
 
     this(string processInstanceId, string businessKey) {
-        if (processInstanceId is null || processInstanceId.length() < 1) {
+        if (processInstanceId is null || processInstanceId.length < 1) {
             throw new FlowableIllegalArgumentException("The process instance id is mandatory, but '" ~ processInstanceId~ "' has been provided.");
         }
         if (businessKey is null) {

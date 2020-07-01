@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.interceptor.CommandInvoker;
 
+import flow.common.agenda.Agenda;
 import flow.common.context.Context;
 import flow.common.interceptor.AbstractCommandInterceptor;
 import flow.common.interceptor.Command;
@@ -56,16 +57,16 @@ class CommandInvoker : AbstractCommandInterceptor {
 
         FlowableEngineAgenda agenda = CommandContextUtil.getAgenda(commandContext);
         if (commandContext.isReused() && !agenda.isEmpty()) {
-            return cmd.execute(commandContext) ;
+            return cast(Object)cmd.execute(commandContext) ;
            // return (T) command.execute(commandContext);
         } else {
 
             // Execute the command.
             // This will produce operations that will be put on the agenda.
-            agenda.planOperation(new class Runnable {
+          (cast(Agenda)agenda).planOperation(new class Runnable {
 
                 public void run() {
-                    commandContext.setResult(cmd.execute(commandContext));
+                    commandContext.setResult(cast(Object)cmd.execute(commandContext));
                 }
             });
 

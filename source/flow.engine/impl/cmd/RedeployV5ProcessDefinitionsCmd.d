@@ -38,6 +38,7 @@ class RedeployV5ProcessDefinitionsCmd : Command!Void {
     override
     public Void execute(CommandContext commandContext) {
         implementationMissing(false);
+        return null;
         //ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         //
         //RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();

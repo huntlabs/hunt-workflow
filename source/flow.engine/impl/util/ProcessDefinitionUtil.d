@@ -59,6 +59,7 @@ class ProcessDefinitionUtil {
 
         } else if (CommandContextUtil.getProcessEngineConfiguration() is null) {
             implementationMissing(false);
+            return null;
           //  return Flowable5Util.getFlowable5CompatibilityHandler().getProcessDefinitionProcessObject(processDefinitionId);
 
         } else {
@@ -73,6 +74,7 @@ class ProcessDefinitionUtil {
     public static BpmnModel getBpmnModel(string processDefinitionId) {
         if (CommandContextUtil.getProcessEngineConfiguration() is null) {
             implementationMissing(false);
+            return null;
           //  return Flowable5Util.getFlowable5CompatibilityHandler().getProcessDefinitionBpmnModel(processDefinitionId);
 
         } else {

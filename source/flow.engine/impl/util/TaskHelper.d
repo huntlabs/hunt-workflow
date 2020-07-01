@@ -111,27 +111,27 @@ class TaskHelper {
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             if (variables !is null) {
                 eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityWithVariablesEvent(
-                        FlowableEngineEventType.TASK_COMPLETED, taskEntity, variables, localScope));
+                        FlowableEngineEventType.TASK_COMPLETED, cast(Object)taskEntity, variables, localScope));
             } else {
                 eventDispatcher.dispatchEvent(
-                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_COMPLETED, taskEntity));
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_COMPLETED, cast(Object)taskEntity));
             }
         }
 
-        if (processEngineConfiguration.isLoggingSessionEnabled() && taskEntity.getExecutionId() !is null) {
-            string taskLabel = null;
-            if (taskEntity.getName() !is null && taskEntity.getName().length != 0) {
-                taskLabel = taskEntity.getName();
-            } else {
-                taskLabel = taskEntity.getId();
-            }
-
-            ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(taskEntity.getExecutionId());
-            if (execution !is null) {
-                //BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_USER_TASK_COMPLETE,
-                //                "User task '" + taskLabel + "' completed", taskEntity, execution);
-            }
-        }
+        //if (processEngineConfiguration.isLoggingSessionEnabled() && taskEntity.getExecutionId() !is null) {
+        //    string taskLabel = null;
+        //    if (taskEntity.getName() !is null && taskEntity.getName().length != 0) {
+        //        taskLabel = taskEntity.getName();
+        //    } else {
+        //        taskLabel = taskEntity.getId();
+        //    }
+        //
+        //    ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(taskEntity.getExecutionId());
+        //    if (execution !is null) {
+        //        //BpmnLoggingSessionUtil.addLoggingData(LoggingSessionConstants.TYPE_USER_TASK_COMPLETE,
+        //        //                "User task '" + taskLabel + "' completed", taskEntity, execution);
+        //    }
+        //}
 
         deleteTask(taskEntity, null, false, true, true);
 
@@ -213,7 +213,7 @@ class TaskHelper {
         if (fireCreateEvent && eventDispatcher !is null && eventDispatcher.isEnabled()) {
             if (taskEntity.getAssignee() !is null && taskEntity.getAssignee().length != 0) {
                 eventDispatcher.dispatchEvent(
-                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, taskEntity));
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, cast(Object)taskEntity));
             }
         }
 
@@ -288,7 +288,7 @@ class TaskHelper {
     }
 
     protected static void internalDeleteTask(TaskEntity task, string deleteReason,
-            bool cascade, bool executeTaskDelete, bool fireTaskListener, bool fireEvents) {
+            bool cascade, bool executeTaskDel, bool fireTaskListener, bool fireEvents) {
 
         if (!task.isDeleted()) {
 
@@ -306,7 +306,7 @@ class TaskHelper {
             handleRelatedEntities(commandContext, task, deleteReason, cascade, fireTaskListener, fireEvents, eventDispatcher);
             handleTaskHistory(commandContext, task, deleteReason, cascade);
 
-            if (executeTaskDelete) {
+            if (executeTaskDel) {
                 executeTaskDelete(task, commandContext);
             }
 

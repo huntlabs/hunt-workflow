@@ -13,6 +13,7 @@
 
 module flow.engine.impl.persistence.entity.DeploymentEntityImpl;
 
+import hunt.Exceptions;
 import hunt.collection.ArrayList;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
@@ -103,7 +104,7 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
     // lazy loading ///////////////////////////////////////////////////////////////
 
     public Map!(string, EngineResource) getResources() {
-        if (resources is null && !id.empty()) {
+        if (resources is null && id.length != 0) {
             List!ResourceEntity resourcesList = CommandContextUtil.getResourceEntityManager().findResourcesByDeploymentId(id);
             resources = new HashMap!(string, EngineResource);
             foreach (ResourceEntity resource ; resourcesList) {
@@ -114,12 +115,14 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
     }
 
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap!(string, Object);
-        persistentState.put("category", this.category);
-        persistentState.put("key", this.key);
-        persistentState.put("tenantId", tenantId);
-        persistentState.put("parentDeploymentId", parentDeploymentId);
-        return persistentState;
+        implementationMissing(false);
+        return null;
+        //Map!(string, Object) persistentState = new HashMap!(string, Object);
+        //persistentState.put("category", this.category);
+        //persistentState.put("key", this.key);
+        //persistentState.put("tenantId", tenantId);
+        //persistentState.put("parentDeploymentId", parentDeploymentId);
+        //return persistentState;
     }
 
     // Deployed artifacts manipulation ////////////////////////////////////////////

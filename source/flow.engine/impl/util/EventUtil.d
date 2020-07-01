@@ -17,7 +17,7 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.variable.service.api.event.FlowableVariableEvent;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
-
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */

@@ -111,10 +111,18 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
         _manager.close();
       }
 
-      string[] array =  _manager.createQuery!(string)("SELECT id FROM HistoricProcessInstanceEntityImpl u WHERE u.processDefinitionId = :processDefinitionId")
+      HistoricProcessInstanceEntityImpl[] array =  _manager.createQuery!(HistoricProcessInstanceEntityImpl)("SELECT id FROM HistoricProcessInstanceEntityImpl u WHERE u.processDefinitionId = :processDefinitionId")
       .setParameter("processDefinitionId",processDefinitionId)
       .getResultList();
-      return new ArrayList!string(array);
+
+      List!string list = new ArrayList!string;
+
+      foreach(HistoricProcessInstanceEntityImpl h ; array)
+      {
+          list.add(h.id);
+      }
+      return list;
+      //return new ArrayList!string(array);
       //  return getDbSqlSession().selectList("selectHistoricProcessInstanceIdsByProcessDefinitionId", processDefinitionId);
     }
 
@@ -128,7 +136,14 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
         HistoricProcessInstanceEntityImpl[] array =  _manager.createQuery!(HistoricProcessInstanceEntityImpl)("SELECT * FROM HistoricProcessInstanceEntityImpl u WHERE u.superProcessInstanceId = :superProcessInstanceId")
         .setParameter("superProcessInstanceId",superProcessInstanceId)
         .getResultList();
-        return new ArrayList!HistoricProcessInstanceEntityImpl(array);
+
+        List!HistoricProcessInstance list = new ArrayList!HistoricProcessInstance;
+        foreach(HistoricProcessInstanceEntityImpl h ; array)
+        {
+          list.add(cast(HistoricProcessInstance)h);
+        }
+        return list;
+        //return new ArrayList!HistoricProcessInstanceEntityImpl(array);
         //return getDbSqlSession().selectList("selectHistoricProcessInstanceIdsBySuperProcessInstanceId", superProcessInstanceId);
     }
 
@@ -193,7 +208,7 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
 
     public long findHistoricProcessInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
         implementationMissing(false);
-        return null;
+        return 0;
        // return (Long) getDbSqlSession().selectOne("selectHistoricProcessInstanceCountByNativeQuery", parameterMap);
     }
 

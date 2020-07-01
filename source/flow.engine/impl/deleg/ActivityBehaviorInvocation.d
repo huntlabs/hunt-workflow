@@ -37,7 +37,7 @@ class ActivityBehaviorInvocation : DelegateInvocation {
 
     override
     public Object getTarget() {
-        return behaviorInstance;
+        return cast(Object)behaviorInstance;
     }
 
 }

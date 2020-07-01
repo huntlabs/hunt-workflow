@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.form.FormPropertyHandler;
 
-
+import flow.variable.service.api.deleg.VariableScope;
 import hunt.collection.Map;
 
 import flow.common.api.FlowableException;
@@ -89,7 +89,7 @@ class FormPropertyHandler {
             if (type !is null) {
                 modelValue = type.convertFormValueToModelValue(propertyValue);
             } else {
-                modelValue = propertyValue;
+                modelValue = new String(propertyValue);
             }
         } else if (defaultExpression !is null) {
             Object expressionValue = defaultExpression.getValue(execution);
@@ -103,11 +103,11 @@ class FormPropertyHandler {
         }
         if (propertyExists || (modelValue !is null)) {
             if (variableName !is null) {
-                execution.setVariable(variableName, modelValue);
+              (cast(VariableScope)execution).setVariable(variableName, modelValue);
             } else if (variableExpression !is null) {
                 variableExpression.setValue(modelValue, execution);
             } else {
-                execution.setVariable(id, modelValue);
+              (cast(VariableScope)execution).setVariable(id, modelValue);
             }
         }
     }

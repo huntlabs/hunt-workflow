@@ -105,11 +105,11 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
     }
 
     public void markEnded(string deleteReason) {
-        if (this.endTime is null) {
+        if (this.endTime  == 0) {
             this.deleteReason = deleteReason;
-            this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime();
-            if (endTime !is null && startTime !is null) {
-                this.durationInMillis = endTime.getTime() - startTime.getTime();
+            this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime().toEpochMilli;
+            if (endTime != 0 && startTime != 0) {
+                this.durationInMillis = endTime - startTime;
             }
         }
     }

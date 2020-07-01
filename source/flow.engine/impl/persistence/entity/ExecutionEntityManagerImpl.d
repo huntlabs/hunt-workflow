@@ -13,6 +13,7 @@
 
 module flow.engine.impl.persistence.entity.ExecutionEntityManagerImpl;
 
+import hunt.String;
 import hunt.collection.ArrayList;
 import hunt.collection;
 //import hunt.Collections;
@@ -290,7 +291,8 @@ class ExecutionEntityManagerImpl
         insert(processInstanceExecution, false);
 
         if (initiatorVariableName !is null) {
-            processInstanceExecution.setVariable(initiatorVariableName, authenticatedUserId);
+          implementationMissing(false);
+          //  processInstanceExecution.setVariable(initiatorVariableName, authenticatedUserId);
         }
 
         // Need to be after insert, cause we need the id
@@ -304,7 +306,7 @@ class ExecutionEntityManagerImpl
 
         // Fire events
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-            getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, processInstanceExecution));
+            getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)processInstanceExecution));
         }
 
         return processInstanceExecution;
@@ -336,8 +338,8 @@ class ExecutionEntityManagerImpl
         //}
 
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-            getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, childExecution));
-            getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, childExecution));
+            getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)childExecution));
+            getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_INITIALIZED, cast(Object)childExecution));
         }
 
         return childExecution;
@@ -382,7 +384,7 @@ class ExecutionEntityManagerImpl
 
         FlowableEventDispatcher flowableEventDispatcher = engineConfiguration.getEventDispatcher();
         if (flowableEventDispatcher !is null && flowableEventDispatcher.isEnabled()) {
-            flowableEventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, subProcessInstance));
+            flowableEventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_CREATED, cast(Object)subProcessInstance));
         }
 
         return subProcessInstance;
@@ -482,7 +484,7 @@ class ExecutionEntityManagerImpl
                             FlowElement callActivityElement = miExecutionEntity.getCurrentFlowElement();
                             getEventDispatcher().dispatchEvent(FlowableEventBuilder.createActivityCancelledEvent(callActivityElement.getId(),
                                     callActivityElement.getName(), miExecutionEntity.getId(), miExecutionEntity.getProcessInstanceId(),
-                                    miExecutionEntity.getProcessDefinitionId(), "callActivity", deleteReason));
+                                    miExecutionEntity.getProcessDefinitionId(), "callActivity", new String(deleteReason)));
                         }
                     }
                 }
@@ -494,7 +496,7 @@ class ExecutionEntityManagerImpl
                     FlowElement callActivityElement = subExecutionEntity.getCurrentFlowElement();
                     getEventDispatcher().dispatchEvent(FlowableEventBuilder.createActivityCancelledEvent(callActivityElement.getId(),
                             callActivityElement.getName(), subExecutionEntity.getId(), subExecutionEntity.getProcessInstanceId(),
-                            subExecutionEntity.getProcessDefinitionId(), "callActivity", deleteReason));
+                            subExecutionEntity.getProcessDefinitionId(), "callActivity", new String(deleteReason)));
                 }
             }
         }
@@ -503,7 +505,7 @@ class ExecutionEntityManagerImpl
 
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
             getEventDispatcher().dispatchEvent(FlowableEventBuilder.createCancelledEvent(execution.getProcessInstanceId(),
-                    execution.getProcessInstanceId(), execution.getProcessDefinitionId(), deleteReason));
+                    execution.getProcessInstanceId(), execution.getProcessDefinitionId(), new String(deleteReason)));
         }
 
         // delete the execution BEFORE we delete the history, otherwise we will
@@ -534,7 +536,7 @@ class ExecutionEntityManagerImpl
         if (!deleteHistory && executionEntity.isActive()
                 && executionEntity.getCurrentFlowElement() !is null
                 && !executionEntity.isMultiInstanceRoot()
-                && cast(BoundaryEvent)(executionEntity.getCurrentFlowElement() is null)) {  // Boundary events will handle the history themselves (see TriggerExecutionOperation for example)
+                && cast(BoundaryEvent)(executionEntity.getCurrentFlowElement()) is null) {  // Boundary events will handle the history themselves (see TriggerExecutionOperation for example)
 
             CommandContextUtil.getActivityInstanceEntityManager().recordActivityEnd(executionEntity, deleteReason);
         }
@@ -591,7 +593,7 @@ class ExecutionEntityManagerImpl
                     FlowElement callActivityElement = subExecutionEntity.getCurrentFlowElement();
                     getEventDispatcher().dispatchEvent(FlowableEventBuilder.createActivityCancelledEvent(callActivityElement.getId(),
                             callActivityElement.getName(), subExecutionEntity.getId(), processInstanceId, subExecutionEntity.getProcessDefinitionId(),
-                            "callActivity", deleteReason));
+                            "callActivity", new String(deleteReason)));
                 }
             }
         }
@@ -608,10 +610,10 @@ class ExecutionEntityManagerImpl
 
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled() && fireEvents) {
             if (!cancel) {
-                getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_COMPLETED, processInstanceEntity));
+                getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.PROCESS_COMPLETED, cast(Object)processInstanceEntity));
             } else {
                 getEventDispatcher().dispatchEvent(FlowableEventBuilder.createCancelledEvent(processInstanceEntity.getId(),
-                        processInstanceEntity.getId(), processInstanceEntity.getProcessDefinitionId(), deleteReason));
+                        processInstanceEntity.getId(), processInstanceEntity.getProcessDefinitionId(), new String(deleteReason)));
             }
         }
         implementationMissing(false);
@@ -665,7 +667,7 @@ class ExecutionEntityManagerImpl
 
     protected List!ExecutionEntity collectChildren(ExecutionEntity executionEntity, Collection!string executionIdsToExclude) {
         List!ExecutionEntity childExecutions = new ArrayList!ExecutionEntity();
-        collectChildren(executionEntity, childExecutions, executionIdsToExclude !is null ? executionIdsToExclude :emptyList!string);
+        collectChildren(executionEntity, childExecutions, executionIdsToExclude !is null ? executionIdsToExclude :Collections.emptyList!string);
         return childExecutions;
     }
 
@@ -674,7 +676,8 @@ class ExecutionEntityManagerImpl
         if (childExecutions !is null && childExecutions.size() > 0) {
 
             // Have a fixed ordering of child executions (important for the order in which events are sent)
-            Collections.sort(childExecutions, ExecutionEntity.EXECUTION_ENTITY_START_TIME_ASC_COMPARATOR);
+            implementationMissing(false);
+           // Collections.sort(childExecutions, ExecutionEntity.EXECUTION_ENTITY_START_TIME_ASC_COMPARATOR);
 
             foreach (ExecutionEntity childExecution ; childExecutions) {
                 if (!executionIdsToExclude.contains(childExecution.getId())) {
@@ -816,7 +819,7 @@ class ExecutionEntityManagerImpl
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         CaseInstanceService caseInstanceService = processEngineConfiguration.getCaseInstanceService();
         if (caseInstanceService !is null) {
-            if (executionEntity.getReferenceId().length != 0 && ReferenceTypes.EXECUTION_CHILD_CASE.equals(executionEntity.getReferenceType())) {
+            if (executionEntity.getReferenceId().length != 0 && ReferenceTypes.EXECUTION_CHILD_CASE == (executionEntity.getReferenceType())) {
                 caseInstanceService.deleteCaseInstance(executionEntity.getReferenceId());
             } else if (cast(CaseServiceTask)executionEntity.getCurrentFlowElement() !is null) {
                 // backwards compatibility in case there is no reference
@@ -874,7 +877,7 @@ class ExecutionEntityManagerImpl
         if (!enableExecutionRelationshipCounts ||
                 (enableExecutionRelationshipCounts && (cast(CountingExecutionEntity) executionEntity).getVariableCount() > 0)) {
 
-            Collection!VariableInstance executionVariables = executionEntity.getVariableInstancesLocal().values();
+            Collection!VariableInstance executionVariables = new ArrayList!VariableInstance(executionEntity.getVariableInstancesLocal().values());
             if (!executionVariables.isEmpty()) {
 
                 ArrayList!VariableByteArrayRef variableByteArrayRefs = new ArrayList!VariableByteArrayRef();
@@ -890,7 +893,7 @@ class ExecutionEntityManagerImpl
                             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
                             if (eventDispatcher !is null) {
                                 eventDispatcher.dispatchEvent(EventUtil.createVariableDeleteEvent(variableInstanceEntity));
-                                eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, variableInstance));
+                                eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)variableInstance));
                             }
                         }
                     }
@@ -1000,7 +1003,7 @@ class ExecutionEntityManagerImpl
             getHistoryManager().updateProcessBusinessKeyInHistory(executionEntity);
 
             if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-                getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, executionEntity));
+                getEventDispatcher().dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, cast(Object)executionEntity));
             }
 
             return businessKey;

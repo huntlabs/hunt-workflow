@@ -33,6 +33,7 @@ class ValidateV5EntitiesCmd : Command!Void {
     public Void execute(CommandContext commandContext) {
         ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration(commandContext);
         implementationMissing(false);
+        return null;
         //if (!processEngineConfiguration.isFlowable5CompatibilityEnabled() || processEngineConfiguration.getFlowable5CompatibilityHandler() is null) {
         //
         //    RepositoryService repositoryService = processEngineConfiguration.getRepositoryService();

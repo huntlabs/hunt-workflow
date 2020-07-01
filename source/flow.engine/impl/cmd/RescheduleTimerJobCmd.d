@@ -57,7 +57,7 @@ class RescheduleTimerJobCmd : Command!TimerJobEntity {
 
     public TimerJobEntity execute(CommandContext commandContext) {
         implementationMissing(false);
-        null;
+        return null;
         //TimerEventDefinition ted = new TimerEventDefinition();
         //ted.setTimeDate(timeDate);
         //ted.setTimeDuration(timeDuration);

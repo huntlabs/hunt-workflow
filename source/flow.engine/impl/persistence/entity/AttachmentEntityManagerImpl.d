@@ -72,17 +72,17 @@ class AttachmentEntityManagerImpl
             }
         }
 
-        foreach (Attachment attachment ; attachments) {
-            string contentId = attachment.getContentId();
+        foreach (AttachmentEntity attachment ; attachments) {
+            string contentId = (cast(Attachment)attachment).getContentId();
             if (contentId !is null) {
                 getByteArrayEntityManager().deleteByteArrayById(contentId);
             }
 
-            dataManager.dele(cast(AttachmentEntity) attachment);
+            dataManager.dele(attachment);
 
             if (dispatchEvents) {
                 eventDispatcher.dispatchEvent(
-                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, attachment, executionId, processInstanceId, processDefinitionId));
+                        FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)attachment, executionId, processInstanceId, processDefinitionId));
             }
         }
     }

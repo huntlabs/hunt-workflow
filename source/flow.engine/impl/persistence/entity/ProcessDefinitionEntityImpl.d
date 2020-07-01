@@ -104,9 +104,9 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
     this()
     {
       definitionIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
-      suspensionState = SuspensionState.ACTIVE.getStateCode();
+      suspensionState = ACTIVE.getStateCode();
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
-      rev = 1;
+      rev = "1";
     }
 
     public Object getPersistentState() {
@@ -151,7 +151,7 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
 
 
     public string getName() {
-        if(localizedName.length() > 0) {
+        if(localizedName.length > 0) {
             return localizedName;
         }
         return name;
@@ -178,7 +178,7 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
 
 
     public string getDescription() {
-        if(localizedDescription.length() > 0) {
+        if(localizedDescription.length > 0) {
             return localizedDescription;
         }
         return description;
@@ -318,7 +318,7 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
 
 
     public bool isSuspended() {
-        return suspensionState == SuspensionState.SUSPENDED.getStateCode();
+        return suspensionState == SUSPENDED.getStateCode();
     }
 
 

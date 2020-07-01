@@ -116,7 +116,15 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
         .setParameter("executionId",executionId)
         .setParameter("activityId",activityId)
         .getResultList();
-        return new ArrayList!string(array);
+
+         List!HistoricActivityInstanceEntity list = new ArrayList!HistoricActivityInstanceEntity;
+
+        foreach(HistoricActivityInstanceEntityImpl h ; array)
+        {
+            list.add(cast(HistoricActivityInstanceEntity)h);
+        }
+        return list;
+        //return new ArrayList!string(array);
         //Map!(string, Object) params = new HashMap<>();
         //params.put("executionId", executionId);
         //params.put("activityId", activityId);
@@ -135,7 +143,13 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
         .setParameter("executionId",executionId)
         .setParameter("activityId",activityId)
         .getResultList();
-        return new ArrayList!string(array);
+        List!HistoricActivityInstanceEntity list = new ArrayList!HistoricActivityInstanceEntity;
+        foreach(HistoricActivityInstanceEntityImpl h ; array)
+        {
+            list.add(cast(HistoricActivityInstanceEntity)h);
+        }
+        return list;
+        //return new ArrayList!string(array);
         //Map!(string, Object) params = new HashMap<>();
         //params.put("executionId", executionId);
         //params.put("activityId", activityId);
@@ -152,7 +166,14 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
         HistoricActivityInstanceEntityImpl[] array =  _manager.createQuery!(HistoricActivityInstanceEntityImpl)("SELECT * FROM HistoricActivityInstanceEntityImpl u WHERE u.processInstanceId = :processInstanceId and u.endTime is null")
         .setParameter("processInstanceId",processInstanceId)
         .getResultList();
-        return new ArrayList!string(array);
+        List!HistoricActivityInstanceEntity list = new ArrayList!HistoricActivityInstanceEntity;
+        foreach(HistoricActivityInstanceEntityImpl h ; array)
+        {
+          list.add(cast(HistoricActivityInstanceEntity)h);
+        }
+        return list;
+
+        //return new ArrayList!string(array);
         //Map!(string, Object) params = new HashMap<>();
         //params.put("processInstanceId", processInstanceId);
         //return getList("selectUnfinishedHistoricActivityInstanceByProcessInstanceId", params, unfinishedHistoricActivityInstanceMatcher, true);

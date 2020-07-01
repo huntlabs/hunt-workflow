@@ -82,7 +82,7 @@ class MessageEventReceivedCmd : NeedsActiveExecutionCmd!Void {
 
         // there can be only one:
         EventSubscriptionEntity eventSubscriptionEntity = eventSubscriptions.get(0);
-        EventSubscriptionUtil.eventReceived(eventSubscriptionEntity, payload, async);
+        EventSubscriptionUtil.eventReceived(eventSubscriptionEntity, cast(Object)payload, async);
 
         return null;
     }

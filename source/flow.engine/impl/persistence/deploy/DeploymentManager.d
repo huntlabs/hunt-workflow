@@ -38,6 +38,7 @@ import flow.engine.repository.ProcessDefinition;
 import hunt.Exceptions;
 import flow.engine.impl.persistence.deploy.ProcessDefinitionCacheEntry;
 import flow.engine.impl.persistence.deploy.ProcessDefinitionInfoCacheObject;
+import std.conv : to;
 /**
  * @author Tom Baeyens
  * @author Falko Menge
@@ -107,7 +108,7 @@ class DeploymentManager {
         ProcessDefinition processDefinition = cast(ProcessDefinitionEntity) processDefinitionEntityManager
                 .findProcessDefinitionByKeyAndVersionAndTenantId(processDefinitionKey, processDefinitionVersion, tenantId);
         if (processDefinition is null) {
-            throw new FlowableObjectNotFoundException("no processes deployed with key = '" ~ processDefinitionKey ~ "' and version = '" ~ to!int(processDefinitionVersion) ~ "'", typeid(ProcessDefinition));
+            throw new FlowableObjectNotFoundException("no processes deployed with key = '" ~ processDefinitionKey ~ "' and version = '" ~ to!string(processDefinitionVersion) ~ "'", typeid(ProcessDefinition));
         }
         processDefinition = resolveProcessDefinition(processDefinition).getProcessDefinition();
         return processDefinition;
@@ -199,7 +200,7 @@ class DeploymentManager {
 
             // Since all process definitions are deleted by a single query, we should dispatch the events in this loop
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-                eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, processDefinition));
+                eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)processDefinition));
             }
         }
 
@@ -208,7 +209,7 @@ class DeploymentManager {
 
         // Since we use a delete by query, delete-events are not automatically dispatched
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, deployment));
+            eventDispatcher.dispatchEvent(FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)deployment));
         }
 
         foreach (ProcessDefinition processDefinition ; processDefinitions) {

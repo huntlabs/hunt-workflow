@@ -18,7 +18,7 @@ module flow.engine.impl.persistence.entity.ActivityInstanceEntityManagerImpl;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import hunt.String;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.FlowNode;
 import flow.bpmn.model.SequenceFlow;
@@ -183,7 +183,7 @@ class ActivityInstanceEntityManagerImpl
         ActivityInstanceEntity activityInstance = null;
         ExecutionEntity executionEntity = getExecutionEntityManager().findById(taskEntity.getExecutionId());
         if (executionEntity !is null) {
-            if (getOriginalAssignee(taskEntity) != taskEntity.getAssignee()) {
+            if ((cast(String)getOriginalAssignee(taskEntity)).value != taskEntity.getAssignee()) {
                 activityInstance = findUnfinishedActivityInstance(executionEntity);
                 if (activityInstance is null) {
                     HistoricActivityInstanceEntity historicActivityInstance = getHistoryManager().findHistoricActivityInstance(executionEntity, true);

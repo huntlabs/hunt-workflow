@@ -90,6 +90,7 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
 
     public Object getPersistentState() {
         implementationMissing(false);
+        return null;
         //Map!(string, Object) persistentState = new HashMap<>();
         //persistentState.put("endTime", endTime);
         //persistentState.put("durationInMillis", durationInMillis);
@@ -193,15 +194,15 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
     // common methods //////////////////////////////////////////////////////////
     public void markEnded(string deleteReason, Date endTime) {
         implementationMissing(false);
-      if (this.endTime is null) {
+      if (this.endTime  == 0) {
         this.deleteReason = deleteReason;
         if (endTime !is null) {
-          this.endTime = endTime;
+          this.endTime = endTime.toEpochMilli;
         } else {
-          this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime();
+          this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime().toEpochMilli;
         }
-        if (endTime !is null && startTime !is null) {
-          this.durationInMillis = endTime.getTime() - startTime.getTime();
+        if (endTime !is null && this.startTime != 0) {
+          this.durationInMillis = endTime.toEpochMilli - startTime;
         }
       }
     }

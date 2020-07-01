@@ -91,7 +91,8 @@ class DeploymentBuilderImpl : DeploymentBuilder {
         //if (inputStream is null) {
         //    throw new FlowableIllegalArgumentException("resource '" + resource + "' not found");
         //}
-        return addInputStream(resource, inputStream);
+       // return addInputStream(resource, inputStream);
+        return null;
     }
 
 

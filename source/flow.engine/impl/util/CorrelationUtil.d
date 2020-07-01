@@ -22,6 +22,7 @@ import flow.common.el.ExpressionManager;
 import flow.common.interceptor.CommandContext;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
+import flow.engine.impl.util.CommandContextUtil;
 import hunt.String;
 
 class CorrelationUtil {
