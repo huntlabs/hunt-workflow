@@ -27,6 +27,6 @@ import flow.event.registry.event.FlowableEventRegistryEvent;
 class DefaultInboundEventTransformer : InboundEventTransformer {
 
     public Collection!EventRegistryEvent transform(EventInstance eventInstance) {
-        return Collections.singletonList(new FlowableEventRegistryEvent(eventInstance));
+        return Collections.singletonList!EventRegistryEvent(new FlowableEventRegistryEvent(eventInstance));
     }
 }

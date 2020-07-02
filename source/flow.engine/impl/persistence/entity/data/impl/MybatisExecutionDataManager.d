@@ -133,19 +133,20 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
     //getDbSqlSession().delete(entity);
   }
 
+  public ExecutionEntity findById(string executionId) {
+    //if (isExecutionTreeFetched(executionId)) {
+    //    return getEntityCache().findInCache(getManagedEntityClass(), executionId);
+    //}
+    //return super.findById(executionId);
+    return find(executionId);
+  }
 
     public ExecutionEntity create() {
         return ExecutionEntityImpl.createWithEmptyRelationshipCollections();
     }
 
 
-    public ExecutionEntity findById(string executionId) {
-        //if (isExecutionTreeFetched(executionId)) {
-        //    return getEntityCache().findInCache(getManagedEntityClass(), executionId);
-        //}
-        //return super.findById(executionId);
-       return find(executionId);
-    }
+
 
     /**
      * Fetches the execution tree related to the execution (if the process definition has been configured to do so)

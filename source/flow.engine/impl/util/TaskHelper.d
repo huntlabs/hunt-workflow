@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.util.TaskHelper;
 
-
+import flow.task.api.TaskInfo;
 import flow.engine.impl.util.CommandContextUtil;
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -338,7 +338,7 @@ class TaskHelper {
             if (fireEvents) {
                 List!IdentityLinkEntity identityLinks = CommandContextUtil.getIdentityLinkService(commandContext).findIdentityLinksByTaskId(task.getId());
                 foreach (IdentityLinkEntity identityLinkEntity ; identityLinks) {
-                    eventDispatcher.dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, identityLinkEntity));
+                    eventDispatcher.dispatchEvent(FlowableIdentityLinkEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)identityLinkEntity));
                 }
                 deleteIdentityLinks = !identityLinks.isEmpty();
             }
@@ -356,7 +356,7 @@ class TaskHelper {
             ArrayList!VariableByteArrayRef variableByteArrayRefs = new ArrayList!VariableByteArrayRef();
             foreach (VariableInstanceEntity variableInstanceEntity ; taskVariables.values()) {
                 if (fireEvents) {
-                    eventDispatcher.dispatchEvent(FlowableVariableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, variableInstanceEntity));
+                    eventDispatcher.dispatchEvent(FlowableVariableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)variableInstanceEntity));
                 }
                 if (variableInstanceEntity.getByteArrayRef() !is null && variableInstanceEntity.getByteArrayRef().getId() !is null && variableInstanceEntity.getByteArrayRef().getId().length != 0) {
                     variableByteArrayRefs.add(variableInstanceEntity.getByteArrayRef());
@@ -402,7 +402,7 @@ class TaskHelper {
     protected static void fireTaskDeletedEvent(TaskEntity task, CommandContext commandContext, FlowableEventDispatcher eventDispatcher) {
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             CommandContextUtil.getEventDispatcher(commandContext).dispatchEvent(
-                FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, task));
+                FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)task));
         }
     }
 
@@ -414,7 +414,7 @@ class TaskHelper {
         if (task !is null) {
             if (task.getExecutionId() !is null) {
                 throw new FlowableException("The task cannot be deleted because is part of a running process");
-            } else if (task.getScopeId() !is null && ScopeTypes.CMMN.equals(task.getScopeType())) {
+            } else if (task.getScopeId() !is null && ScopeTypes.CMMN == (task.getScopeType())) {
                 throw new FlowableException("The task cannot be deleted because is part of a running case");
             }
 
@@ -441,10 +441,10 @@ class TaskHelper {
 
                 ExecutionEntity execution = CommandContextUtil.getExecutionEntityManager().findById(task.getExecutionId());
                 eventDispatcher
-                        .dispatchEvent(flow.engine.deleg.event.impl.FlowableEventBuilder
+                        .dispatchEvent(flow.engine.deleg.event.impl.FlowableEventBuilder.FlowableEventBuilder
                                 .createActivityCancelledEvent(execution.getActivityId(), task.getName(),
                                         task.getExecutionId(), task.getProcessInstanceId(),
-                                        task.getProcessDefinitionId(), "userTask", deleteReason));
+                                        task.getProcessDefinitionId(), "userTask", new String(deleteReason)));
             }
 
             deleteTask(task, deleteReason, cascade, true, true);
@@ -478,8 +478,8 @@ class TaskHelper {
                 //}
 
                 List!HistoricTaskInstanceEntity subTasks = historicTaskService.findHistoricTasksByParentTaskId(historicTaskInstance.getId());
-                foreach (HistoricTaskInstance subTask ; subTasks) {
-                    deleteHistoricTask(subTask.getId());
+                foreach (HistoricTaskInstanceEntity subTask ; subTasks) {
+                    deleteHistoricTask((cast(TaskInfo)subTask).getId());
                 }
 
                 CommandContextUtil.getHistoricDetailEntityManager().deleteHistoricDetailsByTaskId(taskId);
@@ -501,36 +501,36 @@ class TaskHelper {
     public static bool isFormFieldValidationEnabled(VariableContainer variableContainer,
         ProcessEngineConfigurationImpl processEngineConfiguration, string formFieldValidationExpression) {
         if (formFieldValidationExpression !is null && formFieldValidationExpression.length != 0) {
-            bool formFieldValidation = getBoolean(formFieldValidationExpression);
+            Boolean formFieldValidation = getBoolean(new String(formFieldValidationExpression));
             if (formFieldValidation !is null) {
-                return formFieldValidation;
+                return formFieldValidation.booleanValue();
             }
 
             if (variableContainer !is null) {
                 ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
-                bool formFieldValidationValue = getBoolean(
+                Boolean formFieldValidationValue = getBoolean(
                     expressionManager.createExpression(formFieldValidationExpression).getValue(variableContainer)
                 );
                 if (formFieldValidationValue is null) {
                     throw new FlowableException("Unable to resolve formFieldValidationExpression to bool value");
                 }
-                return formFieldValidationValue;
+                return formFieldValidationValue.booleanValue();
             }
             throw new FlowableException("Unable to resolve formFieldValidationExpression without variable container");
         }
         return true;
     }
 
-    protected static bool getBoolean(Object booleanObject) {
+    protected static Boolean getBoolean(Object booleanObject) {
         if (cast(Boolean)booleanObject !is null) {
-            return (cast(Boolean) booleanObject).booleanValue();
+            return cast(Boolean)booleanObject;
         }
         if (cast(String)booleanObject !is null) {
             if (sicmp("true",(cast(String) booleanObject).value) == 0) {
-                return true;
+                return Boolean.TRUE();
             }
             if (sicmp("false",(cast(String) booleanObject).value) == 0) {
-                return false;
+                return Boolean.FALSE();
             }
         }
         return null;
@@ -542,7 +542,7 @@ class TaskHelper {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(
-                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, taskEntity));
+                    FlowableEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, cast(Object)taskEntity));
         }
     }
 }

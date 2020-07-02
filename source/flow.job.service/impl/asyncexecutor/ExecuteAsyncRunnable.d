@@ -88,11 +88,11 @@ class ExecuteAsyncRunnable : Runnable {
     public void run() {
 
         if (job is null) {
-            job = jobServiceConfiguration.getCommandExecutor().execute(new class Command!JobInfoEntity {
-                public JobInfoEntity execute(CommandContext commandContext) {
+            job = cast(JobInfo)(jobServiceConfiguration.getCommandExecutor().execute(new class Command!JobInfoEntity {
+                JobInfoEntity execute(CommandContext commandContext) {
                     return jobEntityManager.findById(jobId);
                 }
-            });
+            }));
         }
 
         Job jobObject = cast(Job) job;
@@ -106,11 +106,11 @@ class ExecuteAsyncRunnable : Runnable {
         AbstractRuntimeJobEntity aj = cast(AbstractRuntimeJobEntity)job;
         if (aj !is null) {
             bool lockingNeeded = aj.isExclusive();
-            bool executeJob = true;
+            bool executeJ = true;
             if (lockingNeeded) {
-                executeJob = lockJob();
+                executeJ = lockJob();
             }
-            if (executeJob) {
+            if (executeJ) {
                 executeJob(lockingNeeded);
             }
 
@@ -121,7 +121,7 @@ class ExecuteAsyncRunnable : Runnable {
 
     }
 
-    protected void executeJob(final bool unlock) {
+    protected void executeJob( bool unlock) {
         try {
             jobServiceConfiguration.getCommandExecutor().execute(new class Command!Void {
                 public Void execute(CommandContext commandContext) {
@@ -214,7 +214,7 @@ class ExecuteAsyncRunnable : Runnable {
         }
     }
 
-    protected void handleFailedJob(final Throwable exception) {
+    protected void handleFailedJob( Throwable exception) {
         foreach (AsyncRunnableExecutionExceptionHandler asyncRunnableExecutionExceptionHandler ; asyncRunnableExecutionExceptionHandlers) {
             if (asyncRunnableExecutionExceptionHandler.handleException(this.jobServiceConfiguration, this.job, exception)) {
 
@@ -226,7 +226,7 @@ class ExecuteAsyncRunnable : Runnable {
         }
         logError("Unable to handle exception {%s} for job {}.",exception.msg);
        // LOGGER.error("Unable to handle exception {} for job {}.", exception, job);
-        throw new FlowableException("Unable to handle exception " ~ exception.msg() ~ " for job " ~ job.getId());
+        throw new FlowableException("Unable to handle exception for job " ~ job.getId());
     }
 
 }

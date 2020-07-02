@@ -20,7 +20,7 @@ module flow.idm.api.event.FlowableIdmEventType;
 
 
 
-
+import std.array;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import hunt.Exceptions;
@@ -48,10 +48,6 @@ class FlowableIdmEventType : AbstractEnum!FlowableIdmEventType,  FlowableEventTy
 
     static FlowableIdmEventType[] values()
     {
-        if (FlowableIdmEventType.vs is null)
-        {
-            vs = new FlowableIdmEventType[];
-        }
         if (vs.length == 0)
         {
             vs ~= ENTITY_CREATED;
@@ -144,7 +140,7 @@ class FlowableIdmEventType : AbstractEnum!FlowableIdmEventType,  FlowableEventTy
 
         static FlowableIdmEventType[]  EMPTY_ARRAY() {
             __gshared FlowableIdmEventType [] inst;
-            return initOnce!inst(inst = new FlowableIdmEventType[]);
+            return initOnce!inst(inst);
         }
     /**
      * @param string
@@ -156,7 +152,7 @@ class FlowableIdmEventType : AbstractEnum!FlowableIdmEventType,  FlowableEventTy
     public static FlowableIdmEventType[] getTypesFromString(string str) {
         //implementationMissing(false);
         List!FlowableIdmEventType result = new ArrayList!FlowableIdmEventType();
-        if (string !is null && !str.isEmpty()) {
+        if (str !is null && str.length != 0) {
             string[] split = str.split(",");
             foreach (string typeName ; split) {
                 bool found = false;

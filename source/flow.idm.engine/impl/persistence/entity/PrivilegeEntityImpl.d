@@ -40,7 +40,7 @@ class PrivilegeEntityImpl : AbstractIdmEngineEntity , Model,PrivilegeEntity {
         Map!(string, string) state = new HashMap!(string, string)();
         state.put("id", id);
         state.put("name", name);
-        return state;
+        return cast(Object)state;
     }
 
     public string getName() {

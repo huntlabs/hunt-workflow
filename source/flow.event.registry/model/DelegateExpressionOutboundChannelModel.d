@@ -25,7 +25,7 @@ class DelegateExpressionOutboundChannelModel : OutboundChannelModel {
 
     this() {
         super();
-        setType(new string("expression"));
+        setType("expression");
     }
 
     public string getAdapterDelegateExpression() {

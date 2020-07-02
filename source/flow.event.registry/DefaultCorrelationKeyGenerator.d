@@ -36,6 +36,7 @@ class DefaultCorrelationKeyGenerator : CorrelationKeyGenerator!(Map!(string, Obj
 
     public string generateKey(Map!(string, Object) source) {
         implementationMissing(false);
+        return "";
         //StringBuilder sb = new StringBuilder();
         //List!string keys = new ArrayList!string(source.keySet());
         //Collections.sort(keys);

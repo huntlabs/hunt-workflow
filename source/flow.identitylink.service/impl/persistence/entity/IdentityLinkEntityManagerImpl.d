@@ -119,7 +119,7 @@ class IdentityLinkEntityManagerImpl
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(type);
-        insert(identityLinkEntity);
+        super.insert(identityLinkEntity);
         return identityLinkEntity;
     }
 
@@ -132,7 +132,7 @@ class IdentityLinkEntityManagerImpl
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(type);
-        insert(identityLinkEntity);
+        super.insert(identityLinkEntity);
         return identityLinkEntity;
     }
 
@@ -148,7 +148,7 @@ class IdentityLinkEntityManagerImpl
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(type);
-        insert(identityLinkEntity);
+        super.insert(identityLinkEntity);
         return identityLinkEntity;
     }
 
@@ -159,7 +159,7 @@ class IdentityLinkEntityManagerImpl
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(type);
-        insert(identityLinkEntity);
+        super.insert(identityLinkEntity);
 
         return identityLinkEntity;
     }
@@ -171,7 +171,7 @@ class IdentityLinkEntityManagerImpl
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(IdentityLinkType.CANDIDATE);
-        insert(identityLinkEntity);
+        super.insert(identityLinkEntity);
         return identityLinkEntity;
     }
 
@@ -183,7 +183,7 @@ class IdentityLinkEntityManagerImpl
         identityLinkEntity.setUserId(userId);
         identityLinkEntity.setGroupId(groupId);
         identityLinkEntity.setType(IdentityLinkType.CANDIDATE);
-        insert(identityLinkEntity);
+        super.insert(identityLinkEntity);
         return identityLinkEntity;
     }
 
@@ -221,7 +221,7 @@ class IdentityLinkEntityManagerImpl
         List!IdentityLinkEntity identityLinks = findIdentityLinkByProcessInstanceUserGroupAndType(processInstanceId, userId, groupId, type);
 
         foreach (IdentityLinkEntity identityLink ; identityLinks) {
-            dele(identityLink);
+            super.dele(identityLink);
         }
 
         return identityLinks;
@@ -244,7 +244,7 @@ class IdentityLinkEntityManagerImpl
 
         List!IdentityLinkEntity removedIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
         foreach (IdentityLinkEntity identityLink ; identityLinks) {
-            dele(identityLink);
+            super.dele(identityLink);
             removedIdentityLinkEntities.add(identityLink);
         }
 
@@ -255,7 +255,7 @@ class IdentityLinkEntityManagerImpl
                     if ((userId !is null && userId == (identityLinkEntity.getUserId()))
                             || (groupId !is null && groupId ==(identityLinkEntity.getGroupId()))) {
 
-                        dele(identityLinkEntity);
+                        super.dele(identityLinkEntity);
                         removedIdentityLinkEntities.add(identityLinkEntity);
 
                     }
@@ -282,7 +282,7 @@ class IdentityLinkEntityManagerImpl
     public List!IdentityLinkEntity deleteProcessDefinitionIdentityLink(string processDefinitionId, string userId, string groupId) {
         List!IdentityLinkEntity identityLinks = findIdentityLinkByProcessDefinitionUserAndGroup(processDefinitionId, userId, groupId);
         foreach (IdentityLinkEntity identityLink ; identityLinks) {
-            dele(identityLink);
+            super.dele(identityLink);
         }
 
         return identityLinks;
@@ -299,7 +299,7 @@ class IdentityLinkEntityManagerImpl
     }
 
     public void deleteIdentityLink(IdentityLinkEntity identityLink) {
-        dele(identityLink);
+        super.dele(identityLink);
     }
 
 

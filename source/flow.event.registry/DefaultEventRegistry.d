@@ -26,6 +26,7 @@ import flow.event.registry.api.runtime.EventInstance;
 import flow.event.registry.model.InboundChannelModel;
 import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.event.registry.DefaultCorrelationKeyGenerator;
+import hunt.collection.ArrayList;
 /**
  * @author Joram Barrez
  */
@@ -60,7 +61,7 @@ class DefaultEventRegistry : EventRegistry {
 
 
     public void sendEventToConsumers(EventRegistryEvent eventRegistryEvent) {
-        Collection!EventRegistryEventConsumer engineEventRegistryEventConsumers = engineConfiguration.getEventRegistryEventConsumers().values();
+        Collection!EventRegistryEventConsumer engineEventRegistryEventConsumers = new ArrayList!EventRegistryEventConsumer (engineConfiguration.getEventRegistryEventConsumers().values());
         foreach (EventRegistryEventConsumer eventConsumer ; engineEventRegistryEventConsumers) {
             eventConsumer.eventReceived(eventRegistryEvent);
         }

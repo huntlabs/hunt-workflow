@@ -47,7 +47,7 @@ abstract class AbstractMessageBasedJobManager : DefaultJobManager {
     }
 
     override
-    protected void triggerExecutorIfNeeded(final JobEntity jobEntity) {
+    protected void triggerExecutorIfNeeded(JobEntity jobEntity) {
         prepareAndSendMessage(jobEntity);
     }
 

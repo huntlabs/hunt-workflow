@@ -46,6 +46,6 @@ class FlowableEventRegistryEvent : EventRegistryEvent {
     }
 
     public Object getEventObject() {
-        return eventInstance;
+        return cast(Object)eventInstance;
     }
 }

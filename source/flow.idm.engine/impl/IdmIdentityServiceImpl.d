@@ -63,6 +63,8 @@ import flow.idm.engine.impl.cmd.SetUserPictureCmd;
 import flow.idm.engine.impl.cmd.UpdateUserPasswordCmd;
 import flow.idm.engine.impl.persistence.entity.IdentityInfoEntity;
 import hunt.Exceptions;
+import hunt.Boolean;
+import hunt.String;
 
 /**
  * @author Tijs Rademakers
@@ -71,12 +73,12 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public Group newGroup(string groupId) {
-        return commandExecutor.execute(new CreateGroupCmd(groupId));
+        return cast(Group)(commandExecutor.execute(new CreateGroupCmd(groupId)));
     }
 
 
     public User newUser(string userId) {
-        return commandExecutor.execute(new CreateUserCmd(userId));
+        return cast(User)(commandExecutor.execute(new CreateUserCmd(userId)));
     }
 
 
@@ -96,7 +98,7 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public UserQuery createUserQuery() {
-        return commandExecutor.execute(new CreateUserQueryCmd());
+        return cast(UserQuery)(commandExecutor.execute(new CreateUserQueryCmd()));
     }
 
 
@@ -108,7 +110,7 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public GroupQuery createGroupQuery() {
-        return commandExecutor.execute(new CreateGroupQueryCmd());
+        return cast(GroupQuery)(commandExecutor.execute(new CreateGroupQueryCmd()));
     }
 
 
@@ -135,7 +137,7 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public bool checkPassword(string userId, string password) {
-        return commandExecutor.execute(new CheckPassword(userId, password));
+        return (cast(Boolean)(commandExecutor.execute(new CheckPassword(userId, password)))).booleanValue();
     }
 
 
@@ -151,7 +153,7 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public Token newToken(string tokenId) {
-        return commandExecutor.execute(new CreateTokenCmd(tokenId));
+        return cast(Token)(commandExecutor.execute(new CreateTokenCmd(tokenId)));
     }
 
 
@@ -166,7 +168,7 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public TokenQuery createTokenQuery() {
-        return commandExecutor.execute(new CreateTokenQueryCmd());
+        return cast(TokenQuery)(commandExecutor.execute(new CreateTokenQueryCmd()));
     }
 
 
@@ -183,17 +185,17 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public Picture getUserPicture(string userId) {
-        return commandExecutor.execute(new GetUserPictureCmd(userId));
+        return cast(Picture)(commandExecutor.execute(new GetUserPictureCmd(userId)));
     }
 
 
     public string getUserInfo(string userId, string key) {
-        return commandExecutor.execute(new GetUserInfoCmd(userId, key));
+        return (cast(String)(commandExecutor.execute(new GetUserInfoCmd(userId, key)))).value;
     }
 
 
     public List!string getUserInfoKeys(string userId) {
-        return commandExecutor.execute(new GetUserInfoKeysCmd(userId, IdentityInfoEntity.TYPE_USERINFO));
+        return cast(List!string)(commandExecutor.execute(new GetUserInfoKeysCmd(userId, IdentityInfoEntity.TYPE_USERINFO)));
     }
 
 
@@ -208,7 +210,7 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public Privilege createPrivilege(string name) {
-        return commandExecutor.execute(new CreatePrivilegeCmd(name));
+        return cast(Privilege)(commandExecutor.execute(new CreatePrivilegeCmd(name)));
     }
 
 
@@ -233,7 +235,7 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public List!PrivilegeMapping getPrivilegeMappingsByPrivilegeId(string privilegeId) {
-        return commandExecutor.execute(new GetPrivilegeMappingsByPrivilegeIdCmd(privilegeId));
+        return cast(List!PrivilegeMapping)(commandExecutor.execute(new GetPrivilegeMappingsByPrivilegeIdCmd(privilegeId)));
     }
 
 
@@ -243,16 +245,16 @@ class IdmIdentityServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration , 
 
 
     public PrivilegeQuery createPrivilegeQuery() {
-        return commandExecutor.execute(new CreatePrivilegeQueryCmd());
+        return cast(PrivilegeQuery)(commandExecutor.execute(new CreatePrivilegeQueryCmd()));
     }
 
 
     public List!Group getGroupsWithPrivilege(string name) {
-        return commandExecutor.execute(new GetGroupsWithPrivilegeCmd(name));
+        return cast(List!Group)(commandExecutor.execute(new GetGroupsWithPrivilegeCmd(name)));
     }
 
 
     public List!User getUsersWithPrivilege(string name) {
-        return commandExecutor.execute(new GetUsersWithPrivilegeCmd(name));
+        return cast(List!User)(commandExecutor.execute(new GetUsersWithPrivilegeCmd(name)));
     }
 }

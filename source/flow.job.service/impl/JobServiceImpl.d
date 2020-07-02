@@ -191,7 +191,7 @@ class JobServiceImpl : ServiceImpl , JobService {
         foreach (JobEntity job ; jobsForExecution) {
             getJobEntityManager().dele(job);
             if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
+                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)job));
             }
         }
     }
@@ -203,7 +203,7 @@ class JobServiceImpl : ServiceImpl , JobService {
         foreach (SuspendedJobEntity job ; suspendedJobsForExecution) {
             suspendedJobEntityManager.dele(job);
             if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
+                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)job));
             }
         }
     }
@@ -215,7 +215,7 @@ class JobServiceImpl : ServiceImpl , JobService {
         foreach (DeadLetterJobEntity job ; deadLetterJobsForExecution) {
             deadLetterJobEntityManager.dele(job);
             if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
+                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)job));
             }
         }
     }

@@ -44,7 +44,7 @@ class JobProcessorContextImpl : JobProcessorContext {
 
 
     public bool isInPhase(Phase phase) {
-        return this.phase.equals(phase);
+        return this.phase == (phase);
     }
 
     override

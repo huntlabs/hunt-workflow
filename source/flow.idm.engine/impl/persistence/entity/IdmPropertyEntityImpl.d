@@ -12,7 +12,7 @@
  */
 module flow.idm.engine.impl.persistence.entity.IdmPropertyEntityImpl;
 
-
+import hunt.String;
 import flow.common.api.FlowableException;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
 import flow.idm.engine.impl.persistence.entity.IdmPropertyEntity;
@@ -63,7 +63,7 @@ class IdmPropertyEntityImpl : AbstractIdmEngineEntity , Model, IdmPropertyEntity
 
 
     public Object getPersistentState() {
-        return value;
+        return new String(value);
     }
 
 

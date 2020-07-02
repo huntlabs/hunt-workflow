@@ -19,6 +19,7 @@ import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.event.registry.persistence.entity.AbstractEventRegistryNoRevisionEntity;
 import flow.event.registry.persistence.entity.EventDefinitionEntity;
 import hunt.entity;
+import hunt.String;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -58,8 +59,8 @@ class EventDefinitionEntityImpl : AbstractEventRegistryNoRevisionEntity ,Model, 
 
     public Object getPersistentState() {
         Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        persistentState.put("category", this.category);
-        return persistentState;
+        persistentState.put("category", new String(this.category));
+        return cast(Object)persistentState;
     }
 
     // getters and setters

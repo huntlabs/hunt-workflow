@@ -75,7 +75,7 @@ class MybatisPrivilegeDataManager : EntityRepository!( PrivilegeEntityImpl , str
 
     public long findPrivilegeCountByNativeQuery(Map!(string, Object) parameterMap) {
         implementationMissing(false);
-        return null;
+        return 0;
         //return (Long) getDbSqlSession().selectOne("selectPrivilegeCountByNativeQuery", parameterMap);
     }
 

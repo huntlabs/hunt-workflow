@@ -544,6 +544,7 @@ class JobServiceConfiguration : AbstractServiceConfiguration {
      */
     public JobServiceConfiguration mergeHistoryJobHandler(HistoryJobHandler historyJobHandler) {
         implementationMissing(false);
+        return null;
         //if (historyJobHandlers !is null
         //        && cast(AsyncHistoryJobHandler)historyJobHandler !is null
         //        && !historyJobHandlers.containsKey(historyJobHandler.getType())) {

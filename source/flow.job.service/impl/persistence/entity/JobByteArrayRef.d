@@ -12,7 +12,7 @@
  */
 module flow.job.service.impl.persistence.entity.JobByteArrayRef;
 
-
+import flow.job.service.impl.persistence.entity.JobByteArrayEntityManager;
 import flow.job.service.impl.util.CommandContextUtil;
 import flow.job.service.impl.persistence.entity.JobByteArrayEntity;
 /**
@@ -146,6 +146,6 @@ class JobByteArrayRef {
 
     override
     public string toString() {
-        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity=" ~ entity ~ (deleted ? ", deleted]" : "]");
+        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity="  ~ (deleted ? ", deleted]" : "]");
     }
 }

@@ -60,17 +60,17 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
     protected bool inOrStatement;
 
     this() {
-      orQueryObjects = ArrayList!EventSubscriptionQueryImpl;
+      orQueryObjects = new ArrayList!EventSubscriptionQueryImpl;
     }
 
     this(CommandContext commandContext) {
         super(commandContext);
-        orQueryObjects = ArrayList!EventSubscriptionQueryImpl;
+        orQueryObjects = new ArrayList!EventSubscriptionQueryImpl;
     }
 
     this(CommandExecutor commandExecutor) {
         super(commandExecutor);
-        orQueryObjects = ArrayList!EventSubscriptionQueryImpl;
+        orQueryObjects = new ArrayList!EventSubscriptionQueryImpl;
     }
 
 
@@ -180,9 +180,6 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
 
 
     public EventSubscriptionQueryImpl subScopeId(string subScopeId) {
-        if (scopeId is null) {
-            throw new FlowableIllegalArgumentException("Provided sub scope id is null");
-        }
 
         if (inOrStatement) {
             this.currentOrQueryObject.subScopeId = subScopeId;
@@ -245,9 +242,9 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         }
 
         if (inOrStatement) {
-            this.currentOrQueryObject.createdBefore = createdBefore;
+            this.currentOrQueryObject._createdBefore = beforeTime;
         } else {
-            this._createdBefore = createdBefore;
+            this._createdBefore = beforeTime;
         }
 
         return this;
@@ -260,9 +257,9 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
         }
 
         if (inOrStatement) {
-            this.currentOrQueryObject.createdAfter = createdAfter;
+            this.currentOrQueryObject._createdAfter = afterTime;
         } else {
-            this._createdAfter = createdAfter;
+            this._createdAfter = afterTime;
         }
 
         return this;
@@ -301,7 +298,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
 
     public EventSubscriptionQuery withoutTenantId() {
         if (inOrStatement) {
-            this.currentOrQueryObject.withoutTenantId = true;
+            this.currentOrQueryObject._withoutTenantId = true;
         } else {
             this._withoutTenantId = true;
         }
@@ -341,7 +338,7 @@ class EventSubscriptionQueryImpl : AbstractQuery!(EventSubscriptionQuery, EventS
 
     public EventSubscriptionQueryImpl withoutConfiguration() {
         if (inOrStatement) {
-            this.currentOrQueryObject.withoutConfiguration = true;
+            this.currentOrQueryObject._withoutConfiguration = true;
         } else {
             this._withoutConfiguration = true;
         }

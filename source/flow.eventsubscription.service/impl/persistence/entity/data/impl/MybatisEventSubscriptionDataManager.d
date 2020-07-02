@@ -35,7 +35,7 @@ import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscri
 import flow.eventsubscription.service.impl.persistence.entity.data.AbstractEventSubscriptionDataManager;
 import flow.eventsubscription.service.impl.persistence.entity.data.EventSubscriptionDataManager;
 import hunt.Exceptions;
-
+import hunt.entity;
 //import flow.eventsubscription.service.impl.persistence.entity.data.impl.cachematcher.EventSubscriptionsByExecutionAndTypeMatcher;
 //import flow.eventsubscription.service.impl.persistence.entity.data.impl.cachematcher.EventSubscriptionsByExecutionIdMatcher;
 //import flow.eventsubscription.service.impl.persistence.entity.data.impl.cachematcher.EventSubscriptionsByNameMatcher;
@@ -52,8 +52,22 @@ import hunt.Exceptions;
 /**
  * @author Joram Barrez
  */
-class MybatisEventSubscriptionDataManager : AbstractEventSubscriptionDataManager!EventSubscriptionEntity , EventSubscriptionDataManager {
+class MybatisEventSubscriptionDataManager : EntityRepository!(EventSubscriptionEntityImpl , string) , EventSubscriptionDataManager {
 
+    private EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration;
+
+    //this(EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration) {
+    //  this.eventSubscriptionServiceConfiguration = eventSubscriptionServiceConfiguration;
+    //}
+    //
+    //public EventSubscriptionServiceConfiguration getEventSubscriptionServiceConfiguration() {
+    //  return eventSubscriptionServiceConfiguration;
+    //}
+
+    public void setEventSubscriptionServiceConfiguration(EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration) {
+      this.eventSubscriptionServiceConfiguration = eventSubscriptionServiceConfiguration;
+    }
+//class MybatisEventSubscriptionDataManager : AbstractEventSubscriptionDataManager!EventSubscriptionEntity , EventSubscriptionDataManager {
     //private static List<Class<? extends EventSubscriptionEntity>> ENTITY_SUBCLASSES = new ArrayList<>();
     //
     //static {
@@ -87,8 +101,43 @@ class MybatisEventSubscriptionDataManager : AbstractEventSubscriptionDataManager
     //protected CachedEntityMatcher<EventSubscriptionEntity> messageEventSubscriptionsByProcInstAndEventNameMatcher = new MessageEventSubscriptionsByProcInstAndEventNameMatcher();
 
     this(EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration) {
-        super(eventSubscriptionServiceConfiguration);
+        this.eventSubscriptionServiceConfiguration = eventSubscriptionServiceConfiguration;
     }
+
+
+  public void insert(EventSubscriptionEntity entity) {
+    insert(cast(EventSubscriptionEntityImpl)entity);
+    //getDbSqlSession().insert(entity);
+  }
+  public EventSubscriptionEntity update(EventSubscriptionEntity entity) {
+    return  update(cast(EventSubscriptionEntityImpl)entity);
+    //getDbSqlSession().update(entity);
+    //return entity;
+  }
+  public void dele(string id) {
+    EventSubscriptionEntity entity = findById(id);
+    if (entity !is null)
+    {
+      remove(cast(EventSubscriptionEntityImpl)entity);
+    }
+    //delete(entity);
+  }
+
+  public void dele(EventSubscriptionEntity entity) {
+    if (entity !is null)
+    {
+      remove(cast(EventSubscriptionEntityImpl)entity);
+    }
+    //getDbSqlSession().delete(entity);
+  }
+
+  public EventSubscriptionEntity findById(string executionId) {
+    //if (isExecutionTreeFetched(executionId)) {
+    //    return getEntityCache().findInCache(getManagedEntityClass(), executionId);
+    //}
+    //return super.findById(executionId);
+    return find(executionId);
+  }
 
     //
     //public Class<? extends EventSubscriptionEntity> getManagedEntityClass() {
@@ -138,7 +187,7 @@ class MybatisEventSubscriptionDataManager : AbstractEventSubscriptionDataManager
 
     public List!EventSubscription findEventSubscriptionsByQueryCriteria(EventSubscriptionQueryImpl eventSubscriptionQueryImpl) {
         implementationMissing(false);
-        return 0;
+        return null;
         // string query = "selectEventSubscriptionByQueryCriteria";
         //return getDbSqlSession().selectList(query, eventSubscriptionQueryImpl, getManagedEntityClass());
     }
@@ -241,6 +290,7 @@ class MybatisEventSubscriptionDataManager : AbstractEventSubscriptionDataManager
 
     public List!EventSubscriptionEntity findEventSubscriptionsBySubScopeId( string subScopeId) {
         implementationMissing(false);
+        return null;
         //DbSqlSession dbSqlSession = getDbSqlSession();
         //
         //// If the sub scope has been inserted in the same command execution as this query, there can't be any in the database
@@ -354,6 +404,7 @@ class MybatisEventSubscriptionDataManager : AbstractEventSubscriptionDataManager
 
     protected List!SignalEventSubscriptionEntity toSignalEventSubscriptionEntityList(List!EventSubscriptionEntity result) {
         implementationMissing(false);
+        return null;
         //List<SignalEventSubscriptionEntity> signalEventSubscriptionEntities = new ArrayList<>(result.size());
         //for (EventSubscriptionEntity eventSubscriptionEntity : result) {
         //    signalEventSubscriptionEntities.add((SignalEventSubscriptionEntity) eventSubscriptionEntity);

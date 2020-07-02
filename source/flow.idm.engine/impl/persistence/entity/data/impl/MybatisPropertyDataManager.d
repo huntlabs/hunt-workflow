@@ -55,9 +55,14 @@ class MybatisPropertyDataManager : EntityRepository!( IdmPropertyEntityImpl , st
         _manager.close();
       }
       List!IdmPropertyEntity  lst = new ArrayList!IdmPropertyEntity;
-      IdmPropertyEntityImpl[] arry =  _manager.createQuery!(IdmPropertyEntityImpl)("SELECT * FROM IdmPropertyEntityImpl")
+      IdmPropertyEntityImpl[] array =  _manager.createQuery!(IdmPropertyEntityImpl)("SELECT * FROM IdmPropertyEntityImpl")
       .getResultList();
-      lst.addAll(arry);
+
+      foreach(IdmPropertyEntityImpl i ; array)
+      {
+          lst.add(cast(IdmPropertyEntity)i);
+      }
+
       return lst;
         //return getDbSqlSession().selectList("selectIdmProperties");
     }

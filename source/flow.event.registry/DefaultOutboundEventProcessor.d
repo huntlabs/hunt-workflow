@@ -22,7 +22,7 @@ import flow.event.registry.api.OutboundEventProcessor;
 import flow.event.registry.api.runtime.EventInstance;
 import flow.event.registry.model.ChannelModel;
 import flow.event.registry.model.OutboundChannelModel;
-
+import flow.event.registry.EventRegistryEngineConfiguration;
 /**
  * @author Joram Barrez
  */

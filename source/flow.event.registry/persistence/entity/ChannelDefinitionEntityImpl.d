@@ -19,7 +19,7 @@ import hunt.entity;
 import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.event.registry.persistence.entity.AbstractEventRegistryNoRevisionEntity;
 import flow.event.registry.persistence.entity.ChannelDefinitionEntity;
-
+import hunt.Exceptions;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -60,9 +60,11 @@ mixin MakeModel;
      string tenantId;
 
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        persistentState.put("category", this.category);
-        return persistentState;
+        implementationMissing(false);
+        return null;
+        //Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        //persistentState.put("category", this.category);
+        //return persistentState;
     }
 
     // getters and setters

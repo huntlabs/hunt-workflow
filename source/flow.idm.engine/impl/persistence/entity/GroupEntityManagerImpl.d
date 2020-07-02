@@ -58,7 +58,7 @@ class GroupEntityManagerImpl
                 getEventDispatcher().dispatchEvent(FlowableIdmEventBuilder.createMembershipEvent(FlowableIdmEventType.MEMBERSHIPS_DELETED, groupId, null));
             }
 
-            dele(group);
+            super.dele(group);
         }
     }
 

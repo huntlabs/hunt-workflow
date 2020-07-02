@@ -15,6 +15,7 @@ module flow.job.service.impl.persistence.entity.JobByteArrayEntityImpl;
 import flow.job.service.impl.persistence.entity.AbstractJobServiceEntity;
 import flow.job.service.impl.persistence.entity.JobByteArrayEntity;
 import hunt.entity;
+import std.conv : to;
 /**
  * @author Tom Baeyens
  * @author Marcus Klimstra (CGI)
@@ -121,7 +122,7 @@ class JobByteArrayEntityImpl : AbstractJobServiceEntity , Model, JobByteArrayEnt
 
     override
     public string toString() {
-        return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ (bytes !is null ? bytes.length : 0) ~ "]";
+        return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ to!string(bytes !is null ? bytes.length : 0) ~ "]";
     }
 
     // Wrapper for a byte array, needed to do byte array comparisons

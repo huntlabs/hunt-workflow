@@ -54,7 +54,7 @@ class CancelJobsCmd : Command!Void {
                 // When given job doesn't exist, ignore
                 if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     eventDispatcher
-                        .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, jobToDelete));
+                        .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)jobToDelete));
                 }
 
                 CommandContextUtil.getJobEntityManager(commandContext).dele(jobToDelete);
@@ -66,7 +66,7 @@ class CancelJobsCmd : Command!Void {
                     // When given job doesn't exist, ignore
                     if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                         eventDispatcher
-                            .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, timerJobToDelete));
+                            .dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)timerJobToDelete));
                     }
 
                     CommandContextUtil.getTimerJobEntityManager(commandContext).dele(timerJobToDelete);

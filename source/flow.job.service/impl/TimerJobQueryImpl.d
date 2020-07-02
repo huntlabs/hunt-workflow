@@ -113,7 +113,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
 
 
     public TimerJobQueryImpl scopeId(string scopeId) {
-        if (scopeId is null) {
+        if (_scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided scope id is null");
         }
         this._scopeId = scopeId;
@@ -122,7 +122,7 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
 
 
     public TimerJobQueryImpl subScopeId(string subScopeId) {
-        if (scopeId is null) {
+        if (_scopeId is null) {
             throw new FlowableIllegalArgumentException("Provided sub scope id is null");
         }
         this._subScopeId = subScopeId;
@@ -363,7 +363,8 @@ class TimerJobQueryImpl : AbstractQuery!(TimerJobQuery, Job) , TimerJobQuery {
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+        return 0;
+      //  return serialVersionUID;
     }
 
     public string getId() {

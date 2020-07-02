@@ -374,7 +374,8 @@ class JobQueryImpl : AbstractQuery!(JobQuery, Job) , JobQuery{
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+        return 0;
+        //return serialVersionUID;
     }
 
     public string getId() {

@@ -41,9 +41,9 @@ class IdmEngineImpl : IdmEngine {
         this.managementService = engineConfiguration.getIdmManagementService();
         this.commandExecutor = engineConfiguration.getCommandExecutor();
 
-        if (engineConfiguration.getSchemaManagementCmd() !is null) {
-            engineConfiguration.getCommandExecutor().execute(engineConfiguration.getSchemaCommandConfig(), engineConfiguration.getSchemaManagementCmd());
-        }
+        //if (engineConfiguration.getSchemaManagementCmd() !is null) {
+        //    engineConfiguration.getCommandExecutor().execute(engineConfiguration.getSchemaCommandConfig(), engineConfiguration.getSchemaManagementCmd());
+        //}
 
         if (name is null) {
             logInfo("default flowable IdmEngine created");

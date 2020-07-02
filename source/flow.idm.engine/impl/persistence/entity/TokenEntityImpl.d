@@ -19,7 +19,7 @@ import flow.idm.engine.impl.persistence.entity.TokenEntity;
 
 import flow.common.db.HasRevision;
 import hunt.entity;
-
+import std.conv : to;
 /**
  * @author Tom Baeyens
  */
@@ -125,15 +125,15 @@ class TokenEntityImpl : AbstractIdmEngineEntity ,Model, TokenEntity, HasRevision
 
 
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        Map!(string, string) persistentState = new HashMap!(string, string)();
         persistentState.put("tokenValue", tokenValue);
-        persistentState.put("tokenDate", tokenDate);
+        persistentState.put("tokenDate", to!string(tokenDate));
         persistentState.put("ipAddress", ipAddress);
         persistentState.put("userAgent", userAgent);
         persistentState.put("userId", userId);
         persistentState.put("tokenData", tokenData);
 
-        return persistentState;
+        return  cast(Object)persistentState;
     }
 
     // common methods //////////////////////////////////////////////////////////

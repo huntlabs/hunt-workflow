@@ -36,6 +36,8 @@ class AbstractJobEntityImpl : AbstractJobServiceEntity , AbstractRuntimeJobEntit
     protected Date createTime;
     protected Date duedate;
 
+    protected string id;
+
     protected string executionId;
     protected string processInstanceId;
     protected string processDefinitionId;

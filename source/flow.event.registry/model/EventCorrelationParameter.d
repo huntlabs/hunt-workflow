@@ -55,7 +55,7 @@ class EventCorrelationParameter {
             return false;
         }
         EventCorrelationParameter that = cast(EventCorrelationParameter) o;
-        return (name.value == that.name.value) && (type.value == that.type.value);
+        return (name == that.name) && (type == that.type);
     }
 
     override

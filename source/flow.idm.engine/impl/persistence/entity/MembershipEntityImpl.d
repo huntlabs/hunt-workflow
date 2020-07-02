@@ -16,7 +16,7 @@ module flow.idm.engine.impl.persistence.entity.MembershipEntityImpl;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineNoRevisionEntity;
 import flow.idm.engine.impl.persistence.entity.MembershipEntity;
 import hunt.entity;
-
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  */
@@ -38,15 +38,17 @@ class MembershipEntityImpl : AbstractIdmEngineNoRevisionEntity ,Model, Membershi
 
    //
     public Object getPersistentState() {
+        implementationMissing(false);
         // membership is not updatable
         //return MembershipEntityImpl.class;
-          this;
+          //this;
+        return null;
     }
 
     override
     public string getId() {
         // membership doesn't have an id, returning a fake one to make the internals work
-        return userId + groupId;
+        return userId ~ groupId;
     }
 
     override

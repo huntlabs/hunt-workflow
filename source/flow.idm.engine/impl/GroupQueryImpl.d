@@ -24,7 +24,7 @@ import flow.idm.api.Group;
 import flow.idm.api.GroupQuery;
 import flow.idm.api.GroupQueryProperty;
 import flow.idm.engine.impl.util.CommandContextUtil;
-
+import std.uni;
 /**
  * @author Joram Barrez
  */
@@ -91,7 +91,7 @@ class GroupQueryImpl : AbstractQuery!(GroupQuery, Group) , GroupQuery, QueryCach
         if (nameLikeIgnoreCase is null) {
             throw new FlowableIllegalArgumentException("Provided name is null");
         }
-        this.nameLikeIgnoreCase = nameLikeIgnoreCase.toLowerCase();
+        this.nameLikeIgnoreCase = nameLikeIgnoreCase.toUpper();
         return this;
     }
 

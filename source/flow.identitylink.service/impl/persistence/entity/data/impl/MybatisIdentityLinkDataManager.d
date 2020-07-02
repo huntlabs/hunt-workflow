@@ -113,7 +113,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
         IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
         lst.addAll(lst);
-        return objs;
+        return lst;
     }
 
 
@@ -130,7 +130,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
         IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId));
         lst.addAll(lst);
-        return objs;
+        return lst;
     }
 
 
@@ -139,7 +139,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
         IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.scopeId , scopeId , Field.scopeType , scopeType));
         lst.addAll(lst);
-        return objs;
+        return lst;
         //Map<string, string> parameters = new HashMap<>();
         //parameters.put("scopeId", scopeId);
         //parameters.put("scopeType", scopeType);
@@ -152,7 +152,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
         IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.subScopeId , subScopeId , Field.scopeType , scopeType));
         lst.addAll(lst);
-        return objs;
+        return lst;
         //Map<string, string> parameters = new HashMap<>();
         //parameters.put("subScopeId", subScopeId);
         //parameters.put("scopeType", scopeType);
@@ -165,7 +165,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
         IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.scopeDefinitionId , scopeDefinitionId , Field.scopeType , scopeType));
         lst.addAll(lst);
-        return objs;
+        return lst;
         //Map<string, string> parameters = new HashMap<>();
         //parameters.put("scopeDefinitionId", scopeDefinitionId);
         //parameters.put("scopeType", scopeType);
@@ -179,7 +179,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
         IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.processDefId , processDefinitionId));
         lst.addAll(lst);
-        return objs;
+        return lst;
     }
 
 

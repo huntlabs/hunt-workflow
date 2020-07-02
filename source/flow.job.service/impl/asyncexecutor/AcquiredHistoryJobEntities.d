@@ -17,7 +17,7 @@ import hunt.collection.HashMap;
 import hunt.collection.Map;
 
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
-
+import hunt.collection.ArrayList;
 /**
  * @author Tijs Rademakers
  */
@@ -35,7 +35,7 @@ class AcquiredHistoryJobEntities {
     }
 
     public Collection!HistoryJobEntity getJobs() {
-        return acquiredJobs.values();
+        return new ArrayList!HistoryJobEntity(acquiredJobs.values());
     }
 
     public bool contains(string jobId) {

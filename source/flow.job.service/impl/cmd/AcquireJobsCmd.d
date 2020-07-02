@@ -40,7 +40,7 @@ class AcquireJobsCmd : Command!AcquiredJobEntities {
     this(AsyncExecutor asyncExecutor) {
         this.asyncExecutor = asyncExecutor;
         this.remainingCapacity = Integer.MAX_VALUE;
-        this.jobEntityManager = asyncExecutor.getJobServiceConfiguration().getJobEntityManager(); // backwards compatibility
+        this.jobEntityManager = cast(JobInfoEntityManager!JobInfoEntity)(asyncExecutor.getJobServiceConfiguration().getJobEntityManager()); // backwards compatibility
     }
 
     this(AsyncExecutor asyncExecutor, int remainingCapacity, JobInfoEntityManager!JobInfoEntity jobEntityManager) {

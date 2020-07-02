@@ -58,6 +58,7 @@ class MybatisEventResourceDataManager : EntityRepository!( EventResourceEntityIm
 
     public EventResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName) {
         implementationMissing(false);
+        return null;
         //Map!(string, Object) params = new HashMap<>();
         //params.put("deploymentId", deploymentId);
         //params.put("resourceName", resourceName);
@@ -67,6 +68,7 @@ class MybatisEventResourceDataManager : EntityRepository!( EventResourceEntityIm
 
     public List!EventResourceEntity findResourcesByDeploymentId(string deploymentId) {
         implementationMissing(false);
+        return null;
         //return getDbSqlSession().selectList("selectEventResourcesByDeploymentId", deploymentId);
     }
 

@@ -22,31 +22,41 @@ import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.util.CommandContextUtil;
 import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandler;
+import hunt.Exceptions;
+import flow.job.service.HistoryJobHandler;
 
 class UnacquireAsyncHistoryJobExceptionHandler : AsyncRunnableExecutionExceptionHandler {
 
     public bool handleException( JobServiceConfiguration jobServiceConfiguration,  JobInfo job,  Throwable exception) {
-        if (job !is null && getAsyncHistoryJobHandlerTypes(jobServiceConfiguration).contains(job.getJobHandlerType())) {
-            return jobServiceConfiguration.getCommandExecutor().execute(new class Command!bool {
-                public bool execute(CommandContext commandContext) {
-                    CommandConfig commandConfig = jobServiceConfiguration.getCommandExecutor().getDefaultConfig().transactionRequiresNew();
-                    return jobServiceConfiguration.getCommandExecutor().execute(commandConfig, new class Command!bool {
-                        public bool execute(CommandContext commandContext2) {
-                            CommandContextUtil.getJobManager(commandContext2).unacquireWithDecrementRetries(job);
-                            return true;
-                        }
-                    });
-                }
-            });
-        }
+        implementationMissing(false);
+        //if (job !is null && getAsyncHistoryJobHandlerTypes(jobServiceConfiguration).contains(job.getJobHandlerType())) {
+        //    return jobServiceConfiguration.getCommandExecutor().execute(new class Command!bool {
+        //        public bool execute(CommandContext commandContext) {
+        //            CommandConfig commandConfig = jobServiceConfiguration.getCommandExecutor().getDefaultConfig().transactionRequiresNew();
+        //            return jobServiceConfiguration.getCommandExecutor().execute(commandConfig, new class Command!bool {
+        //                public bool execute(CommandContext commandContext2) {
+        //                    CommandContextUtil.getJobManager(commandContext2).unacquireWithDecrementRetries(job);
+        //                    return true;
+        //                }
+        //            });
+        //        }
+        //    });
+        //}
         return false;
     }
 
     protected Set!string getAsyncHistoryJobHandlerTypes(JobServiceConfiguration jobServiceConfiguration) {
         if (jobServiceConfiguration.getHistoryJobHandlers() !is null) {
-            return jobServiceConfiguration.getHistoryJobHandlers().keySet();
+
+            Set!string rt = new HashSet!string;
+            foreach(MapEntry!(string, HistoryJobHandler) entry ; jobServiceConfiguration.getHistoryJobHandlers())
+            {
+                rt.add(entry.getKey);
+            }
+            return rt;
+           // return jobServiceConfiguration.getHistoryJobHandlers().keySet();
         }
-        return Collections.emptySet();
+        return Collections.emptySet!string();
     }
 
 }

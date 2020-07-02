@@ -65,7 +65,7 @@ class EventSubscriptionEntityManagerImpl
 
 
     public EventSubscription createEventSubscription(EventSubscriptionBuilder eventSubscriptionBuilder) {
-        if (SignalEventSubscriptionEntity.EVENT_TYPE.equals(eventSubscriptionBuilder.getEventType())) {
+        if (SignalEventSubscriptionEntity.EVENT_TYPE == (eventSubscriptionBuilder.getEventType())) {
             return insertSignalEvent(eventSubscriptionBuilder);
 
         } else if (MessageEventSubscriptionEntity.EVENT_TYPE == (eventSubscriptionBuilder.getEventType())) {
@@ -91,7 +91,7 @@ class EventSubscriptionEntityManagerImpl
         foreach (EventSubscriptionEntity eventSubscriptionEntity ; eventSubscriptions) {
             CompensateEventSubscriptionEntity c = cast(CompensateEventSubscriptionEntity)eventSubscriptionEntity;
             if (c !is null) {
-                if (activityId is null || activityId.equals(eventSubscriptionEntity.getActivityId())) {
+                if (activityId is null || activityId == (eventSubscriptionEntity.getActivityId())) {
                     result.add(c);
                 }
             }

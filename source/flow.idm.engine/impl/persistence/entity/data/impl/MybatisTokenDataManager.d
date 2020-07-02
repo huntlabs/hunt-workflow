@@ -76,7 +76,7 @@ class MybatisTokenDataManager : EntityRepository!( TokenEntityImpl , string) , T
 
     public long findTokenCountByNativeQuery(Map!(string, Object) parameterMap) {
         implementationMissing(false);
-        return null;
+        return 0;
         //return (Long) getDbSqlSession().selectOne("selectTokenCountByNativeQuery", parameterMap);
     }
 }

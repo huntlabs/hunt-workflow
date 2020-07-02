@@ -198,11 +198,11 @@ class ChannelDefinitionQueryImpl : AbstractQuery!(ChannelDefinitionQuery, Channe
     }
 
     protected void checkVersion(int _version) {
-        if (_version is null) {
-            throw new FlowableIllegalArgumentException("_version is null");
-        } else if (_version <= 0) {
-            throw new FlowableIllegalArgumentException("_version must be positive");
-        }
+        //if (_version is null) {
+        //    throw new FlowableIllegalArgumentException("_version is null");
+        //} else if (_version <= 0) {
+        //    throw new FlowableIllegalArgumentException("_version must be positive");
+        //}
     }
 
 

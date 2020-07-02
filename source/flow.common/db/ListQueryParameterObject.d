@@ -31,8 +31,8 @@ class ListQueryParameterObject {
         LIST, LIST_PAGE, SINGLE_RESULT, COUNT
     }
 
-    public static  string SORTORDER_ASC = "asc";
-    public static  string SORTORDER_DESC = "desc";
+    enum  string SORTORDER_ASC = "asc";
+    enum  string SORTORDER_DESC = "desc";
 
     protected int firstResult = -1;
     protected int maxResults = -1;

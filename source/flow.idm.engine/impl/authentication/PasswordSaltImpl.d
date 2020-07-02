@@ -14,7 +14,7 @@ module flow.idm.engine.authentication.PasswordSaltImpl;
 
 import flow.idm.api.PasswordSalt;
 import flow.idm.api.PasswordSaltProvider;
-
+import flow.idm.engine.authentication.TextSaltProvider;
 /**
  * @author faizal-manan
  */

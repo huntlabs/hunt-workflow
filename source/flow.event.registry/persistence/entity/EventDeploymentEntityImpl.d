@@ -13,6 +13,7 @@
 
 module flow.event.registry.persistence.entity.EventDeploymentEntityImpl;
 
+import hunt.String;
 import hunt.collection.ArrayList;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
@@ -89,10 +90,10 @@ class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,
 
     public Object getPersistentState() {
         Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        persistentState.put("category", this.category);
-        persistentState.put("tenantId", tenantId);
-        persistentState.put("parentDeploymentId", parentDeploymentId);
-        return persistentState;
+        persistentState.put("category", new String(this.category));
+        persistentState.put("tenantId", new String(tenantId));
+        persistentState.put("parentDeploymentId", new String(parentDeploymentId));
+        return cast(Object)persistentState;
     }
 
     // Deployed artifacts manipulation ////////////////////////////////////////////

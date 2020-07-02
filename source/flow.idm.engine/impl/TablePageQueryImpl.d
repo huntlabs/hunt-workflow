@@ -50,13 +50,13 @@ class TablePageQueryImpl : TablePageQuery, Command!TablePage {
 
 
     public TablePageQueryImpl orderAsc(string column) {
-        addOrder(column, AbstractQuery.SORTORDER_ASC);
+        addOrder(column, "asc");
         return this;
     }
 
 
     public TablePageQueryImpl orderDesc(string column) {
-        addOrder(column, AbstractQuery.SORTORDER_DESC);
+        addOrder(column, "desc");
         return this;
     }
 
@@ -77,7 +77,7 @@ class TablePageQueryImpl : TablePageQuery, Command!TablePage {
     public TablePage listPage(int firstResult, int maxResults) {
         this.firstResult = firstResult;
         this.maxResults = maxResults;
-        return commandExecutor.execute(this);
+        return cast(TablePage)(commandExecutor.execute(this));
     }
 
 

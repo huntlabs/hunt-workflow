@@ -62,7 +62,7 @@ class UserEntityImpl :  AbstractIdmEngineEntity , Model,UserEntity, HasRevision 
     }
 
     public Object getPersistentState() {
-        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        Map!(string, string) persistentState = new HashMap!(string, string)();
         persistentState.put("firstName", firstName);
         persistentState.put("lastName", lastName);
         persistentState.put("displayName", displayName);
@@ -74,7 +74,7 @@ class UserEntityImpl :  AbstractIdmEngineEntity , Model,UserEntity, HasRevision 
         //    persistentState.put("pictureByteArrayId", pictureByteArrayRef.getId());
         //}
 
-        return persistentState;
+        return cast(Object)persistentState;
     }
 
     public Picture getPicture() {

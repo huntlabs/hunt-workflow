@@ -109,6 +109,6 @@ class ResourceRef {
 
     override
     public string toString() {
-        return "ResourceRef[id=" ~ id ~ ", name=" ~ name ~ ", entity=" ~ entity ~ (deleted ? ", deleted]" : "]");
+        return "ResourceRef[id=" ~ id ~ ", name=" ~ name ;
     }
 }

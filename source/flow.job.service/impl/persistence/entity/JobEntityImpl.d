@@ -63,7 +63,7 @@ class JobEntityImpl : AbstractJobEntityImpl , Model,JobEntity {
 
 
     public Date getLockExpirationTime() {
-        return lockExpirationTime;
+        return Date.ofEpochMilli(cast(long)lockExpirationTime);
     }
 
 

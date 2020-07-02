@@ -95,7 +95,7 @@ class TimerJobServiceImpl : ServiceImpl , TimerJobService {
         foreach (TimerJobEntity job ; timerJobsForExecution) {
             timerJobEntityManager.dele(job);
             if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, job));
+                getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_CANCELED, cast(Object)job));
             }
         }
     }

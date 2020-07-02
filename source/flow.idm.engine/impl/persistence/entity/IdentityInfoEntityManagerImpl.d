@@ -12,7 +12,7 @@
  */
 module flow.idm.engine.impl.persistence.entity.IdentityInfoEntityManagerImpl;
 
-
+import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.HashSet;
 import hunt.collection.List;
@@ -40,7 +40,7 @@ class IdentityInfoEntityManagerImpl
     public void deleteUserInfoByUserIdAndKey(string userId, string key) {
         IdentityInfoEntity identityInfoEntity = findUserInfoByUserIdAndKey(userId, key);
         if (identityInfoEntity !is null) {
-            delete(identityInfoEntity);
+            dele(identityInfoEntity);
         }
     }
 
@@ -50,7 +50,12 @@ class IdentityInfoEntityManagerImpl
         if (accountPassword !is null) {
             storedPassword = encryptPassword(accountPassword, userPassword);
         }
-
+        List!string lst = new ArrayList!string;
+        foreach(MapEntry!(string,string) entry; accountDetails)
+        {
+          lst.add(entry.getKey());
+        }
+        Set!string newKeys = new HashSet!string(lst.toArray);
         IdentityInfoEntity identityInfoEntity = findUserInfoByUserIdAndKey(userId, key);
         if (identityInfoEntity !is null) {
             // update
@@ -61,8 +66,6 @@ class IdentityInfoEntityManagerImpl
             if (accountDetails is null) {
                 accountDetails = new HashMap!(string,string)();
             }
-
-            Set!string newKeys = new HashSet!string(accountDetails.byKey.array);
             List!IdentityInfoEntity identityInfoDetails = dataManager.findIdentityInfoDetails(identityInfoEntity.getId());
             foreach (IdentityInfoEntity identityInfoDetail ; identityInfoDetails) {
                 string detailKey = identityInfoDetail.getKey();
@@ -87,7 +90,7 @@ class IdentityInfoEntityManagerImpl
             identityInfoEntity.setPasswordBytes(storedPassword);
             insert(identityInfoEntity, false);
             if (accountDetails !is null) {
-                insertAccountDetails(identityInfoEntity, accountDetails, accountDetails.keySet());
+                insertAccountDetails(identityInfoEntity, accountDetails, newKeys);
             }
         }
     }
@@ -104,11 +107,11 @@ class IdentityInfoEntityManagerImpl
     }
 
     protected byte[] encryptPassword(string accountPassword, string userPassword) {
-        return accountPassword.getBytes();
+        return cast(byte[])accountPassword;
     }
 
     protected string decryptPassword(byte[] storedPassword, string userPassword) {
-        return new string(storedPassword);
+        return cast(string)(storedPassword);
     }
 
 

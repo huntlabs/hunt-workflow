@@ -23,7 +23,7 @@ import flow.common.interceptor.CommandExecutor;
 import flow.job.service.api.Job;
 import flow.job.service.event.impl.FlowableJobEventBuilder;
 import flow.job.service.impl.util.CommandContextUtil;
-
+import flow.job.service.impl.asyncexecutor.FailedJobCommandFactory;
 /**
  * @author Frederik Heremans
  * @author Saeid Mirzaei
@@ -52,7 +52,7 @@ class FailedJobListener : CommandContextCloseListener {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(
-                    FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_EXECUTION_SUCCESS, job));
+                    FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_EXECUTION_SUCCESS, cast(Object)job));
         }
     }
 
@@ -61,7 +61,7 @@ class FailedJobListener : CommandContextCloseListener {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityExceptionEvent(
-                    FlowableEngineEventType.JOB_EXECUTION_FAILURE, job, commandContext.getException()));
+                    FlowableEngineEventType.JOB_EXECUTION_FAILURE, cast(Object)job, commandContext.getException()));
         }
 
         CommandConfig commandConfig = commandExecutor.getDefaultConfig().transactionRequiresNew();

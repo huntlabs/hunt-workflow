@@ -32,7 +32,7 @@ class AbstractJobServiceEngineEntityManager(EntityImpl, DM)
 
     override
     protected FlowableEntityEvent createEntityEvent(FlowableEngineEventType eventType, Entity entity) {
-        return FlowableJobEventBuilder.createEntityEvent(eventType, entity);
+        return FlowableJobEventBuilder.createEntityEvent(eventType, cast(Object)entity);
     }
 
     protected void deleteByteArrayRef(JobByteArrayRef jobByteArrayRef) {

@@ -107,54 +107,36 @@ class SuspendedJobQueryImpl : AbstractQuery!(SuspendedJobQuery, Job) , Suspended
 
 
     public SuspendedJobQueryImpl elementName(string elementName) {
-        if (elementName is null) {
-            throw new FlowableIllegalArgumentException("Provided element name is null");
-        }
         this._elementName = elementName;
         return this;
     }
 
 
     public SuspendedJobQueryImpl scopeId(string scopeId) {
-        if (scopeId is null) {
-            throw new FlowableIllegalArgumentException("Provided scope id is null");
-        }
         this._scopeId = scopeId;
         return this;
     }
 
 
     public SuspendedJobQueryImpl subScopeId(string subScopeId) {
-        if (scopeId is null) {
-            throw new FlowableIllegalArgumentException("Provided sub scope id is null");
-        }
         this._subScopeId = subScopeId;
         return this;
     }
 
 
     public SuspendedJobQueryImpl scopeType(string scopeType) {
-        if (scopeType is null) {
-            throw new FlowableIllegalArgumentException("Provided scope type is null");
-        }
         this._scopeType = scopeType;
         return this;
     }
 
 
     public SuspendedJobQueryImpl scopeDefinitionId(string scopeDefinitionId) {
-        if (scopeDefinitionId is null) {
-            throw new FlowableIllegalArgumentException("Provided scope definitionid is null");
-        }
         this._scopeDefinitionId = scopeDefinitionId;
         return this;
     }
 
 
     public SuspendedJobQueryImpl caseInstanceId(string caseInstanceId) {
-        if (caseInstanceId is null) {
-            throw new FlowableIllegalArgumentException("Provided case instance id is null");
-        }
         scopeId(caseInstanceId);
         scopeType(ScopeTypes.CMMN);
         return this;
@@ -162,9 +144,6 @@ class SuspendedJobQueryImpl : AbstractQuery!(SuspendedJobQuery, Job) , Suspended
 
 
     public SuspendedJobQueryImpl caseDefinitionId(string caseDefinitionId) {
-        if (caseDefinitionId is null) {
-            throw new FlowableIllegalArgumentException("Provided case definition id is null");
-        }
         scopeDefinitionId(caseDefinitionId);
         scopeType(ScopeTypes.CMMN);
         return this;
@@ -172,9 +151,6 @@ class SuspendedJobQueryImpl : AbstractQuery!(SuspendedJobQuery, Job) , Suspended
 
 
     public SuspendedJobQueryImpl planItemInstanceId(string planItemInstanceId) {
-        if (planItemInstanceId is null) {
-            throw new FlowableIllegalArgumentException("Provided plan item instance id is null");
-        }
         subScopeId(planItemInstanceId);
         scopeType(ScopeTypes.CMMN);
         return this;
@@ -182,18 +158,12 @@ class SuspendedJobQueryImpl : AbstractQuery!(SuspendedJobQuery, Job) , Suspended
 
 
     public SuspendedJobQueryImpl executionId(string executionId) {
-        if (executionId is null) {
-            throw new FlowableIllegalArgumentException("Provided execution id is null");
-        }
         this._executionId = executionId;
         return this;
     }
 
 
     public SuspendedJobQueryImpl handlerType(string handlerType) {
-        if (handlerType is null) {
-            throw new FlowableIllegalArgumentException("Provided handlerType is null");
-        }
         this._handlerType = handlerType;
         return this;
     }
@@ -406,7 +376,8 @@ class SuspendedJobQueryImpl : AbstractQuery!(SuspendedJobQuery, Job) , Suspended
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+        return 0;
+      //  return serialVersionUID;
     }
 
     public string getId() {

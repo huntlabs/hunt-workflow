@@ -63,7 +63,7 @@ class EventSubscriptionEntityImpl : AbstractEventSubscriptionEntity , Model, Eve
     string tenantId;
 
     this() {
-        this.created = CommandContextUtil.getEventSubscriptionServiceConfiguration().getClock().getCurrentTime();
+        this.created = CommandContextUtil.getEventSubscriptionServiceConfiguration().getClock().getCurrentTime().toEpochMilli;
     }
 
     public string getId() {
@@ -156,12 +156,12 @@ class EventSubscriptionEntityImpl : AbstractEventSubscriptionEntity , Model, Eve
 
 
     public Date getCreated() {
-        return created;
+        return Date.ofEpochMilli(created);
     }
 
 
     public void setCreated(Date created) {
-        this.created = created;
+        this.created = created.toEpochMilli;
     }
 
 

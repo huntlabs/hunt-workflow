@@ -15,7 +15,7 @@ module flow.idm.engine.impl.persistence.entity.UserEntityManagerImpl;
 
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import flow.idm.engine.impl.persistence.entity.IdentityInfoEntity;
 import flow.idm.api.PasswordEncoder;
 import flow.idm.api.PasswordSalt;
 import flow.idm.api.Picture;
@@ -81,7 +81,7 @@ class UserEntityManagerImpl
                 getIdentityInfoEntityManager().dele(identityInfo);
             }
             getMembershipEntityManager().deleteMembershipByUserId(userId);
-            delete(user);
+            dele(user);
         }
     }
 

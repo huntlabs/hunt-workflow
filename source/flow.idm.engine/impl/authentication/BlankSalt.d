@@ -15,6 +15,7 @@ module flow.idm.engine.authentication.BlankSalt;
 import flow.idm.api.PasswordSalt;
 import flow.idm.api.PasswordSaltProvider;
 import std.concurrency : initOnce;
+import flow.idm.engine.authentication.BlankSaltProvider;
 /**
  * @author faizal-manan
  */

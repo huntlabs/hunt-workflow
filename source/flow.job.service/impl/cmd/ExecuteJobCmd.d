@@ -65,7 +65,7 @@ class ExecuteJobCmd : Command!Object {
             CommandContextUtil.getJobManager(commandContext).execute(job);
         } catch (Throwable exception) {
             // Finally, Throw the exception to indicate the ExecuteJobCmd failed
-            throw new FlowableException("Job " + jobId + " failed", exception);
+            throw new FlowableException("Job " ~ jobId ~ " failed", exception);
         }
 
         return null;

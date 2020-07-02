@@ -42,7 +42,7 @@ class PrivilegeMappingEntityImpl : AbstractIdmEngineEntity , Model, PrivilegeMap
         state.put("privilegeId", privilegeId);
         state.put("userId", userId);
         state.put("groupId", groupId);
-        return state;
+        return cast(Object)state;
     }
 
 

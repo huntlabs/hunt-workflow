@@ -131,12 +131,14 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
     public EventDeploymentQuery createDeploymentQuery() {
         implementationMissing(false);
+        return null;
         //return new EventDeploymentQueryImpl(commandExecutor);
     }
 
 
     public EventDefinition getEventDefinition(string eventDefinitionId) {
         implementationMissing(false);
+        return null;
        // return commandExecutor.execute(new GetEventDefinitionCmd(eventDefinitionId));
     }
 
@@ -154,6 +156,7 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
     public ChannelDefinition getChannelDefinition(string channelDefinitionId) {
       implementationMissing(false);
+      return null;
       //  return commandExecutor.execute(new GetChannelDefinitionCmd(channelDefinitionId));
     }
 

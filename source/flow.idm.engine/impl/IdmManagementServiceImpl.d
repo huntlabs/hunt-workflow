@@ -30,6 +30,7 @@ import flow.idm.engine.impl.cmd.GetTableMetaDataCmd;
 import flow.idm.engine.impl.cmd.GetTableNameCmd;
 import flow.idm.engine.impl.util.CommandContextUtil;
 import hunt.Exceptions;
+import hunt.String;
 /**
  * @author Tijs Rademakers
  */
@@ -37,7 +38,7 @@ class IdmManagementServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration 
 
 
     public Map!(string, long) getTableCount() {
-        return commandExecutor.execute(new GetTableCountCmd());
+        return cast(Map!(string, long))(commandExecutor.execute(new GetTableCountCmd()));
     }
 
 
@@ -45,11 +46,11 @@ class IdmManagementServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration 
     //    return commandExecutor.execute(new GetTableNameCmd(entityClass));
     //}
     public string getTableName(TypeInfo entityClass) {
-        return commandExecutor.execute(new GetTableNameCmd(entityClass));
+        return (cast(String)(commandExecutor.execute(new GetTableNameCmd(entityClass)))).value;
     }
 
     public TableMetaData getTableMetaData(string tableName) {
-        return commandExecutor.execute(new GetTableMetaDataCmd(tableName));
+        return cast(TableMetaData)(commandExecutor.execute(new GetTableMetaDataCmd(tableName)));
     }
 
 
@@ -61,7 +62,7 @@ class IdmManagementServiceImpl : CommonEngineServiceImpl!IdmEngineConfiguration 
 
 
     public Map!(string, string) getProperties() {
-        return commandExecutor.execute(new GetPropertiesCmd());
+        return cast(Map!(string, string))(commandExecutor.execute(new GetPropertiesCmd()));
     }
 
     //

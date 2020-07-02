@@ -17,6 +17,8 @@ import flow.common.cfg.multitenant.TenantInfoHolder;
 import flow.job.service.api.JobInfo;
 import flow.job.service.JobServiceConfiguration;
 import flow.job.service.impl.asyncexecutor.ExecuteAsyncRunnable;
+import flow.job.service.impl.persistence.entity.JobInfoEntityManager;
+import flow.job.service.impl.persistence.entity.JobInfoEntity;
 
 /**
  * Extends the default {@link ExecuteAsyncRunnable} by setting the 'tenant' context before executing.
@@ -29,7 +31,7 @@ class TenantAwareExecuteAsyncRunnable : ExecuteAsyncRunnable {
     protected string tenantId;
 
     this(JobInfo job, JobServiceConfiguration jobServiceConfiguration, TenantInfoHolder tenantInfoHolder, string tenantId) {
-        super(job, jobServiceConfiguration, jobServiceConfiguration.getJobEntityManager(), null);
+        super(job, jobServiceConfiguration, cast(JobInfoEntityManager!JobInfoEntity)(jobServiceConfiguration.getJobEntityManager()), null);
         this.tenantInfoHolder = tenantInfoHolder;
         this.tenantId = tenantId;
     }

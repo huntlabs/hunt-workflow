@@ -52,7 +52,7 @@ class AsyncJobMessageReceiver {
         this.asyncJobMessageHandler = asyncJobMessageHandler;
     }
 
-    public void messageForJobReceived(final string jobId) {
+    public void messageForJobReceived(string jobId) {
         if (jobServiceConfiguration is null) {
             throw new FlowableException("Programmatic error: this class needs a JobServiceEngineConfiguration instance");
         }
@@ -69,12 +69,12 @@ class AsyncJobMessageReceiver {
 
                 List!Job jobs = jobEntityManager.findJobsByQueryCriteria(query);
                 if (jobs is null || jobs.isEmpty()) {
-                    throw new FlowableException("No job found for job id " + jobId);
+                    throw new FlowableException("No job found for job id " ~ jobId);
                 }
                 if (jobs.size() > 1) {
-                    throw new FlowableException("Multiple results for job id " + jobId);
+                    throw new FlowableException("Multiple results for job id " ~ jobId);
                 }
-                if (cast(JobEntity)(jobs.get(0) is null)) {
+                if (cast(JobEntity)(jobs.get(0)) is null) {
                     throw new FlowableException("Job with id " ~ jobId ~ " is not an instance of job entity, cannot handle this job");
                 }
 

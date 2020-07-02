@@ -45,7 +45,7 @@ class ExecuteAsyncJobCmd : Command!Object {
     public Object execute(CommandContext commandContext) {
 
         if (jobEntityManager is null) {
-            jobEntityManager = CommandContextUtil.getJobEntityManager(commandContext); // Backwards compatibility
+            jobEntityManager = cast(JobInfoEntityManager!JobInfoEntity)(CommandContextUtil.getJobEntityManager(commandContext)); // Backwards compatibility
         }
 
         if (jobId is null) {
@@ -75,7 +75,7 @@ class ExecuteAsyncJobCmd : Command!Object {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(
-                    FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_EXECUTION_SUCCESS, job));
+                    FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.JOB_EXECUTION_SUCCESS, cast(Object)job));
         }
 
         return null;

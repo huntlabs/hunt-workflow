@@ -89,7 +89,7 @@ class DeadLetterJobEntityManagerImpl
 
         // Send event
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled()) {
-            getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, jobEntity));
+            getEventDispatcher().dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)jobEntity));
         }
     }
 

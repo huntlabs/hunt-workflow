@@ -12,7 +12,7 @@
  */
 module flow.idm.engine.impl.persistence.entity.ByteArrayRef;
 
-
+import flow.idm.engine.impl.persistence.entity.ByteArrayEntityManager;
 import flow.idm.engine.impl.util.CommandContextUtil;
 import flow.idm.engine.impl.persistence.entity.IdmByteArrayEntity;
 /**
@@ -105,6 +105,6 @@ class ByteArrayRef {
 
     override
     public string toString() {
-        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ ", entity=" ~ entity ~ (deleted ? ", deleted]" : "]");
+        return "ByteArrayRef[id=" ~ id ~ ", name=" ~ name ~ (deleted ? ", deleted]" : "]");
     }
 }

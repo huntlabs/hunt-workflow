@@ -363,7 +363,8 @@ class DeadLetterJobQueryImpl : AbstractQuery!(DeadLetterJobQuery, Job) , DeadLet
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+        return 0;
+       // return serialVersionUID;
     }
 
     public string getId() {

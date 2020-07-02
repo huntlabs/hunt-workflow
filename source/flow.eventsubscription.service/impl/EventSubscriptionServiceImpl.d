@@ -13,7 +13,7 @@
 module flow.eventsubscription.service.impl.EventSubscriptionServiceImpl;
 
 import hunt.collection.List;
-
+import flow.eventsubscription.service.impl.EventSubscriptionBuilderImpl;
 import flow.common.service.CommonServiceImpl;
 import flow.eventsubscription.service.api.EventSubscription;
 import flow.eventsubscription.service.api.EventSubscriptionBuilder;

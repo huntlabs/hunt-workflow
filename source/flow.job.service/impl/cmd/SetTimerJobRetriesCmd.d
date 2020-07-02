@@ -26,6 +26,7 @@ import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.util.CommandContextUtil;
 import hunt.Object;
 import hunt.logging;
+import std.conv : to;
 /**
  * @author Tijs Rademakers
  */
@@ -35,11 +36,11 @@ class SetTimerJobRetriesCmd : Command!Void {
     private  int retries;
 
     this(string jobId, int retries) {
-        if (jobId is null || jobId.length() < 1) {
+        if (jobId is null || jobId.length < 1) {
             throw new FlowableIllegalArgumentException("The job id is mandatory, but '" ~ jobId ~ "' has been provided.");
         }
         if (retries < 0) {
-            throw new FlowableIllegalArgumentException("The number of job retries must be a non-negative Integer, but '" ~ retries ~ "' has been provided.");
+            throw new FlowableIllegalArgumentException("The number of job retries must be a non-negative Integer, but '" ~ to!string(retries) ~ "' has been provided.");
         }
         this.jobId = jobId;
         this.retries = retries;
@@ -53,7 +54,7 @@ class SetTimerJobRetriesCmd : Command!Void {
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-                eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, job));
+                eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, cast(Object)job));
             }
         } else {
             throw new FlowableObjectNotFoundException("No timer job found with id '" ~ jobId ~ "'.");

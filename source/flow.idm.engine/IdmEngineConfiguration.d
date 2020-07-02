@@ -17,7 +17,7 @@ import hunt.collection.ArrayList;
 import hunt.collection.List;
 import hunt.collection.Map;
 import hunt.collection.Set;
-
+//import flow.idm.engine.MybatisGroupDataManager;
 import flow.idm.engine.IdmEngines;
 import flow.idm.engine.IdmEngine;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -86,7 +86,7 @@ import flow.idm.engine.impl.persistence.entity.data.impl.MybatisPrivilegeMapping
 import flow.idm.engine.impl.persistence.entity.data.impl.MybatisPropertyDataManager;
 import flow.idm.engine.impl.persistence.entity.data.impl.MybatisTokenDataManager;
 import flow.idm.engine.impl.persistence.entity.data.impl.MybatisUserDataManager;
-
+import flow.common.api.deleg.event.FlowableEventType;
 
 
 
@@ -231,8 +231,8 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     // /////////////////////////////////////////////////////////////////
 
     protected void initServices() {
-        initService(idmIdentityService);
-        initService(idmManagementService);
+        initService(cast(Object)idmIdentityService);
+        initService(cast(Object)idmManagementService);
     }
 
     // Data managers
@@ -245,10 +245,10 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
             byteArrayDataManager = new MybatisByteArrayDataManager(this);
         }
         if (groupDataManager is null) {
-            groupDataManager = new MybatisGroupDataManager(this);
+          //  groupDataManager = new MybatisGroupDataManager(this);
         }
         if (identityInfoDataManager is null) {
-            identityInfoDataManager = new MybatisIdentityInfoDataManager(this);
+            //identityInfoDataManager = new MybatisIdentityInfoDataManager(this);
         }
         if (membershipDataManager is null) {
             membershipDataManager = new MybatisMembershipDataManager(this);
@@ -328,9 +328,10 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
     //}
     //
     //
-    //protected void initDbSqlSessionFactoryEntitySettings() {
-    //    defaultInitDbSqlSessionFactoryEntitySettings(EntityDependencyOrder.INSERT_ORDER, EntityDependencyOrder.DELETE_ORDER);
-    //}
+    override
+    protected void initDbSqlSessionFactoryEntitySettings() {
+        //defaultInitDbSqlSessionFactoryEntitySettings(EntityDependencyOrder.INSERT_ORDER, EntityDependencyOrder.DELETE_ORDER);
+    }
     //
     //public void initPasswordEncoder() {
     //    if (passwordEncoder is null) {
@@ -406,9 +407,13 @@ class IdmEngineConfiguration : AbstractEngineConfiguration , IdmEngineConfigurat
             foreach (MapEntry!(string, List!FlowableEventListener) listenersToAdd ; typedEventListeners) {
                 // Extract types from the given string
                 FlowableIdmEventType[] types = FlowableIdmEventType.getTypesFromString(listenersToAdd.getKey());
-
+                FlowableEventType[] castTypes;
+                foreach (FlowableIdmEventType f ; types) //FlowableEventType
+                {
+                     castTypes ~= cast(FlowableEventType)f;
+                }
                 foreach (FlowableEventListener listenerToAdd ; listenersToAdd.getValue()) {
-                    this.eventDispatcher.addEventListener(listenerToAdd, types);
+                    this.eventDispatcher.addEventListener(listenerToAdd, castTypes);
                 }
             }
         }

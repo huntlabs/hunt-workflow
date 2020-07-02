@@ -22,7 +22,7 @@ import flow.common.query.AbstractQuery;
 import flow.event.registry.api.EventDeployment;
 import flow.event.registry.api.EventDeploymentQuery;
 import flow.event.registry.util.CommandContextUtil;
-
+import flow.event.registry.DeploymentQueryProperty;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez

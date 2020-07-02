@@ -22,6 +22,7 @@ import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 import flow.job.service.impl.persistence.entity.AbstractJobServiceEntity;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import hunt.entity;
+import hunt.String;
 
 alias Date = LocalDateTime;
 /**
@@ -95,7 +96,7 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
     private void putByteArrayRefIdToMap(string key, JobByteArrayRef jobByteArrayRef, Map!(string, Object) map) {
         if(jobByteArrayRef !is null) {
-            map.put(key, jobByteArrayRef.getId());
+            map.put(key, new String(jobByteArrayRef.getId()));
         }
     }
 
@@ -237,7 +238,7 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = cast(int)Date.toEpochMilli(createTime);
+        this.createTime = cast(int)createTime.toEpochMilli();
     }
 
 
@@ -258,7 +259,7 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
 
     public void setLockExpirationTime(Date claimedUntil) {
-        this.lockExpirationTime = cast(int)Date.toEpochMilli(claimedUntil);
+        this.lockExpirationTime = cast(int)claimedUntil.toEpochMilli();
     }
 
 

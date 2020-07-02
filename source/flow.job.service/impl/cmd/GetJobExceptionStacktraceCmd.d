@@ -43,17 +43,19 @@ class GetJobExceptionStacktraceCmd : Command!string {
 
         AbstractRuntimeJobEntity job = null;
         switch (jobType) {
-        case ASYNC:
+        case JobType.ASYNC:
             job = CommandContextUtil.getJobEntityManager(commandContext).findById(jobId);
             break;
-        case TIMER:
+        case JobType.TIMER:
             job = CommandContextUtil.getTimerJobEntityManager(commandContext).findById(jobId);
             break;
-        case SUSPENDED:
+        case JobType.SUSPENDED:
             job = CommandContextUtil.getSuspendedJobEntityManager(commandContext).findById(jobId);
             break;
-        case DEADLETTER:
+        case JobType.DEADLETTER:
             job = CommandContextUtil.getDeadLetterJobEntityManager(commandContext).findById(jobId);
+            break;
+        default:
             break;
         }
 

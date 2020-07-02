@@ -13,7 +13,7 @@
 
 module flow.job.service.impl.cmd.SetJobRetriesCmd;
 
-
+import std.conv : to;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.FlowableObjectNotFoundException;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -35,11 +35,11 @@ class SetJobRetriesCmd : Command!Void{
     private  int retries;
 
     this(string jobId, int retries) {
-        if (jobId is null || jobId.length() < 1) {
+        if (jobId is null || jobId.length < 1) {
             throw new FlowableIllegalArgumentException("The job id is mandatory, but '" ~ jobId ~ "' has been provided.");
         }
         if (retries < 0) {
-            throw new FlowableIllegalArgumentException("The number of job retries must be a non-negative Integer, but '" ~ retries ~ "' has been provided.");
+            throw new FlowableIllegalArgumentException("The number of job retries must be a non-negative Integer, but '" ~ to!string(retries) ~ "' has been provided.");
         }
         this.jobId = jobId;
         this.retries = retries;
@@ -53,7 +53,7 @@ class SetJobRetriesCmd : Command!Void{
 
             FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher(commandContext);
             if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-                eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, job));
+                eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_UPDATED, cast(Object)job));
             }
         } else {
             throw new FlowableObjectNotFoundException("No job found with id '" ~ jobId ~ "'.");

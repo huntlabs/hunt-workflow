@@ -62,7 +62,7 @@ class MybatisUserDataManager  : EntityRepository!( UserEntityImpl , string),  Us
 
     public long findUserCountByQueryCriteria(UserQueryImpl query) {
         implementationMissing(false);
-        return null;
+        return 0;
         //return (Long) getDbSqlSession().selectOne("selectUserCountByQueryCriteria", query);
     }
 

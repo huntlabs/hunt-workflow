@@ -12,11 +12,10 @@
  */
 module flow.job.service.impl.asyncexecutor.DefaultJobManager;
 
-//import java.util.Calendar;
 import hunt.time.LocalDateTime;
 //import java.util.GregorianCalendar;
 import hunt.collection.Map;
-
+import flow.job.service.impl.asyncexecutor.AsyncJobAddedNotification;
 //import org.apache.commons.lang3.StringUtils;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -122,7 +121,7 @@ class DefaultJobManager : JobManager {
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
             eventDispatcher.dispatchEvent(
-                    FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_SCHEDULED, timerJob));
+                    FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.TIMER_SCHEDULED, cast(Object)timerJob));
         }
     }
 
@@ -455,6 +454,7 @@ class DefaultJobManager : JobManager {
 
     protected bool isValidTime(JobEntity timerEntity, Date newTimerDate, VariableScope variableScope) {
         implementationMissing(false);
+        return false;
         //BusinessCalendar businessCalendar = jobServiceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
         //        getBusinessCalendarName(timerEntity, variableScope));
         //return businessCalendar.validateDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations(), timerEntity.getEndDate(), newTimerDate);
@@ -536,14 +536,15 @@ class DefaultJobManager : JobManager {
     }
 
     protected void createAsyncHistoryHintListeners(HistoryJobEntity historyJobEntity) {
-        CommandContext commandContext = CommandContextUtil.getCommandContext();
-        AsyncHistorySession asyncHistorySession = commandContext.getSession(typeid(AsyncHistorySession));
-        if (asyncHistorySession !is null) {
-            TransactionContext transactionContext = asyncHistorySession.getTransactionContext();
-            if (transactionContext !is null) {
-                transactionContext.addTransactionListener(TransactionState.COMMITTED, new TriggerAsyncHistoryExecutorTransactionListener(commandContext, historyJobEntity));
-            }
-        }
+        implementationMissing(false);
+        //CommandContext commandContext = CommandContextUtil.getCommandContext();
+        //AsyncHistorySession asyncHistorySession = commandContext.getSession(typeid(AsyncHistorySession));
+        //if (asyncHistorySession !is null) {
+        //    TransactionContext transactionContext = asyncHistorySession.getTransactionContext();
+        //    if (transactionContext !is null) {
+        //        transactionContext.addTransactionListener(TransactionState.COMMITTED, new TriggerAsyncHistoryExecutorTransactionListener(commandContext, historyJobEntity));
+        //    }
+        //}
     }
 
     protected void internalCreateAsyncJob(JobEntity jobEntity, bool exclusive) {
@@ -556,11 +557,12 @@ class DefaultJobManager : JobManager {
     }
 
     protected void setLockTimeAndOwner(AsyncExecutor asyncExecutor , JobInfoEntity jobInfoEntity) {
-        GregorianCalendar gregorianCalendar = new GregorianCalendar();
-        gregorianCalendar.setTime(jobServiceConfiguration.getClock().getCurrentTime());
-        gregorianCalendar.add(Calendar.MILLISECOND, asyncExecutor.getAsyncJobLockTimeInMillis());
-        jobInfoEntity.setLockExpirationTime(gregorianCalendar.getTime());
-        jobInfoEntity.setLockOwner(asyncExecutor.getLockOwner());
+        implementationMissing(false);
+        //GregorianCalendar gregorianCalendar = new GregorianCalendar();
+        //gregorianCalendar.setTime(jobServiceConfiguration.getClock().getCurrentTime());
+        //gregorianCalendar.add(Calendar.MILLISECOND, asyncExecutor.getAsyncJobLockTimeInMillis());
+        //jobInfoEntity.setLockExpirationTime(gregorianCalendar.getTime());
+        //jobInfoEntity.setLockOwner(asyncExecutor.getLockOwner());
     }
 
     protected void fillDefaultAsyncJobInfo(JobEntity jobEntity, bool exclusive) {
@@ -576,11 +578,12 @@ class DefaultJobManager : JobManager {
         copyJobInfo(executableJob, job);
 
         if (isAsyncExecutorActive()) {
-            GregorianCalendar gregorianCalendar = new GregorianCalendar();
-            gregorianCalendar.setTime(jobServiceConfiguration.getClock().getCurrentTime());
-            gregorianCalendar.add(Calendar.MILLISECOND, getAsyncExecutor().getTimerLockTimeInMillis());
-            executableJob.setLockExpirationTime(gregorianCalendar.getTime());
-            executableJob.setLockOwner(getAsyncExecutor().getLockOwner());
+            implementationMissing(false);
+            //GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            //gregorianCalendar.setTime(jobServiceConfiguration.getClock().getCurrentTime());
+            //gregorianCalendar.add(Calendar.MILLISECOND, getAsyncExecutor().getTimerLockTimeInMillis());
+            //executableJob.setLockExpirationTime(gregorianCalendar.getTime());
+            //executableJob.setLockOwner(getAsyncExecutor().getLockOwner());
         }
 
         return executableJob;

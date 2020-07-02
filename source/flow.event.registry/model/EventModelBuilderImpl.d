@@ -171,7 +171,7 @@ class EventModelBuilderImpl : EventModelBuilder {
         EventModel eventModel = new EventModel();
 
         if (_key !is null && _key.length != 0) {
-            eventModel.setKey(key);
+            eventModel.setKey(_key);
         } else {
             throw new FlowableIllegalArgumentException("An event definition key is mandatory");
         }

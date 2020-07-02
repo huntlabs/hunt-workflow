@@ -15,7 +15,7 @@ module flow.event.registry.EventDefinitionQueryImpl;
 
 import hunt.collection.List;
 import hunt.collection.Set;
-
+import flow.event.registry.EventDefinitionQueryProperty;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
@@ -193,11 +193,11 @@ class EventDefinitionQueryImpl : AbstractQuery!(EventDefinitionQuery, EventDefin
     }
 
     protected void checkVersion(int _version) {
-        if (_version is null) {
-            throw new FlowableIllegalArgumentException("_version is null");
-        } else if (_version <= 0) {
-            throw new FlowableIllegalArgumentException("_version must be positive");
-        }
+        //if (_version is null) {
+        //    throw new FlowableIllegalArgumentException("_version is null");
+        //} else if (_version <= 0) {
+        //    throw new FlowableIllegalArgumentException("_version must be positive");
+        //}
     }
 
 

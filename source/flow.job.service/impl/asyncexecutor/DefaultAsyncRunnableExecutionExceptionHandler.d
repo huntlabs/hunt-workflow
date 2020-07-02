@@ -26,6 +26,8 @@ import flow.job.service.impl.util.CommandContextUtil;
 import flow.job.service.impl.asyncexecutor.AsyncRunnableExecutionExceptionHandler;
 import flow.job.service.impl.asyncexecutor.FailedJobCommandFactory;
 import hunt.Object;
+import hunt.logging;
+
 /**
  * @author martin.grofcik
  */
@@ -60,9 +62,9 @@ class DefaultAsyncRunnableExecutionExceptionHandler : AsyncRunnableExecutionExce
                 if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
                     try {
                         eventDispatcher
-                            .dispatchEvent(FlowableJobEventBuilder.createEntityExceptionEvent(FlowableEngineEventType.JOB_EXECUTION_FAILURE, job, exception));
+                            .dispatchEvent(FlowableJobEventBuilder.createEntityExceptionEvent(FlowableEngineEventType.JOB_EXECUTION_FAILURE, cast(Object)job, exception));
                     } catch (Throwable ignore) {
-                        LOGGER.warn("Exception occurred while dispatching job failure event, ignoring.", ignore);
+                        logWarning("Exception occurred while dispatching job failure event, ignoring.", ignore);
                     }
                 }
 

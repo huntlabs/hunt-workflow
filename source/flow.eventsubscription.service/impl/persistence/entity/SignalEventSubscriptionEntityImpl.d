@@ -14,7 +14,7 @@
 module flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntityImpl;
 
 //import java.text.MessageFormat;
-
+import std.string;
 import flow.bpmn.model.Signal;
 import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityImpl;
@@ -36,7 +36,7 @@ class SignalEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , SignalEv
 
     override
     public void setConfiguration(string configuration) {
-        if (configuration !is null && configuration.contains("{\"scope\":")) {
+        if (configuration !is null && configuration.indexOf("{\"scope\":") != -1) {
             this.configuration = configuration;
         } else {
             implementationMissing(false);
@@ -60,7 +60,7 @@ class SignalEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , SignalEv
         if (this.configuration is null) {
             return null;
         } else {
-            return  this.configuration[10 .. this.configuration.length() - 2];
+            return  this.configuration[10 .. this.configuration.length - 2];
            // return this.configuration.substring(10, this.configuration.length() - 2); // 10 --> length of {"scope": and -2 for removing"}
         }
     }

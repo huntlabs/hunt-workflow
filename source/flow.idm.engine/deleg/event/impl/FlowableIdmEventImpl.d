@@ -47,7 +47,8 @@ class FlowableIdmEventImpl : FlowableEvent {
 
     override
     public string toString() {
-        return getClass() ~ " - " ~ type;
+        //return getClass() ~ " - " ~ type;
+        return "";
     }
 
 }

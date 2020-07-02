@@ -177,7 +177,7 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
     }
 
     public static EventRegistryEngineConfiguration createEventRegistryEngineConfigurationFromResource(string resource, string beanName) {
-        implementationMissing(factory);
+        implementationMissing(false);
         return null;
       //  return cast(EventRegistryEngineConfiguration) BeansConfigurationHelper.parseEngineConfigurationFromResource(resource, beanName);
     }
@@ -187,7 +187,7 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
     }
 
     public static EventRegistryEngineConfiguration createEventRegistryEngineConfigurationFromInputStream(InputStream inputStream, string beanName) {
-        implementationMissing(factory);
+        implementationMissing(false);
         return null;
       //return cast(EventRegistryEngineConfiguration) BeansConfigurationHelper.parseEngineConfigurationFromInputStream(inputStream, beanName);
     }
@@ -267,8 +267,8 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
     // /////////////////////////////////////////////////////////////////
 
     protected void initServices() {
-        initService(eventRepositoryService);
-        initService(eventManagementService);
+        initService(cast(Object)eventRepositoryService);
+        initService(cast(Object)eventManagementService);
     }
 
     public void initExpressionManager() {

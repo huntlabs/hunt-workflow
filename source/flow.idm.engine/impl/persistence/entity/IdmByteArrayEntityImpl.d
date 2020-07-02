@@ -15,6 +15,8 @@ module flow.idm.engine.impl.persistence.entity.IdmByteArrayEntityImpl;
 import hunt.entity;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
 import flow.idm.engine.impl.persistence.entity.IdmByteArrayEntity;
+import std.conv : to;
+
 /**
  * @author Tijs Rademakers
  * @author Marcus Klimstra (CGI)
@@ -41,7 +43,8 @@ class PersistentState {
 
   override
   public size_t toHash() {
-    throw new UnsupportedOperationException();
+      return 0;
+    //throw new UnsupportedOperationException();
   }
 
 }
@@ -89,7 +92,7 @@ class IdmByteArrayEntityImpl : AbstractIdmEngineEntity , Model, IdmByteArrayEnti
 
     override
     public string toString() {
-        return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ (bytes !is null ? bytes.length : 0) ~ "]";
+        return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ to!string(bytes !is null ? bytes.length : 0) ~ "]";
     }
 
     // Wrapper for a byte array, needed to do byte array comparisons

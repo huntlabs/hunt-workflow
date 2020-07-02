@@ -82,7 +82,7 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
     }
 
 
-    public bool executeAsyncJob(final JobInfo job) {
+    public bool executeAsyncJob(JobInfo job) {
         if (_isMessageQueueMode) {
             // When running with a message queue based job executor,
             // the job is not executed here.
@@ -100,13 +100,13 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
         return true;
     }
 
-    protected abstract bool executeAsyncJob(final JobInfo job, Runnable runnable);
+    protected abstract bool executeAsyncJob(JobInfo job, Runnable runnable);
 
     protected void unlockOwnedJobs() {
         jobServiceConfiguration.getCommandExecutor().execute(new UnacquireOwnedJobsCmd(lockOwner, tenantId));
     }
 
-    protected Runnable createRunnableForJob(final JobInfo job) {
+    protected Runnable createRunnableForJob( JobInfo job) {
         if (executeAsyncRunnableFactory is null) {
             implementationMissing(false);
             return null;
@@ -135,7 +135,7 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
 
     protected void initializeJobEntityManager() {
         if (jobEntityManager is null) {
-            jobEntityManager = jobServiceConfiguration.getJobEntityManager();
+            jobEntityManager = cast(JobInfoEntityManager!JobInfoEntity)(jobServiceConfiguration.getJobEntityManager());
         }
     }
 
@@ -172,7 +172,7 @@ abstract class AbstractAsyncExecutor : AsyncExecutor {
 
     /** Shuts down the whole job executor */
 
-    public synchronized void shutdown() {
+    public  void shutdown() {
         if (!_isActive) {
             return;
         }

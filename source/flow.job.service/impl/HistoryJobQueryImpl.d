@@ -218,7 +218,8 @@ class HistoryJobQueryImpl : AbstractQuery!(HistoryJobQuery, HistoryJob) , Histor
     }
 
     public static long getSerialversionuid() {
-        return serialVersionUID;
+       // return serialVersionUID;
+        return 0;
     }
 
     public string getId() {

@@ -32,11 +32,13 @@ class EventManagementServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
     public Map!(string, long) getTableCounts() {
         implementationMissing(false);
+        return null;
        // return commandExecutor.execute(new GetTableCountsCmd());
     }
 
     public Collection!string getTableNames() {
         implementationMissing(false);
+        return null;
        // return commandExecutor.execute(new GetTableNamesCmd());
     }
 

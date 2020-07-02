@@ -72,7 +72,7 @@ class EventRegistryEngineImpl : EventRegistryEngine {
         foreach (ChannelDefinition channelDefinition ; channelDefinitions) {
             // Getting the channel model will trigger a deployment and set up the channel and associated adapters
             ChannelModel channelModel = repositoryService.getChannelModelById(channelDefinition.getId());
-            logInfo("Booted up channel {%s} ", channelModel.getKey().value);
+            logInfo("Booted up channel {%s} ", channelModel.getKey());
         }
     }
 
