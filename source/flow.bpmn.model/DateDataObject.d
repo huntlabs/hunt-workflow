@@ -18,6 +18,9 @@ import hunt.time.LocalDateTime;
 import hunt.String;
 import std.datetime.systime;
 import std.string;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.DataObject;
 //import java.text.DateFormat;
 //import java.text.ParseException;
 //import hunt.time.LocalDateTime;
@@ -38,6 +41,11 @@ import std.string;
 alias Date = LocalDateTime;
 
 class DateDataObject : ValuedDataObject {
+
+  alias setValues = DataObject.setValues;
+  alias setValues = FlowElement.setValues;
+    alias setValues = BaseElement.setValues;
+  alias setValues = ValuedDataObject.setValues;
 
     override
     public void setValue(Object value) {

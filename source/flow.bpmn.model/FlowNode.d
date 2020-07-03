@@ -17,6 +17,7 @@ import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.SequenceFlow;
+import flow.bpmn.model.BaseElement;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -24,7 +25,8 @@ import flow.bpmn.model.SequenceFlow;
  * @author Joram Barrez
  */
 abstract class FlowNode : FlowElement {
-
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
     protected bool asynchronous;
     protected bool notExclusive;
 

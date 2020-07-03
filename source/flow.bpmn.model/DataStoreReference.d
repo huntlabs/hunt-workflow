@@ -13,8 +13,13 @@
 module flow.bpmn.model.DataStoreReference;
 
 import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 
 class DataStoreReference : FlowElement {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
 
     protected string dataState;
     protected string itemSubjectRef;

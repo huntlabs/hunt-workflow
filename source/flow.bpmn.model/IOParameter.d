@@ -18,7 +18,7 @@ import flow.bpmn.model.BaseElement;
  * @author Tijs Rademakers
  */
 class IOParameter : BaseElement {
-
+   alias setValues = BaseElement.setValues;
     protected string source;
     protected string sourceExpression;
     protected string target;

@@ -18,6 +18,7 @@ import flow.bpmn.model.BaseElement;
  */
 class DataGridField : BaseElement {
 
+    alias setValues = BaseElement.setValues;
     protected string name;
     protected string value;
 

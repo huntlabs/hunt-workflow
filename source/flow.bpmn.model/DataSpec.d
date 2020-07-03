@@ -12,11 +12,14 @@
  */
 module flow.bpmn.model.DataSpec;
 
+import  flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BaseElement;
 
 class DataSpec : BaseElement {
 
-    protected string name;
+  alias setValues = BaseElement.setValues;
+
+  protected string name;
     protected string itemSubjectRef;
     protected bool _isCollection;
 

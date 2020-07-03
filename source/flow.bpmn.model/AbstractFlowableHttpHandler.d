@@ -31,6 +31,7 @@ import flow.bpmn.model.FieldExtension;
  * @author Tijs Rademakers
  */
 abstract class AbstractFlowableHttpHandler : BaseElement {
+    alias setValues = BaseElement.setValues;
 
     protected string implementationType;
     protected string implementation;

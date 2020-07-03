@@ -13,6 +13,8 @@
 
 module flow.bpmn.model.DataObject;
 
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.ItemDefinition;
 /**
@@ -20,6 +22,8 @@ import flow.bpmn.model.ItemDefinition;
  */
 class DataObject : FlowElement {
 
+  alias setValues = BaseElement.setValues;
+  alias setValues = FlowElement.setValues;
     protected ItemDefinition itemSubjectRef;
 
     public ItemDefinition getItemSubjectRef() {

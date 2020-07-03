@@ -25,6 +25,7 @@ import flow.bpmn.model.BaseElement;
 
 class EventListener : BaseElement {
 
+    alias setValues = BaseElement.setValues;
     protected string events;
     protected string implementationType;
     protected string implementation;

@@ -24,6 +24,8 @@ import std.array;
 
 class ExtensionElement : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected string name;
     protected string namespacePrefix;
     protected string namespace;

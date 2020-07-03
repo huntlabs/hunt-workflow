@@ -13,6 +13,8 @@
 
 module flow.bpmn.model.Event;
 
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.FlowNode;
@@ -21,6 +23,10 @@ import flow.bpmn.model.EventDefinition;
  * @author Tijs Rademakers
  */
 abstract class Event : FlowNode {
+
+  alias setValues = BaseElement.setValues;
+  alias setValues = FlowElement.setValues;
+  alias setValues = FlowNode.setValues;
 
     protected List!EventDefinition eventDefinitions ;//= new ArrayList<>();
 

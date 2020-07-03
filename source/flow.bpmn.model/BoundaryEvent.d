@@ -15,6 +15,9 @@ module flow.bpmn.model.BoundaryEvent;
 
 import flow.bpmn.model.Event;
 import flow.bpmn.model.Activity;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,6 +26,10 @@ import flow.bpmn.model.Activity;
  */
 class BoundaryEvent : Event {
 
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Event.setValues;
    // @JsonIgnore
     protected Activity attachedToRef;
     protected string attachedToRefId;

@@ -14,11 +14,12 @@
 module flow.bpmn.model.CompensateEventDefinition;
 
 import flow.bpmn.model.EventDefinition;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class CompensateEventDefinition : EventDefinition {
+  alias setValues = BaseElement.setValues;
 
     protected string activityRef;
     protected bool waitForCompletion = true;

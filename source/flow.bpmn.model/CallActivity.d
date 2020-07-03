@@ -13,11 +13,14 @@
 
 module flow.bpmn.model.CallActivity;
 
-
+import flow.bpmn.model.BaseElement;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.Activity;
 import flow.bpmn.model.IOParameter;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
@@ -38,7 +41,11 @@ class CallActivity : Activity {
     protected bool fallbackToDefaultTenant;
     protected string processInstanceIdVariableName;
 
-    this()
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
+  this()
     {
         inParameters = new ArrayList!IOParameter;
         outParameters = new ArrayList!IOParameter;

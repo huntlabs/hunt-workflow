@@ -194,5 +194,64 @@ class BatchEntityImpl : AbstractBatchServiceEntity , Model, BatchEntity {
         return byteArrayRef;
     }
 
+    override string getIdPrefix()
+    {
+        return super.getIdPrefix();
+    }
+
+  override int getRevisionNext() {
+    return super.getRevisionNext;
+  }
+
+
+  override int getRevision() {
+    return super.getRevision;
+  }
+
+
+  override void setRevision(int revision) {
+      super.setRevision(revision);
+  }
+
+
+  override bool isInserted() {
+    return super.isInserted;
+  }
+
+
+  override void setInserted(bool isInserted) {
+    super.setInserted(isInserted);
+  }
+
+
+  override bool isUpdated() {
+    return super.isUpdated;
+  }
+
+
+  override void setUpdated(bool isUpdated) {
+    super.setUpdated(isUpdated);
+  }
+
+
+  override bool isDeleted() {
+    return super.isDeleted();
+  }
+
+
+  override void setDeleted(bool isDeleted) {
+    super.setDeleted(isDeleted);
+  }
+
+
+  override Object getOriginalPersistentState() {
+    return super.getOriginalPersistentState;
+  }
+
+
+  override void setOriginalPersistentState(Object persistentState) {
+      super.setOriginalPersistentState(persistentState);
+  }
+
 }
 

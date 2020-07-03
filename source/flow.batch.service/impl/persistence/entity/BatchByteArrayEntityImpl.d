@@ -107,6 +107,20 @@ class BatchByteArrayEntityImpl : AbstractBatchServiceEntity , Model, BatchByteAr
         this.bytes = bytes;
     }
 
+    override
+    void setRevision(int revision)
+    {
+        super.setRevision(revision);
+    }
+
+    override int getRevisionNext() {
+      return super.getRevisionNext;
+  }
+
+
+    override int getRevision() {
+          return super.getRevision;
+    }
 
     override
     public string toString() {

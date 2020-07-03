@@ -14,11 +14,16 @@
 module flow.bpmn.model.Gateway;
 
 import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 /**
  * @author Tijs Rademakers
  */
 abstract class Gateway : FlowNode {
 
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
     protected string defaultFlow;
 
     public string getDefaultFlow() {

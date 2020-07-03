@@ -18,10 +18,13 @@
 
 module flow.bpmn.model.Association;
 
+import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.Artifact;
 import flow.bpmn.model.AssociationDirection;
 
 class Association : Artifact {
+
+    alias setValues = BaseElement.setValues;
 
     protected AssociationDirection associationDirection ;// = AssociationDirection.NONE;
     protected string sourceRef;

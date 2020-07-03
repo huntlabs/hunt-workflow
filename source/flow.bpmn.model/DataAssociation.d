@@ -24,6 +24,8 @@ class DataAssociation : BaseElement {
     protected string transformation;
     protected List!Assignment assignments ;// = new ArrayList<>();
 
+    alias setValues = BaseElement.setValues;
+
     this()
     {
         assignments = new ArrayList!Assignment;

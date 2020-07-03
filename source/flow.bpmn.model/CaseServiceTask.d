@@ -17,10 +17,21 @@ import flow.bpmn.model.ServiceTask;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.IOParameter;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
+
 /**
  * @author Tijs Rademakers
  */
 class CaseServiceTask : ServiceTask {
+
+   alias setValues = BaseElement.setValues;
+   alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
+  alias setValues = ServiceTask.setValues;
 
     protected string caseDefinitionKey;
     protected string caseInstanceName;

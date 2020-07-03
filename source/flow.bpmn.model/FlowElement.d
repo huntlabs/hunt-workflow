@@ -28,6 +28,7 @@ import flow.bpmn.model.SubProcess;
  */
 abstract class FlowElement : BaseElement , HasExecutionListeners {
 
+    alias setValues = BaseElement.setValues;
     protected string name;
     protected string documentation;
     protected List!FlowableListener executionListeners ;// = new ArrayList<>();

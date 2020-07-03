@@ -19,6 +19,8 @@ import flow.bpmn.model.BaseElement;
  */
 class FieldExtension : BaseElement {
 
+
+    alias setValues = BaseElement.setValues;
     protected string fieldName;
     protected string stringValue;
     protected string expression;

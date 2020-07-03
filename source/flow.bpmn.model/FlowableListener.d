@@ -26,6 +26,7 @@ import std.uuid;
  */
 class FlowableListener : BaseElement {
 
+    alias setValues = BaseElement.setValues;
     protected string event;
     protected string implementationType;
     protected string implementation;

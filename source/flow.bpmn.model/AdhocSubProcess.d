@@ -13,11 +13,21 @@
 
 module flow.bpmn.model.AdhocSubProcess;
 
+import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
 /**
  * @author Tijs Rademakers
  */
 class AdhocSubProcess : SubProcess {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
+    alias setValues = SubProcess.setValues;
 
     public static  string ORDERING_PARALLEL = "Parallel";
     public static  string ORDERING_SEQUENTIALL = "Sequential";

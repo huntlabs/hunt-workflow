@@ -15,6 +15,7 @@ import flow.bpmn.model.BaseElement;
 
 class Import : BaseElement {
 
+    alias setValues = BaseElement.setValues;
     protected string importType;
     protected string location;
     protected string namespace;

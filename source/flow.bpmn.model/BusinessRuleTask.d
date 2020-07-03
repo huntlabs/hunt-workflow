@@ -13,10 +13,13 @@
 
 module flow.bpmn.model.BusinessRuleTask;
 
-
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowNode;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.Task;
+import flow.bpmn.model.Activity;
 /**
  * @author Tijs Rademakers
  */
@@ -27,6 +30,11 @@ class BusinessRuleTask : Task {
     protected List!string ruleNames ;// = new ArrayList<>();
     protected List!string inputVariables ;//= new ArrayList<>();
     protected string className;
+
+    alias setValues = BaseElement.setValues;
+    alias  setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
 
     this()
     {

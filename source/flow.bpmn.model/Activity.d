@@ -21,7 +21,8 @@ import flow.bpmn.model.IOSpecification;
 import flow.bpmn.model.DataAssociation;
 import flow.bpmn.model.BoundaryEvent;
 import flow.bpmn.model.MapExceptionEntry;
-
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 /**
  * @author Tijs Rademakers
  */
@@ -37,6 +38,9 @@ abstract class Activity : FlowNode {
     protected string failedJobRetryTimeCycleValue;
     protected List!MapExceptionEntry mapExceptions ;//= new ArrayList<>();
 
+    alias setValues = FlowNode.setValues;
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
     this()
     {
         dataInputAssociations = new ArrayList!DataAssociation;

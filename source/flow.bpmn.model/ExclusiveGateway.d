@@ -14,12 +14,21 @@
 module flow.bpmn.model.ExclusiveGateway;
 
 import flow.bpmn.model.Gateway;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+
 /**
  * @author Tijs Rademakers
  */
 class ExclusiveGateway : Gateway {
 
-    override
+   alias setValues = BaseElement.setValues;
+  alias setValues = FlowElement.setValues;
+  alias setValues = FlowNode.setValues;
+  alias setValues = Gateway.setValues;
+
+  override
     public ExclusiveGateway clone() {
         ExclusiveGateway clone = new ExclusiveGateway();
         clone.setValues(this);

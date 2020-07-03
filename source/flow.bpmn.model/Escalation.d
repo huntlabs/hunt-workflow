@@ -20,7 +20,9 @@ import flow.bpmn.model.BaseElement;
  */
 class Escalation : BaseElement {
 
-    protected string name;
+  alias setValues = BaseElement.setValues;
+
+  protected string name;
     protected string escalationCode;
 
     this() {

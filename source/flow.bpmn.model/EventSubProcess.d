@@ -14,10 +14,16 @@
 module flow.bpmn.model.EventSubProcess;
 
 import flow.bpmn.model.SubProcess;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.Activity;
 
 /**
  * @author Tijs Rademakers
  */
 class EventSubProcess : SubProcess {
-
+   alias setValues = BaseElement.setValues;
+   alias setValues = FlowElement.setValues;
+    alias setValues = Activity.setValues;
+  alias setValues = SubProcess.setValues;
 }

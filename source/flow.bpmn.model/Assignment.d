@@ -17,6 +17,8 @@ import flow.bpmn.model.BaseElement;
 
 class Assignment : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected string from;
     protected string to;
 

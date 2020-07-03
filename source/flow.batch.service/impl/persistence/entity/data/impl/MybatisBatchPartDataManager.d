@@ -31,7 +31,9 @@ class MybatisBatchPartDataManager : EntityRepository!( BatchPartEntityImpl , str
     //public Class<? extends BatchPartEntity> getManagedEntityClass() {
     //    return BatchPartEntityImpl.class;
     //}
-
+    alias findById = CrudRepository!(BatchPartEntityImpl, string).findById;
+    alias insert = CrudRepository!(BatchPartEntityImpl, string).insert;
+    alias update = CrudRepository!(BatchPartEntityImpl, string).update;
     this()
     {
       super(entityManagerFactory.currentEntityManager());
@@ -61,13 +63,13 @@ class MybatisBatchPartDataManager : EntityRepository!( BatchPartEntityImpl , str
       //
       //@Override
       public void insert(BatchPartEntity entity) {
-        insert(cast(BatchPartEntityImpl)entity);
+        super.insert(cast(BatchPartEntityImpl)entity);
         //getDbSqlSession().insert(entity);
       }
       //
       //@Override
       public BatchPartEntity update(BatchPartEntity entity) {
-        return  update(cast(BatchPartEntityImpl)entity);
+        return  super.update(cast(BatchPartEntityImpl)entity);
         //getDbSqlSession().update(entity);
         //return entity;
       }

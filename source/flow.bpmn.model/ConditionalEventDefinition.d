@@ -13,11 +13,14 @@
 
 module flow.bpmn.model.ConditionalEventDefinition;
 
+import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.EventDefinition;
 /**
  * @author Tijs Rademakers
  */
 class ConditionalEventDefinition : EventDefinition {
+
+    alias setValues = BaseElement.setValues;
 
     protected string conditionExpression;
 

@@ -14,11 +14,18 @@
 module flow.bpmn.model.EventGateway;
 
 import flow.bpmn.model.Gateway;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 /**
  * @author Tijs Rademakers
  */
 class EventGateway : Gateway {
 
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Gateway.setValues;
     override
     public EventGateway clone() {
         EventGateway clone = new EventGateway();

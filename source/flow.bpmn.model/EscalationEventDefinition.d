@@ -14,11 +14,13 @@
 module flow.bpmn.model.EscalationEventDefinition;
 
 import flow.bpmn.model.EventDefinition;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class EscalationEventDefinition : EventDefinition {
+
+  alias setValues = BaseElement.setValues;
 
     protected string escalationCode;
 

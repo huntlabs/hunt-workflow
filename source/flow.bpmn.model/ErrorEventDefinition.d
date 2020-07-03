@@ -14,13 +14,14 @@
 module flow.bpmn.model.ErrorEventDefinition;
 
 import flow.bpmn.model.EventDefinition;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class ErrorEventDefinition : EventDefinition {
 
-    protected string errorCode;
+  alias setValues = BaseElement.setValues;
+  protected string errorCode;
 
     public string getErrorCode() {
         return errorCode;

@@ -15,11 +15,20 @@ module flow.bpmn.model.HttpServiceTask;
 import flow.bpmn.model.ServiceTask;
 import flow.bpmn.model.FlowableHttpRequestHandler;
 import flow.bpmn.model.FlowableHttpResponseHandler;
+import flow.bpmn.model.BaseElement;
+import  flow.bpmn.model.FlowElement;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.FlowNode;
 /**
  * @author Tijs Rademakers
  */
 class HttpServiceTask : ServiceTask {
 
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = Activity.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = ServiceTask.setValues;
     protected FlowableHttpRequestHandler httpRequestHandler;
     protected FlowableHttpResponseHandler httpResponseHandler;
 

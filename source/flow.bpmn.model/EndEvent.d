@@ -14,13 +14,19 @@
 module flow.bpmn.model.EndEvent;
 
 import flow.bpmn.model.Event;
-
+import  flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 /**
  * @author Tijs Rademakers
  */
 class EndEvent : Event {
 
-    override
+   alias setValues = BaseElement.setValues;
+   alias setValues = FlowElement.setValues;
+   alias setValues = FlowNode.setValues;
+  alias setValues = Event.setValues;
+  override
     public EndEvent clone() {
         EndEvent clone = new EndEvent();
         clone.setValues(this);

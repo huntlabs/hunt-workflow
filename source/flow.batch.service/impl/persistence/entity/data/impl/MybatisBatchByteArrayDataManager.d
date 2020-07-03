@@ -25,6 +25,11 @@ import flow.common.AbstractEngineConfiguration;
 
 class MybatisBatchByteArrayDataManager : EntityRepository!( BatchByteArrayEntityImpl , string), BatchByteArrayDataManager {
 
+     alias findAll = CrudRepository!(BatchByteArrayEntityImpl, string).findAll;
+      alias findById = CrudRepository!(BatchByteArrayEntityImpl, string).findById;
+
+     alias insert = CrudRepository!(BatchByteArrayEntityImpl, string).insert;
+     alias update = CrudRepository!(BatchByteArrayEntityImpl, string).update;
 
      this()
      {
@@ -54,13 +59,13 @@ class MybatisBatchByteArrayDataManager : EntityRepository!( BatchByteArrayEntity
       //
       //@Override
       public void insert(BatchByteArrayEntity entity) {
-        insert(cast(BatchByteArrayEntityImpl)entity);
+        super.insert(cast(BatchByteArrayEntityImpl)entity);
         //getDbSqlSession().insert(entity);
       }
       //
       //@Override
       public BatchByteArrayEntity update(BatchByteArrayEntity entity) {
-        return  update(cast(BatchByteArrayEntityImpl)entity);
+        return  super.update(cast(BatchByteArrayEntityImpl)entity);
         //getDbSqlSession().update(entity);
         //return entity;
       }

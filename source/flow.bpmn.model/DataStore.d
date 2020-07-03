@@ -17,6 +17,8 @@ import flow.bpmn.model.BaseElement;
 
 class DataStore : BaseElement {
 
+
+    alias setValues = BaseElement.setValues;
     protected string name;
     protected string dataState;
     protected string itemSubjectRef;

@@ -14,11 +14,13 @@
 module flow.bpmn.model.CancelEventDefinition;
 
 import flow.bpmn.model.EventDefinition;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class CancelEventDefinition : EventDefinition {
+
+    alias setValues = BaseElement.setValues;
 
     override
     public CancelEventDefinition clone() {

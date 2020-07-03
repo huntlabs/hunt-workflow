@@ -21,6 +21,8 @@ import flow.bpmn.model.DataGrid;
  */
 class CustomProperty : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected string name;
     protected string simpleValue;
     protected ComplexDataType complexValue;

@@ -19,7 +19,9 @@ import flow.bpmn.model.BaseElement;
  */
 class CollectionHandler : BaseElement {
 
-    protected string implementationType;
+  alias setValues = BaseElement.setValues;
+
+  protected string implementationType;
     protected string implementation;
 
     public string getImplementationType() {

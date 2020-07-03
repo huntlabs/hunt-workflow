@@ -22,6 +22,7 @@ import flow.bpmn.model.BaseElement;
 
 class FormValue : BaseElement {
 
+    alias setValues = BaseElement.setValues;
     protected string name;
 
     public string getName() {
