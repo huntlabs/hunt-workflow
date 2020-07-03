@@ -102,7 +102,7 @@ class HistoricTaskLogEntryEntityImpl : AbstractEntityNoRevision , Model,Historic
 
 
     public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+        this.timeStamp = timeStamp.toEpochMilli;
     }
 
 
@@ -183,7 +183,7 @@ class HistoricTaskLogEntryEntityImpl : AbstractEntityNoRevision , Model,Historic
 
 
     public Date getTimeStamp() {
-        return timeStamp;
+        return Date.ofEpochMilli(timeStamp);
     }
 
 

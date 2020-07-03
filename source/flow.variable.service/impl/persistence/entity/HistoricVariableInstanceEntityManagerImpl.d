@@ -91,7 +91,7 @@ class HistoricVariableInstanceEntityManagerImpl
         if (serviceConfiguration.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
             List!HistoricVariableInstanceEntity historicProcessVariables = dataManager.findHistoricVariableInstancesByProcessInstanceId(historicProcessInstanceId);
             foreach (HistoricVariableInstanceEntity historicProcessVariable ; historicProcessVariables) {
-                dele(historicProcessVariable);
+                super.dele(historicProcessVariable);
             }
         }
     }
@@ -126,7 +126,7 @@ class HistoricVariableInstanceEntityManagerImpl
         if (serviceConfiguration.isHistoryLevelAtLeast(HistoryLevel.ACTIVITY)) {
             List!HistoricVariableInstanceEntity historicProcessVariables = dataManager.findHistoricVariableInstancesByTaskId(taskId);
             foreach (HistoricVariableInstanceEntity historicProcessVariable ; historicProcessVariables) {
-                dele(historicProcessVariable);
+                super.dele(historicProcessVariable);
             }
         }
     }

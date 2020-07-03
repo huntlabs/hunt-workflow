@@ -16,6 +16,7 @@ import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
 import hunt.Integer;
 import hunt.Exceptions;
+import hunt.Long;
 /**
  * @author Joram Barrez
  */
@@ -44,7 +45,7 @@ class IntegerType : VariableType {
 
     public void setValue(Object value, ValueFields valueFields) {
         if (value !is null) {
-            valueFields.setLongValue((cast(Integer) value).longValue());
+            valueFields.setLongValue(new Long((cast(Integer) value).longValue()));
             valueFields.setTextValue((cast(Integer)value).toString());
         } else {
             valueFields.setLongValue(null);

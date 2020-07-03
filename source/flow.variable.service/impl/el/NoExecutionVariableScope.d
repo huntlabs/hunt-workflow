@@ -171,11 +171,13 @@ class NoExecutionVariableScope : VariableScope {
 
 
     public Object setVariableLocal(string variableName, Object value) {
+          return null;
         //throw new UnsupportedOperationException("No execution active, no variables can be set");
     }
 
 
     public Object setVariableLocal(string variableName, Object value, bool fetchAllVariables) {
+      return null;
        // throw new UnsupportedOperationException("No execution active, no variables can be set");
     }
 
@@ -254,7 +256,7 @@ class NoExecutionVariableScope : VariableScope {
 
 
     public void setTransientVariableLocal(string variableName, Object variableValue) {
-        throw new UnsupportedOperationException("No execution active, no variables can be set");
+      //  throw new UnsupportedOperationException("No execution active, no variables can be set");
     }
 
 

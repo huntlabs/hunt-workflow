@@ -15,6 +15,7 @@ module flow.variable.service.impl.types.ShortType;
 import flow.variable.service.api.types.ValueFields;
 import flow.variable.service.api.types.VariableType;
 import hunt.Short;
+import hunt.Long;
 /**
  * @author Joram Barrez
  */
@@ -37,7 +38,7 @@ class ShortType : VariableType {
     public Object getValue(ValueFields valueFields) {
         if (valueFields.getLongValue() !is null) {
           //  return Short.valueOf(valueFields.getLongValue().shortValue());
-            return valueFields.getLongValue().shortValue();
+            return new Short(valueFields.getLongValue().shortValue());
         }
         return null;
     }
@@ -45,7 +46,7 @@ class ShortType : VariableType {
 
     public void setValue(Object value, ValueFields valueFields) {
         if (value !is null) {
-            valueFields.setLongValue((cast(Short) value).longValue());
+            valueFields.setLongValue( new Long((cast(Short) value).longValue()));
             valueFields.setTextValue(value.toString());
         } else {
             valueFields.setLongValue(null);

@@ -27,12 +27,14 @@ import flow.task.service.impl.util.CommandContextUtil;
 import hunt.logging;
 import hunt.entity;
 import hunt.Exceptions;
+import hunt.collection.ArrayList;
 import flow.common.AbstractEngineConfiguration;
 /**
  * @author Joram Barrez
  */
-class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskInstanceEntity , HistoricTaskInstanceDataManager {
-
+//EntityRepository!( HistoricTaskLogEntryEntityImpl , string)
+//class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskInstanceEntity , HistoricTaskInstanceDataManager {
+class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskInstanceEntityImpl , string) , HistoricTaskInstanceDataManager {
     //
     //class<? extends HistoricTaskInstanceEntity> getManagedEntityClass() {
     //    return HistoricTaskInstanceEntityImpl.class;
@@ -113,7 +115,14 @@ class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskI
         auto select = _manager.createQuery!(HistoricTaskInstanceEntityImpl)("SELECT * FROM HistoricTaskInstanceEntityImpl u where u.parentTaskId = :parentTaskId");
         select.setParameter("parentTaskId",parentTaskId);
         HistoricTaskInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!HistoricTaskInstanceEntity(ls);
+        List!HistoricTaskInstanceEntity list = new ArrayList!HistoricTaskInstanceEntity;
+
+        foreach(HistoricTaskInstanceEntityImpl h ; ls)
+        {
+          list.add(cast(HistoricTaskInstanceEntity)h);
+        }
+
+        return list;
        // return getDbSqlSession().selectList("selectHistoricTasksByParentTaskId", parentTaskId);
     }
 
@@ -127,7 +136,14 @@ class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskI
         auto select = _manager.createQuery!(HistoricTaskInstanceEntityImpl)("SELECT * FROM HistoricTaskInstanceEntityImpl u where u.processInstanceId = :processInstanceId");
         select.setParameter("processInstanceId",processInstanceId);
         HistoricTaskInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!HistoricTaskInstanceEntity(ls);
+        List!HistoricTaskInstanceEntity list = new ArrayList!HistoricTaskInstanceEntity;
+
+        foreach(HistoricTaskInstanceEntityImpl h ; ls)
+        {
+          list.add(cast(HistoricTaskInstanceEntity)h);
+        }
+
+        return list;
         //return getDbSqlSession().selectList("selectHistoricTaskInstancesByProcessInstanceId", processInstanceId);
     }
 
@@ -195,7 +211,7 @@ class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskI
 
     public long findHistoricTaskInstanceCountByNativeQuery(Map!(string, Object) parameterMap) {
         implementationMissing(false);
-        return null;
+        return 0;
       //  return (Long) getDbSqlSession().selectOne("selectHistoricTaskInstanceCountByNativeQuery", parameterMap);
     }
 

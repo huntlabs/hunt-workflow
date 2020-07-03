@@ -153,7 +153,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
         this.description = task.getDescription();
         this.owner = task.getOwner();
         this.assignee = task.getAssignee();
-        this.createTime = task.getCreateTime();
+        this.createTime = task.getCreateTime().toEpochMilli;
         this.taskDefinitionKey = task.getTaskDefinitionKey();
         this.formKey = task.getFormKey();
 
@@ -213,7 +213,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
         if (endTime !is null) {
           this.endTime = endTime.toEpochMilli;
         } else {
-          this.endTime = CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime();
+          this.endTime = CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime().toEpochMilli;
         }
         if (endTime !is null && createTime != 0) {
           this.durationInMillis = endTime.toEpochMilli() - createTime;
@@ -336,12 +336,12 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        this.createTime = createTime.toEpochMilli;
     }
 
 
     public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+        this.endTime = endTime.toEpochMilli;
     }
 
 
@@ -361,7 +361,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public string getName() {
-        if (localizedName !is null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length > 0) {
             return localizedName;
         } else {
             return name;
@@ -380,7 +380,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public string getDescription() {
-        if (localizedDescription !is null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length > 0) {
             return localizedDescription;
         } else {
             return description;
@@ -489,7 +489,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public void setClaimTime(Date claimTime) {
-        this.claimTime = claimTime;
+        this.claimTime = claimTime.toEpochMilli;
     }
 
 
@@ -509,8 +509,8 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public long getWorkTimeInMillis() {
-        if (endTime is null || claimTime is null) {
-            return null;
+        if (endTime == 0 || claimTime  == 0) {
+            return 0;
         }
         return endTime - claimTime;
     }

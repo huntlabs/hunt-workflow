@@ -278,22 +278,22 @@ class VariableInstanceEntityImpl : AbstractVariableServiceEntity , Model, Variab
 
 
     public Long getLongValue() {
-        return longValue;
+        return new Long(longValue);
     }
 
 
     public void setLongValue(Long longValue) {
-        this.longValue = longValue;
+        this.longValue = longValue.longValue;
     }
 
 
     public Double getDoubleValue() {
-        return doubleValue;
+        return new Double(doubleValue);
     }
 
 
     public void setDoubleValue(Double doubleValue) {
-        this.doubleValue = doubleValue;
+        this.doubleValue = doubleValue.doubleValue;
     }
 
 
@@ -335,10 +335,10 @@ class VariableInstanceEntityImpl : AbstractVariableServiceEntity , Model, Variab
         sb.append("id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", type=").append(type !is null ? type.getTypeName() : "null");
-        if (longValue !is null) {
+        if (longValue != 0) {
             sb.append(", longValue=").append(longValue);
         }
-        if (doubleValue !is null) {
+        if (doubleValue != 0) {
             sb.append(", doubleValue=").append(doubleValue);
         }
         if (textValue !is null) {

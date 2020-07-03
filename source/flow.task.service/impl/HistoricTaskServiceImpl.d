@@ -36,7 +36,8 @@ import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.task.service.impl.util.CommandContextUtil;
 import flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 import flow.task.service.impl.HistoricTaskLogEntryQueryImpl;
-
+import flow.common.persistence.entity.EntityManager;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -69,7 +70,7 @@ class HistoricTaskServiceImpl : CommonServiceImpl!TaskServiceConfiguration , His
 
 
     public HistoricTaskInstanceEntity createHistoricTask() {
-        return getHistoricTaskInstanceEntityManager().create();
+        return (cast(EntityManager!HistoricTaskInstanceEntity)getHistoricTaskInstanceEntityManager()).create();
     }
 
 
@@ -125,12 +126,12 @@ class HistoricTaskServiceImpl : CommonServiceImpl!TaskServiceConfiguration , His
             historicTaskInstance.setClaimTime(taskEntity.getClaimTime());
             historicTaskInstance.setLastUpdateTime(changeTime);
 
-            if (!Objects.equals(historicTaskInstance.getAssignee(), taskEntity.getAssignee())) {
+            if ((historicTaskInstance.getAssignee() != taskEntity.getAssignee())) {
                 historicTaskInstance.setAssignee(taskEntity.getAssignee());
                 createHistoricIdentityLink(historicTaskInstance.getId(), IdentityLinkType.ASSIGNEE, historicTaskInstance.getAssignee());
             }
 
-            if (!Objects.equals(historicTaskInstance.getOwner(), taskEntity.getOwner())) {
+            if ((historicTaskInstance.getOwner() != taskEntity.getOwner())) {
                 historicTaskInstance.setOwner(taskEntity.getOwner());
                 createHistoricIdentityLink(historicTaskInstance.getId(), IdentityLinkType.OWNER, historicTaskInstance.getOwner());
             }
@@ -158,7 +159,7 @@ class HistoricTaskServiceImpl : CommonServiceImpl!TaskServiceConfiguration , His
             taskLogEntry.setTimeStamp(this.configuration.getClock().getCurrentTime());
             taskLogEntry.setType(logEntryType);
             taskLogEntry.setData(data);
-            taskLogEntry.setUserId(Authentication.getAuthenticatedUserId());
+            //taskLogEntry.setUserId(Authentication.getAuthenticatedUserId());
             getHistoricTaskLogEntryEntityManager().insert(taskLogEntry);
         }
     }
@@ -227,7 +228,9 @@ class HistoricTaskServiceImpl : CommonServiceImpl!TaskServiceConfiguration , His
 
 
     public NativeHistoricTaskLogEntryQuery createNativeHistoricTaskLogEntryQuery(CommandExecutor commandExecutor) {
-        return new NativeHistoricTaskLogEntryQueryImpl(commandExecutor);
+        implementationMissing(false);
+        return null;
+        //return new NativeHistoricTaskLogEntryQueryImpl(commandExecutor);
     }
 
     protected HistoricTaskLogEntryEntityManager getHistoricTaskLogEntryEntityManager() {

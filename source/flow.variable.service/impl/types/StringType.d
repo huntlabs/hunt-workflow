@@ -55,7 +55,7 @@ class StringType : VariableType {
         }
         String stringValue = cast(String) value;
         if (stringValue !is null) {
-            return stringValue.value.length() <= maxLength;
+            return stringValue.value.length <= maxLength;
         }
         return false;
     }

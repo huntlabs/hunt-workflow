@@ -113,14 +113,26 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
     public List!HistoricVariableInstanceEntity findHistoricVariableInstancesByProcessInstanceId( string processInstanceId) {
        // return getList("selectHistoricVariableInstanceByProcessInstanceId", processInstanceId, historicVariableInstanceByProcInstMatcher, true);
         HistoricVariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId));
-        return new ArrayList!HistoricVariableInstanceEntity(objs);
+        List!HistoricVariableInstanceEntity list = new ArrayList!HistoricVariableInstanceEntity;
+        foreach(HistoricVariableInstanceEntityImpl h ; objs)
+        {
+            list.add(cast(HistoricVariableInstanceEntity)h);
+        }
+        return list;
+       // return new ArrayList!HistoricVariableInstanceEntity(objs);
     }
 
 
     public List!HistoricVariableInstanceEntity findHistoricVariableInstancesByTaskId( string taskId) {
         //return getList("selectHistoricVariableInstanceByTaskId", taskId, historicVariableInstanceByTaskIdMatcher, true);
         HistoricVariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
-        return new ArrayList!HistoricVariableInstanceEntity(objs);
+        List!HistoricVariableInstanceEntity list = new ArrayList!HistoricVariableInstanceEntity;
+        foreach(HistoricVariableInstanceEntityImpl h ; objs)
+        {
+          list.add(cast(HistoricVariableInstanceEntity)h);
+        }
+        return list;
+       // return new ArrayList!HistoricVariableInstanceEntity(objs);
     }
 
 
@@ -154,7 +166,14 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
         select.setParameter("scopeId",scopeId);
         select.setParameter("scopeType",scopeType);
         HistoricVariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!HistoricVariableInstanceEntity(ls);
+
+        List!HistoricVariableInstanceEntity list = new ArrayList!HistoricVariableInstanceEntity;
+        foreach(HistoricVariableInstanceEntityImpl h ; ls)
+        {
+          list.add(cast(HistoricVariableInstanceEntity)h);
+        }
+        return list;
+        //return new ArrayList!HistoricVariableInstanceEntity(ls);
         //Map<string, string> params = new HashMap<>(2);
         //params.put("scopeId", scopeId);
         //params.put("scopeType", scopeType);
@@ -171,7 +190,14 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
         select.setParameter("scopeId",subScopeId);
         select.setParameter("scopeType",scopeType);
         HistoricVariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!HistoricVariableInstanceEntity(ls);
+
+        List!HistoricVariableInstanceEntity list = new ArrayList!HistoricVariableInstanceEntity;
+        foreach(HistoricVariableInstanceEntityImpl h ; ls)
+        {
+          list.add(cast(HistoricVariableInstanceEntity)h);
+        }
+        return list;
+        //return new ArrayList!HistoricVariableInstanceEntity(ls);
         //Map<string, string> params = new HashMap<>(2);
         //params.put("subScopeId", subScopeId);
         //params.put("scopeType", scopeType);

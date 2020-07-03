@@ -93,7 +93,13 @@ class MybatisVariableByteArrayDataManager : EntityRepository!(VariableByteArrayE
           _manager.close();
         }
         auto select = _manager.createQuery!(VariableByteArrayEntityImpl)("SELECT * FROM VariableByteArrayEntityImpl").getResultList();
-        return new ArrayList!VariableByteArrayEntity(select);
+        List!VariableByteArrayEntity list = new ArrayList!VariableByteArrayEntity;
+        foreach(VariableByteArrayEntityImpl v ; select)
+        {
+            list.add(cast(VariableByteArrayEntity)v);
+        }
+        return list;
+        //return new ArrayList!VariableByteArrayEntity(select);
     }
 
 

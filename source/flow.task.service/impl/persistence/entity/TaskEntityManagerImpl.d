@@ -79,7 +79,7 @@ class TaskEntityManagerImpl
         taskEntity.setTaskDefinitionKey(taskBuilder.getTaskDefinitionKey());
         taskEntity.setScopeId(taskBuilder.getScopeId());
         taskEntity.setScopeType(taskBuilder.getScopeType());
-        insert(taskEntity);
+        super.insert(taskEntity);
 
         TaskEntity enrichedTaskEntity = serviceConfiguration.getTaskPostProcessor().enrich(taskEntity);
         update(enrichedTaskEntity, false);
@@ -104,7 +104,7 @@ class TaskEntityManagerImpl
 
         if (getEventDispatcher() !is null && getEventDispatcher().isEnabled() && taskEntity.getAssignee() !is null) {
             getEventDispatcher().dispatchEvent(
-                    FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, taskEntity));
+                    FlowableTaskEventBuilder.createEntityEvent(FlowableEngineEventType.TASK_ASSIGNED, cast(Object)taskEntity));
         }
 
         serviceConfiguration.getInternalHistoryTaskManager().recordTaskCreated(taskEntity);
@@ -134,28 +134,28 @@ class TaskEntityManagerImpl
 
 
     public void changeTaskAssignee(TaskEntity taskEntity, string assignee) {
-        if ((taskEntity.getAssignee() !is null && !taskEntity.getAssignee().equals(assignee))
+        if ((taskEntity.getAssignee() !is null && taskEntity.getAssignee() != (assignee))
                 || (taskEntity.getAssignee() is null && assignee !is null)) {
 
             taskEntity.setAssignee(assignee);
 
             if (taskEntity.getId() !is null) {
                 serviceConfiguration.getInternalHistoryTaskManager().recordTaskInfoChange(taskEntity, getClock().getCurrentTime());
-                update(taskEntity);
+                super.update(taskEntity);
             }
         }
     }
 
 
     public void changeTaskOwner(TaskEntity taskEntity, string owner) {
-        if ((taskEntity.getOwner() !is null && !taskEntity.getOwner().equals(owner))
+        if ((taskEntity.getOwner() !is null && taskEntity.getOwner() != (owner))
                 || (taskEntity.getOwner() is null && owner !is null)) {
 
             taskEntity.setOwner(owner);
 
             if (taskEntity.getId() !is null) {
                 serviceConfiguration.getInternalHistoryTaskManager().recordTaskInfoChange(taskEntity, getClock().getCurrentTime());
-                update(taskEntity);
+                super.update(taskEntity);
             }
         }
     }
@@ -286,7 +286,7 @@ class TaskEntityManagerImpl
     protected HistoricTaskLogEntryBuilder createHistoricTaskLogEntryBuilder(TaskInfo task, HistoricTaskLogEntryType userTaskCreated) {
         HistoricTaskLogEntryBuilder taskLogEntryBuilder = new BaseHistoricTaskLogEntryBuilderImpl(task);
         taskLogEntryBuilder.timeStamp(serviceConfiguration.getClock().getCurrentTime());
-        taskLogEntryBuilder.userId(Authentication.getAuthenticatedUserId());
+        //taskLogEntryBuilder.userId(Authentication.getAuthenticatedUserId());
         taskLogEntryBuilder.type(userTaskCreated.name());
         return taskLogEntryBuilder;
     }

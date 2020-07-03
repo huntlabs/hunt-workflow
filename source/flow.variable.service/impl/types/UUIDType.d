@@ -58,7 +58,7 @@ class UUIDType : VariableType {
         if (value is null) {
             return true;
         }
-        return null;
+        return false;
         //return UUID.class.isAssignableFrom(value.getClass());
     }
 }

@@ -68,7 +68,7 @@ class JobEntityImpl : AbstractJobEntityImpl , Model,JobEntity {
 
 
     public void setLockExpirationTime(Date claimedUntil) {
-        this.lockExpirationTime = claimedUntil;
+        this.lockExpirationTime = cast(int)(claimedUntil.toEpochMilli);
     }
 
 

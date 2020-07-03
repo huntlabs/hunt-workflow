@@ -38,43 +38,43 @@ class HistoricTaskLogEntryType : AbstractEnum!HistoricTaskLogEntryType , Flowabl
 
    static HistoricTaskLogEntryType USER_TASK_COMPLETED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_COMPLETED", 0));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_COMPLETED", 0));
    }
    static HistoricTaskLogEntryType USER_TASK_ASSIGNEE_CHANGED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_ASSIGNEE_CHANGED", 1));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_ASSIGNEE_CHANGED", 1));
    }
    static HistoricTaskLogEntryType USER_TASK_CREATED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_CREATED", 2));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_CREATED", 2));
    }
    static HistoricTaskLogEntryType USER_TASK_OWNER_CHANGED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_OWNER_CHANGED", 3));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_OWNER_CHANGED", 3));
    }
    static HistoricTaskLogEntryType USER_TASK_PRIORITY_CHANGED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_PRIORITY_CHANGED", 4));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_PRIORITY_CHANGED", 4));
    }
    static HistoricTaskLogEntryType USER_TASK_DUEDATE_CHANGED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_DUEDATE_CHANGED", 5));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_DUEDATE_CHANGED", 5));
    }
    static HistoricTaskLogEntryType USER_TASK_NAME_CHANGED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_NAME_CHANGED", 6));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_NAME_CHANGED", 6));
    }
    static HistoricTaskLogEntryType USER_TASK_SUSPENSIONSTATE_CHANGED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_SUSPENSIONSTATE_CHANGED", 7));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_SUSPENSIONSTATE_CHANGED", 7));
    }
    static HistoricTaskLogEntryType USER_TASK_IDENTITY_LINK_ADDED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_IDENTITY_LINK_ADDED", 8));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_IDENTITY_LINK_ADDED", 8));
    }
    static HistoricTaskLogEntryType USER_TASK_IDENTITY_LINK_REMOVED() {
      __gshared HistoricTaskLogEntryType  inst;
-     return initOnce!inst(inst = new HistoricTaskLogEntryType!("USER_TASK_IDENTITY_LINK_REMOVED", 9));
+     return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_IDENTITY_LINK_REMOVED", 9));
    }
 
   //string name()

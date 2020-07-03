@@ -75,16 +75,16 @@ class QueryVariableValue  {
 
     public long getLongValue() {
         if (variableInstanceEntity !is null) {
-            return variableInstanceEntity.getLongValue();
+            return variableInstanceEntity.getLongValue().longValue;
         }
-        return null;
+        return 0;
     }
 
     public double getDoubleValue() {
         if (variableInstanceEntity !is null) {
-            return variableInstanceEntity.getDoubleValue();
+            return variableInstanceEntity.getDoubleValue().doubleValue;
         }
-        return null;
+        return 0;
     }
 
     public string getTextValue2() {

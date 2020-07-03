@@ -49,7 +49,7 @@ class DateType : VariableType {
     public Object getValue(ValueFields valueFields) {
         Long longValue = valueFields.getLongValue();
         if (longValue !is null) {
-            return new Date.ofEpochMilli(longValue.longValue());
+            return Date.ofEpochMilli(longValue.longValue());
         }
         return null;
     }
@@ -57,7 +57,7 @@ class DateType : VariableType {
 
     public void setValue(Object value, ValueFields valueFields) {
         if (value !is null) {
-            valueFields.setLongValue(value);
+            valueFields.setLongValue(cast(Long)value);
         } else {
             valueFields.setLongValue(null);
         }

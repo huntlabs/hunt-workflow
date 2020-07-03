@@ -121,7 +121,14 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
         auto select = _manager.createQuery!(TaskEntityImpl)("SELECT distinct * FROM TaskEntityImpl u where u.executionId = :executionId");
         select.setParameter("executionId",executionId);
         TaskEntityImpl[] ls = select.getResultList();
-        return new ArrayList!TaskEntity(ls);
+        List!TaskEntity list = new ArrayList!TaskEntity;
+
+        foreach(TaskEntityImpl h ; ls)
+        {
+          list.add(cast(TaskEntity)h);
+        }
+
+        return list;
     }
 
 
@@ -142,7 +149,14 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
         auto select = _manager.createQuery!(TaskEntityImpl)("SELECT * FROM TaskEntityImpl u where u.processInstanceId = :processInstanceId");
         select.setParameter("processInstanceId",processInstanceId);
         TaskEntityImpl[] ls = select.getResultList();
-        return new ArrayList!TaskEntity(ls);
+        List!TaskEntity list = new ArrayList!TaskEntity;
+
+        foreach(TaskEntityImpl h ; ls)
+        {
+          list.add(cast(TaskEntity)h);
+        }
+
+        return list;
     }
 
 
@@ -159,7 +173,14 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
         select.setParameter("scopeId",scopeId);
         select.setParameter("scopeType",scopeType);
         TaskEntityImpl[] ls = select.getResultList();
-        return new ArrayList!TaskEntity(ls);
+        List!TaskEntity list = new ArrayList!TaskEntity;
+
+        foreach(TaskEntityImpl h ; ls)
+        {
+          list.add(cast(TaskEntity)h);
+        }
+
+        return list;
     }
 
 
@@ -172,7 +193,14 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
         select.setParameter("subScopeId",subScopeId);
         select.setParameter("scopeType",scopeType);
         TaskEntityImpl[] ls = select.getResultList();
-        return new ArrayList!TaskEntity(ls);
+         List!TaskEntity list = new ArrayList!TaskEntity;
+
+         foreach(TaskEntityImpl h ; ls)
+         {
+           list.add(cast(TaskEntity)h);
+         }
+
+         return list;
         //Map!(string, string) params = new HashMap<>();
         //params.put("subScopeId", subScopeId);
         //params.put("scopeType", scopeType);
@@ -192,6 +220,7 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
 
     public List!Task findTasksWithRelatedEntitiesByQueryCriteria(TaskQueryImpl taskQuery) {
         implementationMissing(false);
+        return null;
         // string query = "selectTasksWithRelatedEntitiesByQueryCriteria";
         //// paging doesn't work for combining task instances and variables due to
         //// an outer join, so doing it in-memory
@@ -258,7 +287,14 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
         auto select = _manager.createQuery!(TaskEntityImpl)("SELECT * FROM TaskEntityImpl u where u.parentTaskId = :parentTaskId");
         select.setParameter("parentTaskId",parentTaskId);
         TaskEntityImpl[] ls = select.getResultList();
-        return new ArrayList!TaskEntity(ls);
+        List!Task list = new ArrayList!Task;
+
+        foreach(TaskEntityImpl h ; ls)
+        {
+          list.add(cast(Task)h);
+        }
+
+        return list;
     }
 
 

@@ -120,7 +120,7 @@ class MybatisTimerJobDataManager : EntityRepository!( TimerJobEntityImpl , strin
 
 
 
-    public List!TimerJobEntity findJobsByProcessInstanceId(final string processInstanceId) {
+    public List!TimerJobEntity findJobsByProcessInstanceId( string processInstanceId) {
         implementationMissing(false);
         return null;
         //return getDbSqlSession().selectList("selectTimerJobsByProcessInstanceId", processInstanceId);

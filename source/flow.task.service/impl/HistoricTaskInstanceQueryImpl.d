@@ -13,6 +13,8 @@
 
 module flow.task.service.impl.HistoricTaskInstanceQueryImpl;
 
+import flow.common.api.query.Query;
+import std.uni;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.time.LocalDateTime;
@@ -40,6 +42,9 @@ import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEnt
 import flow.task.service.impl.HistoricTaskInstanceQueryProperty;
 import hunt.Exceptions;
 import std.string;
+
+
+
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -281,7 +286,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public HistoricTaskInstanceQuery processInstanceBusinessKeyLikeIgnoreCase(string processInstanceBusinessKeyLikeIgnoreCase) {
         if (inOrStatement) {
-            this.currentOrQueryObject.processInstanceBusinessKeyLikeIgnoreCase = processInstanceBusinessKeyLikeIgnoreCase.toLowerCase();
+            this.currentOrQueryObject.processInstanceBusinessKeyLikeIgnoreCase = processInstanceBusinessKeyLikeIgnoreCase.toLower();
         } else {
             this._processInstanceBusinessKeyLikeIgnoreCase = toLower!string(processInstanceBusinessKeyLikeIgnoreCase);
         }
@@ -449,7 +454,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
         if (inOrStatement) {
             this.currentOrQueryObject.processDefinitionKeyLikeIgnoreCase = toLower!string(processDefinitionKeyLikeIgnoreCase);
         } else {
-            this._processDefinitionKeyLikeIgnoreCase = processDefinitionKeyLikeIgnoreCase.toLowerCase();
+            this._processDefinitionKeyLikeIgnoreCase = processDefinitionKeyLikeIgnoreCase.toLower();
         }
         return this;
     }
@@ -666,9 +671,9 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public HistoricTaskInstanceQuery taskNameLikeIgnoreCase(string taskNameLikeIgnoreCase) {
         if (inOrStatement) {
-            this.currentOrQueryObject.taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLowerCase();
+            this.currentOrQueryObject.taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLower();
         } else {
-            this._taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLowerCase();
+            this._taskNameLikeIgnoreCase = taskNameLikeIgnoreCase.toLower();
         }
         return this;
     }
@@ -828,7 +833,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public HistoricTaskInstanceQuery finished() {
         if (inOrStatement) {
-            this.currentOrQueryObject.finished = true;
+            this.currentOrQueryObject._finished = true;
         } else {
             this._finished = true;
         }
@@ -838,7 +843,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public HistoricTaskInstanceQuery unfinished() {
         if (inOrStatement) {
-            this.currentOrQueryObject.unfinished = true;
+            this.currentOrQueryObject._unfinished = true;
         } else {
             this._unfinished = true;
         }
@@ -1168,7 +1173,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public HistoricTaskInstanceQuery processFinished() {
         if (inOrStatement) {
-            this.currentOrQueryObject.processFinished = true;
+            this.currentOrQueryObject._processFinished = true;
         } else {
             this._processFinished = true;
         }
@@ -1178,7 +1183,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public HistoricTaskInstanceQuery processUnfinished() {
         if (inOrStatement) {
-            this.currentOrQueryObject.processUnfinished = true;
+            this.currentOrQueryObject._processUnfinished = true;
         } else {
             this._processUnfinished = true;
         }
@@ -1418,7 +1423,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public HistoricTaskInstanceQuery ignoreAssigneeValue() {
         if (inOrStatement) {
-            this.currentOrQueryObject.ignoreAssigneeValue = true;
+            this.currentOrQueryObject._ignoreAssigneeValue = true;
         } else {
             this._ignoreAssigneeValue = true;
         }
@@ -1672,7 +1677,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
 
     public string getMssqlOrDB2OrderBy() {
         string specialOrderBy = super.getOrderByColumns();
-        if (specialOrderBy !is null && specialOrderBy.length() > 0) {
+        if (specialOrderBy !is null && specialOrderBy.length > 0) {
             specialOrderBy = specialOrderBy.replace("RES.", "TEMPRES_");
             specialOrderBy = specialOrderBy.replace("VAR.", "TEMPVAR_");
         }
@@ -1695,7 +1700,7 @@ class HistoricTaskInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricTaskIns
     }
 
     protected Collection!string getGroupsForCandidateUser(string candidateUser) {
-        Collection!string groupIds = new ArrayList!stringstringstringstringstringstringstringstringstringstringstringstringvstring();
+        Collection!string groupIds = new ArrayList!string();
         IdmIdentityService idmIdentityService = CommandContextUtil.getTaskServiceConfiguration().getIdmIdentityService();
         if (idmIdentityService !is null) {
             List!Group groups = idmIdentityService.createGroupQuery().groupMember(candidateUser).list();

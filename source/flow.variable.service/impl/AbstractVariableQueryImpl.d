@@ -200,16 +200,20 @@ abstract class AbstractVariableQueryImpl(T , U) : AbstractQuery!(T, U) {
         }
         if (value is null || isBoolean(value)) {
             // Null-values and booleans can only be used in EQUALS, NOT_EQUALS, EXISTS and NOT_EXISTS
-            switch (operator) {
-                case GREATER_THAN:
+            //switch (operator) {
+                if (operator == QueryOperator.GREATER_THAN)
                     throw new FlowableIllegalArgumentException("Booleans and null cannot be used in 'greater than' condition");
-                case LESS_THAN:
+                else if (operator == QueryOperator.LESS_THAN)
                     throw new FlowableIllegalArgumentException("Booleans and null cannot be used in 'less than' condition");
-                case GREATER_THAN_OR_EQUAL:
+                else if (operator == QueryOperator.GREATER_THAN_OR_EQUAL)
                     throw new FlowableIllegalArgumentException("Booleans and null cannot be used in 'greater than or equal' condition");
-                case LESS_THAN_OR_EQUAL:
+                else if (operator == QueryOperator.LESS_THAN_OR_EQUAL)
                     throw new FlowableIllegalArgumentException("Booleans and null cannot be used in 'less than or equal' condition");
-            }
+                else
+                    {
+
+                    }
+                //}
 
             if (operator == QueryOperator.EQUALS_IGNORE_CASE && (cast(String)value is null)) {
                 throw new FlowableIllegalArgumentException("Only string values can be used with 'equals ignore case' condition");
@@ -230,7 +234,7 @@ abstract class AbstractVariableQueryImpl(T , U) : AbstractQuery!(T, U) {
         if (value is null) {
             return false;
         }
-        return cast(value)value !is null? true : false;
+        return cast(Boolean)value !is null? true : false;
        // return Boolean.class.isAssignableFrom(value.getClass()) || bool.class.isAssignableFrom(value.getClass());
     }
 

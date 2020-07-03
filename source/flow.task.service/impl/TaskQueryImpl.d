@@ -41,6 +41,8 @@ import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
 import std.string;
 import flow.task.service.impl.TaskQueryProperty;
 import hunt.Exceptions;
+import flow.common.api.query.Query;
+
 /**
  * @author Joram Barrez
  * @author Tom Baeyens
@@ -321,9 +323,6 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
 
     public TaskQuery taskPriority(int priority) {
-        if (priority is null) {
-            throw new FlowableIllegalArgumentException("Priority is null");
-        }
         if (orActive) {
             currentOrQueryObject.priority = priority;
         } else {
@@ -334,9 +333,6 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
 
     public TaskQuery taskMinPriority(int minPriority) {
-        if (minPriority is null) {
-            throw new FlowableIllegalArgumentException("Min Priority is null");
-        }
         if (orActive) {
             currentOrQueryObject.minPriority = minPriority;
         } else {
@@ -347,9 +343,6 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
 
     public TaskQuery taskMaxPriority(int maxPriority) {
-        if (maxPriority is null) {
-            throw new FlowableIllegalArgumentException("Max Priority is null");
-        }
         if (orActive) {
             currentOrQueryObject.maxPriority = maxPriority;
         } else {
@@ -603,7 +596,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public TaskQuery ignoreAssigneeValue() {
         if (orActive) {
-            currentOrQueryObject.ignoreAssigneeValue = true;
+            currentOrQueryObject._ignoreAssigneeValue = true;
         } else {
             this._ignoreAssigneeValue = true;
         }
@@ -1354,8 +1347,8 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public TaskQuery dueDate(Date dueDate) {
         if (orActive) {
-            currentOrQueryObject.dueDate = dueDate;
-            currentOrQueryObject.withoutDueDate = false;
+            currentOrQueryObject._dueDate = dueDate;
+            currentOrQueryObject._withoutDueDate = false;
         } else {
             this._dueDate = dueDate;
             this._withoutDueDate = false;
@@ -1364,14 +1357,14 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     }
 
 
-    public TaskQuery taskDueDate(Date dueDate) {
-        return dueDate(dueDate);
+    public TaskQuery taskDueDate(Date due) {
+        return dueDate(due);
     }
 
     public TaskQuery dueBefore(Date dueBefore) {
         if (orActive) {
-            currentOrQueryObject.dueBefore = dueBefore;
-            currentOrQueryObject.withoutDueDate = false;
+            currentOrQueryObject._dueBefore = dueBefore;
+            currentOrQueryObject._withoutDueDate = false;
         } else {
             this._dueBefore = dueBefore;
             this._withoutDueDate = false;
@@ -1386,8 +1379,8 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public TaskQuery dueAfter(Date dueAfter) {
         if (orActive) {
-            currentOrQueryObject.dueAfter = dueAfter;
-            currentOrQueryObject.withoutDueDate = false;
+            currentOrQueryObject._dueAfter = dueAfter;
+            currentOrQueryObject._withoutDueDate = false;
         } else {
             this._dueAfter = dueAfter;
             this._withoutDueDate = false;
@@ -1402,7 +1395,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public TaskQuery withoutDueDate() {
         if (orActive) {
-            currentOrQueryObject.withoutDueDate = true;
+            currentOrQueryObject._withoutDueDate = true;
         } else {
             this._withoutDueDate = true;
         }
@@ -1417,7 +1410,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public TaskQuery excludeSubtasks() {
         if (orActive) {
-            currentOrQueryObject.excludeSubtasks = true;
+            currentOrQueryObject._excludeSubtasks = true;
         } else {
             this._excludeSubtasks = true;
         }
@@ -1427,9 +1420,9 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public TaskQuery suspended() {
         if (orActive) {
-            currentOrQueryObject.suspensionState = SuspensionState.SUSPENDED;
+            currentOrQueryObject.suspensionState = SUSPENDED;
         } else {
-            this.suspensionState = SuspensionState.SUSPENDED;
+            this.suspensionState = SUSPENDED;
         }
         return this;
     }
@@ -1437,9 +1430,9 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public TaskQuery active() {
         if (orActive) {
-            currentOrQueryObject.suspensionState = SuspensionState.ACTIVE;
+            currentOrQueryObject.suspensionState = ACTIVE;
         } else {
-            this.suspensionState = SuspensionState.ACTIVE;
+            this.suspensionState = ACTIVE;
         }
         return this;
     }
@@ -1643,7 +1636,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
 
     public string getMssqlOrDB2OrderBy() {
         string specialOrderBy = super.getOrderByColumns();
-        if (specialOrderBy !is null && specialOrderBy.length() > 0) {
+        if (specialOrderBy !is null && specialOrderBy.length > 0) {
             specialOrderBy = specialOrderBy.replace("RES.", "TEMPRES_");
         }
         return specialOrderBy;
@@ -1663,7 +1656,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
         if (includeTaskLocalVariables || includeProcessVariables || includeIdentityLinks) {
             tasks = CommandContextUtil.getTaskEntityManager(commandContext).findTasksWithRelatedEntitiesByQueryCriteria(this);
 
-            if (taskId !is null) {
+            if (_taskId !is null && _taskId.length != 0) {
                 if (includeProcessVariables) {
                     addCachedVariableForQueryById(commandContext, tasks, false);
                 } else if (includeTaskLocalVariables) {

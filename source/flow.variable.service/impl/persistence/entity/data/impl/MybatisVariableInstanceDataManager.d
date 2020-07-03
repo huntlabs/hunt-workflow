@@ -12,6 +12,7 @@
  */
 module flow.variable.service.impl.persistence.entity.data.impl.MybatisVariableInstanceDataManager;
 
+import std.array;
 import hunt.collection;
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -124,7 +125,14 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
 
     public List!VariableInstanceEntity findVariableInstancesByTaskId(string taskId) {
       VariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
-      return new ArrayList!VariableInstanceEntity(objs);
+
+      List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+      foreach(VariableInstanceEntityImpl v ; objs)
+      {
+          list.add(cast(VariableInstanceEntity)v);
+      }
+      return list;
+      //return new ArrayList!VariableInstanceEntity(objs);
        // return getList("selectVariablesByTaskId", taskId, variableInstanceByTaskIdMatcher, true);
     }
 
@@ -135,7 +143,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         foreach (string taskId ; taskIds)
         {
             List!VariableInstanceEntity ls  = findVariableInstancesByTaskId(taskId);
-            if (ls.length != 0)
+            if (ls.size != 0)
             {
                lts.addAll(ls);
             }
@@ -154,13 +162,19 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.executionId = :executionId and u.taskId is null ");
         select.setParameter("executionId",executionId);
         VariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list;
+        //return new ArrayList!VariableInstanceEntity(ls);
     }
 
 
 
     public List!VariableInstanceEntity findVariableInstancesByExecutionIds(Set!string executionIds) {
-        if (executionIds.length == 0)
+        if (executionIds.size == 0)
         {
             return null;
         }
@@ -169,9 +183,16 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
           _manager.close();
         }
 
-        VariableInstanceEntityImpl[] ls =  _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl a WHERE a.executionId IN (" ~ uids.toArray().join(",") ~ ") and u.taskId is null;")
+        VariableInstanceEntityImpl[] ls =  _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl a WHERE a.executionId IN (" ~ executionIds.toArray().join(",") ~ ") and u.taskId is null;")
         .getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list;
+        //return new ArrayList!VariableInstanceEntity(ls);
        // return getDbSqlSession().selectList("selectVariablesByExecutionIds", executionIds);
     }
 
@@ -185,7 +206,14 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         select.setParameter("executionId",executionId);
         select.setParameter("variableName",variableName);
         VariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list.isEmpty()? null : list.get(0);
+        //return new ArrayList!VariableInstanceEntity(ls);
         //Map<string, string> params = new HashMap<>(2);
         //params.put("executionId", executionId);
         //params.put("name", variableName);
@@ -213,7 +241,14 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         select.setParameter("variableName",variableName);
         select.setParameter("taskId",taskId);
         VariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list.isEmpty()? null : list.get(0);
+        //return new ArrayList!VariableInstanceEntity(ls);
         //Map<string, string> params = new HashMap<>(2);
         //params.put("taskId", taskId);
         //params.put("name", variableName);
@@ -241,7 +276,13 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         select.setParameter("scopeId",scopeId);
         select.setParameter("scopeType",scopeType);
         VariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list;
+        //return new ArrayList!VariableInstanceEntity(ls);
         //Map<string, Object> params = new HashMap<>(2);
         //params.put("scopeId", scopeId);
         //params.put("scopeType", scopeType);
@@ -259,7 +300,13 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         select.setParameter("scopeType",scopeType);
         select.setParameter("variableName",variableName);
         VariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list.isEmpty() ? null : list.get(0);
+        //return new ArrayList!VariableInstanceEntity(ls);
         //Map<string, string> params = new HashMap<>(3);
         //params.put("scopeId", scopeId);
         //params.put("scopeType", scopeType);
@@ -288,7 +335,14 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         select.setParameter("subScopeId",subScopeId);
         select.setParameter("scopeType",scopeType);
         VariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list;
+        //return new ArrayList!VariableInstanceEntity(ls);
         //Map<string, Object> params = new HashMap<>(2);
         //params.put("subScopeId", subScopeId);
         //params.put("scopeType", scopeType);
@@ -306,7 +360,13 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         select.setParameter("scopeType",scopeType);
         select.setParameter("variableName",variableName);
         VariableInstanceEntityImpl[] ls = select.getResultList();
-        return new ArrayList!VariableInstanceEntity(ls);
+        List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
+        foreach(VariableInstanceEntityImpl v ; ls)
+        {
+          list.add(cast(VariableInstanceEntity)v);
+        }
+        return list.isEmpty() ? null : list.get(0);
+        //return new ArrayList!VariableInstanceEntity(ls);
         //Map<string, string> params = new HashMap<>(3);
         //params.put("subScopeId", subScopeId);
         //params.put("scopeType", scopeType);
@@ -317,6 +377,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
 
     public List!VariableInstanceEntity findVariableInstancesBySubScopeIdAndScopeTypeAndNames(string subScopeId, string scopeType, Collection!string variableNames) {
         implementationMissing(false);
+        return null;
         //Map<string, Object> params = new HashMap<>(3);
         //params.put("subScopeId", subScopeId);
         //params.put("scopeType", scopeType);

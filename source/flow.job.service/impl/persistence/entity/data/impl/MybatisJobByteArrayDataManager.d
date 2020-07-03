@@ -101,7 +101,14 @@ class MybatisJobByteArrayDataManager : EntityRepository!( JobByteArrayEntityImpl
 
       JobByteArrayEntityImpl[] array =  _manager.createQuery!(JobByteArrayEntityImpl)("SELECT * FROM JobByteArrayEntityImpl")
       .getResultList();
-      return new ArrayList!JobByteArrayEntity(array);
+      List!JobByteArrayEntity list = new ArrayList!JobByteArrayEntity;
+
+      foreach(JobByteArrayEntityImpl j ; array)
+      {
+          list.add(cast(JobByteArrayEntity)j);
+      }
+
+      return list;
         //return getDbSqlSession().selectList("selectJobByteArrays");
     }
 

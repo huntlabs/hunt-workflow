@@ -32,6 +32,6 @@ abstract class AbstractTaskServiceEntityManager(EntityImpl, DM)
 
     override
     protected FlowableEntityEvent createEntityEvent(FlowableEngineEventType eventType, Entity entity) {
-        return FlowableTaskEventBuilder.createEntityEvent(eventType, entity);
+        return FlowableTaskEventBuilder.createEntityEvent(eventType, cast(Object)entity);
     }
 }

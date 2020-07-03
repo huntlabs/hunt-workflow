@@ -29,4 +29,6 @@ interface IdentityLink : IdentityLinkInfo {
      */
     string getProcessDefinitionId();
 
+    size_t opCmp(IdentityLink o);
+
 }

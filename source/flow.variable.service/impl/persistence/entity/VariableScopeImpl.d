@@ -222,13 +222,13 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             variables.put(variableInstance.getName(), variableInstance.getValue());
         }
 
-        foreach (string variableName ; usedVariablesCache.keySet()) {
-            variables.put(variableName, usedVariablesCache.get(variableName).getValue());
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
+            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()).getValue());
         }
 
         if (transientVariables !is null) {
-            foreach (string variableName ; transientVariables.keySet()) {
-                variables.put(variableName, transientVariables.get(variableName).getValue());
+            foreach (MapEntry!(string, VariableInstance) variableName ; transientVariables) {
+                variables.put(variableName.getKey(), transientVariables.get(variableName.getKey()).getValue());
             }
         }
 
@@ -246,8 +246,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             variables.put(variableInstance.getName(), variableInstance);
         }
 
-        foreach (string variableName ; usedVariablesCache.keySet()) {
-            variables.put(variableName, usedVariablesCache.get(variableName));
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
+            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()));
         }
 
         if (transientVariables !is null) {
@@ -447,7 +447,11 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     protected Set!string collectVariableNames(Set!string variableNames) {
         if (transientVariables !is null) {
-            variableNames.addAll(transientVariables.keySet());
+            foreach(MapEntry!(string, VariableInstance) entry ; transientVariables)
+            {
+              variableNames.add(entry.getKey());
+            }
+            //variableNames.addAll(transientVariables.keySet());
         }
 
         ensureVariableInstancesInitialized();
@@ -473,12 +477,12 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         foreach (VariableInstanceEntity variableInstance ; variableInstances.values()) {
             variables.put(variableInstance.getName(), variableInstance.getValue());
         }
-        foreach (string variableName ; usedVariablesCache.keySet()) {
-            variables.put(variableName, usedVariablesCache.get(variableName).getValue());
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
+            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()).getValue());
         }
         if (transientVariables !is null) {
-            foreach (string variableName ; transientVariables.keySet()) {
-                variables.put(variableName, transientVariables.get(variableName).getValue());
+            foreach (MapEntry!(string, VariableInstance) variableName ; transientVariables) {
+                variables.put(variableName.getKey(), transientVariables.get(variableName.getKey()).getValue());
             }
         }
         return variables;
@@ -491,8 +495,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         foreach (VariableInstanceEntity variableInstance ; variableInstances.values()) {
             variables.put(variableInstance.getName(), variableInstance);
         }
-        foreach (string variableName ; usedVariablesCache.keySet()) {
-            variables.put(variableName, usedVariablesCache.get(variableName));
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
+            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()));
         }
         if (transientVariables !is null) {
             variables.putAll(transientVariables);
@@ -586,10 +590,18 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
     public Set!string getVariableNamesLocal() {
         Set!string variableNames = new HashSet!string();
         if (transientVariables !is null) {
-            variableNames.addAll(transientVariables.keySet());
+            foreach(MapEntry!(string, VariableInstance) entry ; transientVariables)
+            {
+              variableNames.add(entry.getKey());
+            }
+           // variableNames.addAll(transientVariables.keySet());
         }
         ensureVariableInstancesInitialized();
-        variableNames.addAll(variableInstances.keySet());
+        foreach(MapEntry!(string, VariableInstanceEntity) entry ; variableInstances)
+        {
+          variableNames.add(entry.getKey());
+        }
+       // variableNames.addAll(variableInstances.keySet());
         return variableNames;
     }
 
@@ -614,8 +626,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     public void setVariables(Map!(string,Object) variables) {
         if (variables !is null) {
-            foreach (string variableName ; variables.keySet()) {
-                setVariable(variableName, variables.get(variableName));
+            foreach (MapEntry!(string,Object) variableName ; variables) {
+                setVariable(variableName.getKey(), variables.get(variableName.getKey()));
             }
         }
     }
@@ -623,8 +635,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     public void setVariablesLocal(Map!(string, Object) variables) {
         if (variables !is null) {
-            foreach (string variableName ; variables.keySet()) {
-                setVariableLocal(variableName, variables.get(variableName));
+            foreach (MapEntry!(string, Object) variableName ; variables) {
+                setVariableLocal(variableName.getKey(), variables.get(variableName.getKey()));
             }
         }
     }
@@ -632,7 +644,12 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     public void removeVariables() {
         ensureVariableInstancesInitialized();
-        Set!string variableNames = new HashSet!string(variableInstances.keySet());
+        //Set!string variableNames = new HashSet!string(variableInstances.keySet());
+        Set!string variableNames  = new HashSet!string;
+        foreach(MapEntry!(string, VariableInstanceEntity) entry; variableInstances)
+        {
+             variableNames.add(entry.getKey());
+        }
         foreach (string variableName ; variableNames) {
             removeVariable(variableName);
         }
@@ -875,7 +892,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         Object oldVariableValue = variableInstance.getValue();
         string oldVariableType = variableInstance.getTypeName();
 
-        if (newType !is null && !newType.equals(variableInstance.getType())) {
+        if (newType !is null && newType != (variableInstance.getType())) {
             variableInstance.setValue(null);
             variableInstance.setType(newType);
             variableInstance.forceUpdate();
@@ -960,8 +977,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
 
     public void setTransientVariablesLocal(Map!(string, Object) transientVariables) {
-        foreach (string variableName ; transientVariables.keySet()) {
-            setTransientVariableLocal(variableName, transientVariables.get(variableName));
+        foreach (MapEntry!(string, Object) variableName ; transientVariables) {
+            setTransientVariableLocal(variableName.getKey(), transientVariables.get(variableName.getKey()));
         }
     }
 
@@ -975,8 +992,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
 
     public void setTransientVariables(Map!(string, Object) transientVariables) {
-        foreach (string variableName ; transientVariables.keySet()) {
-            setTransientVariable(variableName, transientVariables.get(variableName));
+        foreach (MapEntry!(string, Object) variableName ; transientVariables) {
+            setTransientVariable(variableName.getKey(), transientVariables.get(variableName.getKey()));
         }
     }
 
@@ -1002,12 +1019,12 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
     public Map!(string, Object) getTransientVariablesLocal() {
         if (transientVariables !is null) {
             Map!(string, Object) variables = new HashMap!(string, Object)();
-            foreach (string variableName ; transientVariables.keySet()) {
-                variables.put(variableName, transientVariables.get(variableName).getValue());
+            foreach (MapEntry!(string, VariableInstance) variableName ; transientVariables) {
+                variables.put(variableName.getKey(), transientVariables.get(variableName.getKey()).getValue());
             }
             return variables;
         } else {
-            return Collections.emptyMap();
+            return Collections.emptyMap!(string, Object)();
         }
     }
 
@@ -1037,8 +1054,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         }
 
         if (transientVariables !is null) {
-            foreach (string variableName ;transientVariables.keySet()) {
-                variables.put(variableName, transientVariables.get(variableName).getValue());
+            foreach (MapEntry!(string, VariableInstance) variableName ;transientVariables) {
+                variables.put(variableName.getKey(), transientVariables.get(variableName.getKey()).getValue());
             }
         }
 

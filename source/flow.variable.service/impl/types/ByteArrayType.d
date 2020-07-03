@@ -35,12 +35,12 @@ class ByteArrayType : VariableType {
 
 
     public Object getValue(ValueFields valueFields) {
-        return valueFields.getBytes();
+        return new String(cast(string)valueFields.getBytes());
     }
 
 
     public void setValue(Object value, ValueFields valueFields) {
-        valueFields.setBytes(cast(byte[]) (cast(String)value.value));
+        valueFields.setBytes(cast(byte[]) ((cast(String)value).value));
     }
 
 

@@ -52,8 +52,8 @@ class HistoricTaskLogEntryBuilderImpl : BaseHistoricTaskLogEntryBuilderImpl , Co
           implementationMissing(false);
             //userId(Authentication.getAuthenticatedUserId());
         }
-        if (timeStamp is null) {
-            timeStamp(CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime());
+        if (_timeStamp is null) {
+            _timeStamp = (CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime());
         }
 
         CommandContextUtil.getTaskServiceConfiguration(commandContext).getInternalHistoryTaskManager().recordHistoryUserTaskLog(this);

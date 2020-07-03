@@ -160,7 +160,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     this() {
-        suspensionState = SuspensionState.ACTIVE.getStateCode();
+        suspensionState = ACTIVE.getStateCode();
         tenantId = TaskServiceConfiguration.NO_TENANT_ID;
         taskIdentityLinkEntities = new ArrayList!IdentityLinkEntity;
         priority = DEFAULT_PRIORITY;
@@ -264,7 +264,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
     override
     protected void initializeVariableInstanceBackPointer(VariableInstanceEntity variableInstance) {
         variableInstance.setTaskId(id);
-        if (ScopeTypes.CMMN.equals(this.scopeType)) {
+        if (ScopeTypes.CMMN == (this.scopeType)) {
             variableInstance.setScopeId(this.scopeId);
             variableInstance.setScopeType(this.scopeType);
             variableInstance.setSubScopeId(this.subScopeId);
@@ -478,7 +478,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public string getName() {
-        if (localizedName !is null && localizedName.length() > 0) {
+        if (localizedName !is null && localizedName.length > 0) {
             return localizedName;
         } else {
             return name;
@@ -496,7 +496,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public string getDescription() {
-        if (localizedDescription !is null && localizedDescription.length() > 0) {
+        if (localizedDescription !is null && localizedDescription.length > 0) {
             return localizedDescription;
         } else {
             return description;
@@ -529,7 +529,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        this.createTime = createTime.toEpochMilli;
     }
 
 
@@ -717,7 +717,12 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
     }
 
     protected List!IdentityLink convertToIdentityLinks(List!IdentityLinkEntity identityLinks) {
-        List!IdentityLink identityLinkObjects = new ArrayList!IdentityLink(identityLinks);
+        List!IdentityLink identityLinkObjects = new ArrayList!IdentityLink();
+        foreach(IdentityLinkEntity i ; identityLinks)
+        {
+            identityLinkObjects.add(cast(IdentityLink) i);
+        }
+
         return identityLinkObjects;
     }
 
@@ -740,17 +745,17 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
     }
 
     public void setDelegationStateString(string delegationStateString) {
-        this.delegationState = (delegationStateString !is null ? valueOf!DelegationState(delegationStateString) : null);
+        this.delegationState = ((delegationStateString !is null && delegationStateString.length != 0) ? valueOf!DelegationState(delegationStateString) : null);
     }
 
     override
     public bool isDeleted() {
-        return isDeleted;
+        return super.isDeleted;
     }
 
     override
     public void setDeleted(bool isDeleted) {
-        this.isDeleted = isDeleted;
+          super.setDeleted(isDeleted);
     }
 
 
@@ -791,7 +796,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public bool isSuspended() {
-        return suspensionState == SuspensionState.SUSPENDED.getStateCode();
+        return suspensionState == SUSPENDED.getStateCode();
     }
 
 

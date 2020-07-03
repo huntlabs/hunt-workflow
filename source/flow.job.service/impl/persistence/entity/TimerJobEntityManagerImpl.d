@@ -31,6 +31,8 @@ import flow.job.service.impl.persistence.entity.AbstractJobServiceEngineEntityMa
 import flow.job.service.impl.persistence.entity.TimerJobEntityManager;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 import flow.job.service.impl.persistence.entity.JobEntity;
+import std.array;
+import hunt.Exceptions;
 
 /**
  * @author Tijs Rademakers
@@ -153,7 +155,7 @@ class TimerJobEntityManagerImpl
         // Send event
         FlowableEventDispatcher eventDispatcher = getEventDispatcher();
         if (eventDispatcher !is null && eventDispatcher.isEnabled()) {
-            eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, jobEntity));
+            eventDispatcher.dispatchEvent(FlowableJobEventBuilder.createEntityEvent(FlowableEngineEventType.ENTITY_DELETED, cast(Object)jobEntity));
         }
     }
 
@@ -194,21 +196,25 @@ class TimerJobEntityManagerImpl
     }
 
     protected bool isValidTime(JobEntity timerEntity, Date newTimerDate, VariableScope variableScope) {
-        BusinessCalendar businessCalendar = serviceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
-                        serviceConfiguration.getJobManager().getBusinessCalendarName(timerEntity, variableScope));
-        return businessCalendar.validateDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations(), timerEntity.getEndDate(), newTimerDate);
+        implementationMissing(false);
+        return true;
+        //BusinessCalendar businessCalendar = serviceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
+        //                serviceConfiguration.getJobManager().getBusinessCalendarName(timerEntity, variableScope));
+        //return businessCalendar.validateDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations(), timerEntity.getEndDate(), newTimerDate);
     }
 
     protected Date calculateNextTimer(JobEntity timerEntity, VariableScope variableScope) {
-        BusinessCalendar businessCalendar = serviceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
-                        serviceConfiguration.getJobManager().getBusinessCalendarName(timerEntity, variableScope));
-        return businessCalendar.resolveDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations());
+        implementationMissing(false);
+        return null;
+        //BusinessCalendar businessCalendar = serviceConfiguration.getBusinessCalendarManager().getBusinessCalendar(
+        //                serviceConfiguration.getJobManager().getBusinessCalendarName(timerEntity, variableScope));
+        //return businessCalendar.resolveDuedate(timerEntity.getRepeat(), timerEntity.getMaxIterations());
     }
 
     protected int calculateRepeatValue(JobEntity timerEntity) {
         int times = -1;
         List!string expression = new ArrayList!string(timerEntity.getRepeat().split("/"));
-        if (expression.size() > 1 && startsWith(expression.get(0),"R") && expression.get(0).length() > 1) {
+        if (expression.size() > 1 && startsWith(expression.get(0),"R") && expression.get(0).length > 1) {
             string t = expression.get(0)[ 1 .. $];
             times = to!int(t);
            // times = Integer.parseInt(expression.get(0).substring(1));

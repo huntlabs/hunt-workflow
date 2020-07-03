@@ -46,7 +46,7 @@ class VariableInstanceEntityManagerImpl
 
 
     public VariableInstanceEntity create(string name, VariableType type) {
-        VariableInstanceEntity variableInstance = create();
+        VariableInstanceEntity variableInstance = super.create();
         variableInstance.setName(name);
         variableInstance.setType(type);
         variableInstance.setTypeName(type.getTypeName());
@@ -64,7 +64,7 @@ class VariableInstanceEntityManagerImpl
     }
 
 
-    public List!VariableInstanceEntity findVariableInstancesByExecutionId(final string executionId) {
+    public List!VariableInstanceEntity findVariableInstancesByExecutionId( string executionId) {
         return dataManager.findVariableInstancesByExecutionId(executionId);
     }
 

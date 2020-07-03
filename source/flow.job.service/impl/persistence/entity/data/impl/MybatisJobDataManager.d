@@ -73,7 +73,7 @@ class MybatisJobDataManager : EntityRepository!( JobEntityImpl , string) , JobDa
     }
 
 
-    public List!JobEntity findJobsByExecutionId(final string executionId) {
+    public List!JobEntity findJobsByExecutionId( string executionId) {
         implementationMissing(false);
         return null;
         //DbSqlSession dbSqlSession = getDbSqlSession();
@@ -88,7 +88,7 @@ class MybatisJobDataManager : EntityRepository!( JobEntityImpl , string) , JobDa
 
 
 
-    public List!JobEntity findJobsByProcessInstanceId(final string processInstanceId) {
+    public List!JobEntity findJobsByProcessInstanceId( string processInstanceId) {
         implementationMissing(false);
         return null;
         //return getDbSqlSession().selectList("selectJobsByProcessInstanceId", processInstanceId);
