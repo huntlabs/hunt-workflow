@@ -26,8 +26,8 @@ class SendTaskParseHandler : AbstractActivityBpmnParseHandler!SendTask {
 
 
     override
-    TypeInfo getHandledType() {
-        return typeid(SendTask);
+    BaseElement getHandledType() {
+        return new SendTask;
     }
 
     override

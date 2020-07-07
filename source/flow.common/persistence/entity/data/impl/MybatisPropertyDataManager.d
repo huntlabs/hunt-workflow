@@ -32,10 +32,46 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
     //    return PropertyEntityImpl.class;
     //}
 
-    this()
+  alias findAll = CrudRepository!(PropertyEntityImpl,string).findAll;
+  alias findById = CrudRepository!(PropertyEntityImpl,string).findById;
+  alias insert = CrudRepository!(PropertyEntityImpl,string).insert;
+  alias update = CrudRepository!(PropertyEntityImpl,string).update;
+
+  this()
     {
       //TODO
       super(entityManagerFactory.currentEntityManager());
+    }
+
+
+    public void insert(PropertyEntity entity) {
+      super.insert(cast(PropertyEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public PropertyEntity update(PropertyEntity entity) {
+      return  super.update(cast(PropertyEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+    //
+    //@Override
+    public void dele(string id) {
+      PropertyEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(PropertyEntityImpl)entity);
+      }
+      //delete(entity);
+    }
+
+    public void dele(PropertyEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(PropertyEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
     }
 
     //@Override

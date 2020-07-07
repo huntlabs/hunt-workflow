@@ -37,6 +37,11 @@ class HistoricProcessInstanceEntityManagerImpl
         super(processEngineConfiguration, historicProcessInstanceDataManager);
     }
 
+    override
+    HistoricProcessInstanceEntity create()
+    {
+        return super.create();
+    }
 
     public HistoricProcessInstanceEntity create(ExecutionEntity processInstanceExecutionEntity) {
         return dataManager.create(processInstanceExecutionEntity);

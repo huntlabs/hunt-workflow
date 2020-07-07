@@ -63,7 +63,7 @@ class BaseEntityEventListener : AbstractFlowableEventListener {
         this.entityClass = entityClass;
     }
 
-
+    override
     public  void onEvent(FlowableEvent event) {
         if (isValidEvent(event)) {
             // Check if this event
@@ -82,7 +82,7 @@ class BaseEntityEventListener : AbstractFlowableEventListener {
         }
     }
 
-
+    override
     public bool isFailOnException() {
         return failOnException;
     }

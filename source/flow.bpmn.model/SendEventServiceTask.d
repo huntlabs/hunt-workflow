@@ -13,6 +13,10 @@
 
 module flow.bpmn.model.SendEventServiceTask;
 
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.ServiceTask;
@@ -22,6 +26,11 @@ import flow.bpmn.model.IOParameter;
  */
 class SendEventServiceTask : ServiceTask {
 
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = Activity.setValues;
+    alias setValues = ServiceTask.setValues;
     protected string eventType;
     protected string triggerEventType;
     protected bool sendSynchronously;

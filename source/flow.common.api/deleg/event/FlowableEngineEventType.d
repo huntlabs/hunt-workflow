@@ -44,6 +44,12 @@ class FlowableEngineEventType : AbstractEnum!FlowableEngineEventType, FlowableEv
      */
     static FlowableEngineEventType[] vs;
 
+
+    int opCmp(FlowableEventType o)
+    {
+        return this.ordinal - (cast(FlowableEngineEventType)o).ordinal;
+    }
+
     this(string name, int val)
     {
         super(name,val);

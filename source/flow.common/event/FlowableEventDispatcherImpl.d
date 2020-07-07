@@ -1,24 +1,24 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.common.event.FlowableEventDispatcherImpl;
- 
- 
- 
+
+
+
 
 
 import flow.common.api.deleg.event.FlowableEvent;
@@ -32,7 +32,7 @@ import flow.common.event.FlowableEventSupport;
 import hunt.Exceptions;
 /**
  * Class capable of dispatching events.
- * 
+ *
  * @author Frederik Heremans
  */
 class FlowableEventDispatcherImpl : FlowableEventDispatcher {
@@ -56,9 +56,9 @@ class FlowableEventDispatcherImpl : FlowableEventDispatcher {
         eventSupport.addEventListener(listenerToAdd);
     }
 
-    //public void addEventListener(FlowableEventListener listenerToAdd, FlowableEventType... types) {
-    //    eventSupport.addEventListener(listenerToAdd, types);
-    //}
+    public void addEventListener(FlowableEventListener listenerToAdd, FlowableEventType[] types) {
+        eventSupport.addEventListener(listenerToAdd, types);
+    }
 
     public void removeEventListener(FlowableEventListener listenerToRemove) {
         eventSupport.removeEventListener(listenerToRemove);
@@ -88,5 +88,6 @@ class FlowableEventDispatcherImpl : FlowableEventDispatcher {
     public void setEventSupport(FlowableEventSupport eventSupport) {
         this.eventSupport = eventSupport;
     }
+
 
 }

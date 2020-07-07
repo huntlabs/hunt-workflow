@@ -200,4 +200,59 @@ class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,
         return "EventDeploymentEntity[id=" ~ id ~ ", name=" ~ name ~ "]";
     }
 
+
+    override
+    string getIdPrefix()
+    {
+      return super.getIdPrefix;
+    }
+
+    override
+    bool isInserted()
+    {
+      return super.isInserted();
+    }
+
+    override
+    void setInserted(bool inserted)
+    {
+      return super.setInserted(inserted);
+    }
+
+    override
+    bool isUpdated()
+    {
+      return super.isUpdated;
+    }
+
+    override
+    void setUpdated(bool updated)
+    {
+      super.setUpdated(updated);
+    }
+
+    override
+    bool isDeleted()
+    {
+      return super.isDeleted;
+    }
+
+    override
+    void setDeleted(bool deleted)
+    {
+      super.setDeleted(deleted);
+    }
+
+    override
+    Object getOriginalPersistentState()
+    {
+      return super.getOriginalPersistentState;
+    }
+
+    override
+    void setOriginalPersistentState(Object persistentState)
+    {
+      super.setOriginalPersistentState(persistentState);
+    }
+
 }

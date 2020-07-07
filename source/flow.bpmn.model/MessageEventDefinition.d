@@ -15,10 +15,13 @@ module flow.bpmn.model.MessageEventDefinition;
 
 
 import flow.bpmn.model.EventDefinition;
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class MessageEventDefinition : EventDefinition {
+
+  alias setValues = BaseElement.setValues;
 
     protected string messageRef;
     protected string messageExpression;

@@ -13,7 +13,12 @@
 module flow.bpmn.model.Transaction;
 
 import flow.bpmn.model.SubProcess;
-
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.FlowElement;
 class Transaction : SubProcess {
-
+  alias setValues = FlowElement.setValues;
+  alias setValues = FlowNode.setValues;
+  alias setValues = Activity.setValues;
+  alias setValues = SubProcess.setValues;
 }

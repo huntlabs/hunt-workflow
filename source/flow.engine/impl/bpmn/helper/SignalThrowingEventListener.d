@@ -37,6 +37,7 @@ class SignalThrowingEventListener : BaseDelegateEventListener {
     protected string signalName;
     protected bool processInstanceScope = true;
 
+    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event) && cast(FlowableEngineEvent)event !is null) {
 
@@ -76,6 +77,7 @@ class SignalThrowingEventListener : BaseDelegateEventListener {
         this.processInstanceScope = processInstanceScope;
     }
 
+    override
     public bool isFailOnException() {
         return true;
     }

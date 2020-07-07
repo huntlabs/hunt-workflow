@@ -33,6 +33,9 @@ import hunt.entity;
  */
 class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , string) , DeploymentDataManager {
 
+    alias findById = CrudRepository!(DeploymentEntityImpl , string).findById;
+    alias insert = CrudRepository!(DeploymentEntityImpl , string).insert;
+    alias update = CrudRepository!(DeploymentEntityImpl , string).update;
     private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 

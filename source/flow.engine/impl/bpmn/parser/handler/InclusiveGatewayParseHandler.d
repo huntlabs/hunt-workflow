@@ -23,8 +23,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class InclusiveGatewayParseHandler : AbstractActivityBpmnParseHandler!InclusiveGateway {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(InclusiveGateway);
+    BaseElement getHandledType() {
+        return new InclusiveGateway;
     }
 
     override

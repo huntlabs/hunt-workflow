@@ -13,10 +13,18 @@
 module flow.bpmn.model.alfresco.AlfrescoMailTask;
 
 import flow.bpmn.model.ServiceTask;
-
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
 class AlfrescoMailTask : ServiceTask {
 
-    override
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
+    alias setValues = ServiceTask.setValues;
+  override
     public AlfrescoMailTask clone() {
         AlfrescoMailTask clone = new AlfrescoMailTask();
         clone.setValues(this);

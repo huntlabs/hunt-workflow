@@ -24,8 +24,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 class ConditionalEventDefinitionParseHandler : AbstractBpmnParseHandler!ConditionalEventDefinition {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(ConditionalEventDefinition);
+    BaseElement getHandledType() {
+        return new ConditionalEventDefinition;
     }
 
     override

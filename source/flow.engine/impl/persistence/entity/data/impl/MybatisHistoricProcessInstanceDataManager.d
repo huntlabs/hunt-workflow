@@ -34,6 +34,10 @@ import hunt.logging;
  */
 class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProcessInstanceEntityImpl , string) , HistoricProcessInstanceDataManager {
 
+    alias findById = CrudRepository!(HistoricProcessInstanceEntityImpl , string).findById;
+    alias insert = CrudRepository!(HistoricProcessInstanceEntityImpl , string).insert;
+    alias update = CrudRepository!(HistoricProcessInstanceEntityImpl , string).update;
+
     private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 

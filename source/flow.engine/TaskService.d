@@ -541,7 +541,7 @@ interface TaskService {
     /**
      * get a variables and search in the task scope and if available also the execution scopes.
      */
-    Object getVariable(string taskId, string variableName, TypeInfo variableClass);
+    //Object getVariable(string taskId, string variableName, TypeInfo variableClass);
 
     /**
      * The variable. Searching for the variable is done in all scopes that are visible to the given task (including parent scopes). Returns null when no variable value is found with the given name.
@@ -569,7 +569,7 @@ interface TaskService {
     /**
      * checks whether or not the task has a variable defined with the given name.
      */
-    Object getVariableLocal(string taskId, string variableName, TypeInfo variableClass);
+   // Object getVariableLocal(string taskId, string variableName, TypeInfo variableClass);
 
     /**
      * The variable for a task. Returns the variable when it is set for the task (and not searching parent scopes). Returns null when no variable is found with the given name.

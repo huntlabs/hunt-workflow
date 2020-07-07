@@ -23,8 +23,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class EventSubProcessParseHandler : AbstractActivityBpmnParseHandler!EventSubProcess {
 
     override
-    protected TypeInfo getHandledType() {
-        return typeid(EventSubProcess);
+    protected BaseElement getHandledType() {
+        return new EventSubProcess;
     }
 
     override

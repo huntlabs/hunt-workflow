@@ -37,8 +37,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class StartEventParseHandler : AbstractActivityBpmnParseHandler!StartEvent {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(StartEvent);
+    BaseElement getHandledType() {
+        return new StartEvent;
     }
 
     override

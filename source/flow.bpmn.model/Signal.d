@@ -17,6 +17,7 @@ import flow.bpmn.model.BaseElement;
  */
 class Signal : BaseElement {
 
+    alias setValues = BaseElement.setValues;
     public static  string SCOPE_GLOBAL = "global";
     public static  string SCOPE_PROCESS_INSTANCE = "processInstance";
 

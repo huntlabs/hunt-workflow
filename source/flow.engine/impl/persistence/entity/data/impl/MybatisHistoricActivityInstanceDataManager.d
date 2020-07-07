@@ -39,8 +39,11 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
 
     //protected CachedEntityMatcher!HistoricActivityInstanceEntity unfinishedHistoricActivityInstanceMatcher = new UnfinishedHistoricActivityInstanceMatcher();
     //protected CachedEntityMatcher!HistoricActivityInstanceEntity historicActivityInstanceMatcher = new HistoricActivityInstanceMatcher();
+    alias findById = CrudRepository!(HistoricActivityInstanceEntityImpl , string).findById;
+    alias insert = CrudRepository!(HistoricActivityInstanceEntityImpl , string).insert;
+    alias update = CrudRepository!(HistoricActivityInstanceEntityImpl , string).update;
 
-   private ProcessEngineConfigurationImpl processEngineConfiguration;
+    private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {

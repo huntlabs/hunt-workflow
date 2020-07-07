@@ -47,4 +47,22 @@ class FlowableEntityEventImpl : FlowableProcessEventImpl , FlowableEngineEntityE
     public Object getEntity() {
         return entity;
     }
+
+    override
+     string getExecutionId()
+     {
+        return super.getExecutionId();
+     }
+
+    override
+    string getProcessInstanceId()
+    {
+        return super.getProcessInstanceId;
+    }
+
+    override
+    string getProcessDefinitionId()
+    {
+        return super.getProcessDefinitionId;
+    }
 }

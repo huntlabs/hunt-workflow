@@ -21,6 +21,8 @@ import flow.bpmn.model.DataSpec;
 
 class IOSpecification : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected List!DataSpec dataInputs ;//= new ArrayList<>();
     protected List!DataSpec dataOutputs ;//= new ArrayList<>();
     protected List!string dataInputRefs ;//= new ArrayList<>();

@@ -31,6 +31,10 @@ import hunt.entity;
 //class MybatisByteArrayDataManager : AbstractProcessDataManager!ByteArrayEntity implements ByteArrayDataManager {
 class MybatisByteArrayDataManager : EntityRepository!(ByteArrayEntityImpl , string) , ByteArrayDataManager {
 
+    alias findAll = CrudRepository!(ByteArrayEntityImpl , string).findAll;
+    alias findById = CrudRepository!(ByteArrayEntityImpl , string).findById;
+    alias insert = CrudRepository!(ByteArrayEntityImpl , string).insert;
+    alias update = CrudRepository!(ByteArrayEntityImpl , string).update;
     private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 

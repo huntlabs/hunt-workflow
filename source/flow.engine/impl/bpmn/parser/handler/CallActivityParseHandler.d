@@ -23,8 +23,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class CallActivityParseHandler : AbstractActivityBpmnParseHandler!CallActivity {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(CallActivity);
+    BaseElement getHandledType() {
+        return new CallActivity;
     }
 
     override

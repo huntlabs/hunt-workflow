@@ -171,9 +171,10 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
         return this;
     }
 
+
     public ExecutionQuery processDefinitionVersion(int processDefinitionVersion) {
         if (inOrStatement) {
-            this.currentOrQueryObject.processDefinitionVersion = processDefinitionVersion;
+            this.currentOrQueryObject._processDefinitionVersion = processDefinitionVersion;
         } else {
             this._processDefinitionVersion = processDefinitionVersion;
         }
@@ -1201,5 +1202,6 @@ class ExecutionQueryImpl : AbstractVariableQueryImpl!(ExecutionQuery, Execution)
     public void setStartedBy(string startedBy) {
         this._startedBy = startedBy;
     }
+
 
 }

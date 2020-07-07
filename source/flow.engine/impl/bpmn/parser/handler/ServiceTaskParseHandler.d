@@ -25,8 +25,8 @@ import hunt.Exceptions;
 class ServiceTaskParseHandler : AbstractActivityBpmnParseHandler!ServiceTask {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(ServiceTask);
+    BaseElement getHandledType() {
+        return new ServiceTask;
     }
 
     override

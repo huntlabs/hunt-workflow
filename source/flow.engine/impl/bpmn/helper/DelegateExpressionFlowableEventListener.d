@@ -37,6 +37,7 @@ class DelegateExpressionFlowableEventListener : BaseDelegateEventListener {
         setEntityClass(entityClass);
     }
 
+    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event)) {
             Object deleg = DelegateExpressionUtil.resolveDelegateExpression(expression, new NoExecutionVariableScope());
@@ -58,6 +59,8 @@ class DelegateExpressionFlowableEventListener : BaseDelegateEventListener {
         }
     }
 
+
+    override
     public bool isFailOnException() {
         return failOnException;
     }

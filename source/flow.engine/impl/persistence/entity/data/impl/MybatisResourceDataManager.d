@@ -33,7 +33,9 @@ import hunt.logging;
 //class MybatisResourceDataManager : AbstractProcessDataManager!ResourceEntity implements ResourceDataManager {
 class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string) , ResourceDataManager {
 
-
+    alias findById = CrudRepository!(ResourceEntityImpl , string).findById;
+    alias insert = CrudRepository!(ResourceEntityImpl , string).insert;
+    alias update = CrudRepository!(ResourceEntityImpl , string).update;
     private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 

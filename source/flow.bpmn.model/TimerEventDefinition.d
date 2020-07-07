@@ -14,12 +14,13 @@
 module flow.bpmn.model.TimerEventDefinition;
 
 import flow.bpmn.model.EventDefinition;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class TimerEventDefinition : EventDefinition {
 
+    alias setValues = BaseElement.setValues;
     protected string timeDate;
     protected string timeDuration;
     protected string timeCycle;

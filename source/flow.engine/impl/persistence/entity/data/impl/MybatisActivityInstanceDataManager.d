@@ -42,6 +42,10 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
     //protected CachedEntityMatcher!ActivityInstanceEntity activityInstanceMatcher = new ActivityInstanceMatcher();
     //protected CachedEntityMatcher!ActivityInstanceEntity activitiesByProcessInstanceIdMatcher = new ActivityByProcessInstanceIdMatcher();
 
+     alias findById = CrudRepository!(ActivityInstanceEntityImpl , string).findById;
+     alias insert = CrudRepository!(ActivityInstanceEntityImpl , string).insert;
+     alias update = CrudRepository!(ActivityInstanceEntityImpl , string).update;
+
      private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 

@@ -51,7 +51,7 @@ interface ExecutionQuery : Query!(ExecutionQuery, Execution) {
     /**
      * Only select executions which have the given process definition version. Particularly useful when used in combination with {@link #processDefinitionKey(string)}
      */
-    ExecutionQuery processDefinitionVersion(Integer processDefinitionVersion);
+    ExecutionQuery processDefinitionVersion(int processDefinitionVersion);
 
     /** Only select executions which have the given process instance id. **/
     ExecutionQuery processInstanceId(string processInstanceId);

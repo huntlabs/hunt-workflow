@@ -1,9 +1,9 @@
 /* Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -11,26 +11,25 @@
  * limitations under the License.
  */
 
-//          Copyright linse 2020. 
-// Distributed under the Boost Software License, Version 1.0. 
-//    (See accompanying file LICENSE_1_0.txt or copy at 
-//          http://www.boost.org/LICENSE_1_0.txt)} 
- 
+//          Copyright linse 2020.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)}
+
 module flow.engine.repository.ProcessDefinitionQuery;
- 
- 
- 
+
+
+
 
 
 import hunt.collection;
 import hunt.collection.Set;
-import hunt.Integer;
 import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.Query;
 import flow.engine.repository.ProcessDefinition;
 /**
  * Allows programmatic querying of {@link ProcessDefinition}s.
- * 
+ *
  * @author Tom Baeyens
  * @author Joram Barrez
  * @author Daniel Meyer
@@ -54,7 +53,7 @@ interface ProcessDefinitionQuery : Query!(ProcessDefinitionQuery, ProcessDefinit
 
     /**
      * Only select deployments that have a different category then the given one.
-     * 
+     *
      * @see DeploymentBuilder#category(string)
      */
     ProcessDefinitionQuery processDefinitionCategoryNotEquals(string categoryNotEquals);
@@ -90,33 +89,33 @@ interface ProcessDefinitionQuery : Query!(ProcessDefinitionQuery, ProcessDefinit
     /**
      * Only select process definition with a certain version. Particularly useful when used in combination with {@link #processDefinitionKey(string)}
      */
-    ProcessDefinitionQuery processDefinitionVersion(Integer processDefinitionVersion);
+    ProcessDefinitionQuery processDefinitionVersion(int processDefinitionVersion);
 
     /**
      * Only select process definitions which version are greater than a certain version.
      */
-    ProcessDefinitionQuery processDefinitionVersionGreaterThan(Integer processDefinitionVersion);
+    ProcessDefinitionQuery processDefinitionVersionGreaterThan(int processDefinitionVersion);
 
     /**
      * Only select process definitions which version are greater than or equals a certain version.
      */
-    ProcessDefinitionQuery processDefinitionVersionGreaterThanOrEquals(Integer processDefinitionVersion);
+    ProcessDefinitionQuery processDefinitionVersionGreaterThanOrEquals(int processDefinitionVersion);
 
     /**
      * Only select process definitions which version are lower than a certain version.
      */
-    ProcessDefinitionQuery processDefinitionVersionLowerThan(Integer processDefinitionVersion);
+    ProcessDefinitionQuery processDefinitionVersionLowerThan(int processDefinitionVersion);
 
     /**
      * Only select process definitions which version are lower than or equals a certain version.
      */
-    ProcessDefinitionQuery processDefinitionVersionLowerThanOrEquals(Integer processDefinitionVersion);
+    ProcessDefinitionQuery processDefinitionVersionLowerThanOrEquals(int processDefinitionVersion);
 
     /**
      * Only select the process definitions which are the latest deployed (ie. which have the highest version number for the given key).
-     * 
+     *
      * Can also be used without any other criteria (ie. query.latest().list()), which will then give all the latest versions of all the deployed process definitions.
-     * 
+     *
      * @throws FlowableIllegalArgumentException
      *             if used in combination with {@link #groupId(string)}, {@link #processDefinitionVersion(int)} or {@link #deploymentId(string)}
      */

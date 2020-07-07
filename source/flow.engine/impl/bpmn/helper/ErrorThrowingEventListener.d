@@ -34,6 +34,7 @@ class ErrorThrowingEventListener : BaseDelegateEventListener {
 
     protected string errorCode;
 
+    override
     public void onEvent(FlowableEvent event) {
         implementationMissing(false);
         //if (isValidEvent(event) && event instanceof FlowableEngineEvent) {
@@ -72,6 +73,7 @@ class ErrorThrowingEventListener : BaseDelegateEventListener {
         this.errorCode = errorCode;
     }
 
+    override
     public bool isFailOnException() {
         return true;
     }

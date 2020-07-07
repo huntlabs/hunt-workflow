@@ -17,14 +17,19 @@ import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.SubProcess;
 import flow.engine.impl.bpmn.parser.BpmnParse;
 import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
+import hunt.collection.Collection;
+import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 /**
  * @author Tijs Rademakers
  */
 class AdhocSubProcessParseHandler : AbstractActivityBpmnParseHandler!SubProcess {
 
+
+    //alias getHandledTypes = AbstractBpmnParseHandler.getHandledTypes;
+
     override
-    protected TypeInfo getHandledType() {
-        return typeid(AdhocSubProcess);
+    protected BaseElement getHandledType() {
+        return new AdhocSubProcess;
     }
 
     override
@@ -34,6 +39,12 @@ class AdhocSubProcessParseHandler : AbstractActivityBpmnParseHandler!SubProcess 
 
         bpmnParse.processFlowElements(subProcess.getFlowElements());
         processArtifacts(bpmnParse, subProcess.getArtifacts());
+    }
+
+    override
+    Collection!BaseElement getHandledTypes()
+    {
+        return super.getHandledTypes;
     }
 
 }

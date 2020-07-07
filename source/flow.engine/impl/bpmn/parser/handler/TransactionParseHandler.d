@@ -24,8 +24,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class TransactionParseHandler : AbstractActivityBpmnParseHandler!Transaction {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(Transaction);
+    BaseElement getHandledType() {
+        return new Transaction;
     }
 
     override

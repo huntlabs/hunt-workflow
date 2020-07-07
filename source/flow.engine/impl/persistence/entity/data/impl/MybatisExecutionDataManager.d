@@ -55,6 +55,9 @@ import hunt.entity;
 class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , string) , ExecutionDataManager {
 //class MybatisExecutionDataManager : AbstractProcessDataManager!ExecutionEntity implements ExecutionDataManager {
 
+    alias findById = CrudRepository!(ExecutionEntityImpl , string).findById;
+    alias insert = CrudRepository!(ExecutionEntityImpl , string).insert;
+    alias update = CrudRepository!(ExecutionEntityImpl , string).update;
     protected PerformanceSettings performanceSettings;
 
      private ProcessEngineConfigurationImpl processEngineConfiguration;

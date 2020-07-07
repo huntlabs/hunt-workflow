@@ -23,8 +23,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class HttpServiceTaskParseHandler : AbstractActivityBpmnParseHandler!ServiceTask {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(HttpServiceTask);
+    BaseElement getHandledType() {
+        return new HttpServiceTask;
     }
 
     override

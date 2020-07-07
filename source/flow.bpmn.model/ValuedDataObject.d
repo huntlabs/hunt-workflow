@@ -16,11 +16,16 @@ module flow.bpmn.model.ValuedDataObject;
 
 import flow.bpmn.model.DataObject;
 import std.string;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 /**
  * @author Lori Small
  */
 abstract class ValuedDataObject : DataObject {
 
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = DataObject.setValues;
     protected Object value;
 
     public Object getValue() {

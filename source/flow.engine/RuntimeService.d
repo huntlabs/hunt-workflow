@@ -1064,7 +1064,7 @@ interface RuntimeService {
      * creates a new {@link NativeActivityInstanceQuery} to query {@link ActivityInstance}s which are included
      * in the cuby SQL directly.
      */
-    NativeActivityInstanceQuery createNativeActivityInstanceQuery();
+  //  NativeActivityInstanceQuery createNativeActivityInstanceQuery();
 
     /**
      * Creates a new {@link EventSubscriptionQuery} instance, that can be used to query the event subscriptions.

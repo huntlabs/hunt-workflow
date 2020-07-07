@@ -13,10 +13,20 @@
 
 module flow.bpmn.model.alfresco.AlfrescoScriptTask;
 
+import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.ServiceTask;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.Activity;
+import flow.bpmn.model.FlowNode;
+
 
 class AlfrescoScriptTask : ServiceTask {
 
+    alias setValues = ServiceTask.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
     public static  string ALFRESCO_SCRIPT_DELEGATE = "org.alfresco.repo.workflow.activiti.script.AlfrescoScriptDelegate";
     public static  string ALFRESCO_SCRIPT_EXECUTION_LISTENER = "org.alfresco.repo.workflow.activiti.listener.ScriptExecutionListener";
 

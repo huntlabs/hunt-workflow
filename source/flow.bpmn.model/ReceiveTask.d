@@ -16,10 +16,18 @@ module flow.bpmn.model.ReceiveTask;
 import flow.bpmn.model.Task;
 import flow.bpmn.model.ManualTask;
 import flow.bpmn.model.Activity;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+
 /**
  * @author Tijs Rademakers
  */
 class ReceiveTask : Task {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
 
     override
     public ReceiveTask clone() {

@@ -17,12 +17,17 @@ import flow.bpmn.model.Event;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.FormProperty;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 /**
  * @author Tijs Rademakers
  */
 class StartEvent : Event {
 
-    protected string initiator;
+  alias setValues = BaseElement.setValues;
+  alias setValues = FlowElement.setValues;
+  alias setValues = Event.setValues;
+  protected string initiator;
     protected string formKey;
     protected bool _isInterrupting = true;
     protected string validateFormFields;

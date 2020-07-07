@@ -118,6 +118,10 @@ class HistoricProcessInstanceQueryImpl : AbstractVariableQueryImpl!(HistoricProc
         return this;
     }
 
+    void del()
+    {
+        implementationMissing(false);
+    }
 
     public HistoricProcessInstanceQuery processInstanceIds(Set!string processInstanceIds) {
         if (processInstanceIds is null) {

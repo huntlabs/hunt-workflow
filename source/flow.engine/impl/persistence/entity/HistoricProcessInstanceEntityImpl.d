@@ -13,7 +13,7 @@
  */
 module flow.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
 
-
+import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -131,6 +131,16 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
         if (processInstance.getTenantId().length != 0) {
             this.tenantId = processInstance.getTenantId();
         }
+    }
+
+    string getId()
+    {
+        return id;
+    }
+
+    void setId(string id)
+    {
+        this.id = id;
     }
 
     public Object getPersistentState() {
@@ -378,4 +388,89 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
     public string toString() {
         return "HistoricProcessInstanceEntity[superProcessInstanceId=" ~ superProcessInstanceId ~ "]";
     }
+
+    void markEnded(string deleteReason, LocalDateTime endTime)
+    {
+        this.deleteReason = deleteReason;
+        this.endTime = endTime.toEpochMilli;
+    }
+
+    string getProcessInstanceId()
+    {
+        return processInstanceId;
+    }
+
+     string getProcessDefinitionId()
+     {
+         return processDefinitionId;
+     }
+
+     LocalDateTime getStartTime()
+     {
+        return LocalDateTime.ofEpochMilli(startTime);
+     }
+
+     LocalDateTime getEndTime()
+     {
+        return LocalDateTime.ofEpochMilli(endTime);
+     }
+
+     long getDurationInMillis()
+     {
+        return durationInMillis;
+     }
+
+      void setProcessInstanceId(string processInstanceId)
+      {
+          this.processInstanceId = processInstanceId;
+      }
+
+      void setProcessDefinitionId(string processDefinitionId)
+      {
+          this.processDefinitionId = processDefinitionId;
+      }
+
+      void setStartTime(LocalDateTime startTime)
+      {
+          this.startTime = startTime.toEpochMilli;
+      }
+
+       void setEndTime(LocalDateTime endTime)
+       {
+          this.endTime = endTime.toEpochMilli;
+       }
+
+       void setDurationInMillis(long durationInMillis)
+       {
+          this.durationInMillis = durationInMillis;
+       }
+
+       string getDeleteReason()
+       {
+          return deleteReason;
+       }
+
+       void setDeleteReason(string deleteReason)
+       {
+          this.deleteReason = deleteReason;
+       }
+
+      override
+      void setRevision(int revision)
+      {
+        super.setRevision(revision);
+      }
+
+      override
+      int getRevision()
+      {
+        return super.getRevision;
+      }
+
+
+      override
+      int getRevisionNext()
+      {
+        return super.getRevisionNext;
+      }
 }

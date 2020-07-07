@@ -73,19 +73,19 @@ interface EventRepositoryService {
 
     List!string getDeploymentResourceNames(string deploymentId);
 
-    InputStream getResourceAsStream(string deploymentId, string resourceName);
+   // InputStream getResourceAsStream(string deploymentId, string resourceName);
 
     EventDeploymentQuery createDeploymentQuery();
 
     EventDefinition getEventDefinition(string eventDefinitionId);
 
-    InputStream getEventDefinitionResource(string eventDefinitionId);
+    //InputStream getEventDefinitionResource(string eventDefinitionId);
 
     void setEventDefinitionCategory(string eventDefinitionId, string category);
 
     ChannelDefinition getChannelDefinition(string channelDefinitionId);
 
-    InputStream getChannelDefinitionResource(string channelDefinitionId);
+   // InputStream getChannelDefinitionResource(string channelDefinitionId);
 
     void setChannelDefinitionCategory(string channelDefinitionId, string category);
 

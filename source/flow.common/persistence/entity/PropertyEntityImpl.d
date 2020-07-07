@@ -88,4 +88,23 @@ class PropertyEntityImpl : AbstractEntity ,Model, PropertyEntity {
         return "PropertyEntity[name=" ~ name ~ ", value=" ~ value ~ "]";
     }
 
+
+    override
+    void setRevision(int revision)
+    {
+        super.setRevision(revision);
+    }
+
+    override
+    int getRevision()
+    {
+        return super.getRevision();
+    }
+
+
+    override
+    int getRevisionNext()
+    {
+        return super.getRevisionNext();
+    }
 }

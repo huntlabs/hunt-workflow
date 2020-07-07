@@ -20,7 +20,7 @@ module flow.common.api.deleg.event.AbstractFlowableEventListener;
 
 
 import flow.common.api.deleg.event.FlowableEventListener;
-
+import flow.common.api.deleg.event.FlowableEvent;
 /**
  * @author Joram Barrez
  */
@@ -42,4 +42,7 @@ import flow.common.api.deleg.event.FlowableEventListener;
         this.onTransaction = onTransaction;
     }
 
+    void onEvent(FlowableEvent event) {}
+
+    bool isFailOnException() { return true;}
 }

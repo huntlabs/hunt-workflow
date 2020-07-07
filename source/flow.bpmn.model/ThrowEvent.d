@@ -14,12 +14,15 @@
 module flow.bpmn.model.ThrowEvent;
 
 import flow.bpmn.model.Event;
-
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
 /**
  * @author Tijs Rademakers
  */
 class ThrowEvent : Event {
-
+   alias setValues = BaseElement.setValues;
+   alias setValues = FlowElement.setValues;
+   alias setValues = Event.setValues;
     override
     public ThrowEvent clone() {
         ThrowEvent clone = new ThrowEvent();

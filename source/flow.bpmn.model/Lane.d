@@ -24,6 +24,9 @@ import flow.bpmn.model.Process;
  */
 class Lane : BaseElement {
 
+
+    alias setValues = BaseElement.setValues;
+
     protected string name;
     protected Process parentProcess;
     protected List!string flowReferences ;//= new ArrayList<>();

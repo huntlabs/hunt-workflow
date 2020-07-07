@@ -12,7 +12,7 @@
  */
 module flow.engine.impl.form.DefaultTaskFormHandler;
 
-
+import flow.common.api.deleg.Expression;
 import flow.engine.form.TaskFormData;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.util.CommandContextUtil;
@@ -45,4 +45,10 @@ class DefaultTaskFormHandler : DefaultFormHandler , TaskFormHandler {
         initializeFormProperties(taskFormData, executionEntity);
         return taskFormData;
     }
+
+     override
+     Expression getFormKey()
+     {
+        return super.getFormKey;
+     }
 }

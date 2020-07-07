@@ -22,8 +22,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class BusinessRuleParseHandler : AbstractActivityBpmnParseHandler!BusinessRuleTask {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(BusinessRuleTask);
+    BaseElement getHandledType() {
+        return new BusinessRuleTask;
     }
 
     override

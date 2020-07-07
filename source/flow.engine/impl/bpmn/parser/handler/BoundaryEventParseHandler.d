@@ -38,8 +38,8 @@ import hunt.logging;
 class BoundaryEventParseHandler : AbstractFlowNodeBpmnParseHandler!BoundaryEvent {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(BoundaryEvent);
+    BaseElement getHandledType() {
+        return  new BoundaryEvent;
     }
 
     override

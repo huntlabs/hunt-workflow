@@ -14,11 +14,20 @@
 module flow.bpmn.model.ManualTask;
 
 import flow.bpmn.model.Task;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
 
 /**
  * @author Tijs Rademakers
  */
 class ManualTask : Task {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
 
     override
     public ManualTask clone() {

@@ -14,13 +14,13 @@
 
 module flow.bpmn.model.TerminateEventDefinition;
 import flow.bpmn.model.EventDefinition;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 class TerminateEventDefinition : EventDefinition {
-
+    alias setValues = BaseElement.setValues;
     /**
      * When true, this event will terminate all parent process instances (in the case of using call activity), thus ending the whole process instance.
      *

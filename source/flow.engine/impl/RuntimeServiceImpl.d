@@ -194,14 +194,18 @@ class RuntimeServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    //public NativeExecutionQuery createNativeExecutionQuery() {
-    //    return new NativeExecutionQueryImpl(commandExecutor);
-    //}
+    public NativeExecutionQuery createNativeExecutionQuery() {
+          implementationMissing(false);
+          return null;
+       // return new NativeExecutionQueryImpl(commandExecutor);
+    }
     //
     //
-    //public NativeProcessInstanceQuery createNativeProcessInstanceQuery() {
-    //    return new NativeProcessInstanceQueryImpl(commandExecutor);
-    //}
+    public NativeProcessInstanceQuery createNativeProcessInstanceQuery() {
+          implementationMissing(false);
+          return null;
+       // return new NativeProcessInstanceQueryImpl(commandExecutor);
+    }
     //
     //
     //public NativeActivityInstanceQueryImpl createNativeActivityInstanceQuery() {

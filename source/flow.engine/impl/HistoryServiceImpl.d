@@ -107,9 +107,11 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    //public NativeHistoricVariableInstanceQuery createNativeHistoricVariableInstanceQuery() {
-    //    return new NativeHistoricVariableInstanceQueryImpl(commandExecutor);
-    //}
+    public NativeHistoricVariableInstanceQuery createNativeHistoricVariableInstanceQuery() {
+          implementationMissing(false);
+          return null;
+       // return new NativeHistoricVariableInstanceQueryImpl(commandExecutor);
+    }
 
 
     public void deleteHistoricTaskInstance(string taskId) {
@@ -139,9 +141,11 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    //public NativeHistoricTaskInstanceQuery createNativeHistoricTaskInstanceQuery() {
-    //    return new NativeHistoricTaskInstanceQueryImpl(commandExecutor);
-    //}
+    public NativeHistoricTaskInstanceQuery createNativeHistoricTaskInstanceQuery() {
+        implementationMissing(false);
+        return null;
+        //return new NativeHistoricTaskInstanceQueryImpl(commandExecutor);
+    }
 
 
     public NativeHistoricActivityInstanceQuery createNativeHistoricActivityInstanceQuery() {
@@ -208,8 +212,10 @@ class HistoryServiceImpl : CommonEngineServiceImpl!ProcessEngineConfigurationImp
     }
 
 
-    //public NativeHistoricTaskLogEntryQuery createNativeHistoricTaskLogEntryQuery() {
-    //    return new NativeHistoricTaskLogEntryQueryImpl(commandExecutor);
-    //}
+    public NativeHistoricTaskLogEntryQuery createNativeHistoricTaskLogEntryQuery() {
+        implementationMissing(false);
+        return null;
+       // return new NativeHistoricTaskLogEntryQueryImpl(commandExecutor);
+    }
 
 }

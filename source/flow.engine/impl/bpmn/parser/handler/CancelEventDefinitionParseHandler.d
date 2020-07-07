@@ -25,8 +25,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 class CancelEventDefinitionParseHandler : AbstractBpmnParseHandler!CancelEventDefinition {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(CancelEventDefinition);
+    BaseElement getHandledType() {
+        return  new  CancelEventDefinition;
     }
 
     override

@@ -48,6 +48,7 @@ import flow.bpmn.model.Process;
 //import com.fasterxml.jackson.databind.node.ObjectNode;
 import hunt.entity;
 import hunt.Exceptions;
+import flow.engine.deleg.DelegateExecution;
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
@@ -304,6 +305,16 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
       rev = "1";
     }
 
+    string getId()
+    {
+        return id;
+    }
+
+
+    void setId(string id)
+    {
+        this.id = id;
+    }
 
     /**
      * Static factory method: to be used when a new execution is created for the very first time/ Calling this will make sure no extra db fetches are needed later on, as all collections will be
@@ -410,11 +421,25 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
     /** ensures initialization and returns the non-null executions list */
 
-    public List!ExecutionEntityImpl getExecutions() {
+    public List!ExecutionEntity getExecutions() {
         ensureExecutionsInitialized();
-        return executions;
+        List!ExecutionEntity list = new ArrayList!ExecutionEntity;
+        foreach(ExecutionEntityImpl e ; executions)
+        {
+            list.add(cast(ExecutionEntity)e);
+        }
+        return list;
     }
 
+    public List!DelegateExecution getExecutions() {
+      ensureExecutionsInitialized();
+      List!DelegateExecution list = new ArrayList!DelegateExecution;
+      foreach(ExecutionEntityImpl e ; executions)
+      {
+        list.add(cast(DelegateExecution)e);
+      }
+      return list;
+    }
 
     public void addChildExecution(ExecutionEntity executionEntity) {
         ensureExecutionsInitialized();
@@ -1422,5 +1447,78 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
         //    return strb.toString();
         //}
     }
+
+  override
+  string getIdPrefix()
+  {
+    return super.getIdPrefix;
+  }
+
+  override
+  bool isInserted()
+  {
+    return super.isInserted();
+  }
+
+  override
+  void setInserted(bool inserted)
+  {
+    return super.setInserted(inserted);
+  }
+
+  override
+  bool isUpdated()
+  {
+    return super.isUpdated;
+  }
+
+  override
+  void setUpdated(bool updated)
+  {
+    super.setUpdated(updated);
+  }
+
+  override
+  bool isDeleted()
+  {
+    return super.isDeleted;
+  }
+
+  override
+  void setDeleted(bool deleted)
+  {
+    super.setDeleted(deleted);
+  }
+
+  override
+  Object getOriginalPersistentState()
+  {
+    return super.getOriginalPersistentState;
+  }
+
+  override
+  void setOriginalPersistentState(Object persistentState)
+  {
+    super.setOriginalPersistentState(persistentState);
+  }
+
+  override
+  void setRevision(int revision)
+  {
+      super.setRevision(revision);
+  }
+
+  override
+  int getRevision()
+  {
+      return super.getRevision;
+  }
+
+
+  override
+  int getRevisionNext()
+  {
+      return super.getRevisionNext;
+  }
 
 }

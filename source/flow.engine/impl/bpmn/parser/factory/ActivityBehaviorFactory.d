@@ -161,9 +161,9 @@ interface ActivityBehaviorFactory {
 
      ActivityBehavior createCamelActivityBehavior(SendTask sendTask);
 
-     ActivityBehavior createDmnActivityBehavior(ServiceTask serviceTask);
-
-     ActivityBehavior createDmnActivityBehavior(SendTask sendTask);
+     //ActivityBehavior createDmnActivityBehavior(ServiceTask serviceTask);
+     //
+     //ActivityBehavior createDmnActivityBehavior(SendTask sendTask);
 
      ActivityBehavior createHttpActivityBehavior(ServiceTask serviceTask);
 

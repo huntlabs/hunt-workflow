@@ -20,6 +20,10 @@ import hunt.Long;
 import std.string;
 import hunt.String;
 import hunt.Number;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.DataObject;
+
 /**
  * @author Lori Small
  */
@@ -28,6 +32,12 @@ import hunt.Number;
     //  if (s !is null && strip(s.value).length != 0) {
 
 class LongDataObject : ValuedDataObject {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = DataObject.setValues;
+    alias setValues = ValuedDataObject.setValues;
+
     override
     public void setValue(Object value) {
       String s = cast(String)value;

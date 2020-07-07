@@ -81,7 +81,7 @@ interface ChangeActivityStateBuilder {
     /**
      * Moves the execution with the current activity id to an activity id in a new sub process instance of the specific definition version for the provided call activity id.
      */
-    ChangeActivityStateBuilder moveActivityIdToSubProcessInstanceActivityId(string currentActivityId, string newActivityId, string callActivityId, Integer subProcessDefinitionVersion);
+    ChangeActivityStateBuilder moveActivityIdToSubProcessInstanceActivityId(string currentActivityId, string newActivityId, string callActivityId, int subProcessDefinitionVersion);
 
     /**
      * Sets a process scope variable

@@ -26,8 +26,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 class TimerEventDefinitionParseHandler : AbstractBpmnParseHandler!TimerEventDefinition {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(TimerEventDefinition);
+    BaseElement getHandledType() {
+        return new TimerEventDefinition;
     }
 
     override

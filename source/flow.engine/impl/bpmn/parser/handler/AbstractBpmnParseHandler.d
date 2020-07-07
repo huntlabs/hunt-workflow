@@ -41,13 +41,13 @@ abstract class AbstractBpmnParseHandler(T) : BpmnParseHandler {
 
     public static  string PROPERTYNAME_TIMER_DECLARATION = "timerDeclarations";
 
-    public Set!TypeInfo getHandledTypes() {
-        Set!TypeInfo types = new HashSet!TypeInfo();
+    public Collection!BaseElement getHandledTypes() {
+        Set!BaseElement types = new HashSet!BaseElement();
         types.add(getHandledType());
         return types;
     }
 
-    protected abstract TypeInfo getHandledType();
+    protected abstract BaseElement getHandledType();
 
     public void parse(BpmnParse bpmnParse, BaseElement element) {
         T baseElement = cast(T) element;

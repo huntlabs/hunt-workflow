@@ -35,12 +35,16 @@ class FixedValue : Expression {
     public Object getValue(VariableContainer variableContainer) {
         return value;
     }
-
+    public Object getValue() { return value;}
 
     public void setValue(Object value, VariableContainer variableContainer) {
         throw new FlowableException("Cannot change fixed value");
     }
 
+    int opCmp(Expression o)
+    {
+          return cast(int)(value.toHash - ((cast(FixedValue)o).getValue).toHash);
+    }
 
     public string getExpressionText() {
         return value.toString();

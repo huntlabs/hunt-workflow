@@ -14,13 +14,20 @@
 module flow.bpmn.model.IntermediateCatchEvent;
 
 import flow.bpmn.model.Event;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 
 /**
  * @author Tijs Rademakers
  */
 class IntermediateCatchEvent : Event {
 
-    override
+    alias setValues = BaseElement.setValues;
+     alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Event.setValues;
+  override
     public IntermediateCatchEvent clone() {
         IntermediateCatchEvent clone = new IntermediateCatchEvent();
         clone.setValues(this);

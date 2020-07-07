@@ -32,8 +32,13 @@ import flow.common.runtime.Clockm;
 //EntityRepository!( HistoricIdentityLinkEntityImpl , string
 //class MybatisModelDataManager : AbstractProcessDataManager!ModelEntity implements ModelDataManager {
 class MybatisModelDataManager : EntityRepository!( ModelEntityImpl , string) , ModelDataManager {
-  import flow.engine.repository.Model;
-   private ProcessEngineConfigurationImpl processEngineConfiguration;
+    import flow.engine.repository.Model;
+
+    alias findById = CrudRepository!( ModelEntityImpl , string).findById;
+    alias insert = CrudRepository!( ModelEntityImpl , string).insert;
+    alias update = CrudRepository!( ModelEntityImpl , string).update;
+
+    private ProcessEngineConfigurationImpl processEngineConfiguration;
 
 
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {

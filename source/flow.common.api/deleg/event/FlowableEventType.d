@@ -29,7 +29,7 @@ module flow.common.api.deleg.event.FlowableEventType;
  */
 interface FlowableEventType {
 
-    string name();
+   // string name();
 
     int opCmp(FlowableEventType o);
 }

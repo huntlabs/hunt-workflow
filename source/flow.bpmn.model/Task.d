@@ -16,6 +16,6 @@ import flow.bpmn.model.Activity;
 /**
  * @author Tijs Rademakers
  */
-abstract class Task : Activity {
+class Task : Activity {
 
 }

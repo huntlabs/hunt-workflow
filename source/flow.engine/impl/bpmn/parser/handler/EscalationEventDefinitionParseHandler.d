@@ -24,8 +24,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 class EscalationEventDefinitionParseHandler : AbstractBpmnParseHandler!EscalationEventDefinition {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(EscalationEventDefinition);
+    BaseElement getHandledType() {
+        return new EscalationEventDefinition;
     }
 
     override

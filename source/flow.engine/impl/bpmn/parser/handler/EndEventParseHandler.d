@@ -30,8 +30,8 @@ import hunt.logging;
 class EndEventParseHandler : AbstractActivityBpmnParseHandler!EndEvent {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(EndEvent);
+    BaseElement getHandledType() {
+        return new EndEvent;
     }
 
     override

@@ -19,6 +19,8 @@ import hunt.collection.List;
 
 class Operation : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected string name;
     protected string implementationRef;
     protected string inMessageRef;

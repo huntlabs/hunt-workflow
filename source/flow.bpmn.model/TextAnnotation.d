@@ -14,11 +14,13 @@
 module flow.bpmn.model.TextAnnotation;
 
 import flow.bpmn.model.Artifact;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class TextAnnotation : Artifact {
+
+    alias setValues = BaseElement.setValues;
 
     protected string text;
     protected string textFormat;

@@ -36,6 +36,12 @@ class ProcessDefinitionInfoEntityManagerImpl
         insert(processDefinitionInfo);
     }
 
+    override
+    ProcessDefinitionInfoEntity findById(string id)
+    {
+        return super.findById(id);
+    }
+
 
     public void updateProcessDefinitionInfo(ProcessDefinitionInfoEntity updatedProcessDefinitionInfo) {
         update(updatedProcessDefinitionInfo, true);

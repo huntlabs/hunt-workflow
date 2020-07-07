@@ -31,8 +31,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 class MessageEventDefinitionParseHandler : AbstractBpmnParseHandler!MessageEventDefinition {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(MessageEventDefinition);
+    BaseElement getHandledType() {
+        return new MessageEventDefinition;
     }
 
     override

@@ -37,6 +37,9 @@ import hunt.logging;
 class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionEntityImpl , string) , ProcessDefinitionDataManager {
     private ProcessEngineConfigurationImpl processEngineConfiguration;
 
+    alias findById = CrudRepository!(ProcessDefinitionEntityImpl , string).findById;
+    alias insert = CrudRepository!(ProcessDefinitionEntityImpl , string).insert;
+    alias update = CrudRepository!(ProcessDefinitionEntityImpl , string).update;
 
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
       return processEngineConfiguration;

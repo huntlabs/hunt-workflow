@@ -19,6 +19,8 @@ import flow.bpmn.model.BaseElement;
  */
 class Pool : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected string name;
     protected string processRef;
     protected bool executable = true;

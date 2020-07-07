@@ -22,8 +22,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class UserTaskParseHandler : AbstractActivityBpmnParseHandler!UserTask {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(UserTask);
+    BaseElement getHandledType() {
+        return new UserTask;
     }
 
     override

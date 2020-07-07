@@ -23,8 +23,8 @@ import hunt.logging;
 class ScriptTaskParseHandler : AbstractActivityBpmnParseHandler!ScriptTask {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(ScriptTask);
+    BaseElement getHandledType() {
+        return new ScriptTask;
     }
 
     override

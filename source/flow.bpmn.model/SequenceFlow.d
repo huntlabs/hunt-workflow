@@ -17,6 +17,9 @@ import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.FlowElement;
 import hunt.Integer;
+import flow.bpmn.model.BaseElement;
+
+
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -24,6 +27,10 @@ import hunt.Integer;
  * @author Joram Barrez
  */
 class SequenceFlow : FlowElement {
+
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
 
     protected string conditionExpression;
     protected string sourceRef;

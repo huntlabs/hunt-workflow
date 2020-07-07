@@ -23,8 +23,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class ParallelGatewayParseHandler : AbstractActivityBpmnParseHandler!ParallelGateway {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(ParallelGateway);
+    BaseElement getHandledType() {
+        return new ParallelGateway;
     }
 
     override

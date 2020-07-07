@@ -14,11 +14,13 @@
 module flow.bpmn.model.SignalEventDefinition;
 
 import flow.bpmn.model.EventDefinition;
-
+import flow.bpmn.model.BaseElement;
 /**
  * @author Tijs Rademakers
  */
 class SignalEventDefinition : EventDefinition {
+
+    alias setValues = BaseElement.setValues;
 
     protected string signalRef;
     protected string signalExpression;

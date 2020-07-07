@@ -13,10 +13,16 @@
 
 module flow.bpmn.model.alfresco.AlfrescoStartEvent;
 
+import flow.bpmn.model.FlowElement;
 import flow.bpmn.model.StartEvent;
+import flow.bpmn.model.Event;
+import flow.bpmn.model.BaseElement;
 
 class AlfrescoStartEvent : StartEvent {
-
+    alias setValues = Event.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = BaseElement.setValues;
+    alias setValues = StartEvent.setValues;
     protected string runAs;
     protected string scriptProcessor;
 

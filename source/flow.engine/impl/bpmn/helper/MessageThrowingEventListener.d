@@ -35,6 +35,7 @@ class MessageThrowingEventListener : BaseDelegateEventListener {
     protected string messageName;
     protected TypeInfo entityClass;
 
+    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event) && cast(FlowableEngineEvent)event !is null) {
 
@@ -57,6 +58,7 @@ class MessageThrowingEventListener : BaseDelegateEventListener {
         this.messageName = messageName;
     }
 
+    override
     public bool isFailOnException() {
         return true;
     }

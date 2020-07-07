@@ -39,6 +39,8 @@ import flow.bpmn.model.SubProcess;
  */
 class Process : BaseElement , FlowElementsContainer, HasExecutionListeners {
 
+
+    alias setValues = BaseElement.setValues;
     protected string name;
     protected bool executable = true;
     protected string documentation;

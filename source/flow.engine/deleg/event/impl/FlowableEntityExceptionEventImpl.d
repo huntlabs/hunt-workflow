@@ -54,4 +54,22 @@ class FlowableEntityExceptionEventImpl : FlowableProcessEventImpl , FlowableEngi
     public Throwable getCause() {
         return cause;
     }
+
+    override
+    string getExecutionId()
+    {
+        return super.getExecutionId();
+    }
+
+    override
+    string getProcessInstanceId()
+    {
+        return super.getProcessInstanceId;
+    }
+
+    override
+    string getProcessDefinitionId()
+    {
+        return super.getProcessDefinitionId();
+    }
 }

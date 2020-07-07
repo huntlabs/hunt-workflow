@@ -54,7 +54,7 @@ interface Model {
 
     Date getLastUpdateTime();
 
-    Integer getVersion();
+    int getVersion();
 
     void setVersion(int ver);
 

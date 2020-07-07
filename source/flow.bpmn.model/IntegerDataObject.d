@@ -14,6 +14,9 @@
 
 module flow.bpmn.model.IntegerDataObject;
 
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.BaseElement;
+import  flow.bpmn.model.DataObject;
 
 import flow.bpmn.model.ValuedDataObject;
 import std.string;
@@ -28,6 +31,11 @@ import hunt.Integer;
  * @author Lori Small
  */
 class IntegerDataObject : ValuedDataObject {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias  setValues = DataObject.setValues;
+    alias setValues = ValuedDataObject.setValues;
 
     override
     public void setValue(Object value) {

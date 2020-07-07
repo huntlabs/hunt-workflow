@@ -26,8 +26,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 class CompensateEventDefinitionParseHandler : AbstractBpmnParseHandler!CompensateEventDefinition {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(CompensateEventDefinition);
+    BaseElement getHandledType() {
+        return new CompensateEventDefinition;
     }
 
     override

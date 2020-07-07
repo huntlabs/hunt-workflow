@@ -14,13 +14,19 @@
 module flow.bpmn.model.StringDataObject;
 
 import flow.bpmn.model.ValuedDataObject;
-
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.DataObject;
 /**
  * @author Lori Small
  */
 class StringDataObject : ValuedDataObject {
 
-    override
+  alias setValues = FlowElement.setValues;
+  alias setValues = BaseElement.setValues;
+  alias setValues = DataObject.setValues;
+  alias setValues = ValuedDataObject.setValues;
+  override
     public void setValue(Object value) {
         this.value = value;
     }

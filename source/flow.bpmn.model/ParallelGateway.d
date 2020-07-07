@@ -14,12 +14,18 @@
 module flow.bpmn.model.ParallelGateway;
 
 import flow.bpmn.model.Gateway;
-
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Gateway;
 /**
  * @author Tijs Rademakers
  */
 class ParallelGateway : Gateway {
-
+  alias setValues = BaseElement.setValues;
+  alias setValues = FlowElement.setValues;
+  alias setValues = FlowNode.setValues;
+  alias setValues = Gateway.setValues;
     override
     public ParallelGateway clone() {
         ParallelGateway clone = new ParallelGateway();

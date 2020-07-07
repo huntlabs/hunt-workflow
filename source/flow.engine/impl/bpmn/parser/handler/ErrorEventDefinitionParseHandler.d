@@ -25,8 +25,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractBpmnParseHandler;
 class ErrorEventDefinitionParseHandler : AbstractBpmnParseHandler!ErrorEventDefinition {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(ErrorEventDefinition);
+    BaseElement getHandledType() {
+        return new ErrorEventDefinition;
     }
 
     override

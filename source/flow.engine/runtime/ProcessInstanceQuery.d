@@ -20,7 +20,6 @@ import hunt.collection.Set;
 import flow.common.api.query.Query;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.runtime.ProcessInstance;
-import hunt.Integer;
 
 alias Date = LocalDateTime;
 /**
@@ -78,7 +77,7 @@ interface ProcessInstanceQuery : Query!(ProcessInstanceQuery, ProcessInstance) {
     /**
      * Only select process instances with a certain process definition version. Particularly useful when used in combination with {@link #processDefinitionKey(string)}
      */
-    ProcessInstanceQuery processDefinitionVersion(Integer processDefinitionVersion);
+    ProcessInstanceQuery processDefinitionVersion(int processDefinitionVersion);
 
     /**
      * Select the process instances which are defined by a process definition with the given key.
@@ -336,7 +335,7 @@ interface ProcessInstanceQuery : Query!(ProcessInstanceQuery, ProcessInstance) {
     /**
      * Limit process instance variables
      */
-    ProcessInstanceQuery limitProcessInstanceVariables(Integer processInstanceVariablesLimit);
+    ProcessInstanceQuery limitProcessInstanceVariables(int processInstanceVariablesLimit);
 
     /**
      * Only select process instances that failed due to an exception happening during a job execution.

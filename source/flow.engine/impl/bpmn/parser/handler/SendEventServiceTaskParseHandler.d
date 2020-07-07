@@ -23,8 +23,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class SendEventServiceTaskParseHandler : AbstractActivityBpmnParseHandler!SendEventServiceTask {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(SendEventServiceTask);
+    BaseElement getHandledType() {
+        return new SendEventServiceTask;
     }
 
     override

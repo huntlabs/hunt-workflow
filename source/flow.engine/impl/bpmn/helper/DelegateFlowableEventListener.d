@@ -37,12 +37,14 @@ class DelegateFlowableEventListener : BaseDelegateEventListener {
         setEntityClass(entityClass);
     }
 
+    override
     public void onEvent(FlowableEvent event) {
         if (isValidEvent(event)) {
             getDelegateInstance().onEvent(event);
         }
     }
 
+    override
     public bool isFailOnException() {
         if (delegateInstance !is null) {
             return delegateInstance.isFailOnException();

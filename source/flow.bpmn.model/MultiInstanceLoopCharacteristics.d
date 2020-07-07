@@ -17,6 +17,8 @@ import flow.bpmn.model.CollectionHandler;
 
 class MultiInstanceLoopCharacteristics : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected string inputDataItem;
     protected string collectionString;
     protected CollectionHandler collectionHandler;

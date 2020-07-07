@@ -66,6 +66,16 @@ class EventDefinitionEntityImpl : AbstractEventRegistryNoRevisionEntity ,Model, 
     // getters and setters
     // //////////////////////////////////////////////////////
 
+    override
+    string getId()
+    {
+        return id;
+    }
+
+    override void setId(string id)
+    {
+        this.id = id;
+    }
 
     public string getKey() {
         return key;
@@ -150,5 +160,60 @@ class EventDefinitionEntityImpl : AbstractEventRegistryNoRevisionEntity ,Model, 
     public string toString() {
         return "EventDefitionEntity[" ~ id ~ "]";
     }
+
+    override
+    string getIdPrefix()
+    {
+      return super.getIdPrefix;
+    }
+
+    override
+    bool isInserted()
+    {
+      return super.isInserted();
+    }
+
+    override
+    void setInserted(bool inserted)
+    {
+      return super.setInserted(inserted);
+    }
+
+    override
+    bool isUpdated()
+    {
+      return super.isUpdated;
+    }
+
+    override
+    void setUpdated(bool updated)
+    {
+      super.setUpdated(updated);
+    }
+
+    override
+    bool isDeleted()
+    {
+      return super.isDeleted;
+    }
+
+    override
+    void setDeleted(bool deleted)
+    {
+      super.setDeleted(deleted);
+    }
+
+    override
+    Object getOriginalPersistentState()
+    {
+      return super.getOriginalPersistentState;
+    }
+
+    override
+    void setOriginalPersistentState(Object persistentState)
+    {
+      super.setOriginalPersistentState(persistentState);
+    }
+
 
 }

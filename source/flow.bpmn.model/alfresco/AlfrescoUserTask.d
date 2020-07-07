@@ -14,11 +14,18 @@
 module flow.bpmn.model.alfresco.AlfrescoUserTask;
 
 import flow.bpmn.model.UserTask;
-
-import flow.bpmn.model.UserTask;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.Activity;
 
 class AlfrescoUserTask : UserTask {
 
+    alias setValues = UserTask.setValues;
+    alias setValues = Activity.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
     public static  string ALFRESCO_SCRIPT_TASK_LISTENER = "org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener";
 
     protected string runAs;

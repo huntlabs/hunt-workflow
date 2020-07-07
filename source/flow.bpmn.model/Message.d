@@ -26,6 +26,8 @@ import flow.bpmn.model.BaseElement;
  */
 class Message : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     protected string name;
     protected string itemRef;
 

@@ -27,6 +27,7 @@ import flow.engine.impl.cmd.DeleteHistoricActivityInstancesCmd;
 import flow.engine.impl.context.Context;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.impl.HistoricActivityInstanceQueryProperty;
+import hunt.Exceptions;
 /**
  * @author Tom Baeyens
  * @author Zheng Ji
@@ -57,6 +58,11 @@ class HistoricActivityInstanceQueryImpl : AbstractQuery!(HistoricActivityInstanc
 
     this() {
     }
+
+     void del()
+     {
+        implementationMissing(false);
+     }
 
     this(CommandContext commandContext) {
         super(commandContext);

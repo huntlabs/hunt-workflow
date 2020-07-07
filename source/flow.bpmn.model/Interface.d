@@ -18,7 +18,10 @@ import hunt.collection.List;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.Operation;
 
+
 class Interface : BaseElement {
+
+    alias setValues = BaseElement.setValues;
 
     protected string name;
     protected string implementationRef;

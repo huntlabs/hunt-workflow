@@ -26,8 +26,8 @@ class SequenceFlowParseHandler : AbstractBpmnParseHandler!SequenceFlow {
     public static  string PROPERTYNAME_CONDITION_TEXT = "conditionText";
 
     override
-    TypeInfo getHandledType() {
-        return typeid(SequenceFlow);
+    BaseElement getHandledType() {
+        return new SequenceFlow;
     }
 
     override

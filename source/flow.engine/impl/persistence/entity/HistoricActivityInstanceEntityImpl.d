@@ -105,7 +105,15 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
     }
 
     // getters and setters //////////////////////////////////////////////////////
+    string getId()
+    {
+        return id;
+    }
 
+    void setId(string id)
+    {
+        this.id = id;
+    }
 
     public string getActivityId() {
         return activityId;
@@ -213,4 +221,82 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
         return "HistoricActivityInstanceEntity[id=" ~ id ~ ", activityId=" ~ activityId ~ ", activityName=" ~ activityName ~ ", executionId= " ~ executionId ~ "]";
     }
 
+
+    string getProcessDefinitionId()
+    {
+        return processDefinitionId;
+    }
+
+    LocalDateTime getStartTime()
+    {
+        return Date.ofEpochMilli(startTime);
+    }
+
+     LocalDateTime getEndTime()
+     {
+       return Date.ofEpochMilli(endTime);
+     }
+
+    long getDurationInMillis()
+    {
+        return durationInMillis;
+    }
+
+    string getDeleteReason()
+    {
+        return deleteReason;
+    }
+
+    string getProcessInstanceId()
+    {
+        return processInstanceId;
+    }
+
+     void setProcessInstanceId(string processInstanceId)
+     {
+        this.processInstanceId = processInstanceId;
+     }
+
+    void setProcessDefinitionId(string processDefinitionId)
+    {
+        this.processDefinitionId = processDefinitionId;
+    }
+
+    void setEndTime(LocalDateTime endTime)
+    {
+        this.endTime = endTime.toEpochMilli;
+    }
+
+    void setStartTime(LocalDateTime startTime)
+    {
+        this.startTime = startTime.toEpochMilli;
+    }
+
+     void setDurationInMillis(long durationInMillis)
+     {
+        this.durationInMillis = durationInMillis;
+     }
+
+    void setDeleteReason(string deleteReason)
+    {
+        this.deleteReason = deleteReason;
+    }
+
+    override
+    void setRevision(int revision)
+    {
+        super.setRevision(revision);
+    }
+
+    override
+    int getRevision()
+    {
+        return super.getRevision;
+    }
+
+    override
+     int getRevisionNext()
+     {
+        return super.getRevisionNext;
+     }
 }

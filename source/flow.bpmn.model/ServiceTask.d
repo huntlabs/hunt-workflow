@@ -13,6 +13,10 @@
 
 module flow.bpmn.model.ServiceTask;
 
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
 import hunt.collection.ArrayList;
 import hunt.collection.List;
 import flow.bpmn.model.TaskWithFieldExtensions;
@@ -23,7 +27,11 @@ import flow.bpmn.model.FieldExtension;
  */
 class ServiceTask : TaskWithFieldExtensions {
 
-    public static  string DMN_TASK = "dmn";
+  alias setValues = FlowNode.setValues;
+  alias setValues = BaseElement.setValues;
+  alias setValues = FlowElement.setValues;
+  alias setValues = Activity.setValues;
+  public static  string DMN_TASK = "dmn";
     public static  string MAIL_TASK = "mail";
     public static  string HTTP_TASK = "http";
     public static  string SHELL_TASK = "shell";

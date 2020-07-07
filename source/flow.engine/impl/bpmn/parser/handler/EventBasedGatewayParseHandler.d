@@ -23,8 +23,8 @@ import flow.engine.impl.bpmn.parser.handler.AbstractActivityBpmnParseHandler;
 class EventBasedGatewayParseHandler : AbstractActivityBpmnParseHandler!EventGateway {
 
     override
-    TypeInfo getHandledType() {
-        return typeid(EventGateway);
+    BaseElement getHandledType() {
+        return new EventGateway;
     }
 
     override

@@ -59,6 +59,7 @@ abstract class AbstractFlowableEngineEventListener : AbstractFlowableEventListen
     }
 
 
+    override
     public void onEvent(FlowableEvent flowableEvent) {
         FlowableEngineEvent flowableEngineEvent = cast (FlowableEngineEvent)flowableEvent;
         if(flowableEngineEvent !is null) {
@@ -167,7 +168,7 @@ abstract class AbstractFlowableEngineEventListener : AbstractFlowableEventListen
         }
     }
 
-
+    override
     public bool isFailOnException() {
         return true;
     }

@@ -13,11 +13,18 @@
 
 module flow.bpmn.model.InclusiveGateway;
 import flow.bpmn.model.Gateway;
-
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 /**
  * @author Tijs Rademakers
  */
 class InclusiveGateway : Gateway {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Gateway.setValues;
 
     override
     public InclusiveGateway clone() {

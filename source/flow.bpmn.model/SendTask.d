@@ -16,11 +16,20 @@ module flow.bpmn.model.SendTask;
 import hunt.collection.ArrayList;
 import flow.bpmn.model.TaskWithFieldExtensions;
 import flow.bpmn.model.FieldExtension;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
 
 /**
  * @author Tijs Rademakers
  */
 class SendTask : TaskWithFieldExtensions {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
 
     protected string type;
     protected string implementationType;

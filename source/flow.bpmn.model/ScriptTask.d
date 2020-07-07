@@ -14,12 +14,21 @@
 module flow.bpmn.model.ScriptTask;
 
 import flow.bpmn.model.Task;
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
+import flow.bpmn.model.Activity;
 
 /**
  * @author Tijs Rademakers
  * @author Joram Barrez
  */
 class ScriptTask : Task {
+
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
 
     protected string scriptFormat;
     protected string script;

@@ -35,8 +35,8 @@ class ProcessParseHandler : AbstractBpmnParseHandler!Process {
     public static  string PROPERTYNAME_DOCUMENTATION = "documentation";
 
     override
-    TypeInfo getHandledType() {
-        return typeid(Process);
+    BaseElement getHandledType() {
+        return new Process;
     }
 
     override

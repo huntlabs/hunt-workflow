@@ -12,6 +12,9 @@
  */
 module flow.bpmn.model.SubProcess;
 
+import flow.bpmn.model.BaseElement;
+import flow.bpmn.model.FlowElement;
+import flow.bpmn.model.FlowNode;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.collection.LinkedHashMap;
@@ -33,7 +36,10 @@ import flow.bpmn.model.ValuedDataObject;
  * @author Tijs Rademakers
  */
 class SubProcess : Activity , FlowElementsContainer {
-
+    alias setValues = BaseElement.setValues;
+    alias setValues = FlowElement.setValues;
+    alias setValues = FlowNode.setValues;
+    alias setValues = Activity.setValues;
     protected Map!(string, FlowElement) flowElementMap ;//= new LinkedHashMap<>();
     protected List!FlowElement flowElementList ;//= new ArrayList<>();
     protected List!Artifact artifactList ;//= new ArrayList<>();

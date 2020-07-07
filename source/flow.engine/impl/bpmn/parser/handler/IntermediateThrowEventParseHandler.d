@@ -28,8 +28,8 @@ class IntermediateThrowEventParseHandler : AbstractActivityBpmnParseHandler!Thro
 
 
     override
-    TypeInfo getHandledType() {
-        return typeid(ThrowEvent);
+    BaseElement getHandledType() {
+        return new ThrowEvent;
     }
 
     override

@@ -29,7 +29,7 @@ alias Date = LocalDateTime;
 
 @Table("FLW_CHANNEL_DEFINITION")
 class ChannelDefinitionEntityImpl : AbstractEventRegistryNoRevisionEntity , Model, ChannelDefinitionEntity {
-mixin MakeModel;
+    mixin MakeModel;
 
     @PrimaryKey
     @Column("ID_")
@@ -70,6 +70,16 @@ mixin MakeModel;
     // getters and setters
     // //////////////////////////////////////////////////////
 
+    override
+    string getId()
+    {
+        return id;
+    }
+    override
+    void setId(string id)
+    {
+        this.id = id;
+    }
 
     public string getKey() {
         return key;
@@ -164,6 +174,60 @@ mixin MakeModel;
     override
     public string toString() {
         return "ChannelDefitionEntity[" ~ id ~ "]";
+    }
+
+    override
+    string getIdPrefix()
+    {
+      return super.getIdPrefix;
+    }
+
+    override
+    bool isInserted()
+    {
+      return super.isInserted();
+    }
+
+    override
+    void setInserted(bool inserted)
+    {
+      return super.setInserted(inserted);
+    }
+
+    override
+    bool isUpdated()
+    {
+      return super.isUpdated;
+    }
+
+    override
+    void setUpdated(bool updated)
+    {
+      super.setUpdated(updated);
+    }
+
+    override
+    bool isDeleted()
+    {
+      return super.isDeleted;
+    }
+
+    override
+    void setDeleted(bool deleted)
+    {
+      super.setDeleted(deleted);
+    }
+
+    override
+    Object getOriginalPersistentState()
+    {
+      return super.getOriginalPersistentState;
+    }
+
+    override
+    void setOriginalPersistentState(Object persistentState)
+    {
+      super.setOriginalPersistentState(persistentState);
     }
 
 }

@@ -30,8 +30,8 @@ class IntermediateCatchEventParseHandler : AbstractFlowNodeBpmnParseHandler!Inte
 
 
     override
-    TypeInfo getHandledType() {
-        return typeid(IntermediateCatchEvent);
+    BaseElement getHandledType() {
+        return new IntermediateCatchEvent;
     }
 
     override

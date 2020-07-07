@@ -17,6 +17,8 @@ import flow.bpmn.model.BaseElement;
 
 class ItemDefinition : BaseElement {
 
+    alias setValues = BaseElement.setValues;
+
     public string structureRef;
     protected string itemKind;
 
