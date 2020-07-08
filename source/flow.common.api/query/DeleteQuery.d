@@ -33,7 +33,7 @@ interface DeleteQuery(T,U) {
     /**
      * Delete all instances that match the query.
      */
-    void del();
+    void dele();
 
     /**
      * Delete all instances and their related data that match the query.

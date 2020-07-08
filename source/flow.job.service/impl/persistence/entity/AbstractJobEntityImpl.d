@@ -68,6 +68,7 @@ class AbstractJobEntityImpl : AbstractJobServiceEntity , AbstractRuntimeJobEntit
     protected string tenantId  ;//= JobServiceConfiguration.NO_TENANT_ID;
     protected string jobType;
 
+    override
     public Object getPersistentState() {
         return this;
         //Map!(string, Object) persistentState = new HashMap<>();
@@ -93,6 +94,16 @@ class AbstractJobEntityImpl : AbstractJobServiceEntity , AbstractRuntimeJobEntit
 
     // getters and setters ////////////////////////////////////////////////////////
 
+
+    override string getId()
+    {
+        return id;
+    }
+
+    override void setId(string id)
+    {
+        this.id = id;
+    }
 
     public Date getCreateTime() {
         return createTime;
@@ -350,6 +361,25 @@ class AbstractJobEntityImpl : AbstractJobServiceEntity , AbstractRuntimeJobEntit
     override
     public string toString() {
         return " [id=" ~ id ~ "]";
+    }
+
+    override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
+
+    override
+    int getRevision()
+    {
+      return super.getRevision;
+    }
+
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
     }
 
 }

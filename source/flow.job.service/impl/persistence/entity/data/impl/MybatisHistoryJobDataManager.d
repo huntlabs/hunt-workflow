@@ -37,6 +37,8 @@ class MybatisHistoryJobDataManager : EntityRepository!( HistoryJobEntityImpl , s
     import flow.common.Page;
     protected JobServiceConfiguration jobServiceConfiguration;
 
+    alias insert = CrudRepository!( HistoryJobEntityImpl , string).insert;
+    alias update = CrudRepository!( HistoryJobEntityImpl , string).update;
     this() {
       super(entityManagerFactory.currentEntityManager());
     }
@@ -56,7 +58,36 @@ class MybatisHistoryJobDataManager : EntityRepository!( HistoryJobEntityImpl , s
         return new HistoryJobEntityImpl();
     }
 
+    public void insert(HistoryJobEntity entity) {
+      insert(cast(HistoryJobEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public HistoryJobEntity update(HistoryJobEntity entity) {
+      return  update(cast(HistoryJobEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
 
+    public void dele(HistoryJobEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(HistoryJobEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      HistoryJobEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(HistoryJobEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
     public List!HistoryJobEntity findJobsToExecute(Page page) {
         implementationMissing(false);

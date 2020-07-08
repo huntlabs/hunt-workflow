@@ -31,6 +31,8 @@ import flow.common.AbstractEngineConfiguration;
 class MybatisChannelDefinitionDataManager : EntityRepository!( ChannelDefinitionEntityImpl , string) , ChannelDefinitionDataManager {
     public EventRegistryEngineConfiguration eventRegistryConfiguration;
 
+    alias insert = CrudRepository!( ChannelDefinitionEntityImpl , string).insert;
+    alias update = CrudRepository!( ChannelDefinitionEntityImpl , string).update;
     this(EventRegistryEngineConfiguration eventRegistryConfiguration) {
         //super(eventRegistryConfiguration);
         this.eventRegistryConfiguration = eventRegistryConfiguration;
@@ -42,6 +44,35 @@ class MybatisChannelDefinitionDataManager : EntityRepository!( ChannelDefinition
     //    return ChannelDefinitionEntityImpl.class;
     //}
 
+    public void insert(ChannelDefinitionEntity entity) {
+      super.insert(cast(ChannelDefinitionEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public ChannelDefinitionEntity update(ChannelDefinitionEntity entity) {
+      return  super.update(cast(ChannelDefinitionEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+    //
+    //@Override
+    public void dele(string id) {
+      ChannelDefinitionEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(ChannelDefinitionEntityImpl)entity);
+      }
+      //delete(entity);
+    }
+
+    public void dele(ChannelDefinitionEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(ChannelDefinitionEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
 
     public ChannelDefinitionEntity create() {
         return new ChannelDefinitionEntityImpl();

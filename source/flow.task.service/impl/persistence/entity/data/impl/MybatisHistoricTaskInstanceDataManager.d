@@ -39,7 +39,12 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
     //class<? extends HistoricTaskInstanceEntity> getManagedEntityClass() {
     //    return HistoricTaskInstanceEntityImpl.class;
     //}
-   this()
+
+    alias findById = CrudRepository!(HistoricTaskInstanceEntityImpl , string).findById;
+    alias insert = CrudRepository!(HistoricTaskInstanceEntityImpl , string).insert;
+    alias update = CrudRepository!(HistoricTaskInstanceEntityImpl , string).update;
+
+  this()
    {
      super(entityManagerFactory.currentEntityManager());
    }

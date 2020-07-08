@@ -30,6 +30,11 @@ import hunt.Exceptions;
  */
 class MybatisJobByteArrayDataManager : EntityRepository!( JobByteArrayEntityImpl , string) , JobByteArrayDataManager {
 
+    alias findAll = CrudRepository!( JobByteArrayEntityImpl , string).findAll;
+    alias findById = CrudRepository!( JobByteArrayEntityImpl , string).findById;
+    alias insert = CrudRepository!( JobByteArrayEntityImpl , string).insert;
+    alias update = CrudRepository!( JobByteArrayEntityImpl , string).update;
+
 
     public JobByteArrayEntity create() {
         return new JobByteArrayEntityImpl();

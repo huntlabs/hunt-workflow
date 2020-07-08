@@ -31,7 +31,10 @@ import flow.common.AbstractEngineConfiguration;
 class MybatisPrivilegeDataManager : EntityRepository!( PrivilegeEntityImpl , string), PrivilegeDataManager {
 //class MybatisPrivilegeDataManager extends AbstractIdmDataManager<PrivilegeEntity> implements PrivilegeDataManager {
 
-     public IdmEngineConfiguration idmEngineConfiguration;
+    public IdmEngineConfiguration idmEngineConfiguration;
+
+    alias insert = CrudRepository!( PrivilegeEntityImpl , string).insert;
+    alias update = CrudRepository!( PrivilegeEntityImpl , string).update;
 
     this(IdmEngineConfiguration idmEngineConfiguration) {
         this.idmEngineConfiguration = idmEngineConfiguration;
@@ -49,6 +52,36 @@ class MybatisPrivilegeDataManager : EntityRepository!( PrivilegeEntityImpl , str
     //    return PrivilegeEntityImpl.class;
     //}
 
+    public void insert(PrivilegeEntity entity) {
+      insert(cast(PrivilegeEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public PrivilegeEntity update(PrivilegeEntity entity) {
+      return  update(cast(PrivilegeEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(PrivilegeEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(PrivilegeEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      PrivilegeEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(PrivilegeEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
 
     public List!Privilege findPrivilegeByQueryCriteria(PrivilegeQueryImpl query) {

@@ -32,6 +32,9 @@ class MybatisPropertyDataManager : EntityRepository!( IdmPropertyEntityImpl , st
 
     public IdmEngineConfiguration idmEngineConfiguration;
 
+    alias findAll = CrudRepository!( IdmPropertyEntityImpl , string).findAll;
+    alias insert = CrudRepository!( IdmPropertyEntityImpl , string).insert;
+    alias update = CrudRepository!( IdmPropertyEntityImpl , string).update;
     this(IdmEngineConfiguration idmEngineConfiguration) {
        // super(idmEngineConfiguration);
        this.idmEngineConfiguration = idmEngineConfiguration;
@@ -42,6 +45,36 @@ class MybatisPropertyDataManager : EntityRepository!( IdmPropertyEntityImpl , st
     //    return IdmPropertyEntityImpl.class;
     //}
 
+    public void insert(IdmPropertyEntity entity) {
+      insert(cast(IdmPropertyEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public IdmPropertyEntity update(IdmPropertyEntity entity) {
+      return  update(cast(IdmPropertyEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(IdmPropertyEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(IdmPropertyEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      IdmPropertyEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(IdmPropertyEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
     public IdmPropertyEntity create() {
         return new IdmPropertyEntityImpl();

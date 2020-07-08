@@ -74,6 +74,15 @@ class VariableByteArrayEntityImpl : AbstractVariableServiceEntity , Model, Varia
         rev = 1;
     }
 
+    public string getId() {
+        return id;
+    }
+
+
+    public void setId(string id) {
+        this.id = id;
+    }
+
 
     public byte[] getBytes() {
         return bytes;
@@ -120,5 +129,22 @@ class VariableByteArrayEntityImpl : AbstractVariableServiceEntity , Model, Varia
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
 
+    override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
 
+    override
+    int getRevision()
+    {
+      return super.getRevision;
+    }
+
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
+    }
 }

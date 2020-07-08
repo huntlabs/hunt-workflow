@@ -56,6 +56,9 @@ class MybatisEventSubscriptionDataManager : EntityRepository!(EventSubscriptionE
 
     private EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration;
 
+    alias insert = CrudRepository!(EventSubscriptionEntityImpl , string).insert;
+    alias findById = CrudRepository!(EventSubscriptionEntityImpl , string).findById;
+    alias update = CrudRepository!(EventSubscriptionEntityImpl , string).update;
     //this(EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration) {
     //  this.eventSubscriptionServiceConfiguration = eventSubscriptionServiceConfiguration;
     //}

@@ -75,11 +75,12 @@ class JobByteArrayEntityImpl : AbstractJobServiceEntity , Model, JobByteArrayEnt
       rev = 1;
     }
 
+    override
     public string getId() {
         return id;
     }
 
-
+    override
     public void setId(string id) {
         this.id = id;
     }
@@ -88,7 +89,7 @@ class JobByteArrayEntityImpl : AbstractJobServiceEntity , Model, JobByteArrayEnt
         return bytes;
     }
 
-
+    override
     public Object getPersistentState() {
         return new PersistentState(name, bytes);
     }
@@ -125,7 +126,26 @@ class JobByteArrayEntityImpl : AbstractJobServiceEntity , Model, JobByteArrayEnt
         return "ByteArrayEntity[id=" ~ id ~ ", name=" ~ name ~ ", size=" ~ to!string(bytes !is null ? bytes.length : 0) ~ "]";
     }
 
-    // Wrapper for a byte array, needed to do byte array comparisons
+    override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
+
+    override
+    int getRevision()
+    {
+      return super.getRevision;
+    }
+
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
+    }
+
+  // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
 
 }

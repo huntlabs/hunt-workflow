@@ -27,7 +27,10 @@ import flow.common.AbstractEngineConfiguration;
  */
 class MybatisVariableByteArrayDataManager : EntityRepository!(VariableByteArrayEntityImpl , string) , VariableByteArrayDataManager {
 
-
+    alias findAll = CrudRepository!(VariableByteArrayEntityImpl , string).findAll;
+    alias findById = CrudRepository!(VariableByteArrayEntityImpl , string).findById;
+    alias insert = CrudRepository!(VariableByteArrayEntityImpl , string).insert;
+    alias update = CrudRepository!(VariableByteArrayEntityImpl , string).update;
     public VariableByteArrayEntity create() {
         return new VariableByteArrayEntityImpl();
     }

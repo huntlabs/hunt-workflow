@@ -45,6 +45,16 @@ class PrivilegeMappingEntityImpl : AbstractIdmEngineEntity , Model, PrivilegeMap
         return cast(Object)state;
     }
 
+    override string getId()
+    {
+      return id;
+    }
+
+    override void setId(string id)
+    {
+      this.id = id;
+    }
+
 
     public string getPrivilegeId() {
         return privilegeId;

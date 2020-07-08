@@ -51,7 +51,11 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
     //class<? extends TaskEntity> getManagedEntityClass() {
     //    return TaskEntityImpl.class;
     //}
-    this()
+    alias findById = CrudRepository!( TaskEntityImpl , string).findById;
+    alias insert = CrudRepository!( TaskEntityImpl , string).insert;
+    alias update = CrudRepository!( TaskEntityImpl , string).update;
+
+  this()
     {
       super(entityManagerFactory.currentEntityManager());
     }

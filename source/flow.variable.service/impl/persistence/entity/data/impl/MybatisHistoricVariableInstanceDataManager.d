@@ -36,7 +36,11 @@ import flow.common.AbstractEngineConfiguration;
  */
 class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVariableInstanceEntityImpl , string) , HistoricVariableInstanceDataManager {
 
-     this()
+    alias findById = CrudRepository!(HistoricVariableInstanceEntityImpl , string).findById;
+    alias insert = CrudRepository!(HistoricVariableInstanceEntityImpl , string).insert;
+    alias update = CrudRepository!(HistoricVariableInstanceEntityImpl , string).update;
+
+  this()
      {
        super(entityManagerFactory.currentEntityManager());
      }

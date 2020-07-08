@@ -29,7 +29,6 @@ import flow.common.api.FlowableIllegalArgumentException;
 import flow.common.api.query.Query;
 //import flow.identitylink.api.IdentityLink;
 //import flow.task.api.history.HistoricTaskInstanceQuery;
-import hunt.Integer;
 alias Date = LocalDateTime;
 /**
  * Interface containing shared methods between the {@link TaskQuery} and the {@link HistoricTaskInstanceQuery}.
@@ -94,13 +93,13 @@ interface TaskInfoQuery(T,V) : Query!(T, V) {
     T taskDescriptionLikeIgnoreCase(string descriptionLike);
 
     /** Only select tasks with the given priority. */
-    T taskPriority(Integer priority);
+    T taskPriority(int priority);
 
     /** Only select tasks with the given priority or higher. */
-    T taskMinPriority(Integer minPriority);
+    T taskMinPriority(int minPriority);
 
     /** Only select tasks with the given priority or lower. */
-    T taskMaxPriority(Integer maxPriority);
+    T taskMaxPriority(int maxPriority);
 
     /** Only select tasks which are assigned to the given user. */
     T taskAssignee(string assignee);
@@ -654,7 +653,7 @@ interface TaskInfoQuery(T,V) : Query!(T, V) {
     /**
      * Limit task variables
      */
-    T limitTaskVariables(Integer taskVariablesLimit);
+    T limitTaskVariables(int taskVariablesLimit);
 
     /**
      * Include identity links in the task query result

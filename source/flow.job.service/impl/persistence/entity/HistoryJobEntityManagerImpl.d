@@ -13,6 +13,7 @@
 
 module flow.job.service.impl.persistence.entity.HistoryJobEntityManagerImpl;
 
+import flow.common.Page;
 import hunt.collection.List;
 
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -66,6 +67,43 @@ class HistoryJobEntityManagerImpl
 
     public void deleteNoCascade(HistoryJobEntity historyJobEntity) {
         super.dele(historyJobEntity);
+    }
+
+
+     override
+     List!(HistoryJobEntity) findJobsToExecute(Page page)
+     {
+          return super.findJobsToExecute(page);
+     }
+
+    override
+    List!(HistoryJobEntity) findJobsByExecutionId(string executionId)
+    {
+        return super.findJobsByExecutionId(executionId);
+    }
+
+    override
+   List!(HistoryJobEntity) findJobsByProcessInstanceId(string processInstanceId)
+   {
+        return super.findJobsByProcessInstanceId(processInstanceId);
+   }
+
+    override
+    List!(HistoryJobEntity) findExpiredJobs(Page page)
+    {
+        return super.findExpiredJobs(page);
+    }
+
+    override
+     void resetExpiredJob(string jobId)
+     {
+          super.resetExpiredJob(jobId);
+     }
+
+    override
+    void updateJobTenantIdForDeployment(string deploymentId, string newTenantId)
+    {
+          super.updateJobTenantIdForDeployment(deploymentId,newTenantId);
     }
 
 }

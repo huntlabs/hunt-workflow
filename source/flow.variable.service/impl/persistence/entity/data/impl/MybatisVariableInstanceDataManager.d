@@ -43,6 +43,10 @@ import flow.common.AbstractEngineConfiguration;
  */
 class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEntityImpl , string), VariableInstanceDataManager {
 
+
+    alias findById = CrudRepository!( VariableInstanceEntityImpl , string).findById;
+    alias insert = CrudRepository!( VariableInstanceEntityImpl , string).insert;
+    alias update = CrudRepository!( VariableInstanceEntityImpl , string).update;
     //protected CachedEntityMatcher!VariableInstanceEntity variableInstanceByExecutionIdMatcher
     //    = new VariableInstanceByExecutionIdMatcher();
     //

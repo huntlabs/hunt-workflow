@@ -30,6 +30,9 @@ import flow.common.AbstractEngineConfiguration;
 class MybatisMembershipDataManager : EntityRepository!( MembershipEntityImpl , string), MembershipDataManager {
 //class MybatisMembershipDataManager extends AbstractIdmDataManager<MembershipEntity> implements MembershipDataManager {
 
+    alias insert = CrudRepository!( MembershipEntityImpl , string).insert;
+    alias update = CrudRepository!( MembershipEntityImpl , string).update;
+
     public IdmEngineConfiguration idmEngineConfiguration;
 
     this(IdmEngineConfiguration idmEngineConfiguration) {
@@ -42,6 +45,37 @@ class MybatisMembershipDataManager : EntityRepository!( MembershipEntityImpl , s
     //class<? extends MembershipEntity> getManagedEntityClass() {
     //    return MembershipEntityImpl.class;
     //}
+
+    public void insert(MembershipEntity entity) {
+      insert(cast(MembershipEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public MembershipEntity update(MembershipEntity entity) {
+      return  update(cast(MembershipEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(MembershipEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(MembershipEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      MembershipEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(MembershipEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
 
     public MembershipEntity create() {

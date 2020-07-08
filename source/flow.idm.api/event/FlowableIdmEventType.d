@@ -171,4 +171,9 @@ class FlowableIdmEventType : AbstractEnum!FlowableIdmEventType,  FlowableEventTy
         return result.toArray();
         //return result.toArray(EMPTY_ARRAY);
     }
+
+     int opCmp(FlowableEventType o)
+     {
+          return cast(int)(hashOf(this.name()) - hashOf((cast(FlowableIdmEventType)o).name()));
+     }
 }

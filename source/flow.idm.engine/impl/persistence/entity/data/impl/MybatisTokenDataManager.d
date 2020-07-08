@@ -33,6 +33,8 @@ class MybatisTokenDataManager : EntityRepository!( TokenEntityImpl , string) , T
 
     public IdmEngineConfiguration idmEngineConfiguration;
 
+    alias insert = CrudRepository!( TokenEntityImpl , string).insert;
+    alias update = CrudRepository!( TokenEntityImpl , string).update;
     this(IdmEngineConfiguration idmEngineConfiguration) {
        // super(idmEngineConfiguration);
       this.idmEngineConfiguration =  idmEngineConfiguration;
@@ -44,6 +46,37 @@ class MybatisTokenDataManager : EntityRepository!( TokenEntityImpl , string) , T
     //class<? extends TokenEntity> getManagedEntityClass() {
     //    return TokenEntityImpl.class;
     //}
+
+    public void insert(TokenEntity entity) {
+      insert(cast(TokenEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public TokenEntity update(TokenEntity entity) {
+      return  update(cast(TokenEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(TokenEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(TokenEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      TokenEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(TokenEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
 
     public TokenEntity create() {

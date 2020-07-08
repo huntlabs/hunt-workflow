@@ -31,12 +31,46 @@ class MybatisPrivilegeMappingDataManager : EntityRepository!( PrivilegeMappingEn
 
     public IdmEngineConfiguration idmEngineConfiguration;
 
+    alias insert = CrudRepository!( PrivilegeMappingEntityImpl , string).insert;
+    alias update = CrudRepository!( PrivilegeMappingEntityImpl , string).update;
+
     this(IdmEngineConfiguration idmEngineConfiguration) {
        // super(idmEngineConfiguration);
         this.idmEngineConfiguration = idmEngineConfiguration;
         super(entityManagerFactory.currentEntityManager());
     }
 
+
+    public void insert(PrivilegeMappingEntity entity) {
+      insert(cast(PrivilegeMappingEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public PrivilegeMappingEntity update(PrivilegeMappingEntity entity) {
+      return  update(cast(PrivilegeMappingEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(PrivilegeMappingEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(PrivilegeMappingEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      PrivilegeMappingEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(PrivilegeMappingEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
     public PrivilegeMappingEntity create() {
         return new PrivilegeMappingEntityImpl();

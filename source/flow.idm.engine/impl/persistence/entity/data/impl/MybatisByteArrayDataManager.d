@@ -30,12 +30,17 @@ class MybatisByteArrayDataManager : EntityRepository!( IdmByteArrayEntityImpl , 
 //class MybatisByteArrayDataManager extends AbstractIdmDataManager<IdmByteArrayEntity> implements ByteArrayDataManager {
      public IdmEngineConfiguration idmEngineConfiguration;
 
+    alias insert = CrudRepository!( IdmByteArrayEntityImpl , string).insert;
+    alias update = CrudRepository!( IdmByteArrayEntityImpl , string).update;
+
     this(IdmEngineConfiguration idmEngineConfiguration) {
        // super(idmEngineConfiguration);
         this.idmEngineConfiguration = idmEngineConfiguration;
         super(entityManagerFactory.currentEntityManager());
     }
 
+    alias findAll = CrudRepository!( IdmByteArrayEntityImpl , string).findAll;
+    alias update = CrudRepository!( IdmByteArrayEntityImpl , string).update;
 
     public IdmByteArrayEntity create() {
         return new IdmByteArrayEntityImpl();
@@ -47,8 +52,40 @@ class MybatisByteArrayDataManager : EntityRepository!( IdmByteArrayEntityImpl , 
     //}
 
 
+    public void insert(IdmByteArrayEntity entity) {
+      insert(cast(IdmByteArrayEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public IdmByteArrayEntity update(IdmByteArrayEntity entity) {
+      return  update(cast(IdmByteArrayEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
 
-    public List!IdmByteArrayEntity findAll() {
+    public void dele(IdmByteArrayEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(IdmByteArrayEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      IdmByteArrayEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(IdmByteArrayEntityImpl)entity);
+      }
+      //delete(entity);
+    }
+
+
+
+  public List!IdmByteArrayEntity findAll() {
         implementationMissing(false);
         return null;
        // return getDbSqlSession().selectList("selectIdmByteArrays");

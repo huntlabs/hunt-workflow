@@ -35,6 +35,10 @@ class MyBatisHistoricTaskLogEntryDataManager : EntityRepository!( HistoricTaskLo
     //class<? extends HistoricTaskLogEntryEntity> getManagedEntityClass() {
     //    return HistoricTaskLogEntryEntityImpl.class;
     //}
+    alias findById = CrudRepository!( HistoricTaskLogEntryEntityImpl , string).findById;
+     alias insert = CrudRepository!( HistoricTaskLogEntryEntityImpl , string).insert;
+    alias update = CrudRepository!( HistoricTaskLogEntryEntityImpl , string).update;
+
     this()
     {
       super(entityManagerFactory.currentEntityManager());

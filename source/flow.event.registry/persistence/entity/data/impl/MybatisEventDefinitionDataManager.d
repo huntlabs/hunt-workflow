@@ -34,6 +34,8 @@ class MybatisEventDefinitionDataManager : EntityRepository!( EventDefinitionEnti
 //class MybatisEventDefinitionDataManager extends AbstractEventDataManager<EventDefinitionEntity> implements EventDefinitionDataManager {
 
     public EventRegistryEngineConfiguration eventRegistryConfiguration;
+    alias insert = CrudRepository!( EventDefinitionEntityImpl , string).insert;
+    alias update = CrudRepository!( EventDefinitionEntityImpl , string).update;
 
     this(EventRegistryEngineConfiguration eventRegistryConfiguration) {
         this.eventRegistryConfiguration = eventRegistryConfiguration;
@@ -44,7 +46,35 @@ class MybatisEventDefinitionDataManager : EntityRepository!( EventDefinitionEnti
     //class<? extends EventDefinitionEntity> getManagedEntityClass() {
     //    return EventDefinitionEntityImpl.class;
     //}
+    public void insert(EventDefinitionEntity entity) {
+      super.insert(cast(EventDefinitionEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public EventDefinitionEntity update(EventDefinitionEntity entity) {
+      return  super.update(cast(EventDefinitionEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+    //
+    //@Override
+    public void dele(string id) {
+      EventDefinitionEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(EventDefinitionEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
+    public void dele(EventDefinitionEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(EventDefinitionEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
 
     public EventDefinitionEntity create() {
         return new EventDefinitionEntityImpl();

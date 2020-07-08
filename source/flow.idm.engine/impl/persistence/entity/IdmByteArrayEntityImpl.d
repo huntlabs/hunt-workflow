@@ -68,6 +68,18 @@ class IdmByteArrayEntityImpl : AbstractIdmEngineEntity , Model, IdmByteArrayEnti
 
     }
 
+    override
+    string getId()
+    {
+        return id;
+    }
+
+    override
+    void setId(string id)
+    {
+        this.id = id;
+    }
+
     public byte[] getBytes() {
         return bytes;
     }
@@ -98,5 +110,22 @@ class IdmByteArrayEntityImpl : AbstractIdmEngineEntity , Model, IdmByteArrayEnti
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
 
+    override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
 
+    override
+    int getRevision()
+    {
+      return super.getRevision;
+    }
+
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
+    }
 }

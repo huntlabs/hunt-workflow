@@ -25,6 +25,9 @@ import flow.job.service.impl.persistence.entity.data.JobDataManager;
 import flow.job.service.impl.persistence.entity.JobInfoEntityManagerImpl;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import flow.job.service.impl.persistence.entity.JobEntityManager;
+import flow.common.Page;
+import hunt.time.LocalDateTime;
+import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 
 /**
  * @author Tom Baeyens
@@ -96,4 +99,39 @@ class JobEntityManagerImpl
         super.dele(entity, fireDeleteEvent);
     }
 
+     override
+     List!(JobEntity) findJobsToExecute(Page page)
+     {
+          return super.findJobsToExecute(page);
+     }
+
+    override
+    List!(JobEntity) findJobsByExecutionId(string executionId)
+    {
+        return super.findJobsByExecutionId(executionId);
+    }
+
+    override
+    List!(JobEntity) findJobsByProcessInstanceId(string processInstanceId)
+    {
+        return super.findJobsByProcessInstanceId(processInstanceId);
+    }
+
+    override
+     List!(JobEntity) findExpiredJobs(Page page)
+     {
+        return super.findExpiredJobs(page);
+     }
+
+      override
+      void resetExpiredJob(string jobId)
+      {
+          return super.resetExpiredJob(jobId);
+      }
+
+      override
+      void updateJobTenantIdForDeployment(string deploymentId, string newTenantId)
+      {
+          return super.updateJobTenantIdForDeployment(deploymentId, newTenantId);
+      }
 }

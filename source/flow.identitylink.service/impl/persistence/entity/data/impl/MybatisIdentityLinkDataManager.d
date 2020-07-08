@@ -51,6 +51,10 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     //    return IdentityLinkEntityImpl.class;
     //}
 
+    alias findById = CrudRepository!( IdentityLinkEntityImpl , string).findById;
+    alias insert = CrudRepository!( IdentityLinkEntityImpl , string).insert;
+    alias update = CrudRepository!( IdentityLinkEntityImpl , string).update;
+
     public IdentityLinkEntity findById(string entityId) {
       if (entityId is null) {
         return null;
@@ -89,6 +93,14 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
            remove(cast(IdentityLinkEntityImpl)entity);
         }
         //delete(entity);
+    }
+
+    public void dele(IdentityLinkEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(IdentityLinkEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
     }
 
     this()

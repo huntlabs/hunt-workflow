@@ -40,6 +40,9 @@ class MybatisJobDataManager : EntityRepository!( JobEntityImpl , string) , JobDa
     import flow.common.Page;
     protected JobServiceConfiguration jobServiceConfiguration;
 
+    alias insert = CrudRepository!( JobEntityImpl , string).insert;
+    alias update = CrudRepository!( JobEntityImpl , string).update;
+
    // protected CachedEntityMatcher!JobEntity jobsByExecutionIdMatcher = new JobsByExecutionIdMatcher();
 
     this() {
@@ -56,6 +59,36 @@ class MybatisJobDataManager : EntityRepository!( JobEntityImpl , string) , JobDa
     //    return JobEntityImpl.class;
     //}
 
+    public void insert(JobEntity entity) {
+      insert(cast(JobEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public JobEntity update(JobEntity entity) {
+      return  update(cast(JobEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(JobEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(JobEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      JobEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(JobEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
     public JobEntity create() {
         return new JobEntityImpl();

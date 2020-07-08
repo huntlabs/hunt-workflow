@@ -43,6 +43,8 @@ class MybatisTimerJobDataManager : EntityRepository!( TimerJobEntityImpl , strin
 
     protected JobServiceConfiguration jobServiceConfiguration;
 
+    alias insert = CrudRepository!( TimerJobEntityImpl , string).insert;
+    alias update = CrudRepository!( TimerJobEntityImpl , string).update;
     //protected CachedEntityMatcher!TimerJobEntity timerJobsByExecutionIdMatcher = new TimerJobsByExecutionIdMatcher();
     //
     //protected CachedEntityMatcher!TimerJobEntity timerJobsByScopeIdAndSubScopeIdMatcher = new TimerJobsByScopeIdAndSubScopeIdMatcher();
@@ -56,6 +58,37 @@ class MybatisTimerJobDataManager : EntityRepository!( TimerJobEntityImpl , strin
     //class<? extends TimerJobEntity> getManagedEntityClass() {
     //    return TimerJobEntityImpl.class;
     //}
+
+    public void insert(TimerJobEntity entity) {
+      insert(cast(TimerJobEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public TimerJobEntity update(TimerJobEntity entity) {
+      return  update(cast(TimerJobEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(TimerJobEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(TimerJobEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      TimerJobEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(TimerJobEntityImpl)entity);
+      }
+      //delete(entity);
+    }
 
 
     public TimerJobEntity create() {

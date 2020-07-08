@@ -35,6 +35,8 @@ class MybatisUserDataManager  : EntityRepository!( UserEntityImpl , string),  Us
 
     public IdmEngineConfiguration idmEngineConfiguration;
 
+    alias insert = CrudRepository!( UserEntityImpl , string).insert;
+    alias update = CrudRepository!( UserEntityImpl , string).update;
     this(IdmEngineConfiguration idmEngineConfiguration) {
         this.idmEngineConfiguration = idmEngineConfiguration;
        // super(idmEngineConfiguration);
@@ -45,6 +47,37 @@ class MybatisUserDataManager  : EntityRepository!( UserEntityImpl , string),  Us
     //class<? extends UserEntity> getManagedEntityClass() {
     //    return UserEntityImpl.class;
     //}
+    public void insert(UserEntity entity) {
+      insert(cast(UserEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public UserEntity update(UserEntity entity) {
+      return  update(cast(UserEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+
+    public void dele(UserEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(UserEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
+
+    //
+    //@Override
+    public void dele(string id) {
+      UserEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(UserEntityImpl)entity);
+      }
+      //delete(entity);
+    }
+
 
 
     public UserEntity create() {

@@ -32,9 +32,11 @@ class DeleteUserInfoCmd : Command!Object {
         this.key = key;
     }
 
-    public string execute(CommandContext commandContext) {
+    public Object execute(CommandContext commandContext) {
         implementationMissing(false);
         //CommandContextUtil.getIdentityInfoEntityManager(commandContext).deleteUserInfoByUserIdAndKey(userId, key);
         return null;
     }
+
+
 }

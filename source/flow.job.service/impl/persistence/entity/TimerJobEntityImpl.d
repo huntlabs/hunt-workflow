@@ -19,7 +19,7 @@ import flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
 import flow.job.service.impl.persistence.entity.TimerJobEntity;
 
 import hunt.entity;
-
+import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 alias Date = LocalDateTime;
 /**
  * TimerJob entity, necessary for persistence.
@@ -79,4 +79,97 @@ class TimerJobEntityImpl : AbstractJobEntityImpl , Model,TimerJobEntity {
         return "TimerJobEntity [id=" ~ id ~ "]";
     }
 
+    override
+    void setRetries(int retries)
+    {
+      super.setRetries(retries);
+    }
+
+    override
+    void setJobHandlerType(string jobHandlerType)
+    {
+      super.setJobHandlerType(jobHandlerType);
+    }
+
+    override
+    void setJobHandlerConfiguration(string jobHandlerConfiguration)
+    {
+      super.setJobHandlerConfiguration(jobHandlerConfiguration);
+    }
+
+    override
+    string getCustomValues()
+    {
+      return super.getCustomValues;
+    }
+
+    override
+    void setCustomValues(string customValues)
+    {
+      super.setCustomValues(customValues);
+    }
+
+
+    override
+    JobByteArrayRef getCustomValuesByteArrayRef()
+    {
+      return super.getCustomValuesByteArrayRef;
+    }
+
+
+    override
+    string getExceptionStacktrace()
+    {
+      return super.getExceptionStacktrace;
+    }
+
+    override
+    void setExceptionStacktrace(string exception)
+    {
+      super.setExceptionStacktrace(exception);
+    }
+
+    override
+    void setExceptionMessage(string exceptionMessage)
+    {
+      super.setExceptionMessage(exceptionMessage);
+    }
+
+    override
+    JobByteArrayRef getExceptionByteArrayRef()
+    {
+      return super.getExceptionByteArrayRef;
+    }
+
+
+    override
+    void setTenantId(string tenantId)
+    {
+      super.setTenantId(tenantId);
+    }
+
+
+    override
+    LocalDateTime getCreateTime()
+    {
+      return super.getCreateTime();
+    }
+
+
+    override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
+
+    override  int getRevision()
+    {
+      return super.getRevision();
+    }
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
+    }
 }

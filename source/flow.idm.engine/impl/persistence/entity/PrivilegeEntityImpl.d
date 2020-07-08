@@ -43,6 +43,16 @@ class PrivilegeEntityImpl : AbstractIdmEngineEntity , Model,PrivilegeEntity {
         return cast(Object)state;
     }
 
+    override string getId()
+    {
+        return id;
+    }
+
+    override void setId(string id)
+    {
+        this.id = id;
+    }
+
     public string getName() {
         return name;
     }

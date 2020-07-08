@@ -157,7 +157,7 @@ interface TaskInfo {
     /**
      * Returns the identity links.
      */
-    List!IdentityLinkInfo getIdentityLinks();
+    //List!IdentityLinkInfo getIdentityLinks();
 
     /**
      * The claim time of this task

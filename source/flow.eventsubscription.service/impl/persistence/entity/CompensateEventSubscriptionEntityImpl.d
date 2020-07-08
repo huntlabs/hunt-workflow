@@ -21,8 +21,95 @@ import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSub
 class CompensateEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , CompensateEventSubscriptionEntity {
 
 
-    this() {
+      this() {
         eventType = EVENT_TYPE;
     }
 
+      override string getId()
+      {
+          return super.getId;
+      }
+
+      override void setId(string id)
+      {
+          super.setId(id);
+      }
+
+      override  Object getPersistentState()
+      {
+          return super.getPersistentState;
+      }
+
+      override
+      string getIdPrefix()
+      {
+        return super.getIdPrefix;
+      }
+
+      override
+      bool isInserted()
+      {
+        return super.isInserted();
+      }
+
+      override
+      void setInserted(bool inserted)
+      {
+        return super.setInserted(inserted);
+      }
+
+      override
+      bool isUpdated()
+      {
+        return super.isUpdated;
+      }
+
+      override
+      void setUpdated(bool updated)
+      {
+        super.setUpdated(updated);
+      }
+
+      override
+      bool isDeleted()
+      {
+        return super.isDeleted;
+      }
+
+      override
+      void setDeleted(bool deleted)
+      {
+        super.setDeleted(deleted);
+      }
+
+      override
+      Object getOriginalPersistentState()
+      {
+        return super.getOriginalPersistentState;
+      }
+
+      override
+      void setOriginalPersistentState(Object persistentState)
+      {
+        super.setOriginalPersistentState(persistentState);
+      }
+
+      override
+      void setRevision(int revision)
+      {
+        super.setRevision(revision);
+      }
+
+      override
+      int getRevision()
+      {
+        return super.getRevision;
+      }
+
+
+      override
+      int getRevisionNext()
+      {
+        return super.getRevisionNext;
+      }
 }

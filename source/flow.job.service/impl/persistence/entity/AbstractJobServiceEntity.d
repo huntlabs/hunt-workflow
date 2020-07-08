@@ -20,4 +20,18 @@ class AbstractJobServiceEntity : AbstractEntity {
     public string getIdPrefix() {
         return JobServiceEntityConstants.JOB_SERVICE_ID_PREFIX;
     }
+
+    public string getId() {
+        return "";
+    }
+
+
+    public void setId(string id) {
+       // this.id = id;
+    }
+
+    Object getPersistentState()
+    {
+        return super.getPersistentState();
+    }
 }

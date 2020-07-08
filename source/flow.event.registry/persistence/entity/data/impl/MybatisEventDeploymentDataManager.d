@@ -35,6 +35,9 @@ class MybatisEventDeploymentDataManager : EntityRepository!( EventDeploymentEnti
 
     public EventRegistryEngineConfiguration eventRegistryConfiguration;
 
+    alias insert = CrudRepository!( EventDeploymentEntityImpl , string).insert;
+    alias update = CrudRepository!( EventDeploymentEntityImpl , string).update;
+
     this(EventRegistryEngineConfiguration eventRegistryConfiguration) {
         //super(eventRegistryConfiguration);
         this.eventRegistryConfiguration = eventRegistryConfiguration;
@@ -45,6 +48,36 @@ class MybatisEventDeploymentDataManager : EntityRepository!( EventDeploymentEnti
     //class<? extends EventDeploymentEntity> getManagedEntityClass() {
     //    return EventDeploymentEntityImpl.class;
     //}
+
+    public void insert(EventDeploymentEntity entity) {
+      super.insert(cast(EventDeploymentEntityImpl)entity);
+      //getDbSqlSession().insert(entity);
+    }
+    //
+    //@Override
+    public EventDeploymentEntity update(EventDeploymentEntity entity) {
+      return  super.update(cast(EventDeploymentEntityImpl)entity);
+      //getDbSqlSession().update(entity);
+      //return entity;
+    }
+    //
+    //@Override
+    public void dele(string id) {
+      EventDeploymentEntity entity = findById(id);
+      if (entity !is null)
+      {
+        remove(cast(EventDeploymentEntityImpl)entity);
+      }
+      //delete(entity);
+    }
+
+    public void dele(EventDeploymentEntity entity) {
+      if (entity !is null)
+      {
+        remove(cast(EventDeploymentEntityImpl)entity);
+      }
+      //getDbSqlSession().delete(entity);
+    }
 
 
     public EventDeploymentEntity create() {

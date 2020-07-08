@@ -20,6 +20,7 @@ import flow.identitylink.service.impl.persistence.entity.AbstractIdentityLinkSer
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import hunt.entity;
 import hunt.util.StringBuilder;
+import flow.identitylink.api.IdentityLink;
 /**
  * @author Joram Barrez
  */
@@ -68,6 +69,12 @@ class IdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEntity , Mod
     this() {
       rev = "1";
     }
+
+
+   ulong opCmp(IdentityLink o)
+   {
+        return hashOf(this.id) - hashOf((cast(IdentityLinkEntityImpl)o).getId);
+   }
 
   override
   public string getId() {
@@ -276,5 +283,59 @@ class IdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEntity , Mod
         }
         sb.append("]");
         return sb.toString();
+    }
+
+    override
+    string getIdPrefix()
+    {
+      return super.getIdPrefix;
+    }
+
+    override
+    bool isInserted()
+    {
+      return super.isInserted();
+    }
+
+    override
+    void setInserted(bool inserted)
+    {
+      return super.setInserted(inserted);
+    }
+
+    override
+    bool isUpdated()
+    {
+      return super.isUpdated;
+    }
+
+    override
+    void setUpdated(bool updated)
+    {
+      super.setUpdated(updated);
+    }
+
+    override
+    bool isDeleted()
+    {
+      return super.isDeleted;
+    }
+
+    override
+    void setDeleted(bool deleted)
+    {
+      super.setDeleted(deleted);
+    }
+
+    override
+    Object getOriginalPersistentState()
+    {
+      return super.getOriginalPersistentState;
+    }
+
+    override
+    void setOriginalPersistentState(Object persistentState)
+    {
+      super.setOriginalPersistentState(persistentState);
     }
 }

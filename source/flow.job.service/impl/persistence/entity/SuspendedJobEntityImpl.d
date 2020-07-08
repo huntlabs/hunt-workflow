@@ -14,6 +14,8 @@ module flow.job.service.impl.persistence.entity.SuspendedJobEntityImpl;
 
 import  flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
 import  flow.job.service.impl.persistence.entity.SuspendedJobEntity;
+import hunt.time.LocalDateTime;
+import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 /**
  * TimerJob entity, necessary for persistence.
  *
@@ -27,4 +29,97 @@ class SuspendedJobEntityImpl : AbstractJobEntityImpl , SuspendedJobEntity {
         return "SuspendedJobEntity [id=" ~ id ~ "]";
     }
 
+    override
+    void setRetries(int retries)
+    {
+      super.setRetries(retries);
+    }
+
+    override
+    void setJobHandlerType(string jobHandlerType)
+    {
+      super.setJobHandlerType(jobHandlerType);
+    }
+
+    override
+    void setJobHandlerConfiguration(string jobHandlerConfiguration)
+    {
+      super.setJobHandlerConfiguration(jobHandlerConfiguration);
+    }
+
+    override
+    string getCustomValues()
+    {
+      return super.getCustomValues;
+    }
+
+    override
+    void setCustomValues(string customValues)
+    {
+      super.setCustomValues(customValues);
+    }
+
+
+    override
+    JobByteArrayRef getCustomValuesByteArrayRef()
+    {
+      return super.getCustomValuesByteArrayRef;
+    }
+
+
+    override
+    string getExceptionStacktrace()
+    {
+      return super.getExceptionStacktrace;
+    }
+
+    override
+    void setExceptionStacktrace(string exception)
+    {
+      super.setExceptionStacktrace(exception);
+    }
+
+    override
+    void setExceptionMessage(string exceptionMessage)
+    {
+      super.setExceptionMessage(exceptionMessage);
+    }
+
+    override
+    JobByteArrayRef getExceptionByteArrayRef()
+    {
+      return super.getExceptionByteArrayRef;
+    }
+
+
+    override
+    void setTenantId(string tenantId)
+    {
+      super.setTenantId(tenantId);
+    }
+
+
+    override
+    LocalDateTime getCreateTime()
+    {
+      return super.getCreateTime();
+    }
+
+
+    override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
+
+    override  int getRevision()
+    {
+      return super.getRevision();
+    }
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
+    }
 }

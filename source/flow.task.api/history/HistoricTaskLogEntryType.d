@@ -77,6 +77,11 @@ class HistoricTaskLogEntryType : AbstractEnum!HistoricTaskLogEntryType , Flowabl
      return initOnce!inst(inst = new HistoricTaskLogEntryType("USER_TASK_IDENTITY_LINK_REMOVED", 9));
    }
 
+     int opCmp(FlowableEventType o)
+     {
+          return cast(int)(hashOf(this.name()) - hashOf((cast(HistoricTaskLogEntryType)o).name()));
+     }
+
   //string name()
   //{
   //  return super.name;

@@ -75,6 +75,18 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
      @Column("REV_")
      string rev;
 
+
+    override string getId()
+    {
+        return id;
+    }
+
+    override void setId(string id)
+    {
+        this.id = id;
+    }
+
+    override
     public Object getPersistentState() {
         return this;
         //Map!(string, Object) persistentState = new HashMap<>();
@@ -281,8 +293,81 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
 
     override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
+
+    override
+    int getRevision()
+    {
+      return super.getRevision;
+    }
+
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
+    }
+
+    override
     public string toString() {
         return "HistoryJobEntity [id=" ~ id ~ "]";
+    }
+
+    override
+    string getIdPrefix()
+    {
+      return super.getIdPrefix;
+    }
+
+    override
+    bool isInserted()
+    {
+      return super.isInserted();
+    }
+
+    override
+    void setInserted(bool inserted)
+    {
+      return super.setInserted(inserted);
+    }
+
+    override
+    bool isUpdated()
+    {
+      return super.isUpdated;
+    }
+
+    override
+    void setUpdated(bool updated)
+    {
+      super.setUpdated(updated);
+    }
+
+    override
+    bool isDeleted()
+    {
+      return super.isDeleted;
+    }
+
+    override
+    void setDeleted(bool deleted)
+    {
+      super.setDeleted(deleted);
+    }
+
+    override
+    Object getOriginalPersistentState()
+    {
+      return super.getOriginalPersistentState;
+    }
+
+    override
+    void setOriginalPersistentState(Object persistentState)
+    {
+      super.setOriginalPersistentState(persistentState);
     }
 
 }

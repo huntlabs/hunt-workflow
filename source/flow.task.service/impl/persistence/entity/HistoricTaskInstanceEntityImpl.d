@@ -19,7 +19,7 @@ import hunt.collection.HashMap;
 import hunt.collection.LinkedList;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import flow.identitylink.api.IdentityLinkInfo;
 import flow.common.context.Context;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import flow.task.service.TaskServiceConfiguration;
@@ -564,8 +564,8 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
         this.queryVariables = queryVariables;
     }
 
-
-    public List!HistoricIdentityLinkEntity getIdentityLinks() {
+    //IdentityLinkInfo
+    public List!IdentityLinkInfo getIdentityLinks() {
         if (!isIdentityLinksInitialized) {
             if (queryIdentityLinks is null) {
                 identityLinks = CommandContextUtil.getHistoricIdentityLinkEntityManager().findHistoricIdentityLinksByTaskId(id);
@@ -574,8 +574,13 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
             }
             isIdentityLinksInitialized = true;
         }
+        List!IdentityLinkInfo list = new ArrayList!IdentityLinkInfo;
+        foreach(HistoricIdentityLinkEntity h ; identityLinks)
+        {
+            list.add(cast(IdentityLinkInfo)h);
+        }
 
-        return identityLinks;
+        return list;
     }
 
     public List!HistoricIdentityLinkEntity getQueryIdentityLinks() {
@@ -593,6 +598,80 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
     override
     public string toString() {
         return "HistoricTaskInstanceEntity[id=" ~ id ~ "]";
+    }
+
+
+    override
+    string getIdPrefix()
+    {
+      return super.getIdPrefix;
+    }
+
+    override
+    bool isInserted()
+    {
+      return super.isInserted();
+    }
+
+    override
+    void setInserted(bool inserted)
+    {
+      return super.setInserted(inserted);
+    }
+
+    override
+    bool isUpdated()
+    {
+      return super.isUpdated;
+    }
+
+    override
+    void setUpdated(bool updated)
+    {
+      super.setUpdated(updated);
+    }
+
+    override
+    bool isDeleted()
+    {
+      return super.isDeleted;
+    }
+
+    override
+    void setDeleted(bool deleted)
+    {
+      super.setDeleted(deleted);
+    }
+
+    override
+    Object getOriginalPersistentState()
+    {
+      return super.getOriginalPersistentState;
+    }
+
+    override
+    void setOriginalPersistentState(Object persistentState)
+    {
+      super.setOriginalPersistentState(persistentState);
+    }
+
+    override
+    void setRevision(int revision)
+    {
+      super.setRevision(revision);
+    }
+
+    override
+    int getRevision()
+    {
+      return super.getRevision;
+    }
+
+
+    override
+    int getRevisionNext()
+    {
+      return super.getRevisionNext;
     }
 
 }
