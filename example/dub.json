@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"linsen"
+	],
+	"description": "A minimal D application.",
+	"license": "proprietary",
+  "targetType": "executable",
+	"name": "example",
+  "dependencies": {
+    "hunt-workflow": {"path": "../"}
+  }
+}
