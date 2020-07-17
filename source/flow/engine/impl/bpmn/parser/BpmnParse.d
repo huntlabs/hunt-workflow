@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.bpmn.parser.BpmnParse;
 
+import hunt.logging;
 import hunt.stream.Common;
 //import java.io.InputStream;
 //import java.net.MalformedURLException;

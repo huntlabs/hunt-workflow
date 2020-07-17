@@ -547,7 +547,7 @@ class BpmnXMLConverter : BpmnXMLConstants {
               }
               processFlowElements(process.getFlowElements(), process);
           }
-
+        model.print;
         return model;
     }
 

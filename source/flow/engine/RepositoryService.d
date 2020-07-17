@@ -372,7 +372,7 @@ interface RepositoryService {
      * Returns the {@link BpmnModel} corresponding with the process definition with the provided process definition id. The {@link BpmnModel} is a pojo versions of the BPMN 2.0 xml and can be used to
      * introspect the process definition using regular Java.
      */
-    //BpmnModel getBpmnModel(string processDefinitionId);
+    BpmnModel getBpmnModel(string processDefinitionId);
 
     /**
      * Provides positions and dimensions of elements in a process diagram as provided by {@link RepositoryService#getProcessDiagram(string)}.

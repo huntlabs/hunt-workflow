@@ -42,7 +42,7 @@ alias Date = LocalDateTime;
  */
 interface DeploymentBuilder {
 
-    DeploymentBuilder addInputStream(string resourceName, InputStream inputStream);
+    DeploymentBuilder addInputStream(string resourceName, string inputStream);
 
     DeploymentBuilder addClasspathResource(string resource);
 

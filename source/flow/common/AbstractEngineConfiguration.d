@@ -17,7 +17,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)}
 
 module flow.common.AbstractEngineConfiguration;
-
+import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.common.DefaultTenantProvider;
 import core.time;
 import flow.common.AbstractServiceConfiguration;
@@ -63,7 +63,7 @@ import flow.common.api.engine.EngineLifecycleListener;
 import flow.common.cfg.CommandExecutorImpl;
 import flow.common.cfg.IdGenerator;
 import flow.common.cfg.TransactionContextFactory;
-//import flow.common.cfg.standalone.StandaloneMybatisTransactionContextFactory;
+import flow.common.cfg.standalone.StandaloneMybatisTransactionContextFactory;
 //import flow.common.db.CommonDbSchemaManager;
 //import flow.common.db.DbSqlSessionFactory;
 //import flow.common.db.LogSqlExecutionTimePlugin;
@@ -114,6 +114,7 @@ import hunt.entity.EntityOption;
 import hunt.entity.Persistence;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.common.api.deleg.event.FlowableEventType;
+import flow.idm.engine.IdmEngineConfiguration;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 
 __gshared  EntityManagerFactory  entityManagerFactory;
@@ -481,16 +482,20 @@ class AbstractEngineConfiguration {
         //    initDatabaseType();
         //}
       //implementationMissing(false);
-      EntityOption option = new EntityOption();
-      option.database.driver = databaseType;
-      option.database.host = "10.1.223.62";
-      option.database.port = 3306;
-      option.database.database = "testworkflow";
-      option.database.username = "dev-user";
-      option.database.password = "putao.123";
-      option.database.charset = "utf8mb4";
-      option.database.prefix = "";
-      entityManagerFactory  = Persistence.createEntityManagerFactory(option);
+      if (entityManagerFactory is null )
+      {
+        EntityOption option = new EntityOption();
+        option.database.driver = databaseType;
+        option.database.host = "10.1.223.62";
+        option.database.port = 3306;
+        option.database.database = "testworkflow";
+        option.database.username = "dev-user";
+        option.database.password = "putao.123";
+        option.database.charset = "utf8mb4";
+        option.database.prefix = "";
+        entityManagerFactory  = Persistence.createEntityManagerFactory(option);
+      }
+
     }
 
     public void initDatabaseType() {
@@ -563,9 +568,9 @@ class AbstractEngineConfiguration {
     }
 
     public void initTransactionContextFactory() {
-        //if (transactionContextFactory is null) {
-        //    transactionContextFactory = new StandaloneMybatisTransactionContextFactory();
-        //}
+        if (transactionContextFactory is null) {
+            transactionContextFactory = new StandaloneMybatisTransactionContextFactory();
+        }
     }
 
     public void initCommandExecutors() {
@@ -666,7 +671,7 @@ class AbstractEngineConfiguration {
     public CommandInterceptor initInterceptorChain(List!CommandInterceptor chain) {
         if (chain is null || chain.isEmpty()) {
             throw new FlowableException("invalid command interceptor chain configuration: " );
-        }
+        }  logInfo("size : ---------------------- %d",chain.size());
         for (int i = 0; i < chain.size() - 1; i++) {
             chain.get(i).setNext(chain.get(i + 1));
         }
@@ -720,7 +725,23 @@ class AbstractEngineConfiguration {
       CommonEngineServiceImpl!ProcessEngineConfigurationImpl c = cast(CommonEngineServiceImpl!ProcessEngineConfigurationImpl)service;
       if (c !is null) {
             c.setCommandExecutor(commandExecutor);
-        }
+            return;
+      } else
+      {
+          CommonEngineServiceImpl!EventRegistryEngineConfiguration e = cast(CommonEngineServiceImpl!EventRegistryEngineConfiguration)service;
+          if (e !is null)
+          {
+             e.setCommandExecutor(commandExecutor);
+             return;
+          }
+          CommonEngineServiceImpl!IdmEngineConfiguration i = cast(CommonEngineServiceImpl!IdmEngineConfiguration)service;
+          if (i !is null)
+          {
+              i.setCommandExecutor(commandExecutor);
+              return;
+          }
+          implementationMissing(false);
+      }
     }
 
     // myBatis SqlSessionFactory

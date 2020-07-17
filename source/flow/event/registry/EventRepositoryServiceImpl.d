@@ -12,8 +12,9 @@
  */
 module flow.event.registry.EventRepositoryServiceImpl;
 
+import flow.event.registry.ChannelDefinitionQueryImpl;
 import hunt.collection.List;
-
+import flow.event.registry.EventDefinitionQueryImpl;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandContext;
 import flow.common.service.CommonEngineServiceImpl;
@@ -85,16 +86,16 @@ class EventRepositoryServiceImpl : CommonEngineServiceImpl!EventRegistryEngineCo
 
 
     public EventDefinitionQuery createEventDefinitionQuery() {
-        implementationMissing(false);
-        return null;
-       // return new EventDefinitionQueryImpl(commandExecutor);
+        //implementationMissing(false);
+        //return null;
+        return new EventDefinitionQueryImpl(commandExecutor);
     }
 
 
     public ChannelDefinitionQuery createChannelDefinitionQuery() {
-        implementationMissing(false);
-        return null;
-       // return new ChannelDefinitionQueryImpl(commandExecutor);
+       // implementationMissing(false);
+        //return null;
+        return new ChannelDefinitionQueryImpl(commandExecutor);
     }
 
 

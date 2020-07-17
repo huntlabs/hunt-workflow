@@ -13,6 +13,7 @@
 
 module flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityManagerImpl;
 
+import hunt.Exceptions;
 import hunt.collection;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -42,6 +43,12 @@ class HistoricTaskInstanceEntityManagerImpl
         return dataManager.create(task);
     }
 
+    //override
+    // HistoricTaskInstanceEntity create()
+    //  {
+    //      implementationMissing(false);
+    //      return null;
+    //  }
 
     public List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId) {
         return dataManager.findHistoricTasksByParentTaskId(parentTaskId);

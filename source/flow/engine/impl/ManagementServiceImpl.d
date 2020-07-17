@@ -27,7 +27,7 @@ import flow.common.api.management.TableMetaData;
 import flow.common.api.management.TablePageQuery;
 //import flow.common.cmd.CustomSqlExecution;
 import flow.common.cmd.GetPropertiesCmd;
-import flow.common.db.DbSqlSession;
+//import flow.common.db.DbSqlSession;
 import flow.common.db.DbSqlSessionFactory;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandConfig;

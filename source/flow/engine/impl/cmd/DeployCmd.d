@@ -64,7 +64,7 @@ class DeployCmd : Command!Deployment {
         //    }
         //}
 
-        implementationMissing(false);
+        //implementationMissing(false);
         return executeDeploy(commandContext);
     }
 

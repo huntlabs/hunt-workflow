@@ -11,7 +11,8 @@
  * limitations under the License.
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisResourceDataManager;
-
+import flow.common.context.Context;
+import hunt.logging;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -66,7 +67,16 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
   }
   //
   public void insert(ResourceEntity entity) {
-    insert(cast(ResourceEntityImpl)entity);
+    if (entity.getId() is null)
+    {
+      string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+      //if (dbSqlSessionFactory.isUsePrefixId()) {
+      //    id = entity.getIdPrefix() + id;
+      //}
+      entity.setId(id);
+    }
+
+   // insert(cast(ResourceEntityImpl)entity);
     //getDbSqlSession().insert(entity);
   }
   public ResourceEntity update(ResourceEntity entity) {
@@ -92,6 +102,7 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
   }
 
     public ResourceEntity create() {
+        logInfo("ResourceEntity create");
         return new ResourceEntityImpl();
     }
 

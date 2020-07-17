@@ -34,7 +34,8 @@ import flow.common.cfg.TransactionContext;
 class TransactionContextHolder {
 
     //protected static ThreadLocal<Stack<TransactionContext>> transactionContextThreadLocal = new ThreadLocal<>();
-    static  List!TransactionContext transactionContextThreadLocal;
+    __gshared static  List!TransactionContext transactionContextThreadLocal;
+
     this()
     {
         //transactionContextThreadLocal = new ArrayList!TransactionContext;
@@ -48,7 +49,7 @@ class TransactionContextHolder {
         if (transactionContextThreadLocal.isEmpty()) {
             return null;
         }
-        return  transactionContextThreadLocal.get(transactionContextThreadLocal.size()-1);
+        return  transactionContextThreadLocal.get(0);
     }
 
     public static void setTransactionContext(TransactionContext transactionContext) {
@@ -67,7 +68,7 @@ class TransactionContextHolder {
         int s = transactionContextThreadLocal.size();
         if (s != 0)
         {
-            transactionContextThreadLocal.removeAt(s-1);
+            transactionContextThreadLocal.removeAt(0);
         }
     }
 

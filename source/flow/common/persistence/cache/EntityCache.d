@@ -1,17 +1,17 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-//
+///* Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *      http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//module flow.common.persistence.cache.EntityCache;
+////
 //import hunt.collection;
 //import hunt.collection.List;
 //import hunt.collection.Map;
@@ -25,12 +25,12 @@
 // *
 // * @author Joram Barrez
 // */
-//interface EntityCache extends Session {
+//interface EntityCache : Session {
 //
 //    /**
 //     * Returns all cached {@link Entity} instances as a map with following structure: { entityClassName, {entityId, entity} }
 //     */
-//    Map<Class<?>, Map<string, CachedEntity>> getAllCachedEntities();
+//    Map!(TypeInfo, Map!(string, CachedEntity)) getAllCachedEntities();
 //
 //    /**
 //     * Adds the gives {@link Entity} to the cache.

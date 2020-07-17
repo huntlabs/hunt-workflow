@@ -27,6 +27,7 @@ import hunt.collection.ArrayList;
 import flow.common.cfg.TransactionContext;
 import flow.common.interceptor.CommandContext;
 import flow.common.transaction.TransactionContextHolder;
+import hunt.logging;
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
@@ -35,21 +36,25 @@ import flow.common.transaction.TransactionContextHolder;
 class Context {
 
     //protected static ThreadLocal<Stack<CommandContext>> commandContextThreadLocal = new ThreadLocal<>();
-     static List!CommandContext commandContextThreadLocal;
-    this()
+     __gshared static List!CommandContext commandContextThreadLocal;
+     this()
       {
           //commandContextThreadLocal = new ArrayList!CommandContext;
       }
-    public static CommandContext getCommandContext() {
+      public static CommandContext getCommandContext() {
        // Stack<CommandContext> stack = getStack(commandContextThreadLocal);
         if (commandContextThreadLocal is null )
         {
           commandContextThreadLocal = new ArrayList!CommandContext;
         }
         if (commandContextThreadLocal.isEmpty()) {
+            logInfo("empty..........................");
             return null;
         }
-        return  commandContextThreadLocal.get(commandContextThreadLocal.size()-1);
+        logInfo("nononononono   empty..........................");
+        CommandContext rt = commandContextThreadLocal.get(0);
+       // commandContextThreadLocal.removeAt(commandContextThreadLocal.size()-1);
+        return rt;
         //return stack.peek();
     }
 
@@ -69,7 +74,7 @@ class Context {
         int s = commandContextThreadLocal.size();
         if (s != 0)
         {
-            commandContextThreadLocal.removeAt(s-1);
+            commandContextThreadLocal.removeAt(0);
         }
     }
 

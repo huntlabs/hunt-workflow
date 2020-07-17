@@ -21,7 +21,7 @@ module flow.engine.impl.repository.DeploymentBuilderImpl;
 
 
 
-
+import flow.engine.impl.persistence.entity.DeploymentEntityImpl;
 import hunt.stream.Common;
 //import java.io.Serializable;
 //import java.nio.charset.StandardCharsets;
@@ -44,7 +44,9 @@ import flow.engine.impl.persistence.entity.ResourceEntityManager;
 import flow.engine.impl.util.CommandContextUtil;
 import flow.engine.repository.Deployment;
 import flow.engine.repository.DeploymentBuilder;
+import flow.engine.impl.persistence.entity.ResourceEntityImpl;
 import hunt.Exceptions;
+import std.file;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -65,34 +67,37 @@ class DeploymentBuilderImpl : DeploymentBuilder {
 
     this(RepositoryServiceImpl repositoryService) {
         this.repositoryService = repositoryService;
-        this.deployment = CommandContextUtil.getProcessEngineConfiguration().getDeploymentEntityManager().create();
+        this.deployment = new DeploymentEntityImpl(); //CommandContextUtil.getProcessEngineConfiguration().getDeploymentEntityManager().create();
         this.resourceEntityManager = CommandContextUtil.getProcessEngineConfiguration().getResourceEntityManager();
         this.deploymentProperties = new HashMap!(string, Object);
     }
 
 
-    public DeploymentBuilder addInputStream(string resourceName, InputStream inputStream) {
+    public DeploymentBuilder addInputStream(string resourceName, string inputStream) {
         if (inputStream is null) {
             throw new FlowableIllegalArgumentException("inputStream for resource '" ~ resourceName ~ "' is null");
         }
-        implementationMissing(false);
+        //implementationMissing(false);
         //byte[] bytes = IoUtil.readInputStream(inputStream, resourceName);
-        //ResourceEntity resource = resourceEntityManager.create();
-        //resource.setName(resourceName);
-        //resource.setBytes(bytes);
-        //deployment.addResource(resource);
+        ResourceEntity resource = new ResourceEntityImpl(); //= resourceEntityManager.create();
+        resource.setName(resourceName);
+        resource.setBytes(cast(byte[])inputStream);
+        deployment.addResource(resource);
         return this;
     }
 
 
     public DeploymentBuilder addClasspathResource(string resource) {
-        implementationMissing(false);
+        //implementationMissing(false);
         //InputStream inputStream = ReflectUtil.getResourceAsStream(resource);
         //if (inputStream is null) {
         //    throw new FlowableIllegalArgumentException("resource '" + resource + "' not found");
         //}
        // return addInputStream(resource, inputStream);
-        return null;
+         string str = readText(resource);
+        //Document doc = Document.load(resource);
+        return addInputStream(resource,str);
+       // return this;
     }
 
 

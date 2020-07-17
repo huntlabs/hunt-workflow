@@ -28,6 +28,8 @@ interface HistoricTaskInstanceDataManager : DataManager!HistoricTaskInstanceEnti
 
     HistoricTaskInstanceEntity create(TaskEntity task);
 
+    HistoricTaskInstanceEntity create();
+
     List!HistoricTaskInstanceEntity findHistoricTasksByParentTaskId(string parentTaskId);
 
     List!HistoricTaskInstanceEntity findHistoricTasksByProcessInstanceId(string processInstanceId);

@@ -38,7 +38,7 @@ import flow.task.service.impl.TaskQueryImpl;
 import flow.engine.impl.cmd.GetTaskVariablesCmd;
 import flow.engine.impl.cmd.CompleteTaskCmd;
 import flow.engine.impl.HistoricActivityInstanceQueryImpl;
-
+import hunt.logging;
 /**
  * @author Joram Barrez
  */
@@ -338,8 +338,33 @@ class CommandInvoker : AbstractCommandInterceptor {
                 }
                 return commandContext.getResult();
               }
-            }else
+            }else if (cast(Command!DeploymentBuilder)command !is null)
             {
+               auto cmd = cast(Command!DeploymentBuilder)command;
+               if (commandContext.isReused() && !agenda.isEmpty()) {
+                 return cast(Object)(cmd.execute(commandContext)) ;
+               } else {
+                 (cast(Agenda)agenda).planOperation( new class Runnable {
+
+                   public void run() {
+                     commandContext.setResult( cast(Object)cmd.execute( commandContext));
+                   }
+                 });
+                 // Run loop for agenda
+                 executeOperations( commandContext);
+
+                 // At the end, call the execution tree change listeners.
+                 // TODO: optimization: only do this when the tree has actually changed (ie check dbSqlSession).
+                 if (!commandContext.isReused() && CommandContextUtil.hasInvolvedExecutions( commandContext)) {
+                   agenda.planExecuteInactiveBehaviorsOperation();
+                   executeOperations( commandContext);
+                 }
+                 return commandContext.getResult();
+               }
+            }
+            else
+            {
+                logInfo("type: %s" , typeid(command).toString);
                 implementationMissing(false);
                 return null;
             }

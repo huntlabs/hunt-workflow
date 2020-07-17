@@ -1,30 +1,31 @@
-/* Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-module flow.common.db.DbSqlSession;
-
-//import java.sql.Connection;
+///* Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *      http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
+//
+//module flow.common.db.DbSqlSession;
+//
+//import flow.common.db.DbSqlSessionFactory;
+////import java.sql.Connection;
 //import hunt.collection.ArrayList;
 //import hunt.collection;
 //import hunt.collection.HashMap;
 //import hunt.collection.HashSet;
-//import java.util.Iterator;
-//import java.util.LinkedHashMap;
+//import hunt.collection.Iterator;
+//import hunt.collection.LinkedHashMap;
 //import hunt.collection.List;
 //import hunt.collection.Map;
 //import hunt.collection.Set;
 //
-//import org.apache.ibatis.session.SqlSession;
+////import org.apache.ibatis.session.SqlSession;
 //import flow.common.api.FlowableException;
 //import flow.common.api.FlowableOptimisticLockingException;
 //import flow.common.api.query.QueryCacheValues;
@@ -35,37 +36,35 @@ module flow.common.db.DbSqlSession;
 //import flow.common.persistence.cache.EntityCache;
 //import flow.common.persistence.entity.AlwaysUpdatedPersistentObject;
 //import flow.common.persistence.entity.Entity;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 //
 ///**
 // * @author Tom Baeyens
 // * @author Joram Barrez
 // */
-//class DbSqlSession implements Session {
+//class DbSqlSession : Session {
 //
-//    private static final Logger LOGGER = LoggerFactory.getLogger(DbSqlSession.class);
+//    static enum string[] JDBC_METADATA_TABLE_TYPES = { "TABLE" };
 //
-//    public static String[] JDBC_METADATA_TABLE_TYPES = { "TABLE" };
-//
-//    protected EntityCache entityCache;
-//    protected SqlSession sqlSession;
+//    //protected EntityCache entityCache;
+//    //protected SqlSession sqlSession;
 //    protected DbSqlSessionFactory dbSqlSessionFactory;
-//    protected String connectionMetadataDefaultCatalog;
-//    protected String connectionMetadataDefaultSchema;
+//    protected string connectionMetadataDefaultCatalog;
+//    protected string connectionMetadataDefaultSchema;
 //
-//    protected Map<Class<? extends Entity>, Map<String, Entity>> insertedObjects = new HashMap<>();
-//    protected Map<Class<? extends Entity>, Map<String, Entity>> deletedObjects = new HashMap<>();
-//    protected Map<Class<? extends Entity>, List<BulkDeleteOperation>> bulkDeleteOperations = new HashMap<>();
-//    protected List<Entity> updatedObjects = new ArrayList<>();
+//    protected Map!(TypeInfo, Map!(string, Entity) insertedObjects ;// = new HashMap<>();
+//    protected Map!(TypeInfo, Map!(string, Entity)) deletedObjects ;// = new HashMap<>();
+//    protected Map!(TypeInfo, List!BulkDeleteOperation) bulkDeleteOperations ;// = new HashMap<>();
+//    protected List!Entity updatedObjects ;// = new ArrayList<>();
 //
-//    public DbSqlSession(DbSqlSessionFactory dbSqlSessionFactory, EntityCache entityCache) {
+//    this(DbSqlSessionFactory dbSqlSessionFactory, EntityCache entityCache) {
 //        this.dbSqlSessionFactory = dbSqlSessionFactory;
 //        this.entityCache = entityCache;
-//        this.sqlSession = dbSqlSessionFactory.getSqlSessionFactory().openSession();
+//        insertedObjects = new HashMap!(TypeInfo, Map!(string, Entity);
+//        deletedObjects = new HashMap!(TypeInfo, Map!(string, Entity));
+//        //this.sqlSession = dbSqlSessionFactory.getSqlSessionFactory().openSession();
 //    }
 //
-//    public DbSqlSession(DbSqlSessionFactory dbSqlSessionFactory, EntityCache entityCache, Connection connection, String catalog, String schema) {
+//    this(DbSqlSessionFactory dbSqlSessionFactory, EntityCache entityCache, Connection connection, string catalog, string schema) {
 //        this.dbSqlSessionFactory = dbSqlSessionFactory;
 //        this.entityCache = entityCache;
 //        this.sqlSession = dbSqlSessionFactory.getSqlSessionFactory().openSession(connection); // Note the use of connection param here, different from other constructor
@@ -77,7 +76,7 @@ module flow.common.db.DbSqlSession;
 //
 //    public void insert(Entity entity) {
 //        if (entity.getId() is null) {
-//            String id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+//            string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
 //            if (dbSqlSessionFactory.isUsePrefixId()) {
 //                id = entity.getIdPrefix() + id;
 //            }
@@ -102,8 +101,8 @@ module flow.common.db.DbSqlSession;
 //        entity.setUpdated(true);
 //    }
 //
-//    public int update(String statement, Object parameters) {
-//        String updateStatement = dbSqlSessionFactory.mapStatement(statement);
+//    public int update(string statement, Object parameters) {
+//        string updateStatement = dbSqlSessionFactory.mapStatement(statement);
 //        return getSqlSession().update(updateStatement, parameters);
 //    }
 //
@@ -114,7 +113,7 @@ module flow.common.db.DbSqlSession;
 //     * Executes a {@link BulkDeleteOperation}, with the sql in the statement parameter.
 //     * The passed class determines when this operation will be executed: it will be executed depending on the place of the class in the {@link EntityDependencyOrder}.
 //     */
-//    public void delete(String statement, Object parameter, Class<? extends Entity> entityClass) {
+//    public void delete(string statement, Object parameter, Class<? extends Entity> entityClass) {
 //        if (!bulkDeleteOperations.containsKey(entityClass)) {
 //            bulkDeleteOperations.put(entityClass, new ArrayList<>(1));
 //        }
@@ -134,17 +133,17 @@ module flow.common.db.DbSqlSession;
 //    // ///////////////////////////////////////////////////////////////////
 //
 //    @SuppressWarnings({ "rawtypes" })
-//    public List selectList(String statement) {
+//    public List selectList(string statement) {
 //        return selectList(statement, null, -1, -1);
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectList(String statement, Object parameter) {
+//    public List selectList(string statement, Object parameter) {
 //        return selectList(statement, parameter, -1, -1);
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectList(String statement, Object parameter, Page page) {
+//    public List selectList(string statement, Object parameter, Page page) {
 //        if (page !is null) {
 //            return selectList(statement, parameter, page.getFirstResult(), page.getMaxResults());
 //        } else {
@@ -153,13 +152,13 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectList(String statement, ListQueryParameterObject parameter) {
+//    public List selectList(string statement, ListQueryParameterObject parameter) {
 //        parameter.setDatabaseType(dbSqlSessionFactory.getDatabaseType());
 //        return selectListWithRawParameter(statement, parameter);
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectList(String statement, ListQueryParameterObject parameter, Class entityClass) {
+//    public List selectList(string statement, ListQueryParameterObject parameter, Class entityClass) {
 //        parameter.setDatabaseType(dbSqlSessionFactory.getDatabaseType());
 //        if (parameter instanceof QueryCacheValues) {
 //            return queryWithRawParameter(statement, (QueryCacheValues) parameter, entityClass, true);
@@ -169,22 +168,22 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectList(String statement, Object parameter, int firstResult, int maxResults) {
+//    public List selectList(string statement, Object parameter, int firstResult, int maxResults) {
 //        return selectList(statement, new ListQueryParameterObject(parameter, firstResult, maxResults));
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectListNoCacheLoadAndStore(String statement, Object parameter) {
+//    public List selectListNoCacheLoadAndStore(string statement, Object parameter) {
 //        return selectListWithRawParameter(statement, new ListQueryParameterObject(parameter, -1, -1), false);
 //    }
 //
 //    @SuppressWarnings({ "rawtypes" })
-//    public List selectListWithRawParameterNoCacheLoadAndStore(String statement, Object parameter) {
+//    public List selectListWithRawParameterNoCacheLoadAndStore(string statement, Object parameter) {
 //        return selectListWithRawParameter(statement, parameter, false);
 //    }
 //
 //    @SuppressWarnings({ "rawtypes" })
-//    public List selectListWithRawParameterNoCacheLoadAndStore(String statement, ListQueryParameterObject parameter, Class entityClass) {
+//    public List selectListWithRawParameterNoCacheLoadAndStore(string statement, ListQueryParameterObject parameter, Class entityClass) {
 //        parameter.setDatabaseType(dbSqlSessionFactory.getDatabaseType());
 //
 //        if (parameter instanceof QueryCacheValues) {
@@ -195,13 +194,13 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings({ "rawtypes" })
-//    public List selectListWithRawParameterNoCacheLoadAndStore(String statement, ListQueryParameterObject parameter) {
+//    public List selectListWithRawParameterNoCacheLoadAndStore(string statement, ListQueryParameterObject parameter) {
 //        parameter.setDatabaseType(dbSqlSessionFactory.getDatabaseType());
 //        return selectListWithRawParameter(statement, parameter, false);
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectListNoCacheLoadAndStore(String statement, ListQueryParameterObject parameter, Class entityClass) {
+//    public List selectListNoCacheLoadAndStore(string statement, ListQueryParameterObject parameter, Class entityClass) {
 //        ListQueryParameterObject parameterToUse = parameter;
 //        if (parameterToUse is null) {
 //            parameterToUse = new ListQueryParameterObject();
@@ -216,7 +215,7 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectListNoCacheLoadAndStore(String statement, ListQueryParameterObject parameter) {
+//    public List selectListNoCacheLoadAndStore(string statement, ListQueryParameterObject parameter) {
 //        ListQueryParameterObject parameterToUse = parameter;
 //        if (parameterToUse is null) {
 //            parameterToUse = new ListQueryParameterObject();
@@ -227,7 +226,7 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings("rawtypes")
-//    public List selectListWithRawParameter(String statement, Object parameter) {
+//    public List selectListWithRawParameter(string statement, Object parameter) {
 //        // All other selectList methods eventually end up here, passing it into the method
 //        // with the useCache parameter. By default true, which means everything is cached.
 //        // Dedicated xNoCacheCheck methods will pass a false for that setting.
@@ -235,7 +234,7 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings({ "rawtypes", "unchecked" })
-//    public List queryWithRawParameter(String statement, QueryCacheValues parameter, Class entityClass, boolean cacheLoadAndStore) {
+//    public List queryWithRawParameter(string statement, QueryCacheValues parameter, Class entityClass, boolean cacheLoadAndStore) {
 //        if (parameter.getId() !is null && !parameter.getId().isEmpty()) {
 //            Object entity = entityCache.findInCache(entityClass, parameter.getId());
 //            if (entity !is null) {
@@ -249,7 +248,7 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings({ "rawtypes", "unchecked" })
-//    public List queryWithRawParameterNoCacheLoadAndStore(String statement, QueryCacheValues parameter, Class entityClass) {
+//    public List queryWithRawParameterNoCacheLoadAndStore(string statement, QueryCacheValues parameter, Class entityClass) {
 //        if (parameter.getId() !is null && !parameter.getId().isEmpty()) {
 //            Object entity = entityCache.findInCache(entityClass, parameter.getId());
 //            if (entity !is null) {
@@ -264,7 +263,7 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    @SuppressWarnings({ "rawtypes", "unchecked" })
-//    public List selectListWithRawParameter(String statement, Object parameter, boolean useCache) {
+//    public List selectListWithRawParameter(string statement, Object parameter, boolean useCache) {
 //        statement = dbSqlSessionFactory.mapStatement(statement);
 //        List loadedObjects = sqlSession.selectList(statement, parameter);
 //        if (useCache) {
@@ -274,7 +273,7 @@ module flow.common.db.DbSqlSession;
 //        }
 //    }
 //
-//    public Object selectOne(String statement, Object parameter) {
+//    public Object selectOne(string statement, Object parameter) {
 //        statement = dbSqlSessionFactory.mapStatement(statement);
 //        Object result = sqlSession.selectOne(statement, parameter);
 //        if (result instanceof Entity) {
@@ -284,12 +283,12 @@ module flow.common.db.DbSqlSession;
 //        return result;
 //    }
 //
-//    public <T extends Entity> T selectById(Class<T> entityClass, String id) {
+//    public <T extends Entity> T selectById(Class<T> entityClass, string id) {
 //        return selectById(entityClass, id, true);
 //    }
 //
 //    @SuppressWarnings("unchecked")
-//    public <T extends Entity> T selectById(Class<T> entityClass, String id, boolean useCache) {
+//    public <T extends Entity> T selectById(Class<T> entityClass, string id, boolean useCache) {
 //        T entity = null;
 //
 //        if (useCache) {
@@ -299,7 +298,7 @@ module flow.common.db.DbSqlSession;
 //            }
 //        }
 //
-//        String selectStatement = dbSqlSessionFactory.getSelectStatement(entityClass);
+//        string selectStatement = dbSqlSessionFactory.getSelectStatement(entityClass);
 //        selectStatement = dbSqlSessionFactory.mapStatement(selectStatement);
 //        entity = (T) sqlSession.selectOne(selectStatement, id);
 //        if (entity is null) {
@@ -370,7 +369,7 @@ module flow.common.db.DbSqlSession;
 //        for (Class<? extends Entity> entityClass : deletedObjects.keySet()) {
 //
 //            // Collect ids of deleted entities + remove duplicates
-//            Set<String> ids = new HashSet<>();
+//            Set<string> ids = new HashSet<>();
 //            Iterator<Entity> entitiesToDeleteIterator = deletedObjects.get(entityClass).values().iterator();
 //            while (entitiesToDeleteIterator.hasNext()) {
 //                Entity entityToDelete = entitiesToDeleteIterator.next();
@@ -382,7 +381,7 @@ module flow.common.db.DbSqlSession;
 //            }
 //
 //            // Now we have the deleted ids, we can remove the inserted objects (as they cancel each other)
-//            for (String id : ids) {
+//            for (string id : ids) {
 //                if (insertedObjects.containsKey(entityClass) && insertedObjects.get(entityClass).containsKey(id)) {
 //                    insertedObjects.get(entityClass).remove(id);
 //                    deletedObjects.get(entityClass).remove(id);
@@ -394,10 +393,10 @@ module flow.common.db.DbSqlSession;
 //
 //    public void determineUpdatedObjects() {
 //        updatedObjects = new ArrayList<>();
-//        Map<Class<?>, Map<String, CachedEntity>> cachedObjects = entityCache.getAllCachedEntities();
+//        Map<Class<?>, Map<string, CachedEntity>> cachedObjects = entityCache.getAllCachedEntities();
 //        for (Class<?> clazz : cachedObjects.keySet()) {
 //
-//            Map<String, CachedEntity> classCache = cachedObjects.get(clazz);
+//            Map<string, CachedEntity> classCache = cachedObjects.get(clazz);
 //            for (CachedEntity cachedObject : classCache.values()) {
 //
 //                Entity cachedEntity = cachedObject.getEntity();
@@ -421,7 +420,7 @@ module flow.common.db.DbSqlSession;
 //        int nrOfInserts = 0;
 //        int nrOfUpdates = 0;
 //        int nrOfDeletes = 0;
-//        for (Map<String, Entity> insertedObjectMap : insertedObjects.values()) {
+//        for (Map<string, Entity> insertedObjectMap : insertedObjects.values()) {
 //            for (Entity insertedObject : insertedObjectMap.values()) {
 //                LOGGER.debug("insert {}", insertedObject);
 //                nrOfInserts++;
@@ -431,7 +430,7 @@ module flow.common.db.DbSqlSession;
 //            LOGGER.debug("update {}", updatedObject);
 //            nrOfUpdates++;
 //        }
-//        for (Map<String, Entity> deletedObjectMap : deletedObjects.values()) {
+//        for (Map<string, Entity> deletedObjectMap : deletedObjects.values()) {
 //            for (Entity deletedObject : deletedObjectMap.values()) {
 //                LOGGER.debug("delete {} with id {}", deletedObject, deletedObject.getId());
 //                nrOfDeletes++;
@@ -451,7 +450,7 @@ module flow.common.db.DbSqlSession;
 //        return isEntityInserted(entity.getClass(), entity.getId());
 //    }
 //
-//    public boolean isEntityInserted(Class<?> entityClass, String entityId) {
+//    public boolean isEntityInserted(Class<?> entityClass, string entityId) {
 //        return insertedObjects.containsKey(entityClass)
 //                && insertedObjects.get(entityClass).containsKey(entityId);
 //    }
@@ -498,7 +497,7 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    protected void flushRegularInsert(Entity entity, Class<? extends Entity> clazz) {
-//        String insertStatement = dbSqlSessionFactory.getInsertStatement(entity);
+//        string insertStatement = dbSqlSessionFactory.getInsertStatement(entity);
 //        insertStatement = dbSqlSessionFactory.mapStatement(insertStatement);
 //
 //        if (insertStatement is null) {
@@ -515,7 +514,7 @@ module flow.common.db.DbSqlSession;
 //    }
 //
 //    protected void flushBulkInsert(Collection<Entity> entities, Class<? extends Entity> clazz) {
-//        String insertStatement = dbSqlSessionFactory.getBulkInsertStatement(clazz);
+//        string insertStatement = dbSqlSessionFactory.getBulkInsertStatement(clazz);
 //        insertStatement = dbSqlSessionFactory.mapStatement(insertStatement);
 //
 //        if (insertStatement is null) {
@@ -558,7 +557,7 @@ module flow.common.db.DbSqlSession;
 //
 //    protected void flushUpdates() {
 //        for (Entity updatedObject : updatedObjects) {
-//            String updateStatement = dbSqlSessionFactory.getUpdateStatement(updatedObject);
+//            string updateStatement = dbSqlSessionFactory.getUpdateStatement(updatedObject);
 //            updateStatement = dbSqlSessionFactory.mapStatement(updateStatement);
 //
 //            if (updateStatement is null) {
@@ -624,7 +623,7 @@ module flow.common.db.DbSqlSession;
 //
 //    protected void flushDeleteEntities(Class<? extends Entity> entityClass, Collection<Entity> entitiesToDelete) {
 //        for (Entity entity : entitiesToDelete) {
-//            String deleteStatement = dbSqlSessionFactory.getDeleteStatement(entity.getClass());
+//            string deleteStatement = dbSqlSessionFactory.getDeleteStatement(entity.getClass());
 //            deleteStatement = dbSqlSessionFactory.mapStatement(deleteStatement);
 //            if (deleteStatement is null) {
 //                throw new FlowableException("no delete statement for " + entity.getClass() + " in the ibatis mapping files");
@@ -671,19 +670,19 @@ module flow.common.db.DbSqlSession;
 //        return dbSqlSessionFactory;
 //    }
 //
-//    public String getConnectionMetadataDefaultCatalog() {
+//    public string getConnectionMetadataDefaultCatalog() {
 //        return connectionMetadataDefaultCatalog;
 //    }
 //
-//    public void setConnectionMetadataDefaultCatalog(String connectionMetadataDefaultCatalog) {
+//    public void setConnectionMetadataDefaultCatalog(string connectionMetadataDefaultCatalog) {
 //        this.connectionMetadataDefaultCatalog = connectionMetadataDefaultCatalog;
 //    }
 //
-//    public String getConnectionMetadataDefaultSchema() {
+//    public string getConnectionMetadataDefaultSchema() {
 //        return connectionMetadataDefaultSchema;
 //    }
 //
-//    public void setConnectionMetadataDefaultSchema(String connectionMetadataDefaultSchema) {
+//    public void setConnectionMetadataDefaultSchema(string connectionMetadataDefaultSchema) {
 //        this.connectionMetadataDefaultSchema = connectionMetadataDefaultSchema;
 //    }
 //

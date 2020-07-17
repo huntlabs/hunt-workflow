@@ -13,8 +13,8 @@
 
 module flow.event.registry.EventRegistryEngineConfiguration;
 
-
-
+import flow.event.registry.EventRegistryEngine;
+import flow.event.registry.EventRegistryEngineImpl;
 import flow.event.registry.DefaultOutboundEventProcessor;
 import flow.event.registry.DefaultInboundEventProcessor;
 import flow.event.registry.EventRepositoryServiceImpl;
@@ -56,9 +56,9 @@ import flow.event.registry.cmd.SchemaOperationsEventRegistryEngineBuild;
 //import flow.event.registry.deployer.EventDefinitionDeploymentHelper;
 //import flow.event.registry.deployer.ParsedDeploymentBuilderFactory;
 //import flow.event.registry.management.DefaultEventRegistryChangeDetectionExecutor;
-//import flow.event.registry.management.DefaultEventRegistryChangeDetectionManager;
+import flow.event.registry.management.DefaultEventRegistryChangeDetectionManager;
 //import flow.event.registry.parser.ChannelDefinitionParseFactory;
-import flow.event.registry.parser.EventDefinitionParseFactory;
+//import flow.event.registry.parser.EventDefinitionParseFactory;
 import flow.event.registry.persistence.deploy.ChannelDefinitionCacheEntry;
 import flow.event.registry.persistence.deploy.Deployer;
 import flow.event.registry.persistence.deploy.EventDefinitionCacheEntry;
@@ -203,21 +203,21 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
     // buildEventRegistryEngine
     // ///////////////////////////////////////////////////////
 
-    //public EventRegistryEngine buildEventRegistryEngine() {
-    //    init();
-    //    EventRegistryEngineImpl eventRegistryEngine = new EventRegistryEngineImpl(this);
-    //
-    //    if (enableEventRegistryChangeDetectionAfterEngineCreate) {
-    //
-    //        eventRegistryEngine.handleDeployedChannelDefinitions();
-    //
-    //        if (enableEventRegistryChangeDetection) {
-    //            eventRegistryChangeDetectionExecutor.initialize();
-    //        }
-    //    }
-    //
-    //    return eventRegistryEngine;
-    //}
+    public EventRegistryEngine buildEventRegistryEngine() {
+        init();
+        EventRegistryEngineImpl eventRegistryEngine = new EventRegistryEngineImpl(this);
+
+        if (enableEventRegistryChangeDetectionAfterEngineCreate) {
+
+            eventRegistryEngine.handleDeployedChannelDefinitions();
+
+            if (enableEventRegistryChangeDetection) {
+                eventRegistryChangeDetectionExecutor.initialize();
+            }
+        }
+
+        return eventRegistryEngine;
+    }
 
     // init
     // /////////////////////////////////////////////////////////////////////
@@ -226,7 +226,7 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
         initEngineConfigurations();
         initConfigurators();
         configuratorsBeforeInit();
-        initExpressionManager();
+        initExpressionManager(); //TODO
         initCommandContextFactory();
         initTransactionContextFactory();
         initCommandExecutors();
@@ -256,8 +256,8 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
         initEventRegistry();
         initInboundEventProcessor();
         initOutboundEventProcessor();
-        initChannelDefinitionProcessors();
-        initDeployers();
+        initChannelDefinitionProcessors(); //TODO
+        initDeployers(); //TODO
         initClock();
         initChangeDetectionManager();
         initChangeDetectionExecutor();
@@ -423,7 +423,7 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
         //if (channelParseFactory is null) {
         //    channelParseFactory = new ChannelDefinitionParseFactory();
         //}
-
+        //
         //if (this.eventDeployer is null) {
         //    this.deployers = new ArrayList<>();
         //    if (customPreDeployers !is null) {
@@ -434,7 +434,7 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
         //        this.deployers.addAll(customPostDeployers);
         //    }
         //}
-
+        //
         //if (eventDefinitionCache is null) {
         //    if (eventDefinitionCacheLimit <= 0) {
         //        eventDefinitionCache = new DefaultDeploymentCache<>();
@@ -442,7 +442,7 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
         //        eventDefinitionCache = new DefaultDeploymentCache<>(eventDefinitionCacheLimit);
         //    }
         //}
-
+        //
         //if (channelDefinitionCache is null) {
         //    channelDefinitionCache = new FullDeploymentCache<>();
         //}
@@ -529,7 +529,7 @@ class EventRegistryEngineConfiguration : AbstractEngineConfiguration
 
     public void initChangeDetectionManager() {
         if (this.eventRegistryChangeDetectionManager is null) {
-          //  this.eventRegistryChangeDetectionManager = new DefaultEventRegistryChangeDetectionManager(this);
+            this.eventRegistryChangeDetectionManager = new DefaultEventRegistryChangeDetectionManager(this);
         }
     }
 

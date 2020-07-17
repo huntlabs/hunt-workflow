@@ -12,6 +12,7 @@
  */
 module flow.event.registry.persistence.entity.data.impl.MybatisChannelDefinitionDataManager;
 
+import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -125,7 +126,7 @@ class MybatisChannelDefinitionDataManager : EntityRepository!( ChannelDefinition
 
     public List!ChannelDefinition findChannelDefinitionsByQueryCriteria(ChannelDefinitionQueryImpl ChannelDefinitionQuery) {
       implementationMissing(false);
-      return null;
+      return new ArrayList!ChannelDefinition;
         //return getDbSqlSession().selectList("selectChannelDefinitionsByQueryCriteria", ChannelDefinitionQuery);
     }
 

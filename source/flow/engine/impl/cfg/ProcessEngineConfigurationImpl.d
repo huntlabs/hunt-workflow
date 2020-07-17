@@ -18,7 +18,10 @@
 
 module flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 
-
+import flow.engine.impl.cfg.DefaultInternalJobCompatibilityManager;
+import flow.engine.impl.cfg.DefaultTaskLocalizationManager;
+import flow.engine.impl.cfg.DefaultTaskAssignmentManager;
+import flow.engine.impl.cfg.DefaultTaskVariableScopeResolver;
 import flow.engine.impl.cfg.DefaultBpmnParseFactory;
 import flow.engine.impl.cfg.BpmnParseFactory;
 import  hunt.util.Common;
@@ -46,7 +49,7 @@ import flow.common.event.EventDispatchAction;
 //import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 //import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 //import org.apache.ibatis.type.JdbcType;
-//import flow.batch.service.BatchServiceConfiguration;
+import flow.batch.service.BatchServiceConfiguration;
 //import flow.batch.service.impl.db.BatchDbSchemaManager;
 import flow.engine.impl.cfg.DelegateExpressionFieldInjectionMode;
 import flow.engine.impl.ProcessEngineImpl;
@@ -209,7 +212,7 @@ import flow.engine.impl.cmd.ValidateExecutionRelatedEntityCountCfgCmd;
 import flow.engine.impl.cmd.ValidateTaskRelatedEntityCountCfgCmd;
 import flow.engine.impl.cmd.ValidateV5EntitiesCmd;
 import flow.engine.impl.cmmn.CaseInstanceService;
-//import flow.engine.db.DbIdGenerator;
+import flow.engine.impl.db.DbIdGenerator;
 //import flow.engine.db.EntityDependencyOrder;
 //import flow.engine.db.ProcessDbSchemaManager;
 import flow.engine.impl.deleg.invocation.DefaultDelegateInterceptor;
@@ -221,14 +224,14 @@ import flow.engine.impl.event.EventHandler;
 import flow.engine.impl.event.MessageEventHandler;
 import flow.engine.impl.event.SignalEventHandler;
 //import flow.engine.impl.event.logger.EventLogger;
-//import flow.engine.impl.eventregistry.BpmnEventRegistryEventConsumer;
+import flow.engine.impl.eventregistry.BpmnEventRegistryEventConsumer;
 import flow.engine.impl.form.BooleanFormType;
 import flow.engine.impl.form.DateFormType;
 import flow.engine.impl.form.DoubleFormType;
 import flow.engine.impl.form.FormEngine;
 import flow.engine.impl.form.FormHandlerHelper;
 import flow.engine.impl.form.FormTypes;
-//import flow.engine.impl.form.JuelFormEngine;
+import flow.engine.impl.form.JuelFormEngine;
 import flow.engine.impl.form.LongFormType;
 import flow.engine.impl.form.StringFormType;
 //import flow.engine.impl.formhandler.DefaultFormFieldHandler;
@@ -348,7 +351,7 @@ import flow.engine.impl.persistence.entity.data.impl.MybatisModelDataManager;
 import flow.engine.impl.persistence.entity.data.impl.MybatisProcessDefinitionDataManager;
 //import flow.engine.impl.persistence.entity.data.impl.MybatisProcessDefinitionInfoDataManager;
 import flow.engine.impl.persistence.entity.data.impl.MybatisResourceDataManager;
-//import flow.engine.impl.repository.DefaultProcessDefinitionLocalizationManager;
+import flow.engine.impl.repository.DefaultProcessDefinitionLocalizationManager;
 //import flow.engine.impl.scripting.VariableScopeResolverFactory;
 import flow.engine.impl.util.ProcessInstanceHelper;
 import flow.engine.interceptor.CreateUserTaskInterceptor;
@@ -363,7 +366,7 @@ import flow.engine.repository.InternalProcessDefinitionLocalizationManager;
 //import flow.entitylink.service.EntityLinkServiceConfiguration;
 //import org.flowable.entitylink.service.impl.db.EntityLinkDbSchemaManager;
 import flow.event.registry.api.EventRegistryEventConsumer;
-//import flow.event.registry.configurator.EventRegistryEngineConfigurator;
+import flow.event.registry.configurator.EventRegistryEngineConfigurator;
 import flow.eventsubscription.service.EventSubscriptionServiceConfiguration;
 //import flow.eventsubscription.service.impl.db.EventSubscriptionDbSchemaManager;
 import flow.form.api.FormFieldHandler;
@@ -544,7 +547,7 @@ import hunt.Exceptions;
     protected EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration;
     protected TaskServiceConfiguration taskServiceConfiguration;
     protected JobServiceConfiguration jobServiceConfiguration;
-    //protected BatchServiceConfiguration batchServiceConfiguration;
+    protected BatchServiceConfiguration batchServiceConfiguration;
 
     protected bool enableEntityLinks;
 
@@ -813,7 +816,7 @@ import hunt.Exceptions;
 
     // PROCESS VALIDATION ///////////////////////////////////////////////////////
 
-    //protected ProcessValidator processValidator;
+   // protected ProcessValidator processValidator;
 
     // OTHER ////////////////////////////////////////////////////////////////////
 
@@ -1019,11 +1022,11 @@ import hunt.Exceptions;
         configuratorsBeforeInit();
         //initProcessDiagramGenerator();
         initHistoryLevel();
-        initShortHandExpressionFunctions();
-        initFunctionDelegates();
-        initExpressionEnhancers();
+        initShortHandExpressionFunctions(); //TODO
+        initFunctionDelegates(); //TODO
+        initExpressionEnhancers(); //TODO
         initDelegateInterceptor();
-        initExpressionManager();
+        initExpressionManager(); //TODO
         initAgendaFactory();
 
         if (usingRelationalDatabase) {
@@ -1042,12 +1045,12 @@ import hunt.Exceptions;
         initBeans();
         initFormEngines();
         initFormTypes();
-        initScriptingEngines();
+        initScriptingEngines(); //TODO
         initClock();
-        initBusinessCalendarManager();
+        initBusinessCalendarManager(); //TODO
         initCommandContextFactory();
         initTransactionContextFactory();
-        initCommandExecutors();
+        initCommandExecutors();//????
         initServices();
         initIdGenerator();
         initWsdlImporterFactory();
@@ -1061,7 +1064,7 @@ import hunt.Exceptions;
         initJobHandlers();
         initHistoryJobHandlers();
 
-        initTransactionFactory();
+        initTransactionFactory(); //TODO
 
         if (usingRelationalDatabase) {
             initSqlSessionFactory();
@@ -1072,27 +1075,27 @@ import hunt.Exceptions;
         initEntityManagers();
         initCandidateManager();
         initHistoryManager();
-        initDynamicStateManager();
-        initProcessInstanceMigrationValidationManager();
+        initDynamicStateManager(); //TODO
+        initProcessInstanceMigrationValidationManager(); //TODO
         initIdentityLinkInterceptor();
         initJpa();
         initDeployers();
         initEventHandlers();
         initFailedJobCommandFactory();
         initEventDispatcher();
-        initProcessValidator();
-        initFormFieldHandler();
+        initProcessValidator(); //TODO
+        initFormFieldHandler(); //TODO
         initDatabaseEventLogging();
         initFlowable5CompatibilityHandler();
         initVariableServiceConfiguration();
         initIdentityLinkServiceConfiguration();
-        initEntityLinkServiceConfiguration();
+        initEntityLinkServiceConfiguration(); //TODO
         initEventSubscriptionServiceConfiguration();
         initTaskServiceConfiguration();
         initJobServiceConfiguration();
         initBatchServiceConfiguration();
-        initAsyncExecutor();
-        initAsyncHistoryExecutor();
+        initAsyncExecutor(); //TODO
+        initAsyncHistoryExecutor(); //TODO
 
         configuratorsAfterInit();
         afterInitTaskServiceConfiguration();
@@ -1583,19 +1586,19 @@ import hunt.Exceptions;
         if (this.internalTaskVariableScopeResolver !is null) {
             this.taskServiceConfiguration.setInternalTaskVariableScopeResolver(this.internalTaskVariableScopeResolver);
         } else {
-          //  this.taskServiceConfiguration.setInternalTaskVariableScopeResolver(new DefaultTaskVariableScopeResolver(this));
+            this.taskServiceConfiguration.setInternalTaskVariableScopeResolver(new DefaultTaskVariableScopeResolver(this));
         }
 
         if (this.internalTaskAssignmentManager !is null) {
             this.taskServiceConfiguration.setInternalTaskAssignmentManager(this.internalTaskAssignmentManager);
         } else {
-            //this.taskServiceConfiguration.setInternalTaskAssignmentManager(new DefaultTaskAssignmentManager());
+            this.taskServiceConfiguration.setInternalTaskAssignmentManager(new DefaultTaskAssignmentManager());
         }
 
         if (this.internalTaskLocalizationManager !is null) {
             this.taskServiceConfiguration.setInternalTaskLocalizationManager(this.internalTaskLocalizationManager);
         } else {
-           // this.taskServiceConfiguration.setInternalTaskLocalizationManager(new DefaultTaskLocalizationManager(this));
+            this.taskServiceConfiguration.setInternalTaskLocalizationManager(new DefaultTaskLocalizationManager(this));
         }
 
         this.taskServiceConfiguration.setEnableTaskRelationshipCounts(this.performanceSettings.isEnableTaskRelationshipCounts());
@@ -1663,12 +1666,12 @@ import hunt.Exceptions;
             if (this.internalJobCompatibilityManager !is null) {
                 this.jobServiceConfiguration.setInternalJobCompatibilityManager(internalJobCompatibilityManager);
             } else {
-               // this.jobServiceConfiguration.setInternalJobCompatibilityManager(new DefaultInternalJobCompatibilityManager(this));
+                this.jobServiceConfiguration.setInternalJobCompatibilityManager(new DefaultInternalJobCompatibilityManager(this));
             }
 
             // Async history job config
-            //jobServiceConfiguration.setJobTypeAsyncHistory(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY);
-            //jobServiceConfiguration.setJobTypeAsyncHistoryZipped(HistoryJsonConstants.JOB_HANDLER_TYPE_DEFAULT_ASYNC_HISTORY_ZIPPED);
+            jobServiceConfiguration.setJobTypeAsyncHistory("async-history");
+            jobServiceConfiguration.setJobTypeAsyncHistoryZipped("async-history-zipped");
             jobServiceConfiguration.setAsyncHistoryJsonGzipCompressionEnabled(_isAsyncHistoryJsonGzipCompressionEnabled);
             jobServiceConfiguration.setAsyncHistoryJsonGroupingEnabled(_isAsyncHistoryJsonGroupingEnabled);
             jobServiceConfiguration.setAsyncHistoryJsonGroupingThreshold(asyncHistoryJsonGroupingThreshold);
@@ -1724,22 +1727,22 @@ import hunt.Exceptions;
     }
 
     public void initBatchServiceConfiguration() {
-        implementationMissing(false);
-        //if (batchServiceConfiguration is null) {
-        //    this.batchServiceConfiguration = instantiateBatchServiceConfiguration();
-        //    this.batchServiceConfiguration.setClock(this.clock);
-        //    this.batchServiceConfiguration.setObjectMapper(this.objectMapper);
-        //    this.batchServiceConfiguration.setEventDispatcher(this.eventDispatcher);
-        //
-        //    this.batchServiceConfiguration.init();
-        //}
-        //
-        //addServiceConfiguration(EngineConfigurationConstants.KEY_BATCH_SERVICE_CONFIG, this.batchServiceConfiguration);
+        //implementationMissing(false);
+        if (batchServiceConfiguration is null) {
+            this.batchServiceConfiguration = instantiateBatchServiceConfiguration();
+            this.batchServiceConfiguration.setClock(this.clock);
+          //  this.batchServiceConfiguration.setObjectMapper(this.objectMapper);
+            this.batchServiceConfiguration.setEventDispatcher(this.eventDispatcher);
+
+            this.batchServiceConfiguration.init();
+        }
+
+        addServiceConfiguration(EngineConfigurationConstants.KEY_BATCH_SERVICE_CONFIG, this.batchServiceConfiguration);
     }
 
-    //protected BatchServiceConfiguration instantiateBatchServiceConfiguration() {
-    //    return new BatchServiceConfiguration(ScopeTypes.BPMN);
-    //}
+    protected BatchServiceConfiguration instantiateBatchServiceConfiguration() {
+        return new BatchServiceConfiguration(ScopeTypes.BPMN);
+    }
 
     public void afterInitTaskServiceConfiguration() {
         if (engineConfigurations.containsKey(EngineConfigurationConstants.KEY_IDM_ENGINE_CONFIG)) {
@@ -1753,10 +1756,10 @@ import hunt.Exceptions;
         if (eventRegistryEventConsumer !is null) {
             bpmnEventRegistryEventConsumer = eventRegistryEventConsumer;
         } else {
-           // bpmnEventRegistryEventConsumer = new BpmnEventRegistryEventConsumer(this);
+            bpmnEventRegistryEventConsumer = new BpmnEventRegistryEventConsumer(this);
         }
 
-      //  addEventRegistryEventConsumer(bpmnEventRegistryEventConsumer.getConsumerKey(), bpmnEventRegistryEventConsumer);
+        addEventRegistryEventConsumer(bpmnEventRegistryEventConsumer.getConsumerKey(), bpmnEventRegistryEventConsumer);
     }
 
     public void initHistoryCleaningManager() {
@@ -2308,24 +2311,24 @@ import hunt.Exceptions;
 
     override
     public void initIdGenerator() {
-        //if (idGenerator is null) {
-        //    DbIdGenerator dbIdGenerator = new DbIdGenerator();
-        //    dbIdGenerator.setIdBlockSize(idBlockSize);
-        //    idGenerator = dbIdGenerator;
-        //}
-        //
-        //if (idGenerator instanceof DbIdGenerator) {
-        //    DbIdGenerator dbIdGenerator = (DbIdGenerator) idGenerator;
-        //    if (dbIdGenerator.getIdBlockSize() == 0) {
-        //        dbIdGenerator.setIdBlockSize(idBlockSize);
-        //    }
-        //    if (dbIdGenerator.getCommandExecutor() is null) {
-        //        dbIdGenerator.setCommandExecutor(getCommandExecutor());
-        //    }
-        //    if (dbIdGenerator.getCommandConfig() is null) {
-        //        dbIdGenerator.setCommandConfig(getDefaultCommandConfig().transactionRequiresNew());
-        //    }
-        //}
+        if (idGenerator is null) {
+            DbIdGenerator dbIdGenerator = new DbIdGenerator();
+            dbIdGenerator.setIdBlockSize(idBlockSize);
+            idGenerator = dbIdGenerator;
+        }
+
+        if (cast(DbIdGenerator)idGenerator !is null) {
+            DbIdGenerator dbIdGenerator = cast(DbIdGenerator)idGenerator;
+            if (dbIdGenerator.getIdBlockSize() == 0) {
+                dbIdGenerator.setIdBlockSize(idBlockSize);
+            }
+            if (dbIdGenerator.getCommandExecutor() is null) {
+                dbIdGenerator.setCommandExecutor(getCommandExecutor());
+            }
+            if (dbIdGenerator.getCommandConfig() is null) {
+                dbIdGenerator.setCommandConfig(getDefaultCommandConfig().transactionRequiresNew());
+            }
+        }
     }
 
     // OTHER
@@ -2391,11 +2394,11 @@ import hunt.Exceptions;
 
     public void initFormEngines() {
         if (formEngines is null) {
-            //formEngines = new HashMap!(string, FormEngine);
-            //FormEngine defaultFormEngine = new JuelFormEngine();
-            //formEngines.put(null, defaultFormEngine); // default form engine is
-            //// looked up with null
-            //formEngines.put(defaultFormEngine.getName(), defaultFormEngine);
+            formEngines = new HashMap!(string, FormEngine);
+            FormEngine defaultFormEngine = new JuelFormEngine();
+            formEngines.put(null, defaultFormEngine); // default form engine is
+            // looked up with null
+            formEngines.put(defaultFormEngine.getName(), defaultFormEngine);
         }
         if (customFormEngines !is null) {
             foreach (FormEngine formEngine ; customFormEngines) {
@@ -2666,7 +2669,7 @@ import hunt.Exceptions;
                 if (eventRegistryConfigurator !is null) {
                     specificConfigurators.add(eventRegistryConfigurator);
                     } else {
-                   // specificConfigurators.add(new EventRegistryEngineConfigurator());
+                    specificConfigurators.add(new EventRegistryEngineConfigurator());
                 }
             }
             if (!disableIdmEngine) {
@@ -2694,7 +2697,7 @@ import hunt.Exceptions;
         }
 
         if(this.internalProcessDefinitionLocalizationManager is null) {
-           // this.setInternalProcessDefinitionLocalizationManager(new DefaultProcessDefinitionLocalizationManager(this));
+            this.setInternalProcessDefinitionLocalizationManager(new DefaultProcessDefinitionLocalizationManager(this));
         }
 
     }

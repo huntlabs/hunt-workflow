@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisDeploymentDataManager;
 
+import flow.common.context.Context;
 import hunt.collection.List;
 import hunt.collection.Map;
 
@@ -66,8 +67,15 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
   }
   //
   public void insert(DeploymentEntity entity) {
-    insert(cast(DeploymentEntityImpl)entity);
+    //insert(cast(DeploymentEntityImpl)entity);
     //getDbSqlSession().insert(entity);
+    if (entity.getId() is null) {
+        string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+        //if (dbSqlSessionFactory.isUsePrefixId()) {
+        //    id = entity.getIdPrefix() + id;
+        //}
+        entity.setId(id);
+    }
   }
   public DeploymentEntity update(DeploymentEntity entity) {
     return  update(cast(DeploymentEntityImpl)entity);

@@ -14,7 +14,7 @@
 module flow.event.registry.EventRegistryEngineImpl;
 
 import hunt.collection.List;
-
+//import flow.event.registry.EventRegistryEngines;
 import flow.common.api.engine.EngineLifecycleListener;
 import flow.event.registry.api.ChannelDefinition;
 import flow.event.registry.api.EventManagementService;
@@ -56,7 +56,7 @@ class EventRegistryEngineImpl : EventRegistryEngine {
             logInfo("EventRegistryEngine %s created", name);
         }
 
-       // EventRegistryEngines.registerEventRegistryEngine(this);
+      //  EventRegistryEngines.registerEventRegistryEngine(this);
 
         if (engineConfiguration.getEngineLifecycleListeners() !is null) {
             foreach (EngineLifecycleListener engineLifecycleListener ; engineConfiguration.getEngineLifecycleListeners()) {

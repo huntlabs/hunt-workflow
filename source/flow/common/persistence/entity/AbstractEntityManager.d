@@ -13,6 +13,7 @@
 
 module flow.common.persistence.entity.AbstractEntityManager;
 
+import hunt.logging;
 import flow.common.api.deleg.event.FlowableEngineEventType;
 import flow.common.api.deleg.event.FlowableEntityEvent;
 import flow.common.api.deleg.event.FlowableEventDispatcher;
@@ -45,9 +46,10 @@ abstract class AbstractEntityManager(EntityImpl , DM )
 
 
     public EntityImpl create() {
-        implementationMissing(false);
-        return null;
-      //  return getDataManager().create();
+        //implementationMissing(false);
+        //return null;
+        logInfo("create ....");
+        return getDataManager().create();
     }
 
 

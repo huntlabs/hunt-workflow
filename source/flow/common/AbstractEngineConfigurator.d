@@ -279,7 +279,7 @@ class AbstractEngineConfigurator : EngineConfigurator {
     }
 
     protected void initSessionFactories(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {
-        //targetEngineConfiguration.setSessionFactories(engineConfiguration.getSessionFactories());
+      //  targetEngineConfiguration.setSessionFactories(engineConfiguration.getSessionFactories());
     }
 
     protected void initDbProperties(AbstractEngineConfiguration engineConfiguration, AbstractEngineConfiguration targetEngineConfiguration) {

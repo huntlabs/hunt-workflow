@@ -79,9 +79,10 @@ class CommandContextInterceptor : AbstractCommandInterceptor {
         }
 
         try {
-
             commandContext.setCurrentEngineConfiguration(engineConfigurations.get(currentEngineConfigurationKey));
             // Push on stack
+            logInfo("Push on stack ..... %s" , typeid(commandContext.getCommand).toString);
+            //CommandContext copy = commandContext;
             Context.setCommandContext(commandContext);
 
             return next.execute(config, command);
@@ -100,7 +101,7 @@ class CommandContextInterceptor : AbstractCommandInterceptor {
 
                 // Pop from stack
                 Context.removeCommandContext();
-                commandContext.setCurrentEngineConfiguration(previousEngineConfiguration);
+                //commandContext.setCurrentEngineConfiguration(previousEngineConfiguration);
             }
         }
 

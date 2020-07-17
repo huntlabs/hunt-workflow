@@ -28,6 +28,8 @@ interface HistoricProcessInstanceDataManager : DataManager!HistoricProcessInstan
 
     HistoricProcessInstanceEntity create(ExecutionEntity processInstanceExecutionEntity);
 
+    HistoricProcessInstanceEntity create();
+
     List!string findHistoricProcessInstanceIdsByProcessDefinitionId(string processDefinitionId);
 
     List!HistoricProcessInstance findHistoricProcessInstancesBySuperProcessInstanceId(string superProcessInstanceId);

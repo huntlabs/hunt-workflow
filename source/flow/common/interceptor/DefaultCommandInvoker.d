@@ -27,7 +27,7 @@ import flow.common.interceptor.CommandConfig;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.Command;
 import flow.common.interceptor.CommandInterceptor;
-
+import hunt.Exceptions;
 class DefaultCommandInvoker : AbstractCommandInterceptor {
 
   //  Object execute(CommandConfig config, CommandAbstract command);
@@ -46,6 +46,7 @@ class DefaultCommandInvoker : AbstractCommandInterceptor {
           return result;
         }else
         {
+          implementationMissing(false);
           return null;
         }
 

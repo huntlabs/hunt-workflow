@@ -13,6 +13,7 @@
 
 module flow.bpmn.model.BpmnModel;
 
+import hunt.logging;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.collection.LinkedHashMap;
@@ -75,6 +76,36 @@ class BpmnModel {
 
     public Map!(string, List!ExtensionAttribute) getDefinitionsAttributes() {
         return definitionsAttributes;
+    }
+    this()
+    {
+        definitionsAttributes = new LinkedHashMap!(string, List!ExtensionAttribute);
+        processes = new ArrayList!Process;
+        signals = new ArrayList!Signal;
+        messageFlowMap = new LinkedHashMap!(string, MessageFlow);
+        messageMap = new LinkedHashMap!(string, Message);
+        errorMap = new LinkedHashMap!(string,string);
+        escalationMap = new LinkedHashMap!(string, Escalation);
+        itemDefinitionMap = new LinkedHashMap!(string, ItemDefinition);
+        dataStoreMap =  new LinkedHashMap!(string, DataStore);
+        pools = new ArrayList!Pool;
+        imports = new ArrayList!Import;
+        interfaces = new ArrayList!Interface;
+        globalArtifacts = new ArrayList!Artifact;
+        resources  = new ArrayList!Resource;
+        namespaceMap = new LinkedHashMap!(string, string);
+    }
+
+    void print()
+    {
+
+        foreach(Process p ; processes)
+        {
+           logInfo("Processes  --------------------------------");
+            logInfo("name : %s", p.getName);
+            logInfo("flowElementList : %d", p.getFlowElements.size);
+            logInfo("flowElementMap : %d",p.getFlowElementMap.size);
+        }
     }
 
     public string getDefinitionsAttributeValue(string namespace, string name) {
