@@ -51,6 +51,11 @@ class Interface : BaseElement {
         this.operations = operations;
     }
 
+    this()
+    {
+        operations = new ArrayList!Operation;
+    }
+
     override
     Interface clone() {
         Interface clone = new Interface();

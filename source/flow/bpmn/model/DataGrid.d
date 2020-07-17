@@ -25,6 +25,11 @@ class DataGrid : ComplexDataType {
 
     protected List!DataGridRow rows ;//= new ArrayList<>();
 
+    this()
+    {
+      rows = new ArrayList!DataGridRow;
+    }
+
     public List!DataGridRow getRows() {
         return rows;
     }

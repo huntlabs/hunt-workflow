@@ -44,6 +44,12 @@ class CaseServiceTask : ServiceTask {
     protected List!IOParameter inParameters ;//= new ArrayList<>();
     protected List!IOParameter outParameters ;//= new ArrayList<>();
 
+    this()
+    {
+         inParameters = new ArrayList!IOParameter;
+         outParameters = new ArrayList!IOParameter;
+    }
+
     public string getCaseDefinitionKey() {
         return caseDefinitionKey;
     }

@@ -12,7 +12,7 @@
  */
 module flow.bpmn.converter.converter.child.ConditionExpressionParser;
 
-
+import hunt.logging;
 import flow.bpmn.model.BaseElement;
 import flow.bpmn.model.BpmnModel;
 import flow.bpmn.model.SequenceFlow;
@@ -37,6 +37,11 @@ class ConditionExpressionParser : BaseChildElementParser {
         if (cast(SequenceFlow)parentElement is null)
             return;
 
-        (cast(SequenceFlow) parentElement).setConditionExpression(strip(xtr.getText()));
+        if (xtr.firstNode !is null  && xtr.firstNode.getType == NodeType.CDATA)
+        {
+            logInfo("ConditionExpressionParser : %s" ,strip(xtr.firstNode.getText()));
+            (cast(SequenceFlow) parentElement).setConditionExpression(strip(xtr.firstNode.getText()));
+        }
+
     }
 }

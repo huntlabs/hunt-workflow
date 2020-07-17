@@ -33,6 +33,11 @@ class StartEvent : Event {
     protected string validateFormFields;
     protected List!FormProperty formProperties ;//= new ArrayList<>();
 
+    this()
+    {
+        formProperties = new ArrayList!FormProperty;
+    }
+
     public string getInitiator() {
         return initiator;
     }

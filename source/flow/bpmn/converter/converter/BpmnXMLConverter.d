@@ -537,6 +537,7 @@ class BpmnXMLConverter : BpmnXMLConstants {
                       }
                   }
               }
+              element = element.nextSibling;
           }
 
           foreach (Process process ; model.getProcesses()) {

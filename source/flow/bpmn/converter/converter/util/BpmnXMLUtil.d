@@ -68,7 +68,7 @@ import std.string;
 import std.algorithm;
 import std.concurrency : initOnce;
 import hunt.Exceptions;
-
+import std.algorithm;
 class BpmnXMLUtil : BpmnXMLConstants {
 
    // private static Map!(string, BaseChildElementParser) genericChildParserMap = new HashMap<>();
@@ -332,16 +332,26 @@ class BpmnXMLUtil : BpmnXMLConstants {
     }
 
     public static string getAttributeValue(string attributeName, Element xtr) {
-        Attribute  att = xtr.firstAttribute(attributeName);
-        if (att is null)
+        Attribute arr = xtr.firstAttribute();
+        while(arr !is null)
         {
-            return "";
+          if (arr.getName == attributeName || endsWith(arr.getName, ":" ~ attributeName))
+          {
+              return arr.getValue;
+          }
+          arr =  arr.nextAttribute;
         }
+        return "";
+        //Attribute  att = xtr.firstAttribute(attributeName);
+        //if (att is null)
+        //{
+        //    return "";
+        //}
         //if (attributeValue is null) {
         //    attributeValue = xtr.getAttributeValue(ACTIVITI_EXTENSIONS_NAMESPACE, attributeName);
         //}
 
-        return att.getValue;
+        //return att.getValue;
     }
 
     //public static void writeDefaultAttribute(string attributeName, string value, XMLStreamWriter xtw)  {
@@ -559,7 +569,7 @@ class BpmnXMLUtil : BpmnXMLConstants {
                 extensionAttribute.setNamespacePrefix(arr.getName()[index + 1 .. $]);
             }
             if (!isBlacklisted(extensionAttribute, blackLists)) {
-                element.addAttribute(extensionAttribute);
+               // element.addAttribute(extensionAttribute);
             }
             arr = arr.nextAttribute;
         }
@@ -604,8 +614,8 @@ class BpmnXMLUtil : BpmnXMLConstants {
     //}
 
     public static bool isBlacklisted(ExtensionAttribute attribute, List!ExtensionAttribute blackLists) {
-          implementationMissing(false);
-          return true;
+          //implementationMissing(false);
+          return false;
         //if (blackLists !is null) {
         //    for (List<ExtensionAttribute> blackList : blackLists) {
         //        for (ExtensionAttribute blackAttribute : blackList) {

@@ -44,17 +44,28 @@ class UserTask : Task {
     protected string businessCalendarName;
     protected string category;
     protected string extensionId;
-    protected List!string candidateUsers ;//= new ArrayList<>();
-    protected List!string candidateGroups ;//= new ArrayList<>();
-    protected List!FormProperty formProperties;// = new ArrayList<>();
-    protected List!FlowableListener taskListeners;// = new ArrayList<>();
+    protected List!string candidateUsers ;//= new ArrayList!string();
+    protected List!string candidateGroups ;//= new ArrayList!string();
+    protected List!FormProperty formProperties ;//= new ArrayList!string();
+    protected List!FlowableListener taskListeners ;//= new ArrayList!string();
     protected string skipExpression;
     protected string validateFormFields;
 
-    protected Map!(string, Set!string) customUserIdentityLinks ;//= new HashMap<>();
-    protected Map!(string, Set!string) customGroupIdentityLinks;// = new HashMap<>();
+    protected Map!(string, Set!string) customUserIdentityLinks ;//= new HashMap!(string, Set!string)();
+    protected Map!(string, Set!string) customGroupIdentityLinks ;//= new HashMap!(string, Set!string)();
 
-    protected List!CustomProperty customProperties ;//= new ArrayList<>();
+    protected List!CustomProperty customProperties ;//= new ArrayList!customProperties();
+
+    this()
+    {
+      candidateUsers = new ArrayList!string();
+      candidateGroups = new ArrayList!string();
+      formProperties = new ArrayList!FormProperty();
+      taskListeners = new ArrayList!FlowableListener();
+      customUserIdentityLinks = new HashMap!(string, Set!string)();
+      customGroupIdentityLinks = new HashMap!(string, Set!string)();
+      customProperties = new ArrayList!CustomProperty();
+    }
 
     public string getAssignee() {
         return assignee;

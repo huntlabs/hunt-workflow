@@ -33,6 +33,10 @@ class FormProperty : BaseElement {
     protected bool required;
     protected List!FormValue formValues ;//= new ArrayList<>();
 
+    this()
+    {
+        formValues = new ArrayList!FormValue;
+    }
 
     public string getName() {
         return name;

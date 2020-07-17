@@ -70,7 +70,16 @@ class BpmnParseHandlers {
 
         // Execute parse handlers
         //List!BpmnParseHandler handlers = parseHandlers.get(element.getClass());
-        List!BpmnParseHandler handlers = parseHandlers.get(element);
+        List!BpmnParseHandler handlers = null;//= parseHandlers.get(element);
+        foreach(MapEntry!(BaseElement, List!BpmnParseHandler) entry ; parseHandlers)
+        {
+            if(typeid(entry.getKey()) == typeid(element))
+            {
+                handlers = entry.getValue();
+                break;
+            }
+        }
+
         if (handlers is null) {
             logWarning("Could not find matching parse handler for %s this is likely a bug",element.getId());
            // LOGGER.warn("Could not find matching parse handler for + {} this is likely a bug.", element.getId());

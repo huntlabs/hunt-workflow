@@ -24,6 +24,11 @@ abstract class TaskWithFieldExtensions : Task {
 
     protected List!FieldExtension fieldExtensions ;//= new ArrayList<>();
 
+    this()
+    {
+        fieldExtensions = new ArrayList!FieldExtension;
+    }
+
     public List!FieldExtension getFieldExtensions() {
         return fieldExtensions;
     }

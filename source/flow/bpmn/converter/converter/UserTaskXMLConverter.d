@@ -37,7 +37,7 @@ import flow.bpmn.converter.converter.BaseBpmnXMLConverter;
 import hunt.xml;
 import hunt.Exceptions;
 import std.concurrency : initOnce;
-
+import hunt.logging;
 /**
  * @author Tijs Rademakers, Saeid Mirzaei
  */
@@ -266,6 +266,7 @@ class UserTaskXMLConverter : BaseBpmnXMLConverter {
 
         if (BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TASK_USER_CANDIDATEGROUPS, xtr).length != 0) {
             string expression = BpmnXMLUtil.getAttributeValue(ATTRIBUTE_TASK_USER_CANDIDATEGROUPS, xtr);
+            logInfo("expression ^^^^^^^^^^^^^^^^^^^^^ %s",expression);
             userTask.getCandidateGroups().addAll(parseDelimitedList(expression));
         }
 

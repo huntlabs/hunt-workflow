@@ -27,6 +27,11 @@ class Operation : BaseElement {
     protected string outMessageRef;
     protected List!string errorMessageRef ;// = new ArrayList<>();
 
+    this()
+    {
+        errorMessageRef = new ArrayList!string;
+    }
+
     public string getName() {
         return name;
     }
