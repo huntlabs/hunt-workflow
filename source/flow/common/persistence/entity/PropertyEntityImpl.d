@@ -13,6 +13,7 @@
 
 module flow.common.persistence.entity.PropertyEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import flow.common.api.FlowableException;
 import  flow.common.persistence.entity.AbstractEntity;
 import flow.common.persistence.entity.PropertyEntity;
@@ -106,5 +107,10 @@ class PropertyEntityImpl : AbstractEntity ,Model, PropertyEntity {
     int getRevisionNext()
     {
         return super.getRevisionNext();
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.name) - hashOf((cast(PropertyEntityImpl)o).getName));
     }
 }

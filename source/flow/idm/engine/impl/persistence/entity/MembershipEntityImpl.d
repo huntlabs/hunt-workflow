@@ -13,6 +13,7 @@
 
 module flow.idm.engine.impl.persistence.entity.MembershipEntityImpl;
 
+import  flow.common.persistence.entity.Entity;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineNoRevisionEntity;
 import flow.idm.engine.impl.persistence.entity.MembershipEntity;
 import hunt.entity;
@@ -74,6 +75,11 @@ class MembershipEntityImpl : AbstractIdmEngineNoRevisionEntity ,Model, Membershi
 
     public void setGroupId(string groupId) {
         this.groupId = groupId;
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.userId) - hashOf((cast(MembershipEntityImpl)o).getUserId));
     }
 
 }

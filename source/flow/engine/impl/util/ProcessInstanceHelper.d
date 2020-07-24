@@ -88,9 +88,9 @@ class ProcessInstanceHelper {
         //}
 
         // Do not start process a process instance if the process definition is suspended
-        if (ProcessDefinitionUtil.isProcessDefinitionSuspended(processDefinition.getId())) {
-            throw new FlowableException("Cannot start process instance. Process definition " ~ processDefinition.getName() ~ " (id = " ~ processDefinition.getId() ~ ") is suspended");
-        }
+        //if (ProcessDefinitionUtil.isProcessDefinitionSuspended(processDefinition.getId())) {
+        //    throw new FlowableException("Cannot start process instance. Process definition " ~ processDefinition.getName() ~ " (id = " ~ processDefinition.getId() ~ ") is suspended");
+        //}
 
         // Get model from cache
         Process process = ProcessDefinitionUtil.getProcess(processDefinition.getId());

@@ -14,6 +14,7 @@
 module flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntityImpl;
 
 //import java.text.MessageFormat;
+import flow.common.persistence.entity.Entity;
 import std.string;
 import flow.bpmn.model.Signal;
 import flow.eventsubscription.service.impl.persistence.entity.SignalEventSubscriptionEntity;
@@ -153,4 +154,9 @@ class SignalEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , SignalEv
       return super.getRevisionNext;
     }
 
+    override
+    int opCmp(Entity o)
+    {
+      return super.opCmp(o);
+    }
 }

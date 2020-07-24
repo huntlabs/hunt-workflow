@@ -12,6 +12,8 @@
  */
 
 module flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntityImpl;
+
+import flow.common.persistence.entity.Entity;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityImpl;
 import flow.eventsubscription.service.impl.persistence.entity.MessageEventSubscriptionEntity;
 /**
@@ -112,4 +114,9 @@ class MessageEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , Message
       return super.getRevisionNext;
     }
 
+  override
+  int opCmp(Entity o)
+  {
+    return super.opCmp(o);
+  }
 }

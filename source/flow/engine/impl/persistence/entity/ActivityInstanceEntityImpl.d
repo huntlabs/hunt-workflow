@@ -25,7 +25,7 @@ import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
 import hunt.time.LocalDateTime;
 import flow.engine.impl.persistence.entity.ActivityInstanceEntity;
 import hunt.Exceptions;
-
+import flow.common.persistence.entity.Entity;
 alias Date = LocalDateTime;
 /**
  * @author martin.grofcik
@@ -107,7 +107,7 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
     public void markEnded(string deleteReason) {
         if (this.endTime  == 0) {
             this.deleteReason = deleteReason;
-            this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime().toEpochMilli;
+            this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime().toEpochMilli / 1000;
             if (endTime != 0 && startTime != 0) {
                 this.durationInMillis = endTime - startTime;
             }
@@ -154,11 +154,11 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
     }
 
     public void setStartTime(Date startTime) {
-        this.startTime = startTime.toEpochMilli;
+        this.startTime = startTime.toEpochMilli / 1000;
     }
 
     public void setEndTime(Date endTime) {
-        this.endTime = endTime.toEpochMilli;
+        this.endTime = endTime.toEpochMilli / 1000;
     }
 
     public void setDurationInMillis(long durationInMillis) {
@@ -317,4 +317,9 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
    {
         return super.getRevisionNext;
    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(ActivityInstanceEntityImpl)o).getId));
+    }
 }

@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.persistence.entity.ByteArrayEntityImpl;
 
+import  flow.common.persistence.entity.Entity;
 import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
 import flow.engine.impl.persistence.entity.ByteArrayEntity;
 import hunt.entity;
@@ -196,5 +197,8 @@ class ByteArrayEntityImpl : AbstractBpmnEngineEntity , Model, ByteArrayEntity {
 
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
-
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(ByteArrayEntityImpl)o).getId));
+  }
 }

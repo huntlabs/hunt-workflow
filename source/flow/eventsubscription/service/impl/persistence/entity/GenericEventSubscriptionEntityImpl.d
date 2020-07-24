@@ -12,6 +12,8 @@
  */
 module flow.eventsubscription.service.impl.persistence.entity.GenericEventSubscriptionEntityImpl;
 
+
+import flow.common.persistence.entity.Entity;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityImpl;
 import flow.eventsubscription.service.impl.persistence.entity.GenericEventSubscriptionEntity;
 
@@ -106,5 +108,11 @@ class GenericEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , Generic
     int getRevisionNext()
     {
       return super.getRevisionNext;
+    }
+
+    override
+    int opCmp(Entity o)
+    {
+      return super.opCmp(o);
     }
 }

@@ -12,6 +12,7 @@
  */
 module flow.idm.engine.impl.persistence.entity.PrivilegeMappingEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
@@ -83,6 +84,11 @@ class PrivilegeMappingEntityImpl : AbstractIdmEngineEntity , Model, PrivilegeMap
 
     public void setGroupId(string groupId) {
         this.groupId = groupId;
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(PrivilegeMappingEntityImpl)o).getId));
     }
 
 }

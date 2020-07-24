@@ -12,6 +12,7 @@
  */
 module flow.eventsubscription.service.impl.persistence.entity.data.impl.MybatisEventSubscriptionDataManager;
 
+import hunt.logging;
 import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -36,6 +37,7 @@ import flow.eventsubscription.service.impl.persistence.entity.data.AbstractEvent
 import flow.eventsubscription.service.impl.persistence.entity.data.EventSubscriptionDataManager;
 import hunt.Exceptions;
 import hunt.entity;
+import flow.common.AbstractEngineConfiguration;
 //import flow.eventsubscription.service.impl.persistence.entity.data.impl.cachematcher.EventSubscriptionsByExecutionAndTypeMatcher;
 //import flow.eventsubscription.service.impl.persistence.entity.data.impl.cachematcher.EventSubscriptionsByExecutionIdMatcher;
 //import flow.eventsubscription.service.impl.persistence.entity.data.impl.cachematcher.EventSubscriptionsByNameMatcher;
@@ -105,6 +107,7 @@ class MybatisEventSubscriptionDataManager : EntityRepository!(EventSubscriptionE
 
     this(EventSubscriptionServiceConfiguration eventSubscriptionServiceConfiguration) {
         this.eventSubscriptionServiceConfiguration = eventSubscriptionServiceConfiguration;
+        super(entityManagerFactory.currentEntityManager());
     }
 
 
@@ -190,7 +193,7 @@ class MybatisEventSubscriptionDataManager : EntityRepository!(EventSubscriptionE
 
     public List!EventSubscription findEventSubscriptionsByQueryCriteria(EventSubscriptionQueryImpl eventSubscriptionQueryImpl) {
         implementationMissing(false);
-        return null;
+        return new ArrayList!EventSubscription;
         // string query = "selectEventSubscriptionByQueryCriteria";
         //return getDbSqlSession().selectList(query, eventSubscriptionQueryImpl, getManagedEntityClass());
     }
@@ -307,6 +310,38 @@ class MybatisEventSubscriptionDataManager : EntityRepository!(EventSubscriptionE
 
 
     public List!EventSubscriptionEntity findEventSubscriptionsByTypeAndProcessDefinitionId(string type, string processDefinitionId, string tenantId) {
+        scope(exit)
+        {
+          _manager.close();
+        }
+
+        string query = "SELECT * FROM EventSubscriptionEntityImpl u WHERE "~((type is null || type.length == 0) ? "" :(" u.eventType = :type"));
+        query = query ~ " AND u.processDefinitionId = :processDefinitionId";
+        query = query ~ " AND (u.executionId is null OR u.executionId = '')";
+        query = query ~ " AND (u.processInstanceId is null OR u.processInstanceId = '') AND";
+        query = query ~ ((tenantId !is null && tenantId.length != 0) ? (" u.tenantId = :tenantId"): " (u.tenantId = '' OR u.tenantId is null)");
+
+        //logInfof("query : %s",query);
+        auto queryBuilder =  _manager.createQuery!(EventSubscriptionEntityImpl)(query);
+        if(type !is null && type.length != 0)
+        {
+            queryBuilder.setParameter("type",type);
+        }
+        queryBuilder.setParameter("processDefinitionId",processDefinitionId);
+        if (tenantId !is null && tenantId.length != 0)
+        {
+            queryBuilder.setParameter("tenantId",tenantId);
+        }
+
+        EventSubscriptionEntityImpl[] array =  queryBuilder.getResultList();
+
+        List!EventSubscriptionEntity rt = new ArrayList!EventSubscriptionEntity;
+        foreach(EventSubscriptionEntityImpl e; array)
+        {
+             rt.add(cast(EventSubscriptionEntity)e);
+        }
+
+        return rt;
         // string query = "selectEventSubscriptionsByTypeAndProcessDefinitionId";
         //Map<string, string> params = new HashMap<>();
         //if (type !is null) {
@@ -317,8 +352,8 @@ class MybatisEventSubscriptionDataManager : EntityRepository!(EventSubscriptionE
         //    params.put("tenantId", tenantId);
         //}
         //return getDbSqlSession().selectList(query, params);
-        implementationMissing(false);
-        return null;
+        //implementationMissing(false);
+        //return null;
     }
 
 

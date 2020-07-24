@@ -12,6 +12,7 @@
  */
 module flow.identitylink.service.impl.persistence.entity.IdentityLinkEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
@@ -337,5 +338,10 @@ class IdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEntity , Mod
     void setOriginalPersistentState(Object persistentState)
     {
       super.setOriginalPersistentState(persistentState);
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(IdentityLinkEntityImpl)o).getId));
     }
 }

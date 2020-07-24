@@ -23,7 +23,7 @@ import flow.job.service.impl.persistence.entity.AbstractJobServiceEntity;
 import flow.job.service.impl.persistence.entity.HistoryJobEntity;
 import hunt.entity;
 import hunt.String;
-
+import flow.common.persistence.entity.Entity;
 alias Date = LocalDateTime;
 /**
  * History Job entity.
@@ -250,7 +250,7 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = cast(int)createTime.toEpochMilli();
+        this.createTime = cast(int)createTime.toEpochMilli() / 1000;
     }
 
 
@@ -271,7 +271,7 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
 
     public void setLockExpirationTime(Date claimedUntil) {
-        this.lockExpirationTime = cast(int)claimedUntil.toEpochMilli();
+        this.lockExpirationTime = cast(int)claimedUntil.toEpochMilli() / 1000;
     }
 
 
@@ -370,4 +370,9 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
       super.setOriginalPersistentState(persistentState);
     }
 
+    override
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(HistoryJobEntityImpl)o).getId));
+    }
 }

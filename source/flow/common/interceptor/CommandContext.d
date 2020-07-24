@@ -24,7 +24,7 @@ module flow.common.interceptor.CommandContext;
 //import hunt.collection.LinkedList;
 //import hunt.collection.List;
 //import hunt.collection.Map;
-
+import flow.common.api.DataManger;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.interceptor.Command;
 import hunt.collection.Map;
@@ -37,6 +37,7 @@ import flow.common.interceptor.SessionFactory;
 import flow.common.interceptor.Session;
 import flow.common.interceptor.CommandContextCloseListener;
 import hunt.Exceptions;
+import flow.common.persistence.entity.Entity;
 /**
  * @author Tom Baeyens
  * @author Agim Emruli
@@ -54,6 +55,8 @@ class CommandContext {
     protected Map!(string, Object) attributes; // General-purpose storing of anything during the lifetime of a command context
     protected bool reused;
     protected LinkedList!Object resultStack ;//= new LinkedList<>(); // needs to be a stack, as JavaDelegates can do api calls again
+    static DataManger[Entity] insertJob;
+
 
     this(CommandAbstract command) {
         this.command = command;
@@ -201,9 +204,20 @@ class CommandContext {
     }
 
     protected void flushSessions() {
-        foreach (Session session ; sessions.values()) {
-            session.flush();
-        }
+         if(insertJob.length == 0)
+            return;
+         auto em = entityManagerFactory.currentEntityManager();
+         logInfof("size!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d",insertJob.length);
+         em.getTransaction().begin();
+         foreach (k ,v ; insertJob)
+         {
+            v.insertTrans(k,em);
+         }
+         em.getTransaction().commit();
+         insertJob.clear;
+        //foreach (Session session ; sessions.values()) {
+        //    session.flush();
+        //}
     }
 
     protected void closeSessions() {

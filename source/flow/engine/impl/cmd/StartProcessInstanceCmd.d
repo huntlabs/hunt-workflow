@@ -187,7 +187,7 @@ class StartProcessInstanceCmd : Command!ProcessInstance {
     }
 
     protected bool hasStartFormData() {
-        return startFormVariables !is null || outcome !is null || outcome.length == 0;
+        return startFormVariables !is null ||  outcome.length != 0;
     }
 
     protected ProcessDefinition getProcessDefinition(ProcessEngineConfigurationImpl processEngineConfiguration) {

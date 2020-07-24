@@ -12,6 +12,7 @@
  */
 module flow.variable.service.impl.persistence.entity.VariableByteArrayEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import flow.variable.service.impl.persistence.entity.AbstractVariableServiceEntity;
 import flow.variable.service.impl.persistence.entity.VariableByteArrayEntity;
 import hunt.entity;
@@ -146,5 +147,10 @@ class VariableByteArrayEntityImpl : AbstractVariableServiceEntity , Model, Varia
     int getRevisionNext()
     {
       return super.getRevisionNext;
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(VariableByteArrayEntityImpl)o).getId));
     }
 }

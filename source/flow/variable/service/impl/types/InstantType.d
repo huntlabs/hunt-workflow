@@ -56,7 +56,7 @@ class InstantType : VariableType {
     public void setValue(Object value, ValueFields valueFields) {
         if (value !is null) {
             LocalDateTime instant = cast(LocalDateTime) value;
-            valueFields.setLongValue(new Long(instant.toEpochMilli()));
+            valueFields.setLongValue(new Long(instant.toEpochMilli()/ 1000));
         } else {
             valueFields.setLongValue(null);
         }

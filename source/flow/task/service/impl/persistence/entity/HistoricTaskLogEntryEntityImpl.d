@@ -18,6 +18,7 @@ import flow.common.persistence.entity.AbstractEntityNoRevision;
 import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntity;
 import hunt.entity;
 import std.conv;
+import flow.common.persistence.entity.Entity;
 /**
  * @author martin.grofcik
  */
@@ -102,7 +103,7 @@ class HistoricTaskLogEntryEntityImpl : AbstractEntityNoRevision , Model,Historic
 
 
     public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp.toEpochMilli;
+        this.timeStamp = timeStamp.toEpochMilli / 1000;
     }
 
 
@@ -288,4 +289,10 @@ class HistoricTaskLogEntryEntityImpl : AbstractEntityNoRevision , Model,Historic
     {
       super.setOriginalPersistentState(persistentState);
     }
+
+
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(HistoricTaskLogEntryEntityImpl)o).getId));
+  }
 }

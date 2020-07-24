@@ -67,7 +67,7 @@ class EventSubscriptionManager {
             EventSubscriptionService eventSubscriptionService = CommandContextUtil.getEventSubscriptionService();
             EventSubscriptionQueryImpl eventSubscriptionQuery = new EventSubscriptionQueryImpl(Context.getCommandContext());
             eventSubscriptionQuery.processDefinitionId(previousProcessDefinition.getId()).scopeType(ScopeTypes.BPMN);
-            if (previousProcessDefinition.getTenantId() !is null && previousProcessDefinition.getTenantId().length != 0) {
+            if (previousProcessDefinition.getTenantId() !is null) {
                 eventSubscriptionQuery.tenantId(previousProcessDefinition.getTenantId());
             }
 

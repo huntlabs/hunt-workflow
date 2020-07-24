@@ -71,7 +71,7 @@ class TimerJobEntityImpl : AbstractJobEntityImpl , Model,TimerJobEntity {
 
 
     public void setLockExpirationTime(Date claimedUntil) {
-        this.lockExpirationTime = cast(int)(claimedUntil.toEpochMilli);
+        this.lockExpirationTime = cast(int)(claimedUntil.toEpochMilli / 1000);
     }
 
     override

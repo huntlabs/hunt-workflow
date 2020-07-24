@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
 
+import  flow.common.persistence.entity.Entity;
 import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -26,7 +27,7 @@ import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
 import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import hunt.Exceptions;
 import hunt.entity;
-
+import std.conv: to;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -71,10 +72,10 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
     string diagramResourceName;
 
     @Column("HAS_GRAPHICAL_NOTATION_")
-    bool _isGraphicalNotationDefined;
+    byte _isGraphicalNotationDefined;
 
     @Column("HAS_START_FORM_KEY_")
-    bool _hasStartFormKey;
+    byte _hasStartFormKey;
 
     @Column("SUSPENSION_STATE_")
     int suspensionState ;
@@ -273,37 +274,37 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
 
 
     public bool hasStartFormKey() {
-        return _hasStartFormKey;
+        return to!bool(_hasStartFormKey);
     }
 
 
     public bool getHasStartFormKey() {
-        return _hasStartFormKey;
+        return to!bool(_hasStartFormKey);
     }
 
 
     public void setStartFormKey(bool hasStartFormKey) {
-        this._hasStartFormKey = hasStartFormKey;
+        this._hasStartFormKey = to!byte(hasStartFormKey);
     }
 
 
     public void setHasStartFormKey(bool hasStartFormKey) {
-        this._hasStartFormKey = hasStartFormKey;
+        this._hasStartFormKey = to!byte(hasStartFormKey);
     }
 
 
     public bool isGraphicalNotationDefined() {
-        return _isGraphicalNotationDefined;
+        return to!bool(_isGraphicalNotationDefined);
     }
 
 
     public bool hasGraphicalNotation() {
-        return _isGraphicalNotationDefined;
+        return to!bool(_isGraphicalNotationDefined);
     }
 
 
     public void setGraphicalNotationDefined(bool isGraphicalNotationDefined) {
-        this._isGraphicalNotationDefined = isGraphicalNotationDefined;
+        this._isGraphicalNotationDefined = to!byte(isGraphicalNotationDefined);
     }
 
 
@@ -451,6 +452,13 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
 
   int opCmp(ProcessDefinitionEntity o)
   {
-      return cast(int)(hashOf(id) - hashOf((cast(ProcessDefinitionEntityImpl)o).getId));
+    return cast(int)(hashOf(id) - hashOf((cast(ProcessDefinitionEntityImpl)o).getId));
   }
+
+  //int opCmp(Entity o)
+  //{
+  //    return cast(int)(hashOf(id) - hashOf((cast(ProcessDefinitionEntityImpl)o).getId));
+  //}
+
+
 }

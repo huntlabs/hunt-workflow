@@ -18,6 +18,7 @@ import flow.batch.service.api.BatchPart;
 import flow.common.db.HasRevision;
 import flow.common.persistence.entity.Entity;
 import flow.batch.service.impl.persistence.entity.BatchByteArrayRef;
+import flow.common.persistence.entity.Entity;
 
 interface BatchPartEntity : BatchPart, Entity, HasRevision {
 

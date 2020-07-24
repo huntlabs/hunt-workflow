@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisExecutionDataManager;
-
+import flow.common.context.Context;
 import hunt.collection;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
@@ -111,7 +111,18 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
   //
   public void insert(ExecutionEntity entity) {
+    if (entity.getId() is null)
+    {
+      string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+      //if (dbSqlSessionFactory.isUsePrefixId()) {
+      //    id = entity.getIdPrefix() + id;
+      //}
+      entity.setId(id);
+
+    }
+    //ResourceEntityImpl tmp = cast(ResourceEntityImpl)entity;
     insert(cast(ExecutionEntityImpl)entity);
+    //insert(cast(ExecutionEntityImpl)entity);
     //getDbSqlSession().insert(entity);
   }
   public ExecutionEntity update(ExecutionEntity entity) {
@@ -479,8 +490,8 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
       }
       auto update = _manager.createQuery!(ExecutionEntityImpl)(" update ExecutionEntityImpl u set u.lockTime = :lockTime where  " ~
       "u.id = :id AND (lockTime is null OR u.lockTime < :expirationTime)");
-      update.setParameter("lockTime",lockDate.toEpochMilli);
-      update.setParameter("expirationTime",expirationTime.toEpochMilli);
+      update.setParameter("lockTime",lockDate.toEpochMilli / 1000);
+      update.setParameter("expirationTime",expirationTime.toEpochMilli / 1000);
       try{
         update.exec();
       }

@@ -11,6 +11,9 @@
  * limitations under the License.
  */
 module flow.variable.service.impl.persistence.entity.VariableInstanceEntityImpl;
+
+
+import flow.common.persistence.entity.Entity;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
@@ -426,4 +429,9 @@ class VariableInstanceEntityImpl : AbstractVariableServiceEntity , Model, Variab
     {
       return super.getRevisionNext;
     }
+
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(VariableInstanceEntityImpl)o).getId));
+  }
 }

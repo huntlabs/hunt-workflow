@@ -277,7 +277,7 @@ class ExecutionEntityManagerImpl
         processInstanceExecution.setScope(true); // process instance is always a scope for all child executions
 
         // Inherit tenant id (if any)
-        if (tenantId.length != 0) {
+        if (tenantId !is null) {
             processInstanceExecution.setTenantId(tenantId);
         }
 

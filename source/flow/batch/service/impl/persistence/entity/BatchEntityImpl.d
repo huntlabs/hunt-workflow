@@ -12,6 +12,7 @@
  */
 module flow.batch.service.impl.persistence.entity.BatchEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -103,7 +104,7 @@ class BatchEntityImpl : AbstractBatchServiceEntity , Model, BatchEntity {
     }
 
     public void setCreateTime(Date time) {
-        this.createTime = cast(int)time.toEpochMilli();
+        this.createTime = cast(int)time.toEpochMilli() / 1000;
     }
 
 
@@ -112,7 +113,7 @@ class BatchEntityImpl : AbstractBatchServiceEntity , Model, BatchEntity {
     }
 
     public void setCompleteTime(Date completeTime) {
-        this.completeTime = cast(int)completeTime.toEpochMilli();
+        this.completeTime = cast(int)completeTime.toEpochMilli() / 1000;
     }
 
 
@@ -253,5 +254,9 @@ class BatchEntityImpl : AbstractBatchServiceEntity , Model, BatchEntity {
       super.setOriginalPersistentState(persistentState);
   }
 
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(BatchEntityImpl)o).getId));
+  }
 }
 

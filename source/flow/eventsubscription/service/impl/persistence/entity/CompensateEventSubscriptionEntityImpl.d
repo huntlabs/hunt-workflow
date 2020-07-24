@@ -12,6 +12,8 @@
  */
 
 module flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntityImpl;
+
+import flow.common.persistence.entity.Entity;
 import flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityImpl;
 import flow.eventsubscription.service.impl.persistence.entity.CompensateEventSubscriptionEntity;
 /**
@@ -112,4 +114,10 @@ class CompensateEventSubscriptionEntityImpl : EventSubscriptionEntityImpl , Comp
       {
         return super.getRevisionNext;
       }
+
+    override
+    int opCmp(Entity o)
+    {
+      return super.opCmp(o);
+    }
 }

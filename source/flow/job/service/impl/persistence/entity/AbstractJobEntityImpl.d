@@ -22,7 +22,7 @@ import flow.job.service.impl.persistence.entity.AbstractRuntimeJobEntity;
 import flow.job.service.impl.persistence.entity.AbstractJobServiceEntity;
 import flow.job.service.api.Job;
 import flow.job.service.impl.persistence.entity.JobByteArrayRef;
-
+import flow.common.persistence.entity.Entity;
 alias Date = LocalDateTime;
 
 /**
@@ -381,5 +381,11 @@ class AbstractJobEntityImpl : AbstractJobServiceEntity , AbstractRuntimeJobEntit
     {
       return super.getRevisionNext;
     }
+
+  override
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(AbstractJobEntityImpl)o).getId));
+  }
 
 }

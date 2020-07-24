@@ -21,5 +21,5 @@ import flow.common.persistence.entity.PropertyEntity;
 interface PropertyEntityManager : EntityManager!PropertyEntity {
 
     List!PropertyEntity findAll();
-
+    void upDateDbid(string id);
 }

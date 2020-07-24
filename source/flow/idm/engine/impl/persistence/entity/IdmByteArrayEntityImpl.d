@@ -16,7 +16,7 @@ import hunt.entity;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
 import flow.idm.engine.impl.persistence.entity.IdmByteArrayEntity;
 import std.conv : to;
-
+import flow.common.persistence.entity.Entity;
 /**
  * @author Tijs Rademakers
  * @author Marcus Klimstra (CGI)
@@ -128,4 +128,9 @@ class IdmByteArrayEntityImpl : AbstractIdmEngineEntity , Model, IdmByteArrayEnti
     {
       return super.getRevisionNext;
     }
+
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(IdmByteArrayEntityImpl)o).getId));
+  }
 }

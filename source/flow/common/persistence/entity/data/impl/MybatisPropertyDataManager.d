@@ -48,6 +48,7 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
       super.insert(cast(PropertyEntityImpl)entity);
       //getDbSqlSession().insert(entity);
     }
+
     //
     //@Override
     public PropertyEntity update(PropertyEntity entity) {
@@ -72,6 +73,22 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
         remove(cast(PropertyEntityImpl)entity);
       }
       //getDbSqlSession().delete(entity);
+    }
+
+    public void upDateDbid(string id)
+    {
+        scope(exit)
+        {
+          _manager.close();
+        }
+        auto update = _manager.createQuery!(PropertyEntityImpl)("update PropertyEntityImpl u set u.value = :value where u.name = 'next.dbid'");
+        update.setParameter("value",id);
+        try{
+          update.exec();
+        }
+        catch(Exception e)
+        {
+        }
     }
 
     //@Override

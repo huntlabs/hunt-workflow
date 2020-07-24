@@ -13,6 +13,7 @@
 
 module flow.engine.impl.persistence.entity.DeploymentEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.Exceptions;
 import hunt.collection.ArrayList;
 import hunt.time.LocalDateTime;
@@ -206,7 +207,7 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
 
 
     public void setDeploymentTime(Date deploymentTime) {
-        this.deploymentTime = deploymentTime.toEpochMilli();
+        this.deploymentTime = deploymentTime.toEpochMilli() / 1000;
     }
 
 
@@ -321,6 +322,9 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
   }
 
 
-
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(DeploymentEntityImpl)o).getId));
+  }
 
 }

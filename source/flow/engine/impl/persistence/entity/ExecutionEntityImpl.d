@@ -13,6 +13,7 @@
 
 module flow.engine.impl.persistence.entity.ExecutionEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.time.LocalDateTime;
@@ -324,7 +325,8 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
         ExecutionEntityImpl execution = new ExecutionEntityImpl();
         execution.executions = new ArrayList!ExecutionEntityImpl(1);
         execution.tasks = new ArrayList!TaskEntity(1);
-        execution.variableInstances = new HashMap!(string, VariableInstanceEntity)(1);
+        Map!(string, VariableInstanceEntity) tmp =  execution.variableInstances; // = new HashMap!(string, VariableInstanceEntity)(1);
+        tmp = new HashMap!(string, VariableInstanceEntity)(1);
         execution.jobs = new ArrayList!JobEntity(1);
         execution.timerJobs = new ArrayList!TimerJobEntity(1);
         //execution.eventSubscriptions = new ArrayList<>(1);
@@ -1202,7 +1204,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public void setLockTime(Date lockTime) {
-        this.lockTime = lockTime.toEpochMilli;
+        this.lockTime = lockTime.toEpochMilli / 1000;
     }
 
 
@@ -1274,7 +1276,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public void setStartTime(Date startTime) {
-        this.startTime = startTime.toEpochMilli;
+        this.startTime = startTime.toEpochMilli / 1000;
     }
 
 
@@ -1521,4 +1523,9 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
       return super.getRevisionNext;
   }
 
+  //int opCmp(Entity o)
+  //{
+  //  return 1;
+  //  //return cast(int)(hashOf(this.id) - hashOf((cast(ExecutionEntityImpl)o).getId));
+  //}
 }

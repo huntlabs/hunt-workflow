@@ -21,7 +21,7 @@ import flow.idm.api.Picture;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
 import flow.idm.engine.impl.persistence.entity.UserEntity;
 import hunt.entity;
-
+import flow.common.persistence.entity.Entity;
 
 /**
  * @author Tom Baeyens
@@ -257,5 +257,10 @@ class UserEntityImpl :  AbstractIdmEngineEntity , Model,UserEntity, HasRevision 
     int getRevisionNext()
     {
       return super.getRevisionNext;
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(UserEntityImpl)o).getId));
     }
 }

@@ -13,6 +13,7 @@
 
 module flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.collection.ArrayList;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
@@ -153,7 +154,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
         this.description = task.getDescription();
         this.owner = task.getOwner();
         this.assignee = task.getAssignee();
-        this.createTime = task.getCreateTime().toEpochMilli;
+        this.createTime = task.getCreateTime().toEpochMilli / 1000;
         this.taskDefinitionKey = task.getTaskDefinitionKey();
         this.formKey = task.getFormKey();
 
@@ -211,12 +212,12 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
       if (this.endTime  == 0) {
         this.deleteReason = deleteReason;
         if (endTime !is null) {
-          this.endTime = endTime.toEpochMilli;
+          this.endTime = endTime.toEpochMilli / 1000;
         } else {
-          this.endTime = CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime().toEpochMilli;
+          this.endTime = CommandContextUtil.getTaskServiceConfiguration().getClock().getCurrentTime().toEpochMilli /1000;
         }
         if (endTime !is null && createTime != 0) {
-          this.durationInMillis = endTime.toEpochMilli() - createTime;
+          this.durationInMillis = endTime.toEpochMilli() /1000 - createTime;
         }
       }
         //if (this.endTime is null) {
@@ -336,12 +337,12 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime.toEpochMilli;
+        this.createTime = createTime.toEpochMilli / 1000;
     }
 
 
     public void setEndTime(Date endTime) {
-        this.endTime = endTime.toEpochMilli;
+        this.endTime = endTime.toEpochMilli / 1000;
     }
 
 
@@ -449,7 +450,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate.toEpochMilli();
+        this.dueDate = dueDate.toEpochMilli() / 1000;
     }
 
 
@@ -489,7 +490,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public void setClaimTime(Date claimTime) {
-        this.claimTime = claimTime.toEpochMilli;
+        this.claimTime = claimTime.toEpochMilli / 1000;
     }
 
 
@@ -522,7 +523,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime.toEpochMilli();
+        this.lastUpdateTime = lastUpdateTime.toEpochMilli() /1000;
     }
 
 
@@ -674,4 +675,8 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
       return super.getRevisionNext;
     }
 
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(HistoricTaskInstanceEntityImpl)o).getId));
+  }
 }

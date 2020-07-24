@@ -12,6 +12,7 @@
  */
 module flow.event.registry.persistence.entity.EventDefinitionEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 
@@ -215,5 +216,8 @@ class EventDefinitionEntityImpl : AbstractEventRegistryNoRevisionEntity ,Model, 
       super.setOriginalPersistentState(persistentState);
     }
 
-
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(id) - hashOf((cast(EventDefinitionEntityImpl)o).getId));
+    }
 }

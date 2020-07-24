@@ -18,7 +18,7 @@ import flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
 import flow.job.service.impl.persistence.entity.JobEntity;
 import hunt.entity;
 import flow.job.service.impl.persistence.entity.JobByteArrayRef;
-
+import flow.common.persistence.entity.Entity;
 alias Date =LocalDateTime;
 
 /**
@@ -70,7 +70,7 @@ class JobEntityImpl : AbstractJobEntityImpl , Model,JobEntity {
 
 
     public void setLockExpirationTime(Date claimedUntil) {
-        this.lockExpirationTime = cast(int)(claimedUntil.toEpochMilli);
+        this.lockExpirationTime = cast(int)(claimedUntil.toEpochMilli / 1000);
     }
 
     override
@@ -351,4 +351,9 @@ class JobEntityImpl : AbstractJobEntityImpl , Model,JobEntity {
           return "JobEntity [id=" ~ id ~ "]";
       }
 
+    override
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(JobEntityImpl)o).getId));
+  }
 }

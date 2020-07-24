@@ -18,7 +18,7 @@ import hunt.collection.Map;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
 import flow.idm.engine.impl.persistence.entity.PrivilegeEntity;
 import hunt.entity;
-
+import  flow.common.persistence.entity.Entity;
 /**
  * @author Tom Baeyens
  */
@@ -61,4 +61,8 @@ class PrivilegeEntityImpl : AbstractIdmEngineEntity , Model,PrivilegeEntity {
         this.name = name;
     }
 
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(PrivilegeEntityImpl)o).getId));
+    }
 }

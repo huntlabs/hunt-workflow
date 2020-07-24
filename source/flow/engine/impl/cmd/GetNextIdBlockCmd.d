@@ -34,6 +34,7 @@ class GetNextIdBlockCmd : Command!IdBlock {
         long oldValue = to!long(property.getValue());
         long newValue = oldValue + idBlockSize;
         property.setValue(to!string(newValue));
+        CommandContextUtil.getPropertyEntityManager(commandContext).upDateDbid(property.getValue);
         return new IdBlock(oldValue, newValue - 1);
     }
 }

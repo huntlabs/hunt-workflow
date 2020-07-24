@@ -12,6 +12,7 @@
  */
 module flow.idm.engine.impl.persistence.entity.IdmPropertyEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.String;
 import flow.common.api.FlowableException;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
@@ -97,5 +98,10 @@ class IdmPropertyEntityImpl : AbstractIdmEngineEntity , Model, IdmPropertyEntity
     int getRevisionNext()
     {
       return super.getRevisionNext;
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.name) - hashOf((cast(IdmPropertyEntityImpl)o).getName));
     }
 }

@@ -14,6 +14,7 @@
 
 module flow.engine.impl.persistence.entity.HistoricActivityInstanceEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -205,12 +206,12 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
       if (this.endTime  == 0) {
         this.deleteReason = deleteReason;
         if (endTime !is null) {
-          this.endTime = endTime.toEpochMilli;
+          this.endTime = endTime.toEpochMilli / 1000;
         } else {
-          this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime().toEpochMilli;
+          this.endTime = CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime().toEpochMilli / 1000;
         }
         if (endTime !is null && this.startTime != 0) {
-          this.durationInMillis = endTime.toEpochMilli - startTime;
+          this.durationInMillis = endTime.toEpochMilli / 1000 - startTime;
         }
       }
     }
@@ -264,12 +265,12 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
 
     void setEndTime(LocalDateTime endTime)
     {
-        this.endTime = endTime.toEpochMilli;
+        this.endTime = endTime.toEpochMilli / 1000;
     }
 
     void setStartTime(LocalDateTime startTime)
     {
-        this.startTime = startTime.toEpochMilli;
+        this.startTime = startTime.toEpochMilli / 1000;
     }
 
      void setDurationInMillis(long durationInMillis)
@@ -299,4 +300,9 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
      {
         return super.getRevisionNext;
      }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(HistoricActivityInstanceEntityImpl)o).getId));
+    }
 }

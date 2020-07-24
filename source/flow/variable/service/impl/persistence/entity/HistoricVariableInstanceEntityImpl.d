@@ -24,7 +24,7 @@ import hunt.Long;
 import hunt.Double;
 import hunt.entity;
 import hunt.util.StringBuilder;
-
+import flow.common.persistence.entity.Entity;
 alias Date = LocalDateTime;
 /**
  * @author Christian Lipphardt (camunda)
@@ -272,7 +272,7 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime.toEpochMilli();
+        this.createTime = createTime.toEpochMilli() / 1000;
     }
 
 
@@ -282,7 +282,7 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
 
 
     public void setLastUpdatedTime(Date lastUpdatedTime) {
-        this.lastUpdatedTime = lastUpdatedTime.toEpochMilli();
+        this.lastUpdatedTime = lastUpdatedTime.toEpochMilli() / 1000;
     }
 
 
@@ -437,5 +437,10 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
     int getRevisionNext()
     {
       return super.getRevisionNext;
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(HistoricVariableInstanceEntityImpl)o).getId));
     }
 }

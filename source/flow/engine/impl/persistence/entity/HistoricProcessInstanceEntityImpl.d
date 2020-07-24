@@ -13,6 +13,7 @@
  */
 module flow.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -119,7 +120,7 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
         this.processDefinitionVersion = processInstance.getProcessDefinitionVersion();
         this.deploymentId = processInstance.getDeploymentId();
         this.startActivityId = processInstance.getStartActivityId();
-        this.startTime = processInstance.getStartTime().toEpochMilli;
+        this.startTime = processInstance.getStartTime().toEpochMilli / 1000;
         this.startUserId = processInstance.getStartUserId();
         this.superProcessInstanceId = processInstance.getSuperExecution() !is null ? processInstance.getSuperExecution().getProcessInstanceId() : "";
         this.callbackId = processInstance.getCallbackId();
@@ -392,7 +393,7 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
     void markEnded(string deleteReason, LocalDateTime endTime)
     {
         this.deleteReason = deleteReason;
-        this.endTime = endTime.toEpochMilli;
+        this.endTime = endTime.toEpochMilli / 1000;
     }
 
     string getProcessInstanceId()
@@ -432,12 +433,12 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
 
       void setStartTime(LocalDateTime startTime)
       {
-          this.startTime = startTime.toEpochMilli;
+          this.startTime = startTime.toEpochMilli / 1000;
       }
 
        void setEndTime(LocalDateTime endTime)
        {
-          this.endTime = endTime.toEpochMilli;
+          this.endTime = endTime.toEpochMilli / 1000;
        }
 
        void setDurationInMillis(long durationInMillis)
@@ -473,4 +474,9 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
       {
         return super.getRevisionNext;
       }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(HistoricProcessInstanceEntityImpl)o).getId));
+    }
 }

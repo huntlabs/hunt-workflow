@@ -13,6 +13,7 @@
 
 module flow.engine.impl.persistence.entity.ModelEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -138,7 +139,7 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime.toEpochMilli();
+        this.createTime = createTime.toEpochMilli() /1000;
     }
 
 
@@ -148,7 +149,7 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
 
 
     public void setLastUpdateTime(Date lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime.toEpochMilli;
+        this.lastUpdateTime = lastUpdateTime.toEpochMilli / 1000;
     }
 
 
@@ -293,5 +294,10 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
   int getRevisionNext()
   {
     return super.getRevisionNext;
+  }
+
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(ModelEntityImpl)o).getId));
   }
 }

@@ -17,7 +17,7 @@ import flow.batch.service.impl.persistence.entity.AbstractBatchServiceEntity;
 import flow.batch.service.impl.persistence.entity.BatchByteArrayEntity;
 import hunt.entity;
 import std.conv : to;
-
+import flow.common.persistence.entity.Entity;
 
 class PersistentState {
 
@@ -129,6 +129,9 @@ class BatchByteArrayEntityImpl : AbstractBatchServiceEntity , Model, BatchByteAr
 
     // Wrapper for a byte array, needed to do byte array comparisons
     // See https://activiti.atlassian.net/browse/ACT-1524
-
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(BatchByteArrayEntityImpl)o).getId));
+    }
 
 }

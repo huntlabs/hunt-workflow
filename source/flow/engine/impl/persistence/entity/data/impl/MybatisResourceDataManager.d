@@ -16,7 +16,7 @@ import hunt.logging;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import flow.common.persistence.entity.Entity;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.persistence.entity.ResourceEntity;
 import flow.engine.impl.persistence.entity.ResourceEntityImpl;
@@ -28,11 +28,13 @@ import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.runtime.Clockm;
 import hunt.logging;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
 /**
  * @author Joram Barrez
  */
 //class MybatisResourceDataManager : AbstractProcessDataManager!ResourceEntity implements ResourceDataManager {
-class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string) , ResourceDataManager {
+class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string) , ResourceDataManager , DataManger {
 
     alias findById = CrudRepository!(ResourceEntityImpl , string).findById;
     alias insert = CrudRepository!(ResourceEntityImpl , string).insert;
@@ -74,11 +76,25 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
       //    id = entity.getIdPrefix() + id;
       //}
       entity.setId(id);
-    }
 
-   // insert(cast(ResourceEntityImpl)entity);
+    }
+    //ResourceEntityImpl tmp = cast(ResourceEntityImpl)entity;
+     //CommandContext commandContext = Context.getCommandContext();
+     //if (commandContext !is null)
+     //{
+       CommandContext.insertJob[entity] = this;
+     //}
+     //insert(cast(ResourceEntityImpl)entity);
     //getDbSqlSession().insert(entity);
   }
+
+  public void insertTrans(Entity entity , EntityManager db)
+  {
+      //auto em = _manager ? _manager : createEntityManager;
+      ResourceEntityImpl tmp = cast(ResourceEntityImpl)entity;
+      db.persist!ResourceEntityImpl(tmp);
+  }
+
   public ResourceEntity update(ResourceEntity entity) {
     return  update(cast(ResourceEntityImpl)entity);
     //getDbSqlSession().update(entity);

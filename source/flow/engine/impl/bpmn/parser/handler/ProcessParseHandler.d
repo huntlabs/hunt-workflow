@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.bpmn.parser.handler.ProcessParseHandler;
 
+import flow.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
 import hunt.collection.List;
 
 import flow.bpmn.model.BaseElement;
@@ -49,7 +50,7 @@ class ProcessParseHandler : AbstractBpmnParseHandler!Process {
     }
 
     protected ProcessDefinitionEntity transformProcess(BpmnParse bpmnParse, Process process) {
-        ProcessDefinitionEntity currentProcessDefinition = CommandContextUtil.getProcessDefinitionEntityManager().create();
+        ProcessDefinitionEntity currentProcessDefinition = new ProcessDefinitionEntityImpl; //CommandContextUtil.getProcessDefinitionEntityManager().create();
         bpmnParse.setCurrentProcessDefinition(currentProcessDefinition);
 
         /*

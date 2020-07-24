@@ -12,6 +12,7 @@
  */
 module flow.job.service.impl.persistence.entity.DeadLetterJobEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import flow.job.service.impl.persistence.entity.JobByteArrayRef;
 import  flow.job.service.impl.persistence.entity.AbstractJobEntityImpl;
@@ -120,5 +121,11 @@ class DeadLetterJobEntityImpl : AbstractJobEntityImpl , DeadLetterJobEntity {
     override
     public string toString() {
         return "DeadLetterJobEntity [id=" ~ id ~ "]";
+    }
+
+    override
+    int opCmp(Entity o)
+    {
+      return super.opCmp(o);
     }
 }

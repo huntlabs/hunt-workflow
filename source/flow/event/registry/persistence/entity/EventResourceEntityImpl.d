@@ -13,6 +13,7 @@
 
 module flow.event.registry.persistence.entity.EventResourceEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import flow.event.registry.persistence.entity.EventResourceEntity;
 import flow.event.registry.persistence.entity.AbstractEventRegistryNoRevisionEntity;
 /**
@@ -86,6 +87,10 @@ class EventResourceEntityImpl : AbstractEventRegistryNoRevisionEntity , Model, E
     }
 
     // common methods //////////////////////////////////////////////////////////
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(id) - hashOf((cast(EventResourceEntityImpl)o).getId));
+    }
 
     override
     public string toString() {

@@ -36,4 +36,8 @@ class PropertyEntityManagerImpl
         return dataManager.findAll();
     }
 
+    void upDateDbid(string id) {
+        dataManager.upDateDbid(id);
+    }
+
 }

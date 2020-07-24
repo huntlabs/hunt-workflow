@@ -12,6 +12,7 @@
  */
 module flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -235,7 +236,7 @@ class HistoricIdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEnti
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = cast(int)createTime.toEpochMilli;
+        this.createTime = cast(int)createTime.toEpochMilli / 1000;
     }
 
     override
@@ -290,5 +291,10 @@ class HistoricIdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEnti
     void setOriginalPersistentState(Object persistentState)
     {
       super.setOriginalPersistentState(persistentState);
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(HistoricIdentityLinkEntityImpl)o).getId));
     }
 }

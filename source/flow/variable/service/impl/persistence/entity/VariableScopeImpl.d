@@ -52,12 +52,12 @@ import  std.algorithm;
 abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     // The cache used when fetching all variables
-    protected Map!(string, VariableInstanceEntity) variableInstances; // needs to be null, the logic depends on it for checking if vars were already fetched
+    private Map!(string, VariableInstanceEntity) _variableInstances; // needs to be null, the logic depends on it for checking if vars were already fetched
 
     // The cache is used when fetching/setting specific variables
-    protected Map!(string, VariableInstanceEntity) usedVariablesCache  ;//= new HashMap<>();
+  private Map!(string, VariableInstanceEntity) _usedVariablesCache  ;//= new HashMap<>();
 
-    protected Map!(string, VariableInstance) transientVariables;
+  private Map!(string, VariableInstance) transientVariables;
 
     //protected ELContext cachedElContext;
 
@@ -68,15 +68,24 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
     protected abstract void initializeVariableInstanceBackPointer(VariableInstanceEntity variableInstance);
 
    // protected abstract void addLoggingSessionInfo(ObjectNode loggingNode);
+    public Map!(string, VariableInstanceEntity) variableInstances()
+    {
+        return _variableInstances;
+    }
+
+    public Map!(string, VariableInstanceEntity) usedVariablesCache()
+    {
+        return _usedVariablesCache;
+    }
 
     this()
     {
-      usedVariablesCache = new HashMap!(string, VariableInstanceEntity);
+      _usedVariablesCache = new HashMap!(string, VariableInstanceEntity);
     }
 
     protected void ensureVariableInstancesInitialized() {
-        if (variableInstances is null) {
-            variableInstances = new HashMap!(string, VariableInstanceEntity)();
+        if (_variableInstances is null) {
+            _variableInstances = new HashMap!(string, VariableInstanceEntity)();
 
             CommandContext commandContext = Context.getCommandContext();
             if (commandContext is null) {
@@ -84,7 +93,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             }
             Collection!VariableInstanceEntity variableInstancesList = loadVariableInstances();
             foreach (VariableInstanceEntity variableInstance ; variableInstancesList) {
-                variableInstances.put(variableInstance.getName(), variableInstance);
+                _variableInstances.put(variableInstance.getName(), variableInstance);
             }
         }
     }
@@ -92,8 +101,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
     /**
      * Only to be used when creating a new entity, to avoid an extra call to the database.
      */
-    public void internalSetVariableInstances(Map!(string, VariableInstanceEntity) variableInstances) {
-        this.variableInstances = variableInstances;
+    public void internalSetVariableInstances(Map!(string, VariableInstanceEntity) _variableInstances) {
+        this._variableInstances = _variableInstances;
     }
 
 
@@ -128,8 +137,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             if (transientVariables !is null && transientVariables.containsKey(variableName)) {
                 requestedVariables.put(variableName, transientVariables.get(variableName).getValue());
                 variableNamesToFetch.remove(variableName);
-            } else if (usedVariablesCache.containsKey(variableName)) {
-                requestedVariables.put(variableName, usedVariablesCache.get(variableName).getValue());
+            } else if (_usedVariablesCache.containsKey(variableName)) {
+                requestedVariables.put(variableName, _usedVariablesCache.get(variableName).getValue());
                 variableNamesToFetch.remove(variableName);
             }
         }
@@ -175,8 +184,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             if (transientVariables !is null && transientVariables.containsKey(variableName)) {
                 requestedVariables.put(variableName, transientVariables.get(variableName));
                 variableNamesToFetch.remove(variableName);
-            } else if (usedVariablesCache.containsKey(variableName)) {
-                requestedVariables.put(variableName, usedVariablesCache.get(variableName));
+            } else if (_usedVariablesCache.containsKey(variableName)) {
+                requestedVariables.put(variableName, _usedVariablesCache.get(variableName));
                 variableNamesToFetch.remove(variableName);
             }
         }
@@ -218,12 +227,12 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             variables.putAll(parentScope.collectVariables(variables));
         }
 
-        foreach (VariableInstanceEntity variableInstance ; variableInstances.values()) {
+        foreach (VariableInstanceEntity variableInstance ; _variableInstances.values()) {
             variables.put(variableInstance.getName(), variableInstance.getValue());
         }
 
-        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
-            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()).getValue());
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; _usedVariablesCache) {
+            variables.put(variableName.getKey(), _usedVariablesCache.get(variableName.getKey()).getValue());
         }
 
         if (transientVariables !is null) {
@@ -242,12 +251,12 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             variables.putAll(parentScope.collectVariableInstances(variables));
         }
 
-        foreach (VariableInstance variableInstance ; variableInstances.values()) {
+        foreach (VariableInstance variableInstance ; _variableInstances.values()) {
             variables.put(variableInstance.getName(), variableInstance);
         }
 
-        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
-            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()));
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; _usedVariablesCache) {
+            variables.put(variableName.getKey(), _usedVariablesCache.get(variableName.getKey()));
         }
 
         if (transientVariables !is null) {
@@ -294,13 +303,13 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         }
 
         // Check the local single-fetch cache
-        if (usedVariablesCache.containsKey(variableName)) {
-            return usedVariablesCache.get(variableName);
+        if (_usedVariablesCache.containsKey(variableName)) {
+            return _usedVariablesCache.get(variableName);
         }
 
         if (fetchAllVariables) {
             ensureVariableInstancesInitialized();
-            VariableInstanceEntity variableInstance = variableInstances.get(variableName);
+            VariableInstanceEntity variableInstance = _variableInstances.get(variableName);
             if (variableInstance !is null) {
                 return variableInstance;
             }
@@ -315,13 +324,13 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
         } else {
 
-            if (variableInstances !is null && variableInstances.containsKey(variableName)) {
-                return variableInstances.get(variableName);
+            if (_variableInstances !is null && _variableInstances.containsKey(variableName)) {
+                return _variableInstances.get(variableName);
             }
 
             VariableInstanceEntity variable = getSpecificVariable(variableName);
             if (variable !is null) {
-                usedVariablesCache.put(variableName, variable);
+                _usedVariablesCache.put(variableName, variable);
                 return variable;
             }
 
@@ -365,15 +374,15 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             return transientVariables.get(variableName);
         }
 
-        if (usedVariablesCache.containsKey(variableName)) {
-            return usedVariablesCache.get(variableName);
+        if (_usedVariablesCache.containsKey(variableName)) {
+            return _usedVariablesCache.get(variableName);
         }
 
         if (fetchAllVariables) {
 
             ensureVariableInstancesInitialized();
 
-            VariableInstanceEntity variableInstance = variableInstances.get(variableName);
+            VariableInstanceEntity variableInstance = _variableInstances.get(variableName);
             if (variableInstance !is null) {
                 return variableInstance;
             }
@@ -381,16 +390,16 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
         } else {
 
-            if (variableInstances !is null && variableInstances.containsKey(variableName)) {
-                VariableInstanceEntity variable = variableInstances.get(variableName);
+            if (_variableInstances !is null && _variableInstances.containsKey(variableName)) {
+                VariableInstanceEntity variable = _variableInstances.get(variableName);
                 if (variable !is null) {
-                    return variableInstances.get(variableName);
+                    return _variableInstances.get(variableName);
                 }
             }
 
             VariableInstanceEntity variable = getSpecificVariable(variableName);
             if (variable !is null) {
-                usedVariablesCache.put(variableName, variable);
+                _usedVariablesCache.put(variableName, variable);
                 return variable;
             }
 
@@ -405,7 +414,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         }
 
         ensureVariableInstancesInitialized();
-        if (!variableInstances.isEmpty()) {
+        if (!_variableInstances.isEmpty()) {
             return true;
         }
         VariableScope parentScope = getParentVariableScope();
@@ -421,7 +430,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             return true;
         }
         ensureVariableInstancesInitialized();
-        return !variableInstances.isEmpty();
+        return !_variableInstances.isEmpty();
     }
 
 
@@ -442,7 +451,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             return true;
         }
         ensureVariableInstancesInitialized();
-        return variableInstances.containsKey(variableName);
+        return _variableInstances.containsKey(variableName);
     }
 
     protected Set!string collectVariableNames(Set!string variableNames) {
@@ -459,7 +468,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         if (parentScope !is null) {
             variableNames.addAll(parentScope.collectVariableNames(variableNames));
         }
-        foreach (VariableInstanceEntity variableInstance ; variableInstances.values()) {
+        foreach (VariableInstanceEntity variableInstance ; _variableInstances.values()) {
             variableNames.add(variableInstance.getName());
         }
         return variableNames;
@@ -474,11 +483,11 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
     public Map!(string, Object) getVariablesLocal() {
         Map!(string, Object) variables = new HashMap!(string, Object)();
         ensureVariableInstancesInitialized();
-        foreach (VariableInstanceEntity variableInstance ; variableInstances.values()) {
+        foreach (VariableInstanceEntity variableInstance ; _variableInstances.values()) {
             variables.put(variableInstance.getName(), variableInstance.getValue());
         }
-        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
-            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()).getValue());
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; _usedVariablesCache) {
+            variables.put(variableName.getKey(), _usedVariablesCache.get(variableName.getKey()).getValue());
         }
         if (transientVariables !is null) {
             foreach (MapEntry!(string, VariableInstance) variableName ; transientVariables) {
@@ -492,11 +501,11 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
     public Map!(string, VariableInstance) getVariableInstancesLocal() {
         Map!(string, VariableInstance) variables = new HashMap!(string, VariableInstance)();
         ensureVariableInstancesInitialized();
-        foreach (VariableInstanceEntity variableInstance ; variableInstances.values()) {
+        foreach (VariableInstanceEntity variableInstance ; _variableInstances.values()) {
             variables.put(variableInstance.getName(), variableInstance);
         }
-        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; usedVariablesCache) {
-            variables.put(variableName.getKey(), usedVariablesCache.get(variableName.getKey()));
+        foreach (MapEntry!(string, VariableInstanceEntity) variableName ; _usedVariablesCache) {
+            variables.put(variableName.getKey(), _usedVariablesCache.get(variableName.getKey()));
         }
         if (transientVariables !is null) {
             variables.putAll(transientVariables);
@@ -524,8 +533,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             if (transientVariables !is null && transientVariables.containsKey(variableName)) {
                 requestedVariables.put(variableName, transientVariables.get(variableName).getValue());
                 variableNamesToFetch.remove(variableName);
-            } else if (usedVariablesCache.containsKey(variableName)) {
-                requestedVariables.put(variableName, usedVariablesCache.get(variableName).getValue());
+            } else if (_usedVariablesCache.containsKey(variableName)) {
+                requestedVariables.put(variableName, _usedVariablesCache.get(variableName).getValue());
                 variableNamesToFetch.remove(variableName);
             }
         }
@@ -559,8 +568,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
             if (transientVariables !is null && transientVariables.containsKey(variableName)) {
                 requestedVariables.put(variableName, transientVariables.get(variableName));
                 variableNamesToFetch.remove(variableName);
-            } else if (usedVariablesCache.containsKey(variableName)) {
-                requestedVariables.put(variableName, usedVariablesCache.get(variableName));
+            } else if (_usedVariablesCache.containsKey(variableName)) {
+                requestedVariables.put(variableName, _usedVariablesCache.get(variableName));
                 variableNamesToFetch.remove(variableName);
             }
         }
@@ -597,22 +606,22 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
            // variableNames.addAll(transientVariables.keySet());
         }
         ensureVariableInstancesInitialized();
-        foreach(MapEntry!(string, VariableInstanceEntity) entry ; variableInstances)
+        foreach(MapEntry!(string, VariableInstanceEntity) entry ; _variableInstances)
         {
           variableNames.add(entry.getKey());
         }
-       // variableNames.addAll(variableInstances.keySet());
+       // variableNames.addAll(_variableInstances.keySet());
         return variableNames;
     }
 
     public Map!(string, VariableInstanceEntity) getVariableInstanceEntities() {
         ensureVariableInstancesInitialized();
-        //return Collections.unmodifiableMap(variableInstances);
-        return variableInstances;
+        //return Collections.unmodifiableMap(_variableInstances);
+        return _variableInstances;
     }
 
     public Map!(string, VariableInstanceEntity) getUsedVariablesCache() {
-        return usedVariablesCache;
+        return _usedVariablesCache;
     }
 
     public void createVariablesLocal(Map!(string, Object) variables) {
@@ -644,9 +653,9 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     public void removeVariables() {
         ensureVariableInstancesInitialized();
-        //Set!string variableNames = new HashSet!string(variableInstances.keySet());
+        //Set!string variableNames = new HashSet!string(_variableInstances.keySet());
         Set!string variableNames  = new HashSet!string;
-        foreach(MapEntry!(string, VariableInstanceEntity) entry; variableInstances)
+        foreach(MapEntry!(string, VariableInstanceEntity) entry; _variableInstances)
         {
              variableNames.add(entry.getKey());
         }
@@ -705,8 +714,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         if (fetchAllVariables) {
 
             // If it's in the cache, it's more recent
-            if (usedVariablesCache.containsKey(variableName)) {
-                updateVariableInstance(usedVariablesCache.get(variableName), value);
+            if (_usedVariablesCache.containsKey(variableName)) {
+                updateVariableInstance(_usedVariablesCache.get(variableName), value);
             }
 
             // If the variable exists on this scope, replace it
@@ -728,13 +737,13 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         } else {
 
             // Check local cache first
-            if (usedVariablesCache.containsKey(variableName)) {
+            if (_usedVariablesCache.containsKey(variableName)) {
 
-                updateVariableInstance(usedVariablesCache.get(variableName), value);
+                updateVariableInstance(_usedVariablesCache.get(variableName), value);
 
-            } else if (variableInstances !is null && variableInstances.containsKey(variableName)) {
+            } else if (_variableInstances !is null && _variableInstances.containsKey(variableName)) {
 
-                updateVariableInstance(variableInstances.get(variableName), value);
+                updateVariableInstance(_variableInstances.get(variableName), value);
 
             } else {
 
@@ -743,7 +752,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
                 VariableInstanceEntity variable = getSpecificVariable(variableName);
                 if (variable !is null) {
                     updateVariableInstance(variable, value);
-                    usedVariablesCache.put(variableName, variable);
+                    _usedVariablesCache.put(variableName, variable);
                 } else {
 
                     VariableScopeImpl parent = getParentVariableScope();
@@ -753,7 +762,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
                     }
 
                     variable = createVariableInstance(variableName, value);
-                    usedVariablesCache.put(variableName, variable);
+                    _usedVariablesCache.put(variableName, variable);
 
                 }
 
@@ -780,15 +789,15 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         if (fetchAllVariables) {
 
             // If it's in the cache, it's more recent
-            if (usedVariablesCache.containsKey(variableName)) {
-                updateVariableInstance(usedVariablesCache.get(variableName), value);
+            if (_usedVariablesCache.containsKey(variableName)) {
+                updateVariableInstance(_usedVariablesCache.get(variableName), value);
             }
 
             ensureVariableInstancesInitialized();
 
-            VariableInstanceEntity variableInstance = variableInstances.get(variableName);
+            VariableInstanceEntity variableInstance = _variableInstances.get(variableName);
             if (variableInstance is null) {
-                variableInstance = usedVariablesCache.get(variableName);
+                variableInstance = _usedVariablesCache.get(variableName);
             }
 
             if (variableInstance is null) {
@@ -801,10 +810,10 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
         } else {
 
-            if (usedVariablesCache.containsKey(variableName)) {
-                updateVariableInstance(usedVariablesCache.get(variableName), value);
-            } else if (variableInstances !is null && variableInstances.containsKey(variableName)) {
-                updateVariableInstance(variableInstances.get(variableName), value);
+            if (_usedVariablesCache.containsKey(variableName)) {
+                updateVariableInstance(_usedVariablesCache.get(variableName), value);
+            } else if (_variableInstances !is null && _variableInstances.containsKey(variableName)) {
+                updateVariableInstance(_variableInstances.get(variableName), value);
             } else {
 
                 VariableInstanceEntity variable = getSpecificVariable(variableName);
@@ -813,7 +822,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
                 } else {
                     variable = createVariableInstance(variableName, value);
                 }
-                usedVariablesCache.put(variableName, variable);
+                _usedVariablesCache.put(variableName, variable);
 
             }
 
@@ -828,7 +837,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
     protected void createVariableLocal(string variableName, Object value) {
         ensureVariableInstancesInitialized();
 
-        if (variableInstances.containsKey(variableName)) {
+        if (_variableInstances.containsKey(variableName)) {
             throw new FlowableException("variable '" ~ variableName ~ "' already exists. Use setVariableLocal if you want to overwrite the value");
         }
 
@@ -838,7 +847,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     public void removeVariable(string variableName) {
         ensureVariableInstancesInitialized();
-        if (variableInstances.containsKey(variableName)) {
+        if (_variableInstances.containsKey(variableName)) {
             removeVariableLocal(variableName);
             return;
         }
@@ -851,7 +860,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
     public void removeVariableLocal(string variableName) {
         ensureVariableInstancesInitialized();
-        VariableInstanceEntity variableInstance = variableInstances.remove(variableName);
+        VariableInstanceEntity variableInstance = _variableInstances.remove(variableName);
         if (variableInstance !is null) {
             deleteVariableInstanceForExplicitUserCall(variableInstance);
         }
@@ -943,8 +952,8 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         variableInstance.setValue(value);
         variableInstanceEntityManager.insert(variableInstance);
 
-        if (variableInstances !is null) {
-            variableInstances.put(variableName, variableInstance);
+        if (_variableInstances !is null) {
+            _variableInstances.put(variableName, variableInstance);
         }
 
         if (isPropagateToHistoricVariable()) {

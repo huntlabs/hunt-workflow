@@ -12,6 +12,9 @@
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisDeploymentDataManager;
 
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
 import flow.common.context.Context;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -32,7 +35,7 @@ import hunt.entity;
 /**
  * @author Joram Barrez
  */
-class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , string) , DeploymentDataManager {
+class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , string) , DeploymentDataManager , DataManger {
 
     alias findById = CrudRepository!(DeploymentEntityImpl , string).findById;
     alias insert = CrudRepository!(DeploymentEntityImpl , string).insert;
@@ -76,7 +79,22 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
         //}
         entity.setId(id);
     }
+    //insert(cast(DeploymentEntityImpl)entity);
+    //CommandContext commandContext = Context.getCommandContext();
+    //if (commandContext !is null)
+    //{
+    //  commandContext.insertJob[entity] = this;
+    //}
+    CommandContext.insertJob[entity] = this;
   }
+
+  public void insertTrans(Entity entity , EntityManager db)
+  {
+    //auto em = _manager ? _manager : createEntityManager;
+    DeploymentEntityImpl tmp = cast(DeploymentEntityImpl)entity;
+    db.persist!DeploymentEntityImpl(tmp);
+  }
+
   public DeploymentEntity update(DeploymentEntity entity) {
     return  update(cast(DeploymentEntityImpl)entity);
     //getDbSqlSession().update(entity);

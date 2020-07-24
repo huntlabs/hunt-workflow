@@ -20,6 +20,7 @@ import flow.batch.service.impl.persistence.entity.BatchPartEntity;
 import flow.batch.service.impl.persistence.entity.BatchByteArrayRef;
 alias Date = LocalDateTime;
 import hunt.entity;
+import flow.common.persistence.entity.Entity;
 
 @Table("FLW_RU_BATCH_PART")
 class BatchPartEntityImpl : AbstractBatchServiceEntity , Model, BatchPartEntity {
@@ -130,7 +131,7 @@ class BatchPartEntityImpl : AbstractBatchServiceEntity , Model, BatchPartEntity 
 
 
     public void setCreateTime(Date time) {
-        this.createTime = cast(int)time.toEpochMilli();
+        this.createTime = cast(int)time.toEpochMilli() / 1000;
     }
 
 
@@ -140,7 +141,7 @@ class BatchPartEntityImpl : AbstractBatchServiceEntity , Model, BatchPartEntity 
 
 
     public void setCompleteTime(Date time) {
-        this.completeTime = cast(int)time.toEpochMilli();
+        this.completeTime = cast(int)time.toEpochMilli() / 1000;
     }
 
 
@@ -315,5 +316,10 @@ class BatchPartEntityImpl : AbstractBatchServiceEntity , Model, BatchPartEntity 
 
   override void setOriginalPersistentState(Object persistentState) {
       super.setOriginalPersistentState(persistentState);
+  }
+
+  int opCmp(Entity o)
+  {
+    return cast(int)(hashOf(this.id) - hashOf((cast(BatchPartEntityImpl)o).getId));
   }
 }

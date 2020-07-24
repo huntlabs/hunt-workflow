@@ -12,6 +12,7 @@
  */
 module flow.event.registry.persistence.entity.ChannelDefinitionEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -228,6 +229,11 @@ class ChannelDefinitionEntityImpl : AbstractEventRegistryNoRevisionEntity , Mode
     void setOriginalPersistentState(Object persistentState)
     {
       super.setOriginalPersistentState(persistentState);
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(id) - hashOf((cast(ChannelDefinitionEntityImpl)o).getId));
     }
 
 }

@@ -12,10 +12,14 @@
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisProcessDefinitionDataManager;
 
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-
+import std.array;
 import flow.common.api.FlowableException;
 import flow.engine.impl.ProcessDefinitionQueryImpl;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -34,7 +38,7 @@ import hunt.logging;
  * @author Joram Barrez
  */
 //class MybatisProcessDefinitionDataManager : AbstractProcessDataManager!ProcessDefinitionEntity implements ProcessDefinitionDataManager {
-class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionEntityImpl , string) , ProcessDefinitionDataManager {
+class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionEntityImpl , string) , ProcessDefinitionDataManager , DataManger  {
     private ProcessEngineConfigurationImpl processEngineConfiguration;
 
     alias findById = CrudRepository!(ProcessDefinitionEntityImpl , string).findById;
@@ -68,9 +72,33 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
   }
   //
   public void insert(ProcessDefinitionEntity entity) {
-    insert(cast(ProcessDefinitionEntityImpl)entity);
+    //insert(cast(ProcessDefinitionEntityImpl)entity);
     //getDbSqlSession().insert(entity);
+    if (entity.getId() is null)
+    {
+      string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+      //if (dbSqlSessionFactory.isUsePrefixId()) {
+      //    id = entity.getIdPrefix() + id;
+      //}
+      entity.setId(id);
+    }
+    CommandContext.insertJob[entity] = this;
+    //insert(cast(ProcessDefinitionEntityImpl)entity);
+    //CommandContext commandContext = Context.getCommandContext();
+    //if (commandContext !is null)
+    //{
+    //  commandContext.insertJob[entity] = this;
+    //}
   }
+
+  public void insertTrans(Entity entity , EntityManager db)
+  {
+    //auto em = _manager ? _manager : createEntityManager;
+    ProcessDefinitionEntityImpl tmp = cast(ProcessDefinitionEntityImpl)entity;
+    db.persist!ProcessDefinitionEntityImpl(tmp);
+  }
+
+
   public ProcessDefinitionEntity update(ProcessDefinitionEntity entity) {
     return  update(cast(ProcessDefinitionEntityImpl)entity);
     //getDbSqlSession().update(entity);
@@ -99,8 +127,21 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
 
 
     public ProcessDefinitionEntity findLatestProcessDefinitionByKey(string processDefinitionKey) {
-        implementationMissing(false);
-        return null;
+
+      scope(exit)
+      {
+        _manager.close();
+      }
+      ProcessDefinitionEntityImpl[] array =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.key = :key AND (u.tenantId = '' or u.tenantId is null) AND
+       (u.derivedFrom is null or u.derivedFrom = '') and u.ver = (select max(VERSION_) from testworkflow.ACT_RE_PROCDEF where KEY_ = :processDefinitionKey and (TENANT_ID_ = '' or TENANT_ID_ is null))")
+      .setParameter("key",processDefinitionKey)
+      .setParameter("processDefinitionKey",processDefinitionKey)
+      .getResultList();
+
+      //logErrorf("ProcessDefinitionEntityImpl ...... %s",array[0].getTenantId());
+       return array.length == 0? null : cast(ProcessDefinitionEntity)array[0];
+        //implementationMissing(false);
+        //return null;
        // return (ProcessDefinitionEntity) getDbSqlSession().selectOne("selectLatestProcessDefinitionByKey", processDefinitionKey);
     }
 
@@ -152,8 +193,30 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
 
 
     public List!ProcessDefinition findProcessDefinitionsByQueryCriteria(ProcessDefinitionQueryImpl processDefinitionQuery) {
-        implementationMissing(false);
-        return null;
+        scope(exit)
+        {
+          _manager.close();
+        }
+
+         ProcessDefinitionEntityImpl[] array;
+
+        if(processDefinitionQuery.getDeploymentIds !is null && processDefinitionQuery.getDeploymentIds.size() != 0)
+        {
+           array =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl a WHERE a.deploymentId IN (" ~ processDefinitionQuery.getDeploymentIds.toArray.join(",") ~ ");")
+          .getResultList();
+        }else
+        {
+          array =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.deploymentId = :deploymentId")
+          .setParameter("deploymentId",processDefinitionQuery.getDeploymentId)
+          .getResultList();
+        }
+        List!ProcessDefinition rt = new ArrayList!ProcessDefinition;
+        foreach(ProcessDefinitionEntityImpl p ; array)
+        {
+              rt.add(cast(ProcessDefinition)p);
+        }
+        return rt;
+        //implementationMissing(false);
        // return getDbSqlSession().selectList("selectProcessDefinitionsByQueryCriteria", processDefinitionQuery);
     }
 

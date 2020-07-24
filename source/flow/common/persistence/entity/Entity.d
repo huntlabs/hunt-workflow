@@ -54,4 +54,6 @@ interface Entity {
     Object getOriginalPersistentState();
 
     void setOriginalPersistentState(Object persistentState);
+
+   // int opCmp(Entity o);
 }

@@ -12,6 +12,7 @@
  */
 module flow.task.service.impl.persistence.entity.TaskEntityImpl;
 
+import  flow.common.persistence.entity.Entity;
 import flow.identitylink.api.IdentityLinkInfo;
 import hunt.collection.ArrayList;
 import hunt.collection;
@@ -387,7 +388,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate.toEpochMilli;
+        this.dueDate = dueDate.toEpochMilli / 1000;
     }
 
 
@@ -541,7 +542,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime.toEpochMilli;
+        this.createTime = createTime.toEpochMilli / 1000;
     }
 
 
@@ -877,7 +878,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public void setClaimTime(Date claimTime) {
-        this.claimTime = claimTime.toEpochMilli();
+        this.claimTime = claimTime.toEpochMilli() / 1000;
     }
 
 
@@ -986,5 +987,12 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
     int getRevisionNext()
     {
       return super.getRevisionNext;
+    }
+
+
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(TaskEntityImpl)o).getId));
     }
 }

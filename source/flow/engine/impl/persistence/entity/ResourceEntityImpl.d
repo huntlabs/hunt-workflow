@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.persistence.entity.ResourceEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import flow.engine.impl.persistence.entity.AbstractBpmnEngineNoRevisionEntity;
 import flow.engine.impl.persistence.entity.ResourceEntity;
 import hunt.entity;
@@ -32,7 +33,7 @@ class ResourceEntityImpl : AbstractBpmnEngineNoRevisionEntity , Model, ResourceE
     string name;
 
     @Column("BYTES_")
-    byte[] bytes;
+    string bytes;
 
     @Column("DEPLOYMENT_ID_")
     string deploymentId;
@@ -69,12 +70,12 @@ class ResourceEntityImpl : AbstractBpmnEngineNoRevisionEntity , Model, ResourceE
 
 
     public byte[] getBytes() {
-        return bytes;
+        return cast(byte[])bytes;
     }
 
 
     public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
+        this.bytes = cast(string)bytes;
     }
 
 
@@ -111,5 +112,10 @@ class ResourceEntityImpl : AbstractBpmnEngineNoRevisionEntity , Model, ResourceE
     override
     public string toString() {
         return "ResourceEntity[id=" ~ id ~ ", name=" ~ name ~ "]";
+    }
+
+    int opCmp(Entity o)
+    {
+        return cast(int)(hashOf(this.id) - hashOf((cast(ResourceEntityImpl)o).getId));
     }
 }

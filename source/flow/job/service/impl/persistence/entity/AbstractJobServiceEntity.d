@@ -15,6 +15,7 @@ module flow.job.service.impl.persistence.entity.AbstractJobServiceEntity;
 import flow.common.persistence.entity.AbstractEntity;
 import flow.job.service.impl.persistence.entity.JobServiceEntityConstants;
 import hunt.Exceptions;
+import flow.common.persistence.entity.Entity;
 
 class AbstractJobServiceEntity : AbstractEntity {
 
@@ -35,5 +36,10 @@ class AbstractJobServiceEntity : AbstractEntity {
     {
         implementationMissing(false);
         return null;
+    }
+
+    int opCmp(Entity o)
+    {
+        return 1;
     }
 }

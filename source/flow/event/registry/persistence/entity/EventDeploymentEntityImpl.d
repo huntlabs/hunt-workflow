@@ -13,6 +13,7 @@
 
 module flow.event.registry.persistence.entity.EventDeploymentEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.String;
 import hunt.collection.ArrayList;
 import hunt.time.LocalDateTime;
@@ -255,4 +256,8 @@ class EventDeploymentEntityImpl : AbstractEventRegistryNoRevisionEntity , Model,
       super.setOriginalPersistentState(persistentState);
     }
 
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(id) - hashOf((cast(EventDeploymentEntityImpl)o).getId));
+    }
 }

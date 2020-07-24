@@ -12,6 +12,7 @@
  */
 module flow.idm.engine.impl.persistence.entity.TokenEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
 import flow.idm.engine.impl.persistence.entity.AbstractIdmEngineEntity;
@@ -216,5 +217,10 @@ class TokenEntityImpl : AbstractIdmEngineEntity ,Model, TokenEntity, HasRevision
     int getRevisionNext()
     {
       return super.getRevisionNext;
+    }
+
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(TokenEntityImpl)o).getId));
     }
 }

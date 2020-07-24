@@ -66,7 +66,7 @@ class TimerManager {
 
     public List!TimerJobEntity getTimerDeclarations(ProcessDefinitionEntity processDefinition, Process process) {
         implementationMissing(false);
-        return null;
+        return new ArrayList!TimerJobEntity;
         //List!TimerJobEntity timers = new ArrayList!TimerJobEntity;
         //if (process.getFlowElements() !is null &&  !process.getFlowElements().isEmpty()) {
         //    foreach (FlowElement element ; process.getFlowElements()) {

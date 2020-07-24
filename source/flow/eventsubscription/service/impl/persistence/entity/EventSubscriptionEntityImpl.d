@@ -13,6 +13,7 @@
 
 module flow.eventsubscription.service.impl.persistence.entity.EventSubscriptionEntityImpl;
 
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 
@@ -37,33 +38,45 @@ class EventSubscriptionEntityImpl : AbstractEventSubscriptionEntity , Model, Eve
     // persistent state ///////////////////////////
   @Column("EVENT_TYPE_")
     string eventType;
+
   @Column("EVENT_NAME_")
     string eventName;
+
   @Column("EXECUTION_ID_")
     string executionId;
+
   @Column("PROC_INST_ID_")
     string processInstanceId;
+
   @Column("ACTIVITY_ID_")
     string activityId;
+
   @Column("CONFIGURATION_")
     string configuration;
+
   @Column("CREATED_")
     long created;
+
   @Column("PROC_DEF_ID_")
     string processDefinitionId;
+
   @Column("SUB_SCOPE_ID_")
     string subScopeId;
+
   @Column("SCOPE_ID_")
     string scopeId;
+
   @Column("SCOPE_DEFINITION_ID_")
     string scopeDefinitionId;
+
   @Column("SCOPE_TYPE_")
     string scopeType;
+
   @Column("TENANT_ID_")
     string tenantId;
 
     this() {
-        this.created = CommandContextUtil.getEventSubscriptionServiceConfiguration().getClock().getCurrentTime().toEpochMilli;
+        this.created = CommandContextUtil.getEventSubscriptionServiceConfiguration().getClock().getCurrentTime().toEpochMilli / 1000;
     }
 
     public string getId() {
@@ -161,7 +174,7 @@ class EventSubscriptionEntityImpl : AbstractEventSubscriptionEntity , Model, Eve
 
 
     public void setCreated(Date created) {
-        this.created = created.toEpochMilli;
+        this.created = created.toEpochMilli / 1000;
     }
 
 
@@ -325,4 +338,8 @@ class EventSubscriptionEntityImpl : AbstractEventSubscriptionEntity , Model, Eve
       return super.getRevisionNext;
     }
 
+    int opCmp(Entity o)
+    {
+      return cast(int)(hashOf(this.id) - hashOf((cast(EventSubscriptionEntityImpl)o).getId));
+    }
 }
