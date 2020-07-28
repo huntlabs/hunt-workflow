@@ -10,26 +10,26 @@
 // * See the License for the specific language governing permissions and
 // * limitations under the License.
 // */
+//module flow.common.el.DefaultExpressionManager;
 //
-//
-//import java.util.ArrayList;
+//import hunt.collection.ArrayList;
 //import hunt.collection.List;
 //import hunt.collection.Map;
-//
+//import flow.common.el.ExpressionManager;
 //import flow.common.api.deleg.Expression;
 //import flow.common.api.deleg.FlowableExpressionEnhancer;
 //import flow.common.api.deleg.FlowableFunctionDelegate;
 //import flow.common.api.variable.VariableContainer;
-//import flow.common.javax.el.ArrayELResolver;
-//import flow.common.javax.el.BeanELResolver;
-//import flow.common.javax.el.CompositeELResolver;
-//import flow.common.javax.el.CouldNotResolvePropertyELResolver;
-//import flow.common.javax.el.ELContext;
-//import flow.common.javax.el.ELResolver;
-//import flow.common.javax.el.ExpressionFactory;
-//import flow.common.javax.el.ListELResolver;
-//import flow.common.javax.el.MapELResolver;
-//import flow.common.javax.el.ValueExpression;
+////import flow.common.javax.el.ArrayELResolver;
+////import flow.common.javax.el.BeanELResolver;
+////import flow.common.javax.el.CompositeELResolver;
+////import flow.common.javax.el.CouldNotResolvePropertyELResolver;
+////import flow.common.javax.el.ELContext;
+////import flow.common.javax.el.ELResolver;
+////import flow.common.javax.el.ExpressionFactory;
+////import flow.common.javax.el.ListELResolver;
+////import flow.common.javax.el.MapELResolver;
+////import flow.common.javax.el.ValueExpression;
 //import flow.common.persistence.deploy.DeploymentCache;
 //
 ///**
@@ -41,7 +41,7 @@
 // * @author Frederik Heremans
 // * @author Joram Barrez
 // */
-//class DefaultExpressionManager implements ExpressionManager {
+//class DefaultExpressionManager : ExpressionManager {
 //
 //    protected ExpressionFactory expressionFactory;
 //    protected List<FlowableFunctionDelegate> functionDelegates;

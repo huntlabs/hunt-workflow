@@ -10,116 +10,122 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.common.persistence.cache.EntityCacheImpl;
+
+import hunt.collection.ArrayList;
+import hunt.collection;
+import hunt.collection.Collections;
+import hunt.collection.HashMap;
+import hunt.collection.List;
+import hunt.collection.Map;
+import flow.common.persistence.cache.EntityCache;
+import flow.common.persistence.entity.Entity;
+import flow.common.persistence.cache.CachedEntity;
+/**
+ * @author Joram Barrez
+ */
+class EntityCacheImpl : EntityCache {
+
+    this()
+    {
+        cachedObjects = new HashMap!(TypeInfo, Map!(string, CachedEntity));
+    }
+
+    protected Map!(TypeInfo, Map!(string, CachedEntity)) cachedObjects  ;//= new HashMap<>();
 
 
-//import hunt.collection.ArrayList;
-//import hunt.collection;
-//import hunt.collections;
-//import hunt.collection.HashMap;
-//import hunt.collection.List;
-//import hunt.collection.Map;
-//
-//import flow.common.persistence.entity.Entity;
-//
-///**
-// * @author Joram Barrez
-// */
-//class EntityCacheImpl implements EntityCache {
-//
-//    protected Map<Class<?>, Map<string, CachedEntity>> cachedObjects = new HashMap<>();
-//
-//    @Override
-//    public CachedEntity put(Entity entity, bool storeState) {
-//        Map<string, CachedEntity> classCache = cachedObjects.get(entity.getClass());
-//        if (classCache is null) {
-//            classCache = new HashMap<>();
-//            cachedObjects.put(entity.getClass(), classCache);
-//        }
-//        CachedEntity cachedObject = new CachedEntity(entity, storeState);
-//        classCache.put(entity.getId(), cachedObject);
-//        return cachedObject;
-//    }
-//
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public <T> T findInCache(Class<T> entityClass, string id) {
-//        CachedEntity cachedObject = null;
-//        Map<string, CachedEntity> classCache = cachedObjects.get(entityClass);
-//
-//        if (classCache is null) {
-//            classCache = findClassCacheByCheckingSubclasses(entityClass);
-//        }
-//
-//        if (classCache !is null) {
-//            cachedObject = classCache.get(id);
-//        }
-//
-//        if (cachedObject !is null) {
-//            return (T) cachedObject.getEntity();
-//        }
-//
-//        return null;
-//    }
-//
-//    protected Map<string, CachedEntity> findClassCacheByCheckingSubclasses(Class<?> entityClass) {
-//        for (Class<?> clazz : cachedObjects.keySet()) {
-//            if (entityClass.isAssignableFrom(clazz)) {
-//                return cachedObjects.get(clazz);
-//            }
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public void cacheRemove(Class<?> entityClass, string entityId) {
-//        Map<string, CachedEntity> classCache = cachedObjects.get(entityClass);
-//        if (classCache is null) {
-//            return;
-//        }
-//        classCache.remove(entityId);
-//    }
-//
-//    @Override
-//    public <T> Collection<CachedEntity> findInCacheAsCachedObjects(Class<T> entityClass) {
-//        Map<string, CachedEntity> classCache = cachedObjects.get(entityClass);
-//        if (classCache !is null) {
-//            return classCache.values();
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public <T> List<T> findInCache(Class<T> entityClass) {
-//        Map<string, CachedEntity> classCache = cachedObjects.get(entityClass);
-//
-//        if (classCache is null) {
-//            classCache = findClassCacheByCheckingSubclasses(entityClass);
-//        }
-//
-//        if (classCache !is null) {
-//            List<T> entities = new ArrayList<>(classCache.size());
-//            for (CachedEntity cachedObject : classCache.values()) {
-//                entities.add((T) cachedObject.getEntity());
-//            }
-//            return entities;
-//        }
-//
-//        return Collections.emptyList();
-//    }
-//
-//    @Override
-//    public Map<Class<?>, Map<string, CachedEntity>> getAllCachedEntities() {
-//        return cachedObjects;
-//    }
-//
-//    @Override
-//    public void close() {
-//
-//    }
-//
-//    @Override
-//    public void flush() {
-//
-//    }
-//}
+    public CachedEntity put(Entity entity, bool storeState ,TypeInfo type) {
+        Map!(string, CachedEntity) classCache = cachedObjects.get(type);
+        if (classCache is null) {
+            classCache = new HashMap!(string, CachedEntity);
+            cachedObjects.put(type, classCache);
+        }
+        CachedEntity cachedObject = new CachedEntity(entity, storeState);
+        classCache.put(entity.getId(), cachedObject);
+        return cachedObject;
+    }
+
+
+
+    public Entity findInCache(TypeInfo entityClass, string id) {
+        CachedEntity cachedObject = null;
+        Map!(string, CachedEntity) classCache = cachedObjects.get(entityClass);
+
+        if (classCache is null) {
+            classCache = findClassCacheByCheckingSubclasses(entityClass);
+        }
+
+        if (classCache !is null) {
+            cachedObject = classCache.get(id);
+        }
+
+        if (cachedObject !is null) {
+            return cachedObject.getEntity();
+        }
+
+        return null;
+    }
+
+    protected Map!(string, CachedEntity) findClassCacheByCheckingSubclasses(TypeInfo entityClass) {
+        return cachedObjects.get(entityClass);
+        //for (Class<?> clazz : cachedObjects.keySet()) {
+        //    if (entityClass.isAssignableFrom(clazz)) {
+        //        return cachedObjects.get(clazz);
+        //    }
+        //}
+        //return null;
+    }
+
+
+    public void cacheRemove(TypeInfo entityClass, string entityId) {
+        Map!(string, CachedEntity) classCache = cachedObjects.get(entityClass);
+        if (classCache is null) {
+            return;
+        }
+        classCache.remove(entityId);
+    }
+
+
+    public Collection!CachedEntity findInCacheAsCachedObjects(TypeInfo entityClass) {
+        Map!(string, CachedEntity) classCache = cachedObjects.get(entityClass);
+        if (classCache !is null) {
+            return new ArrayList!CachedEntity(classCache.values());
+        }
+        return null;
+    }
+
+
+
+    public List!Entity findInCache(TypeInfo entityClass) {
+        Map!(string, CachedEntity) classCache = cachedObjects.get(entityClass);
+
+        if (classCache is null) {
+            classCache = findClassCacheByCheckingSubclasses(entityClass);
+        }
+
+        if (classCache !is null) {
+            List!Entity entities = new ArrayList!Entity(classCache.size());
+            foreach (CachedEntity cachedObject ; classCache.values()) {
+                entities.add(cachedObject.getEntity());
+            }
+            return entities;
+        }
+
+        return Collections.emptyList!Entity();
+    }
+
+
+    public Map!(TypeInfo, Map!(string, CachedEntity)) getAllCachedEntities() {
+        return cachedObjects;
+    }
+
+
+    public void close() {
+
+    }
+
+
+    public void flush() {
+
+    }
+}

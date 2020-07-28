@@ -23,18 +23,23 @@ import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntityImpl;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import flow.task.service.impl.persistence.entity.data.HistoricTaskInstanceDataManager;
-import flow.task.service.impl.util.CommandContextUtil;
+//import flow.task.service.impl.util.CommandContextUtil;
 import hunt.logging;
 import hunt.entity;
 import hunt.Exceptions;
 import hunt.collection.ArrayList;
 import flow.common.AbstractEngineConfiguration;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.engine.impl.util.CommandContextUtil;
+import flow.common.persistence.entity.Entity;
+import flow.common.context.Context;
 /**
  * @author Joram Barrez
  */
 //EntityRepository!( HistoricTaskLogEntryEntityImpl , string)
 //class MybatisHistoricTaskInstanceDataManager : AbstractDataManager!HistoricTaskInstanceEntity , HistoricTaskInstanceDataManager {
-class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskInstanceEntityImpl , string) , HistoricTaskInstanceDataManager {
+class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskInstanceEntityImpl , string) , HistoricTaskInstanceDataManager, DataManger {
     //
     //class<? extends HistoricTaskInstanceEntity> getManagedEntityClass() {
     //    return HistoricTaskInstanceEntityImpl.class;
@@ -49,14 +54,38 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
      super(entityManagerFactory.currentEntityManager());
    }
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisHistoricTaskInstanceDataManager);
+    }
 
-    override
     public HistoricTaskInstanceEntity findById(string entityId) {
+      //if (entityId is null) {
+      //  return null;
+      //}
+      //
+      //return find(entityId);
+
       if (entityId is null) {
         return null;
       }
 
-      return find(entityId);
+      //return find(entityId);
+      auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(HistoricTaskInstanceEntityImpl),entityId);
+
+      if (entity !is null)
+      {
+        return cast(HistoricTaskInstanceEntity)entity;
+      }
+
+      HistoricTaskInstanceEntity dbData = cast(HistoricTaskInstanceEntity)(find(entityId));
+      if (dbData !is null)
+      {
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricTaskInstanceEntityImpl));
+      }
+
+      return dbData;
+
 
       // Cache
       //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
@@ -68,11 +97,27 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
       //return getDbSqlSession().selectById(getManagedEntityClass(), entityId, false);
     }
       //
-      override
-      public void insert(HistoricTaskInstanceEntity entity) {
-        insert(cast(HistoricTaskInstanceEntityImpl)entity);
-        //getDbSqlSession().insert(entity);
+    public void insert(HistoricTaskInstanceEntity entity) {
+      if (entity.getId() is null)
+      {
+        string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+        //if (dbSqlSessionFactory.isUsePrefixId()) {
+        //    id = entity.getIdPrefix() + id;
+        //}
+        entity.setId(id);
+
       }
+      entity.setInserted(true);
+      CommandContext.insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricTaskInstanceEntityImpl));
+    }
+
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      HistoricTaskInstanceEntityImpl tmp = cast(HistoricTaskInstanceEntityImpl)entity;
+      db.persist!HistoricTaskInstanceEntityImpl(tmp);
+    }
 
       override
       public HistoricTaskInstanceEntity update(HistoricTaskInstanceEntity entity) {

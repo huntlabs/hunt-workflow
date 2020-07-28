@@ -265,12 +265,12 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
 
     void setEndTime(LocalDateTime endTime)
     {
-        this.endTime = endTime.toEpochMilli / 1000;
+        this.endTime = endTime is null ? 0:  endTime.toEpochMilli / 1000;
     }
 
     void setStartTime(LocalDateTime startTime)
     {
-        this.startTime = startTime.toEpochMilli / 1000;
+        this.startTime = startTime is null ? 0 : startTime.toEpochMilli / 1000;
     }
 
      void setDurationInMillis(long durationInMillis)

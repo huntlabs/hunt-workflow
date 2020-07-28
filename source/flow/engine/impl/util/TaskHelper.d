@@ -182,7 +182,7 @@ class TaskHelper {
 
     public static void insertTask(TaskEntity taskEntity, ExecutionEntity execution, bool fireCreateEvent, bool addEntityLinks) {
         // Inherit tenant id (if applicable)
-        if (execution !is null && execution.getTenantId() !is null && execution.getTenantId().length != 0) {
+        if (execution !is null && execution.getTenantId() !is null) {
             taskEntity.setTenantId(execution.getTenantId());
         }
 

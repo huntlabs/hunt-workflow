@@ -13,8 +13,9 @@
 
 module flow.engine.impl.persistence.entity.ActivityInstanceEntityManagerImpl;
 
+import hunt.logging;
 //import  flow.engine.impl.util.CommandContextUtil.getEntityCache;
-
+import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;
@@ -38,6 +39,8 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.HistoricActivityInstanceEntity;
 import hunt.Exceptions;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
+//import flow.task.service.impl.util.CommandContextUtil;
+import flow.engine.impl.persistence.entity.ActivityInstanceEntityImpl;
 /**
  * @author martin.grofcik
  */
@@ -331,20 +334,20 @@ class ActivityInstanceEntityManagerImpl
     }
 
     protected ActivityInstanceEntity getActivityInstanceFromCache(string executionId, string activityId, bool endTimeMustBeNull) {
-        implementationMissing(false);
-        return null;
-        //List!ActivityInstanceEntity cachedActivityInstances = getEntityCache().findInCache(ActivityInstanceEntity.class);
-        //foreach (ActivityInstanceEntity cachedActivityInstance ; cachedActivityInstances) {
-        //    if (activityId !is null
-        //        && activityId.equals(cachedActivityInstance.getActivityId())
-        //        && (!endTimeMustBeNull || cachedActivityInstance.getEndTime() is null)) {
-        //        if (executionId.equals(cachedActivityInstance.getExecutionId())) {
-        //            return cachedActivityInstance;
-        //        }
-        //    }
-        //}
-        //
+       // implementationMissing(false);
         //return null;
+        List!Entity cachedActivityInstances = CommandContextUtil.getEntityCache().findInCache(typeid(ActivityInstanceEntityImpl));
+        foreach (Entity cachedActivityInstance ; cachedActivityInstances) {
+            if (activityId !is null
+                && activityId == ((cast(ActivityInstanceEntity)cachedActivityInstance).getActivityId())
+                && (!endTimeMustBeNull || (cast(ActivityInstanceEntity)cachedActivityInstance).getEndTime() is null)) {
+                if (executionId == ((cast(ActivityInstanceEntity)cachedActivityInstance).getExecutionId())) {
+                    return cast(ActivityInstanceEntity)cachedActivityInstance;
+                }
+            }
+        } //ActivityInstanceEntity
+
+        return null;
     }
 
     protected string parseActivityType(FlowElement element) {

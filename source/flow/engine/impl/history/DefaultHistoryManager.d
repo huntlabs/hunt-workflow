@@ -226,7 +226,7 @@ class DefaultHistoryManager : AbstractHistoryManager {
                 task.setProcessInstanceId(execution.getProcessInstanceId());
                 task.setProcessDefinitionId(execution.getProcessDefinitionId());
 
-                if (execution.getTenantId() !is null && execution.getTenantId().length != 0) {
+                if (execution.getTenantId() !is null) {
                     task.setTenantId(execution.getTenantId());
                 }
             }

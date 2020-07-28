@@ -33,10 +33,15 @@ import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.runtime.Clockm;
 import hunt.logging;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author martin.grofcik
  */
-class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEntityImpl , string) , ActivityInstanceDataManager {
+class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEntityImpl , string) , ActivityInstanceDataManager, DataManger {
 
     //protected CachedEntityMatcher!ActivityInstanceEntity unfinishedActivityInstanceMatcher = new UnfinishedActivityInstanceMatcher();
     //protected CachedEntityMatcher!ActivityInstanceEntity activityInstanceMatcher = new ActivityInstanceMatcher();
@@ -48,6 +53,10 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
 
      private ProcessEngineConfigurationImpl processEngineConfiguration;
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(ActivityInstanceEntityImpl);
+    }
 
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
       return processEngineConfiguration;
@@ -72,13 +81,45 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
       return null;
     }
 
-    return find(entityId);
+    //return find(entityId);
+    auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(ActivityInstanceEntityImpl),entityId);
+
+    if (entity !is null)
+    {
+      return cast(ActivityInstanceEntity)entity;
+    }
+
+    ActivityInstanceEntity dbData = cast(ActivityInstanceEntity)(find(entityId));
+    if (dbData !is null)
+    {
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ActivityInstanceEntityImpl));
+    }
+
+    return dbData;
   }
   //
   public void insert(ActivityInstanceEntity entity) {
-    insert(cast(ActivityInstanceEntityImpl)entity);
+    //insert(cast(ActivityInstanceEntityImpl)entity);
     //getDbSqlSession().insert(entity);
+      if (entity.getId() is null) {
+        string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+        //if (dbSqlSessionFactory.isUsePrefixId()) {
+        //    id = entity.getIdPrefix() + id;
+        //}
+        entity.setId(id);
+      }
+      entity.setInserted(true);
+      CommandContext.insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(ActivityInstanceEntityImpl));
   }
+
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      ActivityInstanceEntityImpl tmp = cast(ActivityInstanceEntityImpl)entity;
+      db.persist!ActivityInstanceEntityImpl(tmp);
+    }
+
   public ActivityInstanceEntity update(ActivityInstanceEntity entity) {
     return  update(cast(ActivityInstanceEntityImpl)entity);
     //getDbSqlSession().update(entity);

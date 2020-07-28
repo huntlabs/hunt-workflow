@@ -53,11 +53,24 @@ import flow.engine.impl.bpmn.parser.factory.AbstractBehaviorFactory;
 import flow.engine.impl.bpmn.parser.factory.ListenerFactory;
 import std.concurrency : initOnce;
 import std.string;
+import hunt.collection.List;
+import hunt.collection.ArrayList;
+import flow.engine.impl.persistence.entity.data.impl.MybatisProcessDefinitionDataManager;
+import flow.engine.impl.persistence.entity.data.impl.MybatisExecutionDataManager;
+import flow.engine.impl.persistence.entity.data.impl.MybatisDeploymentDataManager;
+import flow.engine.impl.persistence.entity.data.impl.MybatisResourceDataManager;
+import flow.engine.impl.persistence.entity.data.impl.MybatisHistoricProcessInstanceDataManager;
+import flow.engine.impl.persistence.entity.data.impl.MybatisActivityInstanceDataManager;
+import flow.engine.impl.persistence.entity.data.impl.MybatisHistoricActivityInstanceDataManager;
+import flow.task.service.impl.persistence.entity.data.impl.MybatisTaskDataManager;
+import flow.task.service.impl.persistence.entity.data.impl.MybatisHistoricTaskInstanceDataManager;
 /**
  * Default implementation of the {@link ListenerFactory}. Used when no custom {@link ListenerFactory} is injected on the {@link ProcessEngineConfigurationImpl}.
  *
  * @author Joram Barrez
  */
+static List!TypeInfo insertOrder;
+
 class DefaultListenerFactory : AbstractBehaviorFactory , ListenerFactory {
     private ClassDelegateFactory classDelegateFactory;
 
@@ -84,6 +97,20 @@ class DefaultListenerFactory : AbstractBehaviorFactory , ListenerFactory {
         ENTITY_MAPPING.put("process-definition", typeid(ProcessDefinition));
         ENTITY_MAPPING.put("process-instance", typeid(ProcessInstance));
         ENTITY_MAPPING.put("task", typeid(Task));
+
+        if (insertOrder is null)
+        {
+          insertOrder = new ArrayList!TypeInfo;
+          insertOrder.add(typeid(MybatisHistoricTaskInstanceDataManager));
+          insertOrder.add(typeid(MybatisHistoricProcessInstanceDataManager));
+          insertOrder.add(typeid(MybatisHistoricActivityInstanceDataManager));
+          insertOrder.add(typeid(MybatisProcessDefinitionDataManager));
+          insertOrder.add(typeid(MybatisExecutionDataManager));
+          insertOrder.add(typeid(MybatisActivityInstanceDataManager));
+          insertOrder.add(typeid(MybatisTaskDataManager));
+          insertOrder.add(typeid(MybatisDeploymentDataManager));
+          insertOrder.add(typeid(MybatisResourceDataManager));
+        }
     }
 
 

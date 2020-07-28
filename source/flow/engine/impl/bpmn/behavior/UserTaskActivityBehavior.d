@@ -131,10 +131,11 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         if (beforeContext.getName() !is null && beforeContext.getName().length != 0) {
             string name = null;
             try {
-                Object nameValue = expressionManager.createExpression(beforeContext.getName()).getValue(execution);
-                if (nameValue !is null) {
-                    name = (cast(String)nameValue).value;
-                }
+                //Object nameValue = expressionManager.createExpression(beforeContext.getName()).getValue(execution);
+                //if (nameValue !is null) {
+                //    name = (cast(String)nameValue).value;
+                //}
+                name = beforeContext.getName();
             } catch (FlowableException e) {
                 name = beforeContext.getName();
                 logWarning("property not found in task name expression {}");
@@ -145,10 +146,12 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         if (beforeContext.getDescription() !is null && beforeContext.getDescription().length != 0) {
             string description = null;
             try {
-                Object descriptionValue = expressionManager.createExpression(beforeContext.getDescription()).getValue(execution);
-                if (descriptionValue !is null) {
-                    description = (cast(String)descriptionValue).value;
-                }
+                //Object descriptionValue = expressionManager.createExpression(beforeContext.getDescription()).getValue(execution);
+                //if (descriptionValue !is null) {
+                //    description = (cast(String)descriptionValue).value;
+                //}
+                implementationMissing(false);
+                description = beforeContext.getDescription();
             } catch (FlowableException e) {
                 description = beforeContext.getDescription();
                 logWarning("property not found in task description expression {}");
@@ -181,29 +184,33 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         }
 
         if (beforeContext.getPriority() !is null && beforeContext.getPriority().length != 0) {
-            Object priority = expressionManager.createExpression(beforeContext.getPriority()).getValue(execution);
-            if (priority !is null) {
-                if (cast(String)priority !is null) {
-                    try {
-                        task.setPriority(to!int((cast(String)priority).value));
-                    } catch (NumberFormatException e) {
-                        throw new FlowableIllegalArgumentException("Priority does not resolve to a number: " ~ priority.toString, e);
-                    }
-                } else if (cast(Number)priority !is null) {
-                    task.setPriority((cast(Number) priority).intValue());
-                } else {
-                    throw new FlowableIllegalArgumentException("Priority expression does not resolve to a number: " ~ activeTaskPriority);
-                }
-            }
+            //Object priority = expressionManager.createExpression(beforeContext.getPriority()).getValue(execution);
+            implementationMissing(false);
+            //string priority = beforeContext.getPriority();
+            //if (priority !is null) {
+            //    if (cast(String)priority !is null) {
+            //        try {
+            //            task.setPriority(to!int((cast(String)priority).value));
+            //        } catch (NumberFormatException e) {
+            //            throw new FlowableIllegalArgumentException("Priority does not resolve to a number: " ~ priority.toString, e);
+            //        }
+            //    } else if (cast(Number)priority !is null) {
+            //        task.setPriority((cast(Number) priority).intValue());
+            //    } else {
+            //        throw new FlowableIllegalArgumentException("Priority expression does not resolve to a number: " ~ activeTaskPriority);
+            //    }
+            //}
         }
 
         if (beforeContext.getCategory() !is null && beforeContext.getCategory().length != 0) {
             string category = null;
             try {
-                Object categoryValue = expressionManager.createExpression(beforeContext.getCategory()).getValue(execution);
-                if (categoryValue !is null) {
-                    category = (cast(String)categoryValue).value;
-                }
+                //Object categoryValue = expressionManager.createExpression(beforeContext.getCategory()).getValue(execution);
+                //if (categoryValue !is null) {
+                //    category = (cast(String)categoryValue).value;
+                //}
+                implementationMissing(false);
+                category = beforeContext.getCategory();
             }  catch (FlowableException e) {
                 category = beforeContext.getCategory();
                 logWarning("property not found in task category expression {}");
@@ -214,10 +221,12 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         if (beforeContext.getFormKey() !is null && beforeContext.getFormKey().length != 0) {
             string formKey = null;
             try {
-                Object formKeyValue = expressionManager.createExpression(beforeContext.getFormKey()).getValue(execution);
-                if (formKeyValue !is null) {
-                    formKey = (cast(String)formKeyValue).value;
-                }
+                //Object formKeyValue = expressionManager.createExpression(beforeContext.getFormKey()).getValue(execution);
+                //if (formKeyValue !is null) {
+                //    formKey = (cast(String)formKeyValue).value;
+                //}
+                implementationMissing(false);
+                formKey = beforeContext.getFormKey();
             } catch (FlowableException e) {
                 formKey = beforeContext.getFormKey();
                 logWarning("property not found in task formKey expression {}");

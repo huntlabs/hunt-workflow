@@ -32,10 +32,15 @@ import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
 import flow.common.runtime.Clockm;
 import hunt.logging;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricActivityInstanceEntityImpl , string) , HistoricActivityInstanceDataManager {
+class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricActivityInstanceEntityImpl , string) , HistoricActivityInstanceDataManager ,DataManger{
 
     //protected CachedEntityMatcher!HistoricActivityInstanceEntity unfinishedHistoricActivityInstanceMatcher = new UnfinishedHistoricActivityInstanceMatcher();
     //protected CachedEntityMatcher!HistoricActivityInstanceEntity historicActivityInstanceMatcher = new HistoricActivityInstanceMatcher();
@@ -59,6 +64,10 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
       super(entityManagerFactory.currentEntityManager());
     }
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisHistoricActivityInstanceDataManager);
+    }
 
     //class<? : ResourceEntity> getManagedEntityClass() {
     //    return ResourceEntityImpl.class;
@@ -69,13 +78,44 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
       return null;
     }
 
-    return find(entityId);
+    auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(HistoricActivityInstanceEntityImpl),entityId);
+
+    if (entity !is null)
+    {
+        return cast(HistoricActivityInstanceEntity)entity;
+    }
+
+    HistoricActivityInstanceEntity dbData = cast(HistoricActivityInstanceEntity)(find(entityId));
+    if (dbData !is null)
+    {
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricActivityInstanceEntityImpl));
+    }
+
+    return dbData;
   }
   //
   public void insert(HistoricActivityInstanceEntity entity) {
-    insert(cast(HistoricActivityInstanceEntityImpl)entity);
+    //insert(cast(HistoricActivityInstanceEntityImpl)entity);
     //getDbSqlSession().insert(entity);
+    if (entity.getId() is null) {
+      string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+      //if (dbSqlSessionFactory.isUsePrefixId()) {
+      //    id = entity.getIdPrefix() + id;
+      //}
+      entity.setId(id);
+    }
+    entity.setInserted(true);
+    CommandContext.insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricActivityInstanceEntityImpl));
   }
+
+  public void insertTrans(Entity entity , EntityManager db)
+  {
+    //auto em = _manager ? _manager : createEntityManager;
+    HistoricActivityInstanceEntityImpl tmp = cast(HistoricActivityInstanceEntityImpl)entity;
+    db.persist!HistoricActivityInstanceEntityImpl(tmp);
+  }
+
   public HistoricActivityInstanceEntity update(HistoricActivityInstanceEntity entity) {
     return  update(cast(HistoricActivityInstanceEntityImpl)entity);
     //getDbSqlSession().update(entity);

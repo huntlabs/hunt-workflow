@@ -11,6 +11,11 @@
  * limitations under the License.
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisExecutionDataManager;
+
+import flow.engine.impl.util.CommandContextUtil;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
 import flow.common.context.Context;
 import hunt.collection;
 import hunt.time.LocalDateTime;
@@ -49,10 +54,11 @@ import flow.common.runtime.Clockm;
 import hunt.logging;
 import hunt.collection.ArrayList;
 import hunt.entity;
+
 /**
  * @author Joram Barrez
  */
-class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , string) , ExecutionDataManager {
+class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , string) , ExecutionDataManager , DataManger{
 //class MybatisExecutionDataManager : AbstractProcessDataManager!ExecutionEntity implements ExecutionDataManager {
 
     alias findById = CrudRepository!(ExecutionEntityImpl , string).findById;
@@ -77,6 +83,10 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
       super(entityManagerFactory.currentEntityManager());
     }
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisExecutionDataManager);
+    }
     //protected CachedEntityMatcher!ExecutionEntity executionsByParentIdMatcher = new ExecutionsByParentExecutionIdEntityMatcher();
     //
     //protected CachedEntityMatcher!ExecutionEntity executionsByProcessInstanceIdMatcher = new ExecutionsByProcessInstanceIdEntityMatcher();
@@ -120,11 +130,23 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
       entity.setId(id);
 
     }
+    entity.setInserted(true);
+    CommandContext.insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(ExecutionEntityImpl));
     //ResourceEntityImpl tmp = cast(ResourceEntityImpl)entity;
-    insert(cast(ExecutionEntityImpl)entity);
+    //insert(cast(ExecutionEntityImpl)entity);
     //insert(cast(ExecutionEntityImpl)entity);
     //getDbSqlSession().insert(entity);
   }
+
+  public void insertTrans(Entity entity , EntityManager db)
+  {
+    //auto em = _manager ? _manager : createEntityManager;
+    ExecutionEntityImpl tmp = cast(ExecutionEntityImpl)entity;
+    db.persist!ExecutionEntityImpl(tmp);
+  }
+
+
   public ExecutionEntity update(ExecutionEntity entity) {
     return  update(cast(ExecutionEntityImpl)entity);
     //getDbSqlSession().update(entity);
@@ -148,11 +170,12 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
   }
 
   public ExecutionEntity findById(string executionId) {
-    //if (isExecutionTreeFetched(executionId)) {
-    //    return getEntityCache().findInCache(getManagedEntityClass(), executionId);
-    //}
-    //return super.findById(executionId);
-    return find(executionId);
+    if (isExecutionTreeFetched(executionId)) {
+        return cast(ExecutionEntity)(CommandContextUtil.getEntityCache().findInCache(typeid(ExecutionEntityImpl), executionId));
+    }
+    return selectById(executionId);
+   // return find(executionId);
+
   }
 
     public ExecutionEntity create() {
@@ -160,40 +183,69 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
     }
 
 
+    private ExecutionEntity selectById(string entityId)
+    {
+      if (entityId is null) {
+        return null;
+      }
 
+      auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(ExecutionEntityImpl),entityId);
+
+      if (entity !is null)
+      {
+        return cast(ExecutionEntity)entity;
+      }
+
+      ExecutionEntity dbData = cast(ExecutionEntity)(find(entityId));
+      if (dbData !is null)
+      {
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(ExecutionEntityImpl));
+      }
+
+      return dbData;
+    }
 
     /**
      * Fetches the execution tree related to the execution (if the process definition has been configured to do so)
      * @return True if the tree has been fetched, false otherwise or if fetching is disabled.
      */
     protected bool isExecutionTreeFetched( string executionId) {
-        implementationMissing(false);
-        return false;
         // The setting needs to be globally enabled
-        //if (!performanceSettings.isEnableEagerExecutionTreeFetching()) {
-        //    return false;
-        //}
-        //
-        //// Need to get the cache result before doing the findById
-        //ExecutionEntity cachedExecutionEntity = getEntityCache().findInCache(getManagedEntityClass(), executionId);
-        //
-        //// Find execution in db or cache to check process definition setting for execution fetch.
-        //// If not set, no extra work is done. The execution is in the cache however now as a side-effect of calling this method.
-        //ExecutionEntity executionEntity = (cachedExecutionEntity !is null) ? cachedExecutionEntity : super.findById(executionId);
-        //if (!ProcessDefinitionUtil.getProcess(executionEntity.getProcessDefinitionId()).isEnableEagerExecutionTreeFetching()) {
-        //    return false;
-        //}
-        //
-        //// If it's in the cache, the execution and its tree have been fetched before. No need to do anything more.
-        //if (cachedExecutionEntity !is null) {
-        //    return true;
-        //}
-        //
-        //// Fetches execution tree. This will store them in the cache and thus avoind extra database calls.
+        if (!performanceSettings.isEnableEagerExecutionTreeFetching()) {
+            return false;
+        }
+
+        // Need to get the cache result before doing the findById
+        ExecutionEntity cachedExecutionEntity = cast(ExecutionEntity)(CommandContextUtil.getEntityCache().findInCache(typeid(ExecutionEntityImpl), executionId));
+
+        // Find execution in db or cache to check process definition setting for execution fetch.
+        // If not set, no extra work is done. The execution is in the cache however now as a side-effect of calling this method.
+        ExecutionEntity executionEntity = null;// (cachedExecutionEntity !is null) ? cachedExecutionEntity : super.findById(executionId);
+
+        if (cachedExecutionEntity !is null)
+        {
+             executionEntity =  cachedExecutionEntity;
+        }else
+        {
+            executionEntity = selectById(executionId);
+        }
+
+
+        if (!ProcessDefinitionUtil.getProcess(executionEntity.getProcessDefinitionId()).isEnableEagerExecutionTreeFetching()) {
+            return false;
+        }
+
+        // If it's in the cache, the execution and its tree have been fetched before. No need to do anything more.
+        if (cachedExecutionEntity !is null) {
+            return true;
+        }
+
+         implementationMissing(false);
+        // Fetches execution tree. This will store them in the cache and thus avoind extra database calls.
         //getList("selectExecutionsWithSameRootProcessInstanceId", executionId,
         //        executionsWithSameRootProcessInstanceIdMatcher, true);
-        //
-        //return true;
+
+        return true;
     }
 
 

@@ -10,56 +10,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+module flow.common.persistence.cache.CachedEntity;
 
-//
-//import hunt.collection.HashMap;
-//
-//import flow.common.persistence.entity.Entity;
-//
-///**
-// * @author Joram Barrez
-// */
-//class CachedEntity {
-//
-//    /**
-//     * The actual {@link Entity} instance.
-//     */
-//    protected Entity entity;
-//
-//    /**
-//     * Represents the 'persistence state' at the moment this {@link CachedEntity} instance was created. It is used later on to determine if a {@link Entity} has been updated, by comparing the
-//     * 'persistent state' at that moment with this instance here.
-//     */
-//    protected Object originalPersistentState;
-//
-//    public CachedEntity(Entity entity, bool storeState) {
-//        this.entity = entity;
-//        if (storeState) {
-//            this.originalPersistentState = entity.getPersistentState();
-//            entity.setOriginalPersistentState(originalPersistentState);
-//        } else if (entity.getOriginalPersistentState() is null){
-//            entity.setOriginalPersistentState(new HashMap<>(1));
-//        }
-//    }
-//
-//    public Entity getEntity() {
-//        return entity;
-//    }
-//
-//    public void setEntity(Entity entity) {
-//        this.entity = entity;
-//    }
-//
-//    public Object getOriginalPersistentState() {
-//        return originalPersistentState;
-//    }
-//
-//    public void setOriginalPersistentState(Object originalPersistentState) {
-//        this.originalPersistentState = originalPersistentState;
-//    }
-//
-//    public bool hasChanged() {
-//        return entity.getPersistentState() !is null && !entity.getPersistentState().equals(originalPersistentState);
-//    }
-//
-//}
+import hunt.collection.HashMap;
+
+import flow.common.persistence.entity.Entity;
+
+/**
+ * @author Joram Barrez
+ */
+class CachedEntity {
+
+    /**
+     * The actual {@link Entity} instance.
+     */
+    protected Entity entity;
+
+    /**
+     * Represents the 'persistence state' at the moment this {@link CachedEntity} instance was created. It is used later on to determine if a {@link Entity} has been updated, by comparing the
+     * 'persistent state' at that moment with this instance here.
+     */
+    protected Object originalPersistentState;
+
+    this(Entity entity, bool storeState) {
+        this.entity = entity;
+        if (storeState) {
+            this.originalPersistentState = entity.getPersistentState();
+            entity.setOriginalPersistentState(originalPersistentState);
+        } else if (entity.getOriginalPersistentState() is null){
+            entity.setOriginalPersistentState(null);
+        }
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
+    public Object getOriginalPersistentState() {
+        return originalPersistentState;
+    }
+
+    public void setOriginalPersistentState(Object originalPersistentState) {
+        this.originalPersistentState = originalPersistentState;
+    }
+
+    public bool hasChanged() {
+        return entity.getPersistentState() !is null && entity.getPersistentState() != (originalPersistentState);
+    }
+
+}

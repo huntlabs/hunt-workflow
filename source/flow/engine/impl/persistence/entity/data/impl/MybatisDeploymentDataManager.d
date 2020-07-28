@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisDeploymentDataManager;
 
+import flow.engine.impl.util.CommandContextUtil;
 import flow.common.persistence.entity.Entity;
 import flow.common.interceptor.CommandContext;
 import flow.common.api.DataManger;
@@ -42,6 +43,10 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
     alias update = CrudRepository!(DeploymentEntityImpl , string).update;
     private ProcessEngineConfigurationImpl processEngineConfiguration;
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisDeploymentDataManager);
+    }
 
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
       return processEngineConfiguration;
@@ -66,7 +71,26 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
       return null;
     }
 
-    return find(entityId);
+    //return find(entityId);
+    auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(DeploymentEntityImpl),entityId);
+
+    if (entity !is null)
+    {
+      return cast(DeploymentEntity)entity;
+    }
+
+    DeploymentEntity dbData = cast(DeploymentEntity)(find(entityId));
+    if (dbData !is null)
+    {
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(DeploymentEntityImpl));
+    }
+
+    return dbData;
+    //if (entityId is null) {
+    //  return null;
+    //}
+    //
+    //return find(entityId);
   }
   //
   public void insert(DeploymentEntity entity) {
@@ -79,13 +103,9 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
         //}
         entity.setId(id);
     }
-    //insert(cast(DeploymentEntityImpl)entity);
-    //CommandContext commandContext = Context.getCommandContext();
-    //if (commandContext !is null)
-    //{
-    //  commandContext.insertJob[entity] = this;
-    //}
+    entity.setInserted(true);
     CommandContext.insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(DeploymentEntityImpl));
   }
 
   public void insertTrans(Entity entity , EntityManager db)

@@ -30,6 +30,7 @@ import flow.common.runtime.Clockm;
 import hunt.logging;
 import flow.common.interceptor.CommandContext;
 import flow.common.api.DataManger;
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
@@ -44,6 +45,11 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
 
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
       return processEngineConfiguration;
+    }
+
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisResourceDataManager);
     }
 
     public Clockm getClock() {
@@ -65,7 +71,21 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
       return null;
     }
 
-    return find(entityId);
+    //return find(entityId);
+    auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(ResourceEntityImpl),entityId);
+
+    if (entity !is null)
+    {
+      return cast(ResourceEntity)entity;
+    }
+
+    ResourceEntity dbData = cast(ResourceEntity)(find(entityId));
+    if (dbData !is null)
+    {
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ResourceEntityImpl));
+    }
+
+    return dbData;
   }
   //
   public void insert(ResourceEntity entity) {
@@ -78,14 +98,9 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
       entity.setId(id);
 
     }
-    //ResourceEntityImpl tmp = cast(ResourceEntityImpl)entity;
-     //CommandContext commandContext = Context.getCommandContext();
-     //if (commandContext !is null)
-     //{
-       CommandContext.insertJob[entity] = this;
-     //}
-     //insert(cast(ResourceEntityImpl)entity);
-    //getDbSqlSession().insert(entity);
+    entity.setInserted(true);
+    CommandContext.insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(ResourceEntityImpl));
   }
 
   public void insertTrans(Entity entity , EntityManager db)

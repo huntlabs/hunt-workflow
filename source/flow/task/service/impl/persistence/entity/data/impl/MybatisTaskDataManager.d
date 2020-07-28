@@ -29,15 +29,20 @@ import flow.task.service.impl.persistence.entity.data.TaskDataManager;
 //import flow.task.service.impl.persistence.entity.data.impl.cachematcher.TasksByProcessInstanceIdMatcher;
 //import flow.task.service.impl.persistence.entity.data.impl.cachematcher.TasksByScopeIdAndScopeTypeMatcher;
 //import flow.task.service.impl.persistence.entity.data.impl.cachematcher.TasksBySubScopeIdAndScopeTypeMatcher;
-import flow.task.service.impl.util.CommandContextUtil;
+//import flow.task.service.impl.util.CommandContextUtil;
 import hunt.logging;
 import hunt.entity;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.engine.impl.util.CommandContextUtil;
+import flow.common.persistence.entity.Entity;
+import flow.common.context.Context;
 /**
  * @author Joram Barrez
  */
-class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , TaskDataManager {
+class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , TaskDataManager , DataManger{
 
     //protected CachedEntityMatcher!TaskEntity tasksByExecutionIdMatcher = new TasksByExecutionIdMatcher();
     //
@@ -61,12 +66,39 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
     }
 
 
-  public TaskEntity findById(string entityId) {
-    if (entityId is null) {
-      return null;
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisTaskDataManager);
     }
 
-    return find(entityId);
+
+  public TaskEntity findById(string entityId) {
+    //if (entityId is null) {
+    //  return null;
+    //}
+    //
+    //return find(entityId);
+
+      if (entityId is null) {
+        return null;
+      }
+
+      //return find(entityId);
+      auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(TaskEntityImpl),entityId);
+
+      if (entity !is null)
+      {
+        return cast(TaskEntity)entity;
+      }
+
+      TaskEntity dbData = cast(TaskEntity)(find(entityId));
+      if (dbData !is null)
+      {
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(TaskEntityImpl));
+      }
+
+      return dbData;
+
 
     // Cache
     //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
@@ -77,11 +109,29 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
     // Database
     //return getDbSqlSession().selectById(getManagedEntityClass(), entityId, false);
   }
-      //
-      public void insert(TaskEntity entity) {
-        insert(cast(TaskEntityImpl)entity);
-        //getDbSqlSession().insert(entity);
+
+    public void insert(TaskEntity entity) {
+      if (entity.getId() is null)
+      {
+        string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+        //if (dbSqlSessionFactory.isUsePrefixId()) {
+        //    id = entity.getIdPrefix() + id;
+        //}
+        entity.setId(id);
+
       }
+      entity.setInserted(true);
+      CommandContext.insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(TaskEntityImpl));
+    }
+
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      TaskEntityImpl tmp = cast(TaskEntityImpl)entity;
+      db.persist!TaskEntityImpl(tmp);
+    }
+
       public TaskEntity update(TaskEntity entity) {
         return  update(cast(TaskEntityImpl)entity);
         //getDbSqlSession().update(entity);

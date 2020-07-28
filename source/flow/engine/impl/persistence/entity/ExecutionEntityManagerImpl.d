@@ -290,7 +290,7 @@ class ExecutionEntityManagerImpl
         // Store in database
         insert(processInstanceExecution, false);
 
-        if (initiatorVariableName !is null) {
+        if (initiatorVariableName !is null && initiatorVariableName.length != 0) {
           implementationMissing(false);
           //  processInstanceExecution.setVariable(initiatorVariableName, authenticatedUserId);
         }

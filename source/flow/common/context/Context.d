@@ -48,10 +48,10 @@ class Context {
           commandContextThreadLocal = new ArrayList!CommandContext;
         }
         if (commandContextThreadLocal.isEmpty()) {
-            logInfo("empty..........................");
+           // logInfo("empty..........................");
             return null;
         }
-        logInfo("nononononono   empty..........................");
+        //logInfo("nononononono   empty..........................");
         CommandContext rt = commandContextThreadLocal.get(0);
        // commandContextThreadLocal.removeAt(commandContextThreadLocal.size()-1);
         return rt;

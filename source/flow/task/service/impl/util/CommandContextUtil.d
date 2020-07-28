@@ -27,6 +27,7 @@ import flow.task.service.impl.persistence.entity.TaskEntityManager;
 import flow.task.service.impl.persistence.entity.HistoricTaskLogEntryEntityManager;
 import flow.variable.service.VariableServiceConfiguration;
 import flow.variable.service.impl.persistence.entity.VariableInstanceEntityManager;
+import flow.common.persistence.cache.EntityCache;
 
 class CommandContextUtil {
 
@@ -93,6 +94,8 @@ class CommandContextUtil {
     //public static DbSqlSession getDbSqlSession(CommandContext commandContext) {
     //    return commandContext.getSession(DbSqlSession.class);
     //}
+
+
 
     public static TaskEntityManager getTaskEntityManager() {
         return getTaskEntityManager(getCommandContext());

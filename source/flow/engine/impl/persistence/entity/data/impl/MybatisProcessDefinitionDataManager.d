@@ -12,6 +12,7 @@
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisProcessDefinitionDataManager;
 
+import flow.engine.impl.util.CommandContextUtil;
 import flow.common.persistence.entity.Entity;
 import flow.common.interceptor.CommandContext;
 import flow.common.api.DataManger;
@@ -58,7 +59,10 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
       super(entityManagerFactory.currentEntityManager());
     }
 
-
+    TypeInfo getTypeInfo()
+    {
+        return typeid(MybatisProcessDefinitionDataManager);
+    }
     //class<? : ResourceEntity> getManagedEntityClass() {
     //    return ResourceEntityImpl.class;
     //}
@@ -68,7 +72,21 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
       return null;
     }
 
-    return find(entityId);
+    //return find(entityId);
+    auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(ProcessDefinitionEntityImpl),entityId);
+
+    if (entity !is null)
+    {
+      return cast(ProcessDefinitionEntity)entity;
+    }
+
+    ProcessDefinitionEntity dbData = cast(ProcessDefinitionEntity)(find(entityId));
+    if (dbData !is null)
+    {
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ProcessDefinitionEntityImpl));
+    }
+
+    return dbData;
   }
   //
   public void insert(ProcessDefinitionEntity entity) {
@@ -82,7 +100,9 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
       //}
       entity.setId(id);
     }
+    entity.setInserted(true);
     CommandContext.insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(ProcessDefinitionEntityImpl));
     //insert(cast(ProcessDefinitionEntityImpl)entity);
     //CommandContext commandContext = Context.getCommandContext();
     //if (commandContext !is null)

@@ -19,7 +19,7 @@
 module flow.engine.impl.util.CommandContextUtil;
 
 
-
+import flow.common.persistence.cache.EntityCache;
 import hunt.Exceptions;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
@@ -542,6 +542,16 @@ class CommandContextUtil {
     //public static EntityCache getEntityCache(CommandContext commandContext) {
     //    return commandContext.getSession(EntityCache.class);
     //}
+
+  public static EntityCache getEntityCache()
+  {
+    return getEntityCache(getCommandContext());
+  }
+
+  public static EntityCache getEntityCache(CommandContext commandContext)
+  {
+    return commandContext.getSession();
+  }
 
     public static void addInvolvedExecution(CommandContext commandContext, ExecutionEntity executionEntity) {
         if (executionEntity.getId() !is null && executionEntity.getId().length != 0) {

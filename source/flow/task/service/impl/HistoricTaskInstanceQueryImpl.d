@@ -27,7 +27,7 @@ import flow.common.api.scop.ScopeTypes;
 import flow.common.context.Context;
 import flow.common.interceptor.CommandContext;
 import flow.common.interceptor.CommandExecutor;
-//import flow.common.persistence.cache.EntityCache;
+import flow.common.persistence.cache.EntityCache;
 import flow.idm.api.Group;
 import flow.idm.api.IdmIdentityService;
 import flow.task.api.history.HistoricTaskInstance;

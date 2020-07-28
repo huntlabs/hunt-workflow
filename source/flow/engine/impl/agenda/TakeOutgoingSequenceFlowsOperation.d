@@ -42,7 +42,7 @@ import flow.engine.impl.persistence.entity.ExecutionEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntityManager;
 //import flow.engine.impl.util.BpmnLoggingSessionUtil;
 import flow.engine.impl.util.CommandContextUtil;
-//import flow.engine.impl.util.condition.ConditionUtil;
+import flow.engine.impl.util.condition.ConditionUtil;
 
 import flow.engine.impl.agenda.AbstractOperation;
 import hunt.logging;
@@ -147,11 +147,11 @@ class TakeOutgoingSequenceFlowsOperation : AbstractOperation {
         foreach (SequenceFlow sequenceFlow ; flowNode.getOutgoingFlows()) {
             string skipExpressionString = sequenceFlow.getSkipExpression();
             if (!SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {
-                implementationMissing(false);
-                //if (!evaluateConditions
-                //        || (evaluateConditions && ConditionUtil.hasTrueCondition(sequenceFlow, execution) && (defaultSequenceFlowId is null || !defaultSequenceFlowId.equals(sequenceFlow.getId())))) {
-                //    outgoingSequenceFlows.add(sequenceFlow);
-                //}
+                //implementationMissing(false);
+                if (!evaluateConditions
+                        || (evaluateConditions && ConditionUtil.hasTrueCondition(sequenceFlow, execution) && (defaultSequenceFlowId is null || defaultSequenceFlowId != (sequenceFlow.getId())))) {
+                    outgoingSequenceFlows.add(sequenceFlow);
+                }
 
             } else if (flowNode.getOutgoingFlows().size() == 1 || SkipExpressionUtil.shouldSkipFlowElement(
                             skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {

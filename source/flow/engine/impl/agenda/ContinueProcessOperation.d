@@ -383,7 +383,7 @@ class ContinueProcessOperation : AbstractOperation {
     }
 
     protected void executeBoundaryEvents(List!BoundaryEvent boundaryEvents, List!ExecutionEntity boundaryEventExecutions) {
-        if (!(boundaryEventExecutions.isEmpty())) {
+        if (boundaryEventExecutions !is null && !(boundaryEventExecutions.isEmpty())) {
             InputRange!BoundaryEvent boundaryEventsIterator = boundaryEvents.iterator();
             InputRange!ExecutionEntity boundaryEventExecutionsIterator = boundaryEventExecutions.iterator();
 

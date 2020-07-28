@@ -134,11 +134,11 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
     }
 
     public Date getStartTime() {
-        return Date.ofEpochMilli(startTime);
+        return startTime == 0 ? null :Date.ofEpochMilli(startTime);
     }
 
     public Date getEndTime() {
-        return  Date.ofEpochMilli(endTime);
+        return  endTime == 0? null : Date.ofEpochMilli(endTime);
     }
 
     public long getDurationInMillis() {

@@ -38,11 +38,15 @@ import flow.common.interceptor.Session;
 import flow.common.interceptor.CommandContextCloseListener;
 import hunt.Exceptions;
 import flow.common.persistence.entity.Entity;
+import flow.engine.impl.bpmn.parser.factory.DefaultListenerFactory;
+import flow.common.persistence.cache.EntityCache;
+import flow.common.persistence.cache.EntityCacheImpl;
 /**
  * @author Tom Baeyens
  * @author Agim Emruli
  * @author Joram Barrez
  */
+
 class CommandContext {
 
     protected Map!(string, AbstractEngineConfiguration) engineConfigurations;
@@ -55,6 +59,10 @@ class CommandContext {
     protected Map!(string, Object) attributes; // General-purpose storing of anything during the lifetime of a command context
     protected bool reused;
     protected LinkedList!Object resultStack ;//= new LinkedList<>(); // needs to be a stack, as JavaDelegates can do api calls again
+    protected EntityCache entityCache;
+
+
+
     static DataManger[Entity] insertJob;
 
 
@@ -62,6 +70,12 @@ class CommandContext {
         this.command = command;
         sessions =  new HashMap!(TypeInfo, Session);
         resultStack = new LinkedList!Object;
+        entityCache = new EntityCacheImpl();
+    }
+
+    public EntityCache getSession()
+    {
+        return entityCache;
     }
 
     public void close() {
@@ -209,10 +223,19 @@ class CommandContext {
          auto em = entityManagerFactory.currentEntityManager();
          logInfof("size!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d",insertJob.length);
          em.getTransaction().begin();
-         foreach (k ,v ; insertJob)
+
+         foreach (TypeInfo type ; insertOrder)
          {
-            v.insertTrans(k,em);
+             foreach (k ,v ; insertJob)
+             {
+               logInfof("type!!!!!!!!!!!!!  %s  ---  %s", typeid(v).toString , type.toString );
+               if (v.getTypeInfo() == type)
+               {
+                 v.insertTrans(k,em);
+               }
+             }
          }
+
          em.getTransaction().commit();
          insertJob.clear;
         //foreach (Session session ; sessions.values()) {
