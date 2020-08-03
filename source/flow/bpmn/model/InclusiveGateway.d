@@ -32,6 +32,11 @@ class InclusiveGateway : Gateway {
         clone.setValues(this);
         return clone;
     }
+    override
+    string getClassType()
+    {
+      return "inclusiveGateway";
+    }
 
     public void setValues(InclusiveGateway otherElement) {
         super.setValues(otherElement);

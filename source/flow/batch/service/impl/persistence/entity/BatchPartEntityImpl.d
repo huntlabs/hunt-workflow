@@ -55,10 +55,10 @@ class BatchPartEntityImpl : AbstractBatchServiceEntity , Model, BatchPartEntity 
      string batchSearchKey2;
 
      @Column("CREATE_TIME_")
-     int createTime;
+     long createTime;
 
      @Column("COMPLETE_TIME_")
-     int completeTime;
+     long completeTime;
 
      @Column("STATUS_")
      string status;
@@ -126,22 +126,22 @@ class BatchPartEntityImpl : AbstractBatchServiceEntity , Model, BatchPartEntity 
 
 
     public Date getCreateTime() {
-        return Date.ofEpochMilli(cast(long)createTime);
+        return Date.ofEpochMilli(createTime * 1000);
     }
 
 
     public void setCreateTime(Date time) {
-        this.createTime = cast(int)time.toEpochMilli() / 1000;
+        this.createTime = time.toEpochMilli() / 1000;
     }
 
 
     public Date getCompleteTime() {
-        return Date.ofEpochMilli(cast(long)completeTime);
+        return Date.ofEpochMilli(completeTime *1000);
     }
 
 
     public void setCompleteTime(Date time) {
-        this.completeTime = cast(int)time.toEpochMilli() / 1000;
+        this.completeTime = time.toEpochMilli() / 1000;
     }
 
 

@@ -131,7 +131,9 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
         HistoricTaskInstanceEntity entity = findById(id);
         if (entity !is null)
         {
-          remove(cast(HistoricTaskInstanceEntityImpl)entity);
+          CommandContext.deleteJob[entity] = this;
+          entity.setDeleted(true);
+          //remove(cast(HistoricTaskInstanceEntityImpl)entity);
         }
         //delete(entity);
       }
@@ -140,9 +142,17 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
       public void dele(HistoricTaskInstanceEntity entity) {
         if (entity !is null)
         {
-          remove(cast(HistoricTaskInstanceEntityImpl)entity);
+          CommandContext.deleteJob[entity] = this;
+          entity.setDeleted(true);
+          //remove(cast(HistoricTaskInstanceEntityImpl)entity);
         }
         //getDbSqlSession().delete(entity);
+      }
+
+
+      void deleteTrans(Entity entity , EntityManager db)
+      {
+        db.remove!HistoricTaskInstanceEntityImpl(cast(HistoricTaskInstanceEntityImpl)entity);
       }
 
     override

@@ -68,16 +68,15 @@ class DefaultIdentityLinkInterceptor : IdentityLinkInterceptor {
     }
 
     protected void addUserIdentityLinkToParent(Task task, string userId) {
-        implementationMissing(false);
-        //if (userId !is null && task.getProcessInstanceId() !is null) {
-        //    ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
-        //    for (IdentityLinkEntity identityLink : processInstanceEntity.getIdentityLinks()) {
-        //        if (identityLink.isUser() && identityLink.getUserId().equals(userId) && IdentityLinkType.PARTICIPANT.equals(identityLink.getType())) {
-        //            return;
-        //        }
-        //    }
-        //
-        //    IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity, userId, null, IdentityLinkType.PARTICIPANT);
-        //}
+        if (userId !is null && task.getProcessInstanceId() !is null) {
+            ExecutionEntity processInstanceEntity = CommandContextUtil.getExecutionEntityManager().findById(task.getProcessInstanceId());
+            foreach (IdentityLinkEntity identityLink ; processInstanceEntity.getIdentityLinks()) {
+                if (identityLink.isUser() && identityLink.getUserId() == userId && IdentityLinkType.PARTICIPANT == (identityLink.getType())) {
+                    return;
+                }
+            }
+
+            IdentityLinkUtil.createProcessInstanceIdentityLink(processInstanceEntity, userId, null, IdentityLinkType.PARTICIPANT);
+        }
     }
 }

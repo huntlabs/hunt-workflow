@@ -140,19 +140,23 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
     private Collection!string cachedCandidateGroups;
 
     this() {
+        orQueryObjects = new ArrayList!TaskQueryImpl;
     }
 
     this(CommandContext commandContext) {
         super(commandContext);
+        orQueryObjects = new ArrayList!TaskQueryImpl;
     }
 
     this(CommandExecutor commandExecutor) {
         super(commandExecutor);
+        orQueryObjects = new ArrayList!TaskQueryImpl;
     }
 
     this(CommandExecutor commandExecutor, string databaseType) {
         super(commandExecutor);
         this.databaseType = databaseType;
+        orQueryObjects = new ArrayList!TaskQueryImpl;
     }
 
 
@@ -1653,7 +1657,7 @@ class TaskQueryImpl : AbstractVariableQueryImpl!(TaskQuery, Task) , TaskQuery, Q
             taskServiceConfiguration.getTaskQueryInterceptor().beforeTaskQueryExecute(this);
         }
 
-        if (includeTaskLocalVariables || includeProcessVariables || includeIdentityLinks) {
+        if (_includeTaskLocalVariables || _includeProcessVariables || _includeIdentityLinks) {
             tasks = CommandContextUtil.getTaskEntityManager(commandContext).findTasksWithRelatedEntitiesByQueryCriteria(this);
 
             if (_taskId !is null && _taskId.length != 0) {

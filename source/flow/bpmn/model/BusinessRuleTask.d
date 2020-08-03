@@ -41,6 +41,11 @@ class BusinessRuleTask : Task {
       ruleNames = new ArrayList!string;
       inputVariables = new ArrayList!string;
     }
+    override
+    string getClassType()
+    {
+      return "businessRuleTask";
+    }
 
     public bool isExclude() {
         return exclude;

@@ -50,7 +50,14 @@ class CaseServiceTask : ServiceTask {
          outParameters = new ArrayList!IOParameter;
     }
 
-    public string getCaseDefinitionKey() {
+    override
+    string getClassType()
+    {
+      return "caseServiceTask";
+    }
+
+
+  public string getCaseDefinitionKey() {
         return caseDefinitionKey;
     }
 

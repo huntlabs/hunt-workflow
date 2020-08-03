@@ -107,7 +107,7 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
     //CommandContext commandContext = Context.getCommandContext();
     //if (commandContext !is null)
     //{
-    //  commandContext.insertJob[entity] = this;
+    //  CommandContext.insertJob[entity] = this;
     //}
   }
 
@@ -128,7 +128,9 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
     ProcessDefinitionEntity entity = findById(id);
     if (entity !is null)
     {
-      remove(cast(ProcessDefinitionEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(ProcessDefinitionEntityImpl)entity);
     }
     //delete(entity);
   }
@@ -136,10 +138,17 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
   public void dele(ProcessDefinitionEntity entity) {
     if (entity !is null)
     {
-      remove(cast(ProcessDefinitionEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(ProcessDefinitionEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
   }
+
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!ProcessDefinitionEntityImpl(cast(ProcessDefinitionEntityImpl)entity);
+    }
 
     public ProcessDefinitionEntity create() {
         return new ProcessDefinitionEntityImpl();

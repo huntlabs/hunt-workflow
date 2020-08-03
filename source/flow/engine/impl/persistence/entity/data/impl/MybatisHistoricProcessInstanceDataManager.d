@@ -122,7 +122,9 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
     HistoricProcessInstanceEntity entity = findById(id);
     if (entity !is null)
     {
-      remove(cast(HistoricProcessInstanceEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(HistoricProcessInstanceEntityImpl)entity);
     }
     //delete(entity);
   }
@@ -130,9 +132,16 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
   public void dele(HistoricProcessInstanceEntity entity) {
     if (entity !is null)
     {
-      remove(cast(HistoricProcessInstanceEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(HistoricProcessInstanceEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
+  }
+
+  void deleteTrans(Entity entity , EntityManager db)
+  {
+    db.remove!HistoricProcessInstanceEntityImpl(cast(HistoricProcessInstanceEntityImpl)entity);
   }
 
     //

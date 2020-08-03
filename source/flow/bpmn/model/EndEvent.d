@@ -33,6 +33,12 @@ class EndEvent : Event {
         return clone;
     }
 
+    override
+    string getClassType()
+    {
+      return "endEvent";
+    }
+
     public void setValues(EndEvent otherEvent) {
         super.setValues(otherEvent);
     }

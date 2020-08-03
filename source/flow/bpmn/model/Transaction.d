@@ -21,4 +21,10 @@ class Transaction : SubProcess {
   alias setValues = FlowNode.setValues;
   alias setValues = Activity.setValues;
   alias setValues = SubProcess.setValues;
+
+  override
+    string getClassType()
+  {
+    return "transaction";
+  }
 }

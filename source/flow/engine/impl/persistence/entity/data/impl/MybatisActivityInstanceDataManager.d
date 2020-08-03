@@ -55,7 +55,7 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
 
     TypeInfo getTypeInfo()
     {
-      return typeid(ActivityInstanceEntityImpl);
+      return typeid(MybatisActivityInstanceDataManager);
     }
 
     public ProcessEngineConfigurationImpl getProcessEngineConfiguration() {
@@ -129,7 +129,9 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
     ActivityInstanceEntity entity = findById(id);
     if (entity !is null)
     {
-      remove(cast(ActivityInstanceEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(ActivityInstanceEntityImpl)entity);
     }
     //delete(entity);
   }
@@ -137,11 +139,17 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
   public void dele(ActivityInstanceEntity entity) {
     if (entity !is null)
     {
-      remove(cast(ActivityInstanceEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+     // remove(cast(ActivityInstanceEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
   }
 
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!ActivityInstanceEntityImpl(cast(ActivityInstanceEntityImpl)entity);
+    }
 
     public ActivityInstanceEntity create() {
         return new ActivityInstanceEntityImpl();
@@ -154,7 +162,7 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
         _manager.close();
       }
 
-      ActivityInstanceEntityImpl[] array =  _manager.createQuery!(ActivityInstanceEntityImpl)("SELECT * FROM ActivityInstanceEntityImpl u WHERE u.executionId = :executionId AND u.activityId = :activityId AND endTime is null")
+      ActivityInstanceEntityImpl[] array =  _manager.createQuery!(ActivityInstanceEntityImpl)("SELECT * FROM ActivityInstanceEntityImpl u WHERE u.executionId = :executionId AND u.activityId = :activityId AND u.endTime = 0")
       .setParameter("executionId",executionId)
       .setParameter("activityId",activityId)
       .getResultList();
@@ -164,7 +172,20 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
       foreach(ActivityInstanceEntityImpl a; array)
       {
           rt.add(cast(ActivityInstanceEntity)a);
+          CommandContextUtil.getEntityCache().put(cast(ActivityInstanceEntity)a, false, typeid(ActivityInstanceEntityImpl));
       }
+
+      foreach(ActivityInstanceEntityImpl task ; array)
+      {
+        foreach (k ,v ; CommandContext.deleteJob)
+        {
+          if (cast(ActivityInstanceEntityImpl)k !is null && (cast(ActivityInstanceEntityImpl)k).getId == task.getId)
+          {
+            rt.remove(cast(ActivityInstanceEntityImpl)task);
+          }
+        }
+      }
+
       return rt;
       //return new ArrayList!ActivityInstanceEntityImpl(array);
         //Map!(string, Object) params = new HashMap<>();

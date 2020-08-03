@@ -35,7 +35,14 @@ class BoundaryEvent : Event {
     protected string attachedToRefId;
     protected bool cancelActivity = true;
 
-    public Activity getAttachedToRef() {
+    override
+    string getClassType()
+    {
+      return "boundaryEvent";
+    }
+
+
+  public Activity getAttachedToRef() {
         return attachedToRef;
     }
 

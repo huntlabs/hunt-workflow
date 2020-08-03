@@ -53,7 +53,7 @@ import hunt.Number;
 import hunt.time.LocalDateTime;
 import std.conv : to;
 import std.range;
-import std.range;
+import std.array;
 alias Date = LocalDateTime;
 /**
  * @author Joram Barrez
@@ -323,26 +323,26 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         if (candidateGroups !is null && !candidateGroups.isEmpty()) {
             List!IdentityLinkEntity allIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
             foreach (string candidateGroup ; candidateGroups) {
-                Expression groupIdExpr = expressionManager.createExpression(candidateGroup);
-                Object value = groupIdExpr.getValue(execution);
-                if (value !is null) {
+                //Expression groupIdExpr = expressionManager.createExpression(candidateGroup);
+                //Object value = groupIdExpr.getValue(execution);
+                //if (value !is null) {
                     List!IdentityLinkEntity identityLinkEntities = null;
-                    if (cast(Collection!string)value !is null) {
-                        identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), cast(Collection!string) value);
-
-                    } else {
-                        string strValue = (cast(String)value).value;
+                    //if (cast(Collection!string)value !is null) {
+                    //    identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), cast(Collection!string) value);
+                    //
+                    //} else {
+                        string strValue = candidateGroup;
                         if (strValue !is null && strValue.length != 0) {
                             List!string candidates = extractCandidates(strValue);
                             identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateGroups(task.getId(), candidates);
                         }
-                    }
+                   // }
 
                     if (identityLinkEntities !is null && !identityLinkEntities.isEmpty()) {
                         IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
                         allIdentityLinkEntities.addAll(identityLinkEntities);
                     }
-                }
+                //}
             }
 
             if (!allIdentityLinkEntities.isEmpty()) {
@@ -357,26 +357,27 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
         if (candidateUsers !is null && !candidateUsers.isEmpty()) {
             List!IdentityLinkEntity allIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
             foreach (string candidateUser ; candidateUsers) {
-                Expression userIdExpr = expressionManager.createExpression(candidateUser);
-                Object value = userIdExpr.getValue(execution);
-                if (value !is null) {
+                //Expression userIdExpr = expressionManager.createExpression(candidateUser);
+                //Object value = userIdExpr.getValue(execution);
+                //if (value !is null) {
+                    implementationMissing(false);
                     List!IdentityLinkEntity identityLinkEntities = null;
-                    if (cast(Collection!string)value !is null) {
-                        identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateUsers(task.getId(), cast(Collection!string) value);
-
-                    } else {
-                        string strValue = (cast(String)value).value;
+                    //if (cast(Collection!string)value !is null) {
+                    //    identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateUsers(task.getId(), cast(Collection!string) value);
+                    //
+                    //} else {
+                        string strValue = candidateUser;
                         if (strValue !is null && strValue.length != 0) {
                             List!string candidates = extractCandidates(strValue);
                             identityLinkEntities = CommandContextUtil.getIdentityLinkService().addCandidateUsers(task.getId(), candidates);
                         }
-                    }
+                    //}
 
                     if (identityLinkEntities !is null && !identityLinkEntities.isEmpty()) {
                         IdentityLinkUtil.handleTaskIdentityLinkAdditions(task, identityLinkEntities);
                         allIdentityLinkEntities.addAll(identityLinkEntities);
                     }
-                }
+                //}
             }
 
             if (!allIdentityLinkEntities.isEmpty()) {
@@ -476,7 +477,8 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
      */
     protected List!string extractCandidates(string str) {
         implementationMissing(false);
-        return null;
+        return  new ArrayList!string(str.split(","));
+        //return null;
         //return Arrays.asList(str.split("[\\s]*,[\\s]*"));
     }
 }

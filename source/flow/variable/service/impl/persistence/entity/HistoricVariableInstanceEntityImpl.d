@@ -93,6 +93,7 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
 
     this() {
         rev = 1;
+        doubleValue = 0;
     }
 
 
@@ -267,7 +268,7 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
 
 
     public Date getCreateTime() {
-        return Date.ofEpochMilli(createTime);
+        return Date.ofEpochMilli(createTime * 1000);
     }
 
 
@@ -277,7 +278,7 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
 
 
     public Date getLastUpdatedTime() {
-        return Date.ofEpochMilli(lastUpdatedTime);
+        return Date.ofEpochMilli(lastUpdatedTime * 1000);
     }
 
 
@@ -287,7 +288,7 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
 
 
     public Date getTime() {
-        return Date.ofEpochMilli(createTime);
+        return Date.ofEpochMilli(createTime * 1000);
     }
 
 

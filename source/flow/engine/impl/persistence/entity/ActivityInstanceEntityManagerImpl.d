@@ -351,8 +351,8 @@ class ActivityInstanceEntityManagerImpl
     }
 
     protected string parseActivityType(FlowElement element) {
-        implementationMissing(false);
-        return "";
+        //implementationMissing(false);
+        return element.getClassType();
         //string elementType = element.getClass().getSimpleName();
         //elementType = elementType.substring(0, 1).toLowerCase() + elementType.substring(1);
         //return elementType;

@@ -38,10 +38,15 @@ import hunt.logging;
 import hunt.entity;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEntityImpl , string), VariableInstanceDataManager {
+class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEntityImpl , string), VariableInstanceDataManager ,DataManger {
 
 
     alias findById = CrudRepository!( VariableInstanceEntityImpl , string).findById;
@@ -71,17 +76,44 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
     //public Class<? extends VariableInstanceEntity> getManagedEntityClass() {
     //    return VariableInstanceEntityImpl.class;
     //}
+
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisVariableInstanceDataManager);
+    }
+
     this()
     {
       super(entityManagerFactory.currentEntityManager());
     }
 
        public VariableInstanceEntity findById(string entityId) {
+
          if (entityId is null) {
            return null;
          }
 
-         return find(entityId);
+         //return find(entityId);
+         auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(VariableInstanceEntityImpl),entityId);
+
+         if (entity !is null)
+         {
+           return cast(VariableInstanceEntity)entity;
+         }
+
+         VariableInstanceEntity dbData = cast(VariableInstanceEntity)(find(entityId));
+         if (dbData !is null)
+         {
+           CommandContextUtil.getEntityCache().put(dbData, true , typeid(VariableInstanceEntityImpl));
+         }
+
+         return dbData;
+
+         //if (entityId is null) {
+         //  return null;
+         //}
+         //
+         //return find(entityId);
 
          // Cache
          //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
@@ -94,9 +126,30 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
        }
       //
       public void insert(VariableInstanceEntity entity) {
-        insert(cast(VariableInstanceEntityImpl)entity);
+        //insert(cast(VariableInstanceEntityImpl)entity);
         //getDbSqlSession().insert(entity);
+        if (entity.getId() is null)
+        {
+          string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+          //if (dbSqlSessionFactory.isUsePrefixId()) {
+          //    id = entity.getIdPrefix() + id;
+          //}
+          entity.setId(id);
+
+        }
+        entity.setInserted(true);
+        CommandContext.insertJob[entity] = this;
+        CommandContextUtil.getEntityCache().put(entity, false, typeid(VariableInstanceEntityImpl));
       }
+
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      VariableInstanceEntityImpl tmp = cast(VariableInstanceEntityImpl)entity;
+      db.persist!VariableInstanceEntityImpl(tmp);
+    }
+
+
       public VariableInstanceEntity update(VariableInstanceEntity entity) {
         return  update(cast(VariableInstanceEntityImpl)entity);
         //getDbSqlSession().update(entity);
@@ -106,7 +159,9 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         VariableInstanceEntity entity = findById(id);
         if (entity !is null)
         {
-          remove(cast(VariableInstanceEntityImpl)entity);
+          CommandContext.deleteJob[entity] = this;
+          entity.setDeleted(true);
+          //remove(cast(VariableInstanceEntityImpl)entity);
         }
         //delete(entity);
       }
@@ -114,11 +169,17 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
       public void dele(VariableInstanceEntity entity) {
         if (entity !is null)
         {
-          remove(cast(VariableInstanceEntityImpl)entity);
+          CommandContext.deleteJob[entity] = this;
+          entity.setDeleted(true);
+          //remove(cast(VariableInstanceEntityImpl)entity);
         }
         //getDbSqlSession().delete(entity);
       }
 
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!VariableInstanceEntityImpl(cast(VariableInstanceEntityImpl)entity);
+    }
 
     public VariableInstanceEntity create() {
         VariableInstanceEntityImpl variableInstanceEntity = new VariableInstanceEntityImpl();
@@ -163,7 +224,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         {
           _manager.close();
         }
-        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.executionId = :executionId and u.taskId is null ");
+        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.executionId = :executionId and (u.taskId is null or u.taskId = '')");
         select.setParameter("executionId",executionId);
         VariableInstanceEntityImpl[] ls = select.getResultList();
         List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
@@ -187,7 +248,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
           _manager.close();
         }
 
-        VariableInstanceEntityImpl[] ls =  _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl a WHERE a.executionId IN (" ~ executionIds.toArray().join(",") ~ ") and u.taskId is null;")
+        VariableInstanceEntityImpl[] ls =  _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl a WHERE a.executionId IN (" ~ executionIds.toArray().join(",") ~ ") and (u.taskId is null or u.taskId = '');")
         .getResultList();
 
         List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
@@ -206,7 +267,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         {
           _manager.close();
         }
-        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.executionId = :executionId and u.name = :variableName and u.taskId is null ");
+        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.executionId = :executionId and u.name = :variableName and (u.taskId is null or u.taskId = '')");
         select.setParameter("executionId",executionId);
         select.setParameter("variableName",variableName);
         VariableInstanceEntityImpl[] ls = select.getResultList();
@@ -276,7 +337,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         {
           _manager.close();
         }
-        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.scopeId = :scopeId and u.scopeType = :scopeType and u.subScopeId is null");
+        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.scopeId = :scopeId and u.scopeType = :scopeType and (u.subScopeId is null or u.subScopeId = '')");
         select.setParameter("scopeId",scopeId);
         select.setParameter("scopeType",scopeType);
         VariableInstanceEntityImpl[] ls = select.getResultList();
@@ -299,7 +360,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         {
           _manager.close();
         }
-        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.scopeId = :scopeId and u.scopeType = :scopeType and u.name = :variableName and u.subScopeId is null");
+        auto select = _manager.createQuery!(VariableInstanceEntityImpl)("SELECT * FROM VariableInstanceEntityImpl u where u.scopeId = :scopeId and u.scopeType = :scopeType and u.name = :variableName and (u.subScopeId is null or u.subScopeId = '')");
         select.setParameter("scopeId",scopeId);
         select.setParameter("scopeType",scopeType);
         select.setParameter("variableName",variableName);

@@ -30,6 +30,12 @@ class ThrowEvent : Event {
         return clone;
     }
 
+    override
+    string getClassType()
+    {
+      return "throwEvent";
+    }
+
     public void setValues(ThrowEvent otherEvent) {
         super.setValues(otherEvent);
     }

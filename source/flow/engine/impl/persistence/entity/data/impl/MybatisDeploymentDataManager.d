@@ -124,7 +124,9 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
     DeploymentEntity entity = findById(id);
     if (entity !is null)
     {
-      remove(cast(DeploymentEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(DeploymentEntityImpl)entity);
     }
     //delete(entity);
   }
@@ -132,11 +134,17 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
   public void dele(DeploymentEntity entity) {
     if (entity !is null)
     {
-      remove(cast(DeploymentEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(DeploymentEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
   }
 
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!DeploymentEntityImpl(cast(DeploymentEntityImpl)entity);
+    }
 
     public DeploymentEntity create() {
         return new DeploymentEntityImpl();

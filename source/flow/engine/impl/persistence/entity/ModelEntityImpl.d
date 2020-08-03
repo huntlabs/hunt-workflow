@@ -134,7 +134,7 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
 
 
     public Date getCreateTime() {
-        return Date.ofEpochMilli(createTime);
+        return Date.ofEpochMilli(createTime * 1000);
     }
 
 
@@ -144,7 +144,7 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
 
 
     public Date getLastUpdateTime() {
-        return Date.ofEpochMilli(lastUpdateTime);
+        return Date.ofEpochMilli(lastUpdateTime * 1000);
     }
 
 

@@ -36,6 +36,12 @@ class AdhocSubProcess : SubProcess {
     protected string ordering = "Parallel";
     protected bool cancelRemainingInstances = true;
 
+    override
+    string getClassType()
+    {
+      return "adhocSubProcess";
+    }
+
     public string getCompletionCondition() {
         return completionCondition;
     }

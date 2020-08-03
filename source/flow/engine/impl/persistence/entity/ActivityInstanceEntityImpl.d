@@ -40,7 +40,7 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
     string id;
 
     @Column("REV_")
-    string rev;
+    int rev;
 
     @Column("PROC_INST_ID_")
     string processInstanceId;
@@ -86,6 +86,7 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
 
     this() {
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
+      rev = 1;
     }
 
     public Object getPersistentState() {
@@ -134,11 +135,11 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
     }
 
     public Date getStartTime() {
-        return startTime == 0 ? null :Date.ofEpochMilli(startTime);
+        return startTime == 0 ? null :Date.ofEpochMilli(startTime *1000);
     }
 
     public Date getEndTime() {
-        return  endTime == 0? null : Date.ofEpochMilli(endTime);
+        return  endTime == 0? null : Date.ofEpochMilli(endTime* 1000);
     }
 
     public long getDurationInMillis() {

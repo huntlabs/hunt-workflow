@@ -20,7 +20,7 @@ import flow.variable.service.api.types.VariableType;
  */
 class NullType : VariableType {
 
-    public static  string TYPE_NAME = "null";
+    enum  string TYPE_NAME = "null";
 
 
 

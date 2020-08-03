@@ -21,7 +21,7 @@ import hunt.Long;
  */
 class ShortType : VariableType {
 
-    public static  string TYPE_NAME = "short";
+    enum  string TYPE_NAME = "short";
 
 
 

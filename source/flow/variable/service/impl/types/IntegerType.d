@@ -22,7 +22,7 @@ import hunt.Long;
  */
 class IntegerType : VariableType {
 
-    public static  string TYPE_NAME = "integer";
+    enum string TYPE_NAME = "integer";
 
 
     public string getTypeName() {
@@ -55,11 +55,16 @@ class IntegerType : VariableType {
 
 
     public bool isAbleToStore(Object value) {
-        implementationMissing(false);
+       // implementationMissing(false);
+       // return false;
+        if (value is null) {
+            return true;
+        }
+        if (cast(Integer)value !is null)
+        {
+            return true;
+        }
         return false;
-        //if (value is null) {
-        //    return true;
-        //}
         //return Integer.class.isAssignableFrom(value.getClass()) || int.class.isAssignableFrom(value.getClass());
     }
 }

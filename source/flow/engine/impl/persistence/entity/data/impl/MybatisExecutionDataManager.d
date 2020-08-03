@@ -156,7 +156,9 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
     ExecutionEntity entity = findById(id);
     if (entity !is null)
     {
-      remove(cast(ExecutionEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+     // remove(cast(ExecutionEntityImpl)entity);
     }
     //delete(entity);
   }
@@ -164,9 +166,16 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
   public void dele(ExecutionEntity entity) {
     if (entity !is null)
     {
-      remove(cast(ExecutionEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(ExecutionEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
+  }
+
+  void deleteTrans(Entity entity , EntityManager db)
+  {
+    db.remove!ExecutionEntityImpl(cast(ExecutionEntityImpl)entity);
   }
 
   public ExecutionEntity findById(string executionId) {

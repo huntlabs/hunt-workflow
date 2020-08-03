@@ -43,4 +43,10 @@ abstract class Gateway : FlowNode {
         super.setValues(otherElement);
         setDefaultFlow(otherElement.getDefaultFlow());
     }
+
+    override
+    string getClassType()
+    {
+      return "gateway";
+    }
 }

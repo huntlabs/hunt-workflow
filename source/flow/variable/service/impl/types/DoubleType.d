@@ -20,7 +20,7 @@ import hunt.Double;
  */
 class DoubleType : VariableType {
 
-    public static  string TYPE_NAME = "double";
+    enum  string TYPE_NAME = "double";
 
 
 

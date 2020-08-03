@@ -68,7 +68,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     string id;
 
     @Column("REV_")
-    string rev;
+    int rev;
 
     /** The tenant identifier (if any) */
     @Column("TENANT_ID_")
@@ -84,22 +84,22 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     // state/type of execution //////////////////////////////////////////////////
 
     @Column("IS_ACTIVE_")
-    bool _isActive = true;
+    int _isActive = 0;
 
     @Column("IS_SCOPE_")
-    bool _isScope = true;
+    int _isScope = 0;
 
     @Column("IS_CONCURRENT_")
-    bool _isConcurrent;
+    int _isConcurrent;
 
     @Column("IS_EVENT_SCOPE_")
-    bool _isEventScope;
+    int _isEventScope;
 
     @Column("IS_MI_ROOT_")
-    bool _isMultiInstanceRoot;
+    int _isMultiInstanceRoot;
 
     @Column("IS_COUNT_ENABLED_")
-    bool _isCountEnabled;
+    int _isCountEnabled;
 
     @Column("SUSPENSION_STATE_")
     int suspensionState ;// = SuspensionState.ACTIVE.getStateCode();
@@ -172,7 +172,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
      */
 
     @Column("PROC_INST_ID_")
-    string processInstanceId;
+    string processInstanceId = null;
 
     /**
      * Persisted reference to the business key.
@@ -303,7 +303,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     this() {
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
       suspensionState = ACTIVE.getStateCode();
-      rev = "1";
+      rev = 1;
     }
 
     string getId()
@@ -543,13 +543,13 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     public void setProcessInstance(ExecutionEntity processInstance) {
         this.processInstance = cast(ExecutionEntityImpl) processInstance;
         if (processInstance !is null) {
-            this.processInstanceId = this.processInstance.getId();
+            this.processInstanceId = this.processInstance.getId().length == 0 ? null : this.processInstance.getId();
         }
     }
 
 
     public bool isProcessInstanceType() {
-        return parentId is null;
+        return parentId is null || parentId.length == 0;
     }
 
     // parent ///////////////////////////////////////////////////////////////////
@@ -669,12 +669,12 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public bool isScope() {
-        return _isScope;
+        return _isScope == 0? false : true;
     }
 
 
     public void setScope(bool isScope) {
-        this._isScope = isScope;
+        this._isScope = isScope ? 1 : 0;
     }
 
 
@@ -1012,7 +1012,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public void setProcessInstanceId(string processInstanceId) {
-        this.processInstanceId = processInstanceId;
+        this.processInstanceId = processInstanceId.length == 0? null : processInstanceId;
     }
 
 
@@ -1036,27 +1036,27 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public bool isConcurrent() {
-        return _isConcurrent;
+        return _isConcurrent == 0 ? false : true;
     }
 
 
     public void setConcurrent(bool isConcurrent) {
-        this._isConcurrent = isConcurrent;
+        this._isConcurrent = isConcurrent? 1 : 0;
     }
 
 
     public bool isActive() {
-        return _isActive;
+        return _isActive == 0 ? false : true;
     }
 
 
     public void setActive(bool isActive) {
-        this._isActive = isActive;
+        this._isActive = isActive ? 1 : 0;
     }
 
 
     public void inactivate() {
-        this._isActive = false;
+        this._isActive = 0;
     }
 
 
@@ -1106,32 +1106,32 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public bool isEventScope() {
-        return _isEventScope;
+        return _isEventScope == 0 ? false : true;
     }
 
 
     public void setEventScope(bool isEventScope) {
-        this._isEventScope = isEventScope;
+        this._isEventScope = isEventScope ? 1 : 0;
     }
 
 
     public bool isMultiInstanceRoot() {
-        return _isMultiInstanceRoot;
+        return _isMultiInstanceRoot == 0 ? false : true;
     }
 
 
     public void setMultiInstanceRoot(bool isMultiInstanceRoot) {
-        this._isMultiInstanceRoot = isMultiInstanceRoot;
+        this._isMultiInstanceRoot = isMultiInstanceRoot? 1:0;
     }
 
 
     public bool isCountEnabled() {
-        return _isCountEnabled;
+        return _isCountEnabled == 0 ? false : true;
     }
 
 
     public void setCountEnabled(bool isCountEnabled) {
-        this._isCountEnabled = isCountEnabled;
+        this._isCountEnabled = isCountEnabled ? 1:0;
     }
 
 
@@ -1199,7 +1199,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public Date getLockTime() {
-        return Date.ofEpochMilli(lockTime);
+        return Date.ofEpochMilli(lockTime*1000);
     }
 
 
@@ -1271,7 +1271,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
 
     public Date getStartTime() {
-        return Date.ofEpochMilli(startTime);
+        return Date.ofEpochMilli(startTime*1000);
     }
 
 
@@ -1523,9 +1523,16 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
       return super.getRevisionNext;
   }
 
-  //int opCmp(Entity o)
+  override size_t toHash() { return 0 - hashOf(this.id); }
+
+  override bool opEquals(Object o)
+  {
+    ExecutionEntityImpl foo = cast(ExecutionEntityImpl) o;
+    return foo && this.id == foo.getId;
+  }
+
+  //int opCmp(Object o)
   //{
-  //  return 1;
-  //  //return cast(int)(hashOf(this.id) - hashOf((cast(ExecutionEntityImpl)o).getId));
+  //  return cast(int)(hashOf(this.id) - hashOf((cast(ExecutionEntityImpl)o).getId));
   //}
 }

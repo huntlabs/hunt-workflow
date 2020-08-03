@@ -184,7 +184,7 @@ class HistoricTaskLogEntryEntityImpl : AbstractEntityNoRevision , Model,Historic
 
 
     public Date getTimeStamp() {
-        return Date.ofEpochMilli(timeStamp);
+        return Date.ofEpochMilli(timeStamp*1000);
     }
 
 

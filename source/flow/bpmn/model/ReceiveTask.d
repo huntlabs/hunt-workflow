@@ -37,6 +37,12 @@ class ReceiveTask : Task {
     }
 
     override
+    string getClassType()
+    {
+      return "receiveTask";
+    }
+
+    override
     public void setValues(Activity otherElement)
     {
         super.setValues(otherElement);

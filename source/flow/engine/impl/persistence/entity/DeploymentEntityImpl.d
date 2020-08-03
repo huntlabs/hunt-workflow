@@ -202,7 +202,7 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
 
 
     public Date getDeploymentTime() {
-        return Date.ofEpochMilli(deploymentTime);
+        return Date.ofEpochMilli(deploymentTime*1000);
     }
 
 

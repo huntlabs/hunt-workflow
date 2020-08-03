@@ -39,7 +39,7 @@ class TimerJobEntityImpl : AbstractJobEntityImpl , Model,TimerJobEntity {
      string lockOwner;
 
     @Column("LOCK_EXP_TIME_")
-     int lockExpirationTime;
+     long lockExpirationTime;
 
     override
     public Object getPersistentState() {
@@ -66,12 +66,12 @@ class TimerJobEntityImpl : AbstractJobEntityImpl , Model,TimerJobEntity {
 
 
     public Date getLockExpirationTime() {
-        return Date.ofEpochMilli(cast(long)lockExpirationTime);
+        return Date.ofEpochMilli(lockExpirationTime * 1000);
     }
 
 
     public void setLockExpirationTime(Date claimedUntil) {
-        this.lockExpirationTime = cast(int)(claimedUntil.toEpochMilli / 1000);
+        this.lockExpirationTime = claimedUntil.toEpochMilli / 1000;
     }
 
     override

@@ -26,4 +26,9 @@ class EventSubProcess : SubProcess {
    alias setValues = FlowElement.setValues;
     alias setValues = Activity.setValues;
   alias setValues = SubProcess.setValues;
+  override
+    string getClassType()
+  {
+    return "eventSubProcess";
+  }
 }

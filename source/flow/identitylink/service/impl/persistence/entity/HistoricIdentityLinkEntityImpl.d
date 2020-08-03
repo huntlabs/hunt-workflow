@@ -63,7 +63,7 @@ class HistoricIdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEnti
    string scopeDefinitionId;
 
   @Column("CREATE_TIME_")
-   int createTime;
+   long createTime;
 
     this() {
 
@@ -231,12 +231,12 @@ class HistoricIdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEnti
 
 
     public Date getCreateTime() {
-        return Date.ofEpochMilli(createTime);
+        return Date.ofEpochMilli(createTime * 1000);
     }
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = cast(int)createTime.toEpochMilli / 1000;
+        this.createTime = createTime.toEpochMilli / 1000;
     }
 
     override

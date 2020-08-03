@@ -34,6 +34,11 @@ class ExclusiveGateway : Gateway {
         clone.setValues(this);
         return clone;
     }
+  override
+    string getClassType()
+  {
+    return "exclusiveGateway";
+  }
 
     public void setValues(ExclusiveGateway otherElement) {
         super.setValues(otherElement);

@@ -42,7 +42,7 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
     string id;
 
     @Column("REV_")
-    string rev;
+    int rev;
 
     @Column("NAME_")
     string name;
@@ -107,7 +107,7 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
       definitionIdentityLinkEntities = new ArrayList!IdentityLinkEntity();
       suspensionState = ACTIVE.getStateCode();
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
-      rev = "1";
+      rev = 1;
     }
 
     public Object getPersistentState() {

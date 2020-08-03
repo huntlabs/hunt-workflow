@@ -51,6 +51,12 @@ class CallActivity : Activity {
         outParameters = new ArrayList!IOParameter;
     }
 
+    override
+    string getClassType()
+    {
+      return "callActivity";
+    }
+
     public string getCalledElement() {
         return calledElement;
     }

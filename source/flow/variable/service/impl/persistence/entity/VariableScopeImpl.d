@@ -692,7 +692,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
 
 
     public void setVariable(string variableName, Object value) {
-        implementationMissing(false);
+        //implementationMissing(false);
         //if (isExpression(variableName)) {
         //    CommandContextUtil.getExpressionManager().
         //            createExpression(variableName).
@@ -700,6 +700,7 @@ abstract class VariableScopeImpl : AbstractEntity ,  VariableScope {
         //} else {
         //    setVariable(variableName, value, true);
         //}
+      setVariable(variableName, value, true);
     }
 
     /**

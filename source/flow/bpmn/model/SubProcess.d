@@ -54,6 +54,12 @@ class SubProcess : Activity , FlowElementsContainer {
       dataObjects = new ArrayList!ValuedDataObject;
     }
 
+    override
+    string getClassType()
+    {
+      return "subProcess";
+    }
+
    // @Override
     public FlowElement getFlowElement(string id) {
         FlowElement foundElement = null;

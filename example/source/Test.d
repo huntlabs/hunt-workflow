@@ -20,6 +20,7 @@ import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
 import std.array;
+import hunt.logging;
 void main() {
     // 首先实例化ProcessEngine，线程安全对象，一般全局只有一个即可，从ProcessEngineConfiguration创建的话，可以调整一些
     // 配置，通常我们会从XML中创建，至少要配置一个JDBC连接
@@ -76,7 +77,7 @@ void main() {
     Map!(string, Object) variables = new HashMap!(string, Object);
     variables.put("employee", new String("linsen"));
     variables.put("nrOfHolidays", new Integer(2));
-    variables.put("description", new String("play"));
+    variables.put("description", new String("playsss"));
 
     // 当创建实例的时候，execution就被创建了，然后放在启动的事件中，这个事件可以从数据库中获取，
     // 用户后续等待这个状态即可
@@ -95,11 +96,11 @@ void main() {
     }
 
     writeln("Which task would you like to complete?");
-    string index =  stdin.readln();
+    string index =  "1" ;//stdin.readln();
     int taskIndex = to!int(index);
-    Task task = tasks.get(taskIndex - 1);
+    Task task = tasks.get(tasks.size() - 1);
     Map!(string, Object) processVariables = taskService.getVariables(task.getId());
-    writeln("%s wants %d  of holidays. Do you approve this?" , (cast(String)processVariables.get("employee")).value , (cast(Integer)processVariables.get("nrOfHolidays")).intValue);
+    logInfof("%s wants %d  of holidays for %s. Do you approve this?" , (cast(String)processVariables.get("employee")).value , (cast(Integer)processVariables.get("nrOfHolidays")).intValue , (cast(String)processVariables.get("description")).value);
 
     //bool approved = (stdin.readln() == "y");
     variables = new HashMap!(string, Object);

@@ -312,7 +312,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public Date getEndTime() {
-        return Date.ofEpochMilli(endTime);
+        return Date.ofEpochMilli(endTime*1000);
     }
 
 
@@ -420,7 +420,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public Date getCreateTime() {
-        return Date.ofEpochMilli(createTime);
+        return Date.ofEpochMilli(createTime*1000);
     }
 
 
@@ -445,7 +445,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public Date getDueDate() {
-        return Date.ofEpochMilli(dueDate);
+        return Date.ofEpochMilli(dueDate*1000);
     }
 
 
@@ -485,7 +485,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public Date getClaimTime() {
-        return Date.ofEpochMilli(claimTime);
+        return Date.ofEpochMilli(claimTime*1000);
     }
 
 
@@ -518,7 +518,7 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
 
 
     public Date getLastUpdateTime() {
-        return Date.ofEpochMilli(lastUpdateTime);
+        return Date.ofEpochMilli(lastUpdateTime*1000);
     }
 
 

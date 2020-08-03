@@ -36,6 +36,12 @@ class ManualTask : Task {
         return clone;
     }
 
+    override
+    string getClassType()
+    {
+      return "manualTask";
+    }
+
     public void setValues(ManualTask otherElement) {
         super.setValues(otherElement);
     }

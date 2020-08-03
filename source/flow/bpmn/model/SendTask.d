@@ -66,6 +66,12 @@ class SendTask : TaskWithFieldExtensions {
         return clone;
     }
 
+    override
+    string getClassType()
+    {
+      return "sendTask";
+    }
+
     public void setValues(SendTask otherElement) {
         super.setValues(otherElement);
         setType(otherElement.getType());

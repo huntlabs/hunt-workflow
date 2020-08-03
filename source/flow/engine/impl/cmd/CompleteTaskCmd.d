@@ -17,7 +17,7 @@ import flow.engine.impl.cmd.NeedsActiveTaskCmd;
 import flow.common.interceptor.CommandContext;
 import flow.engine.compatibility.Flowable5CompatibilityHandler;
 //import flow.engine.impl.util.Flowable5Util;
-//import flow.engine.impl.util.TaskHelper;
+import flow.engine.impl.util.TaskHelper;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import hunt.Object;
 import hunt.Exceptions;
@@ -53,22 +53,22 @@ class CompleteTaskCmd : NeedsActiveTaskCmd!Void {
 
     override
     protected Void execute(CommandContext commandContext, TaskEntity task) {
-        implementationMissing(false);
+        //implementationMissing(false);
         // Backwards compatibility
-        //if (task.getProcessDefinitionId() !is null) {
-        //    if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
-        //        Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
-        //
-        //        if (transientVariables is null) {
-        //            compatibilityHandler.completeTask(task, variables, localScope);
-        //        } else {
-        //            compatibilityHandler.completeTask(task, variables, transientVariables);
-        //        }
-        //        return null;
-        //    }
-        //}
-        //
-        //TaskHelper.completeTask(task, variables, transientVariables, localScope, commandContext);
+        if (task.getProcessDefinitionId() !is null) {
+            //if (Flowable5Util.isFlowable5ProcessDefinitionId(commandContext, task.getProcessDefinitionId())) {
+            //    Flowable5CompatibilityHandler compatibilityHandler = Flowable5Util.getFlowable5CompatibilityHandler();
+            //
+            //    if (transientVariables is null) {
+            //        compatibilityHandler.completeTask(task, variables, localScope);
+            //    } else {
+            //        compatibilityHandler.completeTask(task, variables, transientVariables);
+            //    }
+            //    return null;
+            //}
+        }
+
+        TaskHelper.completeTask(task, variables, transientVariables, localScope, commandContext);
         return null;
     }
 

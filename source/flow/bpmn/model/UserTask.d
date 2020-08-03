@@ -67,6 +67,12 @@ class UserTask : Task {
       customProperties = new ArrayList!CustomProperty();
     }
 
+    override
+    string getClassType()
+    {
+        return "userTask";
+    }
+
     public string getAssignee() {
         return assignee;
     }

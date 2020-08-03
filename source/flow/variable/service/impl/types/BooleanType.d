@@ -21,7 +21,7 @@ import hunt.Long;
  */
 class BooleanType : VariableType {
 
-    public static  string TYPE_NAME = "boolean";
+    enum  string TYPE_NAME = "boolean";
 
 
     public string getTypeName() {

@@ -38,6 +38,13 @@ class StartEvent : Event {
         formProperties = new ArrayList!FormProperty;
     }
 
+    override
+    string getClassType()
+    {
+      return "startEvent";
+    }
+
+
     public string getInitiator() {
         return initiator;
     }

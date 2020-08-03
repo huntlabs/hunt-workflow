@@ -54,6 +54,12 @@ class ServiceTask : TaskWithFieldExtensions {
       customProperties = new ArrayList!CustomProperty;
     }
 
+    override
+    string getClassType()
+    {
+      return "serviceTask";
+    }
+
     public string getImplementation() {
         return implementation;
     }

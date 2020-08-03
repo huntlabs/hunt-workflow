@@ -73,7 +73,6 @@ class StandaloneMybatisTransactionContext : TransactionContext {
 
         logDebug("committing the ibatis sql session...");
         //dbSqlSession.commit();
-        implementationMissing(false);
         logDebug("firing event committed...");
         fireTransactionEvent(TransactionState.COMMITTED, true);
 

@@ -33,6 +33,12 @@ class ParallelGateway : Gateway {
         return clone;
     }
 
+    override
+    string getClassType()
+    {
+      return "parallelGateway";
+    }
+
     public void setValues(ParallelGateway otherElement) {
         super.setValues(otherElement);
     }

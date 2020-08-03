@@ -1847,7 +1847,7 @@ class AbstractEngineConfiguration {
     //}
 
     public int getMaxLengthString() {
-        return -1;
+        return DEFAULT_GENERIC_MAX_LENGTH_STRING;
         //if (maxLengthStringVariableType == -1) {
         //    if ("oracle".equalsIgnoreCase(databaseType)) {
         //        return DEFAULT_ORACLE_MAX_LENGTH_STRING;

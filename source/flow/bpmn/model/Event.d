@@ -35,6 +35,12 @@ abstract class Event : FlowNode {
       eventDefinitions = new ArrayList!EventDefinition;
     }
 
+    override
+    string getClassType()
+    {
+      return "event";
+    }
+
     public List!EventDefinition getEventDefinitions() {
         return eventDefinitions;
     }

@@ -64,6 +64,11 @@ import flow.engine.impl.persistence.entity.data.impl.MybatisActivityInstanceData
 import flow.engine.impl.persistence.entity.data.impl.MybatisHistoricActivityInstanceDataManager;
 import flow.task.service.impl.persistence.entity.data.impl.MybatisTaskDataManager;
 import flow.task.service.impl.persistence.entity.data.impl.MybatisHistoricTaskInstanceDataManager;
+import flow.identitylink.service.impl.persistence.entity.data.impl.MybatisIdentityLinkDataManager;
+import flow.identitylink.service.impl.persistence.entity.data.impl.MybatisHistoricIdentityLinkDataManager;
+import flow.variable.service.impl.persistence.entity.data.impl.MybatisVariableInstanceDataManager;
+import flow.variable.service.impl.persistence.entity.data.impl.MybatisHistoricVariableInstanceDataManager;
+
 /**
  * Default implementation of the {@link ListenerFactory}. Used when no custom {@link ListenerFactory} is injected on the {@link ProcessEngineConfigurationImpl}.
  *
@@ -101,15 +106,19 @@ class DefaultListenerFactory : AbstractBehaviorFactory , ListenerFactory {
         if (insertOrder is null)
         {
           insertOrder = new ArrayList!TypeInfo;
-          insertOrder.add(typeid(MybatisHistoricTaskInstanceDataManager));
-          insertOrder.add(typeid(MybatisHistoricProcessInstanceDataManager));
-          insertOrder.add(typeid(MybatisHistoricActivityInstanceDataManager));
-          insertOrder.add(typeid(MybatisProcessDefinitionDataManager));
-          insertOrder.add(typeid(MybatisExecutionDataManager));
-          insertOrder.add(typeid(MybatisActivityInstanceDataManager));
-          insertOrder.add(typeid(MybatisTaskDataManager));
-          insertOrder.add(typeid(MybatisDeploymentDataManager));
-          insertOrder.add(typeid(MybatisResourceDataManager));
+          insertOrder.add(typeid(MybatisHistoricVariableInstanceDataManager)); //4
+          insertOrder.add(typeid(MybatisHistoricTaskInstanceDataManager)); //6
+          insertOrder.add(typeid(MybatisHistoricProcessInstanceDataManager)); //7
+          insertOrder.add(typeid(MybatisHistoricActivityInstanceDataManager));//8
+          insertOrder.add(typeid(MybatisHistoricIdentityLinkDataManager));//9
+          insertOrder.add(typeid(MybatisProcessDefinitionDataManager));//11
+          insertOrder.add(typeid(MybatisExecutionDataManager));//12
+          insertOrder.add(typeid(MybatisActivityInstanceDataManager));//13
+          insertOrder.add(typeid(MybatisTaskDataManager)); //14
+          insertOrder.add(typeid(MybatisIdentityLinkDataManager));//15
+          insertOrder.add(typeid(MybatisDeploymentDataManager));//25
+          insertOrder.add(typeid(MybatisResourceDataManager));//26
+          insertOrder.add(typeid(MybatisVariableInstanceDataManager));//32
         }
     }
 

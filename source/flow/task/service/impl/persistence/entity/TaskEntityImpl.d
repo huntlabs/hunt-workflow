@@ -66,6 +66,9 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
      @Column("OWNER_")
      string owner;
 
+     @Column("REV_")
+     int rev = 1;
+
      @Column("ASSIGNEE_")
      string assignee;
 
@@ -128,7 +131,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
      @Column("IS_COUNT_ENABLED_")
-     bool _isCountEnabled;
+     int _isCountEnabled;
 
      @Column("VAR_COUNT_")
      int variableCount;
@@ -527,7 +530,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public Date getDueDate() {
-        return LocalDateTime.ofEpochMilli(dueDate);
+        return LocalDateTime.ofEpochMilli(dueDate*1000);
     }
 
 
@@ -537,7 +540,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public Date getCreateTime() {
-        return LocalDateTime.ofEpochMilli(createTime);
+        return LocalDateTime.ofEpochMilli(createTime*1000);
     }
 
 
@@ -873,7 +876,7 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public Date getClaimTime() {
-        return LocalDateTime.ofEpochMilli(claimTime);
+        return LocalDateTime.ofEpochMilli(claimTime*1000);
     }
 
 
@@ -889,12 +892,12 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
 
 
     public bool isCountEnabled() {
-        return _isCountEnabled;
+        return _isCountEnabled == 0 ? false : true;
     }
 
 
     public void setCountEnabled(bool isCountEnabled) {
-        this._isCountEnabled = isCountEnabled;
+        this._isCountEnabled = isCountEnabled ? 1 : 0;
     }
 
 

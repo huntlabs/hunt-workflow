@@ -49,6 +49,12 @@ abstract class Activity : FlowNode {
         mapExceptions = new ArrayList!MapExceptionEntry;
     }
 
+    override
+    string getClassType()
+    {
+      return "activity";
+    }
+
     public string getFailedJobRetryTimeCycleValue() {
         return failedJobRetryTimeCycleValue;
     }

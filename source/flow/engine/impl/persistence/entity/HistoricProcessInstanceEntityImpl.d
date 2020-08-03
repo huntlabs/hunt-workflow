@@ -44,8 +44,9 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
     string id;
 
     @Column("REV_")
-    string rev;
+    int rev;
 
+    @Column("END_ACT_ID_")
     string endActivityId;
 
     @Column("BUSINESS_KEY_")
@@ -107,6 +108,7 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
 
     this() {
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
+      rev = 1;
     }
 
     this(ExecutionEntity processInstance) {
@@ -408,12 +410,12 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
 
      LocalDateTime getStartTime()
      {
-        return LocalDateTime.ofEpochMilli(startTime);
+        return LocalDateTime.ofEpochMilli(startTime*1000);
      }
 
      LocalDateTime getEndTime()
      {
-        return LocalDateTime.ofEpochMilli(endTime);
+        return LocalDateTime.ofEpochMilli(endTime*1000);
      }
 
      long getDurationInMillis()

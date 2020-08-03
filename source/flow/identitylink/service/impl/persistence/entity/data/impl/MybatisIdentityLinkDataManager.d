@@ -34,10 +34,15 @@ import hunt.entity;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
 import hunt.logging;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl , string) , IdentityLinkDataManager {
+class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl , string) , IdentityLinkDataManager ,DataManger{
     //
     //protected CachedEntityMatcher!IdentityLinkEntity identityLinksByTaskIdMatcher = new IdentityLinksByTaskIdMatcher();
     //protected CachedEntityMatcher!IdentityLinkEntity identityLinkByProcessInstanceMatcher = new IdentityLinksByProcessInstanceMatcher();
@@ -51,16 +56,42 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     //    return IdentityLinkEntityImpl.class;
     //}
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisIdentityLinkDataManager);
+    }
+
     alias findById = CrudRepository!( IdentityLinkEntityImpl , string).findById;
     alias insert = CrudRepository!( IdentityLinkEntityImpl , string).insert;
     alias update = CrudRepository!( IdentityLinkEntityImpl , string).update;
 
     public IdentityLinkEntity findById(string entityId) {
+
+
       if (entityId is null) {
         return null;
       }
 
-      return find(entityId);
+      //return find(entityId);
+      auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(IdentityLinkEntityImpl),entityId);
+
+      if (entity !is null)
+      {
+        return cast(IdentityLinkEntity)entity;
+      }
+
+      IdentityLinkEntity dbData = cast(IdentityLinkEntity)(find(entityId));
+      if (dbData !is null)
+      {
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(IdentityLinkEntityImpl));
+      }
+
+      return dbData;
+      //if (entityId is null) {
+      //  return null;
+      //}
+      //
+      //return find(entityId);
 
       // Cache
       //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
@@ -74,8 +105,27 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     //
     //@Override
     public void insert(IdentityLinkEntity entity) {
-        insert(cast(IdentityLinkEntityImpl)entity);
+        //insert(cast(IdentityLinkEntityImpl)entity);
       //getDbSqlSession().insert(entity);
+      if (entity.getId() is null)
+      {
+        string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+        //if (dbSqlSessionFactory.isUsePrefixId()) {
+        //    id = entity.getIdPrefix() + id;
+        //}
+        entity.setId(id);
+
+      }
+      entity.setInserted(true);
+      CommandContext.insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(IdentityLinkEntityImpl));
+    }
+
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      IdentityLinkEntityImpl tmp = cast(IdentityLinkEntityImpl)entity;
+      db.persist!IdentityLinkEntityImpl(tmp);
     }
     //
     //@Override
@@ -90,17 +140,27 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         IdentityLinkEntity entity = findById(id);
         if (entity !is null)
         {
-           remove(cast(IdentityLinkEntityImpl)entity);
+          // remove(cast(IdentityLinkEntityImpl)entity);
+          CommandContext.deleteJob[entity] = this;
+          entity.setDeleted(true);
         }
         //delete(entity);
     }
 
     public void dele(IdentityLinkEntity entity) {
-      if (entity !is null)
-      {
-        remove(cast(IdentityLinkEntityImpl)entity);
-      }
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //CommandContextUtil.getEntityCache().put(entity, false, typeid(IdentityLinkEntityImpl));
+      //if (entity !is null)
+      //{
+      //  remove(cast(IdentityLinkEntityImpl)entity);
+      //}
       //getDbSqlSession().delete(entity);
+    }
+
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+        db.remove!IdentityLinkEntityImpl(cast(IdentityLinkEntityImpl)entity);
     }
 
     this()
@@ -121,10 +181,14 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         //    return getListFromCache(identityLinksByTaskIdMatcher, taskId);
         //}
 
+
         //return getList("selectIdentityLinksByTaskId", taskId, identityLinkByProcessInstanceMatcher, true);
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
         IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
-        lst.addAll(lst);
+        foreach (IdentityLinkEntityImpl id ; objs)
+        {
+            lst.add(cast(IdentityLinkEntity)id);
+        }
         return lst;
     }
 
@@ -278,20 +342,27 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
 
 
     public void deleteIdentityLinksByTaskId(string taskId) {
-        scope(exit)
-        {
-          _manager.close();
-        }
 
-        auto update = _manager.createQuery!(IdentityLinkEntityImpl)("DELETE FROM IdentityLinkEntityImpl u WHERE u.taskId = :taskId");
-        update.setParameter("taskId",taskId);
-        try{
-          update.exec();
-        }
-        catch(Exception e)
-        {
-          logError("deleteIdentityLinksByTaskId error : %s",e.msg);
-        }
+       List!IdentityLinkEntity identitys =  findIdentityLinksByTaskId(taskId);
+       foreach (IdentityLinkEntity identity ; identitys)
+       {
+            dele(identity);
+       }
+
+        //scope(exit)
+        //{
+        //  _manager.close();
+        //}
+        //
+        //auto update = _manager.createQuery!(IdentityLinkEntityImpl)("DELETE FROM IdentityLinkEntityImpl u WHERE u.taskId = :taskId");
+        //update.setParameter("taskId",taskId);
+        //try{
+        //  update.exec();
+        //}
+        //catch(Exception e)
+        //{
+        //  logError("deleteIdentityLinksByTaskId error : %s",e.msg);
+        //}
 
         //DbSqlSession dbSqlSession = getDbSqlSession();
         //if (isEntityInserted(dbSqlSession, "task", taskId)) {

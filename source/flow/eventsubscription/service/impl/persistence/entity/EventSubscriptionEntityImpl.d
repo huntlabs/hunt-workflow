@@ -169,7 +169,7 @@ class EventSubscriptionEntityImpl : AbstractEventSubscriptionEntity , Model, Eve
 
 
     public Date getCreated() {
-        return Date.ofEpochMilli(created);
+        return Date.ofEpochMilli(created * 1000);
     }
 
 

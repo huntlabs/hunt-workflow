@@ -102,4 +102,9 @@ abstract class FlowElement : BaseElement , HasExecutionListeners {
             }
         }
     }
+
+    string getClassType()
+    {
+        return "";
+    }
 }

@@ -29,10 +29,15 @@ import hunt.entity;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
 import hunt.logging;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdentityLinkEntityImpl , string) ,  HistoricIdentityLinkDataManager {
+class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdentityLinkEntityImpl , string) ,  HistoricIdentityLinkDataManager ,DataManger{
 //class MybatisHistoricIdentityLinkDataManager extends AbstractDataManager!HistoricIdentityLinkEntity implements HistoricIdentityLinkDataManager {
 
     //protected CachedEntityMatcher!HistoricIdentityLinkEntity historicIdentityLinksByProcInstMatcher = new HistoricIdentityLinksByProcInstMatcher();
@@ -48,12 +53,38 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
     alias insert = CrudRepository!( HistoricIdentityLinkEntityImpl , string).insert;
     alias update = CrudRepository!( HistoricIdentityLinkEntityImpl , string).update;
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisHistoricIdentityLinkDataManager);
+    }
+
     public HistoricIdentityLinkEntity findById(string entityId) {
+
+
       if (entityId is null) {
         return null;
       }
 
-      return find(entityId);
+      //return find(entityId);
+      auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(HistoricIdentityLinkEntityImpl),entityId);
+
+      if (entity !is null)
+      {
+        return cast(HistoricIdentityLinkEntity)entity;
+      }
+
+      HistoricIdentityLinkEntity dbData = cast(HistoricIdentityLinkEntity)(find(entityId));
+      if (dbData !is null)
+      {
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricIdentityLinkEntityImpl));
+      }
+
+      return dbData;
+      //if (entityId is null) {
+      //  return null;
+      //}
+      //
+      //return find(entityId);
 
       // Cache
       //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
@@ -67,9 +98,29 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
     //
     //@Override
     public void insert(HistoricIdentityLinkEntity entity) {
-      insert(cast(HistoricIdentityLinkEntityImpl)entity);
+      if (entity.getId() is null)
+      {
+        string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+        //if (dbSqlSessionFactory.isUsePrefixId()) {
+        //    id = entity.getIdPrefix() + id;
+        //}
+        entity.setId(id);
+
+      }
+      entity.setInserted(true);
+      CommandContext.insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricIdentityLinkEntityImpl));
+      //insert(cast(HistoricIdentityLinkEntityImpl)entity);
       //getDbSqlSession().insert(entity);
     }
+
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      HistoricIdentityLinkEntityImpl tmp = cast(HistoricIdentityLinkEntityImpl)entity;
+      db.persist!HistoricIdentityLinkEntityImpl(tmp);
+    }
+
     //
     //@Override
     public HistoricIdentityLinkEntity update(HistoricIdentityLinkEntity entity) {
@@ -81,7 +132,9 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
     public void dele(HistoricIdentityLinkEntity entity) {
       if (entity !is null)
       {
-        remove(cast(HistoricIdentityLinkEntityImpl)entity);
+        CommandContext.deleteJob[entity] = this;
+        entity.setDeleted(true);
+        //remove(cast(HistoricIdentityLinkEntityImpl)entity);
       }
       //getDbSqlSession().delete(entity);
     }
@@ -92,13 +145,21 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
       HistoricIdentityLinkEntity entity = findById(id);
       if (entity !is null)
       {
-        remove(cast(HistoricIdentityLinkEntityImpl)entity);
+        CommandContext.deleteJob[entity] = this;
+        entity.setDeleted(true);
+       // remove(cast(HistoricIdentityLinkEntityImpl)entity);
       }
       //delete(entity);
     }
 
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!HistoricIdentityLinkEntityImpl(cast(HistoricIdentityLinkEntityImpl)entity);
+    }
 
-    this()
+
+
+  this()
     {
       super(entityManagerFactory.currentEntityManager());
     }

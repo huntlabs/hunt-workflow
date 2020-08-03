@@ -20,7 +20,7 @@ import hunt.String;
  */
 class StringType : VariableType {
 
-    public static  string TYPE_NAME = "string";
+    enum  string TYPE_NAME = "string";
     private  int maxLength;
 
     this(int maxLength) {

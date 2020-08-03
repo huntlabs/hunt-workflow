@@ -27,6 +27,14 @@ import hunt.entity;
 import hunt.util.StringBuilder;
 import hunt.Exceptions;
 import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
+import flow.variable.service.impl.types.IntegerType;
+import flow.variable.service.impl.types.DateType;
+import flow.variable.service.impl.types.StringType;
+import flow.variable.service.impl.types.BooleanType;
+import flow.variable.service.impl.types.ShortType;
+import flow.variable.service.impl.types.DoubleType;
+import flow.variable.service.impl.types.NullType;
+import flow.variable.service.impl.types.LongType;
 /**
  * @author Tom Baeyens
  * @author Marcus Klimstra (CGI)
@@ -89,6 +97,7 @@ class VariableInstanceEntityImpl : AbstractVariableServiceEntity , Model, Variab
 
     this() {
         rev = 1;
+        doubleValue = 0;
     }
 
     public Object getPersistentState() {
@@ -170,9 +179,64 @@ class VariableInstanceEntityImpl : AbstractVariableServiceEntity , Model, Variab
     }
 
     // value //////////////////////////////////////////////////////////////////////
-
+  //import flow.variable.service.impl.types.IntegerType;
+  //import flow.variable.service.impl.types.DateType;
+  //import flow.variable.service.impl.types.StringType;
+  //import flow.variable.service.impl.types.BooleanType;
+  //import flow.variable.service.impl.types.ShortType;
+  //import flow.variable.service.impl.types.DoubleType;
+  //import flow.variable.service.impl.types.NullType;
+  //import flow.variable.service.impl.types.LongType;
 
     public Object getValue() {
+        if (type is null)
+        {
+            switch(typeName)
+            {
+              case IntegerType.TYPE_NAME :
+              {
+                  type = new IntegerType;
+                  break;
+              }
+              case DateType.TYPE_NAME :
+              {
+                  type = new DateType;
+                  break;
+              }
+              case StringType.TYPE_NAME :
+              {
+                  type = new StringType(4000);
+                  break;
+              }
+              case BooleanType.TYPE_NAME :
+              {
+                  type = new BooleanType;
+                  break;
+              }
+              case ShortType.TYPE_NAME :
+              {
+                  type = new ShortType;
+                  break;
+              }
+              case DoubleType.TYPE_NAME :
+              {
+                  type = new DoubleType;
+                  break;
+              }
+              case NullType.TYPE_NAME :
+              {
+                  type = new NullType;
+                  break;
+              }
+              case LongType.TYPE_NAME :
+              {
+                  type = new LongType;
+                  break;
+              }
+              default :
+                  break;
+            }
+        }
         if (!type.isCachable() || cachedValue is null) {
             cachedValue = type.getValue(this);
         }

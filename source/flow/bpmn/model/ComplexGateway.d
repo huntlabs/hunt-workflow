@@ -33,6 +33,11 @@ class ComplexGateway : Gateway {
         return clone;
     }
 
+    override
+    string getClassType()
+    {
+      return "complexGateway";
+    }
     public void setValues(ComplexGateway otherElement) {
         super.setValues(otherElement);
     }

@@ -61,10 +61,10 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
      string lockOwner;
 
      @Column("LOCK_EXP_TIME_")
-     int lockExpirationTime;
+     long lockExpirationTime;
 
      @Column("CREATE_TIME_")
-     int createTime;
+     long createTime;
 
      @Column("SCOPE_TYPE_")
      string scopeType;
@@ -73,8 +73,12 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
      string tenantId;
 
      @Column("REV_")
-     string rev;
+     int rev;
 
+    this()
+    {
+        rev = 1;
+    }
 
     override string getId()
     {
@@ -245,12 +249,12 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
 
     public Date getCreateTime() {
-        return Date.ofEpochMilli(cast(long)createTime);
+        return Date.ofEpochMilli(createTime * 1000);
     }
 
 
     public void setCreateTime(Date createTime) {
-        this.createTime = cast(int)createTime.toEpochMilli() / 1000;
+        this.createTime = createTime.toEpochMilli() / 1000;
     }
 
 
@@ -266,12 +270,12 @@ class HistoryJobEntityImpl : AbstractJobServiceEntity , Model, HistoryJobEntity 
 
     public Date getLockExpirationTime() {
         //return lockExpirationTime;
-        return Date.ofEpochMilli(cast(long)lockExpirationTime);
+        return Date.ofEpochMilli(lockExpirationTime * 1000);
     }
 
 
     public void setLockExpirationTime(Date claimedUntil) {
-        this.lockExpirationTime = cast(int)claimedUntil.toEpochMilli() / 1000;
+        this.lockExpirationTime = claimedUntil.toEpochMilli() / 1000;
     }
 
 

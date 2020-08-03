@@ -20,7 +20,7 @@ import hunt.Long;
  */
 class LongType : VariableType {
 
-    public static  string TYPE_NAME = "long";
+    enum  string TYPE_NAME = "long";
 
 
     public string getTypeName() {

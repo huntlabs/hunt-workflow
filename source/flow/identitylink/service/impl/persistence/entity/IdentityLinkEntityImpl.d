@@ -65,10 +65,10 @@ class IdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEntity , Mod
    string scopeDefinitionId;
 
    @Column("REV_")
-   string  rev;
+   int  rev;
 
     this() {
-      rev = "1";
+      rev = 1;
     }
 
 

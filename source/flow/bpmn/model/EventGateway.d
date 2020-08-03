@@ -32,6 +32,11 @@ class EventGateway : Gateway {
         clone.setValues(this);
         return clone;
     }
+    override
+    string getClassType()
+    {
+      return "eventGateway";
+    }
 
     public void setValues(EventGateway otherElement) {
         super.setValues(otherElement);

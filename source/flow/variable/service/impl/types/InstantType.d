@@ -47,7 +47,7 @@ class InstantType : VariableType {
     public Object getValue(ValueFields valueFields) {
         Long longValue = valueFields.getLongValue();
         if (longValue !is null) {
-            return LocalDateTime.ofEpochMilli(longValue.longValue());
+            return LocalDateTime.ofEpochMilli(longValue.longValue() * 1000);
         }
         return null;
     }

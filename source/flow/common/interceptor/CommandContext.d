@@ -18,7 +18,9 @@
 
 module flow.common.interceptor.CommandContext;
 
-
+import flow.engine.impl.persistence.entity.ActivityInstanceEntityImpl;
+import flow.engine.impl.persistence.entity.ExecutionEntityImpl;
+import std.algorithm;
 //import hunt.collection.ArrayList;
 //import hunt.collection.HashMap;
 //import hunt.collection.LinkedList;
@@ -64,7 +66,7 @@ class CommandContext {
 
 
     static DataManger[Entity] insertJob;
-
+    static DataManger[Entity] deleteJob;
 
     this(CommandAbstract command) {
         this.command = command;
@@ -217,27 +219,53 @@ class CommandContext {
         }
     }
 
+    static bool greater(Entity a, Entity b)
+    {
+      return a.getId < b.getId;
+    }
+
     protected void flushSessions() {
          if(insertJob.length == 0)
             return;
          auto em = entityManagerFactory.currentEntityManager();
          logInfof("size!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d",insertJob.length);
+
          em.getTransaction().begin();
 
          foreach (TypeInfo type ; insertOrder)
          {
+             Entity[] array;
+             DataManger m;
              foreach (k ,v ; insertJob)
              {
-               logInfof("type!!!!!!!!!!!!!  %s  ---  %s", typeid(v).toString , type.toString );
                if (v.getTypeInfo() == type)
                {
-                 v.insertTrans(k,em);
+                // v.insertTrans(k,em);
+                 array ~= k;
+                 m = v;
+               }
+             }
+             sort!greater(array);
+             foreach(Entity n; array)
+             {
+                m.insertTrans(n,em);
+             }
+         }
+
+         foreach (TypeInfo type ; insertOrder)
+         {
+             foreach (k ,v ; deleteJob)
+             {
+               if (v.getTypeInfo() == type)
+               {
+                  v.deleteTrans(k,em);
                }
              }
          }
 
          em.getTransaction().commit();
          insertJob.clear;
+         deleteJob.clear;
         //foreach (Session session ; sessions.values()) {
         //    session.flush();
         //}

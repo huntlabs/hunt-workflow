@@ -35,6 +35,11 @@ class ScriptTask : Task {
     protected string resultVariable;
     protected bool autoStoreVariables; // see https://activiti.atlassian.net/browse/ACT-1626
 
+    override
+    string getClassType()
+    {
+      return "scriptTask";
+    }
     public string getScriptFormat() {
         return scriptFormat;
     }

@@ -24,7 +24,7 @@ alias Date = LocalDateTime;
  */
 class DateType : VariableType {
 
-    public static  string TYPE_NAME = "date";
+    enum  string TYPE_NAME = "date";
 
 
     public string getTypeName() {

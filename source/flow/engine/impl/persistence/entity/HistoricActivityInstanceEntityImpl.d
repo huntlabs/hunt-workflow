@@ -41,7 +41,7 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
     string id;
 
     @Column("REV_")
-    string rev;
+    int rev;
 
     @Column("ACT_ID_")
     string activityId;
@@ -87,6 +87,7 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
 
     this() {
       tenantId = ProcessEngineConfiguration.NO_TENANT_ID;
+      rev = 1;
     }
 
     public Object getPersistentState() {
@@ -197,7 +198,7 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
 
 
     public Date getTime() {
-        return Date.ofEpochMilli(startTime);
+        return Date.ofEpochMilli(startTime * 1000);
     }
 
     // common methods //////////////////////////////////////////////////////////
@@ -230,12 +231,12 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
 
     LocalDateTime getStartTime()
     {
-        return Date.ofEpochMilli(startTime);
+        return Date.ofEpochMilli(startTime * 1000);
     }
 
      LocalDateTime getEndTime()
      {
-       return Date.ofEpochMilli(endTime);
+       return Date.ofEpochMilli(endTime * 1000);
      }
 
     long getDurationInMillis()

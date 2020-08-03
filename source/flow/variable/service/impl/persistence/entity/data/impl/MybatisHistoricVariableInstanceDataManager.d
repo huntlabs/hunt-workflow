@@ -31,10 +31,15 @@ import hunt.logging;
 import hunt.entity;
 import hunt.Exceptions;
 import flow.common.AbstractEngineConfiguration;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
+import flow.engine.impl.util.CommandContextUtil;
 /**
  * @author Joram Barrez
  */
-class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVariableInstanceEntityImpl , string) , HistoricVariableInstanceDataManager {
+class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVariableInstanceEntityImpl , string) , HistoricVariableInstanceDataManager ,DataManger{
 
     alias findById = CrudRepository!(HistoricVariableInstanceEntityImpl , string).findById;
     alias insert = CrudRepository!(HistoricVariableInstanceEntityImpl , string).insert;
@@ -60,12 +65,39 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
     //public Class<? extends HistoricVariableInstanceEntity> getManagedEntityClass() {
     //    return HistoricVariableInstanceEntityImpl.class;
     //}
+
+  TypeInfo getTypeInfo()
+  {
+    return typeid(MybatisHistoricVariableInstanceDataManager);
+  }
+
   public HistoricVariableInstanceEntity findById(string entityId) {
+
     if (entityId is null) {
       return null;
     }
 
-    return find(entityId);
+    //return find(entityId);
+    auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(HistoricVariableInstanceEntityImpl),entityId);
+
+    if (entity !is null)
+    {
+      return cast(HistoricVariableInstanceEntity)entity;
+    }
+
+    HistoricVariableInstanceEntity dbData = cast(HistoricVariableInstanceEntity)(find(entityId));
+    if (dbData !is null)
+    {
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricVariableInstanceEntityImpl));
+    }
+
+    return dbData;
+
+    //if (entityId is null) {
+    //  return null;
+    //}
+    //
+    //return find(entityId);
 
     // Cache
     //EntityImpl cachedEntity = getEntityCache().findInCache(getManagedEntityClass(), entityId);
@@ -78,9 +110,30 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
   }
   //
     public void insert(HistoricVariableInstanceEntity entity) {
-      insert(cast(HistoricVariableInstanceEntityImpl)entity);
+      if (entity.getId() is null)
+      {
+        string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+        //if (dbSqlSessionFactory.isUsePrefixId()) {
+        //    id = entity.getIdPrefix() + id;
+        //}
+        entity.setId(id);
+
+      }
+      entity.setInserted(true);
+      CommandContext.insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricVariableInstanceEntityImpl));
+      //insert(cast(HistoricVariableInstanceEntityImpl)entity);
       //getDbSqlSession().insert(entity);
     }
+
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      HistoricVariableInstanceEntityImpl tmp = cast(HistoricVariableInstanceEntityImpl)entity;
+      db.persist!HistoricVariableInstanceEntityImpl(tmp);
+    }
+
+
     public HistoricVariableInstanceEntity update(HistoricVariableInstanceEntity entity) {
       return  update(cast(HistoricVariableInstanceEntityImpl)entity);
       //getDbSqlSession().update(entity);
@@ -90,7 +143,9 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
       HistoricVariableInstanceEntity entity = findById(id);
       if (entity !is null)
       {
-        remove(cast(HistoricVariableInstanceEntityImpl)entity);
+        CommandContext.deleteJob[entity] = this;
+        entity.setDeleted(true);
+        //remove(cast(HistoricVariableInstanceEntityImpl)entity);
       }
       //delete(entity);
     }
@@ -98,9 +153,16 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
     public void dele(HistoricVariableInstanceEntity entity) {
       if (entity !is null)
       {
-        remove(cast(HistoricVariableInstanceEntityImpl)entity);
+        CommandContext.deleteJob[entity] = this;
+        entity.setDeleted(true);
+        //remove(cast(HistoricVariableInstanceEntityImpl)entity);
       }
       //getDbSqlSession().delete(entity);
+    }
+
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!HistoricVariableInstanceEntityImpl(cast(HistoricVariableInstanceEntityImpl)entity);
     }
 
 

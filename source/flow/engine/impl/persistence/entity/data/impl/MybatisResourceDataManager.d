@@ -119,7 +119,9 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
     ResourceEntity entity = findById(id);
     if (entity !is null)
     {
-      remove(cast(ResourceEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(ResourceEntityImpl)entity);
     }
     //delete(entity);
   }
@@ -127,10 +129,17 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
   public void dele(ResourceEntity entity) {
     if (entity !is null)
     {
-      remove(cast(ResourceEntityImpl)entity);
+      CommandContext.deleteJob[entity] = this;
+      entity.setDeleted(true);
+     // remove(cast(ResourceEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
   }
+
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!ResourceEntityImpl(cast(ResourceEntityImpl)entity);
+    }
 
     public ResourceEntity create() {
         logInfo("ResourceEntity create");

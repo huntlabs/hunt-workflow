@@ -61,6 +61,12 @@ class SequenceFlow : FlowElement {
         this.targetRef = targetRef;
     }
 
+    override
+    string getClassType()
+    {
+      return "sequenceFlow";
+    }
+
     public string getConditionExpression() {
         return conditionExpression;
     }
