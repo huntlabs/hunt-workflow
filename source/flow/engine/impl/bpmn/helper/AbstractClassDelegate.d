@@ -20,6 +20,7 @@ import flow.bpmn.model.ServiceTask;
 import flow.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import flow.engine.impl.bpmn.parser.FieldDeclaration;
 import hunt.Exceptions;
+import std.string;
 /**
  * Helper class for bpmn constructs that allow class delegation.
  *
@@ -60,7 +61,7 @@ abstract class AbstractClassDelegate : AbstractBpmnActivityBehavior {
 
     public static Object defaultInstantiateDelegate(string className, List!FieldDeclaration fieldDeclarations, ServiceTask serviceTask) {
         //Object object = ReflectUtil.instantiate(className);
-        Object object = Object.factory(className);
+        Object object = Object.factory(className ~ "." ~ className[className.lastIndexOf(".") + 1 .. $]);
         applyFieldDeclaration(fieldDeclarations, object);
 
         if (serviceTask !is null) {

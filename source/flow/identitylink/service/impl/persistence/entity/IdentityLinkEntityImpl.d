@@ -20,6 +20,7 @@ import flow.common.api.FlowableException;
 import flow.identitylink.service.impl.persistence.entity.AbstractIdentityLinkServiceNoRevisionEntity;
 import flow.identitylink.service.impl.persistence.entity.IdentityLinkEntity;
 import hunt.entity;
+import hunt.String;
 import hunt.util.StringBuilder;
 import flow.identitylink.api.IdentityLink;
 /**
@@ -88,47 +89,46 @@ class IdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEntity , Mod
   }
 
     public Object getPersistentState() {
-        return this;
-        //Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        //persistentState.put("type", this.type);
-        //
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("type", new String(type));
+
         //if (this.userId !is null) {
-        //    persistentState.put("userId", this.userId);
+            persistentState.put("userId", new String(userId));
         //}
-        //
+
         //if (this.groupId !is null) {
-        //    persistentState.put("groupId", this.groupId);
+            persistentState.put("groupId", new String(groupId));
         //}
-        //
+
         //if (this.taskId !is null) {
-        //    persistentState.put("taskId", this.taskId);
+            persistentState.put("taskId", new String(taskId));
         //}
-        //
+
         //if (this.processInstanceId !is null) {
-        //    persistentState.put("processInstanceId", this.processInstanceId);
+            persistentState.put("processInstanceId", new String(processInstanceId));
         //}
-        //
+
         //if (this.processDefId !is null) {
-        //    persistentState.put("processDefId", this.processDefId);
+            persistentState.put("processDefId", new String(processDefId));
         //}
-        //
+
         //if (this.scopeId !is null) {
-        //    persistentState.put("scopeId", this.scopeId);
+            persistentState.put("scopeId", new String(scopeId));
         //}
-        //
+
         //if (this.subScopeId !is null) {
-        //    persistentState.put("subScopeId", this.subScopeId);
+            persistentState.put("subScopeId", new String(subScopeId));
         //}
-        //
+
         //if (this.scopeType!is null) {
-        //    persistentState.put("scopeType", this.scopeType);
+            persistentState.put("scopeType", new String(scopeType));
         //}
-        //
+
         //if (this.scopeDefinitionId !is null) {
-        //    persistentState.put("scopeDefinitionId", this.scopeDefinitionId);
+            persistentState.put("scopeDefinitionId", new String(scopeDefinitionId));
         //}
-        //
-        //return persistentState;
+
+        return cast(Object)persistentState;
     }
 
 

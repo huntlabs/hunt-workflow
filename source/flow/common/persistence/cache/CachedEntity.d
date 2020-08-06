@@ -15,7 +15,8 @@ module flow.common.persistence.cache.CachedEntity;
 import hunt.collection.HashMap;
 
 import flow.common.persistence.entity.Entity;
-
+import flow.common.api.DataManger;
+import hunt.collection.Map;
 /**
  * @author Joram Barrez
  */
@@ -25,25 +26,31 @@ class CachedEntity {
      * The actual {@link Entity} instance.
      */
     protected Entity entity;
-
+    protected DataManger db;
     /**
      * Represents the 'persistence state' at the moment this {@link CachedEntity} instance was created. It is used later on to determine if a {@link Entity} has been updated, by comparing the
      * 'persistent state' at that moment with this instance here.
      */
     protected Object originalPersistentState;
 
-    this(Entity entity, bool storeState) {
+    this(Entity entity, bool storeState , DataManger db) {
         this.entity = entity;
+        this.db = db;
         if (storeState) {
             this.originalPersistentState = entity.getPersistentState();
             entity.setOriginalPersistentState(originalPersistentState);
         } else if (entity.getOriginalPersistentState() is null){
-            entity.setOriginalPersistentState(null);
+            entity.setOriginalPersistentState(new HashMap!(string,Object));
         }
     }
 
     public Entity getEntity() {
         return entity;
+    }
+
+    public DataManger getDataManager()
+    {
+        return db;
     }
 
     public void setEntity(Entity entity) {
@@ -59,7 +66,7 @@ class CachedEntity {
     }
 
     public bool hasChanged() {
-        return entity.getPersistentState() !is null && entity.getPersistentState() != (originalPersistentState);
+        return entity.getPersistentState() !is null && cast(Map!(string,Object))(entity.getPersistentState()) != (cast(Map!(string,Object))originalPersistentState);
     }
 
 }

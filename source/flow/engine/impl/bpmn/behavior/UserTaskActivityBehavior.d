@@ -16,7 +16,7 @@ import hunt.collection.ArrayList;
 import hunt.collection;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
-
+import std.string;
 import flow.bpmn.model.UserTask;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
@@ -54,6 +54,7 @@ import hunt.time.LocalDateTime;
 import std.conv : to;
 import std.range;
 import std.array;
+import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
 alias Date = LocalDateTime;
 /**
  * @author Joram Barrez
@@ -287,7 +288,9 @@ class UserTaskActivityBehavior : TaskActivityBehavior {
             ProcessEngineConfigurationImpl processEngineConfiguration) {
 
         if (assignee !is null && assignee.length != 0) {
-            Object assigneeExpressionValue = expressionManager.createExpression(assignee).getValue(execution);
+            //Object assigneeExpressionValue = expressionManager.createExpression(assignee).getValue(execution);
+            VariableScopeImpl var = cast(VariableScopeImpl)execution;
+            Object assigneeExpressionValue = var.getVariable(assignee[assignee.indexOf("{") + 1 .. $ -1]);
             string assigneeValue = null;
             if (assigneeExpressionValue !is null) {
                 assigneeValue = (cast(String)assigneeExpressionValue).value;

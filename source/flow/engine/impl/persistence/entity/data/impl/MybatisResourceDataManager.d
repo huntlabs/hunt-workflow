@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 module flow.engine.impl.persistence.entity.data.impl.MybatisResourceDataManager;
+
 import flow.common.context.Context;
 import hunt.logging;
 import hunt.collection.HashMap;
@@ -31,6 +32,7 @@ import hunt.logging;
 import flow.common.interceptor.CommandContext;
 import flow.common.api.DataManger;
 import flow.engine.impl.util.CommandContextUtil;
+
 /**
  * @author Joram Barrez
  */
@@ -82,7 +84,7 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
     ResourceEntity dbData = cast(ResourceEntity)(find(entityId));
     if (dbData !is null)
     {
-      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ResourceEntityImpl));
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ResourceEntityImpl),this);
     }
 
     return dbData;
@@ -99,8 +101,8 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
 
     }
     entity.setInserted(true);
-    CommandContext.insertJob[entity] = this;
-    CommandContextUtil.getEntityCache().put(entity, false, typeid(ResourceEntityImpl));
+    insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(ResourceEntityImpl),this);
   }
 
   public void insertTrans(Entity entity , EntityManager db)
@@ -108,6 +110,11 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
       //auto em = _manager ? _manager : createEntityManager;
       ResourceEntityImpl tmp = cast(ResourceEntityImpl)entity;
       db.persist!ResourceEntityImpl(tmp);
+  }
+
+  public void updateTrans(Entity entity , EntityManager db)
+  {
+      db.merge!ResourceEntityImpl(cast(ResourceEntityImpl)entity);
   }
 
   public ResourceEntity update(ResourceEntity entity) {
@@ -119,7 +126,7 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
     ResourceEntity entity = findById(id);
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(ResourceEntityImpl)entity);
     }
@@ -129,7 +136,7 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
   public void dele(ResourceEntity entity) {
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
      // remove(cast(ResourceEntityImpl)entity);
     }
@@ -185,15 +192,34 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
         _manager.close();
       }
 
-      ResourceEntityImpl[] array =  _manager.createQuery!(ResourceEntityImpl)("SELECT * FROM ResourceEntityImpl u WHERE u.deploymentId = :deploymentId order by name asc")
+      ResourceEntityImpl[] array =  _manager.createQuery!(ResourceEntityImpl)("SELECT * FROM ResourceEntityImpl u WHERE u.deploymentId = :deploymentId order by u.name asc")
       .setParameter("deploymentId",deploymentId)
       .getResultList();
-      List!ResourceEntity list = new ArrayList!ResourceEntity;
-      foreach(ResourceEntityImpl r; array)
+
+      List!ResourceEntity  rt = new ArrayList!ResourceEntity;
+      foreach(ResourceEntityImpl a; array)
       {
-          list.add(cast(ResourceEntity)r);
+        rt.add(cast(ResourceEntity)a);
+        CommandContextUtil.getEntityCache().put(cast(ResourceEntity)a, false, typeid(ResourceEntityImpl),this);
       }
-      return list;
+
+      foreach(ResourceEntityImpl task ; array)
+      {
+        foreach (k ,v ; deleteJob)
+        {
+          if (cast(ResourceEntityImpl)k !is null && (cast(ResourceEntityImpl)k).getId == task.getId)
+          {
+            rt.remove(cast(ResourceEntityImpl)task);
+          }
+        }
+      }
+      return rt;
+      //List!ResourceEntity list = new ArrayList!ResourceEntity;
+      //foreach(ResourceEntityImpl r; array)
+      //{
+      //    list.add(cast(ResourceEntity)r);
+      //}
+      //return list;
       //return new ArrayList!ResourceEntityImpl(array);
     }
 

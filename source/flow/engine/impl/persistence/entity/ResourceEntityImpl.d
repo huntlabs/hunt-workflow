@@ -16,6 +16,11 @@ import flow.common.persistence.entity.Entity;
 import flow.engine.impl.persistence.entity.AbstractBpmnEngineNoRevisionEntity;
 import flow.engine.impl.persistence.entity.ResourceEntity;
 import hunt.entity;
+import hunt.String;
+import hunt.Boolean;
+import hunt.Integer;
+import hunt.collection.Map;
+import hunt.collection.HashMap;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -90,8 +95,14 @@ class ResourceEntityImpl : AbstractBpmnEngineNoRevisionEntity , Model, ResourceE
 
 
     public Object getPersistentState() {
-        return this;
-        //return ResourceEntityImpl.class;
+        Map!(string,Object) object = new HashMap!(string,Object);
+        object.put("id", new String(id));
+        object.put("name", new String(name));
+        object.put("bytes", new String(bytes));
+        object.put("deploymentId", new String(deploymentId));
+        object.put("generated", new Boolean(generated));
+        object.put("rev", new Integer(rev));
+        return cast(Object)object;
     }
 
 

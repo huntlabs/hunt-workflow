@@ -429,6 +429,13 @@ import flow.engine.ProcessEngineLifecycleListener;
         return this;
     }
 
+   override
+   public ProcessEngineConfiguration setDataBase(string dataBase)
+   {
+       jdbcDataBase = dataBase;
+       return this;
+   }
+
     override
     public ProcessEngineConfiguration setTransactionsExternallyManaged(bool transactionsExternallyManaged) {
         this.transactionsExternallyManaged = transactionsExternallyManaged;

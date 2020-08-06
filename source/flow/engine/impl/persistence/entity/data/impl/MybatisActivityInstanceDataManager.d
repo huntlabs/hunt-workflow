@@ -92,7 +92,7 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
     ActivityInstanceEntity dbData = cast(ActivityInstanceEntity)(find(entityId));
     if (dbData !is null)
     {
-      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ActivityInstanceEntityImpl));
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ActivityInstanceEntityImpl),this);
     }
 
     return dbData;
@@ -109,8 +109,8 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
         entity.setId(id);
       }
       entity.setInserted(true);
-      CommandContext.insertJob[entity] = this;
-      CommandContextUtil.getEntityCache().put(entity, false, typeid(ActivityInstanceEntityImpl));
+      insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(ActivityInstanceEntityImpl),this);
   }
 
     public void insertTrans(Entity entity , EntityManager db)
@@ -118,6 +118,11 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
       //auto em = _manager ? _manager : createEntityManager;
       ActivityInstanceEntityImpl tmp = cast(ActivityInstanceEntityImpl)entity;
       db.persist!ActivityInstanceEntityImpl(tmp);
+    }
+
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!ActivityInstanceEntityImpl(cast(ActivityInstanceEntityImpl)entity);
     }
 
   public ActivityInstanceEntity update(ActivityInstanceEntity entity) {
@@ -129,7 +134,7 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
     ActivityInstanceEntity entity = findById(id);
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(ActivityInstanceEntityImpl)entity);
     }
@@ -139,7 +144,7 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
   public void dele(ActivityInstanceEntity entity) {
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
      // remove(cast(ActivityInstanceEntityImpl)entity);
     }
@@ -172,12 +177,12 @@ class MybatisActivityInstanceDataManager : EntityRepository!(ActivityInstanceEnt
       foreach(ActivityInstanceEntityImpl a; array)
       {
           rt.add(cast(ActivityInstanceEntity)a);
-          CommandContextUtil.getEntityCache().put(cast(ActivityInstanceEntity)a, false, typeid(ActivityInstanceEntityImpl));
+          CommandContextUtil.getEntityCache().put(cast(ActivityInstanceEntity)a, false, typeid(ActivityInstanceEntityImpl),this);
       }
 
       foreach(ActivityInstanceEntityImpl task ; array)
       {
-        foreach (k ,v ; CommandContext.deleteJob)
+        foreach (k ,v ; deleteJob)
         {
           if (cast(ActivityInstanceEntityImpl)k !is null && (cast(ActivityInstanceEntityImpl)k).getId == task.getId)
           {

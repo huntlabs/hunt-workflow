@@ -16,7 +16,7 @@ module flow.engine.impl.bpmn.helper.ClassDelegateUtil;
 //import java.lang.reflect.InvocationTargetException;
 //import java.lang.reflect.Method;
 import hunt.collection.List;
-
+import std.string;
 import flow.common.api.FlowableException;
 import flow.common.api.FlowableIllegalArgumentException;
 //import flow.common.util.ReflectUtil;
@@ -34,7 +34,7 @@ class ClassDelegateUtil {
 
     public static Object instantiateDelegate(string className, List!FieldDeclaration fieldDeclarations) {
        // Object object = ReflectUtil.instantiate(className);
-        Object object = Object.factory(className);
+        Object object = Object.factory(className ~ "." ~ className[className.lastIndexOf(".") + 1 .. $]);
         applyFieldDeclaration(fieldDeclarations, object);
         return object;
     }

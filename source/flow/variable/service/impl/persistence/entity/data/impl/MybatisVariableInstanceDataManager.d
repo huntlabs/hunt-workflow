@@ -104,7 +104,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
          VariableInstanceEntity dbData = cast(VariableInstanceEntity)(find(entityId));
          if (dbData !is null)
          {
-           CommandContextUtil.getEntityCache().put(dbData, true , typeid(VariableInstanceEntityImpl));
+           CommandContextUtil.getEntityCache().put(dbData, true , typeid(VariableInstanceEntityImpl), this);
          }
 
          return dbData;
@@ -138,8 +138,8 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
 
         }
         entity.setInserted(true);
-        CommandContext.insertJob[entity] = this;
-        CommandContextUtil.getEntityCache().put(entity, false, typeid(VariableInstanceEntityImpl));
+        insertJob[entity] = this;
+        CommandContextUtil.getEntityCache().put(entity, false, typeid(VariableInstanceEntityImpl), this);
       }
 
     public void insertTrans(Entity entity , EntityManager db)
@@ -159,7 +159,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
         VariableInstanceEntity entity = findById(id);
         if (entity !is null)
         {
-          CommandContext.deleteJob[entity] = this;
+          deleteJob[entity] = this;
           entity.setDeleted(true);
           //remove(cast(VariableInstanceEntityImpl)entity);
         }
@@ -169,7 +169,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
       public void dele(VariableInstanceEntity entity) {
         if (entity !is null)
         {
-          CommandContext.deleteJob[entity] = this;
+          deleteJob[entity] = this;
           entity.setDeleted(true);
           //remove(cast(VariableInstanceEntityImpl)entity);
         }
@@ -179,6 +179,11 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
     void deleteTrans(Entity entity , EntityManager db)
     {
       db.remove!VariableInstanceEntityImpl(cast(VariableInstanceEntityImpl)entity);
+    }
+
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!VariableInstanceEntityImpl(cast(VariableInstanceEntityImpl)entity);
     }
 
     public VariableInstanceEntity create() {

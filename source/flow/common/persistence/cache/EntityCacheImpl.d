@@ -21,6 +21,7 @@ import hunt.collection.Map;
 import flow.common.persistence.cache.EntityCache;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.cache.CachedEntity;
+import flow.common.api.DataManger;
 /**
  * @author Joram Barrez
  */
@@ -34,13 +35,13 @@ class EntityCacheImpl : EntityCache {
     protected Map!(TypeInfo, Map!(string, CachedEntity)) cachedObjects  ;//= new HashMap<>();
 
 
-    public CachedEntity put(Entity entity, bool storeState ,TypeInfo type) {
+    public CachedEntity put(Entity entity, bool storeState ,TypeInfo type ,DataManger db) {
         Map!(string, CachedEntity) classCache = cachedObjects.get(type);
         if (classCache is null) {
             classCache = new HashMap!(string, CachedEntity);
             cachedObjects.put(type, classCache);
         }
-        CachedEntity cachedObject = new CachedEntity(entity, storeState);
+        CachedEntity cachedObject = new CachedEntity(entity, storeState, db);
         classCache.put(entity.getId(), cachedObject);
         return cachedObject;
     }

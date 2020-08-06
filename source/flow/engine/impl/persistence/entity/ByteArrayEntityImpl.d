@@ -16,6 +16,9 @@ import  flow.common.persistence.entity.Entity;
 import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
 import flow.engine.impl.persistence.entity.ByteArrayEntity;
 import hunt.entity;
+import hunt.collection.Map;
+import hunt.collection.HashMap;
+import hunt.String;
 /**
  * @author Tom Baeyens
  * @author Marcus Klimstra (CGI)
@@ -88,7 +91,11 @@ class ByteArrayEntityImpl : AbstractBpmnEngineEntity , Model, ByteArrayEntity {
 
 
     public Object getPersistentState() {
-        return new PersistentState(name, bytes);
+        Map!(string,Object) object = new HashMap!(string,Object);
+        object.put("name",new String(name));
+        object.put("bytes",new String(cast(string)bytes));
+        return cast(Object)object;
+        //return new PersistentState(name, bytes);
     }
 
     // getters and setters ////////////////////////////////////////////////////////

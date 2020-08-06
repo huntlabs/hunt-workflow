@@ -35,6 +35,12 @@ import flow.variable.service.impl.types.ShortType;
 import flow.variable.service.impl.types.DoubleType;
 import flow.variable.service.impl.types.NullType;
 import flow.variable.service.impl.types.LongType;
+import hunt.String;
+import hunt.Long;
+import hunt.Double;
+import hunt.Integer;
+import hunt.Boolean;
+
 /**
  * @author Tom Baeyens
  * @author Marcus Klimstra (CGI)
@@ -101,27 +107,26 @@ class VariableInstanceEntityImpl : AbstractVariableServiceEntity , Model, Variab
     }
 
     public Object getPersistentState() {
-        return this;
-        //Map<string, Object> persistentState = new HashMap<>();
-        //persistentState.put("name", name);
-        //if (type !is null) {
-        //    persistentState.put("typeName", type.getTypeName());
-        //}
-        //persistentState.put("executionId", executionId);
-        //persistentState.put("scopeId", scopeId);
-        //persistentState.put("subScopeId", subScopeId);
-        //persistentState.put("scopeType", scopeType);
-        //persistentState.put("longValue", longValue);
-        //persistentState.put("doubleValue", doubleValue);
-        //persistentState.put("textValue", textValue);
-        //persistentState.put("textValue2", textValue2);
-        //if (byteArrayRef !is null && byteArrayRef.getId() !is null) {
-        //    persistentState.put("byteArrayValueId", byteArrayRef.getId());
-        //}
-        //if (forcedUpdate) {
-        //    persistentState.put("forcedUpdate", Boolean.TRUE);
-        //}
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string,Object)();
+        persistentState.put("name", new String(name));
+        if (type !is null) {
+            persistentState.put("typeName", new String(type.getTypeName()));
+        }
+        persistentState.put("executionId", new String(executionId));
+        persistentState.put("scopeId", new String(scopeId));
+        persistentState.put("subScopeId", new String(subScopeId));
+        persistentState.put("scopeType", new String(scopeType));
+        persistentState.put("longValue", new Long(longValue));
+        persistentState.put("doubleValue", new Double(doubleValue));
+        persistentState.put("textValue", new String(textValue));
+        persistentState.put("textValue2", new String(textValue2));
+        if (byteArrayRef !is null && byteArrayRef.getId() !is null) {
+            persistentState.put("byteArrayValueId",new String(byteArrayRef.getId()));
+        }
+        if (forcedUpdate) {
+            persistentState.put("forcedUpdate", Boolean.TRUE);
+        }
+        return cast(Object)persistentState;
     }
 
     public string getId() {

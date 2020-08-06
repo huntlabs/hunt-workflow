@@ -85,7 +85,7 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
     HistoricProcessInstanceEntity dbData = cast(HistoricProcessInstanceEntity)(find(entityId));
     if (dbData !is null)
     {
-      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricProcessInstanceEntityImpl));
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricProcessInstanceEntityImpl), this);
     }
 
     return dbData;
@@ -102,8 +102,8 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
       entity.setId(id);
     }
     entity.setInserted(true);
-    CommandContext.insertJob[entity] = this;
-    CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricProcessInstanceEntityImpl));
+    insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricProcessInstanceEntityImpl),this);
   }
 
   public void insertTrans(Entity entity , EntityManager db)
@@ -122,7 +122,7 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
     HistoricProcessInstanceEntity entity = findById(id);
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(HistoricProcessInstanceEntityImpl)entity);
     }
@@ -132,23 +132,26 @@ class MybatisHistoricProcessInstanceDataManager : EntityRepository!(HistoricProc
   public void dele(HistoricProcessInstanceEntity entity) {
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(HistoricProcessInstanceEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
   }
 
-  void deleteTrans(Entity entity , EntityManager db)
-  {
-    db.remove!HistoricProcessInstanceEntityImpl(cast(HistoricProcessInstanceEntityImpl)entity);
-  }
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!HistoricProcessInstanceEntityImpl(cast(HistoricProcessInstanceEntityImpl)entity);
+    }
 
     //
     //class<? : HistoricProcessInstanceEntity> getManagedEntityClass() {
     //    return HistoricProcessInstanceEntityImpl.class;
     //}
-
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!HistoricProcessInstanceEntityImpl(cast(HistoricProcessInstanceEntityImpl)entity);
+    }
 
     public HistoricProcessInstanceEntity create() {
         return new HistoricProcessInstanceEntityImpl();

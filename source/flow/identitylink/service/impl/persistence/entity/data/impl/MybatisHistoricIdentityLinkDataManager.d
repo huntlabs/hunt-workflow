@@ -76,7 +76,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
       HistoricIdentityLinkEntity dbData = cast(HistoricIdentityLinkEntity)(find(entityId));
       if (dbData !is null)
       {
-        CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricIdentityLinkEntityImpl));
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricIdentityLinkEntityImpl), this);
       }
 
       return dbData;
@@ -108,8 +108,8 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
 
       }
       entity.setInserted(true);
-      CommandContext.insertJob[entity] = this;
-      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricIdentityLinkEntityImpl));
+      insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricIdentityLinkEntityImpl), this);
       //insert(cast(HistoricIdentityLinkEntityImpl)entity);
       //getDbSqlSession().insert(entity);
     }
@@ -132,7 +132,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
     public void dele(HistoricIdentityLinkEntity entity) {
       if (entity !is null)
       {
-        CommandContext.deleteJob[entity] = this;
+        deleteJob[entity] = this;
         entity.setDeleted(true);
         //remove(cast(HistoricIdentityLinkEntityImpl)entity);
       }
@@ -145,7 +145,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
       HistoricIdentityLinkEntity entity = findById(id);
       if (entity !is null)
       {
-        CommandContext.deleteJob[entity] = this;
+        deleteJob[entity] = this;
         entity.setDeleted(true);
        // remove(cast(HistoricIdentityLinkEntityImpl)entity);
       }
@@ -157,7 +157,10 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
       db.remove!HistoricIdentityLinkEntityImpl(cast(HistoricIdentityLinkEntityImpl)entity);
     }
 
-
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!HistoricIdentityLinkEntityImpl(cast(HistoricIdentityLinkEntityImpl)entity);
+    }
 
   this()
     {

@@ -8,9 +8,5 @@
 	"name": "example",
   "dependencies": {
     "hunt-workflow": {"path": "../"}
-  },
-  "versions": [
-    "HUNT_DB_DEBUG",
-    "HUNT_SQL_DEBUG"
-  ]
+  }
 }

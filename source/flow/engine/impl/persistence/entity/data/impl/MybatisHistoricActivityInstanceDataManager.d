@@ -88,7 +88,7 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
     HistoricActivityInstanceEntity dbData = cast(HistoricActivityInstanceEntity)(find(entityId));
     if (dbData !is null)
     {
-      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricActivityInstanceEntityImpl));
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricActivityInstanceEntityImpl), this);
     }
 
     return dbData;
@@ -105,8 +105,8 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
       entity.setId(id);
     }
     entity.setInserted(true);
-    CommandContext.insertJob[entity] = this;
-    CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricActivityInstanceEntityImpl));
+    insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricActivityInstanceEntityImpl), this);
   }
 
   public void insertTrans(Entity entity , EntityManager db)
@@ -125,7 +125,7 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
     HistoricActivityInstanceEntity entity = findById(id);
     if (entity !is null)
     {
-        CommandContext.deleteJob[entity] = this;
+        deleteJob[entity] = this;
         entity.setDeleted(true);
       //remove(cast(HistoricActivityInstanceEntityImpl)entity);
     }
@@ -135,18 +135,23 @@ class MybatisHistoricActivityInstanceDataManager : EntityRepository!(HistoricAct
   public void dele(HistoricActivityInstanceEntity entity) {
     if (entity !is null)
     {
-        CommandContext.deleteJob[entity] = this;
+        deleteJob[entity] = this;
         entity.setDeleted(true);
       //remove(cast(HistoricActivityInstanceEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
   }
 
-  void deleteTrans(Entity entity , EntityManager db)
-  {
-    db.remove!HistoricActivityInstanceEntityImpl(cast(HistoricActivityInstanceEntityImpl)entity);
-  }
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!HistoricActivityInstanceEntityImpl(cast(HistoricActivityInstanceEntityImpl)entity);
+    }
 
+
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!HistoricActivityInstanceEntityImpl(cast(HistoricActivityInstanceEntityImpl)entity);
+    }
     //
     //class<? : HistoricActivityInstanceEntity> getManagedEntityClass() {
     //    return HistoricActivityInstanceEntityImpl.class;

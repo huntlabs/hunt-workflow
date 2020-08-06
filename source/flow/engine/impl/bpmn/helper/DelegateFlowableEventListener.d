@@ -18,6 +18,7 @@ import flow.common.api.deleg.event.FlowableEvent;
 import flow.common.api.deleg.event.FlowableEventListener;
 //import flow.common.util.ReflectUtil;
 import flow.engine.impl.bpmn.helper.BaseDelegateEventListener;
+import std.string;
 /**
  * An {@link FlowableEventListener} implementation which uses a classname to create a delegate {@link FlowableEventListener} instance to use for event notification. <br>
  * <br>
@@ -54,7 +55,7 @@ class DelegateFlowableEventListener : BaseDelegateEventListener {
 
     protected FlowableEventListener getDelegateInstance() {
         if (delegateInstance is null) {
-            Object instance =  Object.factory(className);
+            Object instance = Object.factory(className ~ "." ~ className[className.lastIndexOf(".") + 1 .. $]);
             if (cast(FlowableEventListener)instance !is null) {
                 delegateInstance = cast(FlowableEventListener) instance;
             } else {

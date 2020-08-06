@@ -186,7 +186,7 @@ class ActivityInstanceEntityManagerImpl
         ActivityInstanceEntity activityInstance = null;
         ExecutionEntity executionEntity = getExecutionEntityManager().findById(taskEntity.getExecutionId());
         if (executionEntity !is null) {
-            if ((cast(String)getOriginalAssignee(taskEntity)).value != taskEntity.getAssignee()) {
+            if ((getOriginalAssignee(taskEntity) is null && taskEntity.getAssignee() !is null) ||  (cast(String)getOriginalAssignee(taskEntity)).value != taskEntity.getAssignee()) {
                 activityInstance = findUnfinishedActivityInstance(executionEntity);
                 if (activityInstance is null) {
                     HistoricActivityInstanceEntity historicActivityInstance = getHistoryManager().findHistoricActivityInstance(executionEntity, true);

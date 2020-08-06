@@ -45,6 +45,10 @@ import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
 import flow.task.service.impl.persistence.entity.AbstractTaskServiceVariableScopeEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import hunt.entity;
+import hunt.Integer;
+import hunt.Long;
+import hunt.Boolean;
+import hunt.String;
 alias Date = LocalDateTime;
 /**
  * @author Tom Baeyens
@@ -172,77 +176,76 @@ class TaskEntityImpl : AbstractTaskServiceVariableScopeEntity , Model,TaskEntity
     }
 
     public Object getPersistentState() {
-        //Map!(string, Object) persistentState = new HashMap<>();
-        //persistentState.put("assignee", this.assignee);
-        //persistentState.put("owner", this.owner);
-        //persistentState.put("name", this.name);
-        //persistentState.put("priority", this.priority);
-        //persistentState.put("category", this.category);
-        //persistentState.put("formKey", this.formKey);
+        Map!(string, Object) persistentState = new HashMap!(string, Object);
+        persistentState.put("assignee", new String(assignee));
+        persistentState.put("owner", new String(owner));
+        persistentState.put("name", new String(name));
+        persistentState.put("priority", new Integer(priority));
+        persistentState.put("category", new String(category));
+        persistentState.put("formKey", new String(formKey));
         //if (executionId !is null) {
-        //    persistentState.put("executionId", this.executionId);
+            persistentState.put("executionId", new String(executionId));
         //}
         //if (processInstanceId !is null) {
-        //    persistentState.put("processInstanceId", this.processInstanceId);
+            persistentState.put("processInstanceId", new String(processInstanceId));
         //}
         //if (processDefinitionId !is null) {
-        //    persistentState.put("processDefinitionId", this.processDefinitionId);
+            persistentState.put("processDefinitionId", new String(processDefinitionId));
         //}
         //if (taskDefinitionId !is null) {
-        //    persistentState.put("taskDefinitionId", this.taskDefinitionId);
+            persistentState.put("taskDefinitionId", new String(taskDefinitionId));
         //}
         //if (taskDefinitionKey !is null) {
-        //    persistentState.put("taskDefinitionKey", this.taskDefinitionKey);
+            persistentState.put("taskDefinitionKey", new String(taskDefinitionKey));
         //}
         //if (scopeId !is null) {
-        //    persistentState.put("scopeId", this.scopeId);
+            persistentState.put("scopeId", new String(scopeId));
         //}
         //if (subScopeId !is null) {
-        //    persistentState.put("subScopeId", this.subScopeId);
+            persistentState.put("subScopeId", new String(subScopeId));
         //}
         //if (scopeType !is null) {
-        //    persistentState.put("scopeType", this.scopeType);
+            persistentState.put("scopeType", new String(scopeType));
         //}
         //if (scopeDefinitionId !is null) {
-        //    persistentState.put("scopeDefinitionId", this.scopeDefinitionId);
+            persistentState.put("scopeDefinitionId", new String(scopeDefinitionId));
         //}
         //if (propagatedStageInstanceId !is null) {
-        //    persistentState.put("propagatedStageInstanceId", propagatedStageInstanceId);
+            persistentState.put("propagatedStageInstanceId",new String(propagatedStageInstanceId));
         //}
         //if (createTime !is null) {
-        //    persistentState.put("createTime", this.createTime);
+            persistentState.put("createTime", new Long(createTime));
         //}
         //if (description !is null) {
-        //    persistentState.put("description", this.description);
+            persistentState.put("description", new String(description));
         //}
         //if (dueDate !is null) {
-        //    persistentState.put("dueDate", this.dueDate);
+            persistentState.put("dueDate", new Long(dueDate));
         //}
         //if (parentTaskId !is null) {
-        //    persistentState.put("parentTaskId", this.parentTaskId);
+            persistentState.put("parentTaskId", new String(parentTaskId));
         //}
-        //if (delegationState !is null) {
-        //    persistentState.put("delegationState", this.delegationState);
-        //    persistentState.put("delegationStateString", getDelegationStateString());
-        //}
-        //
-        //persistentState.put("suspensionState", this.suspensionState);
-        //
-        //if (forcedUpdate) {
-        //    persistentState.put("forcedUpdate", bool.TRUE);
-        //}
-        //
+        if (delegationState !is null) {
+            persistentState.put("delegationState", this.delegationState);
+            persistentState.put("delegationStateString", new String(getDelegationStateString()));
+        }
+
+        persistentState.put("suspensionState", new Integer(suspensionState));
+
+        if (forcedUpdate) {
+            persistentState.put("forcedUpdate", Boolean.TRUE);
+        }
+
         //if (claimTime !is null) {
-        //    persistentState.put("claimTime", this.claimTime);
+            persistentState.put("claimTime", new Long(claimTime));
         //}
-        //
-        //persistentState.put("isCountEnabled", this.isCountEnabled);
-        //persistentState.put("variableCount", this.variableCount);
-        //persistentState.put("identityLinkCount", this.identityLinkCount);
-        //persistentState.put("subTaskCount", this.subTaskCount);
-        //
-        //return persistentState;
-        return this;
+
+        persistentState.put("isCountEnabled", new Boolean(isCountEnabled));
+        persistentState.put("variableCount", new Integer(variableCount));
+        persistentState.put("identityLinkCount", new Integer(identityLinkCount));
+        persistentState.put("subTaskCount", new Integer(subTaskCount));
+
+        return cast(Object)persistentState;
     }
 
 

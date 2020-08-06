@@ -16,11 +16,12 @@ import flow.common.persistence.entity.Entity;
 import hunt.time.LocalDateTime;
 import hunt.collection.HashMap;
 import hunt.collection.Map;
-
+import hunt.Long;
 import flow.common.api.FlowableException;
 import flow.identitylink.service.impl.persistence.entity.AbstractIdentityLinkServiceNoRevisionEntity;
 import flow.identitylink.service.impl.persistence.entity.HistoricIdentityLinkEntity;
 import hunt.entity;
+import hunt.String;
 alias Date = LocalDateTime;
 
 /**
@@ -80,48 +81,47 @@ class HistoricIdentityLinkEntityImpl : AbstractIdentityLinkServiceNoRevisionEnti
   }
 
     public Object getPersistentState() {
-        return this;
-        //Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        //persistentState.put("id", this.id);
-        //persistentState.put("type", this.type);
-        //
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("id", new String(id));
+        persistentState.put("type", new String(type));
+
         //if (this.userId !is null) {
-        //    persistentState.put("userId", this.userId);
+            persistentState.put("userId", new String(userId));
         //}
-        //
+
         //if (this.groupId !is null) {
-        //    persistentState.put("groupId", this.groupId);
+            persistentState.put("groupId", new String(groupId));
         //}
-        //
+
         //if (this.taskId !is null) {
-        //    persistentState.put("taskId", this.taskId);
+            persistentState.put("taskId", new String(taskId));
         //}
-        //
+
         //if (this.processInstanceId !is null) {
-        //    persistentState.put("processInstanceId", this.processInstanceId);
+            persistentState.put("processInstanceId", new String(processInstanceId));
         //}
-        //
+
         //if (this.scopeId !is null) {
-        //    persistentState.put("scopeId", this.scopeId);
+            persistentState.put("scopeId", new String(scopeId));
         //}
-        //
+
         //if (this.subScopeId !is null) {
-        //    persistentState.put("subScopeId", this.subScopeId);
+            persistentState.put("subScopeId", new String(subScopeId));
         //}
-        //
+
         //if (this.scopeType!is null) {
-        //    persistentState.put("scopeType", this.scopeType);
+            persistentState.put("scopeType", new String(scopeType));
         //}
-        //
+
         //if (this.scopeDefinitionId !is null) {
-        //    persistentState.put("scopeDefinitionId", this.scopeDefinitionId);
+            persistentState.put("scopeDefinitionId", new String(scopeDefinitionId));
         //}
-        //
+
         //if (this.createTime !is null) {
-        //    persistentState.put("createTime", this.createTime);
+            persistentState.put("createTime", new Long(createTime));
         //}
-        //
-        //return persistentState;
+
+        return cast(Object)persistentState;
     }
 
     public bool isUser() {

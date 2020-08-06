@@ -28,6 +28,9 @@ import hunt.entity;
 import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
 import flow.engine.impl.persistence.entity.ExecutionEntity;
 import hunt.Exceptions;
+import hunt.String;
+import hunt.Long;
+import hunt.Integer;
 /**
  * @author Tom Baeyens
  * @author Christian Stettler
@@ -147,27 +150,25 @@ class HistoricProcessInstanceEntityImpl : AbstractBpmnEngineEntity, Model , Hist
     }
 
     public Object getPersistentState() {
-      implementationMissing(false);
-        return null;
-        //Map!(string, Object) persistentState = new HashMap<>();
-        //persistentState.put("startTime", startTime);
-        //persistentState.put("endTime", endTime);
-        //persistentState.put("businessKey", businessKey);
-        //persistentState.put("name", name);
-        //persistentState.put("durationInMillis", durationInMillis);
-        //persistentState.put("deleteReason", deleteReason);
-        //persistentState.put("endActivityId", endActivityId);
-        //persistentState.put("superProcessInstanceId", superProcessInstanceId);
-        //persistentState.put("processDefinitionId", processDefinitionId);
-        //persistentState.put("processDefinitionKey", processDefinitionKey);
-        //persistentState.put("processDefinitionName", processDefinitionName);
-        //persistentState.put("processDefinitionVersion", processDefinitionVersion);
-        //persistentState.put("deploymentId", deploymentId);
-        //persistentState.put("callbackId", callbackId);
-        //persistentState.put("callbackType", callbackType);
-        //persistentState.put("referenceId", referenceId);
-        //persistentState.put("referenceType", referenceType);
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("startTime", new Long(startTime));
+        persistentState.put("endTime", new Long(endTime));
+        persistentState.put("businessKey", new String(businessKey));
+        persistentState.put("name", new String(name));
+        persistentState.put("durationInMillis", new Long(durationInMillis));
+        persistentState.put("deleteReason", new String(deleteReason));
+        persistentState.put("endActivityId", new String(endActivityId));
+        persistentState.put("superProcessInstanceId", new String(superProcessInstanceId));
+        persistentState.put("processDefinitionId", new String(processDefinitionId));
+        persistentState.put("processDefinitionKey", new String(processDefinitionKey));
+        persistentState.put("processDefinitionName",new String(processDefinitionName));
+        persistentState.put("processDefinitionVersion", new Integer(processDefinitionVersion));
+        persistentState.put("deploymentId", new String(deploymentId));
+        persistentState.put("callbackId", new String(callbackId));
+        persistentState.put("callbackType", new String(callbackType));
+        persistentState.put("referenceId", new String(referenceId));
+        persistentState.put("referenceType", new String(referenceType));
+        return cast(Object)persistentState;
     }
 
     // getters and setters ////////////////////////////////////////////////////////

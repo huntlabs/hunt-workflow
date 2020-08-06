@@ -131,8 +131,8 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
     }
     entity.setInserted(true);
-    CommandContext.insertJob[entity] = this;
-    CommandContextUtil.getEntityCache().put(entity, false, typeid(ExecutionEntityImpl));
+    insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(ExecutionEntityImpl),this);
     //ResourceEntityImpl tmp = cast(ResourceEntityImpl)entity;
     //insert(cast(ExecutionEntityImpl)entity);
     //insert(cast(ExecutionEntityImpl)entity);
@@ -156,17 +156,22 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
     ExecutionEntity entity = findById(id);
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
      // remove(cast(ExecutionEntityImpl)entity);
     }
     //delete(entity);
   }
 
+  public void updateTrans(Entity entity , EntityManager db)
+  {
+    db.merge!ExecutionEntityImpl(cast(ExecutionEntityImpl)entity);
+  }
+
   public void dele(ExecutionEntity entity) {
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(ExecutionEntityImpl)entity);
     }
@@ -208,7 +213,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
       ExecutionEntity dbData = cast(ExecutionEntity)(find(entityId));
       if (dbData !is null)
       {
-        CommandContextUtil.getEntityCache().put(dbData, true , typeid(ExecutionEntityImpl));
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(ExecutionEntityImpl),this);
       }
 
       return dbData;

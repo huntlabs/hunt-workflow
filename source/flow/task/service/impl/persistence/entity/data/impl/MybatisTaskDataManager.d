@@ -95,7 +95,7 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
       TaskEntity dbData = cast(TaskEntity)(find(entityId));
       if (dbData !is null)
       {
-        CommandContextUtil.getEntityCache().put(dbData, true , typeid(TaskEntityImpl));
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(TaskEntityImpl), this);
       }
 
       return dbData;
@@ -122,8 +122,8 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
 
       }
       entity.setInserted(true);
-      CommandContext.insertJob[entity] = this;
-      CommandContextUtil.getEntityCache().put(entity, false, typeid(TaskEntityImpl));
+      insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(TaskEntityImpl), this);
     }
 
     public void insertTrans(Entity entity , EntityManager db)
@@ -134,15 +134,17 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
     }
 
       public TaskEntity update(TaskEntity entity) {
-        return  update(cast(TaskEntityImpl)entity);
+        CommandContextUtil.getEntityCache().put(entity, false, typeid(TaskEntityImpl), this);
+        entity.setUpdated(true);
+        //return  update(cast(TaskEntityImpl)entity);
         //getDbSqlSession().update(entity);
-        //return entity;
+        return entity;
       }
       public void dele(string id) {
         TaskEntity entity = findById(id);
         if (entity !is null)
         {
-          CommandContext.deleteJob[entity] = this;
+          deleteJob[entity] = this;
           entity.setDeleted(true);
           //remove(cast(TaskEntityImpl)entity);
         }
@@ -152,7 +154,7 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
       public void dele(TaskEntity entity) {
         if (entity !is null)
         {
-          CommandContext.deleteJob[entity] = this;
+          deleteJob[entity] = this;
           entity.setDeleted(true);
           //remove(cast(TaskEntityImpl)entity);
         }
@@ -163,6 +165,12 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
     void deleteTrans(Entity entity , EntityManager db)
     {
        db.remove!TaskEntityImpl(cast(TaskEntityImpl)entity);
+    }
+
+
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!TaskEntityImpl(cast(TaskEntityImpl)entity);
     }
 
     public TaskEntity create() {
@@ -195,7 +203,7 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
 
         foreach(TaskEntityImpl task ; ls)
         {
-            foreach (k ,v ; CommandContext.deleteJob)
+            foreach (k ,v ; deleteJob)
             {
                 if (cast(TaskEntityImpl)k !is null && (cast(TaskEntityImpl)k).getId == task.getId)
                 {
@@ -298,7 +306,7 @@ class MybatisTaskDataManager : EntityRepository!( TaskEntityImpl , string) , Tas
         }
 
         TaskEntityImpl[] array =  _manager.createQuery!(TaskEntityImpl)("SELECT distinct RES FROM TaskEntityImpl RES WHERE (RES.assignee is null or RES.assignee = '') AND
-          exists(select ID_ from testworkflow.ACT_RU_IDENTITYLINK  where TYPE_ = 'candidate' AND TASK_ID_ = RES.id AND (GROUP_ID_ in (" ~ strArray.join(",") ~ "))) order by RES.id asc")
+          exists(select ID_ from " ~ AbstractEngineConfiguration.jdbcDataBase ~ ".ACT_RU_IDENTITYLINK  where TYPE_ = 'candidate' AND TASK_ID_ = RES.id AND (GROUP_ID_ in (" ~ strArray.join(",") ~ "))) order by RES.id asc")
         //.setParameter("group","\""~ taskQuery.getCandidateGroups.array.join(",") ~ "\"")
         .getResultList();
 

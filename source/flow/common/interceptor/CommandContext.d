@@ -18,6 +18,8 @@
 
 module flow.common.interceptor.CommandContext;
 
+import flow.common.persistence.cache.CachedEntity;
+import flow.common.persistence.entity.AlwaysUpdatedPersistentObject;
 import flow.engine.impl.persistence.entity.ActivityInstanceEntityImpl;
 import flow.engine.impl.persistence.entity.ExecutionEntityImpl;
 import std.algorithm;
@@ -43,11 +45,15 @@ import flow.common.persistence.entity.Entity;
 import flow.engine.impl.bpmn.parser.factory.DefaultListenerFactory;
 import flow.common.persistence.cache.EntityCache;
 import flow.common.persistence.cache.EntityCacheImpl;
+import flow.common.context.Context;
 /**
  * @author Tom Baeyens
  * @author Agim Emruli
  * @author Joram Barrez
  */
+
+
+
 
 class CommandContext {
 
@@ -65,8 +71,7 @@ class CommandContext {
 
 
 
-    static DataManger[Entity] insertJob;
-    static DataManger[Entity] deleteJob;
+
 
     this(CommandAbstract command) {
         this.command = command;
@@ -224,52 +229,89 @@ class CommandContext {
       return a.getId < b.getId;
     }
 
-    protected void flushSessions() {
-         if(insertJob.length == 0)
-            return;
-         auto em = entityManagerFactory.currentEntityManager();
-         logInfof("size!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d",insertJob.length);
 
-         em.getTransaction().begin();
-
-         foreach (TypeInfo type ; insertOrder)
-         {
-             Entity[] array;
-             DataManger m;
-             foreach (k ,v ; insertJob)
-             {
-               if (v.getTypeInfo() == type)
-               {
-                // v.insertTrans(k,em);
-                 array ~= k;
-                 m = v;
-               }
-             }
-             sort!greater(array);
-             foreach(Entity n; array)
-             {
-                m.insertTrans(n,em);
-             }
-         }
-
-         foreach (TypeInfo type ; insertOrder)
-         {
-             foreach (k ,v ; deleteJob)
-             {
-               if (v.getTypeInfo() == type)
-               {
-                  v.deleteTrans(k,em);
-               }
-             }
-         }
-
-         em.getTransaction().commit();
-         insertJob.clear;
-         deleteJob.clear;
-        //foreach (Session session ; sessions.values()) {
-        //    session.flush();
-        //}
+    public void determineUpdateObjects()
+    {
+        updateJob.clear;
+        Map!(TypeInfo, Map!(string, CachedEntity)) cacheObjests =  entityCache.getAllCachedEntities();
+        foreach(MapEntry!(TypeInfo, Map!(string, CachedEntity)) entity ; cacheObjests)
+        {
+            Map!(string, CachedEntity) classCahce = entity.getValue();
+            foreach (CachedEntity cacheObject ; classCahce.values)
+            {
+                Entity cachedEntity = cacheObject.getEntity();
+                if (!isEntityInserted(cachedEntity) && (cast(AlwaysUpdatedPersistentObject)cachedEntity !is null || !isEntityToBeDeleted(cachedEntity)) &&
+                cacheObject.hasChanged())
+                {
+                    updateJob[cachedEntity] = cacheObject.getDataManager();
+                }
+            }
+        }
     }
+
+    public bool isEntityInserted(Entity entity)
+    {
+        return insertJob.get(entity,null) !is null;
+    }
+
+    public bool isEntityToBeDeleted(Entity entity)
+    {
+        return (deleteJob.get(entity,null) !is null ) || entity.isDeleted();
+    }
+
+  protected void flushSessions() {
+
+        determineUpdateObjects();
+
+       if(insertJob.length == 0)
+          return;
+       auto em = entityManagerFactory.currentEntityManager();
+       //logInfof("size!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d",insertJob.length);
+       //logInfof("size???????????????????????????????????? %d",updateJob.length);
+       //logInfof("size^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ %d",deleteJob.length);
+       em.getTransaction().begin();
+
+       foreach (TypeInfo type ; insertOrder)
+       {
+           Entity[] array;
+           DataManger m;
+           foreach (k ,v ; insertJob)
+           {
+             if (v.getTypeInfo() == type)
+             {
+               array ~= k;
+               m = v;
+             }
+           }
+           sort!greater(array);
+           foreach(Entity n; array)
+           {
+              m.insertTrans(n,em);
+           }
+       }
+
+       foreach (k,v ; updateJob)
+       {
+           v.updateTrans(k,em);
+       }
+
+
+       foreach (TypeInfo type ; deleteOrder)
+       {
+           foreach (k ,v ; deleteJob)
+           {
+             if (v.getTypeInfo() == type)
+             {
+                v.deleteTrans(k,em);
+             }
+           }
+       }
+       em.getTransaction().commit();
+       em.close();
+       insertJob.clear;
+       updateJob.clear;
+       deleteJob.clear;
+  }
 
     protected void closeSessions() {
         foreach (Session session ; sessions.values()) {

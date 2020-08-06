@@ -25,7 +25,10 @@ import flow.engine.impl.persistence.entity.AbstractBpmnEngineEntity;
 import hunt.Exceptions;
 import hunt.time.LocalDateTime;
 import flow.engine.impl.util.CommandContextUtil;
+import hunt.Long;
+import hunt.String;
 alias Date = LocalDateTime;
+
 /**
  * @author Christian Stettler
  * @author Joram Barrez
@@ -91,19 +94,17 @@ class HistoricActivityInstanceEntityImpl : AbstractBpmnEngineEntity, Model ,Hist
     }
 
     public Object getPersistentState() {
-        implementationMissing(false);
-        return null;
-        //Map!(string, Object) persistentState = new HashMap<>();
-        //persistentState.put("endTime", endTime);
-        //persistentState.put("durationInMillis", durationInMillis);
-        //persistentState.put("deleteReason", deleteReason);
-        //persistentState.put("executionId", executionId);
-        //persistentState.put("taskId", taskId);
-        //persistentState.put("assignee", assignee);
-        //persistentState.put("calledProcessInstanceId", calledProcessInstanceId);
-        //persistentState.put("activityId", activityId);
-        //persistentState.put("activityName", activityName);
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("endTime", new Long(endTime));
+        persistentState.put("durationInMillis", new Long(durationInMillis));
+        persistentState.put("deleteReason", new String(deleteReason));
+        persistentState.put("executionId", new String(executionId));
+        persistentState.put("taskId", new String(taskId));
+        persistentState.put("assignee", new String(assignee));
+        persistentState.put("calledProcessInstanceId", new String(calledProcessInstanceId));
+        persistentState.put("activityId", new String(activityId));
+        persistentState.put("activityName", new String(activityName));
+        return cast(Object)persistentState;
     }
 
     // getters and setters //////////////////////////////////////////////////////

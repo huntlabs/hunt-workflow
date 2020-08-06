@@ -83,7 +83,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
       IdentityLinkEntity dbData = cast(IdentityLinkEntity)(find(entityId));
       if (dbData !is null)
       {
-        CommandContextUtil.getEntityCache().put(dbData, true , typeid(IdentityLinkEntityImpl));
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(IdentityLinkEntityImpl), this);
       }
 
       return dbData;
@@ -117,8 +117,8 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
 
       }
       entity.setInserted(true);
-      CommandContext.insertJob[entity] = this;
-      CommandContextUtil.getEntityCache().put(entity, false, typeid(IdentityLinkEntityImpl));
+      insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(IdentityLinkEntityImpl), this);
     }
 
     public void insertTrans(Entity entity , EntityManager db)
@@ -141,14 +141,14 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         if (entity !is null)
         {
           // remove(cast(IdentityLinkEntityImpl)entity);
-          CommandContext.deleteJob[entity] = this;
+          deleteJob[entity] = this;
           entity.setDeleted(true);
         }
         //delete(entity);
     }
 
     public void dele(IdentityLinkEntity entity) {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //CommandContextUtil.getEntityCache().put(entity, false, typeid(IdentityLinkEntityImpl));
       //if (entity !is null)
@@ -161,6 +161,12 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     void deleteTrans(Entity entity , EntityManager db)
     {
         db.remove!IdentityLinkEntityImpl(cast(IdentityLinkEntityImpl)entity);
+    }
+
+
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!IdentityLinkEntityImpl(cast(IdentityLinkEntityImpl)entity);
     }
 
     this()

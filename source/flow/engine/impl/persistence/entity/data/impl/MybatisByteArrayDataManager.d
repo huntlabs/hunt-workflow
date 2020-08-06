@@ -25,11 +25,16 @@ import flow.common.runtime.Clockm;
 import hunt.logging;
 import hunt.collection.ArrayList;
 import hunt.entity;
+import flow.engine.impl.util.CommandContextUtil;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
 /**
  * @author Joram Barrez
  */
 //class MybatisByteArrayDataManager : AbstractProcessDataManager!ByteArrayEntity implements ByteArrayDataManager {
-class MybatisByteArrayDataManager : EntityRepository!(ByteArrayEntityImpl , string) , ByteArrayDataManager {
+class MybatisByteArrayDataManager : EntityRepository!(ByteArrayEntityImpl , string) , ByteArrayDataManager, DataManger {
 
     alias findAll = CrudRepository!(ByteArrayEntityImpl , string).findAll;
     alias findById = CrudRepository!(ByteArrayEntityImpl , string).findById;
@@ -51,18 +56,62 @@ class MybatisByteArrayDataManager : EntityRepository!(ByteArrayEntityImpl , stri
       super(entityManagerFactory.currentEntityManager());
     }
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisByteArrayDataManager);
+    }
+
   public ByteArrayEntity findById(string entityId) {
     if (entityId is null) {
       return null;
     }
 
-    return find(entityId);
+    //return find(entityId);
+    auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(ByteArrayEntityImpl),entityId);
+
+    if (entity !is null)
+    {
+      return cast(ByteArrayEntity)entity;
+    }
+
+    ByteArrayEntity dbData = cast(ByteArrayEntity)(find(entityId));
+    if (dbData !is null)
+    {
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ByteArrayEntityImpl),this);
+    }
+
+    return dbData;
   }
   //
   public void insert(ByteArrayEntity entity) {
-    insert(cast(ByteArrayEntityImpl)entity);
+    //insert(cast(ByteArrayEntityImpl)entity);
     //getDbSqlSession().insert(entity);
+    if (entity.getId() is null)
+    {
+      string id = Context.getCommandContext().getCurrentEngineConfiguration().getIdGenerator().getNextId();
+      //if (dbSqlSessionFactory.isUsePrefixId()) {
+      //    id = entity.getIdPrefix() + id;
+      //}
+      entity.setId(id);
+
+    }
+    entity.setInserted(true);
+    insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(ByteArrayEntityImpl),this);
   }
+
+  public void insertTrans(Entity entity , EntityManager db)
+  {
+    //auto em = _manager ? _manager : createEntityManager;
+    ByteArrayEntityImpl tmp = cast(ByteArrayEntityImpl)entity;
+    db.persist!ByteArrayEntityImpl(tmp);
+  }
+
+  public void updateTrans(Entity entity , EntityManager db)
+  {
+    db.merge!ByteArrayEntityImpl(cast(ByteArrayEntityImpl)entity);
+  }
+
   public ByteArrayEntity update(ByteArrayEntity entity) {
     return  update(cast(ByteArrayEntityImpl)entity);
     //getDbSqlSession().update(entity);
@@ -72,15 +121,24 @@ class MybatisByteArrayDataManager : EntityRepository!(ByteArrayEntityImpl , stri
     ByteArrayEntity entity = findById(id);
     if (entity !is null)
     {
-      remove(cast(ByteArrayEntityImpl)entity);
+      deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(DeploymentEntityImpl)entity);
     }
     //delete(entity);
+  }
+
+  void deleteTrans(Entity entity , EntityManager db)
+  {
+    db.remove!ByteArrayEntityImpl(cast(ByteArrayEntityImpl)entity);
   }
 
   public void dele(ByteArrayEntity entity) {
     if (entity !is null)
     {
-      remove(cast(ByteArrayEntityImpl)entity);
+      deleteJob[entity] = this;
+      entity.setDeleted(true);
+      //remove(cast(DeploymentEntityImpl)entity);
     }
     //getDbSqlSession().delete(entity);
   }

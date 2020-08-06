@@ -22,6 +22,7 @@ import flow.variable.service.impl.persistence.entity.HistoricVariableInstanceEnt
 import flow.variable.service.impl.persistence.entity.VariableByteArrayRef;
 import hunt.Long;
 import hunt.Double;
+import hunt.String;
 import hunt.entity;
 import hunt.util.StringBuilder;
 import flow.common.persistence.entity.Entity;
@@ -98,30 +99,29 @@ class HistoricVariableInstanceEntityImpl : AbstractVariableServiceEntity , Model
 
 
     public Object getPersistentState() {
-        return this;
-        //HashMap<string, Object> persistentState = new HashMap<>();
-        //
-        //persistentState.put("name", name);
-        //persistentState.put("scopeId", scopeId);
-        //persistentState.put("subScopeId", subScopeId);
-        //persistentState.put("scopeType", scopeType);
-        //persistentState.put("textValue", textValue);
-        //persistentState.put("textValue2", textValue2);
-        //persistentState.put("doubleValue", doubleValue);
-        //persistentState.put("longValue", longValue);
-        //
-        //if (variableType !is null) {
-        //    persistentState.put("typeName", variableType.getTypeName());
-        //}
-        //
-        //if (byteArrayRef !is null) {
-        //    persistentState.put("byteArrayRef", byteArrayRef.getId());
-        //}
-        //
-        //persistentState.put("createTime", createTime);
-        //persistentState.put("lastUpdatedTime", lastUpdatedTime);
-        //
-        //return persistentState;
+        HashMap!(string, Object) persistentState = new HashMap!(string, Object)();
+
+        persistentState.put("name", new String(name));
+        persistentState.put("scopeId", new String(scopeId));
+        persistentState.put("subScopeId", new String(subScopeId));
+        persistentState.put("scopeType", new String(scopeType));
+        persistentState.put("textValue", new String(textValue));
+        persistentState.put("textValue2", new String(textValue2));
+        persistentState.put("doubleValue", new Double(doubleValue));
+        persistentState.put("longValue", new Long(longValue));
+
+        if (variableType !is null) {
+            persistentState.put("typeName", new String(variableType.getTypeName()));
+        }
+
+        if (byteArrayRef !is null) {
+            persistentState.put("byteArrayRef", new String(byteArrayRef.getId()));
+        }
+
+        persistentState.put("createTime", new Long(createTime));
+        persistentState.put("lastUpdatedTime", new Long(lastUpdatedTime));
+
+        return cast(Object)persistentState;
     }
 
 

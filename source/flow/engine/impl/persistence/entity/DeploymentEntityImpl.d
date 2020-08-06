@@ -28,6 +28,7 @@ import flow.common.api.repository.EngineResource;
 import flow.engine.ProcessEngineConfiguration;
 import flow.engine.impl.util.CommandContextUtil;
 import hunt.entity;
+import hunt.String;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -116,14 +117,12 @@ class DeploymentEntityImpl : AbstractBpmnEngineNoRevisionEntity ,Model, Deployme
     }
 
     public Object getPersistentState() {
-        implementationMissing(false);
-        return null;
-        //Map!(string, Object) persistentState = new HashMap!(string, Object);
-        //persistentState.put("category", this.category);
-        //persistentState.put("key", this.key);
-        //persistentState.put("tenantId", tenantId);
-        //persistentState.put("parentDeploymentId", parentDeploymentId);
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string, Object);
+        persistentState.put("category", new String(category));
+        persistentState.put("key", new String(key));
+        persistentState.put("tenantId", new String(tenantId));
+        persistentState.put("parentDeploymentId", new String(parentDeploymentId));
+        return cast(Object)persistentState;
     }
 
     // Deployed artifacts manipulation ////////////////////////////////////////////

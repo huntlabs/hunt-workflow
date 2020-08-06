@@ -158,7 +158,7 @@ class TaskHelper {
 
     public static void changeTaskAssignee(TaskEntity taskEntity, string assignee) {
         if ((taskEntity.getAssignee().length != 0 && taskEntity.getAssignee() != (assignee))
-                || (taskEntity.getAssignee().length == 0 && assignee.length == 0)) {
+                || (taskEntity.getAssignee().length == 0 && assignee.length != 0)) {
 
             CommandContextUtil.getTaskService().changeTaskAssignee(taskEntity, assignee);
             fireAssignmentEvents(taskEntity);

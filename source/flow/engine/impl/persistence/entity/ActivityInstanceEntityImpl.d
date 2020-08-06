@@ -26,6 +26,8 @@ import hunt.time.LocalDateTime;
 import flow.engine.impl.persistence.entity.ActivityInstanceEntity;
 import hunt.Exceptions;
 import flow.common.persistence.entity.Entity;
+import hunt.String;
+import hunt.Long;
 alias Date = LocalDateTime;
 /**
  * @author martin.grofcik
@@ -90,19 +92,17 @@ class ActivityInstanceEntityImpl : AbstractBpmnEngineEntity , Model, ActivityIns
     }
 
     public Object getPersistentState() {
-          implementationMissing(false);
-        return null;
-        //Map!(string, Object) persistentState = new HashMap<>();
-        //persistentState.put("endTime", endTime);
-        //persistentState.put("durationInMillis", durationInMillis);
-        //persistentState.put("deleteReason", deleteReason);
-        //persistentState.put("executionId", executionId);
-        //persistentState.put("taskId", taskId);
-        //persistentState.put("assignee", assignee);
-        //persistentState.put("calledProcessInstanceId", calledProcessInstanceId);
-        //persistentState.put("activityId", activityId);
-        //persistentState.put("activityName", activityName);
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("endTime", new Long(endTime));
+        persistentState.put("durationInMillis", new Long(durationInMillis));
+        persistentState.put("deleteReason", new String(deleteReason));
+        persistentState.put("executionId", new String(executionId));
+        persistentState.put("taskId", new String(taskId));
+        persistentState.put("assignee", new String(assignee));
+        persistentState.put("calledProcessInstanceId", new String(calledProcessInstanceId));
+        persistentState.put("activityId", new String(activityId));
+        persistentState.put("activityName", new String(activityName));
+        return cast(Object)persistentState;
     }
 
     public void markEnded(string deleteReason) {

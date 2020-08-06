@@ -88,7 +88,7 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
     HistoricVariableInstanceEntity dbData = cast(HistoricVariableInstanceEntity)(find(entityId));
     if (dbData !is null)
     {
-      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricVariableInstanceEntityImpl));
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricVariableInstanceEntityImpl),this);
     }
 
     return dbData;
@@ -120,8 +120,8 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
 
       }
       entity.setInserted(true);
-      CommandContext.insertJob[entity] = this;
-      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricVariableInstanceEntityImpl));
+      insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricVariableInstanceEntityImpl), this);
       //insert(cast(HistoricVariableInstanceEntityImpl)entity);
       //getDbSqlSession().insert(entity);
     }
@@ -143,7 +143,7 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
       HistoricVariableInstanceEntity entity = findById(id);
       if (entity !is null)
       {
-        CommandContext.deleteJob[entity] = this;
+        deleteJob[entity] = this;
         entity.setDeleted(true);
         //remove(cast(HistoricVariableInstanceEntityImpl)entity);
       }
@@ -153,7 +153,7 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
     public void dele(HistoricVariableInstanceEntity entity) {
       if (entity !is null)
       {
-        CommandContext.deleteJob[entity] = this;
+        deleteJob[entity] = this;
         entity.setDeleted(true);
         //remove(cast(HistoricVariableInstanceEntityImpl)entity);
       }
@@ -165,6 +165,10 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
       db.remove!HistoricVariableInstanceEntityImpl(cast(HistoricVariableInstanceEntityImpl)entity);
     }
 
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!HistoricVariableInstanceEntityImpl(cast(HistoricVariableInstanceEntityImpl)entity);
+    }
 
     public HistoricVariableInstanceEntity create() {
         return new HistoricVariableInstanceEntityImpl();

@@ -81,7 +81,7 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
       HistoricTaskInstanceEntity dbData = cast(HistoricTaskInstanceEntity)(find(entityId));
       if (dbData !is null)
       {
-        CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricTaskInstanceEntityImpl));
+        CommandContextUtil.getEntityCache().put(dbData, true , typeid(HistoricTaskInstanceEntityImpl), this);
       }
 
       return dbData;
@@ -108,8 +108,8 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
 
       }
       entity.setInserted(true);
-      CommandContext.insertJob[entity] = this;
-      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricTaskInstanceEntityImpl));
+      insertJob[entity] = this;
+      CommandContextUtil.getEntityCache().put(entity, false, typeid(HistoricTaskInstanceEntityImpl), this);
     }
 
     public void insertTrans(Entity entity , EntityManager db)
@@ -131,7 +131,7 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
         HistoricTaskInstanceEntity entity = findById(id);
         if (entity !is null)
         {
-          CommandContext.deleteJob[entity] = this;
+          deleteJob[entity] = this;
           entity.setDeleted(true);
           //remove(cast(HistoricTaskInstanceEntityImpl)entity);
         }
@@ -142,7 +142,7 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
       public void dele(HistoricTaskInstanceEntity entity) {
         if (entity !is null)
         {
-          CommandContext.deleteJob[entity] = this;
+          deleteJob[entity] = this;
           entity.setDeleted(true);
           //remove(cast(HistoricTaskInstanceEntityImpl)entity);
         }
@@ -154,6 +154,12 @@ class MybatisHistoricTaskInstanceDataManager : EntityRepository!(HistoricTaskIns
       {
         db.remove!HistoricTaskInstanceEntityImpl(cast(HistoricTaskInstanceEntityImpl)entity);
       }
+
+
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!HistoricTaskInstanceEntityImpl(cast(HistoricTaskInstanceEntityImpl)entity);
+    }
 
     override
     public HistoricTaskInstanceEntity create() {

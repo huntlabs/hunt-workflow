@@ -21,22 +21,37 @@ module flow.common.context.Context;
 
 
 
-
+import flow.common.persistence.entity.Entity;
 import hunt.collection.List;
 import hunt.collection.ArrayList;
 import flow.common.cfg.TransactionContext;
 import flow.common.interceptor.CommandContext;
 import flow.common.transaction.TransactionContextHolder;
 import hunt.logging;
+import flow.common.persistence.cache.EntityCache;
+import flow.common.persistence.cache.EntityCacheImpl;
+import flow.common.api.DataManger;
 /**
  * @author Tom Baeyens
  * @author Daniel Meyer
  * @author Joram Barrez
  */
+
+List!CommandContext commandContextThreadLocal;
+DataManger[Entity] insertJob;
+DataManger[Entity] deleteJob;
+DataManger[Entity] updateJob;
+
+static this()
+{
+   commandContextThreadLocal = new ArrayList!CommandContext;
+}
+
 class Context {
 
     //protected static ThreadLocal<Stack<CommandContext>> commandContextThreadLocal = new ThreadLocal<>();
-     __gshared static List!CommandContext commandContextThreadLocal;
+     //__gshared static List!CommandContext commandContextThreadLocal;
+
      this()
       {
           //commandContextThreadLocal = new ArrayList!CommandContext;

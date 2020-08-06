@@ -80,10 +80,10 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
       return cast(ProcessDefinitionEntity)entity;
     }
 
-    ProcessDefinitionEntity dbData = cast(ProcessDefinitionEntity)(find(entityId));
+    ProcessDefinitionEntity dbData = cast(ProcessDefinitionEntity)(find(new Condition(`%s = '%s'` , Field.id , entityId)));
     if (dbData !is null)
     {
-      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ProcessDefinitionEntityImpl));
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(ProcessDefinitionEntityImpl),this);
     }
 
     return dbData;
@@ -101,13 +101,13 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
       entity.setId(id);
     }
     entity.setInserted(true);
-    CommandContext.insertJob[entity] = this;
-    CommandContextUtil.getEntityCache().put(entity, false, typeid(ProcessDefinitionEntityImpl));
+    insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(ProcessDefinitionEntityImpl),this);
     //insert(cast(ProcessDefinitionEntityImpl)entity);
     //CommandContext commandContext = Context.getCommandContext();
     //if (commandContext !is null)
     //{
-    //  CommandContext.insertJob[entity] = this;
+    //  insertJob[entity] = this;
     //}
   }
 
@@ -118,6 +118,10 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
     db.persist!ProcessDefinitionEntityImpl(tmp);
   }
 
+  public void updateTrans(Entity entity , EntityManager db)
+  {
+    db.merge!ProcessDefinitionEntityImpl(cast(ProcessDefinitionEntityImpl)entity);
+  }
 
   public ProcessDefinitionEntity update(ProcessDefinitionEntity entity) {
     return  update(cast(ProcessDefinitionEntityImpl)entity);
@@ -128,7 +132,7 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
     ProcessDefinitionEntity entity = findById(id);
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(ProcessDefinitionEntityImpl)entity);
     }
@@ -138,7 +142,7 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
   public void dele(ProcessDefinitionEntity entity) {
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(ProcessDefinitionEntityImpl)entity);
     }
@@ -162,7 +166,7 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
         _manager.close();
       }
       ProcessDefinitionEntityImpl[] array =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.key = :key AND (u.tenantId = '' or u.tenantId is null) AND
-       (u.derivedFrom is null or u.derivedFrom = '') and u.ver = (select max(VERSION_) from testworkflow.ACT_RE_PROCDEF where KEY_ = :processDefinitionKey and (TENANT_ID_ = '' or TENANT_ID_ is null))")
+       (u.derivedFrom is null or u.derivedFrom = '') and u.ver = (select max(VERSION_) from " ~ AbstractEngineConfiguration.jdbcDataBase ~ ".ACT_RE_PROCDEF where KEY_ = :processDefinitionKey and (TENANT_ID_ = '' or TENANT_ID_ is null))")
       .setParameter("key",processDefinitionKey)
       .setParameter("processDefinitionKey",processDefinitionKey)
       .getResultList();

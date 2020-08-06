@@ -82,7 +82,7 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
     DeploymentEntity dbData = cast(DeploymentEntity)(find(entityId));
     if (dbData !is null)
     {
-      CommandContextUtil.getEntityCache().put(dbData, true , typeid(DeploymentEntityImpl));
+      CommandContextUtil.getEntityCache().put(dbData, true , typeid(DeploymentEntityImpl),this);
     }
 
     return dbData;
@@ -104,8 +104,8 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
         entity.setId(id);
     }
     entity.setInserted(true);
-    CommandContext.insertJob[entity] = this;
-    CommandContextUtil.getEntityCache().put(entity, false, typeid(DeploymentEntityImpl));
+    insertJob[entity] = this;
+    CommandContextUtil.getEntityCache().put(entity, false, typeid(DeploymentEntityImpl),this);
   }
 
   public void insertTrans(Entity entity , EntityManager db)
@@ -124,17 +124,22 @@ class MybatisDeploymentDataManager : EntityRepository!(DeploymentEntityImpl , st
     DeploymentEntity entity = findById(id);
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(DeploymentEntityImpl)entity);
     }
     //delete(entity);
   }
 
+  public void updateTrans(Entity entity , EntityManager db)
+  {
+    db.merge!DeploymentEntityImpl(cast(DeploymentEntityImpl)entity);
+  }
+
   public void dele(DeploymentEntity entity) {
     if (entity !is null)
     {
-      CommandContext.deleteJob[entity] = this;
+      deleteJob[entity] = this;
       entity.setDeleted(true);
       //remove(cast(DeploymentEntityImpl)entity);
     }

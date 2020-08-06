@@ -21,6 +21,15 @@ import flow.engine.impl.Condition;
 import flow.engine.impl.el.UelExpressionCondition;
 import flow.engine.impl.util.CommandContextUtil;
 import hunt.Exceptions;
+import std.string;
+import std.array;
+import hunt.collection.Map;
+import flow.variable.service.impl.persistence.entity.VariableScopeImpl;
+import flow.variable.service.impl.persistence.entity.VariableInstanceEntity;
+import flow.variable.service.api.persistence.entity.VariableInstance;
+import flow.engine.impl.persistence.entity.ExecutionEntityImpl;
+import hunt.Boolean;
+import hunt.logging;
 //import com.fasterxml.jackson.databind.JsonNode;
 //import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -41,10 +50,38 @@ class ConditionUtil {
         }
 
         if (conditionExpression !is null && conditionExpression.length != 0) {
-
-            Expression expression = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager().createExpression(conditionExpression);
-            Condition condition = new UelExpressionCondition(expression);
-            return condition.evaluate(sequenceFlow.getId(), execution);
+             bool reversed = (conditionExpression.indexOf("!") != -1 ? true : false);
+             conditionExpression = strip(conditionExpression, "$","}");
+             conditionExpression = strip(conditionExpression,"{");
+             conditionExpression = strip(conditionExpression,"!");
+             ExecutionEntityImpl exec = cast(ExecutionEntityImpl)execution;
+             VariableScopeImpl perent =  exec.getParentVariableScope();
+             if (perent is null )
+             {
+                return true;
+             }else
+             {
+                Map!(string, VariableInstanceEntity) v = perent.variableInstances;
+                VariableInstanceEntity entity = v.get(conditionExpression);
+                if (entity is null)
+                {
+                    logError("no key %s" , conditionExpression);
+                    return true;
+                }else
+                {
+                    Object obj = (cast(VariableInstance)entity).getValue();
+                    if (reversed)
+                    {
+                        return !(cast(Boolean)obj).booleanValue();
+                    }else
+                    {
+                        return (cast(Boolean)obj).booleanValue();
+                    }
+                }
+             }
+            //Expression expression = CommandContextUtil.getProcessEngineConfiguration().getExpressionManager().createExpression(conditionExpression);
+            //Condition condition = new UelExpressionCondition(expression);
+            //return condition.evaluate(sequenceFlow.getId(), execution);
         } else {
             return true;
         }

@@ -282,10 +282,10 @@ class ExecutionEntityManagerImpl
         }
 
        // string authenticatedUserId = Authentication.getAuthenticatedUserId();
-        implementationMissing(false);
+        //implementationMissing(false);
         processInstanceExecution.setStartActivityId(startActivityId);
         processInstanceExecution.setStartTime(CommandContextUtil.getProcessEngineConfiguration().getClock().getCurrentTime());
-        processInstanceExecution.setStartUserId("authenticatedUserId");
+        processInstanceExecution.setStartUserId("");
 
         // Store in database
         insert(processInstanceExecution, false);

@@ -68,13 +68,15 @@ import flow.identitylink.service.impl.persistence.entity.data.impl.MybatisIdenti
 import flow.identitylink.service.impl.persistence.entity.data.impl.MybatisHistoricIdentityLinkDataManager;
 import flow.variable.service.impl.persistence.entity.data.impl.MybatisVariableInstanceDataManager;
 import flow.variable.service.impl.persistence.entity.data.impl.MybatisHistoricVariableInstanceDataManager;
-
+import flow.common.persistence.entity.data.impl.MybatisPropertyDataManager;
+import flow.engine.impl.persistence.entity.data.impl.MybatisByteArrayDataManager;
 /**
  * Default implementation of the {@link ListenerFactory}. Used when no custom {@link ListenerFactory} is injected on the {@link ProcessEngineConfigurationImpl}.
  *
  * @author Joram Barrez
  */
 static List!TypeInfo insertOrder;
+static List!TypeInfo deleteOrder;
 
 class DefaultListenerFactory : AbstractBehaviorFactory , ListenerFactory {
     private ClassDelegateFactory classDelegateFactory;
@@ -118,7 +120,28 @@ class DefaultListenerFactory : AbstractBehaviorFactory , ListenerFactory {
           insertOrder.add(typeid(MybatisIdentityLinkDataManager));//15
           insertOrder.add(typeid(MybatisDeploymentDataManager));//25
           insertOrder.add(typeid(MybatisResourceDataManager));//26
+          insertOrder.add(typeid(MybatisByteArrayDataManager));//30
           insertOrder.add(typeid(MybatisVariableInstanceDataManager));//32
+          insertOrder.add(typeid(MybatisPropertyDataManager));//44
+        }
+
+        if(deleteOrder is null)
+        {
+            deleteOrder = new ArrayList!TypeInfo;
+            deleteOrder.add(typeid(MybatisPropertyDataManager));//0
+            deleteOrder.add(typeid(MybatisVariableInstanceDataManager));//12
+            deleteOrder.add(typeid(MybatisByteArrayDataManager));//14
+            deleteOrder.add(typeid(MybatisResourceDataManager));//18
+            deleteOrder.add(typeid(MybatisDeploymentDataManager));//19
+            deleteOrder.add(typeid(MybatisIdentityLinkDataManager));//29
+            deleteOrder.add(typeid(MybatisTaskDataManager));//30
+            deleteOrder.add(typeid(MybatisActivityInstanceDataManager));//31
+            deleteOrder.add(typeid(MybatisExecutionDataManager));//32
+            deleteOrder.add(typeid(MybatisHistoricIdentityLinkDataManager));//35
+            deleteOrder.add(typeid(MybatisHistoricActivityInstanceDataManager));//36
+            deleteOrder.add(typeid(MybatisHistoricProcessInstanceDataManager));//37
+            deleteOrder.add(typeid(MybatisHistoricTaskInstanceDataManager));//38
+            deleteOrder.add(typeid(MybatisHistoricVariableInstanceDataManager));//40
         }
     }
 

@@ -19,6 +19,9 @@ import  flow.common.persistence.entity.AbstractEntity;
 import flow.common.persistence.entity.PropertyEntity;
 import hunt.entity;
 import hunt.Exceptions;
+import hunt.collection.Map;
+import hunt.collection.HashMap;
+import hunt.String;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -71,9 +74,9 @@ class PropertyEntityImpl : AbstractEntity ,Model, PropertyEntity {
 
 
     public Object getPersistentState() {
-        implementationMissing(false);
-        return null;
-     //   return value;
+        Map!(string,Object) object = new HashMap!(string,Object);
+        object.put("value", new String(value));
+        return cast(Object)object;
     }
 
 

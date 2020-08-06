@@ -28,6 +28,8 @@ import flow.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import hunt.Exceptions;
 import hunt.entity;
 import std.conv: to;
+import hunt.String;
+import hunt.Integer;
 /**
  * @author Joram Barrez
  * @author Tijs Rademakers
@@ -111,12 +113,10 @@ class ProcessDefinitionEntityImpl : AbstractBpmnEngineEntity , Model, ProcessDef
     }
 
     public Object getPersistentState() {
-        implementationMissing(false);
-        return null;
-        //Map!(string, Object) persistentState = new HashMap!(string, Object)();
-        //persistentState.put("suspensionState", this.suspensionState);
-        //persistentState.put("category", this.category);
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("suspensionState", new Integer(suspensionState));
+        persistentState.put("category", new String(category));
+        return cast(Object)persistentState;
     }
 
     // getters and setters

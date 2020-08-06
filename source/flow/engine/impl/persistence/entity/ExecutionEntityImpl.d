@@ -49,6 +49,10 @@ import flow.bpmn.model.Process;
 //import com.fasterxml.jackson.databind.node.ObjectNode;
 import hunt.entity;
 import hunt.Exceptions;
+import hunt.String;
+import hunt.Integer;
+import hunt.Long;
+import hunt.Boolean;
 import flow.engine.deleg.DelegateExecution;
 /**
  * @author Tom Baeyens
@@ -337,44 +341,42 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     // persistent state /////////////////////////////////////////////////////////
 
     public Object getPersistentState() {
-        implementationMissing(false);
-        return null;
-        //Map!(string, Object) persistentState = new HashMap<>();
-        //persistentState.put("processDefinitionId", this.processDefinitionId);
-        //persistentState.put("businessKey", this.businessKey);
-        //persistentState.put("activityId", this.activityId);
-        //persistentState.put("isActive", this.isActive);
-        //persistentState.put("isConcurrent", this.isConcurrent);
-        //persistentState.put("isScope", this.isScope);
-        //persistentState.put("isEventScope", this.isEventScope);
-        //persistentState.put("parentId", parentId);
-        //persistentState.put("name", name);
-        //persistentState.put("lockTime", lockTime);
-        //persistentState.put("superExecution", this.superExecutionId);
-        //persistentState.put("rootProcessInstanceId", this.rootProcessInstanceId);
-        //persistentState.put("isMultiInstanceRoot", this.isMultiInstanceRoot);
-        //if (forcedUpdate) {
-        //    persistentState.put("forcedUpdate", bool.TRUE);
-        //}
-        //persistentState.put("suspensionState", this.suspensionState);
-        //persistentState.put("startActivityId", this.startActivityId);
-        //persistentState.put("startTime", this.startTime);
-        //persistentState.put("startUserId", this.startUserId);
-        //persistentState.put("isCountEnabled", this.isCountEnabled);
-        //persistentState.put("eventSubscriptionCount", eventSubscriptionCount);
-        //persistentState.put("taskCount", taskCount);
-        //persistentState.put("jobCount", jobCount);
-        //persistentState.put("timerJobCount", timerJobCount);
-        //persistentState.put("suspendedJobCount", suspendedJobCount);
-        //persistentState.put("deadLetterJobCount", deadLetterJobCount);
-        //persistentState.put("variableCount", variableCount);
-        //persistentState.put("identityLinkCount", identityLinkCount);
-        //persistentState.put("callbackId", callbackId);
-        //persistentState.put("callbackType", callbackType);
-        //persistentState.put("referenceId", referenceId);
-        //persistentState.put("referenceType", referenceType);
-        //persistentState.put("propagatedStageInstanceId", propagatedStageInstanceId);
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("processDefinitionId", new String(processDefinitionId));
+        persistentState.put("businessKey", new String(businessKey));
+        persistentState.put("activityId", new String(activityId));
+        persistentState.put("isActive", new Boolean(isActive));
+        persistentState.put("isConcurrent", new Boolean(isConcurrent));
+        persistentState.put("isScope", new Boolean(isScope));
+        persistentState.put("isEventScope", new Boolean(isEventScope));
+        persistentState.put("parentId", new String(parentId));
+        persistentState.put("name", new String(name));
+        persistentState.put("lockTime", new Long(lockTime));
+        persistentState.put("superExecution", new String(superExecutionId));
+        persistentState.put("rootProcessInstanceId", new String(rootProcessInstanceId));
+        persistentState.put("isMultiInstanceRoot", new Boolean(isMultiInstanceRoot));
+        if (forcedUpdate) {
+            persistentState.put("forcedUpdate", Boolean.TRUE);
+        }
+        persistentState.put("suspensionState", new Integer(suspensionState));
+        persistentState.put("startActivityId", new String(startActivityId));
+        persistentState.put("startTime", new Long(startTime));
+        persistentState.put("startUserId", new String(startUserId));
+        persistentState.put("isCountEnabled", new Boolean(isCountEnabled));
+        persistentState.put("eventSubscriptionCount", new Integer(eventSubscriptionCount));
+        persistentState.put("taskCount",new Integer(taskCount));
+        persistentState.put("jobCount", new Integer(jobCount));
+        persistentState.put("timerJobCount", new Integer(timerJobCount));
+        persistentState.put("suspendedJobCount", new Integer(suspendedJobCount));
+        persistentState.put("deadLetterJobCount", new Integer(deadLetterJobCount));
+        persistentState.put("variableCount", new Integer(variableCount));
+        persistentState.put("identityLinkCount", new Integer(identityLinkCount));
+        persistentState.put("callbackId", new String(callbackId));
+        persistentState.put("callbackType", new String(callbackType));
+        persistentState.put("referenceId", new String(referenceId));
+        persistentState.put("referenceType", new String(referenceType));
+        persistentState.put("propagatedStageInstanceId",new String(propagatedStageInstanceId));
+        return cast(Object)persistentState;
     }
 
     // The current flow element, will be filled during operation execution
@@ -707,7 +709,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
     }
 
     override
-    protected VariableScopeImpl getParentVariableScope() {
+    public VariableScopeImpl getParentVariableScope() {
         return getParent();
     }
 

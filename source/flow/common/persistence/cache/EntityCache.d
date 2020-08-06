@@ -20,6 +20,7 @@ import flow.common.interceptor.Command;
 import flow.common.interceptor.Session;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.cache.CachedEntity;
+import flow.common.api.DataManger;
 /**
  * This is a cache for {@link Entity} instances during the execution of one {@link Command}.
  *
@@ -41,7 +42,7 @@ interface EntityCache : Session {
      *            If true, the current state {@link Entity#getPersistentState()} will be stored for future diffing. Note that, if false, the {@link Entity} will always be seen as changed.
      * @return Returns a {@link CachedEntity} instance, which can be enriched later on.
      */
-    CachedEntity put(Entity entity, bool storeState ,TypeInfo type);
+    CachedEntity put(Entity entity, bool storeState ,TypeInfo type, DataManger db);
 
     /**
      * Returns the cached {@link Entity} instance of the given class with the provided id. Returns null if such a {@link Entity} cannot be found.

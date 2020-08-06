@@ -21,10 +21,17 @@ import flow.common.persistence.entity.data.PropertyDataManager;
 import hunt.entity;
 import flow.common.persistence.entity.data.DataManager;
 import flow.common.AbstractEngineConfiguration;
+import flow.engine.impl.util.CommandContextUtil;
+import flow.common.persistence.entity.Entity;
+import flow.common.interceptor.CommandContext;
+import flow.common.api.DataManger;
+import flow.common.context.Context;
+import hunt.logging;
+
 /**
  * @author Joram Barrez
  */
-class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , string) , PropertyDataManager {
+class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , string) , PropertyDataManager, DataManger {
 //class MybatisPropertyDataManager extends AbstractDataManager<PropertyEntity> implements PropertyDataManager {
 
     //@Override
@@ -43,13 +50,34 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
       super(entityManagerFactory.currentEntityManager());
     }
 
+    TypeInfo getTypeInfo()
+    {
+      return typeid(MybatisPropertyDataManager);
+    }
 
     public void insert(PropertyEntity entity) {
       super.insert(cast(PropertyEntityImpl)entity);
       //getDbSqlSession().insert(entity);
     }
 
-    //
+    public void insertTrans(Entity entity , EntityManager db)
+    {
+      //auto em = _manager ? _manager : createEntityManager;
+      PropertyEntityImpl tmp = cast(PropertyEntityImpl)entity;
+      db.persist!PropertyEntityImpl(tmp);
+    }
+
+    public void updateTrans(Entity entity , EntityManager db)
+    {
+      db.merge!PropertyEntityImpl(cast(PropertyEntityImpl)entity);
+    }
+
+    void deleteTrans(Entity entity , EntityManager db)
+    {
+      db.remove!PropertyEntityImpl(cast(PropertyEntityImpl)entity);
+    }
+
+  //
     //@Override
     public PropertyEntity update(PropertyEntity entity) {
       return  super.update(cast(PropertyEntityImpl)entity);
@@ -62,7 +90,9 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
       PropertyEntity entity = findById(id);
       if (entity !is null)
       {
-        remove(cast(PropertyEntityImpl)entity);
+        deleteJob[entity] = this;
+        entity.setDeleted(true);
+        // remove(cast(ExecutionEntityImpl)entity);
       }
       //delete(entity);
     }
@@ -70,7 +100,9 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
     public void dele(PropertyEntity entity) {
       if (entity !is null)
       {
-        remove(cast(PropertyEntityImpl)entity);
+        deleteJob[entity] = this;
+        entity.setDeleted(true);
+        //remove(cast(ExecutionEntityImpl)entity);
       }
       //getDbSqlSession().delete(entity);
     }
@@ -104,22 +136,51 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
       {
         _manager.close();
       }
-      List!PropertyEntity  lst = new ArrayList!PropertyEntity;
-      PropertyEntityImpl[] arry =  _manager.createQuery!(PropertyEntityImpl)("SELECT * FROM PropertyEntityImpl")
+      List!PropertyEntity  rt = new ArrayList!PropertyEntity;
+      PropertyEntityImpl[] array =  _manager.createQuery!(PropertyEntityImpl)("SELECT * FROM PropertyEntityImpl")
       .getResultList();
-      foreach(PropertyEntityImpl p ; arry)
+
+      foreach(PropertyEntityImpl a; array)
       {
-          lst.add(cast(PropertyEntity)p);
+        rt.add(cast(PropertyEntity)a);
+        CommandContextUtil.getEntityCache().put(cast(PropertyEntity)a, false, typeid(PropertyEntityImpl),this);
+      }
+
+      foreach(PropertyEntityImpl task ; array)
+      {
+        foreach (k ,v ; deleteJob)
+        {
+          if (cast(PropertyEntityImpl)k !is null && (cast(PropertyEntityImpl)k).getId == task.getId)
+          {
+            rt.remove(cast(PropertyEntityImpl)task);
+          }
+        }
       }
 
       //lst.addAll(arry);
-      return lst;
+      return rt;
        // return getDbSqlSession().selectList("selectProperties");
     }
 
-      PropertyEntity findById(string entityId)
-     {
-        return find(new Condition("%s = '%s'" , Field.name , entityId ));
+    PropertyEntity findById(string entityId)
+   {
+     if (entityId is null) {
+       return null;
      }
+
+     auto entity =  CommandContextUtil.getEntityCache().findInCache(typeid(PropertyEntityImpl),entityId);
+
+     if (entity !is null)
+     {
+       return cast(PropertyEntity)entity;
+     }
+     PropertyEntity dbData = cast(PropertyEntity)(find(new Condition(`%s = '%s'` , Field.name , entityId)));
+     if (dbData !is null)
+     {
+       CommandContextUtil.getEntityCache().put(dbData, true , typeid(PropertyEntityImpl),this);
+     }
+
+     return dbData;
+   }
 
 }

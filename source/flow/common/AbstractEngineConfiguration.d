@@ -20,40 +20,19 @@ module flow.common.AbstractEngineConfiguration;
 import flow.event.registry.EventRegistryEngineConfiguration;
 import flow.common.DefaultTenantProvider;
 import core.time;
+import std.string;
+import std.conv : to;
 import flow.common.AbstractServiceConfiguration;
 import hunt.stream.Common;
-//import hunt.io.InputStreamReader;
-//import java.io.Reader;
-//import java.sql.Connection;
-//import java.sql.DatabaseMetaData;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
-//import java.time.Duration;
 import hunt.collection.ArrayList;
 import hunt.collection;
-//import java.util.Comparator;
 import hunt.collection.HashMap;
 import hunt.collection.List;
 import hunt.collection.Map;
-//import java.util.Properties;
-//import java.util.ServiceLoader;
 import hunt.collection.Set;
 import hunt.collection.ArrayList;
 import flow.common.EngineConfigurator;
 import hunt.Exceptions;
-//import org.apache.commons.lang3.StringUtils;
-//import org.apache.ibatis.builder.xml.XMLConfigBuilder;
-//import org.apache.ibatis.builder.xml.XMLMapperBuilder;
-//import org.apache.ibatis.datasource.pooled.PooledDataSource;
-//import org.apache.ibatis.mapping.Environment;
-//import org.apache.ibatis.plugin.Interceptor;
-//import org.apache.ibatis.session.Configuration;
-//import org.apache.ibatis.session.SqlSessionFactory;
-//import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
-//import org.apache.ibatis.transaction.TransactionFactory;
-//import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
-//import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
 import flow.common.api.FlowableException;
 import flow.common.EngineDeployer;
 import flow.common.api.deleg.event.FlowableEngineEventType;
@@ -64,12 +43,6 @@ import flow.common.cfg.CommandExecutorImpl;
 import flow.common.cfg.IdGenerator;
 import flow.common.cfg.TransactionContextFactory;
 import flow.common.cfg.standalone.StandaloneMybatisTransactionContextFactory;
-//import flow.common.db.CommonDbSchemaManager;
-//import flow.common.db.DbSqlSessionFactory;
-//import flow.common.db.LogSqlExecutionTimePlugin;
-//import flow.common.db.MybatisTypeAliasConfigurator;
-//import flow.common.db.MybatisTypeHandlerConfigurator;
-//import flow.common.db.SchemaManager;
 import flow.common.event.EventDispatchAction;
 import flow.common.event.FlowableEventDispatcherImpl;
 import flow.common.interceptor.Command;
@@ -83,15 +56,8 @@ import flow.common.interceptor.DefaultCommandInvoker;
 import flow.common.interceptor.LogInterceptor;
 import flow.common.interceptor.SessionFactory;
 import flow.common.interceptor.TransactionContextInterceptor;
-//import flow.common.lock.LockManager;
-//import flow.common.lock.LockManagerImpl;
-//import flow.common.logging.LoggingListener;
-//import flow.common.logging.LoggingSession;
-//import flow.common.logging.LoggingSessionFactory;
 import flow.common.persistence.GenericManagerFactory;
 import flow.common.persistence.StrongUuidGenerator;
-//import flow.common.persistence.cache.EntityCache;
-//import flow.common.persistence.cache.EntityCacheImpl;
 import flow.common.persistence.entity.Entity;
 import flow.common.persistence.entity.PropertyEntityManager;
 import flow.common.persistence.entity.PropertyEntityManagerImpl;
@@ -100,11 +66,7 @@ import flow.common.persistence.entity.data.impl.MybatisPropertyDataManager;
 import flow.common.runtime.Clockm;
 import flow.common.service.CommonEngineServiceImpl;
 import flow.common.util.DefaultClockImpl;
-//import flow.common.util.IoUtil;
-//import flow.common.util.ReflectUtil;
 import flow.event.registry.api.EventRegistryEventConsumer;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 import hunt.logging;
 import hunt.Object;
 import hunt.database;
@@ -115,7 +77,6 @@ import hunt.entity.Persistence;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.common.api.deleg.event.FlowableEventType;
 import flow.idm.engine.IdmEngineConfiguration;
-//import com.fasterxml.jackson.databind.ObjectMapper;
 
 __gshared  EntityManagerFactory  entityManagerFactory;
 
@@ -146,9 +107,10 @@ class AbstractEngineConfiguration {
 
     protected string databaseType = "mysql";
     protected string jdbcDriver = "org.h2.Driver";
-    protected string jdbcUrl = "jdbc:h2:tcp://localhost/~/flowable";
-    protected string jdbcUsername = "sa";
+    protected string jdbcUrl = "";
+    protected string jdbcUsername = "linsen";
     protected string jdbcPassword = "";
+    static string jdbcDataBase = "";
     protected string dataSourceJndiName;
     protected int jdbcMaxActiveConnections = 16;
     protected int jdbcMaxIdleConnections = 8;
@@ -486,11 +448,11 @@ class AbstractEngineConfiguration {
       {
         EntityOption option = new EntityOption();
         option.database.driver = databaseType;
-        option.database.host = "10.1.223.62";
-        option.database.port = 3306;
-        option.database.database = "testworkflow";
-        option.database.username = "dev-user";
-        option.database.password = "putao.123";
+        option.database.host = jdbcUrl[0 .. jdbcUrl.indexOf(":")];
+        option.database.port = to!ushort(jdbcUrl[jdbcUrl.indexOf(":") + 1 .. $]);
+        option.database.database = jdbcDataBase;
+        option.database.username = jdbcUsername;
+        option.database.password = jdbcPassword;
         option.database.charset = "utf8mb4";
         option.database.prefix = "";
         entityManagerFactory  = Persistence.createEntityManagerFactory(option);
@@ -671,7 +633,7 @@ class AbstractEngineConfiguration {
     public CommandInterceptor initInterceptorChain(List!CommandInterceptor chain) {
         if (chain is null || chain.isEmpty()) {
             throw new FlowableException("invalid command interceptor chain configuration: " );
-        }  logInfo("size : ---------------------- %d",chain.size());
+        }
         for (int i = 0; i < chain.size() - 1; i++) {
             chain.get(i).setNext(chain.get(i + 1));
         }
@@ -1198,6 +1160,12 @@ class AbstractEngineConfiguration {
 
     public AbstractEngineConfiguration setJdbcPassword(string jdbcPassword) {
         this.jdbcPassword = jdbcPassword;
+        return this;
+    }
+
+    public AbstractEngineConfiguration setDataBase(string dataBase)
+    {
+        jdbcDataBase = dataBase;
         return this;
     }
 

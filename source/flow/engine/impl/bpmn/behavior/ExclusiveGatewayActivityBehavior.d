@@ -25,7 +25,7 @@ import flow.engine.deleg.event.impl.FlowableEventBuilder;
 import flow.engine.impl.bpmn.helper.SkipExpressionUtil;
 import flow.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import flow.engine.impl.util.CommandContextUtil;
-//import flow.engine.impl.util.condition.ConditionUtil;
+import flow.engine.impl.util.condition.ConditionUtil;
 import flow.engine.impl.bpmn.behavior.GatewayActivityBehavior;
 import hunt.collection.Iterator;
 import std.range;
@@ -77,14 +77,10 @@ class ExclusiveGatewayActivityBehavior : GatewayActivityBehavior {
 
             string skipExpressionString = sequenceFlow.getSkipExpression();
             if (!SkipExpressionUtil.isSkipExpressionEnabled(skipExpressionString, sequenceFlow.getId(), execution, commandContext)) {
-                implementationMissing(false);
-                //bool conditionEvaluatesToTrue = ConditionUtil.hasTrueCondition(sequenceFlow, execution);
-                //if (conditionEvaluatesToTrue && (defaultSequenceFlowId is null || defaultSequenceFlowId != (sequenceFlow.getId()))) {
-                //    //if (LOGGER.isDebugEnabled()) {
-                //    //    LOGGER.debug("Sequence flow '{}' selected as outgoing sequence flow.", sequenceFlow.getId());
-                //    //}
-                //    outgoingSequenceFlow = sequenceFlow;
-                //}
+                bool conditionEvaluatesToTrue = ConditionUtil.hasTrueCondition(sequenceFlow, execution);
+                if (conditionEvaluatesToTrue && (defaultSequenceFlowId is null || defaultSequenceFlowId != (sequenceFlow.getId()))) {
+                    outgoingSequenceFlow = sequenceFlow;
+                }
 
             } else if (SkipExpressionUtil.shouldSkipFlowElement(skipExpressionString, sequenceFlow.getId(), execution, Context.getCommandContext())) {
                 outgoingSequenceFlow = sequenceFlow;

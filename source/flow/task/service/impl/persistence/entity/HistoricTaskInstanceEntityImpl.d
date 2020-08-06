@@ -31,6 +31,9 @@ import flow.task.service.impl.persistence.entity.AbstractTaskServiceEntity;
 import flow.task.service.impl.persistence.entity.HistoricTaskInstanceEntity;
 import flow.task.service.impl.persistence.entity.TaskEntity;
 import hunt.entity;
+import hunt.String;
+import hunt.Long;
+import hunt.Integer;
 /**
  * @author Tom Baeyens
  * @author Joram Barrez
@@ -171,32 +174,31 @@ class HistoricTaskInstanceEntityImpl : AbstractTaskServiceEntity , Model, Histor
     // persistence //////////////////////////////////////////////////////////////
 
     public Object getPersistentState() {
-        return this;
-        //Map!(string, Object) persistentState = new HashMap<>();
-        //persistentState.put("name", name);
-        //persistentState.put("owner", owner);
-        //persistentState.put("assignee", assignee);
-        //persistentState.put("endTime", endTime);
-        //persistentState.put("durationInMillis", durationInMillis);
-        //persistentState.put("description", description);
-        //persistentState.put("deleteReason", deleteReason);
-        //persistentState.put("taskDefinitionKey", taskDefinitionKey);
-        //persistentState.put("formKey", formKey);
-        //persistentState.put("priority", priority);
-        //persistentState.put("category", category);
-        //persistentState.put("executionId", executionId);
-        //persistentState.put("processDefinitionId", processDefinitionId);
-        //persistentState.put("taskDefinitionId", taskDefinitionId);
-        //persistentState.put("scopeId", scopeId);
-        //persistentState.put("subScopeId", subScopeId);
-        //persistentState.put("scopeType", scopeType);
-        //persistentState.put("scopeDefinitionId", scopeDefinitionId);
-        //persistentState.put("propagatedStageInstanceId", propagatedStageInstanceId);
-        //persistentState.put("parentTaskId", parentTaskId);
-        //persistentState.put("dueDate", dueDate);
-        //persistentState.put("claimTime", claimTime);
-        //persistentState.put("lastUpdateTime", lastUpdateTime);
-        //return persistentState;
+        Map!(string, Object) persistentState = new HashMap!(string, Object)();
+        persistentState.put("name", new String(name));
+        persistentState.put("owner", new String(owner));
+        persistentState.put("assignee", new String(assignee));
+        persistentState.put("endTime", new Long(endTime));
+        persistentState.put("durationInMillis", new Long(durationInMillis));
+        persistentState.put("description", new String(description));
+        persistentState.put("deleteReason", new String(deleteReason));
+        persistentState.put("taskDefinitionKey", new String(taskDefinitionKey));
+        persistentState.put("formKey", new String(formKey));
+        persistentState.put("priority", new Integer(priority));
+        persistentState.put("category", new String(category));
+        persistentState.put("executionId", new String(executionId));
+        persistentState.put("processDefinitionId", new String(processDefinitionId));
+        persistentState.put("taskDefinitionId", new String(taskDefinitionId));
+        persistentState.put("scopeId", new String(scopeId));
+        persistentState.put("subScopeId", new String(subScopeId));
+        persistentState.put("scopeType", new String(scopeType));
+        persistentState.put("scopeDefinitionId", new String(scopeDefinitionId));
+        persistentState.put("propagatedStageInstanceId", new String(propagatedStageInstanceId));
+        persistentState.put("parentTaskId",new String(parentTaskId));
+        persistentState.put("dueDate", new Long(dueDate));
+        persistentState.put("claimTime", new Long(claimTime));
+        persistentState.put("lastUpdateTime", new Long(lastUpdateTime));
+        return cast(Object)persistentState;
     }
 
       public string getId() {
