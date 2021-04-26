@@ -476,7 +476,7 @@ class ExecutionEntityManagerImpl
         List!ExecutionEntity childExecutions = collectChildren(execution.getProcessInstance());
         foreach (ExecutionEntity subExecutionEntity ; childExecutions) {
             if (subExecutionEntity.isMultiInstanceRoot()) {
-                foreach (ExecutionEntity miExecutionEntity ; subExecutionEntity.getExecutions()) {
+                foreach (ExecutionEntity miExecutionEntity ; subExecutionEntity.getExecutionEntities()) {
                     if (miExecutionEntity.getSubProcessInstance() !is null) {
                         deleteProcessInstanceCascade(miExecutionEntity.getSubProcessInstance(), deleteReason, deleteHistory);
 
@@ -585,7 +585,7 @@ class ExecutionEntityManagerImpl
         }
 
         // Call activities
-        foreach (ExecutionEntity subExecutionEntity ; processInstanceEntity.getExecutions()) {
+        foreach (ExecutionEntity subExecutionEntity ; processInstanceEntity.getExecutionEntities()) {
             if (subExecutionEntity.getSubProcessInstance() !is null && !subExecutionEntity.isEnded()) {
                 deleteProcessInstanceCascade(subExecutionEntity.getSubProcessInstance(), deleteReason, cascade);
 
@@ -599,7 +599,7 @@ class ExecutionEntityManagerImpl
         }
 
         // delete event scope executions
-        foreach (ExecutionEntity childExecution ; processInstanceEntity.getExecutions()) {
+        foreach (ExecutionEntity childExecution ; processInstanceEntity.getExecutionEntities()) {
             if (childExecution.isEventScope()) {
                 deleteExecutionAndRelatedData(childExecution, null, cascade);
             }

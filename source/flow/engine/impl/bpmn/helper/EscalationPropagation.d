@@ -199,7 +199,7 @@ class EscalationPropagation {
 
         } else {
             ExecutionEntity boundaryExecution = null;
-            List!ExecutionEntity childExecutions = parentExecution.getExecutions();
+            List!ExecutionEntity childExecutions = parentExecution.getExecutionEntities();
             foreach (ExecutionEntity childExecution ; childExecutions) {
                 if (childExecution !is null
                         && childExecution.getActivityId() !is null

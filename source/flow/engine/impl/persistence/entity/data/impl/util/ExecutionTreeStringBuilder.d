@@ -39,7 +39,7 @@ class ExecutionTreeStringBuilder {
                 .append(executionEntity.getParentId())
                 .append("\r\n");
 
-        List!ExecutionEntity children = executionEntity.getExecutions();
+        List!ExecutionEntity children = executionEntity.getExecutionEntities();
         if (children !is null) {
             foreach (ExecutionEntity childExecution ; children) {
                 internalToString(childExecution, strb, "", true);
@@ -59,7 +59,7 @@ class ExecutionTreeStringBuilder {
                 .append(execution.isMultiInstanceRoot() ? " (multi instance root)" : "")
                 .append("\r\n");
 
-        List!ExecutionEntity children = executionEntity.getExecutions();
+        List!ExecutionEntity children = executionEntity.getExecutionEntities();
         if (children !is null) {
             for (int i = 0; i < children.size() - 1; i++) {
                 internalToString(children.get(i), strb, prefix ~ (isTail ? "    " : "│   "), false);

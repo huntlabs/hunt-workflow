@@ -46,7 +46,7 @@ class CompleteAdhocSubProcessCmd : Command!Void {
         //    throw new FlowableException("The current flow element of the requested execution is not an ad-hoc sub process");
         //}
 
-        List!ExecutionEntity childExecutions = execution.getExecutions();
+        List!ExecutionEntity childExecutions = execution.getExecutionEntities();
         if (childExecutions.size() > 0) {
             throw new FlowableException("Ad-hoc sub process has running child executions that need to be completed first");
         }

@@ -61,7 +61,7 @@ class SubmitStartFormCmd : NeedsActiveProcessDefinitionCmd!ProcessInstance {
             processInstance = cast(ExecutionEntity) processInstanceHelper.createProcessInstance(processDefinition, null, null, null, null);
         }
 
-        CommandContextUtil.getHistoryManager(commandContext).recordFormPropertiesSubmitted(processInstance.getExecutions().get(0), properties, null,
+        CommandContextUtil.getHistoryManager(commandContext).recordFormPropertiesSubmitted(processInstance.getExecutionEntities().get(0), properties, null,
             commandContext.getCurrentEngineConfiguration().getClock().getCurrentTime());
 
         FormHandlerHelper formHandlerHelper = CommandContextUtil.getProcessEngineConfiguration(commandContext).getFormHandlerHelper();

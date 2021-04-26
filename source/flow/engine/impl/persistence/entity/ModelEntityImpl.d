@@ -54,7 +54,7 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
     int ver  ;//= 1;
 
   @Column("META_INFO_")
-    string metaInfo;
+    string meta_Info;
 
   @Column("DEPLOYMENT_ID_")
     string deploymentId;
@@ -164,12 +164,12 @@ class ModelEntityImpl : AbstractBpmnEngineEntity , Model, ModelEntity {
 
 
     public string getMetaInfo() {
-        return metaInfo;
+        return meta_Info;
     }
 
 
-    public void setMetaInfo(string metaInfo) {
-        this.metaInfo = metaInfo;
+    public void setMetaInfo(string m) {
+        this.meta_Info = m;
     }
 
 

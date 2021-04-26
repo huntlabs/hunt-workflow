@@ -63,7 +63,7 @@ class FindActiveActivityIdsCmd : Command!(List!string) {
             activeActivityIds.add(executionEntity.getActivityId());
         }
 
-        foreach (ExecutionEntity childExecution ; executionEntity.getExecutions()) {
+        foreach (ExecutionEntity childExecution ; executionEntity.getExecutionEntities()) {
             collectActiveActivityIds(childExecution, activeActivityIds);
         }
     }

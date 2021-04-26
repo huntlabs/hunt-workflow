@@ -274,7 +274,7 @@ class ProcessInstanceHelper {
 
         processAvailableEventSubProcesses(processInstance, process, commandContext);
 
-        ExecutionEntity execution = processInstance.getExecutions().get(0); // There will always be one child execution created
+        ExecutionEntity execution = processInstance.getExecutionEntities().get(0); // There will always be one child execution created
         CommandContextUtil.getAgenda(commandContext).planContinueProcessOperation(execution);
 
         FlowableEventDispatcher eventDispatcher = CommandContextUtil.getProcessEngineConfiguration(commandContext).getEventDispatcher();

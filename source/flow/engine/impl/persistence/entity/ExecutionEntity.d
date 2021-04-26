@@ -78,7 +78,7 @@ interface ExecutionEntity : DelegateExecution, Execution, ProcessInstance, Entit
 
     void setRootProcessInstance(ExecutionEntity rootProcessInstance);
 
-    List!ExecutionEntity getExecutions();
+    List!ExecutionEntity getExecutionEntities();
 
     void addChildExecution(ExecutionEntity executionEntity);
 

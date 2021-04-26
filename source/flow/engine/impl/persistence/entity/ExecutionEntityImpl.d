@@ -425,7 +425,7 @@ class ExecutionEntityImpl : AbstractBpmnEngineVariableScopeEntity , Model, Execu
 
     /** ensures initialization and returns the non-null executions list */
 
-    public List!ExecutionEntity getExecutions() {
+    public List!ExecutionEntity getExecutionEntities() {
         ensureExecutionsInitialized();
         List!ExecutionEntity list = new ArrayList!ExecutionEntity;
         foreach(ExecutionEntityImpl e ; executions)

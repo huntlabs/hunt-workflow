@@ -355,12 +355,12 @@ class TakeOutgoingSequenceFlowsOperation : AbstractOperation {
     }
 
     protected bool allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
-        foreach (ExecutionEntity childExecutionEntity ; parentExecutionEntity.getExecutions()) {
+        foreach (ExecutionEntity childExecutionEntity ; parentExecutionEntity.getExecutionEntities ()) {
             if (executionEntityToIgnore is null || executionEntityToIgnore.getId() != (childExecutionEntity.getId())) {
                 if (!childExecutionEntity.isEnded()) {
                     return false;
                 }
-                if (childExecutionEntity.getExecutions() !is null && childExecutionEntity.getExecutions().size() > 0) {
+                if (childExecutionEntity.getExecutionEntities() !is null && childExecutionEntity.getExecutionEntities().size() > 0) {
                     if (!allChildExecutionsEnded(childExecutionEntity, executionEntityToIgnore)) {
                         return false;
                     }

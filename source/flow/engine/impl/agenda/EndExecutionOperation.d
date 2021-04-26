@@ -250,7 +250,7 @@ class EndExecutionOperation : AbstractOperation {
         // unless instances of the event subprocess itself. If there are no active siblings anymore,
         // the current scope had ended and the event subprocess start event should stop listening to any trigger.
         if (!eventScopeExecutions.isEmpty()) {
-            List!ExecutionEntity childExecutions = parentExecution.getExecutions();
+            List!ExecutionEntity childExecutions = parentExecution.getExecutionEntities();
             bool activeSiblings = false;
             foreach (ExecutionEntity childExecutionEntity ; childExecutions) {
                 if (!isInEventSubProcess(childExecutionEntity) && childExecutionEntity.isActive() && !childExecutionEntity.isEnded()) {
@@ -468,12 +468,12 @@ class EndExecutionOperation : AbstractOperation {
     }
 
     protected bool allChildExecutionsEnded(ExecutionEntity parentExecutionEntity, ExecutionEntity executionEntityToIgnore) {
-        foreach (ExecutionEntity childExecutionEntity ; parentExecutionEntity.getExecutions()) {
+        foreach (ExecutionEntity childExecutionEntity ; parentExecutionEntity.getExecutionEntities()) {
             if (executionEntityToIgnore is null || executionEntityToIgnore.getId() != (childExecutionEntity.getId())) {
                 if (!childExecutionEntity.isEnded()) {
                     return false;
                 }
-                if (childExecutionEntity.getExecutions() !is null && childExecutionEntity.getExecutions().size() > 0) {
+                if (childExecutionEntity.getExecutionEntities() !is null && childExecutionEntity.getExecutionEntities().size() > 0) {
                     if (!allChildExecutionsEnded(childExecutionEntity, executionEntityToIgnore)) {
                         return false;
                     }

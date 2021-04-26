@@ -368,9 +368,9 @@ class Process : BaseElement , FlowElementsContainer, HasExecutionListeners {
             if (s !is null) {
                 if (goIntoSubprocesses) {
                     List!SubProcess rt =  findFlowElementsInSubProcessOfType!SubProcess(s, type);
-                    foreach(SubProcess s; rt)
+                    foreach(SubProcess sp; rt)
                     {
-                         foundFlowElements.add(cast(T)s);
+                         foundFlowElements.add(cast(T)sp);
                     }
                    // foundFlowElements.addAll(findFlowElementsInSubProcessOfType!SubProcess(s, type));
                 }

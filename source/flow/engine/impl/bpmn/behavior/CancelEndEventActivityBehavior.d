@@ -101,7 +101,7 @@ class CancelEndEventActivityBehavior : FlowNodeActivityBehavior {
         ScopeUtil.createCopyOfSubProcessExecutionForCompensation(parentScopeExecution);
 
         if (subProcess.getLoopCharacteristics() !is null) {
-            List!ExecutionEntity multiInstanceExecutions = parentScopeExecution.getExecutions();
+            List!ExecutionEntity multiInstanceExecutions = parentScopeExecution.getExecutionEntities();
             List!ExecutionEntity executionsToDelete = new ArrayList!ExecutionEntity();
             foreach (ExecutionEntity multiInstanceExecution ; multiInstanceExecutions) {
                 if (multiInstanceExecution.getId() != (parentScopeExecution.getId())) {
