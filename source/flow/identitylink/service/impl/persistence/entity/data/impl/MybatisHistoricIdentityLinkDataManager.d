@@ -176,7 +176,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
     public List!HistoricIdentityLinkEntity findHistoricIdentityLinksByTaskId(string taskId) {
         //return getDbSqlSession().selectList("selectHistoricIdentityLinksByTask", taskId);
         List!HistoricIdentityLinkEntity  lst = new ArrayList!HistoricIdentityLinkEntity;
-        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
+        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.taskId , taskId));
         lst.addAll(lst);
         return lst;
     }
@@ -184,7 +184,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
 
     public List!HistoricIdentityLinkEntity findHistoricIdentityLinksByProcessInstanceId( string processInstanceId) {
         List!HistoricIdentityLinkEntity  lst = new ArrayList!HistoricIdentityLinkEntity;
-        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId));
+        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.processInstanceId , processInstanceId));
         lst.addAll(lst);
         return lst;
         //return getList("selectHistoricIdentityLinksByProcessInstance", processInstanceId, historicIdentityLinksByProcInstMatcher, true);
@@ -194,7 +194,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
     public List!HistoricIdentityLinkEntity findHistoricIdentityLinksByScopeIdAndScopeType(string scopeId, string scopeType) {
 
         List!HistoricIdentityLinkEntity  lst = new ArrayList!HistoricIdentityLinkEntity;
-        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.scopeId , scopeId, Field.scopeType , scopeType));
+        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , field.scopeId , scopeId, field.scopeType , scopeType));
         lst.addAll(lst);
         return lst;
         //Map<string, string> parameters = new HashMap<>();
@@ -206,7 +206,7 @@ class MybatisHistoricIdentityLinkDataManager : EntityRepository!( HistoricIdenti
 
     public List!HistoricIdentityLinkEntity findHistoricIdentityLinksBySubScopeIdAndScopeType(string subScopeId, string scopeType) {
         List!HistoricIdentityLinkEntity  lst = new ArrayList!HistoricIdentityLinkEntity;
-        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.subScopeId , subScopeId, Field.scopeType , scopeType));
+        HistoricIdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , field.subScopeId , subScopeId, field.scopeType , scopeType));
         lst.addAll(lst);
         return lst;
         //Map<string, string> parameters = new HashMap<>();

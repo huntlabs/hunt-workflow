@@ -80,7 +80,7 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
       return cast(ProcessDefinitionEntity)entity;
     }
 
-    ProcessDefinitionEntity dbData = cast(ProcessDefinitionEntity)(find(new Condition(`%s = '%s'` , Field.id , entityId)));
+    ProcessDefinitionEntity dbData = cast(ProcessDefinitionEntity)(find(new Condition(`%s = '%s'` , field.id , entityId)));
     if (dbData !is null)
     {
       CommandContextUtil.getEntityCache().put(dbData, true , typeid(ProcessDefinitionEntityImpl),this);
@@ -165,8 +165,13 @@ class MybatisProcessDefinitionDataManager : EntityRepository!(ProcessDefinitionE
       {
         _manager.close();
       }
-      ProcessDefinitionEntityImpl[] array =  _manager.createQuery!(ProcessDefinitionEntityImpl)("SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.key = :key AND (u.tenantId = '' or u.tenantId is null) AND
-       (u.derivedFrom is null or u.derivedFrom = '') and u.ver = (select max(VERSION_) from " ~ AbstractEngineConfiguration.jdbcDataBase ~ ".ACT_RE_PROCDEF where KEY_ = :processDefinitionKey and (TENANT_ID_ = '' or TENANT_ID_ is null))")
+
+      string sql = "SELECT * FROM ProcessDefinitionEntityImpl u WHERE u.key = :key AND (u.tenantId = '' or u.tenantId is null) AND
+       (u.derivedFrom is null or u.derivedFrom = '') and u.ver = (select max(VERSION_) from " ~ 
+       AbstractEngineConfiguration.jdbcDataBase ~ 
+       ".ACT_RE_PROCDEF where KEY_ = :processDefinitionKey and (TENANT_ID_ = '' or TENANT_ID_ is null))";
+
+      ProcessDefinitionEntityImpl[] array =  _manager.createQuery!(ProcessDefinitionEntityImpl)(sql)
       .setParameter("key",processDefinitionKey)
       .setParameter("processDefinitionKey",processDefinitionKey)
       .getResultList();

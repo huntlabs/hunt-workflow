@@ -182,7 +182,7 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
 
     public List!HistoricVariableInstanceEntity findHistoricVariableInstancesByProcessInstanceId( string processInstanceId) {
        // return getList("selectHistoricVariableInstanceByProcessInstanceId", processInstanceId, historicVariableInstanceByProcInstMatcher, true);
-        HistoricVariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId));
+        HistoricVariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.processInstanceId , processInstanceId));
         List!HistoricVariableInstanceEntity list = new ArrayList!HistoricVariableInstanceEntity;
         foreach(HistoricVariableInstanceEntityImpl h ; objs)
         {
@@ -195,7 +195,7 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
 
     public List!HistoricVariableInstanceEntity findHistoricVariableInstancesByTaskId( string taskId) {
         //return getList("selectHistoricVariableInstanceByTaskId", taskId, historicVariableInstanceByTaskIdMatcher, true);
-        HistoricVariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
+        HistoricVariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.taskId , taskId));
         List!HistoricVariableInstanceEntity list = new ArrayList!HistoricVariableInstanceEntity;
         foreach(HistoricVariableInstanceEntityImpl h ; objs)
         {
@@ -221,7 +221,7 @@ class MybatisHistoricVariableInstanceDataManager : EntityRepository!(HistoricVar
 
 
     public HistoricVariableInstanceEntity findHistoricVariableInstanceByVariableInstanceId(string variableInstanceId) {
-       HistoricVariableInstanceEntityImpl obj =  find(new Condition("%s = %s" , Field.id , variableInstanceId));
+       HistoricVariableInstanceEntityImpl obj =  find(new Condition("%s = %s" , field.id , variableInstanceId));
        return obj;
         //return (HistoricVariableInstanceEntity) getDbSqlSession().selectOne("selectHistoricVariableInstanceByVariableInstanceId", variableInstanceId);
     }

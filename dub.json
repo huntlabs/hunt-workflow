@@ -1,17 +1,11 @@
 {
-	"authors": [
-		"linsen"
-	],
-  "description": "A minimal D application.",
+	"description": "A minimal D application.",
 	"license": "proprietary",
 	"name": "hunt-workflow",
 	"targetType": "staticLibrary",
 	"dependencies": {
-		"hunt": {"path": "../hunt"},
-		"hunt-time": {"path": "../hunt-time"},
-    "hunt-entity": {"path": "../hunt-entity"},
-    "hunt-database" : {"path": "../hunt-database"},
-    "hunt-extra" : {"path":  "../hunt-extra"},
-    "hunt-xml" :{"path": "../hunt-xml"}
-  }
+		"hunt-time": "~>1.1.1",
+		"hunt-entity": "~>2.6.32",
+		"hunt-xml": "~>1.0.0-rc.6"
+	}
 }

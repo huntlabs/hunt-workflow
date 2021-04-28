@@ -174,7 +174,7 @@ class MybatisResourceDataManager : EntityRepository!(ResourceEntityImpl , string
 
 
     public ResourceEntity findResourceByDeploymentIdAndResourceName(string deploymentId, string resourceName) {
-      ResourceEntityImpl  obj =  find(new Condition("%s = %s and %s = %s" , Field.deploymentId , deploymentId, Field.name , resourceName));
+      ResourceEntityImpl  obj =  find(new Condition("%s = %s and %s = %s" , field.deploymentId , deploymentId, field.name , resourceName));
       return obj ;
         //Map!(string, Object) params = new HashMap<>();
         //params.put("deploymentId", deploymentId);

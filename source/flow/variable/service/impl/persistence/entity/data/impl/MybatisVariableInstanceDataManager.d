@@ -194,7 +194,7 @@ class MybatisVariableInstanceDataManager : EntityRepository!( VariableInstanceEn
 
 
     public List!VariableInstanceEntity findVariableInstancesByTaskId(string taskId) {
-      VariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
+      VariableInstanceEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.taskId , taskId));
 
       List!VariableInstanceEntity list = new ArrayList!VariableInstanceEntity;
       foreach(VariableInstanceEntityImpl v ; objs)

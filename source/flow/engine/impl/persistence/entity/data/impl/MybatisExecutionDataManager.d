@@ -275,7 +275,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public List!ExecutionEntity findChildExecutionsByParentExecutionId( string parentExecutionId) {
-        ExecutionEntityImpl[] array = (findAll(new Condition("%s = %s" , Field.parentId , parentExecutionId)));
+        ExecutionEntityImpl[] array = (findAll(new Condition("%s = %s" , field.parentId , parentExecutionId)));
 
         List!ExecutionEntity list = new ArrayList!ExecutionEntity;
         foreach(ExecutionEntityImpl e ; array)
@@ -333,7 +333,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public List!ExecutionEntity findExecutionsByRootProcessInstanceId( string rootProcessInstanceId) {
-        ExecutionEntityImpl[] array =  findAll(new Condition("%s = %s" , Field.rootProcessInstanceId , rootProcessInstanceId));
+        ExecutionEntityImpl[] array =  findAll(new Condition("%s = %s" , field.rootProcessInstanceId , rootProcessInstanceId));
         List!ExecutionEntity list = new ArrayList!ExecutionEntity;
 
         foreach(ExecutionEntityImpl e ; array)
@@ -351,7 +351,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public List!ExecutionEntity findExecutionsByProcessInstanceId( string processInstanceId) {
-        ExecutionEntityImpl[] array =  findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId));
+        ExecutionEntityImpl[] array =  findAll(new Condition("%s = %s" , field.processInstanceId , processInstanceId));
         List!ExecutionEntity list = new ArrayList!ExecutionEntity;
         foreach(ExecutionEntityImpl e ; array)
         {
@@ -369,7 +369,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
 
     public Collection!ExecutionEntity findInactiveExecutionsByProcessInstanceId( string processInstanceId) {
-        ExecutionEntityImpl[] array = findAll(new Condition("%s = %s and %s = %s " , Field.processInstanceId , processInstanceId ,Field._isActive, false));
+        ExecutionEntityImpl[] array = findAll(new Condition("%s = %s and %s = %s " , field.processInstanceId , processInstanceId ,field._isActive, false));
         List!ExecutionEntity list = new ArrayList!ExecutionEntity;
         foreach(ExecutionEntityImpl e ; array)
         {
@@ -391,7 +391,7 @@ class MybatisExecutionDataManager : EntityRepository!(ExecutionEntityImpl , stri
 
     public Collection!ExecutionEntity findInactiveExecutionsByActivityIdAndProcessInstanceId( string activityId,  string processInstanceId) {
 
-        ExecutionEntityImpl[] array = findAll(new Condition("%s = %s and %s = %s and %s = %s" , Field.activityId , activityId ,Field.processInstanceId, processInstanceId ,Field._isActive, false));
+        ExecutionEntityImpl[] array = findAll(new Condition("%s = %s and %s = %s and %s = %s" , field.activityId , activityId ,field.processInstanceId, processInstanceId ,field._isActive, false));
         List!ExecutionEntity list = new ArrayList!ExecutionEntity;
         foreach(ExecutionEntityImpl e ; array)
         {

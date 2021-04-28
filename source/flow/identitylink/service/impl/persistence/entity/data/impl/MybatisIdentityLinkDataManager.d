@@ -190,7 +190,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
 
         //return getList("selectIdentityLinksByTaskId", taskId, identityLinkByProcessInstanceMatcher, true);
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.taskId , taskId));
+        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.taskId , taskId));
         foreach (IdentityLinkEntityImpl id ; objs)
         {
             lst.add(cast(IdentityLinkEntity)id);
@@ -210,7 +210,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         //return getList("selectIdentityLinksByProcessInstance", processInstanceId, identityLinkByProcessInstanceMatcher, true);
 
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.processInstanceId , processInstanceId));
+        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.processInstanceId , processInstanceId));
         lst.addAll(lst);
         return lst;
     }
@@ -219,7 +219,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     public List!IdentityLinkEntity findIdentityLinksByScopeIdAndType(string scopeId, string scopeType) {
 
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.scopeId , scopeId , Field.scopeType , scopeType));
+        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , field.scopeId , scopeId , field.scopeType , scopeType));
         lst.addAll(lst);
         return lst;
         //Map<string, string> parameters = new HashMap<>();
@@ -232,7 +232,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     public List!IdentityLinkEntity findIdentityLinksBySubScopeIdAndType(string subScopeId, string scopeType) {
 
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.subScopeId , subScopeId , Field.scopeType , scopeType));
+        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , field.subScopeId , subScopeId , field.scopeType , scopeType));
         lst.addAll(lst);
         return lst;
         //Map<string, string> parameters = new HashMap<>();
@@ -245,7 +245,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     public List!IdentityLinkEntity findIdentityLinksByScopeDefinitionIdAndType(string scopeDefinitionId, string scopeType) {
 
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , Field.scopeDefinitionId , scopeDefinitionId , Field.scopeType , scopeType));
+        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s" , field.scopeDefinitionId , scopeDefinitionId , field.scopeType , scopeType));
         lst.addAll(lst);
         return lst;
         //Map<string, string> parameters = new HashMap<>();
@@ -259,7 +259,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
     public List!IdentityLinkEntity findIdentityLinksByProcessDefinitionId(string processDefinitionId) {
         //return getDbSqlSession().selectList("selectIdentityLinksByProcessDefinition", processDefinitionId);
         List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , Field.processDefId , processDefinitionId));
+        IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s" , field.processDefId , processDefinitionId));
         lst.addAll(lst);
         return lst;
     }
@@ -270,7 +270,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
         implementationMissing(false);
         return null;
         //List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s and  %s = %s" , Field.taskId , taskId , Field.userId , userId,Field.groupId , groupId,Field.type , type));
+        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s and  %s = %s" , field.taskId , taskId , field.userId , userId,field.groupId , groupId,field.type , type));
         //lst.addAll(lst);
         //return objs;
         //Map<string, string> parameters = new HashMap<>();
@@ -287,7 +287,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
          implementationMissing(false);
         return null;
         //List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s and %s = %s" , Field.processInstanceId , processInstanceId , Field.userId , userId,Field.groupId , groupId,Field.type , type));
+        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s and %s = %s" , field.processInstanceId , processInstanceId , field.userId , userId,field.groupId , groupId,field.type , type));
         //lst.addAll(lst);
         //return objs;
         //Map<string, string> parameters = new HashMap<>();
@@ -304,7 +304,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
          implementationMissing(false);
         return null;
         //List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s" , Field.processDefId , processDefinitionId , Field.userId , userId,Field.groupId , groupId));
+        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s" , field.processDefId , processDefinitionId , field.userId , userId,field.groupId , groupId));
         //lst.addAll(lst);
         //return objs;
         //Map<string, string> parameters = new HashMap<>();
@@ -321,7 +321,7 @@ class MybatisIdentityLinkDataManager : EntityRepository!( IdentityLinkEntityImpl
           implementationMissing(false);
          return null;
         //List!IdentityLinkEntity  lst = new ArrayList!IdentityLinkEntity;
-        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s" , Field.processDefId , processDefinitionId , Field.userId , userId,Field.groupId , groupId));
+        //IdentityLinkEntityImpl[] objs =  findAll(new Condition("%s = %s and %s = %s and %s = %s and %s = %s" , field.processDefId , processDefinitionId , field.userId , userId,field.groupId , groupId));
         //lst.addAll(lst);
         //return objs;
          //Map<string, string> parameters = new HashMap<>();

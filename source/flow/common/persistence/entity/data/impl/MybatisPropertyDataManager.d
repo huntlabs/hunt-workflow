@@ -174,7 +174,7 @@ class MybatisPropertyDataManager : EntityRepository!( PropertyEntityImpl , strin
      {
        return cast(PropertyEntity)entity;
      }
-     PropertyEntity dbData = cast(PropertyEntity)(find(new Condition(`%s = '%s'` , Field.name , entityId)));
+     PropertyEntity dbData = cast(PropertyEntity)(find(new Condition(`%s = '%s'` , field.name , entityId)));
      if (dbData !is null)
      {
        CommandContextUtil.getEntityCache().put(dbData, true , typeid(PropertyEntityImpl),this);

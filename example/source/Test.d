@@ -23,6 +23,8 @@ import std.array;
 import std.string : strip;
 import hunt.logging;
 
+// "versions": ["HUNT_SQL_DEBUG", "HUNT_SQL_DEBUG_MORE", "HUNT_ENTITY_DEBUG", "HUNT_DB_DEBUG"],
+
 void main() {
 
     ProcessEngineConfiguration cfg = new StandaloneProcessEngineConfiguration()
